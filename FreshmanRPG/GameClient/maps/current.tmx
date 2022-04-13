@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="4">
+ <properties>
+  <property name="46 23" value="theGreen.tmx 3 92"/>
+  <property name="47 23" value="theGreen.tmx 3 91"/>
+ </properties>
+ <tileset firstgid="1" name="collision" tilewidth="32" tileheight="32" tilecount="2" columns="2">
+  <image source="tileset/collision.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="3" name="Inq XP MT- Medieval Town - Market" tilewidth="32" tileheight="32" tilecount="560" columns="16">
+  <image source="tileset/Inq XP MT- Medieval Town - Market.png" trans="ff00ff" width="512" height="1120"/>
+ </tileset>
+ <tileset firstgid="563" source="tileset/tileset file/stableMud.tsx"/>
+ <tileset firstgid="575" source="tileset/tileset file/teleport_128.tsx"/>
+ <imagelayer id="1" name="background">
+  <image source="tileset/hubbackground.png" width="1920" height="960"/>
+ </imagelayer>
+ <layer id="2" name="Collision" width="60" height="30" visible="0">
+  <data encoding="base64" compression="zlib">
+   eAHtkYFqAzEMQ0v//6NXMx4IVU6T3B29wQKdbFlSnNvz8Xg8m9+L/trpdrqS/9pjXxdf+a5R9v+bj3+B9H1TatJdxaX7z+LSzl120l7Bdfev8OyFh75DdB12vjP47k7l6x49qV/dRfO6ejVT9WTC0YPwjswTunanT7lwO3l4yOgQneOq3v0z/RV3dJnw3V7MHTv9Du/Z9DtZeLqMjncfOpD5GUim45Fssjyj49Exd2R+Bno2/ZFsz6AHu2zmjp1+h/ds+p0sPGR0iM5xVe/+mf6KO7pM5dNuOtc6aT9x5U8azdU6aWc5zenqlLWiLT+HWjNrpj01HkfmO+hZqU+5SVdc0hb36SRf50Fbc+pZ7DJ3+e7e1bzK6Q536BzuE6rHa/X6rOvLw8FPv4Ka476UC/cJPetoP9ozZY/2S/rEjTJ8NvKnmXL+Ns9Ovfs9Q+crdborcSuZpZ3Zb0bj9+puOut41VStulHtPu3LV0dRs36n73/Rv0/OYVK+7jWqRxskn+rTvTrXeqQdzTSDOumLm/mRoYhPuTvVq++t3UdvGs3u8O6z33uHN412SO8d6Zmt+u7yf2ePHeTtM0j+jPZumr+8+8635L0/f48GQQ==
+  </data>
+ </layer>
+ <imagelayer id="3" name="foreground">
+  <image source="tileset/hubforeground.png" width="1920" height="960"/>
+ </imagelayer>
+ <objectgroup id="4" name="Regions" visible="0">
+  <object id="1" name="homework" x="672" y="320" width="448" height="224"/>
+  <object id="2" name="quisnasium" x="1376" y="448" width="320" height="320">
+   <ellipse/>
+  </object>
+  <object id="3" name="some place" x="320" y="192">
+   <polygon points="0,0 -320,352 192,352 320,-32"/>
+  </object>
+ </objectgroup>
+ <layer id="5" name="notice" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eAHt0DERADAIBEFQg4T4dxYBzCAA9svvbiOMAAECBAgQIECAAAECBAgQIECAAIHNApWb63rbO9bbBTwECBAgQGAW+PI8AGE=
+  </data>
+ </layer>
+ <layer id="6" name="book" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eAHt0EERAAAIw7Dh3yJi0MB3lzpoEhEgQIAAAQIECBAgQIAAAQIECBAg0Cyw03znjQABAgQIEPgKHBy0AN4=
+  </data>
+ </layer>
+ <layer id="8" name="backgroundUnderTele" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eAHt0LEJAEAIA8DgWO4/2POFpQvIBcQiNl4iBAgQIECAAAECBAgQIECAAAECBAgQIEBgF+hKZvarO838+rcQIEDgosADpd0BaQ==
+  </data>
+ </layer>
+ <layer id="9" name="backgroundTeleporter" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eAHt0QERwCAMBMEM5got1L+cvgAU0M3MCfhNlSNAgAABAgQIECBAgAABAgQIECBAgAABAnuBq1X1NNKdTr8nG2da6f3B3tP/aR8BAnuBD+nUAmU=
+  </data>
+ </layer>
+</map>

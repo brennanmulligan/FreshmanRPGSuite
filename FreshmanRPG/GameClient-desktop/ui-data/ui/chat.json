@@ -1,0 +1,106 @@
+{
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default-font: {
+      file: chat.fnt
+    }
+  },
+  com.badlogic.gdx.graphics.Color: {
+    white: {
+      a: 1,
+      b: 1,
+      g: 1,
+      r: 1
+    },
+    black: {
+      a: 1,
+      b: 0,
+      g: 0,
+      r: 0
+    },
+    shout: {
+      a: 1,
+      b: .2,
+      g: 1,
+      r: .5
+    },
+    local: {
+      a: 1,
+      b: 1,
+      g: 1,
+      r: 1
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    default: {
+      down: btn-down,
+      up: btn,
+      over: btn-over,
+      checked: btn-down
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+    local: {
+      down: btn-down,
+      up: btn,
+      over: btn-over,
+      checked: btn-down,
+      imageDown: local-down,
+      imageUp: local
+    },
+    zone: {
+      down: btn-down,
+      up: btn,
+      over: btn-over,
+      checked: btn-down,
+      imageDown: zone-down,
+      imageUp: zone
+    },
+    all: {
+      down: btn-down,
+      up: btn,
+      over: btn-over,
+      checked: btn-down,
+      imageDown: all-down,
+      imageUp: all
+    },
+    submit: {
+      down: btn-down,
+      up: btn,
+      over: btn-over,
+      imageDown: submit-down,
+      imageUp: submit
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+    default: {
+      vScroll: scroll,
+      hScrollKnob: scroll-bar,
+      background: scroll-back,
+      hScroll: scroll,
+      vScrollKnob: scroll-bar
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+    default: {
+      selection: selection-pad,
+      background: scroll-back,
+      font: default-font,
+      fontColor: white,
+      cursor: cursor
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+    default: {
+      font: default-font,
+      fontColor: white
+    },
+    zone: {
+      font: default-font,
+      fontColor: shout
+    },
+    local: {
+      font: default-font,
+      fontColor: local
+    }
+  }
+}

@@ -1,0 +1,6 @@
+// Gradle equivalent to LoginServer.seed - start
+task DBBuildTestDBPlayerLogin(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestDBPlayerLogin'
+}
+// Gradle equivalent to LoginServer.seed - end

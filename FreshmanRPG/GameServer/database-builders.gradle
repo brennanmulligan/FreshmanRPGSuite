@@ -1,0 +1,48 @@
+// Gradle equivalent to GameServer.seed - start
+task DBBuildQuestsAndAdventures(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildQuestsAndAdventures'
+}
+
+task DBBuildTestDBPlayers(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestDBPlayers'
+}
+
+task DBBuildTestLevels(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestLevels'
+}
+
+task DBBuildTestQuestions(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestQuestions'
+}
+
+task DBBuildTestInteractableItems(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestInteractableItems'
+}
+// Gradle equivalent to GameServer.seed - end
+
+// Gradle equivalent to VisitedMap.seed - start
+task DBBuildTestKnowledgePointPrizes(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestKnowledgePointPrizes'
+}
+
+task DBBuildTestRandomFacts(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestRandomFacts'
+}
+
+task DBBuildTestDBVisitedMaps(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestDBVisitedMaps'
+}
+
+task DBBuildFriends(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildFriends'
+}
+// Gradle equivalent to VisitedMap.seed - start

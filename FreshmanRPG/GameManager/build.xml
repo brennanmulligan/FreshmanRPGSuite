@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="GameManager.test" name="GameManager" xmlns:jacoco="antlib:org.jacoco.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
+
+    <import file="../GameServer/build.xml"/>
+
+    <dirname property="GameManager.directory" file="${ant.file.GameManager}"/>
+    <property name="Artifacts.output" value="artifacts"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+
+    <path id="GameManager.classpath">
+        <path refid="GameServer.classpath"/>
+    	<fileset dir="${GameManager.directory}/libs"/>
+        <pathelement location="${GameManager.directory}/bin"/>
+    </path>
+
+    <target depends="GameServer.init" name="GameManager.init">
+        <mkdir dir="${GameManager.directory}/bin"/>
+    </target>
+
+    <target depends="GameServer.clean" name="GameManager.clean">
+        <delete dir="${GameManager.directory}/bin"/>
+    </target>
+
+    <target depends="GameManager.init,GameServer.build" name="GameManager.build">
+        <javac destdir="${GameManager.directory}/bin" source="${source}" target="${target}" includeantruntime="false">
+            <classpath refid="GameManager.classpath"/>
+            <src path="${GameManager.directory}/src"/>
+            <src path="${GameManager.directory}/tests"/>
+        </javac>
+    </target>
+
+    <target depends="GameManager.build" name="GameManager.jar">
+        <jar destfile="${GameManager.directory}/${Artifacts.output}/GameManager.jar">
+        	<fileset dir="${GameShared.directory}/bin"/>
+            <fileset dir="${GameServer.directory}/bin"/>
+            <fileset dir="${GameManager.directory}/bin"/>
+
+            <archives>
+                <zips>
+                	<fileset dir="${GameManager.directory}/libs"/>
+                	<fileset dir="${GameShared.directory}/libs"/>
+                </zips>
+            </archives>
+
+            <manifest>
+                <attribute name="Main-Class" value="GameManager"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target depends="GameManager.build" name="GameManager.test">
+        <mkdir dir="${GameManager.directory}/${Artifacts.output}"/>
+
+        <jacoco:coverage>
+            <junit fork="true" dir="${GameManager.directory}" haltonfailure="true">
+                <classpath refid="GameManager.classpath"/>
+                <test name="AllManagerTests" todir="${GameManager.directory}/${Artifacts.output}"/>
+                <formatter type="brief" usefile="false"/>
+                <formatter type="plain"/>
+            </junit>
+        </jacoco:coverage>
+
+        <jacoco:report>
+            <executiondata>
+                <file file="jacoco.exec"/>
+            </executiondata>
+
+            <structure name="GameManager">
+                <classfiles>
+                    <fileset dir="${GameManager.directory}/bin"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="${GameManager.directory}/src"/>
+                </sourcefiles>
+            </structure>
+
+            <html destdir="${GameManager.directory}/${Artifacts.output}/coverage-html"/>
+            <csv destfile="${GameManager.directory}/${Artifacts.output}/coverage-csv.csv"/>
+        </jacoco:report>
+    </target>
+	
+	<target name="GameManager.checkstyle"
+		        description="Generates a report of code convention violations."
+			depends="init-checkstyle">
+		  <!-- See http://checkstyle.sourceforge.net/anttask.html
+		       for full options of using checkstyle with ant-->
+		  <checkstyle config="${GameShared.directory}/checkstyle.xml"
+		              failureProperty="checkstyle.failure"
+		              failOnViolation="false">
+		    <formatter type="xml" tofile="checkstyle_report.xml"/>
+		    <fileset dir="src" includes="**/*.java"/>
+		  </checkstyle>
+		</target>
+
+		<target name="init-checkstyle">
+			<path id="checkstyle.lib.path">
+		            <fileset dir="lib" includes="*.jar"/>
+			</path>
+			<!-- Sevntu custom checks are retrieved by Ivy into lib folder
+		       and will be accessible to checkstyle-->
+			<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+			         classpath="${GameShared.directory}/libs/checkstyle-8.30-all.jar"/>
+		</target>
+
+</project>

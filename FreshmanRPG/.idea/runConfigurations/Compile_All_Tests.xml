@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Compile All Tests" type="CompoundRunConfigurationType">
+    <toRun name="GameClient - Compile Tests" type="GradleRunConfiguration" />
+    <toRun name="GameManager - Compile Tests" type="GradleRunConfiguration" />
+    <toRun name="GameSequenceTests - Compile Tests" type="GradleRunConfiguration" />
+    <toRun name="GameServer - Compile Tests" type="GradleRunConfiguration" />
+    <toRun name="GameShared - Compile Tests" type="GradleRunConfiguration" />
+    <toRun name="LoginServer - Compile Tests" type="GradleRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>

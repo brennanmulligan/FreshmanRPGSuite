@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run All Checkstyle Main" type="CompoundRunConfigurationType">
+    <toRun name="GameClient - Checkstyle Main" type="GradleRunConfiguration" />
+    <toRun name="GameManager - Checkstyle Main" type="GradleRunConfiguration" />
+    <toRun name="GameSequenceTests - Checkstyle Main" type="GradleRunConfiguration" />
+    <toRun name="GameServer - Checkstyle Main" type="GradleRunConfiguration" />
+    <toRun name="GameShared - Checkstyle Main" type="GradleRunConfiguration" />
+    <toRun name="LoginServer - Checkstyle Main" type="GradleRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>

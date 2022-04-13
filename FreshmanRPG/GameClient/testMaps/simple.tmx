@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass-tiles-2-small" tilewidth="32" tileheight="32">
+  <image source="tileset/grass-tiles-2-small.png" width="384" height="192"/>
+ </tileset>
+ <tileset firstgid="73" name="tree2-final" tilewidth="32" tileheight="32">
+  <image source="tileset/tree2-final.png" width="256" height="256"/>
+ </tileset>
+ <layer name="Background" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzNk80KwjAQhJOCqIcG/Dv4APUFvOm17/9MrtCBYZhNQT1Y+Ag0m+nMblpLKXVhCBrxCLbBjtZ98JQ6ZiSq8NY7BWdaL4ue1sKLew96/uBhDm6E0+K88KV60DnKXpYVeVHLeQ+iw3tVNDWv8+d0NsE16ZvLwmdVpzeP2fREPTDIxvcFOtOileno2Sa5BtFhT6yjZ4Bqt5VsWnsXeA9zzTy5+6N6vIde6KzGL2gyq6wn6LveKwe89v5jfCP7luuj4vrXY+38p/3j9Rf8+/MC7XoTUQ==
+  </data>
+ </layer>
+ <layer name="Foreground" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzrkJADAQA8Gr2z/4a9vbgxxqYVKhCOecWkJGQUVDxxA2JxY2Dq520bnvPcp4BgU=
+  </data>
+ </layer>
+ <layer name="Top" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzMcRgDAQwEC3Sc4Ym5wpH9VwX59m9itjtNCLECNBigw5CpSCX4UaDVp06GExCH4OHiMmzFiwYhP8dhw4ceHGgxef4KdpofYDG9ANEQ==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="20" height="20">
+  <object x="354" y="328" width="120" height="56"/>
+ </objectgroup>
+</map>

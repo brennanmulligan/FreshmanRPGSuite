@@ -1,0 +1,6 @@
+// Gradle equivalent to GameShared.seed - start
+task DBBuildTestDBServers(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestDBServers'
+}
+// Gradle equivalent to GameShared.seed - end

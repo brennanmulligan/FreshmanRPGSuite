@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+group 'edu.ship.cs'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project (':GameClient')
+    implementation project (':GameShared')
+
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.0.1'
+    implementation 'com.badlogicgames.gdx:gdx-platform:1.0.1:natives-desktop'
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx-tools', version: '1.0.1'
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.0.1'
+}
+
+task shadowJar {
+
+}

@@ -1,0 +1,314 @@
+@font-face {
+    font-family: ionicons;
+    src: url(ionicons.ttf);
+}
+
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.tooltip {
+    -fx-background: rgba(120, 30, 30);
+    -fx-text-fill: white;
+    -fx-background-color: rgba(30, 30, 30, 0.8);
+    -fx-background-radius: 6px;
+    -fx-background-insets: 0;
+    -fx-padding: 0.667em 0.75em 0.667em 0.75em; /* 10px */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 3);
+    -fx-font-size: 14px;
+}
+
+#UserInterface {
+    -fx-background-color: #f0f0f0;
+}
+
+#TitleBar {
+    -fx-background-color: #323232;
+}
+
+#TitleBar #Title {
+    -fx-font-family: Impact;
+    -fx-font-size: 30px;
+    -fx-text-fill: #cccccc;
+}
+
+#NavigationMenu {
+    -fx-background-color: #eaeaea;
+}
+
+#NavigationMenu #MenuHeader {
+    -fx-background-color: #323232;
+    -fx-font-family: Impact;
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 20px;
+}
+
+#NavigationMenu #MainMenu {
+    -fx-background-color: #f0f0f0;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton,
+#TitleBar #HelpMenuButton {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #848484;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-font-family: ionicons;
+    -fx-font-size: 36px;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton:hover,
+#TitleBar #HelpMenuButton:hover {
+    -fx-cursor: hand;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton#PlayerMenuButton:hover,
+#TitleBar #HelpMenuButton:hover,
+#WorkSpace #PlayerContentView .label {
+    -fx-background-color: #fafaaa;
+    -fx-text-fill: #666600;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton#AdventureMenuButton:hover,
+#WorkSpace #AdventureContentView .label {
+    -fx-background-color: #faaafa;
+    -fx-text-fill: #660066;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton#QuizbotMenuButton:hover,
+#WorkSpace #QuizbotContentView .label {
+    -fx-background-color: #aafafa;
+    -fx-text-fill: #006666;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton#InteractableObjectMenuButton:hover,
+#WorkSpace #InteractableObjectContentView .label {
+    -fx-background-color: #FF5733;
+    -fx-text-fill: #660100;
+}
+
+#NavigationMenu #MainMenu .MainMenuButton#MessageBoardMenuButton:hover,
+#WorkSpace #MessageBoardContentView .label {
+    -fx-background-color: #3CE86A;
+    -fx-text-fill: #323232;
+}
+
+#WorkSpace {
+    -fx-background-color: #e0e0e0;
+}
+
+#WorkSpace #ActionBar {
+    -fx-background-color: #eeeeee;
+}
+
+#WorkSpace #ActionBar #FilterField {
+    -fx-background-color: #fff0f0;
+}
+
+#WorkSpace #ActionBar .ActionButton {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-font-family: ionicons;
+    -fx-font-size: 22px;
+    -fx-text-fill: #888888;
+}
+
+#WorkSpace #ActionBar .ActionButton:hover {
+    -fx-cursor: hand;
+}
+
+#WorkSpace #ActionBar .ActionButton#FilterButton:hover {
+    -fx-background-color: #aaffaa;
+    -fx-text-fill: #118811;
+}
+
+#WorkSpace #ActionBar .ActionButton#AddButton:hover {
+    -fx-background-color: #aaffaa;
+    -fx-text-fill: #118811;
+}
+
+#WorkSpace #ActionBar .ActionButton#EditButton:hover {
+    -fx-background-color: #55aaff;
+    -fx-text-fill: #001188;
+}
+
+#WorkSpace #ActionBar .ActionButton#DeleteButton:hover {
+    -fx-background-color: #ffaaaa;
+    -fx-text-fill: #881111;
+}
+
+#WorkSpace #ActionBar .ActionButton#ImportButton:hover {
+    -fx-background-color: #ff6600;
+    -fx-text-fill: #881100;
+}
+
+#WorkSpace #AlertBar {
+    -fx-background-color: #eeeeee;
+}
+
+
+#WorkSpace .ContentView .label {
+    -fx-font-family: impact;
+    -fx-font-size: 22px;
+}
+
+.column-header,
+.column-header .filler,
+#ModifyPlayerStateModal .column-header .label,
+#WorkSpace #PlayerContentView .column-header .label {
+    -fx-background-color: #323232;
+    -fx-text-fill: #fafaaa;
+}
+
+#WorkSpace #QuizbotContentView .column-header .label {
+    -fx-background-color: #323232;
+    -fx-text-fill: #aafafa;
+}
+
+#WorkSpace #AdventureContentView .column-header .label {
+    -fx-background-color: #323232;
+    -fx-text-fill: #faaafa;
+}
+
+#WorkSpace #InteractableObjectContentView .column-header .label {
+    -fx-background-color: #323232;
+    -fx-text-fill: #FF5733;
+    -fx-font-size: 16px;
+
+}
+
+#WorkSpace #MessageBoardContentView .column-header .label {
+    -fx-background-color: #323232;
+    -fx-text-fill: #3CE86A;
+    -fx-font-size: 16px;
+
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+#AddPlayer,
+#EditPlayer,
+#ModifyPlayerStateModal {
+    -fx-background-color: #fafaaa;
+}
+
+#AddPlayer .label,
+#EditPlayer .label,
+#ModifyPlayerStateModal .label {
+    -fx-font-family: Impact;
+    -fx-font-size: 18px;
+    -fx-text-fill: #666600;
+}
+
+#AddPlayer .label.title,
+#EditPlayer .label.title,
+#ModifyPlayerStateModal .label.title {
+    -fx-background-color: #323232;
+    -fx-text-fill: #fafaaa;
+    -fx-font-size: 24px;
+}
+
+#AddPlayer .text-field,
+#EditPlayer .text-field,
+#ModifyPlayerStateModal .text-field {
+    -fx-background-color: #323232;
+    -fx-text-fill: #fafaaa;
+}
+
+#AddPlayer .button,
+#EditPlayer .button,
+#ModifyPlayerStateModal .button {
+    -fx-background-color: #323232;
+    -fx-text-fill: #fafaaa;
+    -fx-font-size: 18px;
+}
+
+#AddPlayer .button:hover,
+#EditPlayer .button:hover,
+#ModifyPlayerStateModal .button:hover {
+    -fx-background-color: #666600;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+#AddQuizBot,
+#EditQuizbot {
+    -fx-background-color: #aafafa;
+}
+
+#AddQuizBot .label,
+#EditQuizbot .label {
+    -fx-font-family: Impact;
+    -fx-font-size: 18px;
+    -fx-text-fill: #006666;
+}
+
+#AddQuizBot .label.title,
+#EditQuizbot .label.title {
+    -fx-background-color: #323232;
+    -fx-text-fill: #aafafa;
+    -fx-font-size: 24px;
+}
+
+#AddQuizBot .text-field,
+#EditQuizbot .text-field {
+    -fx-background-color: #323232;
+    -fx-text-fill: #aafafa;
+}
+
+#AddQuizBot .button,
+#EditQuizbot .button {
+    -fx-background-color: #323232;
+    -fx-text-fill: #aafafa;
+    -fx-font-size: 18px;
+}
+
+#AddQuizBot .button:hover,
+#EditQuizbot .button:hover {
+    -fx-background-color: #006666;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+#AddAdventureModal,
+#EditAdventureModal {
+    -fx-background-color: #faaafa;
+}
+
+#AddAdventureModal .label,
+#EditAdventureModal .label {
+    -fx-font-family: Impact;
+    -fx-font-size: 18px;
+    -fx-text-fill: #660066;
+}
+
+#AddAdventureModal .label.title,
+#EditAdventureModal .label.title {
+    -fx-background-color: #323232;
+    -fx-text-fill: #faaafa;
+    -fx-font-size: 24px;
+}
+
+#AddAdventureModal .text-field,
+#EditAdventureModal .text-field {
+    -fx-background-color: #323232;
+    -fx-text-fill: #faaafa;
+}
+
+#AddAdventureModal .button,
+#EditAdventureModal .button {
+    -fx-background-color: #323232;
+    -fx-text-fill: #faaafa;
+    -fx-font-size: 18px;
+}
+
+#AddAdventureModal .button:hover,
+#EditAdventureModal .button:hover {
+    -fx-background-color: #660066;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}

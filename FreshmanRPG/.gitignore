@@ -1,0 +1,15 @@
+.metadata/*
+out/
+artifacts
+jacoco.exec
+.recommenders/*
+GameManager/.settings/org.eclipse.jdt.ui.prefs
+/.metadata/
+.idea/*
+.gradle/
+**/build/
+
+# Include IntelliJ Run Configurations
+!.idea/
+!.idea/runConfigurations
+!.idea/runConfigurations/*

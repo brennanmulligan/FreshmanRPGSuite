@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+group 'edu.ship.cs'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project (':GameShared')
+    testImplementation project (path: ':GameShared', configuration: 'testArtifacts')
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.easymock', name: 'easymock', version: '3.1'
+    testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.5'
+
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.0.1'
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.21'
+}
+
+configurations {
+    testArtifacts.extendsFrom testRuntime
+}
+task testJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+}
+artifacts {
+    testArtifacts testJar
+}
+
+checkstyle {
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+task shadowJar {
+
+}

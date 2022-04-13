@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="GameSequenceTests.test" name="GameSequenceTests" xmlns:jacoco="antlib:org.jacoco.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle.ant">
+
+	<import file="../GameShared/build.xml"/>
+	<import file="../GameServer/build.xml"/>
+	<import file="../LoginServer/build.xml"/>
+	<import file="../GameClient/build.xml"/>
+
+	<dirname property="GameSequenceTests.directory" file="${ant.file.GameSequenceTests}"/>
+	<property name="Artifacts.output" value="artifacts"/>
+	<property name="target" value="1.8"/>
+	<property name="source" value="1.8"/>
+
+	<path id="GameSequenceTests.classpath">
+		<path refid="GameShared.classpath"/>
+		<path refid="GameServer.classpath"/>
+		<path refid="LoginServer.classpath"/>
+		<path refid="GameClient.classpath"/>
+		<pathelement location="${GameSequenceTests.directory}/bin"/>
+	</path>
+
+	<target depends="GameShared.init,GameServer.init,LoginServer.init,GameClient.init" name="GameSequenceTests.init">
+		<mkdir dir="${GameSequenceTests.directory}/bin"/>
+	</target>
+
+	<target depends="GameShared.clean,GameServer.clean,LoginServer.clean,GameClient.clean" name="GameSequenceTests.clean">
+		<delete dir="${GameSequenceTests.directory}/bin"/>
+	</target>
+
+	<target depends="GameSequenceTests.init,GameShared.build,GameServer.build,LoginServer.build,GameClient.build" name="GameSequenceTests.build">
+		<javac destdir="${GameSequenceTests.directory}/bin" source="${source}" target="${target}" includeantruntime="false">
+			<classpath refid="GameSequenceTests.classpath"/>
+			<src path="${GameSequenceTests.directory}/src"/>
+			<src path="${GameSequenceTests.directory}/tests"/>
+		</javac>
+	</target>
+
+	<target depends="GameSequenceTests.build" name="GameSequenceTests.test">
+		<mkdir dir="${GameSequenceTests.directory}/${Artifacts.output}"/>
+
+		<junit fork="true" dir="${GameSequenceTests.directory}" haltonfailure="true">
+			<classpath refid="GameSequenceTests.classpath"/>
+			<test name="model.SequenceTestRunner" todir="${GameSequenceTests.directory}/${Artifacts.output}"/>
+			<formatter type="brief" usefile="false"/>
+			<formatter type="plain"/>
+		</junit>
+	</target>
+
+	<target name="GameSequenceTests.checkstyle"
+			        description="Generates a report of code convention violations."
+				depends="init-checkstyle">
+		<!-- See http://checkstyle.sourceforge.net/anttask.html
+			       for full options of using checkstyle with ant-->
+		<checkstyle config="${GameShared.directory}/checkstyle.xml"
+			              failureProperty="checkstyle.failure"
+			              failOnViolation="false">
+			<formatter type="xml" tofile="checkstyle_report.xml"/>
+			<fileset dir="src" includes="**/*.java"/>
+		</checkstyle>
+	</target>
+
+	<target name="init-checkstyle">
+		<path id="checkstyle.lib.path">
+			<fileset dir="lib" includes="*.jar"/>
+		</path>
+		<!-- Sevntu custom checks are retrieved by Ivy into lib folder
+			       and will be accessible to checkstyle-->
+		<taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties"
+				         classpath="${GameShared.directory}/libs/checkstyle-8.30-all.jar"/>
+	</target>
+
+</project>

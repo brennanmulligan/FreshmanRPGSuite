@@ -1,0 +1,9 @@
+rootProject.name = 'Freshman RPG'
+
+include 'GameClient'
+include 'GameClient-desktop'
+include 'GameManager'
+include 'GameServer'
+include 'GameSequenceTests'
+include 'GameShared'
+include 'LoginServer'

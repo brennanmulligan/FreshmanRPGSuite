@@ -1,0 +1,142 @@
+
+chat.png
+size: 682,808
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+all
+  rotate: false
+  xy: 2, 166
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+all-down
+  rotate: false
+  xy: 2, 166
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+btn
+  rotate: false
+  xy: 516, 646
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn-down
+  rotate: false
+  xy: 646, 776
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn-over
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+chat
+  rotate: false
+  xy: 2, 296
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+cursor
+  rotate: false
+  xy: 680, 776
+  size: 2, 32
+  orig: 2, 32
+  offset: 0, 0
+  index: -1
+local
+  rotate: false
+  xy: 516, 680
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+local-down
+  rotate: false
+  xy: 516, 680
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+scroll
+  rotate: false
+  xy: 550, 646
+  size: 8, 32
+  orig: 8, 32
+  offset: 0, 0
+  index: -1
+scroll-back
+  rotate: false
+  xy: 132, 132
+  size: 32, 32
+  split: 9, 9, 9, 9
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+scroll-bar
+  rotate: false
+  xy: 646, 742
+  size: 8, 32
+  orig: 8, 32
+  offset: 0, 0
+  index: -1
+selection-pad
+  rotate: false
+  xy: 262, 262
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+table-back
+  rotate: false
+  xy: 262, 262
+  size: 32, 32
+  split: 9, 9, 9, 9
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+submit
+  rotate: false
+  xy: 2, 36
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+submit-down
+  rotate: false
+  xy: 2, 36
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+text-back
+  rotate: false
+  xy: 516, 612
+  size: 32, 32
+  split: 9, 9, 9, 9
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+zone
+  rotate: false
+  xy: 132, 166
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+zone-down
+  rotate: false
+  xy: 132, 166
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
