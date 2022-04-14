@@ -35,7 +35,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			stmt.close();
 			stmt =  connection.prepareStatement(
 					"Create TABLE Quests (questID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questTitle VARCHAR(40) UNIQUE,questDescription VARCHAR(200), triggerMapName VARCHAR(80),"
-							+ " triggerRow INT, triggerColumn INT, experiencePointsGained INT, adventuresForFulfillment INT, "
+							+ " triggerRow INT, triggerColumn INT, experiencePointsGained INT, objectivesForFulfillment INT, "
 							+ " completionActionType INT, completionActionParameter BLOB, startDate DATE, endDate DATE )");
 			stmt.executeUpdate();
 		}
@@ -52,7 +52,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	private Position triggerPosition;
 	private Connection connection;
 	private int experiencePointsGained;
-	private int adventuresForFulfillment;
+	private int objectivesForFulfillment;
 	private QuestCompletionActionParameter completionActionParameter;
 	private QuestCompletionActionType completionActionType;
 	private Date startDate;
@@ -80,7 +80,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			this.triggerMapName = result.getString("triggerMapName");
 			this.triggerPosition = new Position(result.getInt("triggerRow"), result.getInt("triggerColumn"));
 			this.experiencePointsGained = result.getInt("experiencePointsGained");
-			this.adventuresForFulfillment = result.getInt("adventuresForFulfillment");
+			this.objectivesForFulfillment = result.getInt("objectivesForFulfillment");
 			this.completionActionType = QuestCompletionActionType.findByID(result.getInt("completionActionType"));
 			completionActionParameter = extractCompletionActionParameter(result, completionActionType);
 			this.startDate = result.getDate("startDate");
@@ -132,7 +132,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	 *            quest
 	 * @param experiencePointsGained the number of experience points gained for
 	 *            completing this quest
-	 * @param adventuresForFulfillment the number of adventures this quest
+	 * @param objectivesForFulfillment the number of objectives this quest
 	 *            requires for fulfillment
 	 * @param completionActionType the type of action that should be taken when
 	 *            this quest is completed
@@ -143,7 +143,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	 * @throws DatabaseException if we can't talk to the RDS
 	 */
 	public QuestRowDataGatewayRDS(int questID, String questTitle, String questDescription, String triggerMapName,
-								  Position triggerPosition, int experiencePointsGained, int adventuresForFulfillment,
+								  Position triggerPosition, int experiencePointsGained, int objectivesForFulfillment,
 								  QuestCompletionActionType completionActionType, QuestCompletionActionParameter completionActionParameter,
 								  Date startDate, Date endDate) throws DatabaseException
 	{
@@ -153,7 +153,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		{
 			PreparedStatement stmt =  connection.prepareStatement(
 					"Insert INTO Quests SET questID = ?, questTitle = ?,questDescription = ?, triggerMapname = ?, triggerRow = ?, triggerColumn = ?, "
-							+ "experiencePointsGained = ?, adventuresForFulfillment = ?,"
+							+ "experiencePointsGained = ?, objectivesForFulfillment = ?,"
 							+ " completionActionType = ?, completionActionParameter = ?,"
 							+ " startDate = ?, endDate = ?");
 			stmt.setInt(1, questID);
@@ -163,7 +163,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			stmt.setInt(5, triggerPosition.getRow());
 			stmt.setInt(6, triggerPosition.getColumn());
 			stmt.setInt(7, experiencePointsGained);
-			stmt.setInt(8, adventuresForFulfillment);
+			stmt.setInt(8, objectivesForFulfillment);
 			stmt.setInt(9, completionActionType.getID());
 			stmt.setObject(10, completionActionParameter);
 			stmt.setDate(11, new java.sql.Date(startDate.getTime()));
@@ -189,7 +189,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	 *            quest
 	 * @param experienceGained the number of experience points gained for
 	 *            completing this quest
-	 * @param adventuresForFullfillment the number of adventures this quest
+	 * @param objectivesForFullfillment the number of objectives this quest
 	 *            requires for fulfillment
 	 * @param completionActionType the type of action that should be taken when
 	 *            this quest is completed
@@ -205,7 +205,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			String mapName,
 			Position position,
 			int experienceGained,
-			int adventuresForFullfillment,
+			int objectivesForFullfillment,
 			QuestCompletionActionType completionActionType,
 			QuestCompletionActionParameter completionActionParameter,
 			Date startDate,
@@ -217,7 +217,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		{
 			PreparedStatement stmt =  connection.prepareStatement(
 					"Insert INTO Quests SET questTitle = ?,questDescription = ?, triggerMapname = ?, triggerRow = ?, triggerColumn = ?, "
-							+ "experiencePointsGained = ?, adventuresForFulfillment = ?,"
+							+ "experiencePointsGained = ?, objectivesForFulfillment = ?,"
 							+ " completionActionType = ?, completionActionParameter = ?,"
 							+ " startDate = ?, endDate = ?",
 					Statement.RETURN_GENERATED_KEYS);
@@ -227,7 +227,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			stmt.setInt(4, position.getRow());
 			stmt.setInt(5, position.getColumn());
 			stmt.setInt(6, experienceGained);
-			stmt.setInt(7, adventuresForFullfillment);
+			stmt.setInt(7, objectivesForFullfillment);
 			stmt.setInt(8, completionActionType.getID());
 			stmt.setObject(9, completionActionParameter);
 			stmt.setDate(10, new java.sql.Date(startDate.getTime()));
@@ -338,12 +338,12 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	}
 
 	/**
-	 * @see datasource.QuestRowDataGateway#getAdventuresForFulfillment()
+	 * @see datasource.QuestRowDataGateway#getObjectivesForFulfillment()
 	 */
 	@Override
-	public int getAdventuresForFulfillment()
+	public int getObjectivesForFulfillment()
 	{
-		return adventuresForFulfillment;
+		return objectivesForFulfillment;
 	}
 
 	/**
@@ -414,7 +414,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			PreparedStatement stmt =  connection.prepareStatement(
 					"UPDATE Quests SET questTitle = ?, questDescription = ?, triggerMapName = ?, "
 							+ "triggerRow = ?, triggerColumn = ?, experiencePointsGained = ?, "
-							+ "adventuresForFulfillment = ?, completionActionType = ?, "
+							+ "objectivesForFulfillment = ?, completionActionType = ?, "
 							+ "completionActionParameter = ?, startDate = ?, endDate = ? WHERE questID = ?");
 
 			stmt.setString(1, questTitle);
@@ -423,7 +423,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 			stmt.setInt(4, triggerPosition.getRow());
 			stmt.setInt(5, triggerPosition.getColumn());
 			stmt.setInt(6, experiencePointsGained);
-			stmt.setInt(7, adventuresForFulfillment);
+			stmt.setInt(7, objectivesForFulfillment);
 			stmt.setInt(8, completionActionType.getID());
 			stmt.setObject(9, completionActionParameter);
 			stmt.setDate(10, new java.sql.Date(startDate.getTime()));
@@ -480,11 +480,11 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 	}
 
 	/**
-	 * @see datasource.QuestRowDataGateway#setAdventuresForFulfillment(int)
+	 * @see datasource.QuestRowDataGateway#setObjectivesForFulfillment(int)
 	 */
-	public void setAdventuresForFulfillment(int adventuresForFulfillment)
+	public void setObjectivesForFulfillment(int objectivesForFulfillment)
 	{
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectivesForFulfillment = objectivesForFulfillment;
 	}
 
 	/**

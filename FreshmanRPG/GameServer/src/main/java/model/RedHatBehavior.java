@@ -23,8 +23,8 @@ public class RedHatBehavior extends NPCBehavior
 
 	/**
 	 * Initialize the RedHatBehavior
-	 * @param playerID this NPC's id
 	 *
+	 * @param playerID this NPC's id
 	 */
 	public RedHatBehavior(int playerID)
 	{
@@ -73,9 +73,9 @@ public class RedHatBehavior extends NPCBehavior
 							player.getPlayerName() + " your crew is " + player.getCrew().getCrewName() + ".",
 							new Position(9, 7), ChatType.Zone);
 
-					CommandChangePlayerAppearance cmd = new CommandChangePlayerAppearance(player.getPlayerID(),
-							player.getCrew().getCrewAppearanceType());
-					ModelFacade.getSingleton().queueCommand(cmd);
+//					CommandChangePlayerAppearance cmd = new CommandChangePlayerAppearance(player.getPlayerID(),
+//							player.getCrew().getCrewAppearanceType());
+//					ModelFacade.getSingleton().queueCommand(cmd);
 				}
 				else
 				{
@@ -109,5 +109,4 @@ public class RedHatBehavior extends NPCBehavior
 
 		return reportTypes;
 	}
-
 }

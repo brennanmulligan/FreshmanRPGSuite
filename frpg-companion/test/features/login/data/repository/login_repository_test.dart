@@ -8,11 +8,14 @@ import '../../login_mock.mocks.dart';
 void main() {
   late LoginRepository _repository;
   late MockLoginWithCredentialsDatasource mockLoginWithCredentialsDatasource;
+  late MockLogoutDatasource mockLogoutDatasource;
 
   setUp(() {
     mockLoginWithCredentialsDatasource = MockLoginWithCredentialsDatasource();
+    mockLogoutDatasource = MockLogoutDatasource();
     _repository = LoginRepositoryHTTP(
       loginWithCredentialsDatasource: mockLoginWithCredentialsDatasource,
+      logoutDatasource: mockLogoutDatasource,
     );
   });
 

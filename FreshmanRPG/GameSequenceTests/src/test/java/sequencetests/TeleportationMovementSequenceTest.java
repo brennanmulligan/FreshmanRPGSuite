@@ -36,12 +36,12 @@ public class TeleportationMovementSequenceTest extends SequenceTest
 
 	private MessageFlow[] sequence =
 			{new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-					new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(), "quiznasium.tmx",
+					new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(), "recCenter.tmx",
 							TELEPORT_POSITION),
 					true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-							new TeleportationContinuationMessage("quiznasium.tmx", ServersForTest.QUIZNASIUM.getHostName(),
-									ServersForTest.QUIZNASIUM.getPortNumber(), PlayersForTest.MERLIN.getPlayerID(), 1111),
+							new TeleportationContinuationMessage("recCenter.tmx", ServersForTest.REC_CENTER.getHostName(),
+									ServersForTest.REC_CENTER.getPortNumber(), PlayersForTest.MERLIN.getPlayerID(), 1111),
 							true)
 					// from there, the connection sequence is the same as for the login
 					// tests
@@ -108,7 +108,7 @@ public class TeleportationMovementSequenceTest extends SequenceTest
 	private void buildTeleportPositionsInMap()
 	{
 		ObjectMap<Position, TeleportHotSpot> spots = new ObjectMap<>();
-		spots.put(TELEPORT_POSITION, new TeleportHotSpot("quiznasium.tmx", TELEPORT_POSITION));
+		spots.put(TELEPORT_POSITION, new TeleportHotSpot("recCenter.tmx", TELEPORT_POSITION));
 		MapManager.getSingleton().setTeleportHotspots(spots);
 
 	}

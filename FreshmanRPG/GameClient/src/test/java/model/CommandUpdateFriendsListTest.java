@@ -71,10 +71,10 @@ public class CommandUpdateFriendsListTest
 				"silly", QuestStateEnum.AVAILABLE, 42, 4, false, null);
 		quests.add(q);
 		LevelRecord level = new LevelRecord("One", 15, 0, 0);
-		int knowledgePoints = 100;
+		int doubloons = 100;
 
 		CommandUpdateFriendsList x = new CommandUpdateFriendsList(
-				new InitializeThisClientsPlayerMessage(quests, friends, 0, knowledgePoints, level));
+				new InitializeThisClientsPlayerMessage(quests, friends, 0, doubloons, level));
 		x.execute();
 
 		ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();

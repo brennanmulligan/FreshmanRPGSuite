@@ -41,7 +41,7 @@ public class BuildTestDBPlayers
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
-			new PlayerRowDataGatewayRDS(p.getAppearanceType(), p.getKnowledgeScore(),
+			new PlayerRowDataGatewayRDS(p.getAppearanceType(), p.getDoubloons(),
 					p.getExperiencePoints(), p.getCrew(), p.getMajor(), p.getSection(), p.getBuffPool(), p.getOnline());
 		}
 
@@ -53,7 +53,7 @@ public class BuildTestDBPlayers
 
 		for (NPCsForTest p : NPCsForTest.values())
 		{
-			new NPCRowDataGatewayRDS(p.getPlayerID(), p.getBehaviorClass());
+			new NPCRowDataGatewayRDS(p.getPlayerID(), p.getBehaviorClass(), p.getFilePath());
 		}
 	}
 

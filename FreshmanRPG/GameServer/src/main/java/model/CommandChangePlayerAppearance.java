@@ -1,6 +1,9 @@
 package model;
 
+import dataDTO.VanityDTO;
 import datasource.DatabaseException;
+
+import java.util.ArrayList;
 
 /**
  * Command to change the player's appearance type.
@@ -8,18 +11,17 @@ import datasource.DatabaseException;
 public class CommandChangePlayerAppearance extends Command
 {
 	private int playerID;
-	private String appearanceType;
+	private ArrayList<VanityDTO> newWearing;
 
 	/**
 	 * Construct and initialize a CommandChangePlayerAppearance.
 	 *
 	 * @param playerId - the player ID
-	 * @param appearanceType - the appearance type we want to change to
 	 */
-	public CommandChangePlayerAppearance(int playerId, String appearanceType)
+	public CommandChangePlayerAppearance(int playerId, ArrayList<VanityDTO> newWearing)
 	{
 		this.playerID = playerId;
-		this.appearanceType = appearanceType;
+		this.newWearing = newWearing;
 	}
 
 	/**
@@ -30,20 +32,8 @@ public class CommandChangePlayerAppearance extends Command
 	@Override
 	boolean execute()
 	{
-		try
-		{
-			PlayerManager.getSingleton().editPlayerAppearance(playerID, appearanceType);
-		}
-		catch (DatabaseException e)
-		{
-			System.err.println("Failure while updateing players appearance. DatabaseException.");
-			e.printStackTrace();
-		}
-		catch (IllegalQuestChangeException e)
-		{
-			System.err.println("Failure while updateing players appearance. IllegalQuestChangeException.");
-			e.printStackTrace();
-		}
+		Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
+		player.setVanityItems(newWearing);
 		return true;
 	}
 
@@ -56,11 +46,10 @@ public class CommandChangePlayerAppearance extends Command
 	}
 
 	/**
-	 * @return player appearance
+	 * @return the list of new things to wear
 	 */
-	public String getAppearanceType()
+	public ArrayList<VanityDTO> getNewWearing()
 	{
-		return appearanceType;
+		return newWearing;
 	}
-
 }

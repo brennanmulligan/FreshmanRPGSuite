@@ -6,12 +6,13 @@ import 'package:frpg_companion/features/objective/data/data.dart';
 ///
 abstract class ObjectiveRepository {
   final CompleteObjectiveDatasource completeObjectiveDatasource;
+  final FetchAllObjectiveDatasource fetchAllObjectiveDatasource;
 
   ///
   /// Constructor.
   ///
   const ObjectiveRepository({
-    required this.completeObjectiveDatasource,
+    required this.completeObjectiveDatasource, required this.fetchAllObjectiveDatasource,
   });
 
   ///
@@ -19,5 +20,12 @@ abstract class ObjectiveRepository {
   ///
   Future<Result<CompleteObjectiveResponse>> completeObjective({
     required CompleteObjectiveRequest request,
+  });
+
+  ///
+  /// Template for fetching all objectives.
+  ///
+  Future<Result<FetchAllObjectiveResponse>> fetchAllObjectives({
+    required FetchAllObjectiveRequest request,
   });
 }

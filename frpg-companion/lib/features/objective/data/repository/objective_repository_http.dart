@@ -10,7 +10,10 @@ class ObjectiveRepositoryHTTP extends ObjectiveRepository {
   ///
   const ObjectiveRepositoryHTTP({
     required CompleteObjectiveDatasource completeObjectiveDatasource,
-  }) : super(completeObjectiveDatasource: completeObjectiveDatasource);
+    required FetchAllObjectiveDatasource fetchAllObjectiveDatasource,
+  }) : super(
+            completeObjectiveDatasource: completeObjectiveDatasource,
+            fetchAllObjectiveDatasource: fetchAllObjectiveDatasource);
 
   ///
   /// Complete an objective on a remote server.
@@ -21,6 +24,25 @@ class ObjectiveRepositoryHTTP extends ObjectiveRepository {
     try {
       final response =
           await completeObjectiveDatasource.completeObjective(request: request);
+      return Result.data(data: response);
+    } catch (exception, stackTrace) {
+      return Result.failure(
+        failure: HTTPFailure(
+          message: '$exception : $stackTrace',
+        ),
+      );
+    }
+  }
+
+  ///
+  /// Fetch all objective on a remote server
+  ///
+  @override
+  Future<Result<FetchAllObjectiveResponse>> fetchAllObjectives(
+      {required FetchAllObjectiveRequest request}) async {
+    try {
+      final response =
+          await fetchAllObjectiveDatasource.fetchAllObjective(request: request);
       return Result.data(data: response);
     } catch (exception, stackTrace) {
       return Result.failure(

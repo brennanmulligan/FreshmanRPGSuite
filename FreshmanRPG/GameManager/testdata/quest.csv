@@ -1,4 +1,4 @@
-adventureID,questTitle,adventureCompletionType,description,parameter,triggerMapName,triggerRow,triggerCol,exp,fulfillment,quest_action_type,teleport_map,teleport_x,teleport_y,start_week,end_week
+objectiveID,questTitle,objectiveCompletionType,description,parameter,triggerMapName,triggerRow,triggerCol,exp,fulfillment,quest_action_type,teleport_map,teleport_x,teleport_y,start_week,end_week
 ,New Test Quest,,Test Quest Description,,current.tmx,5,8,10,5,teleport,current.tmx,5,5,1,15
-1,New Test Quest,REAL_LIFE,Adventure 1 description,test param,,,,1,,,,,,1,15
-2,New Test Quest,REAL_LIFE,Adventure 2 description,test param,,,,5,,,,,,1,15
+1,New Test Quest,REAL_LIFE,Objective 1 description,test param,,,,1,,,,,,1,15
+2,New Test Quest,REAL_LIFE,Objective 2 description,test param,,,,5,,,,,,1,15

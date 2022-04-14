@@ -17,7 +17,7 @@ public class LegendTable extends ScrollPane
 	private String blue_hex = "00FFFF";
 
 	/**
-	 * Table that displays all of the adventures of a selected quest for the player
+	 * Table that displays all of the objectives of a selected quest for the player
 	 */
 	public LegendTable()
 	{

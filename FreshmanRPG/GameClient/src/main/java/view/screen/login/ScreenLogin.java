@@ -73,7 +73,7 @@ public class ScreenLogin extends ScreenBasic
 		Label instruction = new Label("Key Map", skin);
 		instruction.setFontScale((float) 1.5);
 		Label moveInstruction = new Label("Press Arrow Keys: Movement", skin);
-		Label qInstruction = new Label("Press Q: Quest & Adventure Screen", skin);
+		Label qInstruction = new Label("Press Q: Quest & Objective Screen", skin);
 		Label hInstruction = new Label("Press H: High Score & Rank Screen", skin);
 		Label enterInstruction = new Label("Press Enter: Activates/Deactivates Chat Window", skin);
 

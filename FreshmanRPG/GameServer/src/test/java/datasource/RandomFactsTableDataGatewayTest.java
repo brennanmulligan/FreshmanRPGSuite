@@ -54,10 +54,10 @@ public abstract class RandomFactsTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void canRetrieveAllForOneNPC() throws DatabaseException
 	{
-		ArrayList<RandomFactDTO> result = gateway.getAllFactsForNPC(PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID());
+		ArrayList<RandomFactDTO> result = gateway.getAllFactsForNPC(PlayersForTest.BIG_RED.getPlayerID());
 		for (RandomFactsForTest fact : RandomFactsForTest.values())
 		{
-			if (fact.getNpcID() == PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID())
+			if (fact.getNpcID() == PlayersForTest.BIG_RED.getPlayerID())
 			{
 				assertTrue(result.contains(fact.getDTO()));
 			}

@@ -4,14 +4,14 @@ package criteria;
  * @author Emily Maust, Matthew Croft
  *
  */
-public class CriteriaIntegerDTO implements AdventureCompletionCriteria, InteractableItemActionParameter
+public class CriteriaIntegerDTO implements ObjectiveCompletionCriteria, InteractableItemActionParameter
 {
 	private static final long serialVersionUID = 1L;
 
 	private int target;
 
 	/**
-	 * @param target the value needed to complete this adventure
+	 * @param target the value needed to complete this objective
 	 */
 	public CriteriaIntegerDTO(int target)
 	{
@@ -19,7 +19,7 @@ public class CriteriaIntegerDTO implements AdventureCompletionCriteria, Interact
 	}
 
 	/**
-	 * @return points for this adventure
+	 * @return points for this objective
 	 */
 	public int getTarget()
 	{

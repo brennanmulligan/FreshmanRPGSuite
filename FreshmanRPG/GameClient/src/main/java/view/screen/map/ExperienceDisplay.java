@@ -10,7 +10,7 @@ import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
 import model.QualifiedObserver;
 import model.reports.ExperiencePointsChangeReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonChangeReport;
 
 /**
  * @author ck4124
@@ -39,7 +39,7 @@ public class ExperienceDisplay extends Group implements QualifiedObserver
 	private void setUpListening()
 	{
 		QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
-		cm.registerObserver(this, KnowledgePointsChangeReport.class);
+		cm.registerObserver(this, DoubloonChangeReport.class);
 	}
 
 

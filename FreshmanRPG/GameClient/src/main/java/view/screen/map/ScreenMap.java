@@ -3,6 +3,7 @@ package view.screen.map;
 import static view.screen.Screens.DEFAULT_RES;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -37,21 +38,23 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.IntMap.Entry;
-import com.badlogic.gdx.utils.Sort;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import dataDTO.VanityDTO;
 import datatypes.Position;
-import view.player.PlayerSprite;
-import view.player.PlayerSpriteFactory;
-import view.player.PlayerType;
+import view.player.*;
+import view.screen.ClientNotificationManager;
 import view.screen.OverlayingScreen;
 import view.screen.ScreenBasic;
 import view.screen.SkinPicker;
 import view.screen.chat.PopUpChatUI;
+import view.screen.closet.ClosetUI;
+import view.screen.clothingShop.ClothingShopUI;
 import view.screen.coordinates.CoordinatesUI;
 import view.screen.friends.FriendsUI;
 import view.screen.highscore.HighScoreUI;
 import view.screen.menu.MenuUI;
+import view.screen.notification.AlertContainer;
 import view.screen.qas.QuestUI;
 import view.screen.shop.ShopUI;
 import view.screen.terminal.TerminalUI;
@@ -77,6 +80,7 @@ public class ScreenMap extends ScreenBasic
 	// is complete
 	IntArray characterDequeue;
 
+	private ClientNotificationManager clientNotificationManager;
 	private OrthographicCamera camera;
 	private final float unitScale;
 	private ScreenMapInput mapInput;
@@ -90,6 +94,8 @@ public class ScreenMap extends ScreenBasic
 	private ShopUI shopUI;
 	private FriendsUI friendsUI;
 	private CoordinatesUI coordinatesUI;
+	private ClosetUI closetUI;
+	private ClothingShopUI clothingShopUI;
 
 
 	private ArrayList<OverlayingScreen> overlayingScreens;
@@ -200,8 +206,9 @@ public class ScreenMap extends ScreenBasic
 				{
 					worldCamera.position.set(where[0], where[1], 0);
 				}
-				worldStage.addActor(sprite);
+				sprite.addActors(worldStage);
 			}
+
 			this.characterQueue.clear();
 
 			// make sure the shader effect frame buffers are properly created
@@ -226,7 +233,7 @@ public class ScreenMap extends ScreenBasic
 				mapRenderer.render(bgLayers);
 
 				worldStage.act(delta);
-				Sort.instance().sort(worldStage.getActors());
+
 				worldStage.draw();
 
 				mapRenderer.render(fgLayers);
@@ -270,8 +277,7 @@ public class ScreenMap extends ScreenBasic
 			for (int i = 0; i < characterDequeue.size; i++)
 			{
 				int id = characterDequeue.get(i);
-				PlayerSprite s = this.characters.remove(id);
-				s.remove();
+				this.characters.remove(id).removeActors();
 			}
 			characterDequeue.clear();
 
@@ -304,11 +310,13 @@ public class ScreenMap extends ScreenBasic
 	{
 		stage.getViewport().update(width, height, false);
 		worldStage.getViewport().update(width, height, true);
+
 		if (mapRenderer != null)
 		{
 			worldCamera.position.set(mySprite.getX(), mySprite.getY(), 0);
 			worldCamera.update();
 		}
+
 		camera.setToOrtho(true, width, height);
 		blurBatch.setProjectionMatrix(defaultCamera.combined);
 
@@ -318,6 +326,18 @@ public class ScreenMap extends ScreenBasic
 		if (menuArea != null)
 		{
 			menuArea.setPosition(menuArea.getX(), (worldStage.getViewport().getWorldHeight() - menuArea.getHeight()) - ((worldStage.getViewport().getWorldHeight() - menuArea.getHeight() - 770) / 2f));
+		}
+
+		// Reposition "responsive" overlaying screens (this currently only works if they are 250x300)
+		for (OverlayingScreen overlay : overlayingScreens)
+		{
+			if (overlay.getIsResponsive())
+			{
+				// TODO: understand this and replace it with something more elegant.
+				float newX = worldCamera.viewportWidth - overlay.getWidth() - (worldCamera.viewportWidth - overlay.getWidth() - 550) / 2f;
+				float newY = worldCamera.viewportHeight - overlay.getHeight() - (worldCamera.viewportHeight - overlay.getHeight() - 500) / 2f;
+				overlay.setPosition(newX, newY);
+			}
 		}
 	}
 
@@ -344,7 +364,7 @@ public class ScreenMap extends ScreenBasic
 		{
 			for (Entry<PlayerSprite> c : characters)
 			{
-				c.value.remove();
+				c.value.removeActors();
 			}
 			characters.clear();
 			this.mySprite = null;
@@ -472,8 +492,17 @@ public class ScreenMap extends ScreenBasic
 
 		final Skin skin = new Skin(Gdx.files.internal("ui-data/uiskin.json"));
 
-		playerFactory = new PlayerSpriteFactory(Gdx.files.internal("ui-data/characters.pack"));
+		PlayerHatFactory hatFactory = new PlayerHatFactory(Gdx.files.internal("ui-data/hats.atlas"));
+		PlayerHairFactory hairFactory = new PlayerHairFactory(Gdx.files.internal("ui-data/hair.atlas"));
+		PlayerBodyFactory bodyFactory = new PlayerBodyFactory(Gdx.files.internal("ui-data/body.atlas"));
+		PlayerShoesFactory shoesFactory = new PlayerShoesFactory(Gdx.files.internal("ui-data/shoes.atlas"));
+		PlayerShirtFactory shirtFactory = new PlayerShirtFactory(Gdx.files.internal("ui-data/shirts.atlas"));
+		PlayerPantsFactory pantsFactory = new PlayerPantsFactory(Gdx.files.internal("ui-data/pants.atlas"));
+		PlayerEyesFactory eyesFactory = new PlayerEyesFactory(Gdx.files.internal("ui-data/eyes.atlas"));
 
+		playerFactory = new PlayerSpriteFactory(hatFactory, hairFactory, bodyFactory,
+												shirtFactory, pantsFactory, shoesFactory,
+				                                eyesFactory);
 
 		loadingLayer = new Group();
 		loadingLayer.setSize(stage.getWidth(), stage.getHeight());
@@ -515,16 +544,16 @@ public class ScreenMap extends ScreenBasic
 	 *
 	 * @param playerID
 	 *            the unique identifier of the player being added
-	 * @param type
-	 *            sprite type visible to others
+	 * @param vanities
+	 * 			  the list of vanity items the player is wearing
 	 * @param pos
 	 *            location to spawn the player
 	 * @param isThisClientsPlayer
 	 *            if the player to spawn is controlled by this client
 	 */
-	public void addPlayer(int playerID, PlayerType type, Position pos, boolean isThisClientsPlayer)
+	public void addPlayer(int playerID, List<VanityDTO> vanities, Position pos, boolean isThisClientsPlayer)
 	{
-		PlayerSprite sprite = playerFactory.create(type);
+		PlayerSprite sprite = playerFactory.create(vanities, playerID);
 		characterQueue.put(playerID, pos);
 		characters.put(playerID, sprite);
 		// detect when the player being added is the client's player for finer
@@ -558,6 +587,8 @@ public class ScreenMap extends ScreenBasic
 		}
 		SkinPicker.getSkinPicker().setCrew(crewName);
 
+		clientNotificationManager = ClientNotificationManager.getInstance();
+
 		qaScreen = new QuestUI();
 		terminalUI = new TerminalUI();
 		popUpChatUI = new PopUpChatUI();
@@ -566,7 +597,8 @@ public class ScreenMap extends ScreenBasic
 		menuArea = new MenuUI();
 		friendsUI = new FriendsUI();
 		coordinatesUI = new CoordinatesUI();
-
+		closetUI = new ClosetUI();
+		clothingShopUI = new ClothingShopUI();
 
 		menuArea.addOverlayingScreenToggle(popUpChatUI, "Chat");
 		menuArea.addOverlayingScreenToggle(friendsUI, "Friends");
@@ -574,7 +606,8 @@ public class ScreenMap extends ScreenBasic
 		menuArea.addOverlayingScreenToggle(shopUI, "Shop");
 		menuArea.addOverlayingScreenToggle(qaScreen, null);
 		menuArea.addOverlayingScreenToggle(highScoreUI, null);
-		menuArea.addDropdown("list", dropDownChangeListener(), closeListener());
+		menuArea.addQuestDropdown("list", questDropDownChangeListener(), closeListener());
+		menuArea.addDropdownClothing("list", clothingDropDownChangeListener(), closeListener());
 
 		overlayingScreens.add(coordinatesUI);
 		overlayingScreens.add(qaScreen);
@@ -583,6 +616,9 @@ public class ScreenMap extends ScreenBasic
 		overlayingScreens.add(shopUI);
 		overlayingScreens.add(popUpChatUI);
 		overlayingScreens.add(friendsUI);
+		overlayingScreens.add(closetUI);
+		overlayingScreens.add(clothingShopUI);
+		overlayingScreens.add(clientNotificationManager.getAlertContainer());
 
 		stage.addActor(coordinatesUI);
 		stage.addActor(qaScreen);
@@ -592,6 +628,9 @@ public class ScreenMap extends ScreenBasic
 		stage.addActor(shopUI);
 		stage.addActor(menuArea);
 		stage.addActor(friendsUI);
+		stage.addActor(closetUI);
+		stage.addActor(clothingShopUI);
+		stage.addActor(clientNotificationManager.getAlertContainer());
 
 		multiplexer.clear();
 		keyInputProcessor = new ScreenMapKeyInputSentProcessor(stage, menuArea, popUpChatUI);
@@ -604,14 +643,14 @@ public class ScreenMap extends ScreenBasic
 	/**
 	 * @return the click Listener with the required behavior
 	 */
-	private ChangeListener dropDownChangeListener()
+	private ChangeListener questDropDownChangeListener()
 	{
 		return new ChangeListener()
 		{
 			@Override
 			public void changed(ChangeEvent event, Actor actor)
 			{
-				String buttonText = menuArea.getSelectBox().getSelected();
+				String buttonText = menuArea.getQuestSelectBox().getSelected();
 
 				switch (buttonText)
 				{
@@ -629,6 +668,41 @@ public class ScreenMap extends ScreenBasic
 						if (!highScoreToggled)
 						{
 							highScoreUI.toggleVisibility();
+						}
+						break;
+				}
+			}
+		};
+	}
+
+	/**
+	 * @return the click Listener with the required behavior
+	 */
+	private ChangeListener clothingDropDownChangeListener()
+	{
+		return new ChangeListener()
+		{
+			@Override
+			public void changed(ChangeEvent event, Actor actor)
+			{
+				String buttonText = menuArea.getClothingSelectBox().getSelected();
+
+				switch (buttonText)
+				{
+					case "Closet":
+						boolean closetToggled = closetUI.isVisible();
+						closeAllOverlayingScreens();
+						if (!closetToggled)
+						{
+							closetUI.toggleVisibility();
+						}
+						break;
+					case "Shop":
+						boolean shopToggled = clothingShopUI.isVisible();
+						closeAllOverlayingScreens();
+						if (!shopToggled)
+						{
+							clothingShopUI.toggleVisibility();
 						}
 						break;
 				}
@@ -660,6 +734,10 @@ public class ScreenMap extends ScreenBasic
 	{
 		for (OverlayingScreen os : overlayingScreens)
 		{
+			if (os.getClass() == AlertContainer.class)
+			{
+				continue;
+			}
 			os.setVisible(false);
 		}
 	}
@@ -680,7 +758,10 @@ public class ScreenMap extends ScreenBasic
 			float[] loc = positionToScale(pos);
 			sprite.move(loc[0], loc[1]);
 		}
-		mapInput.setPosition(pos);
+		if (getIsPlayerCharacter(id))
+		{
+			mapInput.setPosition(pos);
+		}
 	}
 
 	/**
@@ -706,7 +787,7 @@ public class ScreenMap extends ScreenBasic
 		PlayerSprite s = this.characters.remove(playerID);
 		if (s != null)
 		{
-			s.remove();
+			s.removeActors();
 		}
 	}
 

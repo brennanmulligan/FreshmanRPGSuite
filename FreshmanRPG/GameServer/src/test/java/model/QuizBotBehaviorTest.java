@@ -21,6 +21,7 @@ public class QuizBotBehaviorTest
 
 	private QuizBotBehavior behavior;
 	private NPCQuestion question;
+	private Player player;
 
 	/**
 	 * @throws DatabaseException shouldn't Set up the behavior and a question
@@ -32,6 +33,11 @@ public class QuizBotBehaviorTest
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		behavior = new QuizBotBehavior(PlayersForTest.QUIZBOT.getPlayerID());
 		question = behavior.getQuestion();
+		player = PlayerManager.getSingleton().addPlayer(PlayersForTest.ANDY.getPlayerID());
+
+		// Loads Quizbot into PlayerManager
+		PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
+
 		QualifiedObservableConnector.resetSingleton();
 		ChatManager.resetSingleton();
 	}
@@ -43,18 +49,15 @@ public class QuizBotBehaviorTest
 	@Test
 	public void testCorrectAnswer()
 	{
-		Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.ANDY.getPlayerID());
-
 		String answer = question.getAnswer();
 
 		// check that spaces don't matter
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(p.getPlayerID(), 0, "    " + answer + " ", new Position(0, 0),
-				ChatType.Zone);
-		int score = p.getQuizScore();
+		ChatMessageReceivedReport report = new ChatMessageReceivedReport(player.getPlayerID(), 0, "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
+		int score = player.getQuizScore();
 
 		behavior.receiveReport(report);
-		assertEquals(score + 1, p.getQuizScore());
-		p.setQuizScore(score);
+		assertEquals(score + 1, player.getQuizScore());
+		player.setDoubloons(score);
 	}
 
 	/**
@@ -63,14 +66,9 @@ public class QuizBotBehaviorTest
 	@Test
 	public void testIncorrectAnswer()
 	{
-		Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.ANDY.getPlayerID());
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(p.getPlayerID(), 0, "incorrect", new Position(0, 0),
-				ChatType.Zone);
-
-		int score = p.getQuizScore();
-
+		ChatMessageReceivedReport report = new ChatMessageReceivedReport(player.getPlayerID(), 0, "incorrect", player.getPlayerPosition(), ChatType.Local);
+		int score = player.getQuizScore();
 		behavior.receiveReport(report);
-
-		assertEquals(score, p.getQuizScore());
+		assertEquals(score, player.getQuizScore());
 	}
 }

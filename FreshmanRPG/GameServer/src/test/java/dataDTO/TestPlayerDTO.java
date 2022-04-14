@@ -23,7 +23,7 @@ public class TestPlayerDTO
 	{
 		PlayerDTO playerDTO = new PlayerDTO(1, "Password", Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 1, "Name");
 		assertEquals("Ninja", playerDTO.getAppearanceType());
-		assertEquals(0, playerDTO.getKnowledgePoints());
+		assertEquals(0, playerDTO.getDoubloons());
 		assertEquals(new Position(0, 0), playerDTO.getPosition());
 		assertEquals("sortingroom.tmx", playerDTO.getMapName());
 		assertEquals(0, playerDTO.getExperiencePoints());

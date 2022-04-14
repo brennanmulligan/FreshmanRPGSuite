@@ -12,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.AdventureRecord;
+import model.ObjectiveRecord;
 import model.QuestRecord;
 import datatypes.QuestsForTest;
 
@@ -86,44 +86,44 @@ public abstract class QuestTableDataGatewayTest extends DatabaseTest
 
 	private void assertQuestsAreEqual(QuestsForTest expected, QuestRecord actual)
 	{
-		assertQuestAdventureListMatchesTestData(actual);
+		assertQuestObjectiveListMatchesTestData(actual);
 		assertEquals(expected.getQuestID(), actual.getQuestID());
 		assertEquals(expected.getQuestTitle(), actual.getTitle());
 		assertEquals(expected.getQuestDescription(), actual.getDescription());
 		assertEquals(expected.getMapName(), actual.getMapName());
 		assertEquals(expected.getPosition(), actual.getPos());
 		assertEquals(expected.getExperienceGained(), actual.getExperiencePointsGained());
-		assertEquals(expected.getAdventuresForFulfillment(), actual.getAdventuresForFulfillment());
+		assertEquals(expected.getObjectiveForFulfillment(), actual.getObjectivesForFulfillment());
 		assertEquals(expected.getCompletionActionType(), actual.getCompletionActionType());
 		assertEquals(expected.getStartDate(), actual.getStartDate());
 		assertEquals(expected.getEndDate(), actual.getEndDate());
 	}
 
-	private void assertQuestAdventureListMatchesTestData(QuestRecord quest)
+	private void assertQuestObjectiveListMatchesTestData(QuestRecord quest)
 	{
-		List<AdventureRecord> expected = new ArrayList<>();
+		List<ObjectiveRecord> expected = new ArrayList<>();
 
 		try
 		{
-			expected = AdventureTableDataGatewayMock.getSingleton().getAdventuresForQuest(quest.getQuestID());
+			expected = ObjectiveTableDataGatewayMock.getSingleton().getObjectivesForQuest(quest.getQuestID());
 		}
 		catch (DatabaseException e)
 		{
 		}
 
-		List<AdventureRecord> actual = quest.getAdventures();
+		List<ObjectiveRecord> actual = quest.getObjectives();
 		assertEquals(expected.size(), actual.size());
 
 		for (int i = 0; i < expected.size(); i++)
 		{
-			assertAdventuresAreEqual(expected.get(i), actual.get(i));
+			assertObjectivesAreEqual(expected.get(i), actual.get(i));
 		}
 	}
 
-	private void assertAdventuresAreEqual(AdventureRecord expected, AdventureRecord actual)
+	private void assertObjectivesAreEqual(ObjectiveRecord expected, ObjectiveRecord actual)
 	{
-		assertEquals(expected.getAdventureID(), actual.getAdventureID());
-		assertEquals(expected.getAdventureDescription(), actual.getAdventureDescription());
+		assertEquals(expected.getObjectiveID(), actual.getObjectiveID());
+		assertEquals(expected.getObjectiveDescription(), actual.getObjectiveDescription());
 		assertEquals(expected.getQuestID(), actual.getQuestID());
 		assertEquals(expected.getExperiencePointsGained(), actual.getExperiencePointsGained());
 	}

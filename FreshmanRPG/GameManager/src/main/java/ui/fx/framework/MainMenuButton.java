@@ -9,7 +9,7 @@ import ui.fx.WorkSpace;
 
 /**
  * @author Josh McMillen, Ben Uleau
- * abstract main menu button (player menu button, quizbot menu button, and adventure menu button inherit from this)
+ * abstract main menu button (player menu button, quizbot menu button, and objective menu button inherit from this)
  */
 public abstract class MainMenuButton extends Button
 {

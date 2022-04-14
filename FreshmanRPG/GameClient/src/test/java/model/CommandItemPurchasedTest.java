@@ -16,7 +16,7 @@ import org.junit.Test;
 public class CommandItemPurchasedTest
 {
 
-	
+
 	/**
 	 * Tests that the command can be created
 	 * @throws IOException 
@@ -49,11 +49,10 @@ public class CommandItemPurchasedTest
 		File f = new File("test.pdf");
 		f.delete();
 		CommandItemPurchased cmd = new CommandItemPurchased(PlayersForTest.MERLIN.getPlayerID(), 10, "test.pdf", "test");
-		
+
 		cmd.execute();
 		f = new File("test.pdf");
 		assertTrue(f.exists());
 		f.delete();
 	}
-
 }

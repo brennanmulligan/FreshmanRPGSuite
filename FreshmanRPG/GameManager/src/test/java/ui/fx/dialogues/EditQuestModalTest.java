@@ -7,7 +7,7 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.stage.Stage;
 import manager.GameManagerFX;
-import ui.fx.contentviews.AdventureContentView;
+import ui.fx.contentviews.ObjectiveContentView;
 
 /**
  * Tests for EditQuestModal
@@ -31,8 +31,8 @@ public class EditQuestModalTest extends ApplicationTest
 	@Test
 	public void testTitleIsCorrect()
 	{
-		clickOn("#AdventureMenuButton");
-		AdventureContentView.getInstance().getQuestTable().getSelectionModel().select(0);
+		clickOn("#ObjectiveMenuButton");
+		ObjectiveContentView.getInstance().getQuestTable().getSelectionModel().select(0);
 		clickOn("#EditButton");
 		assertEquals("Edit Quest", EditQuestModal.getInstance().getModalTitle().getText());
 		clickOn("#ModalCancelButton");

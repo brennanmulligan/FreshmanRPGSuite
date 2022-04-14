@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import criteria.GameLocationDTO;
-import datatypes.AdventuresForTest;
+import datatypes.ObjectivesForTest;
 
 /**
  * Test to make sure the TeleportOnQuestFinishReport works
@@ -24,13 +24,13 @@ public class TeleportOnQuestCompletionReportTest
 	{
 		String host = "hostname";
 		int port = 22;
-		GameLocationDTO gl = new GameLocationDTO("theGreen.tmx", null);
+		GameLocationDTO gl = new GameLocationDTO("quad.tmx", null);
 
 		TeleportOnQuestCompletionReport report = new TeleportOnQuestCompletionReport(1,
-				AdventuresForTest.QUEST1_ADVENTURE_1.getQuestID(), gl, host, port);
+				ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), gl, host, port);
 
 		assertEquals(1, report.getPlayerID());
-		assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getQuestID(), report.getQuestID());
+		assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), report.getQuestID());
 		assertEquals(gl, report.getLocation());
 		assertEquals(host, report.getHostName());
 		assertEquals(port, report.getPortNumber());

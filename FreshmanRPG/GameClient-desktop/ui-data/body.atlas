@@ -1,0 +1,145 @@
+
+body.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+skin_a
+  rotate: false
+  xy: 1, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_b
+  rotate: false
+  xy: 1, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_br
+  rotate: false
+  xy: 133, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_c
+  rotate: false
+  xy: 1, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_d
+  rotate: false
+  xy: 133, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_default
+  rotate: false
+  xy: 265, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_e
+  rotate: false
+  xy: 1, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_f
+  rotate: false
+  xy: 133, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_g
+  rotate: false
+  xy: 265, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_h
+  rotate: false
+  xy: 397, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_i
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_j
+  rotate: false
+  xy: 133, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_k
+  rotate: false
+  xy: 265, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_l
+  rotate: false
+  xy: 397, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_m
+  rotate: false
+  xy: 529, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_n
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_o
+  rotate: false
+  xy: 265, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_p
+  rotate: false
+  xy: 397, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_q
+  rotate: false
+  xy: 529, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+skin_z_ghost
+  rotate: false
+  xy: 661, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

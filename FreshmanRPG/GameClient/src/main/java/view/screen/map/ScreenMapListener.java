@@ -1,7 +1,9 @@
 package view.screen.map;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import dataDTO.VanityDTO;
 import datatypes.Position;
 import model.ClientPlayer;
 import model.ClientPlayerManager;
@@ -51,9 +53,11 @@ public class ScreenMapListener extends ScreenListener
 		else if (arg.getClass().equals(PlayerConnectedToAreaServerReport.class))
 		{
 			PlayerConnectedToAreaServerReport report = (PlayerConnectedToAreaServerReport) arg;
-			PlayerType type = PlayerType.valueOf(report.getPlayerAppearanceType());
+			List<VanityDTO> vanities = report.getVanities();
+
 			Position pos = report.getPlayerPosition();
-			map.addPlayer(report.getPlayerID(), type, pos, report.isThisClientsPlayer());
+
+			map.addPlayer(report.getPlayerID(), vanities, pos, report.isThisClientsPlayer());
 			if (report.isThisClientsPlayer())
 			{
 				map.addUIs(report.getPlayerName(), report.getCrew().getCrewAppearanceType(), report.getMajor().getMajorName());
@@ -81,12 +85,11 @@ public class ScreenMapListener extends ScreenListener
 			ClientPlayer player = ClientPlayerManager.getSingleton().getPlayerFromID(playerID);
 			Position pos = player.getPosition();
 
-
-			PlayerType type = PlayerType.valueOf(report.getAppearanceType());
+			List<VanityDTO> vanities = report.getVanities();
 			boolean curPlayer = map.getIsPlayerCharacter(playerID);
 
 			map.removePlayer(playerID);
-			map.addPlayer(playerID, type, pos, curPlayer);
+			map.addPlayer(playerID, vanities, pos, curPlayer);
 		}
 	}
 

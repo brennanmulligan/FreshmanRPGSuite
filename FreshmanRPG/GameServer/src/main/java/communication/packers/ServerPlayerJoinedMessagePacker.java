@@ -1,12 +1,12 @@
 package communication.packers;
 
-import java.util.ArrayList;
-
 import communication.messages.Message;
 import communication.messages.PlayerJoinedMessage;
 import model.QualifiedObservableReport;
 import model.reports.AddExistingPlayerReport;
 import model.reports.PlayerConnectionReport;
+
+import java.util.ArrayList;
 
 /**
  * Packs a message telling clients that a new player has joined this area server
@@ -28,7 +28,8 @@ public class ServerPlayerJoinedMessagePacker extends MessagePacker
 			PlayerConnectionReport report = (PlayerConnectionReport) object;
 
 			PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.getPlayerName(),
-					report.getAppearanceType(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection());
+					report.getVanity(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection(),
+					report.getOwnedItems());
 			return msg;
 		}
 		else if (object.getClass().equals(AddExistingPlayerReport.class))
@@ -37,7 +38,7 @@ public class ServerPlayerJoinedMessagePacker extends MessagePacker
 			if (report.getRecipientPlayerID() == getAccumulator().getPlayerID())
 			{
 				PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.getPlayerName(),
-						report.getAppearanceType(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection());
+						report.getVanity(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection());
 				return msg;
 			}
 		}

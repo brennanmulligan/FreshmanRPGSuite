@@ -2,12 +2,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import manager.GameManagerTestFX;
-import ui.fx.contentviews.AdventureContentViewTest;
-import ui.fx.framework_test.AddAdventureTest;
+import ui.fx.contentviews.ObjectiveContentViewTest;
+import ui.fx.framework_test.AddObjectiveTest;
 import ui.fx.framework_test.AddPlayerTest;
 import ui.fx.framework_test.AddQuestTest;
 import ui.fx.framework_test.AddQuizbotTest;
-import ui.fx.framework_test.DeleteAdventureTest;
+import ui.fx.framework_test.DeleteObjectiveTest;
 import ui.fx.framework_test.DeleteInteractableObjectTest;
 import ui.fx.framework_test.DeletePlayerTest;
 import ui.fx.framework_test.DeleteQuestionTest;
@@ -25,15 +25,15 @@ import ui.fx.framework_test.ImportPlayerTest;
 		{
 				//GameManagerTest.class,
 				FrameworkTest.class,
-				AdventureContentViewTest.class,
+				ObjectiveContentViewTest.class,
 				GameManagerTestFX.class,
 
-				AddAdventureTest.class,
+				AddObjectiveTest.class,
 				AddPlayerTest.class,
 				AddQuestTest.class,
 				AddQuizbotTest.class,
-				DeleteAdventureTest.class,
 				DeleteInteractableObjectTest.class,
+				DeleteObjectiveTest.class,
 				DeletePlayerTest.class,
 				DeleteQuestionTest.class,
 

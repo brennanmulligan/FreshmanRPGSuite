@@ -2,7 +2,7 @@ package model.reports;
 
 import java.util.ArrayList;
 
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import dataDTO.FriendDTO;
 import dataDTO.LevelManagerDTO;
@@ -24,7 +24,7 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
 	private ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList = new ArrayList<>();
 	private ArrayList<FriendDTO> friendList;
 	private int experiencePoints;
-	private int knowledgePoints;
+	private int doubloons;
 	private LevelRecord level;
 	private int playerID;
 
@@ -40,7 +40,7 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
 		combineQuest(QuestManager.getSingleton().getQuestList(player.getPlayerID()));
 		this.friendList = getFriendList(player.getPlayerID());
 		this.experiencePoints = player.getExperiencePoints();
-		this.knowledgePoints = player.getKnowledgePoints();
+		this.doubloons = player.getDoubloons();
 		this.level = LevelManagerDTO.getSingleton().getLevelForPoints(experiencePoints);
 		this.playerID = player.getPlayerID();
 	}
@@ -77,8 +77,8 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
 
 				ClientPlayerQuestStateDTO clientQuest = new ClientPlayerQuestStateDTO(quest.getQuestID(), quest.getTitle(),
 						quest.getDescription(), qs.getStateValue(), quest.getExperiencePointsGained(),
-						quest.getAdventuresForFulfillment(), qs.isNeedingNotification(), quest.getEndDate());
-				clientQuest.setAdventures(combineAdventure(quest, qs));
+						quest.getObjectivesForFulfillment(), qs.isNeedingNotification(), quest.getEndDate());
+				clientQuest.setObjectives(combineObjective(quest, qs));
 
 				clientPlayerQuestList.add(clientQuest);
 			}
@@ -86,16 +86,16 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
 		}
 	}
 
-	private ArrayList<ClientPlayerAdventureStateDTO> combineAdventure(QuestRecord quest, QuestState qs)
+	private ArrayList<ClientPlayerObjectiveStateDTO> combineObjective(QuestRecord quest, QuestState qs)
 	{
-		ArrayList<ClientPlayerAdventureStateDTO> ca = new ArrayList<>();
-		for (AdventureState a : qs.getAdventureList())
+		ArrayList<ClientPlayerObjectiveStateDTO> ca = new ArrayList<>();
+		for (ObjectiveState a : qs.getObjectiveList())
 		{
-			int adventureID = a.getID();
-			AdventureRecord adventure = quest.getAdventureD(adventureID);
-			ca.add(new ClientPlayerAdventureStateDTO(a.getID(), adventure.getAdventureDescription(),
-					adventure.getExperiencePointsGained(), a.getState(), a.isNeedingNotification(),
-					adventure.isRealLifeAdventure(), adventure.getCompletionCriteria().toString(), qs.getStateValue()));
+			int objectiveID = a.getID();
+			ObjectiveRecord objective = quest.getObjectiveID(objectiveID);
+			ca.add(new ClientPlayerObjectiveStateDTO(a.getID(), objective.getObjectiveDescription(),
+					objective.getExperiencePointsGained(), a.getState(), a.isNeedingNotification(),
+					objective.isRealLifeObjective(), objective.getCompletionCriteria().toString(), qs.getStateValue()));
 		}
 
 		return ca;
@@ -122,13 +122,13 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
 	}
 
 	/**
-	 * Return int of Player's knowledge points 
+	 * Return int of Player's doubloons
 	 *
-	 * @return knowledgePoints
+	 * @return doubloons
 	 */
-	public int getKnowledgePts()
+	public int getDoubloons()
 	{
-		return knowledgePoints;
+		return doubloons;
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class AddQuestModal extends Modal
 	private Spinner<Integer> trigPosX;
 	private Spinner<Integer> trigPosY;
 	private Spinner<Integer> xpGained;
-	private Spinner<Integer> numAdventures;
+	private Spinner<Integer> numObjectives;
 	private Spinner<Integer> telPosX;
 	private Spinner<Integer> telPosY;
 	private ComboBox<String> mapOptions;
@@ -64,7 +64,7 @@ public class AddQuestModal extends Modal
 		trigPosX = new Spinner<>(0, Integer.MAX_VALUE, 0);
 		trigPosY = new Spinner<>(0, Integer.MAX_VALUE, 0);
 		xpGained = new Spinner<>(0, Integer.MAX_VALUE, 0);
-		numAdventures = new Spinner<>(0, Integer.MAX_VALUE, 0);
+		numObjectives = new Spinner<>(0, Integer.MAX_VALUE, 0);
 
 		questCompletionActionType = new ComboBox<>();
 		ObservableList<QuestCompletionActionType> actionTypeList = FXCollections.observableArrayList();
@@ -109,7 +109,7 @@ public class AddQuestModal extends Modal
 				this.generateElement("Trigger Position X:", trigPosX),
 				this.generateElement("Trigger Position Y:", trigPosY),
 				this.generateElement("EXP Gained:", xpGained),
-				this.generateElement("# of Adventures for Completion:", numAdventures),
+				this.generateElement("# of Objectives for Completion:", numObjectives),
 				this.generateElement("Completion Action Type:", questCompletionActionType),
 				this.generateElement("Completion Action Parameter:", questCompletionActionParam),
 				this.generateElement("Teleport Position X:", telPosX),
@@ -133,7 +133,7 @@ public class AddQuestModal extends Modal
 		trigPosX.setId("TrigPosX");
 		trigPosY.setId("TrigPosY");
 		xpGained.setId("XPGained");
-		numAdventures.setId("NumAdventures");
+		numObjectives.setId("NumObjectives");
 		telPosX.setId("TelPosX");
 		telPosY.setId("TelPosY");
 		mapOptions.setId("MapOptions");
@@ -157,7 +157,7 @@ public class AddQuestModal extends Modal
 		trigPosX.getValueFactory().setValue(0);
 		trigPosY.getValueFactory().setValue(0);
 		xpGained.getValueFactory().setValue(0);
-		numAdventures.getValueFactory().setValue(0);
+		numObjectives.getValueFactory().setValue(0);
 		telPosX.getValueFactory().setValue(0);
 		telPosY.getValueFactory().setValue(0);
 		mapOptions.getSelectionModel().clearAndSelect(0);
@@ -180,7 +180,7 @@ public class AddQuestModal extends Modal
 				modal.getMapOptions().getValue(),
 				new Position(modal.getTrigPosY().getValue(), modal.getTrigPosX().getValue()),
 				modal.xpGained.getValue(),
-				modal.getNumAdventures().getValue(),
+				modal.getNumObjectives().getValue(),
 				modal.getQuestCompletionActionType().getValue(),
 				new GameLocationDTO(
 						modal.getQuestCompletionActionParam().getValue(),
@@ -241,7 +241,7 @@ public class AddQuestModal extends Modal
 	{
 		if (instance == null)
 		{
-			instance = new AddQuestModal("AddAdventureModal", "Add Quest", 400, 620);
+			instance = new AddQuestModal("AddObjectiveModal", "Add Quest", 400, 620);
 		}
 		return instance;
 	}
@@ -287,11 +287,11 @@ public class AddQuestModal extends Modal
 	}
 
 	/**
-	 * @return the number of adventures of the quest from the modal
+	 * @return the number of objectives of the quest from the modal
 	 */
-	public Spinner<Integer> getNumAdventures()
+	public Spinner<Integer> getNumObjectives()
 	{
-		return numAdventures;
+		return numObjectives;
 	}
 
 	/**

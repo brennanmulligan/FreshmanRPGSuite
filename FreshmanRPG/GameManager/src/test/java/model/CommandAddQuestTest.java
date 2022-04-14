@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import datasource.DatabaseException;
-import model.reports.AllQuestsAndAdventuresReport;
+import model.reports.AllQuestsAndObjectivesReport;
 import datatypes.QuestsForTest;
 
 /**
@@ -41,19 +41,19 @@ public class CommandAddQuestTest
 	@Test
 	public void testAddQuest() throws DatabaseException
 	{
-		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndAdventuresReport.class);
+		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndObjectivesReport.class);
 
 		QuestsForTest quest1 = QuestsForTest.THE_OTHER_QUEST;
 		CommandAddQuest cmd = new CommandAddQuest(quest1.getQuestTitle(), quest1.getQuestDescription(),
 				quest1.getMapName(), quest1.getPosition(), quest1.getExperienceGained(),
-				quest1.getAdventuresForFulfillment(), quest1.getCompletionActionType(),
+				quest1.getObjectiveForFulfillment(), quest1.getCompletionActionType(),
 				quest1.getCompletionActionParameter(), quest1.getStartDate(), quest1.getEndDate());
 
 		cmd.execute();
 
 		GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
 		ArrayList<QuestRecord> list = manager.getQuests();
-		AllQuestsAndAdventuresReport listReport = new AllQuestsAndAdventuresReport(list);
-		assertEquals(listReport.getQuestInfo(), ((AllQuestsAndAdventuresReport) obs.getReport()).getQuestInfo());
+		AllQuestsAndObjectivesReport listReport = new AllQuestsAndObjectivesReport(list);
+		assertEquals(listReport.getQuestInfo(), ((AllQuestsAndObjectivesReport) obs.getReport()).getQuestInfo());
 	}
 }

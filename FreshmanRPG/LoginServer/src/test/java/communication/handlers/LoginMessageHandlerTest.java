@@ -65,7 +65,7 @@ public class LoginMessageHandlerTest
 		LoginSuccessfulMessage response = (LoginSuccessfulMessage) x.get(0);
 		assertEquals(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), response.getPlayerID());
 		assertEquals("localhost", response.getHostName());
-		assertEquals(1878, response.getPortNumber());
+		assertEquals(1883, response.getPortNumber());
 	}
 
 	/**

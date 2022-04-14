@@ -3,6 +3,7 @@ package dataENUM;
 import criteria.GameLocationDTO;
 import criteria.QuestCompletionActionParameter;
 import criteria.QuestListCompletionParameter;
+import criteria.VanityAwardDTO;
 
 /**
  * @author Merlin
@@ -23,7 +24,12 @@ public enum QuestCompletionActionType
 	/**
 	 *
 	 */
-	TRIGGER_QUESTS(QuestListCompletionParameter.class);
+	TRIGGER_QUESTS(QuestListCompletionParameter.class),
+
+	/**
+	 *
+	 */
+	ADD_VANITY_TO_INVENTORY(VanityAwardDTO.class);
 
 	private Class<? extends QuestCompletionActionParameter> completionActionParameterType;
 

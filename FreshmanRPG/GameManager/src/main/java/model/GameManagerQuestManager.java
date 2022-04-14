@@ -4,19 +4,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import criteria.AdventureCompletionCriteria;
+import criteria.ObjectiveCompletionCriteria;
 import criteria.QuestCompletionActionParameter;
-import dataENUM.AdventureCompletionType;
+import dataENUM.ObjectiveCompletionType;
 import dataENUM.QuestCompletionActionType;
-import datasource.AdventureRowDataGateway;
-import datasource.AdventureRowDataGatewayMock;
-import datasource.AdventureRowDataGatewayRDS;
-import datasource.AdventureStateTableDataGateway;
-import datasource.AdventureStateTableDataGatewayMock;
-import datasource.AdventureStateTableDataGatewayRDS;
-import datasource.AdventureTableDataGateway;
-import datasource.AdventureTableDataGatewayMock;
-import datasource.AdventureTableDataGatewayRDS;
+import datasource.ObjectiveRowDataGateway;
+import datasource.ObjectiveRowDataGatewayMock;
+import datasource.ObjectiveRowDataGatewayRDS;
+import datasource.ObjectiveStateTableDataGateway;
+import datasource.ObjectiveStateTableDataGatewayMock;
+import datasource.ObjectiveStateTableDataGatewayRDS;
+import datasource.ObjectiveTableDataGateway;
+import datasource.ObjectiveTableDataGatewayMock;
+import datasource.ObjectiveTableDataGatewayRDS;
 import datasource.DatabaseException;
 import datasource.QuestRowDataGateway;
 import datasource.QuestRowDataGatewayMock;
@@ -27,21 +27,21 @@ import datasource.QuestStateTableDataGatewayRDS;
 import datasource.QuestTableDataGateway;
 import datasource.QuestTableDataGatewayMock;
 import datasource.QuestTableDataGatewayRDS;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
-import model.reports.AllQuestsAndAdventuresReport;
-import model.reports.PlayersUncompletedAdventuresReport;
+import model.reports.AllQuestsAndObjectivesReport;
+import model.reports.PlayersUncompletedObjectivesReport;
 
 /**
- * Controls access to quests and their adventures.
+ * Controls access to quests and their objectives.
  */
 public class GameManagerQuestManager
 {
 
 	private static GameManagerQuestManager instance;
 	private QuestStateTableDataGateway questStateGateway;
-	private AdventureStateTableDataGateway adventureStateGateway;
+	private ObjectiveStateTableDataGateway objectiveStateGateway;
 
 	/**
 	 * @return The quest manager instance.
@@ -93,8 +93,8 @@ public class GameManagerQuestManager
 	 *            - The Position
 	 * @param experiencePointsGained
 	 *            - The exp gained
-	 * @param adventuresForFulfillment
-	 *            - Adventures to fulfill the quest
+	 * @param objectivesForFulfillment
+	 *            - Objectives to fulfill the quest
 	 * @param completionActionType
 	 *            - How you complete the quest
 	 * @param completionActionParameter
@@ -107,60 +107,60 @@ public class GameManagerQuestManager
 	 *             - If it fails to access or add to the db
 	 */
 	public void addQuest(String questTitle, String questDescription, String triggerMapName, Position triggerPosition,
-						 int experiencePointsGained, int adventuresForFulfillment, QuestCompletionActionType completionActionType,
+						 int experiencePointsGained, int objectivesForFulfillment, QuestCompletionActionType completionActionType,
 						 QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
 			throws DatabaseException
 	{
 		if (!OptionsManager.getSingleton().isUsingMockDataSource())
 		{
 			new QuestRowDataGatewayRDS(questTitle, questDescription, triggerMapName, triggerPosition,
-					experiencePointsGained, adventuresForFulfillment, completionActionType, completionActionParameter,
+					experiencePointsGained, objectivesForFulfillment, completionActionType, completionActionParameter,
 					startDate, endDate);
 		}
 		else
 		{
 			new QuestRowDataGatewayMock(questTitle, questDescription, triggerMapName, triggerPosition,
-					experiencePointsGained, adventuresForFulfillment, completionActionType, completionActionParameter,
+					experiencePointsGained, objectivesForFulfillment, completionActionType, completionActionParameter,
 					startDate, endDate);
 		}
 		sendQuestReport();
 	}
 
 	/**
-	 * Update an adventure given it's quest and adventure ids
+	 * Update an objective given it's quest and objective ids
 	 *
 	 * @param questId
 	 *            it's quest id
-	 * @param adventureId
-	 *            it's adventure id
-	 * @param adventureDescription
-	 *            - the updated adventuredescription
+	 * @param objectiveID
+	 *            it's objective id
+	 * @param objectiveDescription
+	 *            - the updated objective description
 	 * @param experiencePointsGained
 	 *            - the updated exp gained
-	 * @param adventureCompletionType
+	 * @param objectiveCompletionType
 	 *            - the updated completion type
-	 * @param adventureCompletionCriteria
+	 * @param objectiveCompletionCriteria
 	 *            - the updated criteria
 	 * @throws DatabaseException
 	 *             - if the database couldn't save the changes
 	 */
-	public void editAdventure(int questId, int adventureId, String adventureDescription, int experiencePointsGained,
-							  AdventureCompletionType adventureCompletionType, AdventureCompletionCriteria adventureCompletionCriteria)
+	public void editObjective(int questId, int objectiveID, String objectiveDescription, int experiencePointsGained,
+							  ObjectiveCompletionType objectiveCompletionType, ObjectiveCompletionCriteria objectiveCompletionCriteria)
 			throws DatabaseException
 	{
-		AdventureRowDataGateway gateway = null;
+		ObjectiveRowDataGateway gateway = null;
 
 		if (!OptionsManager.getSingleton().isUsingMockDataSource())
 		{
-			gateway = new AdventureRowDataGatewayRDS(questId, adventureId);
+			gateway = new ObjectiveRowDataGatewayRDS(questId, objectiveID);
 		}
 		else
 		{
-			gateway = new AdventureRowDataGatewayMock(questId, adventureId);
+			gateway = new ObjectiveRowDataGatewayMock(questId, objectiveID);
 		}
-		gateway.setAdventureDescription(adventureDescription);
-		gateway.setCompletionCriteria(adventureCompletionCriteria);
-		gateway.setCompletionType(adventureCompletionType);
+		gateway.setObjectiveDescription(objectiveDescription);
+		gateway.setCompletionCriteria(objectiveCompletionCriteria);
+		gateway.setCompletionType(objectiveCompletionType);
 		gateway.setExperiencePointsGained(experiencePointsGained);
 		gateway.persist();
 		sendQuestReport();
@@ -168,18 +168,18 @@ public class GameManagerQuestManager
 	}
 
 	/**
-	 * Get the uncompleted adventure for a player
+	 * Get the uncompleted objective for a player
 	 *
 	 * @param playerID
 	 *            the player to retrieve for
-	 * @return ArrayList of AdventureStateDTO's
+	 * @return ArrayList of ObjectiveStateDTO's
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
-	public ArrayList<AdventureRecord> getIncompleteAdventures(int playerID) throws DatabaseException
+	public ArrayList<ObjectiveRecord> getIncompleteObjectives(int playerID) throws DatabaseException
 	{
 		PlayerMapper mapper = new PlayerMapper(playerID);
-		return mapper.getIncompleteAdventures();
+		return mapper.getIncompleteObjectives();
 	}
 
 	/**
@@ -197,8 +197,8 @@ public class GameManagerQuestManager
 	 *            - The Position
 	 * @param experiencePointsGained
 	 *            - The experience gained
-	 * @param adventuresForFulfillment
-	 *            - Adventures to fulfill the quest
+	 * @param objectivesForFulfillment
+	 *            - Objectives to fulfill the quest
 	 * @param completionActionType
 	 *            - How you complete the quest
 	 * @param completionActionParameter
@@ -211,7 +211,7 @@ public class GameManagerQuestManager
 	 *             - If it fails to access or update data in the database
 	 */
 	public void editQuest(int questID, String questTitle, String questDescription, String triggerMapName,
-						  Position triggerPosition, int experiencePointsGained, int adventuresForFulfillment,
+						  Position triggerPosition, int experiencePointsGained, int objectivesForFulfillment,
 						  QuestCompletionActionType completionActionType, QuestCompletionActionParameter completionActionParameter,
 						  Date startDate, Date endDate) throws DatabaseException
 	{
@@ -226,7 +226,7 @@ public class GameManagerQuestManager
 			gateway = new QuestRowDataGatewayMock(questID);
 		}
 
-		gateway.setAdventuresForFulfillment(adventuresForFulfillment);
+		gateway.setObjectivesForFulfillment(objectivesForFulfillment);
 		gateway.setCompletionActionParameter(completionActionParameter);
 		gateway.setCompletionActionType(completionActionType);
 		gateway.setEndDate(endDate);
@@ -285,25 +285,25 @@ public class GameManagerQuestManager
 
 
 	/**
-	 * Get a Row data gateway for Adventures
+	 * Get a Row data gateway for Objectives
 	 *
 	 * @param questId
 	 *            id of quest
-	 * @param adventureId
-	 *            id of adventure
+	 * @param objectiveId
+	 *            id of objective
 	 * @return the gateway
 	 * @throws DatabaseException
-	 *             will happen if adventure doesn't exist
+	 *             will happen if objective doesn't exist
 	 */
-	protected AdventureRowDataGateway getAdventureRowDataGateway(int questId, int adventureId) throws DatabaseException
+	protected ObjectiveRowDataGateway getObjectiveRowDataGateway(int questId, int objectiveId) throws DatabaseException
 	{
 		if (!OptionsManager.getSingleton().isUsingMockDataSource())
 		{
-			return new AdventureRowDataGatewayRDS(questId, adventureId);
+			return new ObjectiveRowDataGatewayRDS(questId, objectiveId);
 		}
 		else
 		{
-			return new AdventureRowDataGatewayMock(questId, adventureId);
+			return new ObjectiveRowDataGatewayMock(questId, objectiveId);
 		}
 	}
 
@@ -339,36 +339,36 @@ public class GameManagerQuestManager
 	}
 
 	/**
-	 * @return the appropriate gateway to all of the adventures
+	 * @return the appropriate gateway to all of the objectives
 	 */
-	protected AdventureTableDataGateway getAdventureTableGateway()
+	protected ObjectiveTableDataGateway getObjectiveTableGateway()
 	{
 		if (!OptionsManager.getSingleton().isUsingMockDataSource())
 		{
-			return AdventureTableDataGatewayRDS.getSingleton();
+			return ObjectiveTableDataGatewayRDS.getSingleton();
 		}
-		return AdventureTableDataGatewayMock.getSingleton();
+		return ObjectiveTableDataGatewayMock.getSingleton();
 	}
 
 	/**
-	 * Create an adventure and persist it in the data source.
+	 * Create an objective and persist it in the data source.
 	 *
 	 * @param questID
-	 *            - quest ID that this adventure belongs to
-	 * @param adventureDescription
-	 *            - description of adventure
+	 *            - quest ID that this objective belongs to
+	 * @param objectiveDescription
+	 *            - description of objective
 	 * @param experiencePointsGained
-	 *            - experience points gained by completing adventure
+	 *            - experience points gained by completing objective
 	 * @param type
-	 *            - adventure completion type
+	 *            - objective completion type
 	 * @param criteria
-	 *            - adventure completion criteria
-	 * @return - true if adventure successfully added
+	 *            - objective completion criteria
+	 * @return - true if objective successfully added
 	 * @throws DatabaseException
 	 *             - quests unable to be loaded from data source
 	 */
-	public boolean addAdventure(int questID, String adventureDescription, int experiencePointsGained,
-								AdventureCompletionType type, AdventureCompletionCriteria criteria) throws DatabaseException
+	public boolean addObjective(int questID, String objectiveDescription, int experiencePointsGained,
+								ObjectiveCompletionType type, ObjectiveCompletionCriteria criteria) throws DatabaseException
 	{
 		final QuestRecord quest = getQuest(questID);
 		if (quest == null)
@@ -376,16 +376,16 @@ public class GameManagerQuestManager
 			return false;
 		}
 
-		final int adventureId = getAdventureTableGateway().getNextAdventureID(questID);
-		final AdventureRecord adventure = new AdventureRecord(questID, adventureId, adventureDescription,
+		final int ObjectiveId = getObjectiveTableGateway().getNextObjectiveID(questID);
+		final ObjectiveRecord objective = new ObjectiveRecord(questID, ObjectiveId, objectiveDescription,
 				experiencePointsGained, type, criteria);
-		quest.getAdventures().add(adventure);
+		quest.getObjectives().add(objective);
 
 		if (!OptionsManager.getSingleton().isUsingMockDataSource())
 		{
 			try
 			{
-				new AdventureRowDataGatewayRDS(adventureId, adventureDescription, questID, experiencePointsGained, type,
+				new ObjectiveRowDataGatewayRDS(ObjectiveId, objectiveDescription, questID, experiencePointsGained, type,
 						criteria);
 			}
 			catch (DatabaseException e)
@@ -395,7 +395,7 @@ public class GameManagerQuestManager
 		}
 		else
 		{
-			new AdventureRowDataGatewayMock(adventureId, adventureDescription, questID, experiencePointsGained, type,
+			new ObjectiveRowDataGatewayMock(ObjectiveId, objectiveDescription, questID, experiencePointsGained, type,
 					criteria);
 		}
 
@@ -405,22 +405,22 @@ public class GameManagerQuestManager
 	}
 
 	/**
-	 * Delete an adventure
+	 * Delete an objective
 	 *
 	 * @param questId
 	 *            quest
-	 * @param adventureId
-	 *            adventure
+	 * @param objectiveId
+	 *            objective
 	 * @return True if successful and false if not
 	 */
-	public boolean deleteAdventure(int questId, int adventureId)
+	public boolean deleteObjective(int questId, int objectiveId)
 	{
 		try
 		{
-			AdventureRowDataGateway gateway = getAdventureRowDataGateway(questId, adventureId);
+			ObjectiveRowDataGateway gateway = getObjectiveRowDataGateway(questId, objectiveId);
 			QuestRecord quest = getQuest(questId);
-			quest.getAdventures().remove(quest.getAdventureD(adventureId));
-			gateway.removeAdventure();
+			quest.getObjectives().remove(quest.getObjectiveID(objectiveId));
+			gateway.removeObjective();
 			sendQuestReport();
 			return true;
 
@@ -439,21 +439,21 @@ public class GameManagerQuestManager
 	 */
 	public void sendQuestReport() throws DatabaseException
 	{
-		AllQuestsAndAdventuresReport report = new AllQuestsAndAdventuresReport(this.getQuests());
+		AllQuestsAndObjectivesReport report = new AllQuestsAndObjectivesReport(this.getQuests());
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 	}
 
 	/**
-	 * Sends a report containing adventures that have not been completed based on a
+	 * Sends a report containing objectives that have not been completed based on a
 	 * playerID
 	 * @param playerID the one we are interested in
 	 *
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
-	public void sendUncompletedAdventuresReport(int playerID) throws DatabaseException
+	public void sendUncompletedObjectivesReport(int playerID) throws DatabaseException
 	{
-		PlayersUncompletedAdventuresReport report = new PlayersUncompletedAdventuresReport(new PlayerMapper(playerID).getIncompleteAdventures());
+		PlayersUncompletedObjectivesReport report = new PlayersUncompletedObjectivesReport(new PlayerMapper(playerID).getIncompleteObjectives());
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 	}
 
@@ -472,14 +472,14 @@ public class GameManagerQuestManager
 		{
 			QuestRowDataGateway gateway = getQuestRowDataGateway(questID);
 			QuestRecord quest = getQuest(questID);
-			ArrayList<AdventureRecord> adventureList = quest.getAdventures();
+			ArrayList<ObjectiveRecord> objectiveList = quest.getObjectives();
 
-			for (AdventureRecord a : adventureList)
+			for (ObjectiveRecord objective : objectiveList)
 			{
-				AdventureRowDataGateway advGateway = getAdventureRowDataGateway(questID, a.getAdventureID());
-				advGateway.removeAdventure();
+				ObjectiveRowDataGateway objectiveRDG = getObjectiveRowDataGateway(questID, objective.getObjectiveID());
+				objectiveRDG.removeObjective();
 			}
-			quest.setAdventures(new ArrayList<>());
+			quest.setObjectives(new ArrayList<>());
 			gateway.remove();
 			sendQuestReport();
 			return true;
@@ -492,9 +492,9 @@ public class GameManagerQuestManager
 
 	/**
 	 *
-	 * @throws DatabaseException if we fail to delete all of the adventures
+	 * @throws DatabaseException if we fail to delete all of the objectives
 	 */
-	protected void removeAllQuestsAdventures() throws DatabaseException
+	protected void removeAllQuestsObjectives() throws DatabaseException
 	{
 		ArrayList<QuestRecord> quests = getQuests();
 		while (quests.size() != 0)
@@ -526,19 +526,19 @@ public class GameManagerQuestManager
 		if (OptionsManager.getSingleton().isUsingMockDataSource())
 		{
 			this.questStateGateway = QuestStateTableDataGatewayMock.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayMock.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayMock.getSingleton();
 
 		}
 		else
 		{
 			this.questStateGateway = QuestStateTableDataGatewayRDS.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayRDS.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayRDS.getSingleton();
 		}
 		questStateGateway.udpateState(playerID, questID, QuestStateEnum.TRIGGERED, false);
-		ArrayList<AdventureRecord> adventureList = this.getAdventureTableGateway().getAdventuresForQuest(questID);
-		for (AdventureRecord a : adventureList)
+		ArrayList<ObjectiveRecord> objectiveList = this.getObjectiveTableGateway().getObjectivesForQuest(questID);
+		for (ObjectiveRecord objective : objectiveList)
 		{
-			adventureStateGateway.updateState(playerID, questID, a.getAdventureID(), AdventureStateEnum.TRIGGERED,
+			objectiveStateGateway.updateState(playerID, questID, objective.getObjectiveID(), ObjectiveStateEnum.TRIGGERED,
 					false);
 		}
 	}

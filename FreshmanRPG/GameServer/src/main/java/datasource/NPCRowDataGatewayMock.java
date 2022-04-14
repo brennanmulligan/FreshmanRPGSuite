@@ -17,10 +17,12 @@ public class NPCRowDataGatewayMock implements NPCRowDataGateway
 	private class NPCInfo
 	{
 		private String behaviorClass;
+		private String filePath;
 
-		public NPCInfo(String behaviorClass)
+		public NPCInfo(String behaviorClass, String filePath)
 		{
 			this.behaviorClass = behaviorClass;
+			this.filePath = filePath;
 		}
 
 		public String getBehaviorClass()
@@ -28,6 +30,10 @@ public class NPCRowDataGatewayMock implements NPCRowDataGateway
 			return behaviorClass;
 		}
 
+		public String getFilePath()
+		{
+			return filePath;
+		}
 	}
 
 	/**
@@ -77,7 +83,7 @@ public class NPCRowDataGatewayMock implements NPCRowDataGateway
 		npcInfo = new HashMap<>();
 		for (NPCsForTest p : NPCsForTest.values())
 		{
-			npcInfo.put(p.getPlayerID(), new NPCInfo(p.getBehaviorClass()));
+			npcInfo.put(p.getPlayerID(), new NPCInfo(p.getBehaviorClass(), p.getFilePath()));
 		}
 	}
 
@@ -88,6 +94,15 @@ public class NPCRowDataGatewayMock implements NPCRowDataGateway
 	public String getBehaviorClass()
 	{
 		return info.getBehaviorClass();
+	}
+
+	/**
+	 * @see datasource.NPCRowDataGateway#getFilePath()
+	 */
+	@Override
+	public String getFilePath()
+	{
+		return info.getFilePath();
 	}
 
 	/**

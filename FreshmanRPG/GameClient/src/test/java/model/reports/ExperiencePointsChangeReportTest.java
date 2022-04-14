@@ -35,6 +35,6 @@ public class ExperiencePointsChangeReportTest
 	@Test
 	public void testEqualsContract()
 	{
-		EqualsVerifier.forClass(KnowledgePointsChangeReport.class).verify();
+		EqualsVerifier.forClass(DoubloonChangeReport.class).verify();
 	}
 }

@@ -8,6 +8,8 @@ import org.junit.Test;
 import model.OptionsManager;
 import datatypes.PlayersForTest;
 
+import java.util.ArrayList;
+
 /**
  * @author alan, regi
  *
@@ -39,7 +41,8 @@ public class AddExistingPlayerReportTest
 				PlayersForTest.JOHN.getPosition(),
 				PlayersForTest.JOHN.getCrew(),
 				PlayersForTest.JOHN.getMajor(),
-				PlayersForTest.JOHN.getSection()
+				PlayersForTest.JOHN.getSection(),
+				new ArrayList<>()
 		);
 
 		assertEquals(PlayersForTest.QUIZBOT.getPlayerID(), report.getRecipientPlayerID());

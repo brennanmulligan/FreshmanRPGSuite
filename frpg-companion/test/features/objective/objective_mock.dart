@@ -4,6 +4,7 @@ import 'package:mockito/annotations.dart';
 
 @GenerateMocks([
   ServiceClient,
+  FetchAllObjectiveDatasource,
   CompleteObjectiveDatasource,
   ObjectiveRepository,
 ])

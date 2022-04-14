@@ -54,3 +54,13 @@ class HTTPFailure extends Failure {
           message,
         ]);
 }
+
+class LocationAccessFailure extends Failure {
+  final String message;
+
+  LocationAccessFailure({
+    required this.message,
+  }) : super(properties: [
+          message,
+        ]);
+}

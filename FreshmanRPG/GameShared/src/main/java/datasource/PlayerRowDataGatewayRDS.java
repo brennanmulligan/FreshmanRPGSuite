@@ -22,7 +22,7 @@ public class PlayerRowDataGatewayRDS implements PlayerRowDataGateway
 	 */
 	public static void createTable() throws DatabaseException
 	{
-		String dropSql = "DROP TABLE IF EXISTS VisitedMaps, PlayerConnection,PlayerLogins,NPCs,Players";
+		String dropSql = "DROP TABLE IF EXISTS VisitedMaps, PlayerConnection,PlayerLogins,NPCs,VanityInventory, Players";
 		String playerCreationSql = "CREATE TABLE Players ("
 				+ "playerID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
 				+ "appearanceType VARCHAR(255),"

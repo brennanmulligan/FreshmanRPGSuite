@@ -1,11 +1,10 @@
 package communication.packers;
 
-import java.util.ArrayList;
-
 import communication.messages.Message;
-import communication.messages.PlayerAppearanceChangeMessage;
 import model.QualifiedObservableReport;
 import model.reports.PlayerAppearanceChangeReport;
+
+import java.util.ArrayList;
 
 /**
  * @author sb6844
@@ -31,12 +30,12 @@ public class PlayerAppearanceChangeMessagePacker extends MessagePacker
 	@Override
 	public Message pack(QualifiedObservableReport object)
 	{
-		PlayerAppearanceChangeReport report = (PlayerAppearanceChangeReport) object;
-		if (this.getAccumulator().getPlayerID() == report.getPlayerID())
-		{
-			PlayerAppearanceChangeMessage msg = new PlayerAppearanceChangeMessage(report.getPlayerID(), report.getAppearanceType());
-			return msg;
-		}
+//		PlayerAppearanceChangeReport report = (PlayerAppearanceChangeReport) object;
+//		if (this.getAccumulator().getPlayerID() == report.getPlayerID())
+//		{
+//			PlayerAppearanceChangeMessage msg = new PlayerAppearanceChangeMessage(report.getPlayerID(), report.getAppearanceType());
+//			return msg;
+//		}
 		return null;
 	}
 

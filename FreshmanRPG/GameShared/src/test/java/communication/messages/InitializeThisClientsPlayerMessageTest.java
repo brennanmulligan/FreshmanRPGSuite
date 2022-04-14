@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import dataDTO.FriendDTO;
 import datasource.LevelRecord;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import datatypes.FriendStatusEnum;
 import datatypes.PlayersForTest;
@@ -31,14 +31,14 @@ public class InitializeThisClientsPlayerMessageTest
 	@Test
 	public void testInitialize()
 	{
-		ClientPlayerAdventureStateDTO adventureOne = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 3,
-				AdventureStateEnum.HIDDEN, false, true, "Dean", QuestStateEnum.AVAILABLE);
-		ClientPlayerAdventureStateDTO adventureTwo = new ClientPlayerAdventureStateDTO(2, "Test Adventure 2", 3,
-				AdventureStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveOne = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 3,
+				ObjectiveStateEnum.HIDDEN, false, true, "Dean", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 3,
+				ObjectiveStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 42, 13, true,
 				null);
-		q.addAdventure(adventureOne);
-		q.addAdventure(adventureTwo);
+		q.addObjective(objectiveOne);
+		q.addObjective(objectiveTwo);
 		ArrayList<ClientPlayerQuestStateDTO> list = new ArrayList<>();
 		list.add(q);
 		LevelRecord level = new LevelRecord("One", 15, 10, 7);
@@ -52,16 +52,16 @@ public class InitializeThisClientsPlayerMessageTest
 		InitializeThisClientsPlayerMessage message = new InitializeThisClientsPlayerMessage(list, mockFriends, 20, 50, level);
 
 		assertEquals(20, message.getExperiencePts());
-		assertEquals(50, message.getKnowledgePoints());
+		assertEquals(50, message.getDoubloons());
 		assertEquals("One", message.getLevel().getDescription());
 		assertEquals(1, message.getClientPlayerQuestList().size());
 		ClientPlayerQuestStateDTO firstQuest = message.getClientPlayerQuestList().get(0);
 		assertEquals(42, firstQuest.getExperiencePointsGained());
-		assertEquals(13, firstQuest.getAdventuresToFulfillment());
+		assertEquals(13, firstQuest.getObjectivesToFulfillment());
 		assertTrue(firstQuest.isNeedingNotification());
-		ClientPlayerAdventureStateDTO firstAdventure = firstQuest.getAdventureList().get(0);
-		assertTrue(firstAdventure.isRealLifeAdventure());
-		assertEquals("Dean", firstAdventure.getWitnessTitle());
+		ClientPlayerObjectiveStateDTO firstObjective = firstQuest.getObjectiveList().get(0);
+		assertTrue(firstObjective.isRealLifeObjective());
+		assertEquals("Dean", firstObjective.getWitnessTitle());
 		ArrayList<FriendDTO> friends = message.getFriends();
 		assertEquals(2, friends.get(0).getPlayerID());
 		assertEquals(3, friends.get(1).getFriendID());

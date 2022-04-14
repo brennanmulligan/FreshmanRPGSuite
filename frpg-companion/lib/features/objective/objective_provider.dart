@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frpg_companion/features/network/network.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'objective.dart';
 
 ///
@@ -28,11 +29,21 @@ class ObjectiveProvider {
   });
 
   ///
+  /// The fetch all objectives datasource
+  ///
+  static final fetchAllObjectiveDatasource =
+      Provider<FetchAllObjectiveDatasource>((ref) {
+    return FetchAllObjectiveDatasourceHTTP(
+      sc: ref.watch(NetworkProvider.serviceClient),
+    );
+  });
+
   /// The objective repository.
   ///
   static final objectiveRepository = Provider<ObjectiveRepository>((ref) {
     return ObjectiveRepositoryHTTP(
       completeObjectiveDatasource: ref.watch(completeObjectiveDatasource),
+      fetchAllObjectiveDatasource: ref.watch(fetchAllObjectiveDatasource),
     );
   });
 }

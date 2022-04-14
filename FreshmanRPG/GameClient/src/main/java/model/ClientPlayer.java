@@ -1,14 +1,16 @@
 package model;
 
-import java.util.Objects;
-import java.util.Observable;
-
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
+import datatypes.VanityType;
 import model.reports.ChangeMapReport;
 import model.reports.ChangePlayerAppearanceReport;
 import model.reports.ClientPlayerMovedReport;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Holds the information about one player in the system
@@ -21,7 +23,8 @@ public class ClientPlayer
     protected final int id;
     protected String name;
     protected Position position;
-    protected String appearanceType;
+    protected List<VanityDTO> vanities;
+    protected List<VanityDTO> ownedItems;
     private Crew crew;
     private Major major;
     private int section;
@@ -49,13 +52,15 @@ public class ClientPlayer
             return false;
         }
 		ClientPlayer that = (ClientPlayer) o;
-		return id == that.id && section == that.section && Objects.equals(name, that.name) && Objects.equals(position, that.position) && Objects.equals(appearanceType, that.appearanceType) && crew == that.crew && major == that.major;
+		return id == that.id && section == that.section && Objects.equals(name, that.name)
+                && Objects.equals(position, that.position) && Objects.equals(vanities, that.vanities)
+                && crew == that.crew && major == that.major && Objects.equals(ownedItems, that.ownedItems);
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return Objects.hash(id, name, position, appearanceType, crew, major, section);
+		return Objects.hash(id, name, position, vanities, crew, major, section, ownedItems);
 	}
 
 	/**
@@ -79,11 +84,19 @@ public class ClientPlayer
     }
 
     /**
-     * @return this player's appearance type
+     * @return The list of all of the vanities a player has
      */
-    public String getAppearanceType()
+    public List<VanityDTO> getVanities()
     {
-        return this.appearanceType;
+        return vanities;
+    }
+
+    /**
+     * @return a list of vanity items this player owns
+     */
+    public List<VanityDTO> getOwnedItems()
+    {
+        return ownedItems;
     }
 
     /**
@@ -97,25 +110,39 @@ public class ClientPlayer
     }
 
     /**
-     * Set this player's appearance. Does not send a report.
-     *
-     * @param appearanceType the new appearance type
+     * Set the players bodyID no report
      */
-    public void setAppearanceTypeNoReport(String appearanceType)
+    public void setVanityNoReport(List<VanityDTO> vanities)
     {
-        this.appearanceType = appearanceType;
+        this.vanities = vanities;
+    }
+
+    public void setVanityReport(List<VanityDTO> vanities)
+    {
+        this.vanities = vanities;
+        QualifiedObservableConnector.getSingleton()
+                .sendReport(new ChangePlayerAppearanceReport(this.id, vanities));
     }
 
     /**
-     * Set this player's appearance. Sends a report.
-     *
-     * @param appearanceType - the new appearance type
+     * Checks if the item is already owned, if not then add
+     * @param item
      */
-    public void setAppearanceTypeReport(String appearanceType)
+    public void addItemToInventory(VanityDTO item)
     {
-        this.appearanceType = appearanceType;
-        QualifiedObservableConnector.getSingleton()
-                .sendReport(new ChangePlayerAppearanceReport(this.id, appearanceType));
+        if (!ownedItems.contains(item))
+        {
+            ownedItems.add(item);
+        }
+    }
+
+    /**
+     * Sets the players owned vanity items
+     * @param ownedItems a list of vanity items this player owns
+     */
+    public void setOwnedItems(List<VanityDTO> ownedItems)
+    {
+        this.ownedItems = ownedItems;
     }
 
     /**

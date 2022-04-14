@@ -1,31 +1,31 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import datasource.AdventureRowDataGatewayMockTest;
-import datasource.AdventureRowDataGatewayRDSTest;
+import datasource.ObjectiveRowDataGatewayMockTest;
+import datasource.ObjectiveRowDataGatewayRDSTest;
 import datasource.CSVPlayerGatewayTest;
 import datasource.NPCQuestionTableDataGatewayMockTest;
 import datasource.NPCQuestionTableDataGatewayRDSTest;
 import datasource.QuestTableDataGatewayMockTest;
 import datasource.QuestTableDataGatewayRDSTest;
-import model.CommandAddAdventureTest;
+import model.CommandAddObjectiveTest;
 import model.CommandAddPlayerTest;
 import model.CommandAddQuestTest;
 import model.CommandAddQuestionTest;
-import model.CommandAdventureCompletedTest;
-import model.CommandDeleteAdventureTest;
+import model.CommandObjectiveCompletedTest;
+import model.CommandDeleteObjectiveTest;
 import model.CommandDeleteInteractableObjectTest;
 import model.CommandDeletePlayerTest;
 import model.CommandDeleteQuestTest;
 import model.CommandDeleteQuestionTest;
-import model.CommandEditAdventureTest;
+import model.CommandEditObjectiveTest;
 import model.CommandEditInteractableObjectTest;
 import model.CommandEditPlayerTest;
 import model.CommandEditQuestTest;
 import model.CommandGetAllInteractableObjectsTest;
 import model.CommandGetAllPlayersTest;
 import model.CommandGetAllQuestionsTest;
-import model.CommandGetAllQuestsAndAdventuresTest;
+import model.CommandGetAllQuestsAndObjectivesTest;
 import model.CommandImportPlayersTest;
 import model.CommandImportQuestTest;
 import model.CommandImportQuestionTest;
@@ -36,9 +36,9 @@ import model.GameManagerQuestManagerTest;
 import model.PlayerManagerTest;
 import model.QuestionManagerTest;
 import model.reports.AllPlayersReportTest;
-import model.reports.AllQuestsAndAdventuresReportTest;
+import model.reports.AllQuestsAndObjectivesReportTest;
 import model.reports.InvalidInputReportTest;
-import model.reports.PlayerUncompletedAdventuresReportTest;
+import model.reports.PlayerUncompletedObjectivesReportTest;
 import model.reports.QuestionInfoTest;
 import model.reports.QuestionListReportTest;
 
@@ -56,40 +56,40 @@ import model.reports.QuestionListReportTest;
 @Suite.SuiteClasses(
 		{
 				//data source
-				AdventureRowDataGatewayMockTest.class,
-				AdventureRowDataGatewayRDSTest.class,
-				// AdventureRowDataGatewayTest.class
+				// ObjectiveRowDataGatewayTest.class
+				// NPCQuestionTableDataGatewayTest.class,
+				// QuestTableDataGatewayTest.class,
 				CSVPlayerGatewayTest.class,
 				NPCQuestionTableDataGatewayMockTest.class,
 				NPCQuestionTableDataGatewayRDSTest.class,
-				// NPCQuestionTableDataGatewayTest.class,
+				ObjectiveRowDataGatewayMockTest.class,
+				ObjectiveRowDataGatewayRDSTest.class,
 				QuestTableDataGatewayMockTest.class,
 				QuestTableDataGatewayRDSTest.class,
-				// QuestTableDataGatewayTest.class,
 
 				// model
-				CommandAddAdventureTest.class,
+				CommandAddObjectiveTest.class,
 				CommandAddPlayerTest.class,
-				CommandAddQuestionTest.class,
 				CommandAddQuestTest.class,
-				CommandDeleteAdventureTest.class,
-				CommandDeletePlayerTest.class,
-				CommandDeleteQuestionTest.class,
-				CommandDeleteQuestTest.class,
+				CommandAddQuestionTest.class,
 				CommandDeleteInteractableObjectTest.class,
-				CommandEditAdventureTest.class,
+				CommandDeleteObjectiveTest.class,
+				CommandDeletePlayerTest.class,
+				CommandDeleteQuestTest.class,
+				CommandDeleteQuestionTest.class,
+				CommandEditInteractableObjectTest.class,
+				CommandEditObjectiveTest.class,
 				CommandEditPlayerTest.class,
 				CommandEditQuestTest.class,
-				CommandEditInteractableObjectTest.class,
 				CommandGetAllInteractableObjectsTest.class,
 				CommandGetAllPlayersTest.class,
 				CommandGetAllQuestionsTest.class,
-				CommandGetAllQuestsAndAdventuresTest.class,
+				CommandGetAllQuestsAndObjectivesTest.class,
 				CommandImportPlayersTest.class,
-				CommandImportQuestionTest.class,
 				CommandImportQuestTest.class,
+				CommandImportQuestionTest.class,
+				CommandObjectiveCompletedTest.class,
 				CommandUpdateQuestionTest.class,
-				CommandAdventureCompletedTest.class,
 				GameManagerInteractableObjectManagerTest.class,
 				GameManagerPlayerManagerTest.class,
 				GameManagerQuestManagerTest.class,
@@ -99,11 +99,11 @@ import model.reports.QuestionListReportTest;
 
 				//model.reports
 				AllPlayersReportTest.class,
-				AllQuestsAndAdventuresReportTest.class,
-				PlayerUncompletedAdventuresReportTest.class,
+				AllQuestsAndObjectivesReportTest.class,
+				InvalidInputReportTest.class,
+				PlayerUncompletedObjectivesReportTest.class,
 				QuestionInfoTest.class,
 				QuestionListReportTest.class,
-				InvalidInputReportTest.class,
 
 				//ui
 		})

@@ -4,7 +4,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * @author Josh McMillen, Ben Uleau Main menu that holds the player, quizbot,
- *         and adventure buttons
+ *         and objective buttons
  */
 public class MainMenu extends VBox
 {
@@ -17,11 +17,11 @@ public class MainMenu extends VBox
 	{
 		// Set basic parameters
 		this.setId("MainMenu");
-		// Add the player menu button, adventure menu button, and quizbot menu buttons
+		// Add the player menu button, objective menu button, and quizbot menu buttons
 		// to the main menu
 		this.getChildren().addAll(
 				PlayerMenuButton.getInstance(),
-				AdventureMenuButton.getInstance(),
+				ObjectiveMenuButton.getInstance(),
 				QuizbotMenuButton.getInstance(),
 				InteractableObjectMenuButton.getInstance(),
 				MessageBoardMenuButton.getInstance());

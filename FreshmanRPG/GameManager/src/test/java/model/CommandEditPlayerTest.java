@@ -50,7 +50,7 @@ public class CommandEditPlayerTest
 
 		assertEquals("Regi", player.getPlayerName());
 		assertEquals("test_appearance_type", player.getAppearanceType());
-		assertEquals(9000, player.getKnowledgePoints());
+		assertEquals(9000, player.getDoubloons());
 		assertEquals(1234, player.getExperiencePoints());
 		assertEquals(Crew.OFF_BY_ONE, player.getCrew());
 		assertEquals(Major.ELECTRICAL_ENGINEERING, player.getMajor());

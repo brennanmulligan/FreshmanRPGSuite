@@ -97,7 +97,7 @@ public class PlayerManagerTest
 		AddExistingPlayerReport expected = new AddExistingPlayerReport(PlayersForTest.MATT.getPlayerID(),
 				PlayersForTest.MERLIN.getPlayerID(), PlayersForTest.MERLIN.getPlayerName(),
 				PlayersForTest.MERLIN.getAppearanceType(), PlayersForTest.MERLIN.getPosition(),
-				PlayersForTest.MERLIN.getCrew(), PlayersForTest.MERLIN.getMajor(), PlayersForTest.MERLIN.getSection());
+				PlayersForTest.MERLIN.getCrew(), PlayersForTest.MERLIN.getMajor(), PlayersForTest.MERLIN.getSection(), new ArrayList<>());
 		;
 		obs.receiveReport(expected);
 		EasyMock.replay(obs);

@@ -20,13 +20,19 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeServiceClient_0 extends _i1.Fake implements _i2.ServiceClient {}
 
-class _FakeCompleteObjectiveResponse_1 extends _i1.Fake
+class _FakeFetchAllObjectiveResponse_1 extends _i1.Fake
+    implements _i3.FetchAllObjectiveResponse {}
+
+class _FakeCompleteObjectiveResponse_2 extends _i1.Fake
     implements _i3.CompleteObjectiveResponse {}
 
-class _FakeCompleteObjectiveDatasource_2 extends _i1.Fake
+class _FakeCompleteObjectiveDatasource_3 extends _i1.Fake
     implements _i3.CompleteObjectiveDatasource {}
 
-class _FakeResult_3<T> extends _i1.Fake implements _i2.Result<T> {}
+class _FakeFetchAllObjectiveDatasource_4 extends _i1.Fake
+    implements _i3.FetchAllObjectiveDatasource {}
+
+class _FakeResult_5<T> extends _i1.Fake implements _i2.Result<T> {}
 
 /// A class which mocks [ServiceClient].
 ///
@@ -61,6 +67,28 @@ class MockServiceClient extends _i1.Mock implements _i2.ServiceClient {
           .Future<Map<String, dynamic>>);
 }
 
+/// A class which mocks [FetchAllObjectiveDatasource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFetchAllObjectiveDatasource extends _i1.Mock
+    implements _i3.FetchAllObjectiveDatasource {
+  MockFetchAllObjectiveDatasource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.ServiceClient get sc => (super.noSuchMethod(Invocation.getter(#sc),
+      returnValue: _FakeServiceClient_0()) as _i2.ServiceClient);
+  @override
+  _i4.Future<_i3.FetchAllObjectiveResponse> fetchAllObjective(
+          {_i3.FetchAllObjectiveRequest? request}) =>
+      (super.noSuchMethod(
+              Invocation.method(#fetchAllObjective, [], {#request: request}),
+              returnValue: Future<_i3.FetchAllObjectiveResponse>.value(
+                  _FakeFetchAllObjectiveResponse_1()))
+          as _i4.Future<_i3.FetchAllObjectiveResponse>);
+}
+
 /// A class which mocks [CompleteObjectiveDatasource].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -79,7 +107,7 @@ class MockCompleteObjectiveDatasource extends _i1.Mock
       (super.noSuchMethod(
               Invocation.method(#completeObjective, [], {#request: request}),
               returnValue: Future<_i3.CompleteObjectiveResponse>.value(
-                  _FakeCompleteObjectiveResponse_1()))
+                  _FakeCompleteObjectiveResponse_2()))
           as _i4.Future<_i3.CompleteObjectiveResponse>);
 }
 
@@ -95,14 +123,27 @@ class MockObjectiveRepository extends _i1.Mock
   @override
   _i3.CompleteObjectiveDatasource get completeObjectiveDatasource =>
       (super.noSuchMethod(Invocation.getter(#completeObjectiveDatasource),
-              returnValue: _FakeCompleteObjectiveDatasource_2())
+              returnValue: _FakeCompleteObjectiveDatasource_3())
           as _i3.CompleteObjectiveDatasource);
+  @override
+  _i3.FetchAllObjectiveDatasource get fetchAllObjectiveDatasource =>
+      (super.noSuchMethod(Invocation.getter(#fetchAllObjectiveDatasource),
+              returnValue: _FakeFetchAllObjectiveDatasource_4())
+          as _i3.FetchAllObjectiveDatasource);
   @override
   _i4.Future<_i2.Result<_i3.CompleteObjectiveResponse>> completeObjective(
           {_i3.CompleteObjectiveRequest? request}) =>
       (super.noSuchMethod(
           Invocation.method(#completeObjective, [], {#request: request}),
           returnValue: Future<_i2.Result<_i3.CompleteObjectiveResponse>>.value(
-              _FakeResult_3<_i3.CompleteObjectiveResponse>())) as _i4
+              _FakeResult_5<_i3.CompleteObjectiveResponse>())) as _i4
           .Future<_i2.Result<_i3.CompleteObjectiveResponse>>);
+  @override
+  _i4.Future<_i2.Result<_i3.FetchAllObjectiveResponse>> fetchAllObjectives(
+          {_i3.FetchAllObjectiveRequest? request}) =>
+      (super.noSuchMethod(
+          Invocation.method(#fetchAllObjectives, [], {#request: request}),
+          returnValue: Future<_i2.Result<_i3.FetchAllObjectiveResponse>>.value(
+              _FakeResult_5<_i3.FetchAllObjectiveResponse>())) as _i4
+          .Future<_i2.Result<_i3.FetchAllObjectiveResponse>>);
 }

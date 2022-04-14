@@ -7,23 +7,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import datasource.*;
 import datatypes.PlayersForTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataDTO.AdventureStateRecordDTO;
+import dataDTO.ObjectiveStateRecordDTO;
 import dataDTO.PlayerDTO;
-import datasource.AdventureStateTableDataGatewayMock;
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
-import datasource.PlayerLoginRowDataGatewayMock;
-import datasource.PlayerRowDataGatewayMock;
-import datasource.QuestStateTableDataGatewayMock;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
-import datatypes.AdventureStatesForTest;
+import datatypes.ObjectiveStatesForTest;
 import datatypes.QuestStatesForTest;
 
 /**
@@ -46,7 +41,7 @@ public class PlayerMapperTest
 		new PlayerRowDataGatewayMock().resetData();
 		new PlayerLoginRowDataGatewayMock().resetData();
 		QuestStateTableDataGatewayMock.getSingleton().resetData();
-		AdventureStateTableDataGatewayMock.getSingleton().resetData();
+		ObjectiveStateTableDataGatewayMock.getSingleton().resetData();
 		QuestManager.resetSingleton();
 		new PlayerConnectionRowDataGatewayMock(1).resetData();
 	}
@@ -77,16 +72,16 @@ public class PlayerMapperTest
 						qs.getQuestID());
 				assertEquals(qs.getState(), playerQuestState.getStateValue());
 				assertEquals(qs.isNeedingNotification(), playerQuestState.isNeedingNotification());
-				for (AdventureStatesForTest as : AdventureStatesForTest.values())
+				for (ObjectiveStatesForTest as : ObjectiveStatesForTest.values())
 				{
-					ArrayList<AdventureState> adventureList = playerQuestState.getAdventureList();
+					ArrayList<ObjectiveState> objectiveList = playerQuestState.getObjectiveList();
 					if ((as.getPlayerID() == testPlayer.getPlayerID()) && (as.getQuestID() == playerQuestState.getID()))
 					{
-						AdventureState expected = new AdventureState(as.getAdventureID(), as.getState(),
+						ObjectiveState expected = new ObjectiveState(as.getObjectiveID(), as.getState(),
 								as.isNeedingNotification());
 						expected.setParentQuest(playerQuestState);
-						assertTrue("questID " + qs.getQuestID() + " adventureID " + as.getAdventureID() + " state "
-								+ as.getState(), adventureList.contains(expected));
+						assertTrue("questID " + qs.getQuestID() + " objectiveID " + as.getObjectiveID() + " state "
+								+ as.getState(), objectiveList.contains(expected));
 					}
 				}
 			}
@@ -125,7 +120,7 @@ public class PlayerMapperTest
 	protected PlayerDTO getPlayerWeAreCreating()
 	{
 		return new PlayerDTO(-1, "the player name", "the player password", "the appearance type", 12,
-				new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, new ArrayList<>());
+				new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, new ArrayList<>(), new ArrayList<>());
 	}
 
 	protected PlayerMapper findMapperForID(int playerID) throws DatabaseException
@@ -135,7 +130,7 @@ public class PlayerMapperTest
 
 	protected PlayerMapper createMapperForPlayer(PlayerDTO player) throws DatabaseException
 	{
-		return new PlayerMapper(player.getPosition(), player.getAppearanceType(), player.getKnowledgePoints(),
+		return new PlayerMapper(player.getPosition(), player.getAppearanceType(), player.getDoubloons(),
 				player.getExperiencePoints(), player.getCrew(), player.getMajor(), player.getSection(),
 				player.getPlayerName(), player.getPlayerPassword());
 	}
@@ -145,7 +140,7 @@ public class PlayerMapperTest
 		assertEquals(expected.getAppearanceType(), actual.getAppearanceType());
 		assertEquals(expected.getPlayerName(), actual.getPlayerName());
 		assertEquals(expected.getPosition(), actual.getPosition());
-		assertEquals(expected.getKnowledgePoints(), actual.getKnowledgePoints());
+		assertEquals(expected.getDoubloons(), actual.getDoubloons());
 		assertEquals(expected.getMapName(), actual.getMapName());
 		assertEquals(expected.getExperiencePoints(), actual.getExperiencePoints());
 		assertEquals(expected.getCrew(), actual.getCrew());
@@ -162,18 +157,19 @@ public class PlayerMapperTest
 		assertPlayersEqual(expected.getPlayerInfo(), actual.getPlayerInfo());
 	}
 
+	//TODO: Modify PlayersForTest to handle vanity items
 	protected void assertPlayersEqual(PlayersForTest expected, Player actual)
 	{
 		PlayerDTO dto = new PlayerDTO(expected.getPlayerID(), expected.getPlayerName(), expected.getPlayerPassword(),
-				expected.getAppearanceType(), expected.getKnowledgeScore(), expected.getPosition(),
+				expected.getAppearanceType(), expected.getDoubloons(), expected.getPosition(),
 				expected.getMapName(), expected.getExperiencePoints(), expected.getCrew(), expected.getMajor(),
-				expected.getSection(), expected.getMapsVisited());
+				expected.getSection(), expected.getMapsVisited(), new ArrayList<>());
 
 		assertPlayersEqual(dto, actual);
 	}
 
 	/**
-	 * This must be player 2 for the quest and adventure states to match up
+	 * This must be player 2 for the quest and objective states to match up
 	 *
 	 * @return the player whose mapper we are testing
 	 */
@@ -244,19 +240,19 @@ public class PlayerMapperTest
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
 	 */
 	@Test
-	public void persists() throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void persists() throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		PlayerMapper pm = getMapper();
 		Player p = pm.getPlayer();
 		p.setAppearanceType("silly");
 		p.setPlayerPositionWithoutNotifying(new Position(42, 24));
-		p.setQuizScore(666);
+		p.setDoubloons(666);
 		p.setMapName("sillyMap");
 		p.setExperiencePoints(424);
 		p.setCrew(Crew.NULL_POINTER);
@@ -283,9 +279,9 @@ public class PlayerMapperTest
 			QuestState retrievedQuestState = QuestManager.getSingleton().getQuestStateByID(p2.getPlayerID(),
 					QuestStatesForTest.PLAYER2_QUEST1.getQuestID());
 			assertEquals(questState.getStateValue(), retrievedQuestState.getStateValue());
-			for (AdventureState a : retrievedQuestState.getAdventureList())
+			for (ObjectiveState a : retrievedQuestState.getObjectiveList())
 			{
-				assertEquals(AdventureStateEnum.TRIGGERED, a.getState());
+				assertEquals(ObjectiveStateEnum.TRIGGERED, a.getState());
 			}
 		}
 
@@ -326,26 +322,26 @@ public class PlayerMapperTest
 
 
 	/**
-	 * tests that the mapper returns an arraylist of all incomplete adventures from
+	 * tests that the mapper returns an arraylist of all incomplete objectives from
 	 * the gateway
 	 *
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
 	@Test
-	public void testGetIncompleteAdventures() throws DatabaseException
+	public void testGetIncompleteObjectives() throws DatabaseException
 	{
 		PlayerMapper pm = getMapper();
 		Player p = pm.getPlayer();
-		ArrayList<AdventureStateRecordDTO> testList = new ArrayList<>();
-		testList = AdventureStateTableDataGatewayMock.getSingleton().getUncompletedAdventuresForPlayer(p.getPlayerID());
+		ArrayList<ObjectiveStateRecordDTO> testList = new ArrayList<>();
+		testList = ObjectiveStateTableDataGatewayMock.getSingleton().getUncompletedObjectivesForPlayer(p.getPlayerID());
 
-		for (AdventureStateRecordDTO adventure : testList)
+		for (ObjectiveStateRecordDTO objective : testList)
 		{
 
-			assertFalse(adventure.getState().equals(AdventureStateEnum.COMPLETED));
-			assertFalse(adventure.getState().equals(AdventureStateEnum.HIDDEN));
-			assertFalse(adventure.getState().equals(AdventureStateEnum.EXPIRED));
+			assertFalse(objective.getState().equals(ObjectiveStateEnum.COMPLETED));
+			assertFalse(objective.getState().equals(ObjectiveStateEnum.HIDDEN));
+			assertFalse(objective.getState().equals(ObjectiveStateEnum.EXPIRED));
 		}
 	}
 

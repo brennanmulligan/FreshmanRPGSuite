@@ -67,12 +67,12 @@ public class QuestRowDataGatewayMockTest extends QuestRowDataGatewayTest
 
 	@Override
 	int createGateway(String title, String description, String mapName, Position position, int experiencedGained,
-					  int adventuresForFullfillment, QuestCompletionActionType completionActionType,
+					  int objectivesForFullfillment, QuestCompletionActionType completionActionType,
 					  QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
 			throws DatabaseException
 	{
 		QuestRowDataGatewayMock gateway = new QuestRowDataGatewayMock(title, description, mapName, position,
-				experiencedGained, adventuresForFullfillment, completionActionType, completionActionParameter,
+				experiencedGained, objectivesForFullfillment, completionActionType, completionActionParameter,
 				startDate, endDate);
 
 		return gateway.getQuestID();

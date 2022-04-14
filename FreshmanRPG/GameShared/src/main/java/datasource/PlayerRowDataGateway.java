@@ -96,7 +96,7 @@ public interface PlayerRowDataGateway
 	void delete() throws DatabaseException;
 
 	/**
-	 * @return Quiznasium Bonus Points pool of the player
+	 * @return Rec Center Bonus Points pool of the player
 	 */
 	int getBuffPool();
 

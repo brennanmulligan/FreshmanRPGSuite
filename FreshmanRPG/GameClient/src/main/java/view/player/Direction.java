@@ -3,6 +3,10 @@ package view.player;
 import com.badlogic.gdx.math.Vector2;
 
 import datatypes.Position;
+import datatypes.VanityType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Facing direction of the sprite
@@ -12,19 +16,31 @@ public enum Direction
 	/**
 	 * Looking down the screen
 	 */
-	South,
+	South(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.EYES, VanityType.HAIR, VanityType.SHIRT, VanityType.HAT, VanityType.NAMEPLATE)),
 	/**
 	 * Looking left on the screen
 	 */
-	West,
+	West(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE)),
 	/**
 	 * Looking right on the screen
 	 */
-	East,
+	East(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE)),
 	/**
 	 * Looking up the screen
 	 */
-	North;
+	North(List.of(VanityType.EYES, VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE));
+
+	List<VanityType> vanityOrder;
+
+	Direction(List<VanityType> vanityOrder)
+	{
+		this.vanityOrder = vanityOrder;
+	}
+
+	public List<VanityType> getVanityOrder()
+	{
+		return vanityOrder;
+	}
 
 	/**
 	 * Get the direction of facing between two points

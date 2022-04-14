@@ -14,7 +14,7 @@ import datasource.DatabaseManager;
 import javafx.stage.Stage;
 import manager.GameManagerFX;
 import model.OptionsManager;
-import ui.fx.contentviews.AdventureContentView;
+import ui.fx.contentviews.ObjectiveContentView;
 import ui.fx.framework.AlertBar;
 
 /**
@@ -79,8 +79,8 @@ public class DeleteQuestTest extends ApplicationTest
 	@Test
 	public void testDeleteButtonShowsConfirmation()
 	{
-		clickOn("#AdventureMenuButton");
-		AdventureContentView.getInstance().getQuestTable().getSelectionModel().select(0);
+		clickOn("#ObjectiveMenuButton");
+		ObjectiveContentView.getInstance().getQuestTable().getSelectionModel().select(0);
 		clickOn("#DeleteButton");
 		clickOn("#NoButton");
 		assertEquals("DELETE QUEST", AlertBar.getInstance().getMessage());
@@ -92,19 +92,19 @@ public class DeleteQuestTest extends ApplicationTest
 	@Test
 	public void testDeleteSelectedButton()
 	{
-		clickOn("#AdventureMenuButton");
+		clickOn("#ObjectiveMenuButton");
 
-		int sizeOfTableBeforeDelete = AdventureContentView.getInstance().getQuestTable().getItems().size();
+		int sizeOfTableBeforeDelete = ObjectiveContentView.getInstance().getQuestTable().getItems().size();
 
-		AdventureContentView.getInstance().getQuestTable().getSelectionModel()
-				.select(AdventureContentView.getInstance().getQuestTable().getItems().size() - 1);
-		System.out.println(AdventureContentView.getInstance().getQuestTable().getSelectionModel().getSelectedItem()
+		ObjectiveContentView.getInstance().getQuestTable().getSelectionModel()
+				.select(ObjectiveContentView.getInstance().getQuestTable().getItems().size() - 1);
+		System.out.println(ObjectiveContentView.getInstance().getQuestTable().getSelectionModel().getSelectedItem()
 				.getDescription());
 		clickOn("#DeleteButton");
 		clickOn("#YesButton");
 
 		this.sleep(2000);
 
-		assertEquals(sizeOfTableBeforeDelete - 1, AdventureContentView.getInstance().getQuestTable().getItems().size());
+		assertEquals(sizeOfTableBeforeDelete - 1, ObjectiveContentView.getInstance().getQuestTable().getItems().size());
 	}
 }

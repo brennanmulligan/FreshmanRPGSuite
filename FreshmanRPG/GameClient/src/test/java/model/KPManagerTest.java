@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataDTO.KnowledgePointPrizeDTO;
+import dataDTO.DoubloonPrizeDTO;
 
 /**
  * @author am3243
@@ -22,7 +22,7 @@ public class KPManagerTest
 	@Before
 	public void reset()
 	{
-		KnowledgePointsManager.resetSingleton();
+		DoubloonManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
 	}
 	
@@ -32,26 +32,26 @@ public class KPManagerTest
 	@Test
 	public void testSingleton()
 	{
-		KnowledgePointsManager kp = KnowledgePointsManager.getSingleton();
-		assertSame(kp, KnowledgePointsManager.getSingleton());
-		KnowledgePointsManager.resetSingleton();
-		assertNotSame(kp, KnowledgePointsManager.getSingleton());
+		DoubloonManager kp = DoubloonManager.getSingleton();
+		assertSame(kp, DoubloonManager.getSingleton());
+		DoubloonManager.resetSingleton();
+		assertNotSame(kp, DoubloonManager.getSingleton());
 	}
 	
 	/**
-	 * Added Knowledge Point Prize DTO's to the manager successfully.
+	 * Added Doubloons Prize DTO's to the manager successfully.
 	 */
 	@Test
 	public void testAdding()
 	{
-		KnowledgePointsManager manager = KnowledgePointsManager.getSingleton();
-		ArrayList<KnowledgePointPrizeDTO> knowledgePointsList = new ArrayList<>();
-		KnowledgePointPrizeDTO knowledgePoint = new KnowledgePointPrizeDTO("pizza", 0, "pizza man");
-		knowledgePointsList.add(knowledgePoint);
-		assertTrue(knowledgePointsList.contains(knowledgePoint));
+		DoubloonManager manager = DoubloonManager.getSingleton();
+		ArrayList<DoubloonPrizeDTO> doubloonsList = new ArrayList<>();
+		DoubloonPrizeDTO doubloonDTO = new DoubloonPrizeDTO("pizza", 0, "pizza man");
+		doubloonsList.add(doubloonDTO);
+		assertTrue(doubloonsList.contains(doubloonDTO));
 		
-		manager.add(knowledgePointsList);
-		assertTrue(manager.getAllKnowledgePoints().containsAll(knowledgePointsList));
+		manager.add(doubloonsList);
+		assertTrue(manager.getDoubloons().containsAll(doubloonsList));
 	}
 	
 	/**
@@ -60,16 +60,16 @@ public class KPManagerTest
 	@Test
 	public void testPopulateCommand()
 	{
-		KnowledgePointsManager manager = KnowledgePointsManager.getSingleton();
-		ArrayList<KnowledgePointPrizeDTO> knowledgePointsList = new ArrayList<>();
-		KnowledgePointPrizeDTO knowledgePoint = new KnowledgePointPrizeDTO("pizza", 0, "pizza man");
-		knowledgePointsList.add(knowledgePoint);
+		DoubloonManager manager = DoubloonManager.getSingleton();
+		ArrayList<DoubloonPrizeDTO> doubloonList = new ArrayList<>();
+		DoubloonPrizeDTO doubloonPrizeDTO = new DoubloonPrizeDTO("pizza", 0, "pizza man");
+		doubloonList.add(doubloonPrizeDTO);
 		
-		PopulateKnowledgePointManagerCommand command = new PopulateKnowledgePointManagerCommand(knowledgePointsList);
+		PopulateDoubloonManagerCommand command = new PopulateDoubloonManagerCommand(doubloonList);
 		command.execute();
 		
-		assertTrue(command.getDtos().containsAll(knowledgePointsList));
+		assertTrue(command.getDtos().containsAll(doubloonList));
 		
-		assertTrue(manager.getAllKnowledgePoints().containsAll(knowledgePointsList));
+		assertTrue(manager.getDoubloons().containsAll(doubloonList));
 	}
 }

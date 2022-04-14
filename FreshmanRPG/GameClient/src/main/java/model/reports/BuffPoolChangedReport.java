@@ -1,13 +1,14 @@
 package model.reports;
 
 import model.QualifiedObservableReport;
+import view.screen.notification.NotificationType;
 
 /**
  * Class for when buffPool of player has changed.
  * @author Adam Pine & Emmanuel Douge
  *
  */
-public class BuffPoolChangedReport implements QualifiedObservableReport
+public class BuffPoolChangedReport implements QualifiedObservableReport, NotificationTrigger
 {
 	private int buffPool;
 
@@ -33,4 +34,21 @@ public class BuffPoolChangedReport implements QualifiedObservableReport
 	}
 
 
+	@Override
+	public String getNotificationTitle()
+	{
+		return "Buff pool updated";
+	}
+
+	@Override
+	public String getNotificationBody()
+	{
+		return "You have used 1 Bonus Point. You have " + getBuffPool() + " Rec Center Bonus Points Left.";
+	}
+
+	@Override
+	public NotificationType getNotificationType()
+	{
+		return NotificationType.ALERT;
+	}
 }

@@ -3,7 +3,7 @@ package communication.messages;
 import java.io.Serializable;
 
 /**
- * A message used in purchasing a knowledge point prize
+ * A message used in purchasing a doubloon prize
  * @author Kevin Marek, Zack Semanco
  *
  */
@@ -15,7 +15,7 @@ public class ItemPurchasedMessage implements Message, Serializable
 
 	/**
 	 * @param playerID - player purchasing the item
-	 * @param price - number of knowledge points the item costs
+	 * @param price - number of doubloons the item costs
 	 */
 	public ItemPurchasedMessage(int playerID, int price)
 	{
@@ -32,7 +32,7 @@ public class ItemPurchasedMessage implements Message, Serializable
 	}
 
 	/**
-	 * @return the number of knowledge points the item costs
+	 * @return the number of doubloons the item costs
 	 */
 	public int getPrice()
 	{

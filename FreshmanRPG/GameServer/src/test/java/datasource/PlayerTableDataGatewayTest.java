@@ -18,7 +18,7 @@ import datatypes.PlayerScoreRecord;
 import datatypes.PlayersForTest;
 
 /**
- * An abstract class that tests the table data gateways into the Adventure table
+ * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
  *
@@ -145,7 +145,7 @@ public abstract class PlayerTableDataGatewayTest extends DatabaseTest
 			assertEquals(dbPlayer.getAppearanceType(), testPlayer.getAppearanceType());
 			assertEquals(dbPlayer.getMapName(), testPlayer.getMapName());
 			assertTrue(dbPlayer.getPosition().equals(testPlayer.getPosition()));
-			assertEquals(dbPlayer.getKnowledgePoints(), testPlayer.getKnowledgeScore());
+			assertEquals(dbPlayer.getDoubloons(), testPlayer.getDoubloons());
 			assertEquals(dbPlayer.getExperiencePoints(), testPlayer.getExperiencePoints());
 			// don't need to test buff pool here, that is retrieved through the Row Data
 			// Gateway

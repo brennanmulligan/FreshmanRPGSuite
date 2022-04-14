@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import dataDTO.QuestStateRecordDTO;
 
 /**
- * Creates adventures for the DB
+ * Creates objectives for the DB
  *
  * @author merlin
  */
@@ -35,6 +35,8 @@ public enum QuestStatesForTest
 	 *
 	 */
 	PLAYER1_QUEST6(1, 107, QuestStateEnum.TRIGGERED, true),
+
+	PLAYER1_QUEST100(1,100, QuestStateEnum.TRIGGERED,false),
 
 	/**
 	 *
@@ -67,7 +69,7 @@ public enum QuestStatesForTest
 	PLAYER7_QUEST1(7, 1, QuestStateEnum.TRIGGERED, false),
 	/**
 	 * A quest that is ready to be triggered (with no states for the included
-	 * adventures)
+	 * objectives)
 	 */
 	PLAYER7_QUEST2(7, 2, QuestStateEnum.AVAILABLE, false),
 	/**

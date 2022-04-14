@@ -8,11 +8,14 @@ import '../../objective_mock.mocks.dart';
 void main() {
   late ObjectiveRepository _repository;
   late MockCompleteObjectiveDatasource mockCompleteObjectiveDatasource;
+  late MockFetchAllObjectiveDatasource mockFetchAllObjectiveDatasource;
 
   setUp(() {
     mockCompleteObjectiveDatasource = MockCompleteObjectiveDatasource();
+    mockFetchAllObjectiveDatasource = MockFetchAllObjectiveDatasource();
     _repository = ObjectiveRepositoryHTTP(
       completeObjectiveDatasource: mockCompleteObjectiveDatasource,
+      fetchAllObjectiveDatasource: mockFetchAllObjectiveDatasource,
     );
   });
 
@@ -56,4 +59,39 @@ void main() {
       expect(actual, isA<ResultFailure>());
     });
   });
+
+  group('Test FetchAllObjectiveDatasource.', () {
+    test('Test for ResultFailure', () async {
+      when(mockFetchAllObjectiveDatasource.fetchAllObjective(
+              request: anyNamed('request')))
+          .thenThrow(Exception());
+
+      final actual = await _repository.fetchAllObjectives(
+        request: const FetchAllObjectiveRequest(playerID: 0),
+      );
+
+      expect(actual, isA<ResultFailure>());
+    });
+
+    test('Test for ResultData.', () async {
+      const expected = FetchAllObjectiveResponse(information: []);
+      
+      when(mockFetchAllObjectiveDatasource.fetchAllObjective(
+        request: anyNamed('request'),
+      )).thenAnswer((realInvocation) async => expected);
+
+      final actual = await _repository.fetchAllObjectives(
+        request: const FetchAllObjectiveRequest(
+          playerID: 0,
+        ),
+      );
+
+      verify(mockFetchAllObjectiveDatasource.fetchAllObjective(
+        request: anyNamed('request'),
+      ));
+      expect(actual, Result.data(data: expected));
+    });
+      
+    });
+
 }

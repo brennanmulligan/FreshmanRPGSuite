@@ -10,10 +10,10 @@ import datasource.DatabaseException;
 import model.OptionsManager;
 import model.QualifiedObservableConnector;
 import model.reports.AllPlayersReport;
-import model.reports.AllQuestsAndAdventuresReport;
+import model.reports.AllQuestsAndObjectivesReport;
 import model.reports.ObjectListReport;
 import model.reports.QuestionListReport;
-import ui.fx.contentviews.AdventureContentView;
+import ui.fx.contentviews.ObjectiveContentView;
 import ui.fx.contentviews.InteractableObjectContentView;
 import ui.fx.contentviews.PlayerContentView;
 import ui.fx.contentviews.QuizbotContentView;
@@ -119,8 +119,8 @@ public class GameManagerTestFX
 				QuestionListReport.class));
 		assertEquals(true, QualifiedObservableConnector.getSingleton().doIObserve(PlayerContentView.getInstance(),
 				AllPlayersReport.class));
-		assertEquals(true, QualifiedObservableConnector.getSingleton().doIObserve(AdventureContentView.getInstance(),
-				AllQuestsAndAdventuresReport.class));
+		assertEquals(true, QualifiedObservableConnector.getSingleton().doIObserve(ObjectiveContentView.getInstance(),
+				AllQuestsAndObjectivesReport.class));
 		assertEquals(true, QualifiedObservableConnector.getSingleton()
 				.doIObserve(InteractableObjectContentView.getInstance(), ObjectListReport.class));
 	}

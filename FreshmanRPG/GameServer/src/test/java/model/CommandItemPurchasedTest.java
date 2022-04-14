@@ -6,8 +6,7 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.reports.KnowledgePointsChangeReport;
-import model.reports.PlayerMovedReport;
+import model.reports.DoubloonChangeReport;
 
 /**
  * @author Andrew Stake
@@ -38,7 +37,7 @@ public class CommandItemPurchasedTest
 
 		PlayerManager.getSingleton().addPlayer(1);
 		Player p = PlayerManager.getSingleton().getPlayerFromID(1);
-		p.setQuizScore(startingScore);
+		p.setDoubloons(startingScore);
 
 		assertEquals(startingScore, p.getQuizScore());
 
@@ -54,13 +53,13 @@ public class CommandItemPurchasedTest
 	@Test
 	public void testNotifyObservers()
 	{
-		PlayerManager.getSingleton().addPlayer(1);
+		PlayerManager.getSingleton().addPlayer(4);
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-		QualifiedObservableConnector.getSingleton().registerObserver(obs, KnowledgePointsChangeReport.class);
-		obs.receiveReport(EasyMock.anyObject(KnowledgePointsChangeReport.class));
+		QualifiedObservableConnector.getSingleton().registerObserver(obs, DoubloonChangeReport.class);
+		obs.receiveReport(EasyMock.anyObject(DoubloonChangeReport.class));
 		EasyMock.replay(obs);
 
-		CommandItemPurchased cmd = new CommandItemPurchased(1, 50);
+		CommandItemPurchased cmd = new CommandItemPurchased(4, 50);
 		cmd.execute();
 
 		EasyMock.verify(obs);

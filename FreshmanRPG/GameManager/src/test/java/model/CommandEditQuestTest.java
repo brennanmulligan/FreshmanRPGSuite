@@ -47,7 +47,7 @@ public class CommandEditQuestTest extends DatabaseTest
 		final String newDescription = "NEW DESCRIPTION";
 		final int newXP = quest.getExperienceGained() + 3;
 		final CommandEditQuest command = new CommandEditQuest(quest.getQuestID(), quest.getQuestTitle(), newDescription,
-				quest.getMapName(), quest.getPosition(), newXP, quest.getAdventuresForFulfillment(),
+				quest.getMapName(), quest.getPosition(), newXP, quest.getObjectiveForFulfillment(),
 				quest.getCompletionActionType(), quest.getCompletionActionParameter(), quest.getStartDate(),
 				quest.getEndDate());
 		assertTrue(command.execute());

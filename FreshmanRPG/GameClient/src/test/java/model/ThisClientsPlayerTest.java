@@ -13,16 +13,16 @@ import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import datasource.LevelRecord;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
-import model.reports.AdventureNeedingNotificationReport;
+import model.reports.ObjectiveNeedingNotificationReport;
 import model.reports.ClientPlayerMovedReport;
 import model.reports.ExperiencePointsChangeReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonChangeReport;
 import model.reports.QuestNeedingNotificationReport;
 import model.reports.QuestStateReport;
 
@@ -74,7 +74,7 @@ public class ThisClientsPlayerTest
 	public void notifiesOnQuestRequest()
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
-		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoAdventures();
+		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoObjectives();
 		cp.addQuest(q);
 		ArrayList<ClientPlayerQuestStateDTO> expected = new ArrayList<>();
 		expected.add(q);
@@ -100,10 +100,10 @@ public class ThisClientsPlayerTest
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
-		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoAdventures();
+		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoObjectives();
 
 		cp.addQuest(q);
-		assertEquals(2, cp.getQuests().get(0).getAdventureList().get(1).getAdventureID());
+		assertEquals(2, cp.getQuests().get(0).getObjectiveList().get(1).getObjectiveID());
 		assertEquals("Test Quest 1", cp.getQuests().get(0).getQuestDescription());
 	}
 
@@ -132,15 +132,15 @@ public class ThisClientsPlayerTest
 	public void canWhompOnQuestList()
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
-		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoAdventures();
+		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoObjectives();
 		cp.addQuest(q);
 
-		ClientPlayerAdventureStateDTO a = new ClientPlayerAdventureStateDTO(42, "Test Adventure ow2", 3,
-				AdventureStateEnum.HIDDEN, false, true, "Chair", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO a = new ClientPlayerObjectiveStateDTO(42, "Test Objective ow2", 3,
+				ObjectiveStateEnum.HIDDEN, false, true, "Chair", QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO qow = new ClientPlayerQuestStateDTO(41, "quest title",
 				"Test Quest ow1", QuestStateEnum.AVAILABLE, 42, 3, true, null);
 
-		qow.addAdventure(a);
+		qow.addObjective(a);
 
 		ArrayList<ClientPlayerQuestStateDTO> qList = new ArrayList<>();
 		qList.add(qow);
@@ -168,19 +168,19 @@ public class ThisClientsPlayerTest
 	}
 
 	/**
-	 * Test that we can send a report that contains the adventures that
+	 * Test that we can send a report that contains the objectives that
 	 * currently need notification
 	 */
 	@Test
-	public void testSendAdventuresNeedingNotificationReport()
+	public void testSendObjectivesNeedingNotificationReport()
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
-		ClientPlayerAdventureStateDTO a = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 0,
-				AdventureStateEnum.COMPLETED, true, true, "Mom", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
+				ObjectiveStateEnum.COMPLETED, true, true, "Mom", QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "questtitle", "Test Quest 1",
 				QuestStateEnum.COMPLETED, 1, 2, true, null);
-		q.addAdventure(a);
+		q.addObjective(objective);
 		cp.addQuest(q);
 
 		ArrayList<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
@@ -188,10 +188,10 @@ public class ThisClientsPlayerTest
 
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
 		QualifiedObservableConnector.getSingleton().registerObserver(obs,
-				AdventureNeedingNotificationReport.class);
-		AdventureNeedingNotificationReport report = new AdventureNeedingNotificationReport(
-				cp.getID(), q.getQuestID(), a.getAdventureID(),
-				a.getAdventureDescription(), a.getAdventureState(), true, "Mom");
+				ObjectiveNeedingNotificationReport.class);
+		ObjectiveNeedingNotificationReport report = new ObjectiveNeedingNotificationReport(
+				cp.getID(), q.getQuestID(), objective.getObjectiveID(),
+				objective.getObjectiveDescription(), objective.getObjectiveState(), true, "Mom");
 		obs.receiveReport(EasyMock.eq(report));
 		EasyMock.replay(obs);
 
@@ -209,11 +209,11 @@ public class ThisClientsPlayerTest
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
-		ClientPlayerAdventureStateDTO a = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 0,
-				AdventureStateEnum.COMPLETED, true, true, "Fred", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
+				ObjectiveStateEnum.COMPLETED, true, true, "Fred", QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "quest title", "Test Quest 1",
 				QuestStateEnum.COMPLETED, 1, 2, true, null);
-		q.addAdventure(a);
+		q.addObjective(objective);
 		cp.addQuest(q);
 
 		ArrayList<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
@@ -258,38 +258,37 @@ public class ThisClientsPlayerTest
 	}
 
 	/**
-	 * Test that we can set the values of ThisClientPlayer's knowledge info
+	 * Test that we can set the values of ThisClientPlayer's doubloons
 	 */
 	@Test
-	public void testAllKnowledgeInfo()
+	public void testDoubloons()
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
-		cp.setKnowledgePoints(10);
+		cp.setDoubloons(10);
 
-		assertEquals(10, cp.getKnowledgePoints());
+		assertEquals(10, cp.getDoubloons());
 	}
 
 	/**
 	 *
 	 */
 	@Test
-	public void testSendKnowledgePointsChangeReport()
+	public void testSendDoubloonChangeReport()
 	{
 		ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
 		int exp = 10;
-		cp.setKnowledgePoints(10);
+		cp.setDoubloons(10);
 
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
 		QualifiedObservableConnector.getSingleton().registerObserver(obs,
-				KnowledgePointsChangeReport.class);
-		KnowledgePointsChangeReport report = new KnowledgePointsChangeReport(exp);
+				DoubloonChangeReport.class);
+		DoubloonChangeReport report = new DoubloonChangeReport(exp);
 		obs.receiveReport(EasyMock.eq(report));
 		EasyMock.replay(obs);
 
-		cp.sendKnowledgePointsChangeReport();
-		;
+		cp.sendDoubloonChangeReport();
 
 		EasyMock.verify(obs);
 	}

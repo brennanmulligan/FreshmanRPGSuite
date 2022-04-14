@@ -1,30 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-
 import dataDTO.LevelManagerDTO;
-import datasource.DatabaseException;
-import datasource.FriendTableDataGatewayRDS;
-import datasource.KnowledgePointPrizesTableDataGatewayRDS;
-import datasource.LevelRecord;
-import datasource.PlayerTableDataGatewayMock;
-import datasource.PlayerTableDataGatewayRDS;
+import dataDTO.VanityDTO;
+import datasource.*;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.PlayerScoreRecord;
-import model.reports.AddExistingPlayerReport;
-import model.reports.FriendListReport;
-import model.reports.KnowledgePointPrizeReport;
-import model.reports.PinFailedReport;
-import model.reports.PlayerAppearanceChangeReport;
-import model.reports.PlayerConnectionReport;
-import model.reports.PlayerDisconnectedReport;
-import model.reports.PlayerFinishedInitializingReport;
-import model.reports.PlayerLeaveReport;
-import model.reports.TimeToLevelUpDeadlineReport;
-import model.reports.UpdatePlayerInformationReport;
+import model.reports.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Merlin
@@ -95,7 +82,7 @@ public class PlayerManager implements QualifiedObserver
 
 
 		QualifiedObservableConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPlayerPosition(),
-				player.getCrew(), player.getMajor(), player.getSection()));
+				player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems()));
 		return player;
 	}
 
@@ -105,10 +92,10 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public Player addPlayerSilently(int playerID)
 	{
-		if (!OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			throw new IllegalStateException("Trying to add a player without giving a PIN when not in test mode");
-		}
+//		if (!OptionsManager.getSingleton().isUsingMockDataSource())
+//		{
+//			throw new IllegalStateException("Trying to add a player without giving a PIN when not in test mode");
+//		}
 		try
 		{
 			PlayerMapper mapper = new PlayerMapper(playerID);
@@ -147,7 +134,7 @@ public class PlayerManager implements QualifiedObserver
 			players.put(playerID, player);
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerConnectionReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType(), player
-					.getPlayerPosition(), player.getCrew(), player.getMajor(), player.getSection()));
+					.getPlayerPosition(), player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems(), player.getAllOwnedItems()));
 
 			QualifiedObservableConnector.getSingleton().sendReport(new UpdatePlayerInformationReport(player));
 			tellNewPlayerAboutEveryoneElse(player);
@@ -158,7 +145,7 @@ public class PlayerManager implements QualifiedObserver
 					.getDescription()));
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
-			QualifiedObservableConnector.getSingleton().sendReport(new KnowledgePointPrizeReport(player.getPlayerID(), KnowledgePointPrizesTableDataGatewayRDS.getInstance().getAllKnowledgePointPrizes()));
+			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), DoubloonPrizesTableDataGatewayRDS.getInstance().getAllDoubloonPrizes()));
 			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), FriendTableDataGatewayRDS.getInstance().getAllFriends(player.getPlayerID())));
 			return player;
 		}
@@ -201,6 +188,11 @@ public class PlayerManager implements QualifiedObserver
 	public Player getPlayerFromID(int playerID)
 	{
 		return players.get(playerID);
+	}
+
+	public NPC getNPCFromID(int playerID)
+	{
+		return npcs.get(playerID);
 	}
 
 	/**
@@ -338,8 +330,17 @@ public class PlayerManager implements QualifiedObserver
 		{
 			if (existingPlayer.getPlayerID() != player.getPlayerID())
 			{
-				AddExistingPlayerReport report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
-						.getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection());
+				AddExistingPlayerReport report;
+				if (existingPlayer.getVanityItems().isEmpty())
+				{
+					report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
+							.getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), player.getVanityItems());
+				}
+				else
+				{
+					report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
+							.getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), existingPlayer.getVanityItems());
+				}
 				QualifiedObservableConnector.getSingleton().sendReport(report);
 			}
 		}
@@ -405,20 +406,13 @@ public class PlayerManager implements QualifiedObserver
 	}
 
 	/**
-	 * Edits a players appearance and sends a report notifying that the appearance
-	 * was changed.
-	 *
-	 * @param playerID - id of the player
-	 * @param appearanceType - Appearance type of the player
-	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException shouldn't
+	 * @return list of the vanity shops inventory
 	 */
-	public void editPlayerAppearance(int playerID, String appearanceType) throws DatabaseException, IllegalQuestChangeException
+	//TODO: real datasource
+	public ArrayList<VanityDTO> getVanityShopInventory()
 	{
-		Player player = getPlayerFromID(playerID);
-		player.editPlayerAppearance(appearanceType);
-
-		QualifiedObservableConnector.getSingleton().sendReport(new PlayerAppearanceChangeReport(playerID, appearanceType));
-
+			return VanityShopTableDataGatewayMock.getSingleton().getVanityShopInventory();
 	}
+
+
 }

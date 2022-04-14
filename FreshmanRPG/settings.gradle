@@ -7,3 +7,5 @@ include 'GameServer'
 include 'GameSequenceTests'
 include 'GameShared'
 include 'LoginServer'
+include 'CompanionAppServer'
+

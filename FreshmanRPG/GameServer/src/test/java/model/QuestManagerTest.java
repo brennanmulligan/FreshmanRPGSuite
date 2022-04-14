@@ -10,6 +10,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import datasource.PlayerRowDataGatewayMock;
+import datasource.PlayerTableDataGatewayMock;
 import datatypes.FriendStatusEnum;
 import datatypes.PlayersForTest;
 import org.easymock.EasyMock;
@@ -22,24 +24,24 @@ import datasource.FriendDBMock;
 import datasource.FriendTableDataGateway;
 import datasource.FriendTableDataGatewayMock;
 import datasource.QuestStateTableDataGatewayMock;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.ChatType;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
 import model.reports.KeyInputRecievedReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonChangeReport;
 import model.reports.PlayerLeaveReport;
 import model.reports.ReceiveTerminalTextReport;
 import model.reports.ChatMessageReceivedReport;
 import model.reports.FriendConnectionReceivedReport;
 import model.reports.TeleportOnQuestCompletionReport;
-import datatypes.AdventuresForTest;
+import datatypes.ObjectivesForTest;
 import datatypes.InteractableItemsForTest;
 import datatypes.QuestStatesForTest;
 import datatypes.QuestsForTest;
 
 /**
- * Test for the quest manager getting quests and adventures from database
+ * Test for the quest manager getting quests and objectives from database
  *
  * @author lavonnediller
  *
@@ -55,6 +57,8 @@ public class QuestManagerTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
+		PlayerTableDataGatewayMock.getSingleton().resetData();
+		new PlayerRowDataGatewayMock().resetData();
 		PlayerManager.resetSingleton();
 		playerManager = PlayerManager.getSingleton();
 		QuestStateTableDataGatewayMock.getSingleton().resetData();
@@ -106,40 +110,40 @@ public class QuestManagerTest
 		assertEquals(expected.getQuestID(), actual.getQuestID());
 		assertEquals(expected.getQuestDescription(), actual.getDescription());
 		assertEquals(expected.getMapName(), actual.getMapName());
-		assertEquals(expected.getAdventuresForFulfillment(), actual.getAdventuresForFulfillment());
+		assertEquals(expected.getObjectiveForFulfillment(), actual.getObjectivesForFulfillment());
 		assertEquals(expected.getExperienceGained(), actual.getExperiencePointsGained());
 	}
 
 	/**
-	 * We should be able to retrieve data about a specific adventure
+	 * We should be able to retrieve data about a specific objective
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
 	 */
 	@Test
-	public void testGettingOneAdventure() throws DatabaseException
+	public void testGettingOneObjective() throws DatabaseException
 	{
 		QuestManager qm = QuestManager.getSingleton();
-		AdventuresForTest expected = AdventuresForTest.QUEST3_ADVENTURE1;
-		AdventureRecord actual = qm.getAdventure(expected.getQuestID(), expected.getAdventureID());
-		assertEquals(AdventuresForTest.QUEST3_ADVENTURE1.getAdventureDescription(), actual.getAdventureDescription());
-		assertEquals(AdventuresForTest.QUEST3_ADVENTURE1.getAdventureID(), actual.getAdventureID());
-		assertEquals(AdventuresForTest.QUEST3_ADVENTURE1.getExperiencePointsGained(),
+		ObjectivesForTest expected = ObjectivesForTest.QUEST3_OBJECTIVE1;
+		ObjectiveRecord actual = qm.getObjective(expected.getQuestID(), expected.getObjectiveID());
+		assertEquals(ObjectivesForTest.QUEST3_OBJECTIVE1.getObjectiveDescription(), actual.getObjectiveDescription());
+		assertEquals(ObjectivesForTest.QUEST3_OBJECTIVE1.getObjectiveID(), actual.getObjectiveID());
+		assertEquals(ObjectivesForTest.QUEST3_OBJECTIVE1.getExperiencePointsGained(),
 				actual.getExperiencePointsGained());
-		assertEquals(AdventuresForTest.QUEST3_ADVENTURE1.getQuestID(), actual.getQuestID());
+		assertEquals(ObjectivesForTest.QUEST3_OBJECTIVE1.getQuestID(), actual.getQuestID());
 	}
 
 	/**
-	 * If we ask for an adventure that doesn't exist, we should get null
+	 * If we ask for an objective that doesn't exist, we should get null
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
 	 */
 	@Test
-	public void testGettingMissingAdventure() throws DatabaseException
+	public void testGettingMissingObjective() throws DatabaseException
 	{
 		QuestManager qm = QuestManager.getSingleton();
-		AdventureRecord actual = qm.getAdventure(42, 16);
+		ObjectiveRecord actual = qm.getObjective(42, 16);
 		assertNull(actual);
 	}
 
@@ -162,81 +166,81 @@ public class QuestManagerTest
 	}
 
 	/**
-	 * Test that we can get a specific quests adventures
+	 * Test that we can get a specific quests objectives
 	 *
 	 * @throws DatabaseException
 	 *             throw an exception if the quest id isn't found
 	 */
 	@Test
-	public void testGettingAQuestsAdventures() throws DatabaseException
+	public void testGettingAQuestsObjectives() throws DatabaseException
 	{
 		QuestManager qm = QuestManager.getSingleton();
 		QuestRecord quest = qm.getQuest(1);
 
 		int i = 1;
-		for (AdventureRecord a : quest.getAdventures())
+		for (ObjectiveRecord a : quest.getObjectives())
 		{
 			if (i == 1)
 			{
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			if (i == 2)
 			{
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE2.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE2.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			i++;
 		}
 	}
 
 	/**
-	 * Test getting two quests and their two adventures from the db
+	 * Test getting two quests and their two objectives from the db
 	 *
 	 * @throws DatabaseException
 	 *             throw an exception if the quest id isn't found
 	 */
 	@Test
-	public void testGettingTwoQuestsAndTheirAdventures() throws DatabaseException
+	public void testGettingTwoQuestsAndTheirObjectives() throws DatabaseException
 	{
 		QuestManager qm = QuestManager.getSingleton();
 		QuestRecord quest1 = qm.getQuest(1);
 		QuestRecord quest2 = qm.getQuest(2);
 
 		int i = 1;
-		for (AdventureRecord a : quest1.getAdventures())
+		for (ObjectiveRecord a : quest1.getObjectives())
 		{
 			if (i == 1)
 			{
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			if (i == 2)
 			{
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE2.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST1_ADVENTURE2.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			i++;
 		}
 
 		i = 1;
-		for (AdventureRecord a : quest2.getAdventures())
+		for (ObjectiveRecord a : quest2.getObjectives())
 		{
 			if (i == 1)
 			{
-				assertEquals(AdventuresForTest.QUEST2_ADVENTURE1.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST2_ADVENTURE1.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE1.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE1.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			if (i == 2)
 			{
-				assertEquals(AdventuresForTest.QUEST2_ADVENTURE2.getAdventureID(), a.getAdventureID());
-				assertEquals(AdventuresForTest.QUEST2_ADVENTURE2.getAdventureDescription(),
-						a.getAdventureDescription());
+				assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveID(), a.getObjectiveID());
+				assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(),
+						a.getObjectiveDescription());
 			}
 			i++;
 		}
@@ -322,18 +326,18 @@ public class QuestManagerTest
 	}
 
 	/**
-	 * Completes an adventure that has the completion criteria of talking to a NPC.
+	 * Completes an objective that has the completion criteria of talking to a NPC.
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalAdventureChangeException
-	 *             Adventure state changed when it shouldn't have
+	 * @throws IllegalObjectiveChangeException
+	 *             Objective state changed when it shouldn't have
 	 * @throws IllegalQuestChangeException
 	 *             Quest state changed when it shouldn't have
 	 */
 	@Test
-	public void testCompleteAdventureByChatting()
-			throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void testCompleteObjectiveByChatting()
+			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerToTest = PlayersForTest.MARTY.getPlayerID();
 		Player playerOne = playerManager.addPlayer(playerToTest);
@@ -348,24 +352,24 @@ public class QuestManagerTest
 
 		QualifiedObservableConnector.getSingleton().sendReport(csmr);
 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getQuestStateByID(playerToTest, 5).getAdventureList().get(0).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getQuestStateByID(playerToTest, 5).getObjectiveList().get(0).getState());
 	}
 
 	/**
-	 * Adventure isn't completed because the person is outside the range of who they
+	 * Objective isn't completed because the person is outside the range of who they
 	 * are supposed to talk to
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalAdventureChangeException
-	 *             Adventure state changed when it shouldn't have
+	 * @throws IllegalObjectiveChangeException
+	 *             Objective state changed when it shouldn't have
 	 * @throws IllegalQuestChangeException
 	 *             Quest state changed when it shouldn't have
 	 */
 	@Test
-	public void testNotCompleteAdventureByChattingOutsideOfRange()
-			throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void testNotCompleteObjectiveByChattingOutsideOfRange()
+			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerToTest = PlayersForTest.MARTY.getPlayerID();
 		Player playerOne = playerManager.addPlayer(playerToTest);
@@ -380,8 +384,8 @@ public class QuestManagerTest
 
 		QualifiedObservableConnector.getSingleton().sendReport(csmr);
 
-		assertEquals(AdventureStateEnum.TRIGGERED,
-				QuestManager.getSingleton().getQuestStateByID(playerToTest, 5).getAdventureList().get(0).getState());
+		assertEquals(ObjectiveStateEnum.TRIGGERED,
+				QuestManager.getSingleton().getQuestStateByID(playerToTest, 5).getObjectiveList().get(0).getState());
 	}
 
 	/**
@@ -414,7 +418,7 @@ public class QuestManagerTest
 	/**
 	 * Make sure quest is triggered within player when quest is available
 	 *
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
@@ -423,7 +427,7 @@ public class QuestManagerTest
 	 */
 	@Test
 	public void testPlayerTriggersQuest()
-			throws IllegalAdventureChangeException, IllegalQuestChangeException, DatabaseException
+			throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
 		Player p = playerManager.addPlayer(7);
 		assertEquals(QuestStateEnum.AVAILABLE, QuestManager.getSingleton()
@@ -450,7 +454,7 @@ public class QuestManagerTest
 	}
 
 	/**
-	 * When a player moves to the right place, we should get a list of adventures
+	 * When a player moves to the right place, we should get a list of objectives
 	 * completed at that location
 	 *
 	 * @throws IllegalQuestChangeException
@@ -459,15 +463,15 @@ public class QuestManagerTest
 	 *             the state changed illegally
 	 */
 	@Test
-	public void getCompletedAdventuresOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void getCompletedObjectivesOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
 	{
-		GameLocationDTO location = (GameLocationDTO) (AdventuresForTest.QUEST2_ADVENTURE2.getCompletionCriteria());
+		GameLocationDTO location = (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
 		String mapName = location.getMapName();
 		Position pos = location.getPosition();
 
-		ArrayList<AdventureRecord> list = QuestManager.getSingleton().getAdventuresByPosition(pos, mapName);
-		assertEquals(AdventuresForTest.QUEST2_ADVENTURE2.getAdventureDescription(),
-				list.get(0).getAdventureDescription());
+		ArrayList<ObjectiveRecord> list = QuestManager.getSingleton().getObjectivesByPosition(pos, mapName);
+		assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(),
+				list.get(0).getObjectiveDescription());
 	}
 
 	/**
@@ -481,8 +485,6 @@ public class QuestManagerTest
 		QuestManager.getSingleton().addQuestState(4, questState);
 		assertEquals(4, questState.getPlayerID());
 	}
-
-	QuestManager qm = QuestManager.getSingleton();
 
 	/**
 	 * We should be able to clear out all of the quest states for a given player
@@ -508,9 +510,9 @@ public class QuestManagerTest
 
 	/**
 	 * Should be able to change the state of a quest to fulfilled if enough
-	 * adventures are completed. Player 4 quest 3 in the mock data has enough
-	 * adventures to be fulfilled, but still looks pending. We just want to test the
-	 * behavior of checking for fulfillment (without an associated adventure state
+	 * objectives are completed. Player 4 quest 3 in the mock data has enough
+	 * objectives to be fulfilled, but still looks pending. We just want to test the
+	 * behavior of checking for fulfillment (without an associated objective state
 	 * change)
 	 *
 	 * @throws DatabaseException
@@ -535,63 +537,63 @@ public class QuestManagerTest
 	}
 
 	/**
-	 * This test makes sure that, at the moment an adventure completes, the quest
+	 * This test makes sure that, at the moment an objective completes, the quest
 	 * state changes to fulfilled and the experience points are updated when that is
 	 * appropriate
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
 	 *
 	 */
 	@Test
-	public void testCompletingAdventure()
-			throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void testCompletingObjective()
+			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerID = PlayersForTest.JOSH.getPlayerID();
 		int questID = 4;
 		Player p = playerManager.addPlayer(playerID);
 		int initialExp = p.getExperiencePoints();
 
-		AdventureState as = new AdventureState(2, AdventureStateEnum.TRIGGERED, false);
-		ArrayList<AdventureState> adventures = new ArrayList<>();
-		adventures.add(as);
+		ObjectiveState as = new ObjectiveState(2, ObjectiveStateEnum.TRIGGERED, false);
+		ArrayList<ObjectiveState> objectives = new ArrayList<>();
+		objectives.add(as);
 
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.FULFILLED, false);
-		qs.addAdventures(adventures);
+		qs.addObjectives(objectives);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 		as.complete();
 
-		int adventureExperienceGained = QuestManager.getSingleton().getQuest(questID).getAdventureXP(1);
+		int objectiveExperienceGained = QuestManager.getSingleton().getQuest(questID).getObjectiveXP(1);
 
 		assertEquals(QuestStateEnum.COMPLETED, qs.getStateValue());
-		assertEquals(initialExp + adventureExperienceGained, p.getExperiencePoints());
+		assertEquals(initialExp + objectiveExperienceGained, p.getExperiencePoints());
 	}
 
 	/**
-	 * Tests completing an adventure by user input
+	 * Tests completing an objective by user input
 	 */
 	@Test
-	public void testCompletingAdventureByInput()
+	public void testCompletingObjectiveByInput()
 	{
 		int playerID = PlayersForTest.NEWBIE.getPlayerID();
-		int questID = AdventuresForTest.ONRAMPING_PRESS_Q.getQuestID();
-		int adventureID = AdventuresForTest.ONRAMPING_PRESS_Q.getAdventureID();
+		int questID = ObjectivesForTest.ONRAMPING_PRESS_Q.getQuestID();
+		int objectiveID = ObjectivesForTest.ONRAMPING_PRESS_Q.getObjectiveID();
 
 		Player p = playerManager.addPlayer(playerID);
 		QuestState qs = QuestManager.getSingleton().getQuestStateByID(p.getPlayerID(), questID);
 		qs.setPlayerID(playerID);
 
-		assertEquals(AdventureStateEnum.TRIGGERED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.TRIGGERED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 		CommandKeyInputMessageReceived command = new CommandKeyInputMessageReceived("q", playerID);
 		command.execute();
 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 	}
 
 	/**
@@ -633,34 +635,34 @@ public class QuestManagerTest
 	/**
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
 	 *
 	 */
 	@Test
-	public void testCompleteAdventure()
-			throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void testCompleteObjective()
+			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerID = 1;
 		int questID = 3;
-		int adventureID = 1;
+		int objectiveID = 1;
 
 		Player p = playerManager.addPlayer(playerID);
 		QuestState qs = QuestManager.getSingleton().getQuestStateByID(p.getPlayerID(), questID);
-		AdventureState as = QuestManager.getSingleton().getAdventureStateByID(p.getPlayerID(), questID, adventureID);
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
-		qs.addAdventures(adventureList);
+		ObjectiveState as = QuestManager.getSingleton().getObjectiveStateByID(p.getPlayerID(), questID, objectiveID);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
+		qs.addObjectives(objectiveList);
 		qs.setPlayerID(playerID);
-		QuestManager.getSingleton().completeAdventure(playerID, questID, adventureID);
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		QuestManager.getSingleton().completeObjective(playerID, questID, objectiveID);
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 	}
 
 	/**
-	 * When a player moves to the right place, should complete adventure
+	 * When a player moves to the right place, should complete objective
 	 *
 	 * @throws IllegalQuestChangeException
 	 *             the state changed illegally
@@ -668,23 +670,23 @@ public class QuestManagerTest
 	 *             shouldn't
 	 */
 	@Test
-	public void completeAdventureOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void completeObjectiveOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
 	{
-		// We need to add a quest and adventure that are triggered on location
+		// We need to add a quest and objective that are triggered on location
 		// but not already completed
-		int questID = AdventuresForTest.QUEST2_ADVENTURE2.getQuestID();
-		int advID = AdventuresForTest.QUEST2_ADVENTURE2.getAdventureID();
+		int questID = ObjectivesForTest.QUEST2_OBJECTIVE2.getQuestID();
+		int advID = ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveID();
 
-		GameLocationDTO location = (GameLocationDTO) (AdventuresForTest.QUEST2_ADVENTURE2.getCompletionCriteria());
+		GameLocationDTO location = (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
 		Position pos = location.getPosition();
 		Player paul = playerManager.addPlayer(8);
 		paul.setPlayerPosition(pos);
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(paul.getPlayerID(), questID, advID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(paul.getPlayerID(), questID, advID).getState());
 	}
 
 	/**
-	 * When a player moves to the right place, should complete adventure
+	 * When a player moves to the right place, should complete objective
 	 *
 	 * @throws IllegalQuestChangeException
 	 *             the state changed illegally
@@ -692,22 +694,22 @@ public class QuestManagerTest
 	 *             shouldn't
 	 */
 	@Test
-	public void alreadyCompletedAdventureOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void alreadyCompletedObjectiveOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
 	{
-		// We need to add a quest and adventure that are triggered on location
+		// We need to add a quest and objective that are triggered on location
 		// but not already completed
-		int questID = AdventuresForTest.QUEST2_ADVENTURE2.getQuestID();
-		int advID = AdventuresForTest.QUEST2_ADVENTURE2.getAdventureID();
+		int questID = ObjectivesForTest.QUEST2_OBJECTIVE2.getQuestID();
+		int advID = ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveID();
 
-		GameLocationDTO location = (GameLocationDTO) (AdventuresForTest.QUEST2_ADVENTURE2.getCompletionCriteria());
+		GameLocationDTO location = (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
 		Position pos = location.getPosition();
 		Player paul = playerManager.addPlayer(8);
 		paul.setPlayerPosition(pos);
 		paul.setPlayerPosition(new Position(0, 0));
 		paul.setPlayerPosition(pos);
 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(paul.getPlayerID(), questID, advID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(paul.getPlayerID(), questID, advID).getState());
 
 	}
 
@@ -720,38 +722,38 @@ public class QuestManagerTest
 	{
 		Player hersh = playerManager.addPlayer(PlayersForTest.HERSH.getPlayerID());
 
-		// completing the first adventure will fulfill the quest
-		GameLocationDTO completionCriteria = (GameLocationDTO) AdventuresForTest.QUEST6_ADVENTURE_1
+		// completing the first objective will fulfill the quest
+		GameLocationDTO completionCriteria = (GameLocationDTO) ObjectivesForTest.QUEST6_OBJECTIVE_1
 				.getCompletionCriteria();
 		hersh.setPlayerPosition(completionCriteria.getPosition());
-		AdventureState adventureState = QuestManager.getSingleton().getAdventureStateByID(hersh.getPlayerID(),
-				AdventuresForTest.QUEST6_ADVENTURE_1.getQuestID(),
-				AdventuresForTest.QUEST6_ADVENTURE_1.getAdventureID());
-		assertEquals(AdventureStateEnum.COMPLETED, adventureState.getState());
+		ObjectiveState objectiveState = QuestManager.getSingleton().getObjectiveStateByID(hersh.getPlayerID(),
+				ObjectivesForTest.QUEST6_OBJECTIVE_1.getQuestID(),
+				ObjectivesForTest.QUEST6_OBJECTIVE_1.getObjectiveID());
+		assertEquals(ObjectiveStateEnum.COMPLETED, objectiveState.getState());
 		QuestState questState = QuestManager.getSingleton().getQuestStateByID(hersh.getPlayerID(),
-				AdventuresForTest.QUEST6_ADVENTURE_1.getQuestID());
+				ObjectivesForTest.QUEST6_OBJECTIVE_1.getQuestID());
 		assertEquals(QuestStateEnum.FULFILLED, questState.getStateValue());
 		assertEquals(
 				QuestsForTest.TELEPORT_QUEST.getExperienceGained()
-						+ AdventuresForTest.QUEST6_ADVENTURE_1.getExperiencePointsGained(),
+						+ ObjectivesForTest.QUEST6_OBJECTIVE_1.getExperiencePointsGained(),
 				hersh.getExperiencePoints());
 
-		// completing the second adventure will finish the quest
-		completionCriteria = (GameLocationDTO) AdventuresForTest.QUEST6_ADVENTURE_2.getCompletionCriteria();
+		// completing the second objective will finish the quest
+		completionCriteria = (GameLocationDTO) ObjectivesForTest.QUEST6_OBJECTIVE_2.getCompletionCriteria();
 		hersh.setPlayerPosition(completionCriteria.getPosition());
 
-		adventureState = QuestManager.getSingleton().getAdventureStateByID(hersh.getPlayerID(),
-				AdventuresForTest.QUEST6_ADVENTURE_2.getQuestID(),
-				AdventuresForTest.QUEST6_ADVENTURE_2.getAdventureID());
-		assertEquals(AdventureStateEnum.COMPLETED, adventureState.getState());
+		objectiveState = QuestManager.getSingleton().getObjectiveStateByID(hersh.getPlayerID(),
+				ObjectivesForTest.QUEST6_OBJECTIVE_2.getQuestID(),
+				ObjectivesForTest.QUEST6_OBJECTIVE_2.getObjectiveID());
+		assertEquals(ObjectiveStateEnum.COMPLETED, objectiveState.getState());
 
 		questState = QuestManager.getSingleton().getQuestStateByID(hersh.getPlayerID(),
-				AdventuresForTest.QUEST6_ADVENTURE_2.getQuestID());
+				ObjectivesForTest.QUEST6_OBJECTIVE_2.getQuestID());
 		assertEquals(QuestStateEnum.COMPLETED, questState.getStateValue());
 		assertEquals(
 				QuestsForTest.TELEPORT_QUEST.getExperienceGained()
-						+ AdventuresForTest.QUEST6_ADVENTURE_1.getExperiencePointsGained()
-						+ AdventuresForTest.QUEST6_ADVENTURE_2.getExperiencePointsGained(),
+						+ ObjectivesForTest.QUEST6_OBJECTIVE_1.getExperiencePointsGained()
+						+ ObjectivesForTest.QUEST6_OBJECTIVE_2.getExperiencePointsGained(),
 				hersh.getExperiencePoints());
 	}
 
@@ -798,114 +800,114 @@ public class QuestManagerTest
 
 	/**
 	 *
-	 * Test that the Quest is completed when the player has enough knowledge points.
+	 * Test that the Quest is completed when the player has enough doubloons.
 	 *
 	 * @throws IllegalQuestChangeException
 	 *             - shouldn't
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             - shouldn't
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 *
 	 */
 	@Test
-	public void testHandleKnowledgePointsIsChanged()
-			throws DatabaseException, IllegalAdventureChangeException, IllegalQuestChangeException
+	public void testHandleDoubloonsChanged()
+			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 
 		int playerID = 19;
 		int questID = 10;
-		int adventureID = 1;
+		int objectiveID = 1;
 
 		Player p = playerManager.addPlayer(playerID);
 
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 
-		AdventureState as = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
 
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
 
-		qs.addAdventures(adventureList);
+		qs.addObjectives(objectiveList);
 
-		AdventureState adventureStateByID = QuestManager.getSingleton().getAdventureStateByID(playerID, questID,
-				adventureID);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerID, questID,
+				objectiveID);
 
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID.getState());
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
-		p.setQuizScore(7);
+		p.setDoubloons(7);
 
-		KnowledgePointsChangeReport report = new KnowledgePointsChangeReport(playerID, 80, p.getBuffPool());
+		DoubloonChangeReport report = new DoubloonChangeReport(playerID, 80, p.getBuffPool());
 
-		QuestManager.getSingleton().handleKnowledgePointsChanged(report);
+		QuestManager.getSingleton().handleDoubloonsChanged(report);
 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 
 	}
 
 
 	/**
-	 * Tests Adventure completion when a player types the proper command in the terminal
+	 * Tests Objective completion when a player types the proper command in the terminal
 	 *
 	 */
 	@Test
 	public void testHandleReceiveTerminalTextReport()
 	{
 		int playerID = 19;
-		int questID = AdventuresForTest.ONRAMPING_TERMINAL_MAN.getQuestID();
-		int adventureID = AdventuresForTest.ONRAMPING_TERMINAL_MAN.getAdventureID();
+		int questID = ObjectivesForTest.ONRAMPING_TERMINAL_MAN.getQuestID();
+		int objectiveID = ObjectivesForTest.ONRAMPING_TERMINAL_MAN.getObjectiveID();
 
 		playerManager.addPlayer(playerID);
 
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 
-		AdventureState as = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
 
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
 
-		qs.addAdventures(adventureList);
+		qs.addObjectives(objectiveList);
 
-		AdventureState adventureStateByID = QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID);
 
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID.getState());
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
 		String terminalText = "man";
 		ReceiveTerminalTextReport report = new ReceiveTerminalTextReport(playerID, "", terminalText);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
-		assertEquals(AdventureStateEnum.COMPLETED, QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED, QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 	}
 
 	/**
-	 * Tests that an interactable object can complete an adventure
+	 * Tests that an interactable object can complete an objective
 	 */
 	@Test
 	public void testHandleInteractableObjectUsed()
 	{
 		// Set up
 		int playerID = PlayersForTest.NICK.getPlayerID();
-		int questID = AdventuresForTest.QUEST12_ADVENTURE_1.getQuestID();
-		int adventureID = AdventuresForTest.QUEST12_ADVENTURE_1.getAdventureID();
+		int questID = ObjectivesForTest.QUEST12_OBJECTIVE_1.getQuestID();
+		int objectiveID = ObjectivesForTest.QUEST12_OBJECTIVE_1.getObjectiveID();
 		Player nick = playerManager.addPlayer(playerID);
 
 		// Sets the quest state
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 
-		// Sets up and adds the interact adventure
-		AdventureState as = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
-		qs.addAdventures(adventureList);
-		AdventureState adventureStateByID = QuestManager.getSingleton().getAdventureStateByID(playerID, questID,
-				adventureID);
+		// Sets up and adds the interact objective
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
+		qs.addObjectives(objectiveList);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerID, questID,
+				objectiveID);
 
-		// Verified that the adventure state is still set to triggered
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID.getState());
+		// Verified that the objective state is still set to triggered
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
 		// Set up the interact object manager
 		InteractObjectManager.getSingleton();
@@ -915,9 +917,9 @@ public class QuestManagerTest
 		KeyInputRecievedReport report = new KeyInputRecievedReport("e", playerID);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
-		// Verifies that the adventure is now completed
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		// Verifies that the objective is now completed
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 
 	}
 
@@ -930,8 +932,8 @@ public class QuestManagerTest
 	{
 		int playerID = PlayersForTest.MERLIN.getPlayerID();
 		int playerIDD = PlayersForTest.JOHN.getPlayerID();
-		int questID = AdventuresForTest.QUEST_14_ADVENTURE_1.getQuestID();
-		int adventureID = AdventuresForTest.QUEST_14_ADVENTURE_1.getAdventureID();
+		int questID = ObjectivesForTest.QUEST_14_OBJECTIVE_1.getQuestID();
+		int objectiveID = ObjectivesForTest.QUEST_14_OBJECTIVE_1.getObjectiveID();
 		Player merlin = playerManager.addPlayer(playerID);
 		Player john = playerManager.addPlayer(playerIDD);
 
@@ -939,30 +941,30 @@ public class QuestManagerTest
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 
-		// Sets up and adds the friend adventure
-		AdventureState as = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
-		qs.addAdventures(adventureList);
-		AdventureState adventureStateByID = QuestManager.getSingleton().getAdventureStateByID(playerID, questID,
-				adventureID);
+		// Sets up and adds the friend objective
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
+		qs.addObjectives(objectiveList);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerID, questID,
+				objectiveID);
 
-		// Verified that the adventure state is still set to triggered
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID.getState());
+		// Verified that the objective state is still set to triggered
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
 		// Sets the quest state
 		QuestState qs2 = new QuestState(playerIDD, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerIDD, qs);
 
-		// Sets up and adds the friend adventure
-		AdventureState as2 = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
-		ArrayList<AdventureState> adventureList2 = new ArrayList<>();
-		adventureList2.add(as2);
-		qs2.addAdventures(adventureList2);
-		AdventureState adventureStateByID2 = QuestManager.getSingleton().getAdventureStateByID(playerIDD, questID,
-				adventureID);
-		// Verified that the adventure state is still set to triggered
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID2.getState());
+		// Sets up and adds the friend objective
+		ObjectiveState as2 = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
+		ArrayList<ObjectiveState> objectiveList2 = new ArrayList<>();
+		objectiveList2.add(as2);
+		qs2.addObjectives(objectiveList2);
+		ObjectiveState objectiveStateByID2 = QuestManager.getSingleton().getObjectiveStateByID(playerIDD, questID,
+				objectiveID);
+		// Verified that the objective state is still set to triggered
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID2.getState());
 
 		FriendTableDataGateway gateway = FriendTableDataGatewayMock.getSingleton();
 		//merlin and john became friends
@@ -973,13 +975,13 @@ public class QuestManagerTest
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 		QuestManager.getSingleton().handleFriends(report);
 
-		// Verifies that the adventure is now completed
+		// Verifies that the objective is now completed
 		//Player 1 : Sender 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
 //		Player 2 Receiver 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerIDD, questID, adventureID).getState());
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerIDD, questID, objectiveID).getState());
 	}
 
 	public void testHandleMultipleFriends() throws DatabaseException
@@ -987,8 +989,8 @@ public class QuestManagerTest
 		int playerID = PlayersForTest.MERLIN.getPlayerID();
 		int playerIDD = PlayersForTest.JOHN.getPlayerID();
 		int playerIDT = PlayersForTest.JOSH.getPlayerID();
-		int questID = AdventuresForTest.QUEST_15_ADVENTURE_1.getQuestID();
-		int adventureID = AdventuresForTest.QUEST_15_ADVENTURE_1.getAdventureID();
+		int questID = ObjectivesForTest.QUEST_15_OBJECTIVE_1.getQuestID();
+		int objectiveID = ObjectivesForTest.QUEST_15_OBJECTIVE_1.getObjectiveID();
 		Player merlin = playerManager.addPlayer(playerID);
 		Player john = playerManager.addPlayer(playerIDD);
 		Player josh = playerManager.addPlayer(playerIDT);
@@ -996,16 +998,16 @@ public class QuestManagerTest
 		QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
 		QuestManager.getSingleton().addQuestState(playerID, qs);
 
-		// Sets up and adds the friend adventure
-		AdventureState as = new AdventureState(adventureID, AdventureStateEnum.TRIGGERED, true);
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		adventureList.add(as);
-		qs.addAdventures(adventureList);
-		AdventureState adventureStateByID = QuestManager.getSingleton().getAdventureStateByID(playerID, questID,
-				adventureID);
+		// Sets up and adds the friend objective
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
+		qs.addObjectives(objectiveList);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerID, questID,
+				objectiveID);
 
-		// Verified that the adventure state is still set to triggered
-		assertEquals(AdventureStateEnum.TRIGGERED, adventureStateByID.getState());
+		// Verified that the objective state is still set to triggered
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
 		FriendTableDataGateway gateway = FriendTableDataGatewayMock.getSingleton();
 		//merlin and john became friends
@@ -1025,10 +1027,55 @@ public class QuestManagerTest
 		QualifiedObservableConnector.getSingleton().sendReport(report2);
 		QuestManager.getSingleton().handleFriends(report2);
 		assertTrue(gateway.getFriendCounter(playerID) == 2);
-		// Verifies that the adventure is now completed
+		// Verifies that the objective is now completed
 
-		assertEquals(AdventureStateEnum.COMPLETED,
-				QuestManager.getSingleton().getAdventureStateByID(playerID, questID, adventureID).getState());
-//		
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
+//
+	}
+
+	/**
+	 *
+	 * @throws DatabaseException
+	 * @throws IllegalObjectiveChangeException
+	 * @throws IllegalQuestChangeException
+	 */
+	@Test
+	public void testCompleteObjectiveByReceivingChat() throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
+	{
+		int playerToTest = PlayersForTest.JEFF.getPlayerID();
+		int questID = ObjectivesForTest.RESPONSE_FROM_MOWREY_NPC.getQuestID();
+		int objectiveID = ObjectivesForTest.RESPONSE_FROM_MOWREY_NPC.getObjectiveID();
+		Player playerOne = playerManager.addPlayer(playerToTest);
+
+		// Sets the quest state
+		QuestState qs = new QuestState(playerToTest, questID, QuestStateEnum.TRIGGERED, true);
+		QuestManager.getSingleton().addQuestState(playerToTest, qs);
+
+		// Sets up and adds the chat objective
+		ObjectiveState as = new ObjectiveState(objectiveID, ObjectiveStateEnum.TRIGGERED, true);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		objectiveList.add(as);
+		qs.addObjectives(objectiveList);
+		ObjectiveState objectiveStateByID = QuestManager.getSingleton().getObjectiveStateByID(playerToTest, questID,
+				objectiveID);
+
+		// Verified that the objective state is still set to triggered
+		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
+
+		Player toTalkTo = playerManager.addPlayer(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
+		playerOne.setMapName("mowrey.tmx");
+		Position playerOnePosition = new Position(toTalkTo.getPlayerPosition().getRow() + 1,
+				toTalkTo.getPlayerPosition().getColumn() + 1);
+		playerOne.setPlayerPosition(playerOnePosition);
+
+		ChatMessageReceivedReport csmr = new ChatMessageReceivedReport(toTalkTo.getPlayerID(), playerOne.getPlayerID(),
+				"Hello, student",
+				playerOne.getPlayerPosition(), ChatType.Local);
+
+		QualifiedObservableConnector.getSingleton().sendReport(csmr);
+
+		assertEquals(ObjectiveStateEnum.COMPLETED,
+				QuestManager.getSingleton().getQuestStateByID(playerToTest, 16).getObjectiveList().get(0).getState());
 	}
 }

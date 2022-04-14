@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:frpg_companion/features/login/data/data.dart';
-import 'package:frpg_companion/features/objective/objective.dart';
 part 'login_controller.freezed.dart';
 
 /// Create login states for the controller
@@ -41,6 +38,17 @@ class LoginController extends StateNotifier<LoginState> {
     LoginState? state,
   })  : _repository = repository,
         super(state ?? const LoginState());
+
+  ///
+  ///
+  ///
+  Future<void> logOut() async {
+    await _repository.logOut(
+      request: LogoutRequest(
+        playerID: state.playerID,
+      ),
+    );
+  }
 
   ///
   /// Attempt to login

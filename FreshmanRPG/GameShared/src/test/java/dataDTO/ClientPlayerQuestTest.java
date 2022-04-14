@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 
 /**
@@ -35,72 +35,72 @@ public class ClientPlayerQuestTest
 		assertEquals("Test Quest 1", q.getQuestDescription());
 		assertEquals(QuestStateEnum.AVAILABLE, q.getQuestState());
 		assertEquals(42, q.getExperiencePointsGained());
-		assertEquals(133, q.getAdventuresToFulfillment());
+		assertEquals(133, q.getObjectivesToFulfillment());
 		assertEquals(expireDate, q.getExpireDate());
 	}
 
 	/**
-	 * Create a new ClientPlayerQuest with two ClientPlayerAdventures
+	 * Create a new ClientPlayerQuest with two ClientPlayerObjectives
 	 *
 	 * @return the ClientPlayerQuest
 	 */
-	public static ClientPlayerQuestStateDTO createOneQuestWithTwoAdventures()
+	public static ClientPlayerQuestStateDTO createOneQuestWithTwoObjectives()
 	{
-		ClientPlayerAdventureStateDTO adventureOne = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 4,
-				AdventureStateEnum.HIDDEN, false, true, "Henry", QuestStateEnum.AVAILABLE);
-		ClientPlayerAdventureStateDTO adventureTwo = new ClientPlayerAdventureStateDTO(2, "Test Adventure 2", 4,
-				AdventureStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveOne = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 4,
+				ObjectiveStateEnum.HIDDEN, false, true, "Henry", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 4,
+				ObjectiveStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 1, 2, true,
 				null);
-		q.addAdventure(adventureOne);
-		q.addAdventure(adventureTwo);
-		assertEquals(2, q.getAdventureList().size());
-		ClientPlayerAdventureStateDTO a = q.getAdventureList().get(0);
-		assertTrue(a.isRealLifeAdventure());
+		q.addObjective(objectiveOne);
+		q.addObjective(objectiveTwo);
+		assertEquals(2, q.getObjectiveList().size());
+		ClientPlayerObjectiveStateDTO a = q.getObjectiveList().get(0);
+		assertTrue(a.isRealLifeObjective());
 		assertEquals("Henry", a.getWitnessTitle());
-		a = q.getAdventureList().get(1);
-		assertFalse(a.isRealLifeAdventure());
+		a = q.getObjectiveList().get(1);
+		assertFalse(a.isRealLifeObjective());
 		assertNull(a.getWitnessTitle());
 		return q;
 	}
 
 	/**
-	 * Create a new ClientPlayerQuest with two ClientPlayerAdventures
+	 * Create a new ClientPlayerQuest with two ClientPlayerObjectives
 	 *
 	 * @return the ClientPlayerQuest
 	 */
-	public static ClientPlayerQuestStateDTO createOneQuestWithTwoAdventuresNeedingNotification()
+	public static ClientPlayerQuestStateDTO createOneQuestWithTwoObjectivesNeedingNotification()
 	{
-		ClientPlayerAdventureStateDTO adventureOne = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 4,
-				AdventureStateEnum.COMPLETED, true, true, "CEO:", QuestStateEnum.AVAILABLE);
-		ClientPlayerAdventureStateDTO adventureTwo = new ClientPlayerAdventureStateDTO(2, "Test Adventure 2", 2,
-				AdventureStateEnum.COMPLETED, true, false, null, QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveOne = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 4,
+				ObjectiveStateEnum.COMPLETED, true, true, "CEO:", QuestStateEnum.AVAILABLE);
+		ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 2,
+				ObjectiveStateEnum.COMPLETED, true, false, null, QuestStateEnum.AVAILABLE);
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.COMPLETED, 1, 2, true,
 				null);
-		q.addAdventure(adventureOne);
-		q.addAdventure(adventureTwo);
-		assertEquals(2, q.getAdventureList().size());
+		q.addObjective(objectiveOne);
+		q.addObjective(objectiveTwo);
+		assertEquals(2, q.getObjectiveList().size());
 		return q;
 	}
 
 	/**
-	 * Tests the ability to add an adventure to the quest
+	 * Tests the ability to add an objective to the quest
 	 */
 	@Test
-	public void testAddingAdventures()
+	public void testAddingObjectives()
 	{
-		ClientPlayerAdventureStateDTO adventureOne = new ClientPlayerAdventureStateDTO(1, "Test Adventure 1", 10,
-				AdventureStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
-		assertEquals(1, adventureOne.getAdventureID());
-		ClientPlayerAdventureStateDTO adventureTwo = new ClientPlayerAdventureStateDTO(2, "Test Adventure 2", 7,
-				AdventureStateEnum.HIDDEN, false, true, "Liz", QuestStateEnum.AVAILABLE);
-		assertEquals(2, adventureTwo.getAdventureID());
+		ClientPlayerObjectiveStateDTO objectiveOne = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 10,
+				ObjectiveStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
+		assertEquals(1, objectiveOne.getObjectiveID());
+		ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 7,
+				ObjectiveStateEnum.HIDDEN, false, true, "Liz", QuestStateEnum.AVAILABLE);
+		assertEquals(2, objectiveTwo.getObjectiveID());
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 1, 2, true,
 				null);
-		q.addAdventure(adventureOne);
-		q.addAdventure(adventureTwo);
-		assertEquals(2, q.getAdventureList().size());
-		assertEquals(1, q.getAdventureList().get(0).getAdventureID());
-		assertEquals(2, q.getAdventureList().get(1).getAdventureID());
+		q.addObjective(objectiveOne);
+		q.addObjective(objectiveTwo);
+		assertEquals(2, q.getObjectiveList().size());
+		assertEquals(1, q.getObjectiveList().get(0).getObjectiveID());
+		assertEquals(2, q.getObjectiveList().get(1).getObjectiveID());
 	}
 }

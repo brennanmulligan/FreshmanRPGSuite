@@ -1,10 +1,15 @@
 package communication.messages;
 
-import java.io.Serializable;
-
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
+import datatypes.VanityType;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Sent to all clients when a new player connects to an area server
@@ -14,16 +19,11 @@ import datatypes.Position;
  */
 public class PlayerJoinedMessage implements Message, Serializable
 {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private final String playerName;
-
 	private int playerID;
-	private String appearanceType;
+	private List<VanityDTO> vanities;
+	private List<VanityDTO> ownedItems;
 	private Position position;
 	private Crew crew;
 	private Major major;
@@ -33,115 +33,62 @@ public class PlayerJoinedMessage implements Message, Serializable
 	 * @param playerID the unique ID of the player
 	 * @param playerName the name of the new player
 	 * @param position where this player is on the map on this server
-	 * @param appearanceType the way the player should be drawn on the screen
+	 * @param vanities the player's owned vanity items
 	 * @param crew the crew to which this player belongs
 	 * @param major of the player
 	 * @param section of the player
 	 */
-	public PlayerJoinedMessage(int playerID, String playerName, String appearanceType, Position position, Crew crew,
-							   Major major, int section)
+	public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+							   Position position, Crew crew, Major major, int section)
+	{
+		this(playerID, playerName, vanities, position, crew, major, section, new ArrayList<>());
+	}
+
+	/**
+	 * @param playerID the unique ID of the player
+	 * @param playerName the name of the new player
+	 * @param position where this player is on the map on this server
+	 * @param vanities the player's owned vanity items
+	 * @param crew the crew to which this player belongs
+	 * @param major of the player
+	 * @param section of the player
+	 */
+	public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+							   Position position, Crew crew, Major major, int section,
+							   List<VanityDTO> ownedItems)
 	{
 		this.playerID = playerID;
 		this.playerName = playerName;
-		this.appearanceType = appearanceType;
+		this.vanities = vanities;
 		this.position = position;
 		this.crew = crew;
 		this.major = major;
 		this.section = section;
+		this.ownedItems = ownedItems;
 	}
 
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
-	public int hashCode()
+	public boolean equals(Object o)
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((appearanceType == null) ? 0 : appearanceType.hashCode());
-		result = prime * result + ((crew == null) ? 0 : crew.hashCode());
-		result = prime * result + ((major == null) ? 0 : major.hashCode());
-		result = prime * result + playerID;
-		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
-		result = prime * result + ((position == null) ? 0 : position.hashCode());
-		return result;
-	}
-
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
+		if (this == o)
 		{
 			return true;
 		}
-		if (obj == null)
+		if (o == null || getClass() != o.getClass())
 		{
 			return false;
 		}
-		if (getClass() != obj.getClass())
-		{
-			return false;
-		}
-		PlayerJoinedMessage other = (PlayerJoinedMessage) obj;
-		if (appearanceType == null)
-		{
-			if (other.appearanceType != null)
-			{
-				return false;
-			}
-		}
-		else if (!appearanceType.equals(other.appearanceType))
-		{
-			return false;
-		}
-		if (crew != other.crew)
-		{
-			return false;
-		}
-		if (major != other.major)
-		{
-			return false;
-		}
-		if (playerID != other.playerID)
-		{
-			return false;
-		}
-		if (playerName == null)
-		{
-			if (other.playerName != null)
-			{
-				return false;
-			}
-		}
-		else if (!playerName.equals(other.playerName))
-		{
-			return false;
-		}
-		if (position == null)
-		{
-			if (other.position != null)
-			{
-				return false;
-			}
-		}
-		else if (!position.equals(other.position))
-		{
-			return false;
-		}
-		return true;
+		PlayerJoinedMessage that = (PlayerJoinedMessage) o;
+		return playerID == that.playerID && section == that.section &&
+				playerName.equals(that.playerName) && Objects.equals(vanities, that.vanities) &&
+				position.equals(that.position) &&
+				crew == that.crew && major == that.major;
 	}
 
-	/**
-	 * Get the appearance type that shows how this player wants to be displayed
-	 *
-	 * @return the appearance type
-	 */
-	public String getAppearanceType()
+	@Override
+	public int hashCode()
 	{
-		return appearanceType;
+		return Objects.hash(playerName, playerID, vanities, position, crew, major, section);
 	}
 
 	/**
@@ -150,6 +97,22 @@ public class PlayerJoinedMessage implements Message, Serializable
 	public Crew getCrew()
 	{
 		return crew;
+	}
+
+	/**
+	 * @return The list of vanities a player is wearing
+	 */
+	public List<VanityDTO> getVanities()
+	{
+		return vanities;
+	}
+
+	/**
+	 * @return the list of all the vanities a player owns
+	 */
+	public List<VanityDTO> getAllOwnedItems()
+	{
+		return ownedItems;
 	}
 
 	/**

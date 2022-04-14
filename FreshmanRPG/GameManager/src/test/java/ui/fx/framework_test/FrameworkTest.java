@@ -15,7 +15,7 @@ import ui.fx.contentviews.InteractableObjectContentView;
 import ui.fx.contentviews.PlayerContentView;
 import ui.fx.contentviews.QuizbotContentView;
 import ui.fx.framework.AddButton;
-import ui.fx.framework.AdventureMenuButton;
+import ui.fx.framework.ObjectiveMenuButton;
 import ui.fx.framework.AlertBar;
 import ui.fx.framework.ClearFilterButton;
 import ui.fx.framework.DeleteButton;
@@ -24,7 +24,7 @@ import ui.fx.framework.FilterButton;
 import ui.fx.framework.HelpMenuButton;
 import ui.fx.framework.ImportButton;
 import ui.fx.framework.InteractableObjectMenuButton;
-import ui.fx.framework.PlayerAdventureStateButton;
+import ui.fx.framework.PlayerObjectiveStateButton;
 import ui.fx.framework.PlayerMenuButton;
 import ui.fx.framework.QuizbotMenuButton;
 
@@ -55,14 +55,14 @@ public class FrameworkTest extends ApplicationTest
 		assertEquals(IconFont.PENCIL.toString(), EditButton.getInstance().getText());
 		assertEquals(IconFont.TRASH.toString(), DeleteButton.getInstance().getText());
 		assertEquals(IconFont.IMPORT.toString(), ImportButton.getInstance().getText());
-		assertEquals(IconFont.MAP.toString(), AdventureMenuButton.getInstance().getText());
+		assertEquals(IconFont.MAP.toString(), ObjectiveMenuButton.getInstance().getText());
 		assertEquals(IconFont.REFRESH.toString(), ClearFilterButton.getInstance().getText());
 		assertEquals(IconFont.MAGNIFYING_GLASS.toString(), FilterButton.getInstance().getText());
 		assertEquals(IconFont.HELP.toString(), HelpMenuButton.getInstance().getText());
 		assertEquals(IconFont.PERSON.toString(), PlayerMenuButton.getInstance().getText());
 		assertEquals(IconFont.SUNGLASSES.toString(), QuizbotMenuButton.getInstance().getText());
 		assertEquals(IconFont.ITEM_BOX.toString(), InteractableObjectMenuButton.getInstance().getText());
-		assertEquals(IconFont.CIRCLE_CHECK.toString(), PlayerAdventureStateButton.getSingleton().getText());
+		assertEquals(IconFont.CIRCLE_CHECK.toString(), PlayerObjectiveStateButton.getSingleton().getText());
 	}
 
 	/**
@@ -103,18 +103,18 @@ public class FrameworkTest extends ApplicationTest
 	}
 
 	/**
-	 * Test the action buttons from the adventure content view
+	 * Test the action buttons from the objective content view
 	 */
 	@Test
-	public void testActionButtonsAdventureContext()
+	public void testActionButtonsObjectiveContext()
 	{
-		clickOn("#AdventureMenuButton");
-		assertEquals("AdventureContentView", WorkSpace.getInstance().getCenter().getClass().getSimpleName());
+		clickOn("#ObjectiveMenuButton");
+		assertEquals("ObjectiveContentView", WorkSpace.getInstance().getCenter().getClass().getSimpleName());
 
 		clickOn("#AddButton");
-		clickOn("#AdventureButton");
+		clickOn("#ObjectiveButton");
 		clickOn("#ModalCancelButton");
-		assertEquals("ADD ADVENTURE OR QUEST", AlertBar.getInstance().getMessage());
+		assertEquals("ADD OBJECTIVE OR QUEST", AlertBar.getInstance().getMessage());
 
 		clickOn("#EditButton");
 		clickOn("#ModalCancelButton");
@@ -125,7 +125,7 @@ public class FrameworkTest extends ApplicationTest
 		clickOn("#NoButton");
 
 		clickOn("#ImportButton");
-		assertEquals("IMPORT ADVENTURES AND/OR QUESTS", AlertBar.getInstance().getMessage());
+		assertEquals("IMPORT OBJECTIVES AND/OR QUESTS", AlertBar.getInstance().getMessage());
 		push(KeyCode.ESCAPE);
 	}
 
@@ -229,19 +229,19 @@ public class FrameworkTest extends ApplicationTest
 	}
 
 	/**
-	 * Test the filter buttons and field from the adventure content view
+	 * Test the filter buttons and field from the objective content view
 	 */
 	@Test
-	public void testFilterAdventureContext()
+	public void testFilterObjectiveContext()
 	{
-		clickOn("#AdventureMenuButton");
+		clickOn("#ObjectiveMenuButton");
 
 		clickOn("#FilterField").write("This is a Test");
 
 		clickOn("#FilterButton");
 
 		clickOn("#ClearFilterButton");
-		assertEquals("REFRESH ADVENTURES AND QUESTS VIEW", AlertBar.getInstance().getMessage());
+		assertEquals("REFRESH OBJECTIVES AND QUESTS VIEW", AlertBar.getInstance().getMessage());
 
 	}
 

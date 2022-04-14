@@ -21,7 +21,6 @@ public class ItemPurchasedPacker extends MessagePacker
 	@Override
 	public Message pack(QualifiedObservableReport object)
 	{
-
 		if (object.getClass() != ItemPurchasedReport.class)
 		{
 			throw new IllegalArgumentException(

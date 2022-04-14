@@ -14,7 +14,7 @@ import model.OptionsManager;
 import model.PlayerManager;
 import model.QuestManager;
 import model.reports.TeleportOnQuestCompletionReport;
-import datatypes.AdventuresForTest;
+import datatypes.ObjectivesForTest;
 
 /**
  * makes sure TeleportOnQuestCompletionPacker works well
@@ -64,10 +64,10 @@ public class TeleportOnQuestCompletionPackerTest
 
 		String host = "hostname";
 		int port = 22;
-		GameLocationDTO gl = new GameLocationDTO("theGreen.tmx", null);
+		GameLocationDTO gl = new GameLocationDTO("quad.tmx", null);
 
 		TeleportOnQuestCompletionReport report = new TeleportOnQuestCompletionReport(1,
-				AdventuresForTest.QUEST1_ADVENTURE_1.getQuestID(), gl, host, port);
+				ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), gl, host, port);
 
 		TeleportOnQuestCompletionPacker packer = new TeleportOnQuestCompletionPacker();
 		packer.setAccumulator(stateAccumulator);

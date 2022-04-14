@@ -81,7 +81,7 @@ public class UpdatePlayerInformationMessagePackerTest
 	}
 
 	/**
-	 * the message should contain the appropriate quests and adventures
+	 * the message should contain the appropriate quests and objectives
 	 *
 	 * @throws DatabaseException shouldn't
 	 * @throws IllegalQuestChangeException the state changed illegally

@@ -12,7 +12,7 @@ import model.CommandDeleteQuest;
 import model.ModelFacade;
 import model.OptionsManager;
 import model.QuestRecord;
-import ui.fx.contentviews.AdventureContentView;
+import ui.fx.contentviews.ObjectiveContentView;
 
 /**
  * Test that quests can be added.
@@ -38,7 +38,7 @@ public class AddQuestTest extends ApplicationTest
 	public void testAddQuest()
 	{
 		String questTitle = "A totally Different Name2";
-		clickOn("#AdventureMenuButton");
+		clickOn("#ObjectiveMenuButton");
 		clickOn("#AddButton");
 		clickOn("#QuestButton");
 		clickOn("#QuestTitle").write(questTitle);
@@ -55,7 +55,7 @@ public class AddQuestTest extends ApplicationTest
 		sleep(1000);
 		boolean found = false;
 		int questId = 0;
-		for (QuestRecord quest : AdventureContentView.getInstance().getQuestTable().getItems())
+		for (QuestRecord quest : ObjectiveContentView.getInstance().getQuestTable().getItems())
 		{
 			if (quest.getTitle().equals(questTitle))
 			{

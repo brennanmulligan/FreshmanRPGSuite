@@ -35,7 +35,7 @@ public class QuestStateTableDataGatewayMock implements QuestStateTableDataGatewa
 	private Hashtable<Integer, ArrayList<QuestStateRecordDTO>> data;
 
 	/**
-	 * build the mock data from AdventuresForTest
+	 * build the mock data from ObjectivesForTest
 	 */
 	private QuestStateTableDataGatewayMock()
 	{

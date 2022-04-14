@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import datasource.DatabaseException;
 import model.IllegalQuestChangeException;
@@ -15,8 +15,8 @@ import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.QuestManager;
-import datatypes.AdventureStatesForTest;
-import datatypes.AdventuresForTest;
+import datatypes.ObjectiveStatesForTest;
+import datatypes.ObjectivesForTest;
 import datatypes.LevelsForTest;
 import datatypes.PlayersForTest;
 import datatypes.QuestStatesForTest;
@@ -81,7 +81,7 @@ public class UpdatePlayerInformationReportTest
 	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testCombineAdventureDescriptionAndState() throws DatabaseException, IllegalQuestChangeException
+	public void testCombineObjectiveDescriptionAndState() throws DatabaseException, IllegalQuestChangeException
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 		UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(john);
@@ -89,24 +89,24 @@ public class UpdatePlayerInformationReportTest
 		int i = 1;
 		for (ClientPlayerQuestStateDTO q : report.getClientPlayerQuestList())
 		{
-			ArrayList<ClientPlayerAdventureStateDTO> adventureList = q.getAdventureList();
+			ArrayList<ClientPlayerObjectiveStateDTO> objectiveList = q.getObjectiveList();
 
 			if (i == 1)
 			{
 				int j = 1;
-				for (ClientPlayerAdventureStateDTO a : adventureList)
+				for (ClientPlayerObjectiveStateDTO a : objectiveList)
 				{
 					if (j == 1)
 					{
-						assertEquals(AdventuresForTest.QUEST1_ADVENTURE_1.getAdventureDescription(),
-								a.getAdventureDescription());
-						assertEquals(AdventureStatesForTest.PLAYER1_QUEST1_ADV1.getState(), a.getAdventureState());
+						assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+								a.getObjectiveDescription());
+						assertEquals(ObjectiveStatesForTest.PLAYER1_QUEST1_ADV1.getState(), a.getObjectiveState());
 					}
 					if (j == 2)
 					{
-						assertEquals(AdventuresForTest.QUEST1_ADVENTURE2.getAdventureDescription(),
-								a.getAdventureDescription());
-						assertEquals(AdventureStatesForTest.PLAYER1_QUEST1_ADV2.getState(), a.getAdventureState());
+						assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
+								a.getObjectiveDescription());
+						assertEquals(ObjectiveStatesForTest.PLAYER1_QUEST1_ADV2.getState(), a.getObjectiveState());
 					}
 					j++;
 				}
@@ -115,19 +115,19 @@ public class UpdatePlayerInformationReportTest
 			if (i == 2)
 			{
 				int j = 1;
-				for (ClientPlayerAdventureStateDTO a : adventureList)
+				for (ClientPlayerObjectiveStateDTO a : objectiveList)
 				{
 					if (j == 1)
 					{
-						assertEquals(AdventuresForTest.QUEST2_ADVENTURE1.getAdventureDescription(),
-								a.getAdventureDescription());
-						assertEquals(AdventureStatesForTest.PLAYER1_QUEST2_ADV1.getState(), a.getAdventureState());
+						assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE1.getObjectiveDescription(),
+								a.getObjectiveDescription());
+						assertEquals(ObjectiveStatesForTest.PLAYER1_QUEST2_ADV1.getState(), a.getObjectiveState());
 					}
 					if (j == 2)
 					{
-						assertEquals(AdventuresForTest.QUEST2_ADVENTURE2.getAdventureDescription(),
-								a.getAdventureDescription());
-						assertEquals(AdventureStatesForTest.PLAYER1_QUEST2_ADV2.getState(), a.getAdventureState());
+						assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(),
+								a.getObjectiveDescription());
+						assertEquals(ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getState(), a.getObjectiveState());
 					}
 					j++;
 				}

@@ -1,0 +1,75 @@
+
+shirts.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+base_shirt
+  rotate: false
+  xy: 1, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_blue
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_br
+  rotate: false
+  xy: 133, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_green
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_merlin
+  rotate: false
+  xy: 265, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_null_pointer
+  rotate: false
+  xy: 265, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_off_by_one
+  rotate: false
+  xy: 397, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_out_of_bounds
+  rotate: false
+  xy: 397, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_red
+  rotate: false
+  xy: 529, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shirt_tutor
+  rotate: false
+  xy: 529, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

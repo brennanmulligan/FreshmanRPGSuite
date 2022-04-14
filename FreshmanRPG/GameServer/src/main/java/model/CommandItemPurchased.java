@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Command used to update the knowledge points of a player when a purchase is made
+ * Command used to update the doubloons of a player when a purchase is made
  *
  * @author Andrew Stake
  *
@@ -34,7 +34,7 @@ public class CommandItemPurchased extends Command
 			return false;
 		}
 
-		player.removeKnowledgePoints(price);
+		player.removeDoubloons(price);
 		return true;
 	}
 

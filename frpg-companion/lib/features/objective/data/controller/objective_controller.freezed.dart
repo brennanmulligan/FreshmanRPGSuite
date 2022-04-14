@@ -20,17 +20,15 @@ class _$ObjectiveStateTearOff {
   _ObjectiveState call(
       {dynamic showResponse = false,
       dynamic playerID = 0,
-      dynamic questID = 0,
-      dynamic objectiveID = 0,
       dynamic playerName = "",
-      CompleteObjectiveResponse? objectiveResponse}) {
+      CompleteObjectiveResponse? objectiveResponse,
+      FetchAllObjectiveResponse? fetchAllObjectiveResponse}) {
     return _ObjectiveState(
       showResponse: showResponse,
       playerID: playerID,
-      questID: questID,
-      objectiveID: objectiveID,
       playerName: playerName,
       objectiveResponse: objectiveResponse,
+      fetchAllObjectiveResponse: fetchAllObjectiveResponse,
     );
   }
 }
@@ -42,10 +40,10 @@ const $ObjectiveState = _$ObjectiveStateTearOff();
 mixin _$ObjectiveState {
   dynamic get showResponse => throw _privateConstructorUsedError;
   dynamic get playerID => throw _privateConstructorUsedError;
-  dynamic get questID => throw _privateConstructorUsedError;
-  dynamic get objectiveID => throw _privateConstructorUsedError;
   dynamic get playerName => throw _privateConstructorUsedError;
   CompleteObjectiveResponse? get objectiveResponse =>
+      throw _privateConstructorUsedError;
+  FetchAllObjectiveResponse? get fetchAllObjectiveResponse =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -61,10 +59,9 @@ abstract class $ObjectiveStateCopyWith<$Res> {
   $Res call(
       {dynamic showResponse,
       dynamic playerID,
-      dynamic questID,
-      dynamic objectiveID,
       dynamic playerName,
-      CompleteObjectiveResponse? objectiveResponse});
+      CompleteObjectiveResponse? objectiveResponse,
+      FetchAllObjectiveResponse? fetchAllObjectiveResponse});
 }
 
 /// @nodoc
@@ -80,10 +77,9 @@ class _$ObjectiveStateCopyWithImpl<$Res>
   $Res call({
     Object? showResponse = freezed,
     Object? playerID = freezed,
-    Object? questID = freezed,
-    Object? objectiveID = freezed,
     Object? playerName = freezed,
     Object? objectiveResponse = freezed,
+    Object? fetchAllObjectiveResponse = freezed,
   }) {
     return _then(_value.copyWith(
       showResponse: showResponse == freezed
@@ -94,14 +90,6 @@ class _$ObjectiveStateCopyWithImpl<$Res>
           ? _value.playerID
           : playerID // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      questID: questID == freezed
-          ? _value.questID
-          : questID // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      objectiveID: objectiveID == freezed
-          ? _value.objectiveID
-          : objectiveID // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       playerName: playerName == freezed
           ? _value.playerName
           : playerName // ignore: cast_nullable_to_non_nullable
@@ -110,6 +98,10 @@ class _$ObjectiveStateCopyWithImpl<$Res>
           ? _value.objectiveResponse
           : objectiveResponse // ignore: cast_nullable_to_non_nullable
               as CompleteObjectiveResponse?,
+      fetchAllObjectiveResponse: fetchAllObjectiveResponse == freezed
+          ? _value.fetchAllObjectiveResponse
+          : fetchAllObjectiveResponse // ignore: cast_nullable_to_non_nullable
+              as FetchAllObjectiveResponse?,
     ));
   }
 }
@@ -124,10 +116,9 @@ abstract class _$ObjectiveStateCopyWith<$Res>
   $Res call(
       {dynamic showResponse,
       dynamic playerID,
-      dynamic questID,
-      dynamic objectiveID,
       dynamic playerName,
-      CompleteObjectiveResponse? objectiveResponse});
+      CompleteObjectiveResponse? objectiveResponse,
+      FetchAllObjectiveResponse? fetchAllObjectiveResponse});
 }
 
 /// @nodoc
@@ -145,36 +136,36 @@ class __$ObjectiveStateCopyWithImpl<$Res>
   $Res call({
     Object? showResponse = freezed,
     Object? playerID = freezed,
-    Object? questID = freezed,
-    Object? objectiveID = freezed,
     Object? playerName = freezed,
     Object? objectiveResponse = freezed,
+    Object? fetchAllObjectiveResponse = freezed,
   }) {
     return _then(_ObjectiveState(
       showResponse:
           showResponse == freezed ? _value.showResponse : showResponse,
       playerID: playerID == freezed ? _value.playerID : playerID,
-      questID: questID == freezed ? _value.questID : questID,
-      objectiveID: objectiveID == freezed ? _value.objectiveID : objectiveID,
       playerName: playerName == freezed ? _value.playerName : playerName,
       objectiveResponse: objectiveResponse == freezed
           ? _value.objectiveResponse
           : objectiveResponse // ignore: cast_nullable_to_non_nullable
               as CompleteObjectiveResponse?,
+      fetchAllObjectiveResponse: fetchAllObjectiveResponse == freezed
+          ? _value.fetchAllObjectiveResponse
+          : fetchAllObjectiveResponse // ignore: cast_nullable_to_non_nullable
+              as FetchAllObjectiveResponse?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ObjectiveState extends _ObjectiveState {
+class _$_ObjectiveState extends _ObjectiveState with DiagnosticableTreeMixin {
   const _$_ObjectiveState(
       {this.showResponse = false,
       this.playerID = 0,
-      this.questID = 0,
-      this.objectiveID = 0,
       this.playerName = "",
-      this.objectiveResponse})
+      this.objectiveResponse,
+      this.fetchAllObjectiveResponse})
       : super._();
 
   @JsonKey()
@@ -185,19 +176,28 @@ class _$_ObjectiveState extends _ObjectiveState {
   final dynamic playerID;
   @JsonKey()
   @override
-  final dynamic questID;
-  @JsonKey()
-  @override
-  final dynamic objectiveID;
-  @JsonKey()
-  @override
   final dynamic playerName;
   @override
   final CompleteObjectiveResponse? objectiveResponse;
+  @override
+  final FetchAllObjectiveResponse? fetchAllObjectiveResponse;
 
   @override
-  String toString() {
-    return 'ObjectiveState(showResponse: $showResponse, playerID: $playerID, questID: $questID, objectiveID: $objectiveID, playerName: $playerName, objectiveResponse: $objectiveResponse)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ObjectiveState(showResponse: $showResponse, playerID: $playerID, playerName: $playerName, objectiveResponse: $objectiveResponse, fetchAllObjectiveResponse: $fetchAllObjectiveResponse)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ObjectiveState'))
+      ..add(DiagnosticsProperty('showResponse', showResponse))
+      ..add(DiagnosticsProperty('playerID', playerID))
+      ..add(DiagnosticsProperty('playerName', playerName))
+      ..add(DiagnosticsProperty('objectiveResponse', objectiveResponse))
+      ..add(DiagnosticsProperty(
+          'fetchAllObjectiveResponse', fetchAllObjectiveResponse));
   }
 
   @override
@@ -208,13 +208,12 @@ class _$_ObjectiveState extends _ObjectiveState {
             const DeepCollectionEquality()
                 .equals(other.showResponse, showResponse) &&
             const DeepCollectionEquality().equals(other.playerID, playerID) &&
-            const DeepCollectionEquality().equals(other.questID, questID) &&
-            const DeepCollectionEquality()
-                .equals(other.objectiveID, objectiveID) &&
             const DeepCollectionEquality()
                 .equals(other.playerName, playerName) &&
             const DeepCollectionEquality()
-                .equals(other.objectiveResponse, objectiveResponse));
+                .equals(other.objectiveResponse, objectiveResponse) &&
+            const DeepCollectionEquality().equals(
+                other.fetchAllObjectiveResponse, fetchAllObjectiveResponse));
   }
 
   @override
@@ -222,10 +221,9 @@ class _$_ObjectiveState extends _ObjectiveState {
       runtimeType,
       const DeepCollectionEquality().hash(showResponse),
       const DeepCollectionEquality().hash(playerID),
-      const DeepCollectionEquality().hash(questID),
-      const DeepCollectionEquality().hash(objectiveID),
       const DeepCollectionEquality().hash(playerName),
-      const DeepCollectionEquality().hash(objectiveResponse));
+      const DeepCollectionEquality().hash(objectiveResponse),
+      const DeepCollectionEquality().hash(fetchAllObjectiveResponse));
 
   @JsonKey(ignore: true)
   @override
@@ -235,12 +233,12 @@ class _$_ObjectiveState extends _ObjectiveState {
 
 abstract class _ObjectiveState extends ObjectiveState {
   const factory _ObjectiveState(
-      {dynamic showResponse,
-      dynamic playerID,
-      dynamic questID,
-      dynamic objectiveID,
-      dynamic playerName,
-      CompleteObjectiveResponse? objectiveResponse}) = _$_ObjectiveState;
+          {dynamic showResponse,
+          dynamic playerID,
+          dynamic playerName,
+          CompleteObjectiveResponse? objectiveResponse,
+          FetchAllObjectiveResponse? fetchAllObjectiveResponse}) =
+      _$_ObjectiveState;
   const _ObjectiveState._() : super._();
 
   @override
@@ -248,13 +246,11 @@ abstract class _ObjectiveState extends ObjectiveState {
   @override
   dynamic get playerID;
   @override
-  dynamic get questID;
-  @override
-  dynamic get objectiveID;
-  @override
   dynamic get playerName;
   @override
   CompleteObjectiveResponse? get objectiveResponse;
+  @override
+  FetchAllObjectiveResponse? get fetchAllObjectiveResponse;
   @override
   @JsonKey(ignore: true)
   _$ObjectiveStateCopyWith<_ObjectiveState> get copyWith =>

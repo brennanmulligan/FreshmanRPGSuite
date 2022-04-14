@@ -11,7 +11,7 @@ public enum IconFont
 	 */
 	PERSON("\uf47c"),
 	/**
-	 * Symbol for Adventures and Quests Menu Button
+	 * Symbol for Objectives and Quests Menu Button
 	 */
 	MAP("\uf203"),
 	/**
@@ -47,7 +47,7 @@ public enum IconFont
 	 */
 	TRASH("\uf37f"),
 	/**
-	 * Symbol for PlayerAdventureState Button
+	 * Symbol for PlayerObjectiveState Button
 	 */
 	CIRCLE_CHECK("\uf375"),
 	/**

@@ -46,9 +46,9 @@ public interface QuestRowDataGateway
 	public Position getTriggerPosition();
 
 	/**
-	 * @return the number of adventures you must complete to fulfill this quest
+	 * @return the number of objectives you must complete to fulfill this quest
 	 */
-	public int getAdventuresForFulfillment();
+	public int getObjectivesForFulfillment();
 
 	/**
 	 * @return the number of experience points you gain when you fulfill this
@@ -122,9 +122,9 @@ public interface QuestRowDataGateway
 
 
 	/**
-	 * @param adventuresForFulfillment number of adventures to fulfill quest
+	 * @param objectivesForFulfillment number of objectives to fulfill quest
 	 */
-	public void setAdventuresForFulfillment(int adventuresForFulfillment);
+	public void setObjectivesForFulfillment(int objectivesForFulfillment);
 
 
 	/**

@@ -54,12 +54,12 @@ public class AllPlayersReportTest
 		ArrayList<PlayerDTO> list = new ArrayList<>();
 		PlayersForTest t = PlayersForTest.ANDY;
 		PlayerDTO p1 = new PlayerDTO(t.getPlayerID(), t.getPlayerName(), t.getPlayerPassword(), t.getAppearanceType(),
-				t.getKnowledgeScore(), t.getPosition(), t.getMapName(), t.getExperiencePoints(), t.getCrew(), t.getMajor(),
-				t.getSection(), t.getMapsVisited());
+				t.getDoubloons(), t.getPosition(), t.getMapName(), t.getExperiencePoints(), t.getCrew(), t.getMajor(),
+				t.getSection(), t.getMapsVisited(), new ArrayList<>());
 		t = PlayersForTest.DAVE;
 		PlayerDTO p2 = new PlayerDTO(t.getPlayerID(), t.getPlayerName(), t.getPlayerPassword(), t.getAppearanceType(),
-				t.getKnowledgeScore(), t.getPosition(), t.getMapName(), t.getExperiencePoints(), t.getCrew(), t.getMajor(),
-				t.getSection(), t.getMapsVisited());
+				t.getDoubloons(), t.getPosition(), t.getMapName(), t.getExperiencePoints(), t.getCrew(), t.getMajor(),
+				t.getSection(), t.getMapsVisited(), new ArrayList<>());
 		AllPlayersReport r = new AllPlayersReport(list);
 		list.add(p1);
 		list.add(p2);

@@ -4,6 +4,7 @@ import datatypes.ChatType;
 import model.ClientPlayer;
 import model.ClientPlayerManager;
 import model.QualifiedObservableReport;
+import view.screen.notification.NotificationType;
 
 /**
  * Report for when a chat message is received
@@ -11,7 +12,7 @@ import model.QualifiedObservableReport;
  * @author Steve
  *
  */
-public class ChatReceivedReport implements QualifiedObservableReport
+public class ChatReceivedReport implements QualifiedObservableReport, NotificationTrigger
 {
 	private final String message;
 	private final int senderID;
@@ -135,5 +136,27 @@ public class ChatReceivedReport implements QualifiedObservableReport
 	public int getReceiverID()
 	{
 		return receiverID;
+	}
+
+	@Override
+	public String getNotificationTitle()
+	{
+		return "New Message";
+	}
+
+	@Override
+	public String getNotificationBody()
+	{
+		return "[" + type + "] " + message;
+	}
+
+	@Override
+	public NotificationType getNotificationType()
+	{
+		if (this.type.equals(ChatType.System))
+		{
+			return NotificationType.ALERT;
+		}
+		return NotificationType.NONE;
 	}
 }

@@ -1,10 +1,11 @@
 package communication.messages;
 
-import static org.junit.Assert.assertEquals;
-
+import dataDTO.VanityDTO;
+import datatypes.PlayersForTest;
+import datatypes.VanityType;
 import org.junit.Test;
 
-import datatypes.PlayersForTest;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests a login message
@@ -20,17 +21,17 @@ public class PlayerJoinedMessageTest
 	@Test
 	public void testToStringAndConstructor()
 	{
-		PlayerJoinedMessage msg = new PlayerJoinedMessage(2, PlayersForTest.MERLIN.getPlayerName(),
-				PlayersForTest.MERLIN.getAppearanceType(), PlayersForTest.MERLIN.getPosition(),
-				PlayersForTest.MERLIN.getCrew(), PlayersForTest.MERLIN.getMajor(), PlayersForTest.MERLIN.getSection());
-		assertEquals("PlayerJoined Message: playerName = Merlin", msg.toString());
+		PlayerJoinedMessage msg = new PlayerJoinedMessage(2, PlayersForTest.JOSH.getPlayerName(),
+				PlayersForTest.JOSH.getVanityItems(), PlayersForTest.JOSH.getPosition(),
+				PlayersForTest.JOSH.getCrew(), PlayersForTest.JOSH.getMajor(), PlayersForTest.JOSH.getSection());
+		assertEquals("PlayerJoined Message: playerName = Josh", msg.toString());
 		assertEquals(2, msg.getPlayerID());
-		assertEquals("Merlin", msg.getPlayerName());
-		assertEquals(PlayersForTest.MERLIN.getAppearanceType(), msg.getAppearanceType());
-		assertEquals(PlayersForTest.MERLIN.getPosition(), msg.getPosition());
-		assertEquals(PlayersForTest.MERLIN.getCrew(), msg.getCrew());
-		assertEquals(PlayersForTest.MERLIN.getMajor(), msg.getMajor());
-		assertEquals(PlayersForTest.MERLIN.getSection(), msg.getSection());
+		assertEquals("Josh", msg.getPlayerName());
+		assertEquals(PlayersForTest.JOSH.getVanityItems(), msg.getVanities());
+		assertEquals(PlayersForTest.JOSH.getPosition(), msg.getPosition());
+		assertEquals(PlayersForTest.JOSH.getCrew(), msg.getCrew());
+		assertEquals(PlayersForTest.JOSH.getMajor(), msg.getMajor());
+		assertEquals(PlayersForTest.JOSH.getSection(), msg.getSection());
 	}
 
 }

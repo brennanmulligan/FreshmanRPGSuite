@@ -17,7 +17,7 @@ import datatypes.QuestStateEnum;
 import datatypes.QuestStatesForTest;
 
 /**
- * An abstract class that tests the table data gateways into the Adventure table
+ * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
  *
@@ -64,11 +64,11 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void retrieveAllAdventuresForQuest() throws DatabaseException
+	public void retrieveAllObjectivesForQuest() throws DatabaseException
 	{
 		setup();
 		ArrayList<QuestStateRecordDTO> records = gateway.getQuestStates(1);
-		assertEquals(6, records.size());
+		assertEquals(7, records.size());
 		// the records could be in any order
 		for (int i = 0; i < 5; i++)
 		{
@@ -106,7 +106,7 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 		gateway = getGatewaySingleton();
 		gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4, QuestStateEnum.TRIGGERED, true);
 		ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID());
-		assertEquals(7, actual.size());
+		assertEquals(8, actual.size());
 		assertTrue(actual.contains(new QuestStateRecordDTO(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4,
 				QuestStateEnum.TRIGGERED, true)));
 

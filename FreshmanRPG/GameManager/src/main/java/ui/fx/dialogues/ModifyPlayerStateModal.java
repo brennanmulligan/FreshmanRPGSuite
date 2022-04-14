@@ -13,12 +13,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import model.AdventureRecord;
-import model.CommandAdventureCompleted;
+import model.ObjectiveRecord;
+import model.CommandObjectiveCompleted;
 import model.ModelFacade;
 import model.QualifiedObservableReport;
 import model.QualifiedObserver;
-import model.reports.PlayersUncompletedAdventuresReport;
+import model.reports.PlayersUncompletedObjectivesReport;
 
 /**
  * @author Joshua McMillen and Abe Lochner
@@ -29,9 +29,9 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 
 	private static ModifyPlayerStateModal instance;
 	private PlayerDTO player;
-	private ArrayList<AdventureRecord> incompleteAdventures;
-	private ArrayList<AdventureRecord> completedAdventures;
-	private TableView<AdventureRecord> adventuresTable;
+	private ArrayList<ObjectiveRecord> incompleteObjectives;
+	private ArrayList<ObjectiveRecord> completedObjectives;
+	private TableView<ObjectiveRecord> objectivesTable;
 
 	/**
 	 * @param id
@@ -43,18 +43,18 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 	private ModifyPlayerStateModal(String id, String label, int height, int width)
 	{
 		super(id, label, height, width);
-		incompleteAdventures = new ArrayList<>();
-		completedAdventures = new ArrayList<>();
-		adventuresTable = new TableView<>();
-		adventuresTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		adventuresTable.setId("AdventuresTable");
-		adventuresTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		incompleteObjectives = new ArrayList<>();
+		completedObjectives = new ArrayList<>();
+		objectivesTable = new TableView<>();
+		objectivesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		objectivesTable.setId("ObjectivesTable");
+		objectivesTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-		TableColumn<AdventureRecord, String> adventureDesc = new TableColumn<>("DESC");
-		adventureDesc.setCellValueFactory(new PropertyValueFactory<>("adventureDescription"));
-		TableColumn<AdventureRecord, String> completionCriteria = new TableColumn<>("CRITERIA");
+		TableColumn<ObjectiveRecord, String> objectiveDesc = new TableColumn<>("DESC");
+		objectiveDesc.setCellValueFactory(new PropertyValueFactory<>("objectiveDescription"));
+		TableColumn<ObjectiveRecord, String> completionCriteria = new TableColumn<>("CRITERIA");
 		completionCriteria.setCellValueFactory(new PropertyValueFactory<>("completionCriteria"));
-		adventuresTable.getColumns().addAll(adventureDesc, completionCriteria);
+		objectivesTable.getColumns().addAll(objectiveDesc, completionCriteria);
 
 		HBox buttonRow = new HBox();
 		buttonRow.setPadding(new Insets(8));
@@ -64,7 +64,7 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 		buttonRow.getChildren().add(completeButton);
 		VBox center = new VBox();
 		center.setFillWidth(true);
-		center.getChildren().addAll(adventuresTable, buttonRow);
+		center.getChildren().addAll(objectivesTable, buttonRow);
 
 		modal.setCenter(center);
 	}
@@ -85,9 +85,9 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 	@Override
 	public void save()
 	{
-		for (AdventureRecord adventure : completedAdventures)
+		for (ObjectiveRecord objective : completedObjectives)
 		{
-			CommandAdventureCompleted command = new CommandAdventureCompleted(player.getPlayerID(), adventure.getQuestID(), adventure.getAdventureID());
+			CommandObjectiveCompleted command = new CommandObjectiveCompleted(player.getPlayerID(), objective.getQuestID(), objective.getObjectiveID());
 			ModelFacade.getSingleton().queueCommand(command);
 		}
 	}
@@ -110,12 +110,12 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 
 	private void markSelectedComplete()
 	{
-		for (AdventureRecord record : adventuresTable.getSelectionModel().getSelectedItems())
+		for (ObjectiveRecord record : objectivesTable.getSelectionModel().getSelectedItems())
 		{
-			completedAdventures.add(record);
-			incompleteAdventures.remove(record);
+			completedObjectives.add(record);
+			incompleteObjectives.remove(record);
 		}
-		this.adventuresTable.setItems(FXCollections.observableArrayList(incompleteAdventures));
+		this.objectivesTable.setItems(FXCollections.observableArrayList(incompleteObjectives));
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 	{
 		if (instance == null)
 		{
-			instance = new ModifyPlayerStateModal("ModifyPlayerStateModal", "Player's Unfinished Adventures", 600, 400);
+			instance = new ModifyPlayerStateModal("ModifyPlayerStateModal", "Player's Unfinished Objectives", 600, 400);
 		}
 		return instance;
 	}
@@ -136,8 +136,8 @@ public class ModifyPlayerStateModal extends Modal implements QualifiedObserver
 	@Override
 	public void receiveReport(QualifiedObservableReport report)
 	{
-		this.incompleteAdventures = ((PlayersUncompletedAdventuresReport) report).getAllUncompletedAdventures();
-		this.adventuresTable.setItems(FXCollections.observableArrayList(incompleteAdventures));
+		this.incompleteObjectives = ((PlayersUncompletedObjectivesReport) report).getAllUncompletedObjectives();
+		this.objectivesTable.setItems(FXCollections.observableArrayList(incompleteObjectives));
 
 	}
 

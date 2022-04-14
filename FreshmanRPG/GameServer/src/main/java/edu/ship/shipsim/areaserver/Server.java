@@ -131,7 +131,7 @@ public class Server implements Runnable
 	}
 
 	/**
-	 * Run like java -jar server.jar --port=1000 map=quiznasium
+	 * Run like java -jar server.jar --port=1000 map=recCenter
 	 *
 	 * @param args
 	 *            Main runner

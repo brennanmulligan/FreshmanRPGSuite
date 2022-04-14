@@ -1,18 +1,12 @@
 package view.screen.coordinates;
 
-import java.util.List;
-
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-import dataDTO.KnowledgePointPrizeDTO;
 import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
 import model.QualifiedObserver;
 import model.reports.ClientPlayerMovedReport;
-import model.reports.KnowledgePointPrizeListReport;
-import model.reports.KnowledgePointsChangeReport;
 import view.screen.OverlayingScreen;
-import view.screen.shop.ShopTable;
 
 /**
  * Builds the ShopUI to be displayed when the "Shop" button is activated
@@ -61,8 +55,10 @@ public class CoordinatesUI extends OverlayingScreen implements QualifiedObserver
     public void receiveReport(QualifiedObservableReport report)
     {
         ClientPlayerMovedReport movedReport = (ClientPlayerMovedReport) report;
-
-        coordinatesTable.updateCoordinates(movedReport.getNewPosition());
+        if(movedReport.isThisClientsPlayer())
+        {
+            coordinatesTable.updateCoordinates(movedReport.getNewPosition());
+        }
     }
 
     /**

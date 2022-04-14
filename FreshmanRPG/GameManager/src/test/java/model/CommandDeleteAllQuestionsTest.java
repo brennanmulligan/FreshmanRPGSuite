@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import DatabaseBuilders.BuildTestQuestions;
 import dataDTO.QuestionDTO;
-import datasource.AdventureStateTableDataGatewayMock;
+import datasource.ObjectiveStateTableDataGatewayMock;
 import datasource.DatabaseException;
 import datasource.PlayerConnectionRowDataGatewayMock;
 import datasource.PlayerLoginRowDataGatewayMock;
@@ -42,7 +42,7 @@ public class CommandDeleteAllQuestionsTest
 		new PlayerRowDataGatewayMock().resetData();
 		new PlayerLoginRowDataGatewayMock().resetData();
 		QuestStateTableDataGatewayMock.getSingleton().resetData();
-		AdventureStateTableDataGatewayMock.getSingleton().resetData();
+		ObjectiveStateTableDataGatewayMock.getSingleton().resetData();
 		QuestManager.resetSingleton();
 		new PlayerConnectionRowDataGatewayMock(1).resetData();
 		GameManagerPlayerManager.resetSingleton();

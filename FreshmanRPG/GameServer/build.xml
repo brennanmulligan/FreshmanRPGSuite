@@ -33,7 +33,7 @@
 	
 	<target depends="GameServer.build" name="GameServer.seed">
 		
-		 <java classname="DatabaseBuilders.BuildQuestsAndAdventures" failonerror="true">
+		 <java classname="DatabaseBuilders.BuildQuestsAndObjectives" failonerror="true">
 		 	<classpath refid="GameServer.classpath"/>
 		 </java>
 		<java classname="DatabaseBuilders.BuildTestDBPlayers" failonerror="true">
@@ -51,7 +51,7 @@
 	</target>
 
     <target depends="GameServer.build" name="VisitedMap.seed">
-    	<java classname="DatabaseBuilders.BuildTestKnowledgePointPrizes" failonerror="true">
+    	<java classname="DatabaseBuilders.BuildTestDoubloonPrizes" failonerror="true">
     						<classpath refid="GameServer.classpath"/>
     			</java>	
     	<java classname="DatabaseBuilders.BuildTestRandomFacts" failonerror="true">

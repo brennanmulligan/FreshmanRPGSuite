@@ -34,7 +34,7 @@ public class UpdatePlayerInformationMessagePacker extends MessagePacker
 		if (this.getAccumulator().getPlayerID() == x.getPlayerID())
 		{
 			return new InitializeThisClientsPlayerMessage(x.getClientPlayerQuestList(), x.getFriendsList(), x.getExperiencePts(),
-					x.getKnowledgePts(), x.getLevel());
+					x.getDoubloons(), x.getLevel());
 		}
 		return null;
 	}

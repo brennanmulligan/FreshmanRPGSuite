@@ -48,6 +48,7 @@ public class NPCMockBehavior extends NPCBehavior
 		return null;
 	}
 
+
 	/**
 	 * @see model.QualifiedObserver#receiveReport(model.QualifiedObservableReport)
 	 */

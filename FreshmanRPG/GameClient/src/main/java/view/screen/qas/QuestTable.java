@@ -17,7 +17,7 @@ import view.screen.SkinPicker;
  */
 public class QuestTable extends OverlayingScreenTable
 {
-	private AdventureTable adventureTable;
+	private ObjectiveTable objectiveTable;
 	private String blue_hex = "00FFFF";
 
 	/**
@@ -31,13 +31,13 @@ public class QuestTable extends OverlayingScreenTable
 	}
 
 	/**
-	 * Sets the adventure table so that the quest table is able to send the adventure table
-	 * which quest to display adventures for.
-	 * @param at The table that hold all of the adventures
+	 * Sets the objective table so that the quest table is able to send the objective table
+	 * which quest to display objectives for.
+	 * @param table The table that hold all of the objectives
 	 */
-	public void setAdventureTable(AdventureTable at)
+	public void setObjectiveTable(ObjectiveTable table)
 	{
-		adventureTable = at;
+		objectiveTable = table;
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class QuestTable extends OverlayingScreenTable
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				adventureTable.updateAdventures(cpq.getQuestDescription(), cpq.getExpireDate().toString(), cpq.getAdventureList());
+				objectiveTable.updateObjectives(cpq.getQuestDescription(), cpq.getExpireDate().toString(), cpq.getObjectiveList());
 				super.clicked(event, x, y);
 			}
 		};

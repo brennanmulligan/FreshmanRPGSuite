@@ -53,7 +53,7 @@ public class PlayerManagerTest
 	{
 		LoginPlayerManager pm = LoginPlayerManager.getSingleton();
 		LoginSuccessfulReport expected = new LoginSuccessfulReport(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), "localhost",
-				1878, 0);
+				1883, 0);
 
 		LoginSuccessfulReport actual = pm.login(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
 				PlayersForTest.MERLIN_OFFLINE.getPlayerPassword());

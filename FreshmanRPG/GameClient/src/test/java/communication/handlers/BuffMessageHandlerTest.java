@@ -50,7 +50,7 @@ public class BuffMessageHandlerTest
 		assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
 
 		CommandDisplayText cmd = (CommandDisplayText) ClientModelFacade.getSingleton().getNextCommand();
-		assertEquals("You have received 10 Quiznasium Bonus Points.", cmd.getText());
+		assertEquals("You have received 10 Rec Center Bonus Points.", cmd.getText());
 		ClientModelFacade.getSingleton().emptyQueue();
 
 	}

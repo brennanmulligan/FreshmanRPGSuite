@@ -1,0 +1,47 @@
+
+shoes.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+shoes_black
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shoes_br
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shoes_fancy
+  rotate: false
+  xy: 265, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shoes_none
+  rotate: false
+  xy: 397, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shoes_red
+  rotate: false
+  xy: 529, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+shoes_socks
+  rotate: false
+  xy: 661, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

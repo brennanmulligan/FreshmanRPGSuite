@@ -1,10 +1,14 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group 'edu.ship.cs'
 version '1.0-SNAPSHOT'
+
+mainClassName = 'manager.GameManagerFX'
 
 repositories {
     mavenCentral()
@@ -28,6 +32,11 @@ dependencies {
 checkstyle {
     ignoreFailures = false
     maxWarnings = 0
+}
+
+javafx {
+    version = "17.0.1"
+    modules = [ 'javafx.controls' ]
 }
 
 task shadowJar {

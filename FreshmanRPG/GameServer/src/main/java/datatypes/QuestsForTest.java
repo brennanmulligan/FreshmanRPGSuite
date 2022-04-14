@@ -12,10 +12,9 @@ import criteria.GameLocationDTO;
 import criteria.QuestCompletionActionParameter;
 import dataENUM.QuestCompletionActionType;
 import datasource.PlayerTableDataGateway;
-import datatypes.Position;
 
 /**
- * Creates adventures for the DB
+ * Creates objectives for the DB
  *
  * @author merlin
  *
@@ -24,52 +23,52 @@ public enum QuestsForTest
 {
 
 
-	ONE_BIG_QUEST(1, "t0", "Quest 1", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 5, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("theGreen.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	ONE_BIG_QUEST(1, "t0", "Quest 1", new GameLocationDTO("quad.tmx", new Position(92, 7)), 5, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	THE_OTHER_QUEST(2, "t1", "Quest 2", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	THE_OTHER_QUEST(2, "t1", "Quest 2", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	ONE_SAME_LOCATION_QUEST(3, "t2", "Quest 3", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 3, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("theGreen.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	ONE_SAME_LOCATION_QUEST(3, "t2", "Quest 3", new GameLocationDTO("quad.tmx", new Position(92, 7)), 3, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
 
-	THE_LITTLE_QUEST(4, "t3", "Quest 4", new GameLocationDTO("theGreen.tmx", new Position(2, 32)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("theGreen.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	THE_LITTLE_QUEST(4, "t3", "Quest 4", new GameLocationDTO("quad.tmx", new Position(2, 32)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	CHAT_TO_AN_NPC_QUEST(5, "t4", "Quest 5", new GameLocationDTO("theGreen.tmx", new Position(0, 0)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("theGreen.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	CHAT_TO_AN_NPC_QUEST(5, "t4", "Quest 5", new GameLocationDTO("quad.tmx", new Position(0, 0)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	TELEPORT_QUEST(6, "t5", "Teleporting Quest", new GameLocationDTO("theGreen.tmx", new Position(2, 32)), 1, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("sortingRoom.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	TELEPORT_QUEST(6, "t5", "Teleporting Quest", new GameLocationDTO("quad.tmx", new Position(2, 32)), 1, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("sortingRoom.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	INVALID_QUEST(7, "t6", "Quest 7", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2015, Calendar.MARCH, 21).getTime()),
+	INVALID_QUEST(7, "t6", "Quest 7", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2015, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	EXPIRED_QUEST(8, "t7", "Quest 8", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime()),
+	EXPIRED_QUEST(8, "t7", "Quest 8", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	FINISHED_QUEST(9, "t8", "Quest 9", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime()),
+	FINISHED_QUEST(9, "t8", "Quest 9", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	KNOWLEDGE_QUEST(10, "Knowledge Quest", "Quest 10", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 5, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.MARCH, 21).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	DOUBLOON_QUEST(10, "Doubloon Quest", "Quest 10", new GameLocationDTO("quad.tmx", new Position(92, 7)), 5, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.MARCH, 21).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
-	TRIGGERED_STATE_TO_EXPIRED_STATE_QUEST(11, "Quest 11", "Quest should go from triggered to expired", new GameLocationDTO("theGreen.tmx", new Position(3, 3)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(), new GregorianCalendar(2016, Calendar.APRIL, 26).getTime()),
+	TRIGGERED_STATE_TO_EXPIRED_STATE_QUEST(11, "Quest 11", "Quest should go from triggered to expired", new GameLocationDTO("quad.tmx", new Position(3, 3)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(), new GregorianCalendar(2016, Calendar.APRIL, 26).getTime()),
 	/**
 	 *
 	 */
-	INTERACTABLE_ITEM_QUEST(12, "Quest 12", "Interactable Items should be a viable method of completing quests", new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	INTERACTABLE_ITEM_QUEST(12, "Quest 12", "Interactable Items should be a viable method of completing quests", new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
@@ -83,15 +82,20 @@ public enum QuestsForTest
 	 *
 	 */
 	MANY_FRIENDS_QUEST(15, "Quest 15", "Make multiple friends", new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	/**
+	 *
+	 */
+	TEST_CHAT_RESPONSE_QUEST(16, "Chat Response", "Get talked at by NPC", new GameLocationDTO("mowrey.tmx", new Position(29, 36)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+
 
 	/**
 	 * The real opening quest
 	 */
 	ONRAMPING_QUEST(100, "Introductory Quest",
 			"Welcome!  For your first quest, you need to learn a little bit about this world.  Press Q to see what you need to do.  "
-					+ "Double clicking on a quest in the quest screen will show you its adventures.",
+					+ "Double clicking on a quest in the quest screen will show you its objectives.",
 			PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 9, QuestCompletionActionType.TELEPORT,
-			new GameLocationDTO("theGreen.tmx", new Position(92, 7)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+			new GameLocationDTO("quad.tmx", new Position(92, 7)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
@@ -109,41 +113,41 @@ public enum QuestsForTest
 	/**
 	 * Real quest for them to meet the tutor
 	 */
-	MEET_NPC_TUTOR_QUEST(103, "Meet The Tutor", "Talk with the NPC tutor.", new GameLocationDTO("homework.tmx", new Position(1, 1)), 10, 1,
+	MEET_NPC_TUTOR_QUEST(103, "Meet The Tutor", "Talk with the NPC tutor.", new GameLocationDTO("library.tmx", new Position(1, 1)), 10, 1,
 			QuestCompletionActionType.TRIGGER_QUESTS, new QuestListCompletionParameter(new ArrayList<>(Arrays.asList(MEET_REAL_LIFE_TUTOR_QUEST.getQuestID()))), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
 	 * Recipe Quest
 	 */
 	RECIPE_QUEST(104, "Curiouser and Curiouser!", "Find the special tea recipe in The Green.",
-			new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 2, 1, QuestCompletionActionType.NO_ACTION,
+			new GameLocationDTO("quad.tmx", new Position(92, 7)), 2, 1, QuestCompletionActionType.NO_ACTION,
 			null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
 	 * Tea Ingredients Quest
 	 */
-	COLLECT_TEA_INGREDIENTS(105, "Flowers for Tea", "Dr. Mooney wants to try that tea recipe you found. Find four flowers to help him make it.",
-			new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 1, 5, QuestCompletionActionType.NO_ACTION,
+	COLLECT_TEA_INGREDIENTS(105, "Flowers for Tea", "TEAcher wants to try that tea recipe you found. Find four flowers to help him make it.",
+			new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 5, QuestCompletionActionType.NO_ACTION,
 			null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
 	 * Riddle Quest
-	 * GameLocationDTO("homework.tmx", new Position(10,3))
+	 * GameLocationDTO("library.tmx", new Position(10,3))
 	 */
 	RIDDLE_QUEST(106, "Solving Riddles", "You need to solve these riddles by finding to locations that they describe. Good Luck!",
-			new GameLocationDTO("theGreen.tmx", new Position(92,7)), 10, 3, QuestCompletionActionType.NO_ACTION,
+			new GameLocationDTO("quad.tmx", new Position(92,7)), 10, 3, QuestCompletionActionType.NO_ACTION,
 			null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	ROCK_PAPER_SCISSORS(107, "Roshambo", "A mysterious figure issues you a challenge, but first you must find the secret password...",
-			new GameLocationDTO("theGreen.tmx", new Position(92, 7)), 1, 2, QuestCompletionActionType.NO_ACTION,
+			new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 2, QuestCompletionActionType.NO_ACTION,
 			null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	TEMP_QUEST(108, "Triggered by object", "This quest was triggered by an interacting with an object. ",
-			new GameLocationDTO("theGreen.tmx", new Position(83, 33)), 1, 1, QuestCompletionActionType.NO_ACTION,
+			new GameLocationDTO("quad.tmx", new Position(83, 33)), 1, 1, QuestCompletionActionType.NO_ACTION,
 			null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
 
@@ -153,7 +157,7 @@ public enum QuestsForTest
 	private String questDescription;
 	private GameLocationDTO gameLocation;
 	private int experienceGained;
-	private int adventuresForFulfillment;
+	private int objectiveForFulfillment;
 	private QuestCompletionActionType completionActionType;
 	private QuestCompletionActionParameter completionActionParameter;
 	private Date startDate;
@@ -171,8 +175,8 @@ public enum QuestsForTest
 	 * @param experienceGained
 	 *            the number of experience points you get when you fulfill the
 	 *            quest
-	 * @param adventuresForFulfillment
-	 *            the number of adventures you must complete to fulfill the
+	 * @param objectiveForFulfillment
+	 *            the number of objectives you must complete to fulfill the
 	 *            quest
 	 * @param completionActionType
 	 *            TThe type of action that should be taken when this quest
@@ -185,7 +189,7 @@ public enum QuestsForTest
 	 *            This last day that this quest is available
 	 */
 	QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
-				  int experienceGained, int adventuresForFulfillment, QuestCompletionActionType completionActionType,
+				  int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
 				  QuestCompletionActionParameter completionActionParam, Date startDate, Date endDate)
 	{
 		this.questID = questID;
@@ -193,7 +197,7 @@ public enum QuestsForTest
 		this.questDescription = questDescription;
 		this.gameLocation = gameLocation;
 		this.experienceGained = experienceGained;
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectiveForFulfillment = objectiveForFulfillment;
 		this.completionActionType = completionActionType;
 		this.completionActionParameter = completionActionParam;
 		this.startDate = startDate;
@@ -201,11 +205,11 @@ public enum QuestsForTest
 	}
 
 	/**
-	 * @return the number of adventures you must complete to fulfill the quest
+	 * @return the number of objectives you must complete to fulfill the quest
 	 */
-	public int getAdventuresForFulfillment()
+	public int getObjectiveForFulfillment()
 	{
-		return adventuresForFulfillment;
+		return objectiveForFulfillment;
 	}
 
 	/**

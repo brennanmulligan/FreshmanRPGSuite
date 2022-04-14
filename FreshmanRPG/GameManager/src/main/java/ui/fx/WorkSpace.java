@@ -5,7 +5,7 @@ import ui.fx.contentviews.PlayerContentView;
 import ui.fx.framework.ActionBar;
 import ui.fx.framework.AlertBar;
 import ui.fx.framework.ContentView;
-import ui.fx.framework.PlayerAdventureStateButton;
+import ui.fx.framework.PlayerObjectiveStateButton;
 
 /**
  *
@@ -43,11 +43,11 @@ public class WorkSpace extends BorderPane
 		this.setCenter(targetContent);
 		if (contentView instanceof PlayerContentView)
 		{
-			PlayerAdventureStateButton.getSingleton().setVisible(true);
+			PlayerObjectiveStateButton.getSingleton().setVisible(true);
 		}
 		else
 		{
-			PlayerAdventureStateButton.getSingleton().setVisible(false);
+			PlayerObjectiveStateButton.getSingleton().setVisible(false);
 		}
 	}
 

@@ -58,7 +58,7 @@ public class TeleportationContinuationPackerTest
 		stateAccumulator.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
 
 		int id = PlayersForTest.MERLIN.getPlayerID();
-		PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(id, "theGreen.tmx");
+		PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(id, "quad.tmx");
 		MapToServerMapping mapping = new MapToServerMapping(report.getMap());
 		TeleportationContinuationPacker packer = new TeleportationContinuationPacker();
 		packer.setAccumulator(stateAccumulator);
@@ -86,7 +86,7 @@ public class TeleportationContinuationPackerTest
 		stateAccumulator.setPlayerId(PlayersForTest.MARTY.getPlayerID());
 
 		int id = PlayersForTest.MERLIN.getPlayerID();
-		PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(id, "theGreen.tmx");
+		PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(id, "quad.tmx");
 		TeleportationContinuationPacker packer = new TeleportationContinuationPacker();
 		packer.setAccumulator(stateAccumulator);
 

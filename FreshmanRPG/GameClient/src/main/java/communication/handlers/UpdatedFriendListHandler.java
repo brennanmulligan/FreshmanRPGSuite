@@ -1,11 +1,8 @@
 package communication.handlers;
 
-import communication.messages.KnowledgePointPrizeMessage;
 import communication.messages.Message;
 import communication.messages.updateFriendListMessage;
-import dataDTO.FriendDTO;
 import model.ClientModelFacade;
-import model.PopulateKnowledgePointManagerCommand;
 import model.UpdateFriendsListCommand;
 
 /**

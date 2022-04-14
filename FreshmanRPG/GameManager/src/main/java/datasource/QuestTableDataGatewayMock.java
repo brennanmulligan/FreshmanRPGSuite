@@ -51,9 +51,9 @@ public class QuestTableDataGatewayMock implements QuestTableDataGateway
 						testQuest.getQuestDescription(),
 						testQuest.getMapName(),
 						testQuest.getPosition(),
-						AdventureTableDataGatewayMock.getSingleton().getAdventuresForQuest(testQuest.getQuestID()),
+						ObjectiveTableDataGatewayMock.getSingleton().getObjectivesForQuest(testQuest.getQuestID()),
 						testQuest.getExperienceGained(),
-						testQuest.getAdventuresForFulfillment(),
+						testQuest.getObjectiveForFulfillment(),
 						testQuest.getCompletionActionType(),
 						testQuest.getCompletionActionParameter(),
 						testQuest.getStartDate(),
@@ -62,18 +62,18 @@ public class QuestTableDataGatewayMock implements QuestTableDataGateway
 			catch (DatabaseException e)
 			{
 				/* Should never throw a DatabaseException, but
-				 * AdventureTableDataGatewayMock#getAdventuresForQuest needs to conform
-				 * to the AdventureTableDataGateway interface!
+				 * ObjectiveTableDataGatewayMock#getObjectivesForQuest needs to conform
+				 * to the ObjectiveTableDataGateway interface!
 				 */
 			}
 		}
 	}
 
-	private void refreshAdventures() throws DatabaseException
+	private void refreshObjectives() throws DatabaseException
 	{
 		for (QuestRecord q : quests)
 		{
-			q.setAdventures(AdventureTableDataGatewayMock.getSingleton().getAdventuresForQuest(q.getQuestID()));
+			q.setObjectives(ObjectiveTableDataGatewayMock.getSingleton().getObjectivesForQuest(q.getQuestID()));
 		}
 	}
 
@@ -83,7 +83,7 @@ public class QuestTableDataGatewayMock implements QuestTableDataGateway
 	@Override
 	public ArrayList<QuestRecord> getAllQuests() throws DatabaseException
 	{
-		refreshAdventures();
+		refreshObjectives();
 		return quests;
 	}
 

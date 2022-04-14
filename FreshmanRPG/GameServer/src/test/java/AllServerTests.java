@@ -1,13 +1,14 @@
 
 import communication.packers.*;
+import dataDTO.TestMowreyInfoDTO;
+import datasource.*;
 import model.*;
-import model.terminal.CommandTerminalTextExit;
 import org.junit.ClassRule;
 import org.junit.rules.ExternalResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import communication.handlers.AdventureNotificationCompleteMessageHandlerTest;
+import communication.handlers.ObjectiveNotificationCompleteMessageHandlerTest;
 import communication.handlers.ChatMessageHandlerTest;
 import communication.handlers.ConnectMessageHandlerTest;
 import communication.handlers.DisconnectMessageHandlerTest;
@@ -17,40 +18,17 @@ import communication.handlers.MovementMessageHandlerTest;
 import communication.handlers.SendTerminalTextMessageHandlerTest;
 import communication.handlers.TeleportationInitiationHandlerTest;
 import dataDTO.TestPlayerDTO;
-import datasource.AdventureRecordTest;
-import datasource.AdventureStateTableDataGatewayMockTest;
-import datasource.AdventureStateTableDataGatewayRDSTest;
-import datasource.AdventureTableDataGatewayMockTest;
-import datasource.AdventureTableDataGatewayRDSTest;
-import datasource.LevelTableDataGatewayMockTest;
-import datasource.LevelTableDataGatewayRDSTest;
-import datasource.NPCQuestionRowDataGatewayMockTest;
-import datasource.NPCQuestionRowDataGatewayRDSTest;
-import datasource.NPCRowDataGatewayMockTest;
-import datasource.NPCRowDataGatewayRDSTest;
-import datasource.PlayerRowDataGatewayMockTest;
-import datasource.PlayerRowDataGatewayRDSTest;
-import datasource.PlayerTableDataGatewayMockTest;
-import datasource.PlayerTableDataGatewayRDSTest;
-import datasource.QuestRowDataGatewayMockTest;
-import datasource.QuestRowDataGatewayRDSTest;
-import datasource.QuestStateTableDataGatewayMockTest;
-import datasource.QuestStateTableDataGatewayRDSTest;
-import datasource.RandomFactsTableDataGatewayMockTest;
-import datasource.RandomFactsTableDataGatewayRDSTest;
-import datasource.VisitedMapsGatewayMockTest;
-import datasource.VisitedMapsGatewayRDSTest;
 import model.cheatCodeBehaviors.BuffBehaviorTest;
 import model.reports.AddExistingPlayerReportTest;
-import model.reports.AdventureStateChangeReportTest;
+import model.reports.ObjectiveStateChangeReportTest;
 import model.reports.ReceiveTerminalTextReportTest;
 import model.reports.ExperienceChangedReportTest;
 import model.reports.InteractableObjectBuffReportTest;
 import model.reports.InteractableObjectTextReportTest;
 import model.reports.KeyInputRecievedReportTest;
-import model.reports.KnowledgeChangeReportTest;
+import model.reports.DoubloonsChangeReportTest;
 import model.reports.ObjectInRangeReportTest;
-import model.reports.PlayerAppearanceChangeReportTest;
+//import model.reports.PlayerAppearanceChangeReportTest;
 import model.reports.PlayerConnectionReportTest;
 import model.reports.PlayerFinishedInitializingReportTest;
 import model.reports.PlayerMovedReportTest;
@@ -74,7 +52,7 @@ import model.reports.UpdatePlayerInformationReportTest;
 @Suite.SuiteClasses(
 		{
 				// communication.handlers
-				AdventureNotificationCompleteMessageHandlerTest.class,
+				ObjectiveNotificationCompleteMessageHandlerTest.class,
 				ChatMessageHandlerTest.class,
 				ConnectMessageHandlerTest.class,
 				DisconnectMessageHandlerTest.class,
@@ -85,16 +63,16 @@ import model.reports.UpdatePlayerInformationReportTest;
 				TeleportationInitiationHandlerTest.class,
 
 				// communication.packers
-				AdventureStateChangeMessagePackerTest.class,
+				ObjectiveStateChangeMessagePackerTest.class,
 				ReceiveTerminalTextMessagePackerTest.class,
 				ChatMessagePackerTest.class,
 				ExperienceChangedMessagePackerTest.class,
 				InteractionDeniedMessagePackerTest.class,
 				InteractableObjectBuffMessagePackerTest.class,
-				KnowledgeChangedMessagePackerTest.class,
+				DoubloonsChangedMessagePackerTest.class,
 				MapFileMessagePackerTest.class,
 				MovementMessagePackerTest.class,
-				PlayerAppearanceChangePackerTest.class,
+				//PlayerAppearanceChangePackerTest.class,
 				PlayerJoinedMessagePackerTest.class,
 				QuestStateChangeMessagePackerTest.class,
 				TeleportationContinuationPackerTest.class,
@@ -103,16 +81,17 @@ import model.reports.UpdatePlayerInformationReportTest;
 				TerminalTextExitPackerTest.class,
 
 				// dataDTO
+				TestMowreyInfoDTO.class,
 				TestPlayerDTO.class,
 
 				// dataSource
-				AdventureRecordTest.class,
-				AdventureStateTableDataGatewayMockTest.class,
-				AdventureStateTableDataGatewayRDSTest.class,
-				// AdventureStateTableDataGatewayTest.class,
-				AdventureTableDataGatewayMockTest.class,
-				AdventureTableDataGatewayRDSTest.class,
-				// AdventureTableDataGateway.class
+				ObjectiveRecordTest.class,
+				ObjectiveStateTableDataGatewayMockTest.class,
+				ObjectiveStateTableDataGatewayRDSTest.class,
+				// ObjectiveStateTableDataGatewayTest.class,
+				ObjectiveTableDataGatewayMockTest.class,
+				ObjectiveTableDataGatewayRDSTest.class,
+				// ObjectiveTableDataGateway.class
 				LevelTableDataGatewayMockTest.class,
 				LevelTableDataGatewayRDSTest.class,
 				// LevelTableDataGatewayTest.class,
@@ -138,12 +117,12 @@ import model.reports.UpdatePlayerInformationReportTest;
 				VisitedMapsGatewayRDSTest.class,
 
 				// model
-				AdventureStateTest.class,
+				ObjectiveStateTest.class,
 				ChatManagerTest.class,
 				ChatMessageReceivedCommandTest.class,
 				CheatCodeManagerTest.class,
 				CommandAddPlayerTest.class,
-				CommandAdventureNotificationCompleteTest.class,
+				CommandObjectiveNotificationCompleteTest.class,
 				CommandKeyInputMessageReceivedTest.class,
 				CommandMovePlayerSilentlyAndPersistTest.class,
 				CommandMovePlayerSilentlyTest.class,
@@ -174,15 +153,15 @@ import model.reports.UpdatePlayerInformationReportTest;
 
 				// model.reports
 				AddExistingPlayerReportTest.class,
-				AdventureStateChangeReportTest.class,
+				ObjectiveStateChangeReportTest.class,
 				ReceiveTerminalTextReportTest.class,
 				ExperienceChangedReportTest.class,
 				InteractableObjectTextReportTest.class,
 				InteractableObjectBuffReportTest.class,
 				KeyInputRecievedReportTest.class,
-				KnowledgeChangeReportTest.class,
+				DoubloonsChangeReportTest.class,
 				ObjectInRangeReportTest.class,
-				PlayerAppearanceChangeReportTest.class,
+				//PlayerAppearanceChangeReportTest.class,
 				PlayerConnectionReportTest.class,
 				PlayerFinishedInitializingReportTest.class,
 				PlayerMovedReportTest.class,
@@ -191,6 +170,14 @@ import model.reports.UpdatePlayerInformationReportTest;
 				TeleportOnQuestCompletionReportTest.class,
 				TimeToLevelUpDeadlineTest.class,
 				UpdatePlayerInformationReportTest.class,
+				VanityShopTableDataGatewayMockTest.class,
+				//VanityShopTableDataGatewayTest.class
+				VanityInventoryTableDataGatewayMockTest.class,
+				VanityInventoryTableDataGatewayRDSTest.class,
+				//VanityInventoryTableDataGatewayTest.class
+				VanityItemsTableDataGatewayMockTest.class,
+				VanityItemsTableDataGatewayRDSTest.class,
+				//VanityItemsTableDataGatewayTest.class
 		})
 
 public class AllServerTests

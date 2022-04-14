@@ -18,19 +18,19 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import criteria.AdventureCompletionCriteria;
+import criteria.ObjectiveCompletionCriteria;
 import criteria.GameLocationDTO;
 import criteria.QuestCompletionActionParameter;
-import dataDTO.AdventureStateRecordDTO;
-import dataENUM.AdventureCompletionType;
+import dataDTO.ObjectiveStateRecordDTO;
+import dataENUM.ObjectiveCompletionType;
 import dataENUM.QuestCompletionActionType;
-import datasource.AdventureStateTableDataGateway;
-import datasource.AdventureStateTableDataGatewayMock;
+import datasource.ObjectiveStateTableDataGateway;
+import datasource.ObjectiveStateTableDataGatewayMock;
 import datasource.DatabaseException;
 import datasource.DatabaseTest;
 import datatypes.Position;
-import model.reports.AllQuestsAndAdventuresReport;
-import datatypes.AdventuresForTest;
+import model.reports.AllQuestsAndObjectivesReport;
+import datatypes.ObjectivesForTest;
 import datatypes.PlayersForTest;
 import datatypes.QuestsForTest;
 
@@ -82,7 +82,7 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 		QuestRecord quest = createQuest();
 
 		manager.addQuest(quest.getTitle(), quest.getDescription(), quest.getMapName(), quest.getPos(),
-				quest.getExperiencePointsGained(), quest.getAdventuresForFulfillment(), quest.getCompletionActionType(),
+				quest.getExperiencePointsGained(), quest.getObjectivesForFulfillment(), quest.getCompletionActionType(),
 				quest.getCompletionActionParameter(), quest.getStartDate(), quest.getEndDate());
 
 		assertContainsQuest(manager.getQuests(), quest);
@@ -101,30 +101,30 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 		QuestRecord quest = createQuest();
 
 		manager.addQuest(quest.getTitle(), quest.getDescription(), quest.getMapName(), quest.getPos(),
-				quest.getExperiencePointsGained(), quest.getAdventuresForFulfillment(), quest.getCompletionActionType(),
+				quest.getExperiencePointsGained(), quest.getObjectivesForFulfillment(), quest.getCompletionActionType(),
 				quest.getCompletionActionParameter(), quest.getStartDate(), quest.getEndDate());
 		assertContainsQuest(manager.getQuests(), quest);
 	}
 
 	/**
-	 * Test that updating adventure stores the updates
+	 * Test that updating objective stores the updates
 	 *
 	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testUpdateAdventure() throws DatabaseException
+	public void testUpdateObjective() throws DatabaseException
 	{
 		GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
-		AdventuresForTest adventure = AdventuresForTest.QUEST1_ADVENTURE_1;
+		ObjectivesForTest objective = ObjectivesForTest.QUEST1_OBJECTIVE_1;
 
-		manager.editAdventure(adventure.getQuestID(), adventure.getAdventureID(), "New Adventure Description",
-				adventure.getExperiencePointsGained(), adventure.getCompletionType(),
-				adventure.getCompletionCriteria());
+		manager.editObjective(objective.getQuestID(), objective.getObjectiveID(), "New Objective Description",
+				objective.getExperiencePointsGained(), objective.getCompletionType(),
+				objective.getCompletionCriteria());
 
 		ArrayList<QuestRecord> quests = manager.getQuests();
 		QuestRecord afterQuest = quests.get(0);
-		AdventureRecord afterAdventure = afterQuest.getAdventureD(adventure.getAdventureID());
-		assertEquals("New Adventure Description", afterAdventure.getAdventureDescription());
+		ObjectiveRecord afterObjective = afterQuest.getObjectiveID(objective.getObjectiveID());
+		assertEquals("New Objective Description", afterObjective.getObjectiveDescription());
 
 	}
 
@@ -147,7 +147,7 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 		final String questDescription = "testDescription";
 		final String triggerMapName = "test.tmx";
 		final Position triggerPosition = new Position(2, 32);
-		final int adventuresForFulfillment = 7;
+		final int objectivesForFulfillment = 7;
 		final int experienceGained = 7;
 		final QuestCompletionActionType completionActionType = QuestCompletionActionType.NO_ACTION;
 		final QuestCompletionActionParameter completionActionParameter = null;
@@ -155,13 +155,13 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 		final Date endDate = new GregorianCalendar(9999, Calendar.MARCH, 23).getTime();
 
 		manager.editQuest(quest.getQuestID(), questTitle, questDescription, triggerMapName, triggerPosition,
-				experienceGained, adventuresForFulfillment, completionActionType, completionActionParameter, startDate,
+				experienceGained, objectivesForFulfillment, completionActionType, completionActionParameter, startDate,
 				endDate);
 
 		ArrayList<QuestRecord> quests = manager.getQuests();
 		QuestRecord afterQuest = quests.get(0);
 
-		assertEquals(7, afterQuest.getAdventuresForFulfillment());
+		assertEquals(7, afterQuest.getObjectivesForFulfillment());
 		assertNull(afterQuest.getCompletionActionParameter());
 		assertEquals(afterQuest.getCompletionActionType(), QuestCompletionActionType.NO_ACTION);
 		assertEquals(afterQuest.getEndDate(), new GregorianCalendar(9999, Calendar.MARCH, 23).getTime());
@@ -192,7 +192,7 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 		assertEquals(quest.getMapName(), record.getMapName());
 		assertEquals(quest.getPosition(), record.getPos());
 		assertEquals(quest.getExperienceGained(), record.getExperiencePointsGained());
-		assertEquals(quest.getAdventuresForFulfillment(), record.getAdventuresForFulfillment());
+		assertEquals(quest.getObjectiveForFulfillment(), record.getObjectivesForFulfillment());
 		assertEquals(quest.getCompletionActionType(), record.getCompletionActionType());
 		assertEquals(quest.getCompletionActionParameter(), record.getCompletionActionParameter());
 		assertEquals(quest.getStartDate(), record.getStartDate());
@@ -200,83 +200,83 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 	}
 
 	/**
-	 * Add an adventure to an existing quest.
+	 * Add an objective to an existing quest.
 	 *
 	 * @throws DatabaseException
-	 *             - if adventure not found in data source
+	 *             - if objective not found in data source
 	 */
 	@Test
-	public void testAddAdventure() throws DatabaseException
+	public void testAddObjective() throws DatabaseException
 	{
-		final String adventureDescription = "New Adventure";
+		final String objectiveDescription = "New Objective";
 		final int questId = QuestsForTest.EXPLORATION_QUEST.getQuestID();
 		final int experiencePointsGained = 87;
-		final AdventureCompletionType type = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM.getCompletionType();
-		final AdventureCompletionCriteria criteria = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM
+		final ObjectiveCompletionType type = ObjectivesForTest.EXPLORING_FIND_REC_CENTER.getCompletionType();
+		final ObjectiveCompletionCriteria criteria = ObjectivesForTest.EXPLORING_FIND_REC_CENTER
 				.getCompletionCriteria();
 
-		final int adventureId = GameManagerQuestManager.getInstance().getAdventureTableGateway()
-				.getNextAdventureID(questId);
-		final AdventureRecord record = new AdventureRecord(questId, adventureId, adventureDescription,
+		final int objectiveId = GameManagerQuestManager.getInstance().getObjectiveTableGateway()
+				.getNextObjectiveID(questId);
+		final ObjectiveRecord record = new ObjectiveRecord(questId, objectiveId, objectiveDescription,
 				experiencePointsGained, type, criteria);
 
-		assertTrue(GameManagerQuestManager.getInstance().addAdventure(questId, adventureDescription,
+		assertTrue(GameManagerQuestManager.getInstance().addObjective(questId, objectiveDescription,
 				experiencePointsGained, type, criteria));
 
 		final QuestRecord quest = GameManagerQuestManager.getInstance().getQuest(questId);
 
-		assertTrue(quest.getAdventures().contains(record));
+		assertTrue(quest.getObjectives().contains(record));
 	}
 
 	/**
-	 * Should persist the adventure in the data source.
+	 * Should persist the objective in the data source.
 	 *
 	 * @throws DatabaseException
-	 *             - if unable to add adventure in data source
+	 *             - if unable to add objective in data source
 	 */
 	@Test
-	public void testAddAdventureGoesToDataSource() throws DatabaseException
+	public void testAddObjectiveGoesToDataSource() throws DatabaseException
 	{
 		OptionsManager.resetSingleton();
 		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 
-		final String adventureDescription = "New Adventure";
+		final String objectiveDescription = "New Objective";
 		final int questId = QuestsForTest.EXPLORATION_QUEST.getQuestID();
 		final int experiencePointsGained = 87;
-		final AdventureCompletionType type = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM.getCompletionType();
-		final AdventureCompletionCriteria criteria = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM
+		final ObjectiveCompletionType type = ObjectivesForTest.EXPLORING_FIND_REC_CENTER.getCompletionType();
+		final ObjectiveCompletionCriteria criteria = ObjectivesForTest.EXPLORING_FIND_REC_CENTER
 				.getCompletionCriteria();
 
-		final int adventureId = GameManagerQuestManager.getInstance().getAdventureTableGateway()
-				.getNextAdventureID(questId);
-		final AdventureRecord record = new AdventureRecord(questId, adventureId, adventureDescription,
+		final int objectiveId = GameManagerQuestManager.getInstance().getObjectiveTableGateway()
+				.getNextObjectiveID(questId);
+		final ObjectiveRecord record = new ObjectiveRecord(questId, objectiveId, objectiveDescription,
 				experiencePointsGained, type, criteria);
 
-		assertTrue(GameManagerQuestManager.getInstance().addAdventure(questId, adventureDescription,
+		assertTrue(GameManagerQuestManager.getInstance().addObjective(questId, objectiveDescription,
 				experiencePointsGained, type, criteria));
 
 		final QuestRecord quest = GameManagerQuestManager.getInstance().getQuest(questId);
 
-		assertTrue(quest.getAdventures().contains(record));
+		assertTrue(quest.getObjectives().contains(record));
 	}
 
 	/**
-	 * Adding an adventure to a quest that does not exist should fail.
+	 * Adding an objective to a quest that does not exist should fail.
 	 *
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
 	@Test
-	public void testAddAdventureInvalidQuest() throws DatabaseException
+	public void testAddObjectiveInvalidQuest() throws DatabaseException
 	{
-		final String adventureDescription = "New Adventure";
+		final String objectiveDescription = "New Objective";
 		final int questId = -877;
 		final int experiencePointsGained = 87;
-		final AdventureCompletionType type = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM.getCompletionType();
-		final AdventureCompletionCriteria criteria = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM
+		final ObjectiveCompletionType type = ObjectivesForTest.EXPLORING_FIND_REC_CENTER.getCompletionType();
+		final ObjectiveCompletionCriteria criteria = ObjectivesForTest.EXPLORING_FIND_REC_CENTER
 				.getCompletionCriteria();
 
-		assertFalse(GameManagerQuestManager.getInstance().addAdventure(questId, adventureDescription,
+		assertFalse(GameManagerQuestManager.getInstance().addObjective(questId, objectiveDescription,
 				experiencePointsGained, type, criteria));
 
 		assertNull(GameManagerQuestManager.getInstance().getQuest(questId));
@@ -289,15 +289,15 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 	 *             shouldn't
 	 */
 	@Test
-	public void testDeleteAdventureWithMock() throws DatabaseException
+	public void testDeleteObjectiveWithMock() throws DatabaseException
 	{
 		GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
-		int adventureId = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM.getAdventureID();
-		int questId = AdventuresForTest.EXPLORING_FIND_QUIZNASIUM.getQuestID();
-		// Should return true because it found the adventure for removal
-		assertTrue(manager.deleteAdventure(questId, adventureId));
-		// Should return false because it did not find the adventure
-		assertFalse(manager.deleteAdventure(questId, adventureId));
+		int objectiveId = ObjectivesForTest.EXPLORING_FIND_REC_CENTER.getObjectiveID();
+		int questId = ObjectivesForTest.EXPLORING_FIND_REC_CENTER.getQuestID();
+		// Should return true because it found the objective for removal
+		assertTrue(manager.deleteObjective(questId, objectiveId));
+		// Should return false because it did not find the objective
+		assertFalse(manager.deleteObjective(questId, objectiveId));
 	}
 
 	/**
@@ -318,25 +318,25 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 	}
 
 	/**
-	 * Tests getting incomplete adventures for a player
+	 * Tests getting incomplete objectives for a player
 	 *
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
 	@Test
-	public void testGettingIncompleteAdventures() throws DatabaseException
+	public void testGettingIncompleteObjectives() throws DatabaseException
 	{
 		GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
 		int playerID = PlayersForTest.MARTY.getPlayerID();
 
-		ArrayList<AdventureRecord> recordList = manager.getIncompleteAdventures(playerID);
-		AdventureStateTableDataGateway gateway = AdventureStateTableDataGatewayMock.getSingleton();
-		ArrayList<AdventureStateRecordDTO> gatewayList = gateway.getUncompletedAdventuresForPlayer(playerID);
+		ArrayList<ObjectiveRecord> recordList = manager.getIncompleteObjectives(playerID);
+		ObjectiveStateTableDataGateway gateway = ObjectiveStateTableDataGatewayMock.getSingleton();
+		ArrayList<ObjectiveStateRecordDTO> gatewayList = gateway.getUncompletedObjectivesForPlayer(playerID);
 
 		boolean found = false;
 		for (int i = 0; i < recordList.size(); i++)
 		{
-			if (recordList.get(i).getAdventureID() == gatewayList.get(i).getAdventureID())
+			if (recordList.get(i).getObjectiveID() == gatewayList.get(i).getObjectiveID())
 			{
 				found = true;
 			}
@@ -359,13 +359,13 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 	public void testSendQuestReport() throws DatabaseException
 	{
 
-		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndAdventuresReport.class);
+		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndObjectivesReport.class);
 
 		GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
 		ArrayList<QuestRecord> list = manager.getQuests();
 		manager.sendQuestReport();
 
-		assertEquals(list, ((AllQuestsAndAdventuresReport) obs.getReport()).getQuestInfo());
+		assertEquals(list, ((AllQuestsAndObjectivesReport) obs.getReport()).getQuestInfo());
 	}
 
 	private void assertContainsQuest(List<QuestRecord> quests, QuestRecord actual)
@@ -387,7 +387,7 @@ public class GameManagerQuestManagerTest extends DatabaseTest
 				&& expected.getDescription().equals(actual.getDescription())
 				&& expected.getMapName().equals(actual.getMapName()) && expected.getPos().equals(actual.getPos())
 				&& expected.getExperiencePointsGained() == actual.getExperiencePointsGained()
-				&& expected.getAdventuresForFulfillment() == actual.getAdventuresForFulfillment()
+				&& expected.getObjectivesForFulfillment() == actual.getObjectivesForFulfillment()
 				&& expected.getCompletionActionType().equals(actual.getCompletionActionType())
 				&& expected.getCompletionActionParameter().equals(actual.getCompletionActionParameter())
 				&& expected.getStartDate().equals(actual.getStartDate())

@@ -28,10 +28,11 @@ public class RandomFactsNPCBehaviorTest
 	@Before
 	public void setup()
 	{
-		behavior = new RandomFactsNPCBehavior(PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID());
-		PlayerManager.getSingleton().addNpc(new NPC(PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID()));
-		PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID()).
-				setPlayerPositionWithoutNotifying(PlayersForTest.RANDOM_FACTS_NPC_1.getPosition());
+		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		behavior = new RandomFactsNPCBehavior(PlayersForTest.BIG_RED.getPlayerID());
+		PlayerManager.getSingleton().addNpc(new NPC(PlayersForTest.BIG_RED.getPlayerID()));
+		PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.BIG_RED.getPlayerID()).
+				setPlayerPositionWithoutNotifying(PlayersForTest.BIG_RED.getPosition());
 	}
 
 	/**

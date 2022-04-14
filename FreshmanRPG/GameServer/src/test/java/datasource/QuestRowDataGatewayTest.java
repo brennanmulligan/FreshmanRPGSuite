@@ -74,7 +74,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 		assertEquals(quest.getQuestDescription(), gateway.getQuestDescription());
 		assertEquals(quest.getMapName(), gateway.getTriggerMapName());
 		assertEquals(quest.getPosition(), gateway.getTriggerPosition());
-		assertEquals(quest.getAdventuresForFulfillment(), gateway.getAdventuresForFulfillment());
+		assertEquals(quest.getObjectiveForFulfillment(), gateway.getObjectivesForFulfillment());
 		assertEquals(quest.getExperienceGained(), gateway.getExperiencePointsGained());
 		assertEquals(quest.getCompletionActionType(), gateway.getCompletionActionType());
 		assertEquals(quest.getCompletionActionParameter(), gateway.getCompletionActionParameter());
@@ -93,7 +93,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 		QuestsForTest quest = QuestsForTest.ONE_BIG_QUEST;
 
 		int id = createGateway("TEST QUEST A", quest.getQuestDescription(), quest.getMapName(), quest.getPosition(),
-				quest.getExperienceGained(), quest.getAdventuresForFulfillment(), quest.getCompletionActionType(),
+				quest.getExperienceGained(), quest.getObjectiveForFulfillment(), quest.getCompletionActionType(),
 				quest.getCompletionActionParameter(), quest.getStartDate(), quest.getEndDate());
 
 		gateway = findGateway(id);
@@ -103,7 +103,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 		assertEquals(quest.getMapName(), gateway.getTriggerMapName());
 		assertEquals(quest.getPosition(), gateway.getTriggerPosition());
 		assertEquals(quest.getExperienceGained(), gateway.getExperiencePointsGained());
-		assertEquals(quest.getAdventuresForFulfillment(), gateway.getAdventuresForFulfillment());
+		assertEquals(quest.getObjectiveForFulfillment(), gateway.getObjectivesForFulfillment());
 		assertEquals(quest.getCompletionActionType(), gateway.getCompletionActionType());
 		assertEquals(quest.getCompletionActionParameter(), gateway.getCompletionActionParameter());
 		assertEquals(quest.getStartDate(), gateway.getStartDate());
@@ -161,7 +161,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 
 		gateway = findGateway(quest.getQuestID());
 
-		gateway.setAdventuresForFulfillment(7);
+		gateway.setObjectivesForFulfillment(7);
 		gateway.setCompletionActionParameter(null);
 		gateway.setCompletionActionType(QuestCompletionActionType.NO_ACTION);
 		gateway.setEndDate(new GregorianCalendar(9999, Calendar.MARCH, 23).getTime());
@@ -177,7 +177,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 		// set to new gateway to make sure changes have been saved
 		QuestRowDataGateway after = findGateway(quest.getQuestID());
 
-		assertEquals(7, after.getAdventuresForFulfillment());
+		assertEquals(7, after.getObjectivesForFulfillment());
 		assertNull(after.getCompletionActionParameter());
 		assertEquals(after.getCompletionActionType(), QuestCompletionActionType.NO_ACTION);
 		assertEquals(after.getEndDate(), new GregorianCalendar(9999, Calendar.MARCH, 23).getTime());
@@ -205,8 +205,8 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 	 *            The position that the quest is triggered at.
 	 * @param experiencedGained
 	 *            The amount of experienced gained for completing the quest.
-	 * @param adventuresForFullfillment
-	 *            The number of adventures that must be completed to finish the
+	 * @param objectivesForFullfillment
+	 *            The number of objectives that must be completed to finish the
 	 *            quest.
 	 * @param completionActionType
 	 *            The quest completion action type.
@@ -221,7 +221,7 @@ public abstract class QuestRowDataGatewayTest extends DatabaseTest
 	 *             If a database error occurred.
 	 */
 	abstract int createGateway(String title, String description, String mapName, Position position,
-							   int experiencedGained, int adventuresForFullfillment, QuestCompletionActionType completionActionType,
+							   int experiencedGained, int objectivesForFullfillment, QuestCompletionActionType completionActionType,
 							   QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
 			throws DatabaseException;
 

@@ -6,7 +6,8 @@ package datatypes;
  * @author Merlin
  *
  */
-public enum ServersForTest
+public enum
+ServersForTest
 {
 	/**
 	 *
@@ -16,43 +17,54 @@ public enum ServersForTest
 	 *
 	 */
 	SECOND_SERVER("map2.tmx", "host2.com", 1872, "Map2", 10, 10),
+
 	/**
 	 *
 	 */
-	CURRENT("current.tmx", "localhost", 1872, "Current", 13, 4),
+	REC_CENTER("recCenter.tmx", "localhost", 1873, "Rec Center", 4, 20),
 	/**
 	 *
 	 */
-	QUIZNASIUM("quiznasium.tmx", "localhost", 1873, "Quiznasium", 10, 10),
+	LIBRARY("library.tmx", "localhost", 1874, "Library", 48, 22),
 	/**
 	 *
 	 */
-	HOMEWORK("homework.tmx", "localhost", 1874, "Homework", 10, 10),
+	SORTINGROOM("sortingRoom.tmx", "localhost", 1875, "SortingRoom", 7, 12),
 	/**
 	 *
 	 */
-	SORTINGROOM("sortingRoom.tmx", "localhost", 1875, "SortingRoom", 10, 10),
+	WELLINGTONROOM("wellingtonRoom.tmx", "localhost", 1876, "WellingtonRoom", 6, 89),
 	/**
 	 *
 	 */
-	WELLINGTONROOM("wellingtonRoom.tmx", "localhost", 1876, "WellingtonRoom", 10, 10),
+	MCT1("mct1.tmx", "localhost", 1877, "MCT1", 33, 55),
+
 	/**
 	 *
 	 */
-	MCT1("mct1.tmx", "localhost", 1877, "MCT1", 10, 10),
-	/**
-	 *
-	 */
-	THEGREEN("theGreen.tmx", "localhost", 1878, "TheGreen", 10, 10),
-	/**
-	 *
-	 */
-	DUCKTOPIA("Ducktopia.tmx", "localhost", 1879, "Ducktopia", 10, 10),
+	DUCKTOPIA("Ducktopia.tmx", "localhost", 1879, "Ducktopia", 28, 56),
 	/**
 	 * 
 	 */
-	CUB("cub.tmx", "localhost", 1880, "Cub", 10, 10);
-	
+	CUB("cub.tmx", "localhost", 1880, "Cub", 59, 94),
+	/**
+	 * Next gen maps from here on out
+	 */
+	MOWREY("mowrey.tmx", "localhost", 1881, "Mowrey", 29, 36),
+	/**
+	 *
+	 */
+	OUTSIDEMOWREY("outsideOfMowrey.tmx", "localhost", 1882, "OutsideMowrey", 2, 94),
+	/**
+	 *
+	 */
+	QUAD("quad.tmx", "localhost", 1883, "Quad", 52, 52),
+	/**
+	 *
+	 */
+	DHC1("dhc1.tmx", "localhost", 1884, "DHC1", 44, 49);
+
+
 	private String mapName;
 
 	private String hostName;

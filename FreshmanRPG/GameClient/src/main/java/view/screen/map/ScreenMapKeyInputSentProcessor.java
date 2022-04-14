@@ -7,9 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.ClientModelFacade;
 import model.CommandKeyInputSent;
 import view.screen.chat.PopUpChatUI;
+import view.screen.closet.ClosetUI;
+import view.screen.clothingShop.ClothingShopUI;
 import view.screen.highscore.HighScoreUI;
 import view.screen.menu.MenuUI;
 import view.screen.qas.QuestUI;
+import view.screen.shop.ShopUI;
 
 /**
  *
@@ -56,7 +59,7 @@ public class ScreenMapKeyInputSentProcessor implements InputProcessor
 				ClientModelFacade.getSingleton().queueCommand(cmd);
 				return true;
 			}
-			else if (keycode == Keys.Q) // Key to open the quest/adventure screen
+			else if (keycode == Keys.Q) // Key to open the quest/objective screen
 			{
 				menuArea.closeAllScreensExcludingSpecifiedType(QuestUI.class);
 				ClientModelFacade.getSingleton().queueCommand(cmd);
@@ -74,10 +77,22 @@ public class ScreenMapKeyInputSentProcessor implements InputProcessor
 					popUpChatUI.setVisible(!popUpChatUI.isVisible());
 				}
 			}
+			else if (keycode == Keys.I)
+			{
+				menuArea.closeAllScreensExcludingSpecifiedType(ClosetUI.class);
+				ClientModelFacade.getSingleton().queueCommand(cmd);
+				return true;
+			}
+			else if (keycode == Keys.U)
+			{
+				menuArea.closeAllScreensExcludingSpecifiedType(ClothingShopUI.class);
+				ClientModelFacade.getSingleton().queueCommand(cmd);
+				return true;
+			}
 			else if (keycode == Keys.UP || keycode == Keys.DOWN || keycode == Keys.LEFT || keycode == Keys.RIGHT
 					|| keycode == Keys.W || keycode == Keys.A || keycode == Keys.S || keycode == Keys.D)
 			{
-				// Send movement keys to server in order to trigger sorting room adventure
+				// Send movement keys to server in order to trigger sorting room objective
 				// criteria.
 				// Possible refactor: make the quest completion criteria listen for a
 				// PlayerMovement event instead of key press.

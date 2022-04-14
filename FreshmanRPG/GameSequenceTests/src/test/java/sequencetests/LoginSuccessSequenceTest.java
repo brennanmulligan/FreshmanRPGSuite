@@ -1,50 +1,17 @@
 package sequencetests;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import communication.messages.ConnectMessage;
-import communication.messages.InitializeThisClientsPlayerMessage;
-import communication.messages.KnowledgePointPrizeMessage;
-import communication.messages.LoginMessage;
-import communication.messages.LoginSuccessfulMessage;
-import communication.messages.MapFileMessage;
-import communication.messages.PlayerJoinedMessage;
-import communication.messages.TimeToLevelUpDeadlineMessage;
+import communication.messages.*;
 import communication.packers.MapFileMessagePacker;
-import dataDTO.AdventureStateRecordDTO;
-import dataDTO.ClientPlayerAdventureStateDTO;
-import dataDTO.ClientPlayerQuestStateDTO;
-import dataDTO.FriendDTO;
-import dataDTO.KnowledgePointPrizeDTO;
-import dataDTO.QuestStateRecordDTO;
-import datasource.AdventureStateTableDataGateway;
-import datasource.AdventureStateTableDataGatewayMock;
-import datasource.AdventureTableDataGateway;
-import datasource.AdventureTableDataGatewayMock;
-import datasource.DatabaseException;
-import datasource.FriendTableDataGateway;
-import datasource.FriendTableDataGatewayMock;
-import datasource.KnowledgePointPrizesTDGMock;
-import datasource.LevelRecord;
-import datasource.PlayerConnectionRowDataGatewayMock;
-import datasource.QuestRowDataGateway;
-import datasource.QuestRowDataGatewayMock;
-import datasource.QuestStateTableDataGateway;
-import datasource.QuestStateTableDataGatewayMock;
-import datatypes.QuestStateEnum;
-import model.AdventureRecord;
-import model.Command;
-import model.CommandLogin;
-import model.MessageFlow;
-import model.OptionsManager;
-import model.PlayerManager;
-import model.QuestManager;
-import model.SequenceTest;
-import model.ServerType;
+import dataDTO.*;
+import datasource.*;
 import datatypes.LevelsForTest;
 import datatypes.PlayersForTest;
+import datatypes.QuestStateEnum;
 import datatypes.ServersForTest;
+import model.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Defines the protocol for a successful login sequence
@@ -63,26 +30,27 @@ public class LoginSuccessSequenceTest extends SequenceTest
 					new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()), true),
 					new MessageFlow(ServerType.LOGIN_SERVER, ServerType.THIS_PLAYER_CLIENT,
 							new LoginSuccessfulMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
-									ServersForTest.THEGREEN.getHostName(), ServersForTest.THEGREEN.getPortNumber(), 33),
+									ServersForTest.QUAD.getHostName(), ServersForTest.QUAD.getPortNumber(), 33),
 							true),
 					new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
 							new ConnectMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), PlayersForTest.MERLIN_OFFLINE.getPin()), true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
 							new PlayerJoinedMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
-									PlayersForTest.MERLIN_OFFLINE.getAppearanceType(), PlayersForTest.MERLIN_OFFLINE.getPosition(),
-									PlayersForTest.MERLIN_OFFLINE.getCrew(), PlayersForTest.MERLIN_OFFLINE.getMajor(), PlayersForTest.MERLIN_OFFLINE.getSection()),
+									PlayersForTest.MERLIN_OFFLINE.getVanityItems(), PlayersForTest.MERLIN_OFFLINE.getPosition(),
+									PlayersForTest.MERLIN_OFFLINE.getCrew(), PlayersForTest.MERLIN_OFFLINE.getMajor(), PlayersForTest.MERLIN_OFFLINE.getSection(),
+									PlayersForTest.MERLIN_OFFLINE.getOwnedItems()),
 							true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
 							new PlayerJoinedMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
-									PlayersForTest.MERLIN_OFFLINE.getAppearanceType(), PlayersForTest.MERLIN_OFFLINE.getPosition(),
+									PlayersForTest.MERLIN_OFFLINE.getVanityItems(), PlayersForTest.MERLIN_OFFLINE.getPosition(),
 									PlayersForTest.MERLIN_OFFLINE.getCrew(), PlayersForTest.MERLIN_OFFLINE.getMajor(), PlayersForTest.MERLIN_OFFLINE.getSection()),
 							true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-							new MapFileMessage(MapFileMessagePacker.DIRECTORY_PREFIX + ServersForTest.THEGREEN.getMapName()),
+							new MapFileMessage(MapFileMessagePacker.DIRECTORY_PREFIX + ServersForTest.QUAD.getMapName()),
 							true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
 							new InitializeThisClientsPlayerMessage(getPlayersQuest(PlayersForTest.MERLIN_OFFLINE.getPlayerID()), getPlayersFriends(PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
-									PlayersForTest.MERLIN_OFFLINE.getExperiencePoints(), PlayersForTest.MERLIN_OFFLINE.getKnowledgeScore(),
+									PlayersForTest.MERLIN_OFFLINE.getExperiencePoints(), PlayersForTest.MERLIN_OFFLINE.getDoubloons(),
 									LEVEL_TWO_RECORD),
 							true),
 
@@ -91,7 +59,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
 									LevelsForTest.TWO.getDescription()),
 							true),
 					new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-							new KnowledgePointPrizeMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), getKnowledgePointPrizeList()),
+							new DoubloonPrizeMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), getDoubloonPrizeList()),
 							true)};
 
 
@@ -113,11 +81,11 @@ public class LoginSuccessSequenceTest extends SequenceTest
 
 	}
 
-	private ArrayList<KnowledgePointPrizeDTO> getKnowledgePointPrizeList()
+	private ArrayList<DoubloonPrizeDTO> getDoubloonPrizeList()
 	{
 		try
 		{
-			return KnowledgePointPrizesTDGMock.getInstance().getAllKnowledgePointPrizes();
+			return DoubloonPrizesTDGMock.getInstance().getAllDoubloonPrizes();
 		}
 		catch (DatabaseException e)
 		{
@@ -177,20 +145,20 @@ public class LoginSuccessSequenceTest extends SequenceTest
 		QuestRowDataGateway qGateway = new QuestRowDataGatewayMock(q.getQuestID());
 		ClientPlayerQuestStateDTO cpq = new ClientPlayerQuestStateDTO(q.getQuestID(), qGateway.getQuestTitle(),
 				qGateway.getQuestDescription(), q.getState(), qGateway.getExperiencePointsGained(),
-				qGateway.getAdventuresForFulfillment(), q.isNeedingNotification(), null);
-		AdventureStateTableDataGateway asGateway = AdventureStateTableDataGatewayMock.getSingleton();
-		ArrayList<AdventureStateRecordDTO> adventuresForPlayer = asGateway.getAdventureStates(q.getPlayerID(),
+				qGateway.getObjectivesForFulfillment(), q.isNeedingNotification(), null);
+		ObjectiveStateTableDataGateway asGateway = ObjectiveStateTableDataGatewayMock.getSingleton();
+		ArrayList<ObjectiveStateRecordDTO> objectivesForPlayer = asGateway.getObjectiveStates(q.getPlayerID(),
 				q.getQuestID());
-		for (AdventureStateRecordDTO adv : adventuresForPlayer)
+		for (ObjectiveStateRecordDTO adv : objectivesForPlayer)
 		{
 
-			AdventureTableDataGateway aGateway = AdventureTableDataGatewayMock.getSingleton();
-			AdventureRecord adventureRecord = aGateway.getAdventure(q.getQuestID(), adv.getAdventureID());
+			ObjectiveTableDataGateway aGateway = ObjectiveTableDataGatewayMock.getSingleton();
+			ObjectiveRecord objectiveRecord = aGateway.getObjective(q.getQuestID(), adv.getObjectiveID());
 
-			cpq.addAdventure(new ClientPlayerAdventureStateDTO(adv.getAdventureID(),
-					adventureRecord.getAdventureDescription(), adventureRecord.getExperiencePointsGained(),
-					adv.getState(), adv.isNeedingNotification(), adventureRecord.isRealLifeAdventure(),
-					adventureRecord.getCompletionCriteria().toString(), QuestStateEnum.AVAILABLE));
+			cpq.addObjective(new ClientPlayerObjectiveStateDTO(adv.getObjectiveID(),
+					objectiveRecord.getObjectiveDescription(), objectiveRecord.getExperiencePointsGained(),
+					adv.getState(), adv.isNeedingNotification(), objectiveRecord.isRealLifeObjective(),
+					objectiveRecord.getCompletionCriteria().toString(), QuestStateEnum.AVAILABLE));
 
 		}
 		return cpq;

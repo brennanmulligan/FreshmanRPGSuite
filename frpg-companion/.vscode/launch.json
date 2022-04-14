@@ -8,7 +8,7 @@
       "name": "frpg_companion (debug mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "debug",
+      "flutterMode": "debug"
     },
     {
       "name": "frpg_companion (profile mode)",

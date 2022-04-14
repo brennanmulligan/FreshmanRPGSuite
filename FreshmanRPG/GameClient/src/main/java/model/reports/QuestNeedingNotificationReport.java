@@ -2,6 +2,7 @@ package model.reports;
 
 import datatypes.QuestStateEnum;
 import model.QualifiedObservableReport;
+import view.screen.notification.NotificationType;
 
 /**
  * This class will send a report that contains the strings of quests that are 
@@ -10,7 +11,7 @@ import model.QualifiedObservableReport;
  *
  * @author merlin
  */
-public final class QuestNeedingNotificationReport implements QualifiedObservableReport
+public final class QuestNeedingNotificationReport implements QualifiedObservableReport, NotificationTrigger
 {
 
 	private final int questID;
@@ -127,5 +128,23 @@ public final class QuestNeedingNotificationReport implements QualifiedObservable
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String getNotificationTitle()
+	{
+		return "Quest " + state.getDescription();
+	}
+
+	@Override
+	public String getNotificationBody()
+	{
+		return "Quest " + state.getDescription() + ": " + getQuestDescription();
+	}
+
+	@Override
+	public NotificationType getNotificationType()
+	{
+		return NotificationType.ALERT;
 	}
 }

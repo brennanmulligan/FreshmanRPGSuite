@@ -20,13 +20,12 @@ public class PlayerAppearanceChangeMessageHandler extends MessageHandler
 	@Override
 	public void process(Message msg)
 	{
-		PlayerAppearanceChangeMessage playerAppearanceChnageMessage = (PlayerAppearanceChangeMessage) msg;
+		PlayerAppearanceChangeMessage message = (PlayerAppearanceChangeMessage) msg;
 		CommandChangePlayerAppearance cmd = new CommandChangePlayerAppearance(
-				playerAppearanceChnageMessage.getPlayerID(),
-				playerAppearanceChnageMessage.getAppearanceType());
+				message.getPlayerID(),
+				message.getVanities()
+		);
 		ClientModelFacade.getSingleton().queueCommand(cmd);
-
-
 	}
 
 	/**
@@ -35,7 +34,6 @@ public class PlayerAppearanceChangeMessageHandler extends MessageHandler
 	@Override
 	public Class<?> getMessageTypeWeHandle()
 	{
-
 		return PlayerAppearanceChangeMessage.class;
 	}
 

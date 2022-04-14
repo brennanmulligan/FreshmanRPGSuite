@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Holds the List of Quests
  * @author Nahesha and Courtney
  */
-public class QuestListCompletionParameter implements AdventureCompletionCriteria, QuestCompletionActionParameter, InteractableItemActionParameter
+public class QuestListCompletionParameter implements ObjectiveCompletionCriteria, QuestCompletionActionParameter, InteractableItemActionParameter
 {
 	private static final long serialVersionUID = 1L;
 

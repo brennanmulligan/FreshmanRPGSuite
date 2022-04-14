@@ -67,7 +67,7 @@ public class DeletePlayerTest extends ApplicationTest
 	{
 
 		clickOn("#PlayerMenuButton");
-		PlayerDTO player = new PlayerDTO(0, "Shaun", "TEST", "TEST", 0, null, null, 0, Crew.OFF_BY_ONE, Major.OTHER, 2, new ArrayList<>());
+		PlayerDTO player = new PlayerDTO(0, "Shaun", "TEST", "TEST", 0, null, null, 0, Crew.OFF_BY_ONE, Major.OTHER, 2, new ArrayList<>(), new ArrayList<>());
 		CommandAddPlayerInManager command = new CommandAddPlayerInManager
 				(
 						player.getPlayerName(),

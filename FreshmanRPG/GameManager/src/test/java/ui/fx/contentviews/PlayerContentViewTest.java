@@ -28,16 +28,16 @@ public class PlayerContentViewTest extends ApplicationTest
 	 * Does what the test name says.
 	 */
 	@Test
-	public void testThatWhenYouClickOnThePlayerWindowThereIsASpecialButtonForCheckingAdventureStatus()
+	public void testThatWhenYouClickOnThePlayerWindowThereIsASpecialButtonForCheckingObjectiveStatus()
 	{
 		clickOn("#PlayerMenuButton");
 		try
 		{
-			clickOn("#PlayerAdventureStateButton");
+			clickOn("#PlayerObjectiveStateButton");
 		}
 		catch (Exception exception)
 		{
-			fail("Adventure status button should exist: " + exception.getMessage());
+			fail("Objective status button should exist: " + exception.getMessage());
 		}
 	}
 
@@ -45,10 +45,10 @@ public class PlayerContentViewTest extends ApplicationTest
 	 * Test that being on another windows doesn't show the button.
 	 */
 	@Test(expected = FxRobotException.class)
-	public void testThatAdventureStatusButtonDoesNotExistInOtherContentViews()
+	public void testThatObjectiveStatusButtonDoesNotExistInOtherContentViews()
 	{
 		clickOn("#QuizbotMenuButton");
-		clickOn("#PlayerAdventureStateButton");
+		clickOn("#PlayerObjectiveStateButton");
 	}
 
 }

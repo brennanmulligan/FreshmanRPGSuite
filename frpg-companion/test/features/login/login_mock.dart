@@ -1,5 +1,3 @@
-
-
 import 'package:frpg_companion/features/login/data/data.dart';
 import 'package:frpg_companion/features/network/network.dart';
 import 'package:mockito/annotations.dart';
@@ -7,8 +5,7 @@ import 'package:mockito/annotations.dart';
 @GenerateMocks([
   ServiceClient,
   LoginWithCredentialsDatasource,
+  LogoutDatasource,
   LoginRepository,
 ])
-void main() {
-
-}
+void main() {}

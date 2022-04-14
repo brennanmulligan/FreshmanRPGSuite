@@ -15,17 +15,17 @@ public enum QuestStateEnum
 	 */
 	AVAILABLE("can be triggered"),
 	/**
-	 * The player can see the description of the quest and the adventures within
+	 * The player can see the description of the quest and the objectives within
 	 * it
 	 */
 	TRIGGERED("has been triggered"),
 	/**
-	 * The player has completed enough adventures to get the points for this
+	 * The player has completed enough objectives to get the points for this
 	 * quest
 	 */
 	FULFILLED("has been fulfilled"),
 	/**
-	 * The player has completed all of the adventures within this quest
+	 * The player has completed all of the objectives within this quest
 	 */
 	COMPLETED("is complete"),
 	/**

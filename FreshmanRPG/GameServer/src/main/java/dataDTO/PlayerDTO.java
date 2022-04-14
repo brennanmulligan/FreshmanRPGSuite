@@ -17,7 +17,7 @@ public class PlayerDTO
 	private String playerPassword;
 	private String appearanceType;
 	private Position position;
-	private int knowledgePoints;
+	private int doubloons;
 	private String mapName;
 	private int experiencePoints;
 	private Crew crew;
@@ -25,6 +25,7 @@ public class PlayerDTO
 	private int sectionId;
 	private int buffPool;
 	private ArrayList<String> visitedMaps;
+	private ArrayList<VanityDTO> vanityDTOs;
 
 	/**
 	 * Default constructor.
@@ -41,7 +42,7 @@ public class PlayerDTO
 	 * @param playerName the player's name
 	 * @param playerPassword the player's password
 	 * @param appearanceType - how the player will be displayed
-	 * @param knowledgePoints - the quiz score of the player
+	 * @param doubloons - the quiz score of the player
 	 * @param position - where the player is standing
 	 * @param mapName - the map the player is in currently
 	 * @param experiencePoints - the number of experience points the player has earned
@@ -50,13 +51,13 @@ public class PlayerDTO
 	 * @param sectionId - the player's section
 	 * @param visitedMaps - the player's visited maps
 	 */
-	public PlayerDTO(int playerID, String playerName, String playerPassword, String appearanceType, int knowledgePoints,
-					 Position position, String mapName, int experiencePoints, Crew crew, Major major, int sectionId, ArrayList<String> visitedMaps)
+	public PlayerDTO(int playerID, String playerName, String playerPassword, String appearanceType, int doubloons,
+					 Position position, String mapName, int experiencePoints, Crew crew, Major major, int sectionId, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
 	{
 		this.playerID = playerID;
 		this.playerName = playerName;
 		this.appearanceType = appearanceType;
-		this.knowledgePoints = knowledgePoints;
+		this.doubloons = doubloons;
 		this.position = position;
 		this.mapName = mapName;
 		this.experiencePoints = experiencePoints;
@@ -65,6 +66,7 @@ public class PlayerDTO
 		this.sectionId = sectionId;
 		this.playerPassword = playerPassword;
 		this.visitedMaps = visitedMaps;
+		this.vanityDTOs = vanityDTOs;
 	}
 
 
@@ -79,7 +81,7 @@ public class PlayerDTO
 	 */
 	protected PlayerDTO(int playerID, String password, Crew crew, Major major, int section, String name)
 	{
-		this(playerID, name, password, "Ninja", 0, new Position(0, 0), "sortingroom.tmx", 0, crew, major, section, new ArrayList<>());
+		this(playerID, name, password, "Ninja", 0, new Position(0, 0), "sortingroom.tmx", 0, crew, major, section, new ArrayList<>(), new ArrayList<>());
 	}
 
 
@@ -104,7 +106,7 @@ public class PlayerDTO
 		result = prime * result + buffPool;
 		result = prime * result + ((crew == null) ? 0 : crew.hashCode());
 		result = prime * result + experiencePoints;
-		result = prime * result + knowledgePoints;
+		result = prime * result + doubloons;
 		result = prime * result + ((major == null) ? 0 : major.hashCode());
 		result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
 		result = prime * result + playerID;
@@ -158,7 +160,7 @@ public class PlayerDTO
 		{
 			return false;
 		}
-		if (knowledgePoints != other.knowledgePoints)
+		if (doubloons != other.doubloons)
 		{
 			return false;
 		}
@@ -280,20 +282,20 @@ public class PlayerDTO
 
 	/**
 	 *
-	 * @return quiz score
+	 * @return doubloons
 	 */
-	public int getKnowledgePoints()
+	public int getDoubloons()
 	{
-		return knowledgePoints;
+		return doubloons;
 	}
 
 	/**
-	 * Set the knowledge points of the player.
-	 * @param kp - the new value for knowledge points.
+	 * Set the doubloons of the player.
+	 * @param doubloons - the new value for doubloons.
 	 */
-	public void setKnowledgePoints(int kp)
+	public void setDoubloons(int doubloons)
 	{
-		this.knowledgePoints = kp;
+		this.doubloons = doubloons;
 	}
 
 	/**
@@ -464,6 +466,14 @@ public class PlayerDTO
 	public ArrayList<String> getVisitedMaps()
 	{
 		return this.visitedMaps;
+	}
+
+	/**
+	 * @return the list of vanity items this player owns
+	 */
+	public ArrayList<VanityDTO> getVanityItems()
+	{
+		return vanityDTOs;
 	}
 
 	/**

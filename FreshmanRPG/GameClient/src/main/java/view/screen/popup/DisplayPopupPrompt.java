@@ -27,7 +27,7 @@ public class DisplayPopupPrompt implements QualifiedObserver
 	}
 
 	/**
-	 * Sets up the QualifiedObserver for AdventuresNeedingNotificationReport
+	 * Sets up the QualifiedObserver for ObjectivesNeedingNotificationReport
 	 */
 	public void setUpListening()
 	{

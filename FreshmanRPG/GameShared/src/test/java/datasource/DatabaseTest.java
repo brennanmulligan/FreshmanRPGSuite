@@ -26,9 +26,9 @@ public abstract class DatabaseTest
 	@Before
 	public void setUp() throws DatabaseException
 	{
-		DatabaseManager.getSingleton().setTesting();
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
+		OptionsManager.getSingleton().setUsingMocKDataSource(false);
+		DatabaseManager.getSingleton().setTesting();
 	}
 
 	/**

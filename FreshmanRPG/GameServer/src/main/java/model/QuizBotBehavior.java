@@ -8,7 +8,7 @@ import datatypes.Position;
 import model.reports.ChatMessageReceivedReport;
 
 /**
- * The Bot Behavior of the Quiznasium NPC.
+ * The Bot Behavior of the Rec Center NPC.
  *
  * @author Frank and Dave
  */
@@ -21,6 +21,7 @@ public class QuizBotBehavior extends NPCBehavior
 
 	private NPCQuestion question;
 	private boolean isRandom = true;
+	private final ChatType chatType = ChatType.Local;
 
 
 	/**
@@ -33,6 +34,16 @@ public class QuizBotBehavior extends NPCBehavior
 		pollingInterval = 30000;
 		pullNewQuestion();
 		setUpListening();
+	}
+
+	/**
+	 *
+	 * @param playerID
+	 * @param noFilePath does not need a filepath as of right now, needed due to filepath column in database
+	 */
+	public QuizBotBehavior(int playerID, String noFilePath)
+	{
+		this(playerID);
 	}
 
 	/**
@@ -72,7 +83,8 @@ public class QuizBotBehavior extends NPCBehavior
 	{
 		String questionString = question.getQuestionStatement();
 
-		ChatManager.getSingleton().sendChatToClients(playerID, 0, questionString, new Position(0, 0), ChatType.System);
+		ChatManager.getSingleton().sendChatToClients(playerID, 0, questionString, PlayerManager.getSingleton().getPlayerFromID(playerID).getPlayerPosition(), chatType);
+		//ChatManager.getSingleton().sendChatToClients(playerID, 0, questionString, new Position(0, 0), chatType);
 	}
 
 	/**
@@ -119,6 +131,9 @@ public class QuizBotBehavior extends NPCBehavior
 		return reportTypes;
 	}
 
+
+
+
 	/**
 	 * Watches SendChatMessageReports for a correct answer. On correct answer,
 	 * announce the correct answer, pull a new random question, and ask that
@@ -136,16 +151,13 @@ public class QuizBotBehavior extends NPCBehavior
 			String userAnswer = report.getChatText().toLowerCase().replaceAll(" ", "");
 			if (answer.equals(userAnswer))
 			{
-
 				Player player = PlayerManager.getSingleton().getPlayerFromID(report.getSenderID());
 
+				ChatManager.getSingleton().sendChatToClients(playerID, 0,player.getPlayerName() + " answered correctly.  The answer was " + question.getAnswer(), PlayerManager.getSingleton().getPlayerFromID(playerID).getPlayerPosition(), chatType);
+				player.incrementDoubloons();
 				ChatManager.getSingleton().sendChatToClients(playerID, 0,
-						player.getPlayerName() + " answered correctly.  The answer was " + question.getAnswer(),
-						new Position(0, 0), ChatType.System);
-				player.incrementQuizScore();
-				ChatManager.getSingleton().sendChatToClients(playerID, 0,
-						player.getPlayerName() + " score is now " + player.getQuizScore(), new Position(0, 0),
-						ChatType.System);
+						player.getPlayerName() + " score is now " + player.getQuizScore(), PlayerManager.getSingleton().getPlayerFromID(playerID).getPlayerPosition(),
+						chatType);
 
 				pullNewQuestion();
 				askQuestion();

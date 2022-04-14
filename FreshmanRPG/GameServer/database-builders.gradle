@@ -1,7 +1,7 @@
 // Gradle equivalent to GameServer.seed - start
-task DBBuildQuestsAndAdventures(type: JavaExec) {
+task DBBuildQuestsAndObjectives(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildQuestsAndAdventures'
+    main = 'DatabaseBuilders.BuildQuestsAndObjectives'
 }
 
 task DBBuildTestDBPlayers(type: JavaExec) {
@@ -26,9 +26,9 @@ task DBBuildTestInteractableItems(type: JavaExec) {
 // Gradle equivalent to GameServer.seed - end
 
 // Gradle equivalent to VisitedMap.seed - start
-task DBBuildTestKnowledgePointPrizes(type: JavaExec) {
+task DBBuildTestDoubloonPrizes(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestKnowledgePointPrizes'
+    main = 'DatabaseBuilders.BuildTestDoubloonPrizes'
 }
 
 task DBBuildTestRandomFacts(type: JavaExec) {
@@ -44,5 +44,30 @@ task DBBuildTestDBVisitedMaps(type: JavaExec) {
 task DBBuildFriends(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'DatabaseBuilders.BuildFriends'
+}
+
+task DBBuildTestInfoNPC(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestInfoNPC'
+}
+
+task DBBuildTestRoamingNPC(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestRoamingNPC'
+}
+
+task DBBuildTestVanityItems(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestVanityItems'
+}
+
+task DBBuildTestVanityInventory(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestVanityInventory'
+}
+
+task DBBuildTestDefaultItems(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestDefaultItems'
 }
 // Gradle equivalent to VisitedMap.seed - start

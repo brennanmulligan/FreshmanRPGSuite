@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NPCInfo>
+    <DialougeTree>
+        <Dialogue id="0" pattern="" response-ids="1,6" node-id="start" target-node="base">
+            <message>Hi welcome to Mowrey! What would you like to know more about?</message>
+        </Dialogue>
+        <Dialogue id="1" pattern=".*career.*" response-ids="1,2,3" node-id="base" target-node="careercenter">
+            <message>What would you like to know about the career center?</message>
+        </Dialogue>
+        <Dialogue id="1" pattern=".*hours.*" response-ids="1,2,3" node-id="careercenter" target-node="careercenter">
+            <message>The hours for the career center are blah blah blah</message>
+        </Dialogue>
+        <Dialogue id="2" pattern=".*what.*" response-ids="1,2,3" node-id="careercenter" target-node="careercenter">
+            <message>The career center is for helping you find a job</message>
+        </Dialogue>
+        <Dialogue id="3" pattern=".*else.*" response-ids="1,6" node-id="careercenter" target-node="base">
+            <message>Okay what would you like to know about?</message>
+        </Dialogue>
+        <Dialogue id="1" pattern=".*learn.*" response-ids="1,2,3" node-id="base" target-node="learningcenter">
+            <message>What would you like to know about the learning center?</message>
+        </Dialogue>
+        <Dialogue id="1" pattern=".*hours.*" response-ids="1,2,3" node-id="learningcenter" target-node="learningcenter">
+            <message>The hours for the learning center are only avalible during the solar eclipse</message>
+        </Dialogue>
+        <Dialogue id="2" pattern=".*what.*" response-ids="1,2,3" node-id="learningcenter" target-node="learningcenter">
+            <message>The learning center is made for you to learn, duh</message>
+        </Dialogue>
+        <Dialogue id="3" pattern=".*else.*" response-ids="1,6" node-id="learningcenter" target-node="base">
+            <message>Okay what would you like to know about?</message>
+        </Dialogue>
+    </DialougeTree>
+</NPCInfo>

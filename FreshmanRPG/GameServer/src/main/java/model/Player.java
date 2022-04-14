@@ -1,17 +1,18 @@
 package model;
 
-import java.util.ArrayList;
-
 import dataDTO.LevelManagerDTO;
 import dataDTO.PlayerDTO;
+import dataDTO.VanityDTO;
 import datasource.DatabaseException;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
 import model.reports.ExperienceChangedReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonChangeReport;
 import model.reports.NoMoreBuffReport;
 import model.reports.PlayerMovedReport;
+
+import java.util.ArrayList;
 
 /**
  * The class that hold all the data we need for a player.
@@ -20,10 +21,9 @@ import model.reports.PlayerMovedReport;
  */
 public class Player
 {
-
 	private PlayerLogin playerLogin;
 
-	private int knowledgePoints;
+	private int doubloons;
 
 	private PlayerMapper playerMapper;
 
@@ -51,6 +51,10 @@ public class Player
 
 	private ArrayList<String> playerVisitedMaps;
 
+	private ArrayList<VanityDTO> vanityItems;
+
+	private ArrayList<VanityDTO> ownedItems;
+
 	private String lastVisitedMapTitle;
 
 	Player(int playerID)
@@ -66,9 +70,12 @@ public class Player
 	 */
 	public void addExperiencePoints(int expPoints) throws DatabaseException
 	{
+
 		this.experiencePoints = experiencePoints + expPoints;
 		ExperienceChangedReport report = new ExperienceChangedReport(this.playerID, this.experiencePoints, LevelManagerDTO.getSingleton().getLevelForPoints(this.experiencePoints));
+
 		QualifiedObservableConnector.getSingleton().sendReport(report);
+
 	}
 
 	/**
@@ -151,21 +158,21 @@ public class Player
 	 */
 	public int getQuizScore()
 	{
-		return this.knowledgePoints;
+		return this.doubloons;
 	}
 
 	/**
-	 * Increment quiz score; Checks the buffPool of the player first. If the player
-	 * has buffPool point, knowledge point increases by 1. BuffPool point decreases
+	 * Increment doubloons; Checks the buffPool of the player first. If the player
+	 * has buffPool point, doubloons increase by 1. BuffPool point decreases
 	 * by 1. Edited: Truc
 	 */
-	public void incrementQuizScore()
+	public void incrementDoubloons()
 	{
-		this.knowledgePoints++;
+		this.doubloons++;
 
 		if (buffPool > 0)
 		{
-			this.knowledgePoints++;
+			this.doubloons++;
 			this.buffPool--;
 			if (this.buffPool == 0)
 			{
@@ -174,7 +181,7 @@ public class Player
 			}
 		}
 
-		KnowledgePointsChangeReport report = new KnowledgePointsChangeReport(playerID, this.knowledgePoints, this.buffPool);
+		DoubloonChangeReport report = new DoubloonChangeReport(playerID, this.doubloons, this.buffPool);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 	}
 
@@ -297,13 +304,13 @@ public class Player
 	}
 
 	/**
-	 * Set the quizScore
+	 * Set the doubloons
 	 *
-	 * @param score the new quiz score
+	 * @param doubloons the new doubloons
 	 */
-	public void setQuizScore(int score)
+	public void setDoubloons(int doubloons)
 	{
-		this.knowledgePoints = score;
+		this.doubloons = doubloons;
 	}
 
 	/**
@@ -339,20 +346,20 @@ public class Player
 	}
 
 	/**
-	 * @return the number of knowledge points of this player
+	 * @return the number of doubloons of this player
 	 */
-	public int getKnowledgePoints()
+	public int getDoubloons()
 	{
-		return knowledgePoints;
+		return doubloons;
 	}
 
 	/**
 	 * @param price the number of points they are losing
 	 */
-	public void removeKnowledgePoints(int price)
+	public void removeDoubloons(int price)
 	{
-		knowledgePoints -= price;
-		KnowledgePointsChangeReport report = new KnowledgePointsChangeReport(playerID, this.knowledgePoints, this.buffPool);
+		doubloons -= price;
+		DoubloonChangeReport report = new DoubloonChangeReport(playerID, this.doubloons, this.buffPool);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 	}
 
@@ -419,6 +426,51 @@ public class Player
 	}
 
 	/**
+	 *
+	 * @return list of vanity items
+	 */
+	public ArrayList<VanityDTO> getVanityItems()
+	{
+		return vanityItems;
+	}
+
+	/**
+	 * Sets player vanity items to the new list of vanity items
+	 *
+	 * @param vanityItems list of vanity items
+	 */
+	public void setVanityItems(ArrayList<VanityDTO> vanityItems)
+	{
+		this.vanityItems = vanityItems;
+	}
+
+	/**
+	 * @return a list of the vanity items this player owns
+	 */
+	public ArrayList<VanityDTO> getAllOwnedItems()
+	{
+		return ownedItems;
+	}
+
+	/**
+	 * Set the player's owned clothing items
+	 * @param ownedItems list of owned items
+	 */
+	public void setOwnedItems(ArrayList<VanityDTO> ownedItems)
+	{
+		this.ownedItems = ownedItems;
+	}
+
+	/**
+	 * Adds a vanity item to the players inventory
+	 * @param vanity the item
+	 */
+	public void addItemToInventory(VanityDTO vanity)
+	{
+		ownedItems.add(vanity);
+	}
+
+	/**
 	 * Returns a DTO for the player.
 	 *
 	 * @return - PlayerInfo DTO
@@ -428,7 +480,7 @@ public class Player
 		PlayerDTO playerInfo = new PlayerDTO();
 		playerInfo.setAppearanceType(getAppearanceType());
 		playerInfo.setExperiencePoints(getExperiencePoints());
-		playerInfo.setKnowledgePoints(getQuizScore());
+		playerInfo.setDoubloons(getQuizScore());
 		playerInfo.setPosition(getPlayerPosition());
 		playerInfo.setCrew(getCrew());
 		playerInfo.setMajor(getMajor());
@@ -458,7 +510,7 @@ public class Player
 	{
 		this.getPlayerLogin().editPlayeLogin(name, password);
 		setAppearanceType(appearanceType);
-		setQuizScore(quizScore);
+		setDoubloons(quizScore);
 		setExperiencePoints(experiencePoints);
 		setCrew(crew);
 		setMajor(major);
@@ -488,7 +540,7 @@ public class Player
 		result = prime * result + buffPool;
 		result = prime * result + ((crew == null) ? 0 : crew.hashCode());
 		result = prime * result + experiencePoints;
-		result = prime * result + knowledgePoints;
+		result = prime * result + doubloons;
 		result = prime * result + ((major == null) ? 0 : major.hashCode());
 		result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
 		result = prime * result + playerID;
@@ -543,7 +595,7 @@ public class Player
 		{
 			return false;
 		}
-		if (knowledgePoints != other.knowledgePoints)
+		if (doubloons != other.doubloons)
 		{
 			return false;
 		}

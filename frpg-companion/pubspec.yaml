@@ -36,13 +36,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   equatable: ^2.0.3
-  flutter_riverpod: ^1.0.3
   freezed: ^1.1.0
   freezed_annotation: ^1.1.0
   mockito: ^5.1.0
   permission_handler: ^9.2.0
   flutter_dotenv: ^5.0.2
   flutter_barcode_scanner: ^2.0.0
+  hooks_riverpod: ^1.0.3
+  geolocator: ^8.2.0
 
 dev_dependencies:
   flutter_test:
@@ -101,3 +102,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

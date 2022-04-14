@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:frpg_companion/features/login/data/data.dart';
 import 'package:frpg_companion/features/network/network.dart';
 
@@ -10,7 +11,11 @@ class LoginRepositoryHTTP extends LoginRepository {
   ///
   const LoginRepositoryHTTP({
     required LoginWithCredentialsDatasource loginWithCredentialsDatasource,
-  }) : super(loginWithCredentialsDatasource: loginWithCredentialsDatasource);
+    required LogoutDatasource logoutDatasource,
+  }) : super(
+          loginWithCredentialsDatasource: loginWithCredentialsDatasource,
+          logoutDatasource: logoutDatasource,
+        );
 
   ///
   /// Login with credentials on a remote server.
@@ -19,8 +24,8 @@ class LoginRepositoryHTTP extends LoginRepository {
   Future<Result<LoginWithCredentialsResponse>> loginWithCredentials(
       {required LoginWithCredentialsRequest request}) async {
     try {
-      final response =
-          await loginWithCredentialsDatasource.loginWithCredentials(request: request);
+      final response = await loginWithCredentialsDatasource
+          .loginWithCredentials(request: request);
       return Result.data(data: response);
     } catch (exception, stackTrace) {
       return Result.failure(
@@ -28,6 +33,18 @@ class LoginRepositoryHTTP extends LoginRepository {
           message: '$exception : $stackTrace',
         ),
       );
+    }
+  }
+
+  @override
+  Future<void> logOut({
+    required LogoutRequest request,
+  }) async {
+    try {
+      await logoutDatasource.logOut(request: request);
+    } catch (exception, stackTrace) {
+      debugPrint('How did you get here? Anyway... here\'s your error '
+          '-> $exception : $stackTrace');
     }
   }
 }

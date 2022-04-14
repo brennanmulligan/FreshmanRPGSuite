@@ -6,12 +6,14 @@ import 'package:frpg_companion/features/login/data/data.dart';
 ///
 abstract class LoginRepository {
   final LoginWithCredentialsDatasource loginWithCredentialsDatasource;
+  final LogoutDatasource logoutDatasource;
 
   ///
   /// Constructor.
   ///
   const LoginRepository({
     required this.loginWithCredentialsDatasource,
+    required this.logoutDatasource,
   });
 
   ///
@@ -19,5 +21,12 @@ abstract class LoginRepository {
   ///
   Future<Result<LoginWithCredentialsResponse>> loginWithCredentials({
     required LoginWithCredentialsRequest request,
+  });
+
+  ///
+  ///
+  ///
+  Future<void> logOut({
+    required LogoutRequest request,
   });
 }

@@ -13,16 +13,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import communication.messages.InitializeThisClientsPlayerMessage;
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import dataDTO.FriendDTO;
 import datasource.LevelRecord;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.ClientModelFacade;
 import model.ClientModelTestUtilities;
 import model.Command;
-import model.CommandKnowledgePointsChanged;
+import model.CommandDoubloonsChanged;
 import model.CommandOverwriteExperience;
 import model.CommandOverwriteQuestState;
 import model.CommandUpdateFriendsList;
@@ -73,8 +73,8 @@ public class InitializeThisClientsPlayerMessageHandlerTest
 		ArrayList<ClientPlayerQuestStateDTO> qList = new ArrayList<>();
 		ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(3, "questtitle", "stupid quest",
 				QuestStateEnum.TRIGGERED, 42, 133, true, null);
-		q.addAdventure(new ClientPlayerAdventureStateDTO(3, "stupid adventure", 5,
-				AdventureStateEnum.TRIGGERED, false, true, "My big toe", QuestStateEnum.AVAILABLE));
+		q.addObjective(new ClientPlayerObjectiveStateDTO(3, "stupid objective", 5,
+				ObjectiveStateEnum.TRIGGERED, false, true, "My big toe", QuestStateEnum.AVAILABLE));
 		qList.add(q);
 		
 		ArrayList<FriendDTO> mockFriends = new ArrayList<>();
@@ -105,10 +105,10 @@ public class InitializeThisClientsPlayerMessageHandlerTest
 				assertEquals(20, thisCmd.getExperiencePoints());
 				assertEquals(level, thisCmd.getLevelRecord());
 			}
-			else if (cmd.getClass() == CommandKnowledgePointsChanged.class)
+			else if (cmd.getClass() == CommandDoubloonsChanged.class)
 			{
-				CommandKnowledgePointsChanged thisCmd = (CommandKnowledgePointsChanged) (cmd);
-				assertEquals(50, thisCmd.getKnowledge());
+				CommandDoubloonsChanged thisCmd = (CommandDoubloonsChanged) (cmd);
+				assertEquals(50, thisCmd.getDoubloons());
 			}
 			else if(cmd.getClass() == CommandUpdateFriendsList.class)
 			{

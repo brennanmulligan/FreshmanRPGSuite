@@ -19,23 +19,7 @@ import communication.handlers.MessageHandlerSet;
 import communication.messages.Message;
 import communication.packers.MessagePackerSet;
 import datasource.DatabaseException;
-import sequencetests.AdventureCompletionItemInteractSequenceTest;
-import sequencetests.AdventureNotificationCompleteSequenceTest;
-import sequencetests.CheatCodeForBuffSequenceTest;
-import sequencetests.FinishingQuestTeleportsSequenceTest;
-import sequencetests.LoginBadPWSequenceTest;
-import sequencetests.LoginBadPinSequenceTest;
-import sequencetests.LoginBadPlayerNameSequenceTest;
-import sequencetests.LoginSuccessSequenceTest;
-import sequencetests.MovementBasicSequenceTest;
-import sequencetests.MovementTriggerQuestSequenceTest;
-import sequencetests.NoMoreBuffSequenceTest;
-import sequencetests.NoMultipleBuffSequenceTest;
-import sequencetests.ObjectNotInRangeSequenceTest;
-import sequencetests.ObjectSendsPopupMessageSequenceTest;
-import sequencetests.TeleportationMovementSequenceTest;
-import sequencetests.TerminalTextSequenceTest;
-import sequencetests.TriggerBuffMessageSequenceTest;
+import sequencetests.*;
 
 /**
  * Can simulate the behavior of a series of messages and test to ensure that
@@ -74,8 +58,8 @@ public class SequenceTestRunner
 						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
 
 						//{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
-						//		{ "QuiznasiumGrantsKnowledgePointsWithBuffSequenceTest",
-						//				QuiznasiumGrantsKnowledgePointsWithBuffSequenceTest.class },
+						//		{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
+						//				RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
 						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
 						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
 						{"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
@@ -88,9 +72,10 @@ public class SequenceTestRunner
 						{"LoginBadPinSequenceTest", LoginBadPinSequenceTest.class},
 						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
 						{"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
-						{"AdventureNotificationCompleteSequenceTest", AdventureNotificationCompleteSequenceTest.class},
-						{"AdventureCompletionItemInteractSequenceTest",
-								AdventureCompletionItemInteractSequenceTest.class},});
+						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+						{"ObjectiveCompletionItemInteractSequenceTest",
+								ObjectiveCompletionItemInteractSequenceTest.class},
+						{"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class},});
 	}
 
 	/**

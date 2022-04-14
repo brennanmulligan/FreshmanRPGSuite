@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:frpg_companion/features/login/data/data.dart';
 import 'package:test/test.dart';
-import 'package:frpg_companion/features/objective/objective.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../login_mock.mocks.dart';
@@ -35,10 +34,8 @@ void main() {
       ).thenAnswer((realInvocation) async => testJSONResponse);
 
       final actual = await datasource.loginWithCredentials(
-        request: const LoginWithCredentialsRequest(
-          username: "john",
-          password: "pw"
-        ),
+        request:
+            const LoginWithCredentialsRequest(username: "john", password: "pw"),
       );
 
       verify(mockServiceClient.post(

@@ -29,6 +29,7 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 
 	/**
 	 * @param playerID the player ID for this NPC
+	 *  Overloaded constructor with String parameter to account for filepath column in behavior db.
 	 */
 	public RandomFactsNPCBehavior(int playerID)
 	{
@@ -51,6 +52,17 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 		}
 	}
 
+	/**
+	 *
+	 * @param playerID
+	 * @param noFilePath doesn't need a filepath as of now, necessary for mapping purposes.
+	 */
+	public RandomFactsNPCBehavior(int playerID, String noFilePath)
+	{
+		this(playerID);
+
+	}
+
 	@Override
 	protected void doTimedEvent()
 	{
@@ -66,6 +78,7 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 		chatDelayCounter = (chatDelayCounter + 1) % CHAT_DELAY_SECONDS;
 	}
 
+	
 	/**
 	 * @return the facts this NPC could spout
 	 */
@@ -79,6 +92,8 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 	{
 		return null;
 	}
+
+
 
 	/**
 	 * @see model.QualifiedObserver#receiveReport(model.QualifiedObservableReport)

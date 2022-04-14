@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import datasource.DatabaseException;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.reports.QuestStateChangeReport;
 import datatypes.PlayersForTest;
@@ -53,28 +53,28 @@ public class QuestStateTest
 	}
 
 	/**
-	 * Test adding an ArrayList of adventures into quest
+	 * Test adding an ArrayList of objectives into quest
 	 */
 	@Test
-	public void testAddAdventures()
+	public void testAddObjectives()
 	{
 		QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true);
-		ArrayList<AdventureState> adventureList = new ArrayList<>();
-		AdventureState as1 = new AdventureState(1, AdventureStateEnum.HIDDEN, false);
-		AdventureState as2 = new AdventureState(2, AdventureStateEnum.HIDDEN, false);
+		ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+		ObjectiveState as1 = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
+		ObjectiveState as2 = new ObjectiveState(2, ObjectiveStateEnum.HIDDEN, false);
 
-		adventureList.add(as1);
-		adventureList.add(as2);
+		objectiveList.add(as1);
+		objectiveList.add(as2);
 
-		qs.addAdventures(adventureList);
+		qs.addObjectives(objectiveList);
 
-		assertEquals(2, qs.getSizeOfAdventureList());
+		assertEquals(2, qs.getSizeOfObjectiveList());
 	}
 
 	/**
 	 * Test the change in quest's state when triggered
 	 *
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
@@ -83,7 +83,7 @@ public class QuestStateTest
 	 */
 	@Test
 	public void testTriggerQuest()
-			throws IllegalAdventureChangeException, IllegalQuestChangeException, DatabaseException
+			throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
 		QuestState quest = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true);
 		quest.trigger();
@@ -94,7 +94,7 @@ public class QuestStateTest
 	/**
 	 * Test to make sure you can't trigger finished quests
 	 *
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
@@ -103,7 +103,7 @@ public class QuestStateTest
 	 */
 	@Test(expected = IllegalQuestChangeException.class)
 	public void testTriggerFinishedQuest()
-			throws IllegalQuestChangeException, DatabaseException, IllegalAdventureChangeException
+			throws IllegalQuestChangeException, DatabaseException, IllegalObjectiveChangeException
 	{
 		QuestState quest = new QuestState(2, 1, QuestStateEnum.COMPLETED, false);
 		quest.trigger();
@@ -111,9 +111,9 @@ public class QuestStateTest
 	}
 
 	/**
-	 * Test that when a quest is triggered, its adventures get triggered as well
+	 * Test that when a quest is triggered, its objectives get triggered as well
 	 *
-	 * @throws IllegalAdventureChangeException
+	 * @throws IllegalObjectiveChangeException
 	 *             thrown if changing to a wrong state
 	 * @throws IllegalQuestChangeException
 	 *             thrown if illegal state change
@@ -121,34 +121,34 @@ public class QuestStateTest
 	 *             shouldn't
 	 */
 	@Test
-	public void testTriggerQuestsAdventures()
-			throws IllegalAdventureChangeException, IllegalQuestChangeException, DatabaseException
+	public void testTriggerQuestsObjectives()
+			throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
 		QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, false);
-		ArrayList<AdventureState> adList = new ArrayList<>();
+		ArrayList<ObjectiveState> adList = new ArrayList<>();
 
-		AdventureState as1 = new AdventureState(1, AdventureStateEnum.HIDDEN, false);
-		AdventureState as2 = new AdventureState(2, AdventureStateEnum.HIDDEN, false);
-		AdventureState as3 = new AdventureState(3, AdventureStateEnum.HIDDEN, false);
+		ObjectiveState as1 = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
+		ObjectiveState as2 = new ObjectiveState(2, ObjectiveStateEnum.HIDDEN, false);
+		ObjectiveState as3 = new ObjectiveState(3, ObjectiveStateEnum.HIDDEN, false);
 
 		adList.add(as1);
 		adList.add(as2);
 		adList.add(as3);
 
-		qs.addAdventures(adList);
-		adList = qs.getAdventureList();
+		qs.addObjectives(adList);
+		adList = qs.getObjectiveList();
 
 		qs.trigger();
 
-		for (AdventureState as : adList)
+		for (ObjectiveState as : adList)
 		{
-			assertEquals(AdventureStateEnum.TRIGGERED, as.getState());
+			assertEquals(ObjectiveStateEnum.TRIGGERED, as.getState());
 			assertFalse(as.isNeedingNotification());
 		}
 	}
 
 	/**
-	 * When the right number of adventures are complete (with or without
+	 * When the right number of objectives are complete (with or without
 	 * notifications complete) the quest should become fulfilled and the appropriate
 	 * report should be generated
 	 *
@@ -174,23 +174,23 @@ public class QuestStateTest
 
 		QuestState qs = new QuestState(2, QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED,
 				false);
-		ArrayList<AdventureState> adList = new ArrayList<>();
+		ArrayList<ObjectiveState> adList = new ArrayList<>();
 
 		PlayerManager.getSingleton().addPlayer(2);
 
-		AdventureState as = new AdventureState(1, AdventureStateEnum.COMPLETED, true);
+		ObjectiveState as = new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true);
 		adList.add(as);
-		as = new AdventureState(2, AdventureStateEnum.COMPLETED, false);
+		as = new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, false);
 
 		adList.add(as);
-		as = new AdventureState(3, AdventureStateEnum.COMPLETED, false);
+		as = new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false);
 		adList.add(as);
-		as = new AdventureState(4, AdventureStateEnum.TRIGGERED, false);
+		as = new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false);
 		adList.add(as);
-		as = new AdventureState(5, AdventureStateEnum.COMPLETED, false);
+		as = new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false);
 		adList.add(as);
 
-		qs.addAdventures(adList);
+		qs.addObjectives(adList);
 		qs.checkForFulfillmentOrFinished();
 		assertEquals(origExperiencePoints + QuestsForTest.ONE_SAME_LOCATION_QUEST.getExperienceGained(),
 				PlayerManager.getSingleton().getPlayerFromID(2).getExperiencePoints());
@@ -215,20 +215,20 @@ public class QuestStateTest
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, QuestStateChangeReport.class);
 		EasyMock.replay(obs);
 		QuestState qs = new QuestState(1, 3, QuestStateEnum.FULFILLED, false);
-		ArrayList<AdventureState> adList = new ArrayList<>();
+		ArrayList<ObjectiveState> adList = new ArrayList<>();
 
-		AdventureState as = new AdventureState(1, AdventureStateEnum.COMPLETED, false);
+		ObjectiveState as = new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, false);
 		adList.add(as);
-		as = new AdventureState(2, AdventureStateEnum.COMPLETED, true);
+		as = new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, true);
 		adList.add(as);
-		as = new AdventureState(3, AdventureStateEnum.COMPLETED, false);
+		as = new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false);
 		adList.add(as);
-		as = new AdventureState(4, AdventureStateEnum.TRIGGERED, false);
+		as = new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false);
 		adList.add(as);
-		as = new AdventureState(5, AdventureStateEnum.COMPLETED, false);
+		as = new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false);
 		adList.add(as);
 
-		qs.addAdventures(adList);
+		qs.addObjectives(adList);
 		qs.checkForFulfillmentOrFinished();
 		assertEquals(QuestStateEnum.FULFILLED, qs.getStateValue());
 		assertFalse(qs.isNeedingNotification());

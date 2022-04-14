@@ -42,7 +42,7 @@ public class CommandTerminalTextLSTest
 	public void testMapTeleportList()
 	{
 		CommandTerminalTextLS ls = (CommandTerminalTextLS) TerminalManager.getSingleton().getTerminalCommandObject("ls");
-		String expected = "Quiznasium, Current";
+		String expected = "Rec Center, Quad";
 		String actual = ls.execute(PlayersForTest.MERLIN.getPlayerID(), new String[]{""});
 		assertEquals(expected, actual);
 	}

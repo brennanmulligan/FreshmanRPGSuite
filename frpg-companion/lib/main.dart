@@ -24,15 +24,10 @@ ThemeData get darkTheme => ThemeData(
 /// Main runnable of the app.
 ///
 void main() async {
-  ///
-  /// Load app configurations, then tell all
-  /// providers dependent on this data to
-  /// refresh.
-  ///
-  await dotenv.load(fileName: '.env');
   final container = ProviderContainer();
-  container.read(NetworkProvider.networkController.notifier).assignBaseURL();
-  container.refresh(NetworkProvider.serviceClient);
+  await initialize(
+    container: container,
+  );
 
   ///
   /// Run the app.
@@ -50,4 +45,23 @@ void main() async {
       ),
     ),
   );
+}
+
+///
+///
+///
+Future<void> initialize({
+  required ProviderContainer container,
+}) async {
+  ///
+  /// Load app configurations, then tell all
+  /// providers dependent on this data to
+  /// refresh.
+  ///
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(
+    fileName: '.env',
+  );
+  container.read(NetworkProvider.networkController.notifier).assignBaseURL();
+  container.refresh(NetworkProvider.serviceClient);
 }

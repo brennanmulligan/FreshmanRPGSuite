@@ -1,0 +1,89 @@
+
+hair.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hair_black
+  rotate: false
+  xy: 1, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_blonde
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_br
+  rotate: false
+  xy: 133, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_dark_brown
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_gray
+  rotate: false
+  xy: 265, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_light_brown
+  rotate: false
+  xy: 265, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_merlin
+  rotate: false
+  xy: 397, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_null_pointer
+  rotate: false
+  xy: 397, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_null_pointer_f
+  rotate: false
+  xy: 529, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_off_by_one
+  rotate: false
+  xy: 529, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_out_of_bounds
+  rotate: false
+  xy: 661, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hair_tutor
+  rotate: false
+  xy: 661, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

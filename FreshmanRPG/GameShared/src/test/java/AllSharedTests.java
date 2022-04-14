@@ -12,7 +12,7 @@ import communication.ConnectionOutgoingTest;
 import communication.StateAccumulatorTest;
 import communication.handlers.MessageHandlerSetTest;
 import communication.packers.MessagePackerSetTest;
-import dataDTO.ClientPlayerAdventureTest;
+import dataDTO.ClientPlayerObjectiveTest;
 import dataDTO.ClientPlayerQuestTest;
 import datatypes.PositionTest;
 import model.FindPlayerByIDByPlayerNameTest;
@@ -48,8 +48,8 @@ import tmxfiles.TMXMapReaderTest;
 				// StubMessageHandler2.class,
 
 				// communication.messages
-				AdventureNotificationCompleteMessageTest.class,
-				AdventureStateChangeMessageTest.class,
+				ObjectiveNotificationCompleteMessageTest.class,
+				ObjectiveStateChangeMessageTest.class,
 				RecievedTerminalTextMessageTest.class,
 				AreaCollisionMessageTest.class,
 				BuffMessageTest.class,
@@ -59,7 +59,7 @@ import tmxfiles.TMXMapReaderTest;
 				ExperienceChangedMessageTest.class,
 				InitializeThisClientsPlayerMessageTest.class,
 				KeyInputMessageTest.class,
-				KnowledgeChangedMessageTest.class,
+				DoubloonsChangedMessageTest.class,
 				LoginMessageTest.class,
 				LoginResponseMessageTest.class,
 				MapFileMessageTest.class,
@@ -85,7 +85,7 @@ import tmxfiles.TMXMapReaderTest;
 				// StubMessagePacker2a,
 
 				//dataDTO
-				ClientPlayerAdventureTest.class,
+				ClientPlayerObjectiveTest.class,
 				ClientPlayerQuestTest.class,
 
 				// datasource

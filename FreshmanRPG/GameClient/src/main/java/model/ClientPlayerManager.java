@@ -4,9 +4,11 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 
 import dataDTO.FriendDTO;
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
@@ -154,8 +156,8 @@ public class ClientPlayerManager
 	 *            The id of the player
 	 * @param playerName
 	 *            The name of the player
-	 * @param appearanceType
-	 *            The appearance type of the player
+	 * @param vanities
+	 * 			  The list of all vanity objects the player is wearing
 	 * @param position
 	 *            The position of this player
 	 * @param crew
@@ -167,18 +169,38 @@ public class ClientPlayerManager
 	 *
 	 * @return Player The player updated
 	 */
-	public ClientPlayer initializePlayer(int playerID, String playerName, String appearanceType, Position position,
+	public ClientPlayer initializePlayer(int playerID, String playerName, List<VanityDTO> vanities, Position position,
 										 Crew crew, Major major, int section)
+	{
+		return initializePlayer(playerID, playerName, vanities, position, crew, major, section, new ArrayList<>());
+	}
+
+	public ClientPlayer initializePlayer(int playerID, String playerName, List<VanityDTO> vanities, Position position,
+										 Crew crew, Major major, int section, List<VanityDTO> ownedItems)
 	{
 		ClientPlayer player;
 		if (playerList.containsKey(playerID))
 		{
 			player = playerList.get(playerID);
+			player.setName(playerName);
+			player.setVanityNoReport(vanities);
+			player.setPosition(position);
+			player.setCrew(crew);
+			player.setMajor(major);
+			player.setSection(section);
+			player.setOwnedItems(ownedItems);
 			this.tellObserversToRemoveThePlayer(playerID);
 		}
 		else
 		{
 			player = new ClientPlayer(playerID);
+			player.setName(playerName);
+			player.setVanityNoReport(vanities);
+			player.setPosition(position);
+			player.setCrew(crew);
+			player.setMajor(major);
+			player.setSection(section);
+			player.setOwnedItems(ownedItems);
 		}
 		playerList.put(playerID, player);
 
@@ -189,7 +211,7 @@ public class ClientPlayerManager
 		}
 
 		PlayerConnectedToAreaServerReport report = new PlayerConnectedToAreaServerReport(playerID, playerName,
-				appearanceType, position, crew, major, isThisClientsPlayer);
+				position, crew, major, isThisClientsPlayer, vanities);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
 		if (thisClientsPlayer != null)
@@ -203,13 +225,6 @@ public class ClientPlayerManager
 				}
 			}
 		}
-
-		player.setName(playerName);
-		player.setAppearanceTypeNoReport(appearanceType);
-		player.setPosition(position);
-		player.setCrew(crew);
-		player.setMajor(major);
-		player.setSection(section);
 
 		return player;
 	}

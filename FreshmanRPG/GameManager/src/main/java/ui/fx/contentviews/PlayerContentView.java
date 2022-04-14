@@ -6,8 +6,6 @@ import java.util.Optional;
 import dataDTO.PlayerDTO;
 import datatypes.Crew;
 import datatypes.Major;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -25,7 +23,7 @@ import model.Command;
 import model.CommandDeleteAllPlayers;
 import model.CommandDeletePlayer;
 import model.CommandGetAllPlayers;
-import model.CommandGetUncompletedAdventuresForPlayer;
+import model.CommandGetUncompletedObjectivesForPlayer;
 import model.CommandImportPlayer;
 import model.ModelFacade;
 import model.QualifiedObservableReport;
@@ -180,7 +178,7 @@ public class PlayerContentView extends ContentView implements QualifiedObserver
 			EditPlayerModal.getInstance().setPlayerConfirmPassword(player.getPlayerPassword());
 			EditPlayerModal.getInstance().setPlayerMajor(player.getMajor());
 			EditPlayerModal.getInstance().setPlayerCrew(player.getCrew());
-			EditPlayerModal.getInstance().setOther(player.getAppearanceType(), player.getKnowledgePoints(),
+			EditPlayerModal.getInstance().setOther(player.getAppearanceType(), player.getDoubloons(),
 					player.getExperiencePoints(), player.getPlayerID());
 			EditPlayerModal.getInstance().show();
 		}
@@ -285,16 +283,16 @@ public class PlayerContentView extends ContentView implements QualifiedObserver
 	}
 
 	/**
-	 * Changes the state of an adventure for a specific player
+	 * Changes the state of an objective for a specific player
 	 *
 	 * @param dto
 	 *            player record
 	 */
-	public void changeAdventureStatusForPlayer(PlayerDTO dto)
+	public void changeObjectiveStatusForPlayer(PlayerDTO dto)
 	{
 		AlertBar.getInstance().receiveMessage("MANAGE USER'S QUESTS");
 		ModifyPlayerStateModal.getInstance().setPlayer(dto);
-		CommandGetUncompletedAdventuresForPlayer command = new CommandGetUncompletedAdventuresForPlayer(
+		CommandGetUncompletedObjectivesForPlayer command = new CommandGetUncompletedObjectivesForPlayer(
 				dto.getPlayerID());
 		ModelFacade.getSingleton().queueCommand(command);
 		ModifyPlayerStateModal.getInstance().show();

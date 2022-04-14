@@ -23,23 +23,23 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 	private ArrayList<FriendDTO> friends;
 	private int experiencePts;
 	private LevelRecord level;
-	private int knowledgePoints;
+	private int doubloons;
 
 
 	/**
 	 * @param clientPlayerQuestList players quest list
 	 * @param experiencePts player's experience points
 	 * @param level LevelRecord
-	 * @param knowledgePoints for this player
+	 * @param doubloons for this player
 	 * @param playerID of this player
 	 */
 	public InitializeThisClientsPlayerMessage(ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
-											  int knowledgePoints, LevelRecord level)
+											  int doubloons, LevelRecord level)
 	{
 		this.friends = friends;
 		this.clientPlayerQuestList = clientPlayerQuestList;
 		this.experiencePts = experiencePts;
-		this.knowledgePoints = knowledgePoints;
+		this.doubloons = doubloons;
 		this.level = level;
 	}
 
@@ -84,11 +84,11 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 	}
 
 	/**
-	 * @return the knowledgePoints of this player
+	 * @return the doubloons of this player
 	 */
-	public int getKnowledgePoints()
+	public int getDoubloons()
 	{
-		return knowledgePoints;
+		return doubloons;
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 		result = prime * result + ((clientPlayerQuestList == null) ? 0 : clientPlayerQuestList.hashCode());
 		result = prime * result + experiencePts;
 		result = prime * result + ((friends == null) ? 0 : friends.hashCode());
-		result = prime * result + knowledgePoints;
+		result = prime * result + doubloons;
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
 		return result;
 	}
@@ -152,7 +152,7 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 		{
 			return false;
 		}
-		if (knowledgePoints != other.knowledgePoints)
+		if (doubloons != other.doubloons)
 		{
 			return false;
 		}

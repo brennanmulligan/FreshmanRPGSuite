@@ -8,7 +8,7 @@ import dataENUM.QuestCompletionActionType;
 import datatypes.Position;
 
 /**
- * A DTO that encapsulates all of the information about a quest and its adventures
+ * A DTO that encapsulates all of the information about a quest and its objectives
  *
  * @author Scott Lantz, LaVonne Diller
  *
@@ -23,8 +23,8 @@ public class QuestRecord
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((adventures == null) ? 0 : adventures.hashCode());
-		result = prime * result + adventuresForFulfillment;
+		result = prime * result + ((objectives == null) ? 0 : objectives.hashCode());
+		result = prime * result + objectivesForFulfillment;
 		result = prime * result + ((completionActionParameter == null) ? 0 : completionActionParameter.hashCode());
 		result = prime * result + ((completionActionType == null) ? 0 : completionActionType.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -57,18 +57,18 @@ public class QuestRecord
 			return false;
 		}
 		QuestRecord other = (QuestRecord) obj;
-		if (adventures == null)
+		if (objectives == null)
 		{
-			if (other.adventures != null)
+			if (other.objectives != null)
 			{
 				return false;
 			}
 		}
-		else if (!adventures.equals(other.adventures))
+		else if (!objectives.equals(other.objectives))
 		{
 			return false;
 		}
-		if (adventuresForFulfillment != other.adventuresForFulfillment)
+		if (objectivesForFulfillment != other.objectivesForFulfillment)
 		{
 			return false;
 		}
@@ -166,12 +166,12 @@ public class QuestRecord
 
 	private String title;
 	private String description;
-	private ArrayList<AdventureRecord> adventures;
+	private ArrayList<ObjectiveRecord> objectives;
 	private int questID;
 	private String mapName;
 	private Position position;
 	private int experiencePointsGained;
-	private int adventuresForFulfillment;
+	private int objectivesForFulfillment;
 	private QuestCompletionActionType completionActionType;
 	private QuestCompletionActionParameter completionActionParameter;
 	private Date startDate;
@@ -185,10 +185,10 @@ public class QuestRecord
 	 * @param desc the description
 	 * @param map the map that the quest is on
 	 * @param pos position of the quest
-	 * @param adventures the list of adventures
+	 * @param objectives the list of objectives
 	 * @param experiencePointsGained the number of points we get when we fulfill
 	 *            this quest
-	 * @param adventuresForFulfillment the number of adventures we have to
+	 * @param objectivesForFulfillment the number of objectives we have to
 	 *            complete to fulfill this quest
 	 * @param completionActionType the type of action to do on completing a
 	 *            quest
@@ -197,8 +197,8 @@ public class QuestRecord
 	 * @param endDate The last day the quest is available
 	 */
 
-	public QuestRecord(int id, String title, String desc, String map, Position pos, ArrayList<AdventureRecord> adventures,
-					   int experiencePointsGained, int adventuresForFulfillment, QuestCompletionActionType completionActionType,
+	public QuestRecord(int id, String title, String desc, String map, Position pos, ArrayList<ObjectiveRecord> objectives,
+					   int experiencePointsGained, int objectivesForFulfillment, QuestCompletionActionType completionActionType,
 					   QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
 	{
 		this.questID = id;
@@ -206,9 +206,9 @@ public class QuestRecord
 		this.description = desc;
 		this.mapName = map;
 		this.position = pos;
-		this.adventures = adventures;
+		this.objectives = objectives;
 		this.experiencePointsGained = experiencePointsGained;
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectivesForFulfillment = objectivesForFulfillment;
 		this.completionActionType = completionActionType;
 		this.completionActionParameter = completionActionParameter;
 		this.startDate = startDate;
@@ -216,18 +216,18 @@ public class QuestRecord
 	}
 
 	/**
-	 * Get adventure by specific adventure id
+	 * Get objetive by specific objective id
 	 *
-	 * @param adventureID id of the adventure
-	 * @return adventure description
+	 * @param objectiveID id of the objective
+	 * @return objective record
 	 */
-	public AdventureRecord getAdventureD(int adventureID)
+	public ObjectiveRecord getObjectiveID(int objectiveID)
 	{
-		for (AdventureRecord a : adventures)
+		for (ObjectiveRecord objective : objectives)
 		{
-			if (a.getAdventureID() == adventureID)
+			if (objective.getObjectiveID() == objectiveID)
 			{
-				return a;
+				return objective;
 			}
 		}
 
@@ -236,18 +236,18 @@ public class QuestRecord
 	}
 
 	/**
-	 * Get adventure description by specific adventure id
+	 * Get objective description by specific objective id
 	 *
-	 * @param adventureID id of the adventure
-	 * @return adventure description
+	 * @param objectiveID id of the objective
+	 * @return objective description
 	 */
-	public String getAdventureDescription(int adventureID)
+	public String getObjectiveDescription(int objectiveID)
 	{
-		for (AdventureRecord a : adventures)
+		for (ObjectiveRecord a : objectives)
 		{
-			if (a.getAdventureID() == adventureID)
+			if (a.getObjectiveID() == objectiveID)
 			{
-				return a.getAdventureDescription();
+				return a.getObjectiveDescription();
 			}
 		}
 
@@ -256,32 +256,32 @@ public class QuestRecord
 	}
 
 	/**
-	 * @return list_adventures the quest's adventures
+	 * @return list_objectives the quest's objectives
 	 */
-	public ArrayList<AdventureRecord> getAdventures()
+	public ArrayList<ObjectiveRecord> getObjectives()
 	{
-		return adventures;
+		return objectives;
 	}
 
 	/**
-	 * @return the number of adventures necessary to fulfill this quest
+	 * @return the number of objectives necessary to fulfill this quest
 	 */
-	public int getAdventuresForFulfillment()
+	public int getObjectivesForFulfillment()
 	{
-		return adventuresForFulfillment;
+		return objectivesForFulfillment;
 	}
 
 	/**
-	 * Get adventure description by specific adventure id
+	 * Get objective description by specific objective id
 	 *
-	 * @param adventureID id of the adventure
-	 * @return adventure description
+	 * @param objectiveID id of the objective
+	 * @return objective description
 	 */
-	public int getAdventureXP(int adventureID)
+	public int getObjectiveXP(int objectiveID)
 	{
-		for (AdventureRecord a : adventures)
+		for (ObjectiveRecord a : objectives)
 		{
-			if (a.getAdventureID() == adventureID)
+			if (a.getObjectiveID() == objectiveID)
 			{
 				return a.getExperiencePointsGained();
 			}
@@ -377,13 +377,13 @@ public class QuestRecord
 	}
 
 	/**
-	 * Sets the quests adventure list
+	 * Sets the quests objective list
 	 *
-	 * @param adventures the new adventure list
+	 * @param objectives the new objective list
 	 */
-	public void setAdventures(ArrayList<AdventureRecord> adventures)
+	public void setObjectives(ArrayList<ObjectiveRecord> objectives)
 	{
-		this.adventures = adventures;
+		this.objectives = objectives;
 	}
 
 	/**

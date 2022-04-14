@@ -103,11 +103,11 @@ public class GameManagerPlayerManager
 		Major major = Major.getMajorForID(majorID);
 		Crew crew = Crew.getCrewForID(crewID);
 		Position position = new Position(11, 7);
-		int knowledgeScore = 0;
+		int doubloons = 0;
 		int experiencePoints = 0;
 		String appearanceType = "default_player";
 
-		mapper = new PlayerMapper(position, appearanceType, knowledgeScore, experiencePoints, crew, major, sectionID,
+		mapper = new PlayerMapper(position, appearanceType, doubloons, experiencePoints, crew, major, sectionID,
 				name, password);
 
 		PlayerDTO player = mapper.getPlayerInfo();
@@ -141,7 +141,7 @@ public class GameManagerPlayerManager
 				if (player.getPlayerID() == playerID)
 				{
 					this.editPlayerInDatabase(player.getPlayerID(), player.getAppearanceType(),
-							player.getKnowledgePoints(), player.getExperiencePoints(), Crew.getCrewForID(crewID),
+							player.getDoubloons(), player.getExperiencePoints(), Crew.getCrewForID(crewID),
 							Major.getMajorForID(majorID), sectionID, name, password);
 				}
 			}

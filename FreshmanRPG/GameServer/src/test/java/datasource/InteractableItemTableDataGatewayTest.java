@@ -72,7 +72,7 @@ public abstract class InteractableItemTableDataGatewayTest extends DatabaseTest
 	public void testItemsForMap() throws DatabaseException
 	{
 		InteractableItemTableDataGateway gateway = getGatewaySingleton();
-		ArrayList<InteractableItemDTO> itemList = gateway.getItemsOnMap("theGreen.tmx");
+		ArrayList<InteractableItemDTO> itemList = gateway.getItemsOnMap("quad.tmx");
 
 		assertEquals(itemList.get(0).getId(), InteractableItemsForTest.BOOK.getItemID());
 		assertEquals(itemList.get(1).getId(), InteractableItemsForTest.CHEST.getItemID());

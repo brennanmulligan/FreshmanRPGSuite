@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dataDTO.PlayerDTO;
-import datasource.AdventureStateTableDataGatewayMock;
+import datasource.ObjectiveStateTableDataGatewayMock;
 import datasource.DatabaseException;
 import datasource.PlayerConnectionRowDataGatewayMock;
 import datasource.PlayerLoginRowDataGatewayMock;
@@ -43,7 +43,7 @@ public class PlayerManagerTest
 		new PlayerRowDataGatewayMock().resetData();
 		new PlayerLoginRowDataGatewayMock().resetData();
 		QuestStateTableDataGatewayMock.getSingleton().resetData();
-		AdventureStateTableDataGatewayMock.getSingleton().resetData();
+		ObjectiveStateTableDataGatewayMock.getSingleton().resetData();
 		QuestManager.resetSingleton();
 		new PlayerConnectionRowDataGatewayMock(1).resetData();
 		GameManagerPlayerManager.resetSingleton();
@@ -120,8 +120,8 @@ public class PlayerManagerTest
 	{
 		PlayersForTest player = PlayersForTest.HERSH;
 		PlayerDTO playerDTO = new PlayerDTO(player.getPlayerID(), player.getPlayerName(), player.getPlayerPassword(),
-				player.getAppearanceType(), player.getKnowledgeScore(), player.getPosition(), player.getMapName(),
-				player.getExperiencePoints(), player.getCrew(), player.getMajor(), player.getSection(), player.getMapsVisited());
+				player.getAppearanceType(), player.getDoubloons(), player.getPosition(), player.getMapName(),
+				player.getExperiencePoints(), player.getCrew(), player.getMajor(), player.getSection(), player.getMapsVisited(), new ArrayList<>());
 		GameManagerPlayerManager playerManager = GameManagerPlayerManager.getInstance();
 
 		playerManager.removePlayer(player.getPlayerID());
@@ -154,7 +154,7 @@ public class PlayerManagerTest
 
 		assertEquals("test", playerDTO.getAppearanceType());
 
-		assertEquals(100, playerDTO.getKnowledgePoints());
+		assertEquals(100, playerDTO.getDoubloons());
 		assertEquals(200, playerDTO.getExperiencePoints());
 		assertEquals(Crew.NULL_POINTER, playerDTO.getCrew());
 		assertEquals(Major.SOFTWARE_ENGINEERING, playerDTO.getMajor());

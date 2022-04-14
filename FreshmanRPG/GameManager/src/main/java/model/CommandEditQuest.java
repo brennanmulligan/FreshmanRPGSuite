@@ -18,7 +18,7 @@ public class CommandEditQuest extends Command
 	private String triggerMapName;
 	private Position triggerPosition;
 	private int experiencePointsGained;
-	private int adventuresForFulfillment;
+	private int objectivesForFulfillment;
 	private QuestCompletionActionType completionActionType;
 	private QuestCompletionActionParameter completionActionParameter;
 	private Date startDate;
@@ -33,14 +33,14 @@ public class CommandEditQuest extends Command
 	 * @param triggerMapName - map 
 	 * @param triggerPosition - position on map
 	 * @param experiencePointsGained - XP gained from completing quest
-	 * @param adventuresForFulfillment - how many adventures needed for fulfillment
+	 * @param objectivesForFulfillment - how many objectives needed for fulfillment
 	 * @param completionActionType - completion type
 	 * @param completionActionParameter - completion parameter
 	 * @param startDate - start date
 	 * @param endDate - end date
 	 */
 	public CommandEditQuest(int questID, String questTitle, String questDescription, String triggerMapName, Position triggerPosition, int experiencePointsGained,
-							int adventuresForFulfillment, QuestCompletionActionType completionActionType,
+							int objectivesForFulfillment, QuestCompletionActionType completionActionType,
 							QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
 	{
 		this.questID = questID;
@@ -49,7 +49,7 @@ public class CommandEditQuest extends Command
 		this.triggerMapName = triggerMapName;
 		this.triggerPosition = triggerPosition;
 		this.experiencePointsGained = experiencePointsGained;
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectivesForFulfillment = objectivesForFulfillment;
 		this.completionActionType = completionActionType;
 		this.completionActionParameter = completionActionParameter;
 		this.startDate = startDate;
@@ -73,7 +73,7 @@ public class CommandEditQuest extends Command
 					triggerMapName,
 					triggerPosition,
 					experiencePointsGained,
-					adventuresForFulfillment,
+					objectivesForFulfillment,
 					completionActionType,
 					completionActionParameter,
 					startDate,

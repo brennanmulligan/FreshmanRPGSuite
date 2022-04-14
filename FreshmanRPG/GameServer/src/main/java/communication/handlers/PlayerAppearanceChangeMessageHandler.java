@@ -2,13 +2,16 @@ package communication.handlers;
 
 import communication.messages.Message;
 import communication.messages.PlayerAppearanceChangeMessage;
+import communication.messages.PlayerChangeAppearanceMessage;
+import dataDTO.VanityDTO;
 import model.CommandChangePlayerAppearance;
 import model.ModelFacade;
 
+import java.util.ArrayList;
+
 /**
- * Process a player Appearance Changed Message so
+ * Process a player change appearance Message so
  * the player can be updated
- *
  */
 public class PlayerAppearanceChangeMessageHandler extends MessageHandler
 {
@@ -20,13 +23,11 @@ public class PlayerAppearanceChangeMessageHandler extends MessageHandler
 	@Override
 	public void process(Message msg)
 	{
-		PlayerAppearanceChangeMessage playerAppearanceChnageMessage = (PlayerAppearanceChangeMessage) msg;
+		PlayerChangeAppearanceMessage playerChangeAppearanceMessage = (PlayerChangeAppearanceMessage) msg;
 		CommandChangePlayerAppearance cmd = new CommandChangePlayerAppearance(
-				playerAppearanceChnageMessage.getPlayerID(),
-				playerAppearanceChnageMessage.getAppearanceType());
+				playerChangeAppearanceMessage.getPlayerID(),
+				playerChangeAppearanceMessage.getNewWearing());
 		ModelFacade.getSingleton().queueCommand(cmd);
-
-
 	}
 
 	/**
@@ -35,8 +36,7 @@ public class PlayerAppearanceChangeMessageHandler extends MessageHandler
 	@Override
 	public Class<?> getMessageTypeWeHandle()
 	{
-
-		return PlayerAppearanceChangeMessage.class;
+		return PlayerChangeAppearanceMessage.class;
 	}
 
 }

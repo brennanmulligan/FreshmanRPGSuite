@@ -70,8 +70,8 @@
     -fx-text-fill: #666600;
 }
 
-#NavigationMenu #MainMenu .MainMenuButton#AdventureMenuButton:hover,
-#WorkSpace #AdventureContentView .label {
+#NavigationMenu #MainMenu .MainMenuButton#ObjectiveMenuButton:hover,
+#WorkSpace #ObjectiveContentView .label {
     -fx-background-color: #faaafa;
     -fx-text-fill: #660066;
 }
@@ -167,7 +167,7 @@
     -fx-text-fill: #aafafa;
 }
 
-#WorkSpace #AdventureContentView .column-header .label {
+#WorkSpace #ObjectiveContentView .column-header .label {
     -fx-background-color: #323232;
     -fx-text-fill: #faaafa;
 }
@@ -274,40 +274,40 @@
     -fx-cursor: hand;
 }
 
-#AddAdventureModal,
-#EditAdventureModal {
+#AddObjectiveModal,
+#EditObjectiveModal {
     -fx-background-color: #faaafa;
 }
 
-#AddAdventureModal .label,
-#EditAdventureModal .label {
+#AddObjectiveModal .label,
+#EditObjectiveModal .label {
     -fx-font-family: Impact;
     -fx-font-size: 18px;
     -fx-text-fill: #660066;
 }
 
-#AddAdventureModal .label.title,
-#EditAdventureModal .label.title {
+#AddObjectiveModal .label.title,
+#EditObjectiveModal .label.title {
     -fx-background-color: #323232;
     -fx-text-fill: #faaafa;
     -fx-font-size: 24px;
 }
 
-#AddAdventureModal .text-field,
-#EditAdventureModal .text-field {
+#AddObjectiveModal .text-field,
+#EditObjectiveModal .text-field {
     -fx-background-color: #323232;
     -fx-text-fill: #faaafa;
 }
 
-#AddAdventureModal .button,
-#EditAdventureModal .button {
+#AddObjectiveModal .button,
+#EditObjectiveModal .button {
     -fx-background-color: #323232;
     -fx-text-fill: #faaafa;
     -fx-font-size: 18px;
 }
 
-#AddAdventureModal .button:hover,
-#EditAdventureModal .button:hover {
+#AddObjectiveModal .button:hover,
+#EditObjectiveModal .button:hover {
     -fx-background-color: #660066;
     -fx-text-fill: #ffffff;
     -fx-cursor: hand;

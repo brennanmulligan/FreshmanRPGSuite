@@ -44,7 +44,7 @@ public class QuestRowDataGatewayRDSTest extends QuestRowDataGatewayTest
 
 	@Override
 	int createGateway(String title, String description, String mapName, Position position, int experiencedGained,
-					  int adventuresForFullfillment, QuestCompletionActionType completionActionType,
+					  int objectivesForFullfillment, QuestCompletionActionType completionActionType,
 					  QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate) throws DatabaseException
 	{
 		QuestRowDataGatewayRDS gateway = new QuestRowDataGatewayRDS(
@@ -53,7 +53,7 @@ public class QuestRowDataGatewayRDSTest extends QuestRowDataGatewayTest
 				mapName,
 				position,
 				experiencedGained,
-				adventuresForFullfillment,
+				objectivesForFullfillment,
 				completionActionType,
 				completionActionParameter,
 				startDate,
@@ -81,7 +81,7 @@ public class QuestRowDataGatewayRDSTest extends QuestRowDataGatewayTest
 				quest.getMapName(),
 				quest.getPosition(),
 				quest.getExperienceGained(),
-				quest.getAdventuresForFulfillment(),
+				quest.getObjectiveForFulfillment(),
 				quest.getCompletionActionType(),
 				quest.getCompletionActionParameter(),
 				quest.getStartDate(),
@@ -96,7 +96,7 @@ public class QuestRowDataGatewayRDSTest extends QuestRowDataGatewayTest
 		assertEquals(quest.getMapName(), gateway.getTriggerMapName());
 		assertEquals(quest.getPosition(), gateway.getTriggerPosition());
 		assertEquals(quest.getExperienceGained(), gateway.getExperiencePointsGained());
-		assertEquals(quest.getAdventuresForFulfillment(), gateway.getAdventuresForFulfillment());
+		assertEquals(quest.getObjectiveForFulfillment(), gateway.getObjectivesForFulfillment());
 		assertEquals(quest.getCompletionActionType(), gateway.getCompletionActionType());
 		assertEquals(quest.getCompletionActionParameter(), gateway.getCompletionActionParameter());
 		assertEquals(quest.getStartDate(), gateway.getStartDate());

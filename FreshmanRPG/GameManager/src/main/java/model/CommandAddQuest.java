@@ -20,7 +20,7 @@ public class CommandAddQuest extends Command
 	private String triggerMapName;
 	private Position triggerPosition;
 	private int experiencePointsGained;
-	private int adventuresForFulfillment;
+	private int objectivesForFulfillment;
 	private QuestCompletionActionType completionActionType;
 	private QuestCompletionActionParameter completionActionParameter;
 	private Date startDate;
@@ -33,18 +33,18 @@ public class CommandAddQuest extends Command
 	 * @param triggerMapName - name of the map that is triggered
 	 * @param triggerPosition - position of the map that is triggered
 	 * @param experiencePointsGained - the number experience points for completing the quest
-	 * @param adventuresForFulfillment - adventures needed for fulfillment
+	 * @param objectivesForFulfillment - objectives needed for fulfillment
 	 * @param completionActionType - completion type 
 	 * @param completionActionParameter - completion parameter
 	 * @param startDate - the start date
 	 * @param endDate - the end date
 	 */
 	public CommandAddQuest(String questTitle, String questDescription, String triggerMapName,
-						   Position triggerPosition, int experiencePointsGained, int adventuresForFulfillment,
+						   Position triggerPosition, int experiencePointsGained, int objectivesForFulfillment,
 						   QuestCompletionActionType completionActionType, QuestCompletionActionParameter completionActionParameter,
 						   Date startDate, Date endDate)
 	{
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectivesForFulfillment = objectivesForFulfillment;
 		this.completionActionParameter = completionActionParameter;
 		this.completionActionType = completionActionType;
 		this.endDate = endDate;
@@ -66,7 +66,7 @@ public class CommandAddQuest extends Command
 		{
 			GameManagerQuestManager manager = GameManagerQuestManager.getInstance();
 			manager.addQuest(this.questTitle, this.questDescription, this.triggerMapName, this.triggerPosition, this.experiencePointsGained,
-					this.adventuresForFulfillment, this.completionActionType, this.completionActionParameter, this.startDate, this.endDate);
+					this.objectivesForFulfillment, this.completionActionType, this.completionActionParameter, this.startDate, this.endDate);
 
 		}
 		catch (DatabaseException e)

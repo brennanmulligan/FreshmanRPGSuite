@@ -45,7 +45,7 @@ public class ItemPurchasedHandlerTest
 	 * checking and seeing if points have been spent by a player or not
 	 */
 	@Test
-	public void knowledgePointsSpent() throws InterruptedException
+	public void doubloonsSpent() throws InterruptedException
 	{
 		int playerID = 7;
 		int price = 2;
@@ -53,9 +53,9 @@ public class ItemPurchasedHandlerTest
 
 		PlayerManager.getSingleton().addPlayer(7);
 		Player p = PlayerManager.getSingleton().getPlayerFromID(7);
-		p.setQuizScore(startingScore);
+		p.setDoubloons(startingScore);
 
-		assertEquals(startingScore, p.getKnowledgePoints());
+		assertEquals(startingScore, p.getDoubloons());
 
 		ItemPurchasedMessage msg = new ItemPurchasedMessage(playerID, price);
 		ItemPurchasedHandler handler = new ItemPurchasedHandler();

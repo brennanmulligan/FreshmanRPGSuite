@@ -2,6 +2,7 @@ package model.reports;
 
 import datatypes.QuestStateEnum;
 import model.QualifiedObservableReport;
+import view.screen.notification.NotificationType;
 
 /**
  * @author sl6469, Cody
@@ -13,7 +14,7 @@ import model.QualifiedObservableReport;
  * @author Merlin
  *
  */
-public final class QuestStateChangeReport implements QualifiedObservableReport
+public final class QuestStateChangeReport implements QualifiedObservableReport, NotificationTrigger
 {
 
 	private final int questID;
@@ -132,4 +133,21 @@ public final class QuestStateChangeReport implements QualifiedObservableReport
 		return result;
 	}
 
+	@Override
+	public String getNotificationTitle()
+	{
+		return "Quest updated";
+	}
+
+	@Override
+	public String getNotificationBody()
+	{
+		return "Quest " + newState.getDescription() + getQuestDescription();//remove if description is too long
+	}
+
+	@Override
+	public NotificationType getNotificationType()
+	{
+		return NotificationType.ALERT;
+	}
 }

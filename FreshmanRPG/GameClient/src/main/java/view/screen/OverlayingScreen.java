@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public abstract class OverlayingScreen extends Group
 {
 	protected Table container;
-
+	boolean isResponsive = false;
 
 	/**
 	 * @return the width of the overlaying screen
@@ -66,4 +66,20 @@ public abstract class OverlayingScreen extends Group
 	 */
 	public abstract void toggleVisibility();
 
+	/**
+	 * @return true if this overlaying screen should re-position/size itself with the screen.
+	 */
+	public boolean getIsResponsive()
+	{
+		return isResponsive;
+	}
+
+	/**
+	 * Set whether this overlaying screen should re-position/size itself with the screen.
+	 * @param isResponsive true to re-position/size with screen
+	 */
+	public void setResponsive(boolean isResponsive)
+	{
+		this.isResponsive = isResponsive;
+	}
 }

@@ -3,7 +3,6 @@ package model.terminal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import dataDTO.LevelManagerDTO;
 import datasource.DatabaseException;
 import model.FindPlayerIDFromPlayerName;
 import model.Player;
@@ -37,7 +36,7 @@ public class CommandTerminalTextFinger extends TerminalCommand
 			data = "Name: " + player.getPlayerName() + "," +
 					"Crew: " + player.getCrew() + "," +
 					"Major: " + player.getMajor() + "," +
-					"Knowledge Points: " + player.getKnowledgePoints() + "," +
+					"Doubloons: " + player.getDoubloons() + "," +
 					"Current Experience: " + player.getExperiencePoints() + ",";
 
 		}

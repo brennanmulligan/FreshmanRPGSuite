@@ -43,8 +43,8 @@ public class VisitedMapsGatewayRDSTest extends DatabaseTest
 	public void testGetVisitedMaps() throws DatabaseException
 	{
 		ArrayList<String> testList = new ArrayList<>();
-		testList.add("Quiznasium");
-		testList.add("TheGreen");
+		testList.add("Rec Center");
+		testList.add("Quad");
 
 		VisitedMapsGatewayRDS gateway = new VisitedMapsGatewayRDS(PlayersForTest.MERLIN.getPlayerID());
 		assertEquals(testList, gateway.getMaps());
@@ -58,11 +58,11 @@ public class VisitedMapsGatewayRDSTest extends DatabaseTest
 	public void testAddMapToPlayer() throws DatabaseException
 	{
 		ArrayList<String> testList = new ArrayList<>();
-		testList.add("Quiznasium");
-		testList.add("TheGreen");
-		testList.add("Homework");
+		testList.add("Rec Center");
+		testList.add("Quad");
+		testList.add("Library");
 
-		VisitedMapsGatewayRDS gateway = new VisitedMapsGatewayRDS(PlayersForTest.MERLIN.getPlayerID(), "homeWork");
+		VisitedMapsGatewayRDS gateway = new VisitedMapsGatewayRDS(PlayersForTest.MERLIN.getPlayerID(), "Library");
 
 		assertEquals(testList, gateway.getMaps());
 

@@ -1,5 +1,8 @@
 package datatypes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The players that are in the test database
  *
@@ -33,7 +36,7 @@ public enum NPCsForTest
 	/**
 	 *
 	 */
-	RANDOM_FACTS_NPC_1(PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID(), "model.RandomFactsNPCBehavior"),
+	BIG_RED(PlayersForTest.BIG_RED.getPlayerID(), "model.RandomFactsNPCBehavior"),
 
 	/**
 	 *
@@ -43,7 +46,7 @@ public enum NPCsForTest
 	/**
 	 *
 	 */
-	HUO(PlayersForTest.HUO.getPlayerID(), "model.RandomFactsNPCBehavior"),
+	PROFESSOR_H(PlayersForTest.PROFESSOR_H.getPlayerID(), "model.RandomFactsNPCBehavior"),
 
 	/**
 	 *
@@ -53,24 +56,40 @@ public enum NPCsForTest
 	/**
 	 *
 	 */
-	TIM_NPC(PlayersForTest.TIM_NPC.getPlayerID(), "model.RandomFactsNPCBehavior"),
+	IT_GUY_NPC(PlayersForTest.IT_GUY_NPC.getPlayerID(), "model.RandomFactsNPCBehavior"),
 
 	/**
 	 *
 	 */
-	MOONEY_NPC(PlayersForTest.MOONEY_NPC.getPlayerID(), "model.RandomFactsNPCBehavior"),
+	TEACHER_NPC(PlayersForTest.TEACHER_NPC.getPlayerID(), "model.RandomFactsNPCBehavior"),
 
 	//make change in the behavior class to reflect the new behavior that will be added
-	RockPaperScissors_NPC(PlayersForTest.RockPaperScissors_NPC.getPlayerID(), "model.NPCBehaviorRPS");
+	RockPaperScissors_NPC(PlayersForTest.RockPaperScissors_NPC.getPlayerID(), "model.NPCBehaviorRPS"),
+
+	/**
+	 *
+	 */
+	MOWREY_FRONTDESK_NPC(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID(), "model.RoamingInfoNPCBehavior", "Assets/MowreyInfoXML.xml"),
+
+	PRESIDENT_NPC(PlayersForTest.PRESIDENT_NPC.getPlayerID(), "model.RoamingInfoNPCBehavior", "Assets/Npc_info.xml");
 
 	private String behaviorClass;
 	private int playerID;
+	private String filePath;
 
+	NPCsForTest(int playerID, String behaviorClass, String filePath)
+	{
+		this.playerID = playerID;
+		this.behaviorClass = behaviorClass;
+		this.filePath = filePath;
+	}
 	NPCsForTest(int playerID, String behaviorClass)
 	{
 		this.playerID = playerID;
 		this.behaviorClass = behaviorClass;
+		this.filePath = "";
 	}
+
 
 	/**
 	 * @return the map name the pin for the current connection is good for
@@ -86,6 +105,11 @@ public enum NPCsForTest
 	public int getPlayerID()
 	{
 		return playerID;
+	}
+
+	public String getFilePath() 
+	{
+		return filePath;
 	}
 
 }

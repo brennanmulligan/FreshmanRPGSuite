@@ -48,7 +48,8 @@ public class PlayerConnectionReportTest
 				john.getPlayerPosition(),
 				john.getCrew(),
 				john.getMajor(),
-				john.getSection()
+				john.getSection(),
+				john.getVanityItems()
 		);
 
 		assertEquals(1, report.getPlayerID());

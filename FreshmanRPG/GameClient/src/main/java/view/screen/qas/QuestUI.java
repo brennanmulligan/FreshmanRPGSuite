@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import dataDTO.ClientPlayerQuestStateDTO;
 import model.ClientModelFacade;
-import model.CommandPrintAdventures;
+import model.CommandPrintObjectives;
 import model.CommandSendQuestState;
 import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
@@ -27,7 +27,7 @@ import view.screen.OverlayingScreen;
 import view.screen.SkinPicker;
 
 /**
- * A basic screen that displays the quests and adventure states.
+ * A basic screen that displays the quests and objective states.
  *
  * @author ck4124
  * @rewritten Ian Keefer and TJ Renninger
@@ -37,7 +37,7 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
 	private final float WIDTH = 600f;
 	private final float HEIGHT = 300f;
 	private QuestTable questTable;
-	private AdventureTable adventureTable;
+	private ObjectiveTable objectiveTable;
 	private LegendTable legendTable;
 	private Table subContainer;
 	private TextButton printButton;
@@ -53,15 +53,15 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
 		setUpListening();
 
 		questTable = new QuestTable(questList, true);
-		adventureTable = new AdventureTable(true);
+		objectiveTable = new ObjectiveTable(true);
 		legendTable = new LegendTable();
-		// Set the adventure table so that when a quest is clicked it can update it.
-		questTable.setAdventureTable(adventureTable);
+		// Set the objective table so that when a quest is clicked it can update it.
+		questTable.setObjectiveTable(objectiveTable);
 
 		subContainer = new Table();
 		subContainer.add(questTable).width(.40f * WIDTH).height(.90f * HEIGHT);
 		// Add quest table and tell it how much space to take;
-		subContainer.add(adventureTable).width(.60f * WIDTH).height(.90f * HEIGHT);
+		subContainer.add(objectiveTable).width(.60f * WIDTH).height(.90f * HEIGHT);
 		container.add(subContainer);
 		container.row();
 		subContainer = new Table();
@@ -125,8 +125,8 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
 						path += ".pdf"; // If the file extension is not PDF, it
 						// sets it to PDF
 					}
-					// Create and queues the print Adventures command
-					CommandPrintAdventures cpa = new CommandPrintAdventures(path);
+					// Create and queues the print Objectives command
+					CommandPrintObjectives cpa = new CommandPrintObjectives(path);
 					ClientModelFacade.getSingleton().queueCommand(cpa);
 				}
 				super.clicked(event, x, y);
@@ -136,7 +136,7 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
 
 	/**
 	 * Creates a file chooser with the filters and parameters that we need for
-	 * creating a pdf file for the quests and adventures.
+	 * creating a pdf file for the quests and objectives.
 	 *
 	 * @return The file chooser that is created
 	 */
@@ -207,8 +207,8 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
 			if (questList.size() > 0)
 			{
 				ClientPlayerQuestStateDTO firstQuest = questList.get(0);
-				adventureTable.updateAdventures(firstQuest.getQuestDescription(), firstQuest.getExpireDate().toString(),
-						firstQuest.getAdventureList());
+				objectiveTable.updateObjectives(firstQuest.getQuestDescription(), firstQuest.getExpireDate().toString(),
+						firstQuest.getObjectiveList());
 			}
 		}
 		else if (report.getClass().equals(ClientKeyInputSentReport.class))

@@ -3,7 +3,7 @@ package communication.handlers;
 import communication.messages.InitializeThisClientsPlayerMessage;
 import communication.messages.Message;
 import model.ClientModelFacade;
-import model.CommandKnowledgePointsChanged;
+import model.CommandDoubloonsChanged;
 import model.CommandOverwriteExperience;
 import model.CommandOverwriteQuestState;
 import model.CommandUpdateFriendsList;
@@ -27,11 +27,11 @@ public class InitializeThisClientsPlayerMessageHandler extends MessageHandler
 		InitializeThisClientsPlayerMessage ourMsg = (InitializeThisClientsPlayerMessage) msg;
 		CommandOverwriteQuestState cmd = new CommandOverwriteQuestState(ourMsg);
 		CommandOverwriteExperience cmdExperiencePts = new CommandOverwriteExperience(ourMsg);
-		CommandKnowledgePointsChanged cmdKnowledgePts = new CommandKnowledgePointsChanged(ourMsg);
+		CommandDoubloonsChanged cmdDoubloons = new CommandDoubloonsChanged(ourMsg);
 		CommandUpdateFriendsList cmdFriendList = new CommandUpdateFriendsList(ourMsg);
 		ClientModelFacade.getSingleton().queueCommand(cmd);
 		ClientModelFacade.getSingleton().queueCommand(cmdExperiencePts);
-		ClientModelFacade.getSingleton().queueCommand(cmdKnowledgePts);
+		ClientModelFacade.getSingleton().queueCommand(cmdDoubloons);
 		ClientModelFacade.getSingleton().queueCommand(cmdFriendList);
 	}
 

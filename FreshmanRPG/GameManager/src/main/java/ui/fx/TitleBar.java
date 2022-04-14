@@ -20,7 +20,7 @@ public class TitleBar extends BorderPane
 		this.setId("TitleBar");
 		this.setPrefHeight(56);
 		// Create the title label (title text)
-		Label title = new Label("CS1 Adventures Management System");
+		Label title = new Label("CS1 Objectives Management System");
 		title.setId("Title");
 		this.setCenter(title);
 		this.setRight(HelpMenuButton.getInstance());

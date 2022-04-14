@@ -2,34 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
-import dataDTO.AdventureStateRecordDTO;
+import dataDTO.ObjectiveStateRecordDTO;
 import dataDTO.PlayerDTO;
 import dataDTO.QuestStateRecordDTO;
-import datasource.AdventureStateTableDataGateway;
-import datasource.AdventureStateTableDataGatewayMock;
-import datasource.AdventureStateTableDataGatewayRDS;
-import datasource.AdventureTableDataGateway;
-import datasource.AdventureTableDataGatewayMock;
-import datasource.AdventureTableDataGatewayRDS;
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGateway;
-import datasource.PlayerConnectionRowDataGatewayMock;
-import datasource.PlayerConnectionRowDataGatewayRDS;
-import datasource.PlayerLoginRowDataGateway;
-import datasource.PlayerLoginRowDataGatewayMock;
-import datasource.PlayerLoginRowDataGatewayRDS;
-import datasource.PlayerRowDataGateway;
-import datasource.PlayerRowDataGatewayMock;
-import datasource.PlayerRowDataGatewayRDS;
-import datasource.PlayerTableDataGateway;
-import datasource.PlayerTableDataGatewayMock;
-import datasource.PlayerTableDataGatewayRDS;
-import datasource.QuestStateTableDataGateway;
-import datasource.QuestStateTableDataGatewayMock;
-import datasource.QuestStateTableDataGatewayRDS;
-import datasource.VisitedMapsGateway;
-import datasource.VisitedMapsGatewayMock;
-import datasource.VisitedMapsGatewayRDS;
+import dataDTO.VanityDTO;
+import datasource.*;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
@@ -39,7 +16,7 @@ import datatypes.Position;
  * (basically, connector between the Player class and the gateways in the data
  * source)
  *
- * @author Merlin
+ * @author Merlin, Aaron W., Jake H.
  *
  */
 public class PlayerMapper
@@ -47,9 +24,10 @@ public class PlayerMapper
 	private PlayerRowDataGateway playerGateway;
 	private PlayerConnectionRowDataGateway playerConnectionGateway;
 	private QuestStateTableDataGateway questStateGateway;
-	private AdventureStateTableDataGateway adventureStateGateway;
-	private AdventureTableDataGateway adventureTableDataGateway;
+	private ObjectiveStateTableDataGateway objectiveStateGateway;
+	private ObjectiveTableDataGateway objectiveTableDataGateway;
 	private VisitedMapsGateway visitedMapsGateway;
+	private VanityInventoryTableDataGatewayInterface vanityTableDataGateway;
 
 	//For testing in Mock Player Data Gateway
 	private static PlayerDTO editedPlayerInfo;
@@ -72,25 +50,27 @@ public class PlayerMapper
 		{
 			this.playerGateway = new PlayerRowDataGatewayMock(playerID);
 			this.questStateGateway = QuestStateTableDataGatewayMock.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayMock.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayMock.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayMock(playerID);
-			this.adventureTableDataGateway = AdventureTableDataGatewayMock.getSingleton();
+			this.objectiveTableDataGateway = ObjectiveTableDataGatewayMock.getSingleton();
 			this.visitedMapsGateway = new VisitedMapsGatewayMock(playerID);
+			this.vanityTableDataGateway = VanityInventoryTableDataGatewayMock.getSingleton();
 		}
 		else
 		{
 			this.playerGateway = new PlayerRowDataGatewayRDS(playerID);
 			this.questStateGateway = QuestStateTableDataGatewayRDS.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayRDS.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayRDS.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayRDS(playerID);
-			this.adventureTableDataGateway = AdventureTableDataGatewayRDS.getSingleton();
+			this.objectiveTableDataGateway = ObjectiveTableDataGatewayRDS.getSingleton();
 			this.visitedMapsGateway = new VisitedMapsGatewayRDS(playerID);
+			this.vanityTableDataGateway = VanityInventoryTableDataGatewayRDS.getSingleton();
 		}
 		this.player = createPlayerObject(playerID);
 		player.setPlayerLogin(new PlayerLogin(playerID));
 		player.setAppearanceType(playerGateway.getAppearanceType());
 		player.setPlayerPositionWithoutNotifying(playerConnectionGateway.getPosition());
-		player.setQuizScore(playerGateway.getQuizScore());
+		player.setDoubloons(playerGateway.getQuizScore());
 		player.setCrew(playerGateway.getCrew());
 		player.setMajor(playerGateway.getMajor());
 		player.setSection(playerGateway.getSection());
@@ -100,6 +80,9 @@ public class PlayerMapper
 		player.setMapName(playerConnectionGateway.getMapName());
 		player.setPlayerOnline(playerGateway.getOnline());
 		player.setPlayerVisitedMaps(visitedMapsGateway.getMaps());
+		player.setVanityItems(vanityTableDataGateway.getWearing(playerID));
+		player.setOwnedItems((vanityTableDataGateway.getAllOwnedItems(playerID)));
+
 		loadQuestStates();
 	}
 
@@ -108,7 +91,7 @@ public class PlayerMapper
 	 *
 	 * @param position - position of the player
 	 * @param appearanceType - the appearance type of the player
-	 * @param knowledgeScore - the knowledge score of he player
+	 * @param doubloons - the doubloons of the player
 	 * @param experiencePoints - the players experience points
 	 * @param crew - the crew the player is apart
 	 * @param major - the players major
@@ -118,7 +101,7 @@ public class PlayerMapper
 	 *
 	 * @throws DatabaseException - shouldn't
 	 */
-	protected PlayerMapper(Position position, String appearanceType, int knowledgeScore, int experiencePoints, Crew crew,
+	protected PlayerMapper(Position position, String appearanceType, int doubloons, int experiencePoints, Crew crew,
 						   Major major, int section, String name, String password) throws DatabaseException
 	{
 		//TODO: The defaults need to be configured properly
@@ -126,30 +109,31 @@ public class PlayerMapper
 		String mapName = "sortingRoom.tmx";
 		if (OptionsManager.getSingleton().isUsingMockDataSource())
 		{
-			this.playerGateway = new PlayerRowDataGatewayMock(appearanceType, knowledgeScore, experiencePoints, crew,
+			this.playerGateway = new PlayerRowDataGatewayMock(appearanceType, doubloons, experiencePoints, crew,
 					major, section, 0, false);
 			this.questStateGateway = QuestStateTableDataGatewayMock.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayMock.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayMock.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayMock(this.playerGateway.getPlayerID(), pin, mapName, position);
 			new PlayerLoginRowDataGatewayMock(this.playerGateway.getPlayerID(), name, password);
 			this.visitedMapsGateway = new VisitedMapsGatewayMock(this.playerGateway.getPlayerID());
-
+			this.vanityTableDataGateway = VanityInventoryTableDataGatewayMock.getSingleton();
 		}
 		else
 		{
-			this.playerGateway = new PlayerRowDataGatewayRDS(appearanceType, knowledgeScore, experiencePoints, crew,
+			this.playerGateway = new PlayerRowDataGatewayRDS(appearanceType, doubloons, experiencePoints, crew,
 					major, section, 0, false);
 			this.questStateGateway = QuestStateTableDataGatewayRDS.getSingleton();
-			this.adventureStateGateway = AdventureStateTableDataGatewayRDS.getSingleton();
+			this.objectiveStateGateway = ObjectiveStateTableDataGatewayRDS.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayRDS(this.playerGateway.getPlayerID(), pin, mapName, position);
 			new PlayerLoginRowDataGatewayRDS(this.playerGateway.getPlayerID(), name, password);
 			this.visitedMapsGateway = new VisitedMapsGatewayRDS(this.playerGateway.getPlayerID());
+			this.vanityTableDataGateway = VanityInventoryTableDataGatewayRDS.getSingleton();
 		}
 		this.player = createPlayerObject(this.playerGateway.getPlayerID());
 		player.setPlayerLogin(new PlayerLogin(this.playerGateway.getPlayerID()));
 		player.setAppearanceType(playerGateway.getAppearanceType());
 		player.setPlayerPositionWithoutNotifying(playerConnectionGateway.getPosition());
-		player.setQuizScore(playerGateway.getQuizScore());
+		player.setDoubloons(playerGateway.getQuizScore());
 		player.setCrew(playerGateway.getCrew());
 		player.setMajor(playerGateway.getMajor());
 		player.setSection(playerGateway.getSection());
@@ -158,6 +142,8 @@ public class PlayerMapper
 		player.setMapName(playerConnectionGateway.getMapName());
 		player.setPlayerOnline(playerGateway.getOnline());
 		player.setPlayerVisitedMaps(visitedMapsGateway.getMaps());
+		player.setVanityItems(vanityTableDataGateway.getWearing(this.playerGateway.getPlayerID()));
+		player.setOwnedItems((vanityTableDataGateway.getAllOwnedItems(this.playerGateway.getPlayerID())));
 		loadQuestStates();
 
 	}
@@ -181,14 +167,16 @@ public class PlayerMapper
 						editedPlayerInfo.getPlayerName(),
 						editedPlayerInfo.getPlayerPassword(),
 						editedPlayerInfo.getAppearanceType(),
-						editedPlayerInfo.getKnowledgePoints(),
+						editedPlayerInfo.getDoubloons(),
 						editedPlayerInfo.getPosition(),
 						editedPlayerInfo.getMapName(),
 						editedPlayerInfo.getExperiencePoints(),
 						editedPlayerInfo.getCrew(),
 						editedPlayerInfo.getMajor(),
 						editedPlayerInfo.getSection(),
-						editedPlayerInfo.getVisitedMaps());
+						editedPlayerInfo.getVisitedMaps(),
+						editedPlayerInfo.getVanityItems());
+
 			}
 			return gateway.retrieveAllPlayers();
 
@@ -230,15 +218,15 @@ public class PlayerMapper
 		{
 			QuestState questState = new QuestState(player.getPlayerID(), qsRec.getQuestID(), qsRec.getState(),
 					qsRec.isNeedingNotification());
-			ArrayList<AdventureStateRecordDTO> adventureStateRecords = adventureStateGateway
-					.getAdventureStates(player.getPlayerID(), qsRec.getQuestID());
-			ArrayList<AdventureState> adventureStates = new ArrayList<>();
-			for (AdventureStateRecordDTO asRec : adventureStateRecords)
+			ArrayList<ObjectiveStateRecordDTO> objectiveStateRecords = objectiveStateGateway
+					.getObjectiveStates(player.getPlayerID(), qsRec.getQuestID());
+			ArrayList<ObjectiveState> objectiveStates = new ArrayList<>();
+			for (ObjectiveStateRecordDTO asRec : objectiveStateRecords)
 			{
-				adventureStates.add(
-						new AdventureState(asRec.getAdventureID(), asRec.getState(), asRec.isNeedingNotification()));
+				objectiveStates.add(
+						new ObjectiveState(asRec.getObjectiveID(), asRec.getState(), asRec.isNeedingNotification()));
 			}
-			questState.addAdventures(adventureStates);
+			questState.addObjectives(objectiveStates);
 			QuestManager.getSingleton().addQuestState(player.getPlayerID(), questState);
 		}
 
@@ -292,6 +280,8 @@ public class PlayerMapper
 		playerGateway.setBuffPool(player.getBuffPool());
 		playerGateway.setOnline(player.isPlayerOnline());
 		playerGateway.persist();
+		vanityTableDataGateway.updateInventory(player.getPlayerID(), player.getAllOwnedItems());
+		vanityTableDataGateway.updateCurrentlyWearing(player.getPlayerID(), player.getVanityItems());
 
 		//Ensures that we're only adding new maps to the player
 		String mapTitle = player.getLastVisitedMap();
@@ -318,9 +308,9 @@ public class PlayerMapper
 			{
 				questStateGateway.udpateState(player.getPlayerID(), quest.getID(), quest.getStateValue(),
 						quest.isNeedingNotification());
-				for (AdventureState a : quest.getAdventureList())
+				for (ObjectiveState a : quest.getObjectiveList())
 				{
-					adventureStateGateway.updateState(player.getPlayerID(), quest.getID(), a.getID(), a.getState(),
+					objectiveStateGateway.updateState(player.getPlayerID(), quest.getID(), a.getID(), a.getState(),
 							a.isNeedingNotification());
 				}
 			}
@@ -371,22 +361,22 @@ public class PlayerMapper
 	}
 
 	/**
-	 * Returns a list of all incomplete adventures corresponding to a particular player
-	 * @return an ArrayList of incomplete adventures
+	 * Returns a list of all incomplete objectives corresponding to a particular player
+	 * @return an ArrayList of incomplete objectives
 	 * @throws DatabaseException - shouldn't
 	 */
-	protected ArrayList<AdventureRecord> getIncompleteAdventures() throws DatabaseException
+	protected ArrayList<ObjectiveRecord> getIncompleteObjectives() throws DatabaseException
 	{
-		ArrayList<AdventureRecord> recordList = new ArrayList<>();
+		ArrayList<ObjectiveRecord> recordList = new ArrayList<>();
 
-		ArrayList<AdventureStateRecordDTO> incompleteAdventures;
-		incompleteAdventures = this.adventureStateGateway.getUncompletedAdventuresForPlayer(this.player.getPlayerID());
+		ArrayList<ObjectiveStateRecordDTO> incompleteObjectives;
+		incompleteObjectives = this.objectiveStateGateway.getUncompletedObjectivesForPlayer(this.player.getPlayerID());
 
-		for (AdventureStateRecordDTO adventure : incompleteAdventures)
+		for (ObjectiveStateRecordDTO objective : incompleteObjectives)
 		{
-			int questID = adventure.getQuestID();
-			int adventureID = adventure.getAdventureID();
-			AdventureRecord record = this.adventureTableDataGateway.getAdventure(questID, adventureID);
+			int questID = objective.getQuestID();
+			int objectiveID = objective.getObjectiveID();
+			ObjectiveRecord record = this.objectiveTableDataGateway.getObjective(questID, objectiveID);
 			recordList.add(record);
 		}
 		return recordList;

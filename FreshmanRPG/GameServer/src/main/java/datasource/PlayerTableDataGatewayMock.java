@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import dataDTO.PlayerDTO;
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.PlayerScoreRecord;
@@ -101,7 +102,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 
 			data.add(new MockPlayerAndLoginJoinRow(p.getPlayerID(), p.getPlayerName(),
 					p.getPlayerPassword(), p.getAppearanceType(),
-					p.getMapName(), p.getPosition(), p.getKnowledgeScore(),
+					p.getMapName(), p.getPosition(), p.getDoubloons(),
 					p.getExperiencePoints(), p.getCrew(), p.getMajor(),
 					p.getSection(), p.getOnline(), p.getMapsVisited()));
 		}
@@ -158,6 +159,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 
 	/**
 	 * @see datasource.PlayerTableDataGateway#retrieveAllPlayers()
+	 * TODO: Get actual vanity items
 	 */
 	@Override
 	public ArrayList<PlayerDTO> retrieveAllPlayers() throws DatabaseException
@@ -171,7 +173,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 				result.add(new PlayerDTO(row.playerID, row.playerName,
 						row.password, row.appearanceType, row.quizScore,
 						row.position, row.mapName, row.experiencePoints,
-						row.crew, row.major, row.section, row.visitedMaps));
+						row.crew, row.major, row.section, row.visitedMaps, new ArrayList<VanityDTO>()));
 
 			}
 			else
@@ -203,16 +205,17 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 	public void saveEditedPlayer(int playerID, String playerName,
 								 String password, String appearanceType, int quizScore,
 								 Position position, String mapName, int experiencePoints,
-								 Crew crew, Major major, int section, ArrayList<String> visitedMaps)
+								 Crew crew, Major major, int section, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
 	{
 		saveEdits.put(playerID, new PlayerDTO(playerID, playerName,
 				password, appearanceType, quizScore,
 				position, mapName, experiencePoints,
-				crew, major, section, visitedMaps));
+				crew, major, section, visitedMaps, vanityDTOs));
 	}
 
 	/**
-	 * Retrieve all online players 
+	 * Retrieve all online players
+	 * TODO: Get actual vanity items
 	 */
 	@Override
 	public ArrayList<PlayerDTO> retrieveAllOnlinePlayers() throws DatabaseException
@@ -230,7 +233,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 					result.add(new PlayerDTO(row.playerID, row.playerName,
 							row.password, row.appearanceType, row.quizScore,
 							row.position, row.mapName, row.experiencePoints,
-							row.crew, row.major, row.section, row.visitedMaps));
+							row.crew, row.major, row.section, row.visitedMaps, new ArrayList<VanityDTO>()));
 				}
 				// if they are, grab them and add it to the list
 				else

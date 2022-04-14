@@ -1,6 +1,10 @@
 package communication.messages;
 
+import dataDTO.VanityDTO;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author rh5172
@@ -10,27 +14,24 @@ public class PlayerAppearanceChangeMessage implements Message, Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private String appearanceType;
+	private ArrayList<VanityDTO> vanities;
 
 	private int playerID;
 
 
 	/**
 	 * @param playerID ID of the player
-	 * @param appearanceType Appearance type of the player
+	 * @param vanities the list of vanity objects the player is wearing
 	 */
-	public PlayerAppearanceChangeMessage(int playerID, String appearanceType)
+	public PlayerAppearanceChangeMessage(int playerID, VanityDTO bodyDTO, VanityDTO hatDTO)
 	{
-		this.appearanceType = appearanceType;
+		this.vanities = new ArrayList<>(vanities);
 		this.playerID = playerID;
 	}
 
-	/**
-	 * @return knowledgePoints
-	 */
-	public String getAppearanceType()
+	public List<VanityDTO> getVanities()
 	{
-		return appearanceType;
+		return vanities;
 	}
 
 	/**
@@ -48,7 +49,7 @@ public class PlayerAppearanceChangeMessage implements Message, Serializable
 	 */
 	public String toString()
 	{
-		return "Appearance Change: Appearance changed to: " + appearanceType;
+		return "Appearance Change: Appearance changed to: " + "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH fix this";
 	}
 
 

@@ -60,7 +60,7 @@ public class CommandImportQuestTest extends DatabaseTest
 		String date = "04/04/2018";
 		LocalDate inputDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-		CommandImportQuestAdventure command = new CommandImportQuestAdventure(file, inputDate);
+		CommandImportQuestObjective command = new CommandImportQuestObjective(file, inputDate);
 		boolean result = command.execute();
 		if (!result)
 		{
@@ -69,11 +69,11 @@ public class CommandImportQuestTest extends DatabaseTest
 
 		final String questTitle = "New Test Quest";
 		final String description = "Test Quest Description";
-		final String triggerMapName = "theGreen.tmx";
+		final String triggerMapName = "quad.tmx";
 		final int exp = 10;
 		final QuestCompletionActionType completionActionType = QuestCompletionActionType.TELEPORT;
 		Position p = new Position(5, 5);
-		final QuestCompletionActionParameter completionActionParameter = new GameLocationDTO("theGreen.tmx", p);
+		final QuestCompletionActionParameter completionActionParameter = new GameLocationDTO("quad.tmx", p);
 
 		boolean found = false;
 
@@ -107,14 +107,14 @@ public class CommandImportQuestTest extends DatabaseTest
 	 * @throws IOException - shouldn't
 	 */
 	@Test
-	public void testImportAdventures() throws DatabaseException, IOException, InvalidColumnException
+	public void testImportObjectives() throws DatabaseException, IOException, InvalidColumnException
 	{
 
 		File file = new File(filePath);
 		String date = "04/04/2018";
 		LocalDate inputDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-		CommandImportQuestAdventure command = new CommandImportQuestAdventure(file, inputDate);
+		CommandImportQuestObjective command = new CommandImportQuestObjective(file, inputDate);
 		boolean result = command.execute();
 		if (!result)
 		{
@@ -125,10 +125,10 @@ public class CommandImportQuestTest extends DatabaseTest
 
 		boolean found = false;
 
-		for (AdventureRecord adventure : quest.getAdventures())
+		for (ObjectiveRecord objective : quest.getObjectives())
 		{
-			System.out.println(adventure.getAdventureDescription());
-			if (adventure.getAdventureDescription() == "Adventure 1 description")
+			System.out.println(objective.getObjectiveDescription());
+			if (objective.getObjectiveDescription() == "Objective 1 description")
 			{
 				found = true;
 			}

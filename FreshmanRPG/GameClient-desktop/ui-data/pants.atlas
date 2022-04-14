@@ -1,0 +1,33 @@
+
+pants.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+base_pants
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+pants_br
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+pants_none
+  rotate: false
+  xy: 265, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+pants_white
+  rotate: false
+  xy: 397, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

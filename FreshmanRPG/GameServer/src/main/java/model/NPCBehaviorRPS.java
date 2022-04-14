@@ -24,6 +24,16 @@ public class NPCBehaviorRPS extends NPCBehavior
         setUpListening();
     }
 
+    /**
+     *
+     * @param playerID
+     * @param noFilePath represents a nonexistent filepath, necessary for the filepath column in the database
+     */
+    public NPCBehaviorRPS(int playerID, String noFilePath)
+    {
+        this(playerID);
+    }
+
     protected void rockPaperScissors(int input)
     {
         ChatManager chat = ChatManager.getSingleton();

@@ -8,7 +8,7 @@ import criteria.GameLocationDTO;
 import criteria.QuestListCompletionParameter;
 import dataENUM.QuestCompletionActionType;
 import datasource.DatabaseException;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.reports.QuestStateChangeReport;
 import model.reports.TeleportOnQuestCompletionReport;
@@ -23,7 +23,7 @@ public class QuestState
 {
 	private int questID;
 	private QuestStateEnum questState;
-	private ArrayList<AdventureState> adventureList = new ArrayList<>();
+	private ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
 	private int playerID;
 	private boolean needingNotification;
 
@@ -46,49 +46,49 @@ public class QuestState
 	}
 
 	/**
-	 * Assigns the quest's adventures using an ArrayList of adventures prepared
+	 * Assigns the quest's objectives using an ArrayList of objectives prepared
 	 * already
 	 *
-	 * @param adventureList a list containing multiple adventures for a quest
+	 * @param objectiveList a list containing multiple objectives for a quest
 	 */
-	protected void addAdventures(ArrayList<AdventureState> adventureList)
+	protected void addObjectives(ArrayList<ObjectiveState> objectiveList)
 	{
-		for (AdventureState adventure : adventureList)
+		for (ObjectiveState objective : objectiveList)
 		{
-			this.adventureList.add(adventure);
-			adventure.setParentQuest(this);
+			this.objectiveList.add(objective);
+			objective.setParentQuest(this);
 		}
 	}
 
 	/**
 	 * Check to see if we have fulfilled this quest by completing enough
-	 * adventures. If so, transition to the NEED_FULFILLED_NOTIFICATION state
+	 * objectives. If so, transition to the NEED_FULFILLED_NOTIFICATION state
 	 *
 	 * @throws DatabaseException if the datasource can't find the number of
-	 *             adventures required for the quest
+	 *             objectives required for the quest
 	 * @throws IllegalQuestChangeException thrown if illegal state change
 	 */
 	protected void checkForFulfillmentOrFinished() throws DatabaseException, IllegalQuestChangeException
 	{
 		if ((questState == QuestStateEnum.TRIGGERED) || (questState == QuestStateEnum.FULFILLED))
 		{
-			int adventuresComplete = 0;
-			for (AdventureState state : adventureList)
+			int objectivesComplete = 0;
+			for (ObjectiveState state : objectiveList)
 			{
-				if (state.getState() == AdventureStateEnum.COMPLETED)
+				if (state.getState() == ObjectiveStateEnum.COMPLETED)
 				{
-					adventuresComplete++;
+					objectivesComplete++;
 				}
 			}
-			int adventuresRequired = QuestManager.getSingleton().getQuest(this.questID).getAdventuresForFulfillment();
-			if ((questState == QuestStateEnum.TRIGGERED) && (adventuresComplete >= adventuresRequired))
+			int objectivesRequired = QuestManager.getSingleton().getQuest(this.questID).getObjectivesForFulfillment();
+			if ((questState == QuestStateEnum.TRIGGERED) && (objectivesComplete >= objectivesRequired))
 			{
 				changeState(QuestStateEnum.FULFILLED, true);
 				PlayerManager.getSingleton().getPlayerFromID(playerID)
 						.addExperiencePoints(QuestManager.getSingleton().getQuest(questID).getExperiencePointsGained());
 
 			}
-			if ((questState == QuestStateEnum.FULFILLED) && (adventuresComplete >= adventureList.size()))
+			if ((questState == QuestStateEnum.FULFILLED) && (objectivesComplete >= objectiveList.size()))
 			{
 				complete();
 			}
@@ -137,13 +137,13 @@ public class QuestState
 	}
 
 	/**
-	 * Returns the adventures in this quest
+	 * Returns the objectives in this quest
 	 *
-	 * @return list of adventures
+	 * @return list of objectives
 	 */
-	public ArrayList<AdventureState> getAdventureList()
+	public ArrayList<ObjectiveState> getObjectiveList()
 	{
-		return adventureList;
+		return objectiveList;
 	}
 
 	/**
@@ -165,13 +165,13 @@ public class QuestState
 	}
 
 	/**
-	 * Returns the size of this quest's adventure list
+	 * Returns the size of this quest's objective list
 	 *
-	 * @return the number of adventures this quest has
+	 * @return the number of objectives this quest has
 	 */
-	public int getSizeOfAdventureList()
+	public int getSizeOfObjectiveList()
 	{
-		return this.adventureList.size();
+		return this.objectiveList.size();
 	}
 
 	/**
@@ -221,19 +221,19 @@ public class QuestState
 
 	/**
 	 * Change the quest's state from hidden to available Also change all the
-	 * quest's adventures from hidden to pending.
+	 * quest's objectives from hidden to pending.
 	 *
-	 * @throws IllegalAdventureChangeException thrown if changing to a wrong
+	 * @throws IllegalObjectiveChangeException thrown if changing to a wrong
 	 *             state
 	 * @throws IllegalQuestChangeException thrown if changing to a wrong state
 	 * @throws DatabaseException shouldn't
 	 */
-	protected void trigger() throws IllegalAdventureChangeException, IllegalQuestChangeException, DatabaseException
+	protected void trigger() throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
 		changeState(QuestStateEnum.TRIGGERED, true);
-		for (AdventureState state : adventureList)
+		for (ObjectiveState state : objectiveList)
 		{
-			if (state.getState() == AdventureStateEnum.HIDDEN)
+			if (state.getState() == ObjectiveStateEnum.HIDDEN)
 			{
 				state.trigger();
 			}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="19" height="12" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="19" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
  <properties>
-  <property name="5 10" value="homework.tmx 17 10"/>
+  <property name="5 10" value="library.tmx 17 10"/>
  </properties>
  <tileset firstgid="1" name="Inq XP MI - Wooden Roof" tilewidth="32" tileheight="32" tilecount="12" columns="3">
   <image source="tileset/Inq XP MI - Wooden Roof.png" width="96" height="128"/>
@@ -30,37 +30,37 @@
  <tileset firstgid="4643" name="teleport_128" tilewidth="32" tileheight="32" tilecount="40" columns="4">
   <image source="tileset/teleport_128.png" trans="ff00ff" width="128" height="320"/>
  </tileset>
- <layer name="background" width="19" height="12">
+ <layer id="1" name="background" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxd0kVskDEYBuASzrgOhvuAbbjLAWe4jAy74Brc4YI7GwR3d4cEJ0FDcIIHd71y5PnDf2FNnnxJ27xfmzZXCCE3echLPvJTgIIUojBFKEoCxShOIiUoSSlKU4aylKM8FahIJSpThSSqUo3qJJNCKjWoSS1qU4e61KM+DWhIIxrThKY0o3n4f7SgJa1oTRva0o72pNGBjnSiM13oSje604OepNMrlkFv+tCXfvTP1jvaN4CBDGIwQxjKMIYzgpGMYjSLcoQwRh3LOMYzgYlMYjJTmMo0pjODmczK1j/Kmq3OYS7zmM8CFkbrLGYJS1nGclaQSRYrWRVnrVbXsJZ1rGcDG9nEZrawlW1sZwc72cVu9rCXfeznAAc5xGGOcJRjHOcEJznF6fie0TjDWc5xngtc5BKXw79/FL39Fa5yjevc4CZ/coZwKz7fbe5wl3vc5wEPeRRnPeYJT3nGc17wMpqT9Up9zRve8o73fOAjn/jMF77yje/84Ce/+B2ty/oLQlhqpw==
   </data>
  </layer>
- <layer name="wall" width="19" height="12">
+ <layer id="2" name="wall" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYCANsAAxG4l68AHOYW4WNxQPZ8DKMDjDfiiaBQDFRABu
   </data>
  </layer>
- <layer name="Tile Layer 6" width="19" height="12">
+ <layer id="3" name="Tile Layer 6" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYBhe4BczA8MPIP7JTBvzyxgZGMqB+D0zhMaFKxgJm9VFhBoQ6CHSrG4kTKlZyCAIhx5yzMIFiDFrHlDNfCLwAiLtHGwgBOhuAMcqFiM=
   </data>
  </layer>
- <layer name="foreground" width="19" height="12">
+ <layer id="4" name="foreground" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYBheoJiZgaEEiEuZaWvPeyzmZzAyMGQCcRYjbexkB2IONIwM2IBuYgdiDiC2I+AGQmYNRmAO9JMFEWFrCVRjRYQ6HyLU+BJQ40DluAYAGLkGAw==
   </data>
  </layer>
- <layer name="edgeLeft" width="19" height="12">
+ <layer id="5" name="edgeLeft" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYCANsJCoHh9gH0FmsUIxGxXNHiwA5EcOIOaG8jkpNItaYCiaBQC46ABw
   </data>
  </layer>
- <layer name="vase" width="19" height="12">
+ <layer id="6" name="vase" width="19" height="12">
   <data encoding="base64" compression="zlib">
    eJxjYBgFwwXEsg20C0YBpQAAslYAZA==
   </data>
  </layer>
- <layer name="Collision" width="19" height="12" visible="0">
+ <layer id="7" name="Collision" width="19" height="12" visible="0">
   <data encoding="base64" compression="zlib">
    eJzjYGBg4CABf8KDSTEH2SwGKB8GKDWLAYtZpABs/iEXYAsndIDNfGrYTYlZ6OGLzyxCfiTFflxhRA7AZxYpdmBL48gAlv6IMQdfWgXJAQCnCyTz
   </data>

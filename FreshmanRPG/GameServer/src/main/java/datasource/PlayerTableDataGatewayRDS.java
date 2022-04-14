@@ -162,6 +162,7 @@ public class PlayerTableDataGatewayRDS extends PlayerTableDataGateway
 	 * @param stmt the sql query
 	 * @return list player DTOs
 	 * @throws DatabaseException if we can't talk to the db
+	 * TODO: Get real vanity items from database
 	 */
 	private ArrayList<PlayerDTO> processResultSetToPlayerDTO(PreparedStatement stmt) throws DatabaseException
 	{
@@ -194,7 +195,7 @@ public class PlayerTableDataGatewayRDS extends PlayerTableDataGateway
 				PlayerDTO playerInfo = new PlayerDTO(playerID, playerName, playerPassword,
 						appearance, quizScore, position, map, experiencePoints,
 						Crew.getCrewForID(crewNumber), Major.getMajorForID(majorNumber),
-						section, maps);
+						section, maps, new ArrayList<>());
 				resultList.add(playerInfo);
 			}
 		}

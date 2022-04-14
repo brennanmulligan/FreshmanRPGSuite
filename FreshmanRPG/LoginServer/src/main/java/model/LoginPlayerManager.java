@@ -13,7 +13,7 @@ public class LoginPlayerManager
 	/**
 	 *
 	 */
-	final String DEFAULT_MAP = "theGreen.tmx";
+	final String DEFAULT_MAP = "quad.tmx";
 
 	private static LoginPlayerManager singleton;
 

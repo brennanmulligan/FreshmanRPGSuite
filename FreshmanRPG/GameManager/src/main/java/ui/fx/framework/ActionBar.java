@@ -26,8 +26,8 @@ public class ActionBar extends BorderPane
 
 		// Add container for the Action Buttons
 		HBox buttonBox = new HBox();
-		buttonBox.getChildren().addAll(PlayerAdventureStateButton.getSingleton(), ImportButton.getInstance(), AddButton.getInstance(), EditButton.getInstance(), DeleteButton.getInstance());
-		PlayerAdventureStateButton.getSingleton().setVisible(false);
+		buttonBox.getChildren().addAll(PlayerObjectiveStateButton.getSingleton(), ImportButton.getInstance(), AddButton.getInstance(), EditButton.getInstance(), DeleteButton.getInstance());
+		PlayerObjectiveStateButton.getSingleton().setVisible(false);
 		this.setLeft(filterBox);
 		this.setRight(buttonBox);
 	}

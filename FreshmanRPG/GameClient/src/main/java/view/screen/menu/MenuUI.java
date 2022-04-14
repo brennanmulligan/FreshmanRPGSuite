@@ -23,6 +23,7 @@ import model.QualifiedObserver;
 import model.reports.ChatReceivedReport;
 import view.screen.OverlayingScreen;
 import view.screen.SkinPicker;
+import view.screen.notification.AlertContainer;
 
 /**
  * MenuUI.java UI for the Menu
@@ -39,8 +40,11 @@ public class MenuUI extends Group implements QualifiedObserver
 	private Table tabs;
 	private final String QUEST_BUTTON_TEXT = "Quests";
 	private final String HIGHSCORE_BUTTON_TEXT = "Highscore";
+	private final String CLOSET_BUTTON_TEXT = "Closet";
+	private final String SHOPS_BUTTON_TEXT = "Shop";
 
-	private SelectBox<String> selectBox;
+	private SelectBox<String> questSelectBox;
+	private SelectBox<String> clothingSelectBox;
 
 	private Button friendButton;
 	private Color defaultButtonColor;
@@ -158,25 +162,44 @@ public class MenuUI extends Group implements QualifiedObserver
 	}
 
 	/**
-	 * Adds the dropown menu to the UI
+	 * Adds the quest dropdown menu to the UI
 	 * @param text - the the label of the dropdown menu
 	 * @param listener - The listener listening to the dropdown menu
 	 * @param clickListener - the click listener that will close the windows. 
 	 */
-	public void addDropdown(String text, ChangeListener listener, ClickListener clickListener)
+	public void addQuestDropdown(String text, ChangeListener listener, ClickListener clickListener)
 	{
-		selectBox = new SelectBox<>(skin);
-		selectBox.setColor(Color.GRAY);
-		selectBox.setItems(
+		questSelectBox = new SelectBox<>(skin);
+		questSelectBox.setColor(Color.GRAY);
+		questSelectBox.setItems(
 				QUEST_BUTTON_TEXT,
 				HIGHSCORE_BUTTON_TEXT);
 
-		selectBox.addListener(listener);
-		selectBox.addListener(clickListener);
+		questSelectBox.addListener(listener);
+		questSelectBox.addListener(clickListener);
 
-		tabs.add(selectBox);
+		tabs.add(questSelectBox);
 	}
 
+	/**
+	 * Adds the clothing dropdown menu to the UI
+	 * @param text - the the label of the dropdown menu
+	 * @param listener - The listener listening to the dropdown menu
+	 * @param clickListener - the click listener that will close the windows.
+	 */
+	public void addDropdownClothing(String text, ChangeListener listener, ClickListener clickListener)
+	{
+		clothingSelectBox=new SelectBox<String>(skin);
+		clothingSelectBox.setColor(Color.GRAY);
+		clothingSelectBox.setItems(
+				CLOSET_BUTTON_TEXT,
+				SHOPS_BUTTON_TEXT);
+
+		clothingSelectBox.addListener(listener);
+		clothingSelectBox.addListener(clickListener);
+
+		tabs.add(clothingSelectBox);
+	}
 
 	/**
 	 * Closes all open overlaying screen.
@@ -185,6 +208,10 @@ public class MenuUI extends Group implements QualifiedObserver
 	{
 		for (OverlayingScreen os : overlayingScreens)
 		{
+			if (os.getClass() == AlertContainer.class)
+			{
+				continue;
+			}
 			os.setVisible(false);
 		}
 	}
@@ -198,6 +225,10 @@ public class MenuUI extends Group implements QualifiedObserver
 		{
 			if (!os.getClass().equals(clsType))
 			{
+				if (os.getClass() == AlertContainer.class)
+				{
+					continue;
+				}
 				os.setVisible(false);
 			}
 		}
@@ -212,12 +243,22 @@ public class MenuUI extends Group implements QualifiedObserver
 	}
 
 	/**
-	 * get the select box item selected
+	 * get the quest select box item selected
 	 * @return select box item
 	 */
-	public SelectBox<String> getSelectBox()
+	public SelectBox<String> getQuestSelectBox()
 	{
-		return selectBox;
+		return questSelectBox;
+	}
+
+
+	/**
+	 * get the clothing select box item selected
+	 * @return select box item
+	 */
+	public SelectBox<String> getClothingSelectBox()
+	{
+		return clothingSelectBox;
 	}
 
 	/**

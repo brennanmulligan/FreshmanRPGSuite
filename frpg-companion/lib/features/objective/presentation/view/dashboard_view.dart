@@ -1,37 +1,35 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frpg_companion/features/login/login.dart';
 import 'package:frpg_companion/features/objective/objective.dart';
-import 'package:frpg_companion/features/objective/objective_provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DashboardView extends ConsumerWidget {
-  final String username;
-  final num playerID;
+import '../widget/objective_card.dart';
 
-  const DashboardView({
-    Key? key,
-    required this.username,
-    required this.playerID,
-  }) : super(key: key);
+class DashboardView extends HookConsumerWidget {
+  const DashboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.watch(
       ObjectiveProvider.objectiveController.notifier,
     );
-
     final provider = ref.watch(
       ObjectiveProvider.objectiveController,
     );
-
-    notifier.setPlayer(playerID, username);
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
           tooltip: 'Log out of the app.',
-          onPressed: () => Navigator.pop(context),
+          onPressed: () async {
+            if (!kDebugMode) {
+              final login = ref.read(LoginProvider.loginController.notifier);
+              await login.logOut();
+            }
+            Navigator.pop(context);
+          },
           icon: const Icon(
             Icons.logout,
           ),
@@ -42,114 +40,70 @@ class DashboardView extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            tooltip: 'Navigate to the settings page.',
-            onPressed: () =>
-                debugPrint('This would open a settings page eventually.'),
-            icon: const Icon(Icons.settings),
-          ),
-          IconButton(
-            tooltip: 'Open the QR code scanner.',
-            onPressed: () async {
-              await notifier.getDataFromCode(
-                qrData: await FlutterBarcodeScanner.scanBarcode(
-                  '#ff0000',
-                  'Cancel',
-                  true,
-                  ScanMode.QR,
-                ),
-              );
-              if(notifier.objectiveResponse?.responseType == ObjectiveResponseType.completed){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.check,
-                            color: Colors.green,
-                            size: 40,
-                          ),
-                          Spacer(),
-                          Flexible(
-                            flex: 6,
-                            child: Text(
-                              'Objective Complete!',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.error,
-                            color: Colors.red,
-                            size: 40,
-                          ),
-                          Spacer(),
-                          Flexible(
-                            flex: 6,
-                            child: Text(
-                              'Failed to complete Objective.',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }
-            },
-            icon: const Icon(
-              Icons.qr_code,
-            ),
-          ),
-        ],
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'OBJECTIVE CONTROLLER DATA',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'playerID: ${notifier.playerID}',
-                ),
-                Text(
-                  'questID: ${notifier.questID}',
-                ),
-                Text(
-                  'objectiveID : ${notifier.objectiveID}',
-                ),
-                Text(
-                  'showResponse : ${notifier.showResponse}',
-                ),
-                Text(
-                  'objectiveResponse: '
-                  '${notifier.objectiveResponse.toString()}',
-                )
-              ],
-            ),
+      body: RefreshIndicator(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: ListView(
+            children:
+                (provider.fetchAllObjectiveResponse!.information.isNotEmpty)
+                    ? provider.fetchAllObjectiveResponse!.information
+                        .map(
+                          (e) => ObjectiveCard(
+                            info: e,
+                          ),
+                        )
+                        .toList()
+                    : [
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(48.0),
+                            child: Text(
+                              'No objectives found.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
           ),
-        ],
+        ),
+        onRefresh: () async {
+          await notifier.fetchAllObjective(playerId: notifier.playerID);
+        },
       ),
     );
   }
 }
+
+// Padding(
+//             padding: const EdgeInsets.all(24.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 const Text(
+//                   'OBJECTIVE CONTROLLER DATA',
+//                   style: TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 Text(
+//                   'playerID: ${notifier.playerID}',
+//                 ),
+//                 Text(
+//                   'questID: ${notifier.questID}',
+//                 ),
+//                 Text(
+//                   'objectiveID : ${notifier.objectiveID}',
+//                 ),
+//                 Text(
+//                   'showResponse : ${notifier.showResponse}',
+//                 ),
+//                 Text(
+//                   'objectiveResponse: '
+//                   '${notifier.objectiveResponse.toString()}',
+//                 ),
+//               ],
+//             ),
+//           ),

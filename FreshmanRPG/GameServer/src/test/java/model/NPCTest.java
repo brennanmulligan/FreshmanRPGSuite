@@ -34,6 +34,7 @@ public class NPCTest
 
 		assertTrue(mb.getCount() > 0);
 	}
+	
 
 	/**
 	 * Test that the npc polling is optional

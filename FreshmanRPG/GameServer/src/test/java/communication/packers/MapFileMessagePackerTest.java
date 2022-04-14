@@ -55,7 +55,7 @@ public class MapFileMessagePackerTest
 		Player playerFromID = PlayerManager.getSingleton().getPlayerFromID(2);
 		PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
 				playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
-				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection());
+				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
 		MapFileMessagePacker packer = new MapFileMessagePacker();
 		packer.setAccumulator(stateAccumulator);
 		MapFileMessage msg = (MapFileMessage) packer.pack(report);
@@ -73,7 +73,7 @@ public class MapFileMessagePackerTest
 	@Test
 	public void ifThePlayerIsOnThisConnection() throws DatabaseException, SQLException, IllegalQuestChangeException
 	{
-		OptionsManager.getSingleton().updateMapInformation("theGreen.tmx", "", 1);
+		OptionsManager.getSingleton().updateMapInformation("quad.tmx", "", 1);
 		PlayerManager.getSingleton().addPlayer(1, PlayerConnection.DEFAULT_PIN);
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(1);
@@ -83,9 +83,9 @@ public class MapFileMessagePackerTest
 		Player playerFromID = PlayerManager.getSingleton().getPlayerFromID(1);
 		PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
 				playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
-				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection());
+				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
 		MapFileMessage msg = (MapFileMessage) packer.pack(report);
-		assertEquals(MapFileMessagePacker.DIRECTORY_PREFIX + "theGreen.tmx", msg.getMapFileName());
+		assertEquals(MapFileMessagePacker.DIRECTORY_PREFIX + "quad.tmx", msg.getMapFileName());
 		OptionsManager.resetSingleton();
 	}
 

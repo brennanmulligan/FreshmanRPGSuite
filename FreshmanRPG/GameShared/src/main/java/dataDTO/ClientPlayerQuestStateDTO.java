@@ -8,7 +8,7 @@ import datatypes.QuestStateEnum;
 
 /**
  * Player has a quest that will contain a description id, state, and list of
- * adventures.
+ * objectives.
  *
  * @author nk3668
  *
@@ -25,9 +25,9 @@ public class ClientPlayerQuestStateDTO implements Serializable
 	private String questDescription;
 	private Date expireDate;
 	private QuestStateEnum state;
-	private ArrayList<ClientPlayerAdventureStateDTO> adventures = new ArrayList<>();
+	private ArrayList<ClientPlayerObjectiveStateDTO> objectives = new ArrayList<>();
 	private int experiencePointsGained;
-	private int adventuresToFulfillment;
+	private int objectivesToFulfillment;
 	private boolean needingNotification;
 
 	/**
@@ -39,33 +39,33 @@ public class ClientPlayerQuestStateDTO implements Serializable
 	 * @param state the quests state
 	 * @param experiencePointsGained the number of experience you get when you
 	 *            fulfill this quest
-	 * @param adventuresToFulfillment the number of adventures required to
+	 * @param objectivesToFulfillment the number of objectives required to
 	 *            fulfill this quest
 	 * @param needingNotification true if the player needs to be notified of
 	 *            this quest state
 	 * @param expireDate date the quest expires
 	 */
 	public ClientPlayerQuestStateDTO(int questID, String questTitle, String questDescription, QuestStateEnum state,
-									 int experiencePointsGained, int adventuresToFulfillment, boolean needingNotification, Date expireDate)
+									 int experiencePointsGained, int objectivesToFulfillment, boolean needingNotification, Date expireDate)
 	{
 		this.questID = questID;
 		this.questTitle = questTitle;
 		this.questDescription = questDescription;
 		this.state = state;
 		this.experiencePointsGained = experiencePointsGained;
-		this.adventuresToFulfillment = adventuresToFulfillment;
+		this.objectivesToFulfillment = objectivesToFulfillment;
 		this.needingNotification = needingNotification;
 		this.expireDate = expireDate;
 	}
 
 	/**
-	 * Add adventure to the list of ClientPlayerAdventures
+	 * Add objective to the list of ClientPlayerObjectives
 	 *
-	 * @param a the adventure being added
+	 * @param objective the objective being added
 	 */
-	public void addAdventure(ClientPlayerAdventureStateDTO a)
+	public void addObjective(ClientPlayerObjectiveStateDTO objective)
 	{
-		adventures.add(a);
+		objectives.add(objective);
 	}
 
 	/**
@@ -87,18 +87,18 @@ public class ClientPlayerQuestStateDTO implements Serializable
 			return false;
 		}
 		ClientPlayerQuestStateDTO other = (ClientPlayerQuestStateDTO) obj;
-		if (adventures == null)
+		if (objectives == null)
 		{
-			if (other.adventures != null)
+			if (other.objectives != null)
 			{
 				return false;
 			}
 		}
-		else if (!adventures.equals(other.adventures))
+		else if (!objectives.equals(other.objectives))
 		{
 			return false;
 		}
-		if (adventuresToFulfillment != other.adventuresToFulfillment)
+		if (objectivesToFulfillment != other.objectivesToFulfillment)
 		{
 			return false;
 		}
@@ -129,31 +129,31 @@ public class ClientPlayerQuestStateDTO implements Serializable
 	}
 
 	/**
-	 * Return the ClientPlayerAdventure array list
+	 * Return the ClientPlayerObjective array list
 	 *
-	 * @return adventures
+	 * @return objectives
 	 */
-	public ArrayList<ClientPlayerAdventureStateDTO> getAdventureList()
+	public ArrayList<ClientPlayerObjectiveStateDTO> getObjectiveList()
 	{
-		return adventures;
+		return objectives;
 	}
 
 	/**
-	 * Getter for adventure list
+	 * Getter for objective list
 	 *
-	 * @return the list of the quests adventures
+	 * @return the list of the quests objectives
 	 */
-	public int getAdventureListSize()
+	public int getObjectiveListSize()
 	{
-		return adventures.size();
+		return objectives.size();
 	}
 
 	/**
-	 * @return the number of adventures required to fulfill this quest
+	 * @return the number of objectives required to fulfill this quest
 	 */
-	public int getAdventuresToFulfillment()
+	public int getObjectivesToFulfillment()
 	{
-		return adventuresToFulfillment;
+		return objectivesToFulfillment;
 	}
 
 	/**
@@ -211,8 +211,8 @@ public class ClientPlayerQuestStateDTO implements Serializable
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((adventures == null) ? 0 : adventures.hashCode());
-		result = prime * result + adventuresToFulfillment;
+		result = prime * result + ((objectives == null) ? 0 : objectives.hashCode());
+		result = prime * result + objectivesToFulfillment;
 		result = prime * result + experiencePointsGained;
 		result = prime * result + ((questDescription == null) ? 0 : questDescription.hashCode());
 		result = prime * result + questID;
@@ -230,13 +230,13 @@ public class ClientPlayerQuestStateDTO implements Serializable
 	}
 
 	/**
-	 * Set the Client Player Adventure array list to the given array list
+	 * Set the Client Player Objective array list to the given array list
 	 *
-	 * @param adventureList ClientPlayerAdventure ArrayList
+	 * @param objectiveList ClientPlayerObjective ArrayList
 	 */
-	public void setAdventures(ArrayList<ClientPlayerAdventureStateDTO> adventureList)
+	public void setObjectives(ArrayList<ClientPlayerObjectiveStateDTO> objectiveList)
 	{
-		this.adventures = adventureList;
+		this.objectives = objectiveList;
 	}
 
 	/**

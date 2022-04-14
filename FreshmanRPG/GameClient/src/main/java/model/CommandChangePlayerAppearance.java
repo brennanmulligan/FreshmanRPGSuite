@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
+import dataDTO.VanityDTO;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Command to change the player's appearance type.
@@ -13,18 +15,18 @@ import java.io.File;
 public class CommandChangePlayerAppearance extends Command
 {
 	private int playerID;
-	private String appearanceType;
+	private List<VanityDTO> vanities;
 
 	/**
 	 * Construct and initialize a CommandChangePlayerAppearance.
 	 *
 	 * @param playerId - the player ID
-	 * @param appearanceType - the appearance type we want to change to
+	 * @param vanities the list of all vanity objects the player is wearing
 	 */
-	public CommandChangePlayerAppearance(int playerId, String appearanceType)
+	public CommandChangePlayerAppearance(int playerId, List<VanityDTO> vanities)
 	{
 		this.playerID = playerId;
-		this.appearanceType = appearanceType;
+		this.vanities = vanities;
 	}
 
 	/**
@@ -37,7 +39,9 @@ public class CommandChangePlayerAppearance extends Command
 	{
 		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/zipper.mp3"))), 2);
 
-		ClientPlayerManager.getSingleton().getPlayerFromID(playerID).setAppearanceTypeReport(appearanceType);
+		ClientPlayer player = ClientPlayerManager.getSingleton().getPlayerFromID(playerID);
+		player.setVanityReport(vanities);
+
 		return true;
 	}
 
@@ -48,13 +52,4 @@ public class CommandChangePlayerAppearance extends Command
 	{
 		return playerID;
 	}
-
-	/**
-	 * @return player appearance
-	 */
-	public String getAppearanceType()
-	{
-		return appearanceType;
-	}
-
 }

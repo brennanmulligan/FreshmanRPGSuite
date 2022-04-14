@@ -2,11 +2,9 @@ package communication.packers;
 
 import java.util.ArrayList;
 
-import communication.messages.KnowledgeChangedMessage;
 import communication.messages.Message;
 import communication.messages.updateFriendListMessage;
 import model.QualifiedObservableReport;
-import model.reports.KnowledgePointsChangeReport;
 import model.reports.updateFriendListReport;
 
 /**

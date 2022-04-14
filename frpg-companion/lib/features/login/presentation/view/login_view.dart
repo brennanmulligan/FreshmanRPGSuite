@@ -1,11 +1,12 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frpg_companion/features/login/login_provider.dart';
-import 'package:frpg_companion/features/objective/presentation/presentation.dart';
+import 'package:frpg_companion/features/network/network.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class LoginView extends ConsumerWidget {
+import '../../../objective/objective.dart';
+
+class LoginView extends HookConsumerWidget {
   const LoginView({Key? key}) : super(key: key);
 
   @override
@@ -18,6 +19,7 @@ class LoginView extends ConsumerWidget {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('FreshmanRPG Companion App'),
         centerTitle: false,
@@ -70,14 +72,27 @@ class LoginView extends ConsumerWidget {
                     password.text,
                   );
 
+                  debugPrint('Player ID: ${notifier.playerID}');
+                  debugPrint('invalid cred: ${notifier.userHasInvalidCred}');
+
                   if (!notifier.userHasInvalidCred) {
+                    final objective = ref.watch(
+                      ObjectiveProvider.objectiveController.notifier,
+                    );
+
+                    objective.setPlayer(
+                      playerName: username.text,
+                      playerID: notifier.playerID,
+                    );
+
+                    await objective.fetchAllObjective(
+                      playerId: notifier.playerID,
+                    );
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DashboardView(
-                          username: username.text,
-                          playerID: notifier.playerID,
-                        ),
+                        builder: (context) => const DashboardView(),
                       ),
                     );
                   } else {
@@ -134,6 +149,29 @@ class LoginView extends ConsumerWidget {
                     ],
                   ),
                 ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 10,
+                    ),
+                    child: IconButton(
+                      tooltip: 'About this app.',
+                      onPressed: () {
+                        showAboutDialog(
+                          context: context,
+                          applicationIcon: const FlutterLogo(),
+                          applicationName: 'FreshmanRPG Companion App',
+                          applicationVersion: '1.0.0',
+                        );
+                      },
+                      icon: const Icon(Icons.info),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

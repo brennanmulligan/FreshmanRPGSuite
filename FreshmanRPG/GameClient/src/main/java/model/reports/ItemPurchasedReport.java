@@ -3,7 +3,7 @@ package model.reports;
 import model.QualifiedObservableReport;
 
 /**
- * Contains information that allows a knowledge point prize to be purchased
+ * Contains information that allows a doubloon prize to be purchased
  *
  * @author Kevin Marek
  *
@@ -17,7 +17,7 @@ public class ItemPurchasedReport implements QualifiedObservableReport
 	 * @param playerID
 	 *            - player purchasing the item
 	 * @param price
-	 *            - number of knowledge points item costs
+	 *            - number of doubloons item costs
 	 */
 	public ItemPurchasedReport(int playerID, int price)
 	{
@@ -34,7 +34,7 @@ public class ItemPurchasedReport implements QualifiedObservableReport
 	}
 
 	/**
-	 * @return number of knowledge points the item costs
+	 * @return number of doubloons the item costs
 	 */
 	public int getPrice()
 	{

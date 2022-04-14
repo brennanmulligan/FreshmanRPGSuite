@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import datasource.DatabaseException;
 import datasource.DatabaseTest;
-import model.reports.AllQuestsAndAdventuresReport;
+import model.reports.AllQuestsAndObjectivesReport;
 
 /**
  * Tests the Command to delete a quest
@@ -65,11 +65,11 @@ public class CommandDeleteQuestTest extends DatabaseTest
 	@Test
 	public void testReportIsSent() throws DatabaseException
 	{
-		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndAdventuresReport.class);
+		MockQualifiedObserver obs = new MockQualifiedObserver(AllQuestsAndObjectivesReport.class);
 		final CommandDeleteQuest cmd = new CommandDeleteQuest(someQuest.getQuestID());
 		assertTrue(cmd.execute());
 
-		AllQuestsAndAdventuresReport report = (AllQuestsAndAdventuresReport) obs.getReport();
+		AllQuestsAndObjectivesReport report = (AllQuestsAndObjectivesReport) obs.getReport();
 		assertNotNull(report);
 
 		//ensures that the quest is not in the new report 

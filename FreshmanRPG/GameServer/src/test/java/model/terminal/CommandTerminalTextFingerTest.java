@@ -61,7 +61,7 @@ public class CommandTerminalTextFingerTest
 		String expected = "Name: " + merlin.getPlayerName() + "," +
 				"Crew: " + merlin.getCrew() + "," +
 				"Major: " + merlin.getMajor() + "," +
-				"Knowledge Points: " + merlin.getKnowledgeScore() + "," +
+				"Doubloons: " + merlin.getDoubloons() + "," +
 				"Current Experience: " + merlin.getExperiencePoints() + ",";
 		expected = fingerCommand.formatString(expected);
 		assertEquals(expected, actual);
@@ -88,7 +88,7 @@ public class CommandTerminalTextFingerTest
 		String expected = "Name: " + marty.getPlayerName() + "," +
 				"Crew: " + marty.getCrew() + "," +
 				"Major: " + marty.getMajor() + "," +
-				"Knowledge Points: " + marty.getKnowledgeScore() + "," +
+				"Doubloons: " + marty.getDoubloons() + "," +
 				"Current Experience: " + marty.getExperiencePoints() + ",";
 
 		expected = fingerCommand.formatString(expected);
@@ -118,7 +118,7 @@ public class CommandTerminalTextFingerTest
 		String expected = "Name: " + ga.getPlayerName() + "," +
 				"Crew: " + ga.getCrew() + "," +
 				"Major: " + ga.getMajor() + "," +
-				"Knowledge Points: " + ga.getKnowledgeScore() + "," +
+				"Doubloons: " + ga.getDoubloons() + "," +
 				"Current Experience: " + ga.getExperiencePoints() + ",";
 
 		expected = fingerCommand.formatString(expected);

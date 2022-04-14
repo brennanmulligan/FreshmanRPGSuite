@@ -223,20 +223,20 @@ public class PlayerTest
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 		player.setBuffPool(50);
-		player.setQuizScore(10);
-		player.incrementQuizScore();
+		player.setDoubloons(10);
+		player.incrementDoubloons();
 		assertEquals(12, player.getQuizScore());
 	}
 
 	/**
-	 * Test the removal of knowledge points
+	 * Test the removal of doubloons
 	 */
 	@Test
-	public void testRemoveKnowledgePoints()
+	public void testRemoveDoubloons()
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-		player.setQuizScore(10);
-		player.removeKnowledgePoints(5);
+		player.setDoubloons(10);
+		player.removeDoubloons(5);
 		assertEquals(5, player.getQuizScore());
 	}
 
@@ -248,8 +248,8 @@ public class PlayerTest
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 		player.setBuffPool(50);
-		player.setQuizScore(10);
-		player.incrementQuizScore();
+		player.setDoubloons(10);
+		player.incrementDoubloons();
 		assertEquals(49, player.getBuffPool());
 	}
 
@@ -261,22 +261,22 @@ public class PlayerTest
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 		player.setBuffPool(50);
-		player.setQuizScore(10);
-		player.incrementQuizScore();
-		player.incrementQuizScore();
+		player.setDoubloons(10);
+		player.incrementDoubloons();
+		player.incrementDoubloons();
 		assertEquals(48, player.getBuffPool());
 	}
 
 	/**
-	 * Test the knowledge score when buffPool is 0.
+	 * Test the doubloons when buffPool is 0.
 	 */
 	@Test
 	public void testBuffPoolIs0()
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 		player.setBuffPool(0);
-		player.setQuizScore(10);
-		player.incrementQuizScore();
+		player.setDoubloons(10);
+		player.incrementDoubloons();
 		assertEquals(11, player.getQuizScore());
 	}
 
@@ -287,7 +287,7 @@ public class PlayerTest
 	public void testVisitedMaps()
 	{
 		Player player = new Player(20);
-		ArrayList<String> maps = new ArrayList<>(Arrays.asList("Quiznasium", "Current"));
+		ArrayList<String> maps = new ArrayList<>(Arrays.asList("Rec Center", "Quad"));
 		player.setPlayerVisitedMaps(maps);
 		assertEquals(maps, player.getPlayerVisitedMaps());
 	}

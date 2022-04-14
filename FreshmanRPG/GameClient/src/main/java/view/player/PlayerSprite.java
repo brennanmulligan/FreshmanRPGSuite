@@ -1,57 +1,56 @@
 package view.player;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import datatypes.VanityType;
+import model.ClientPlayer;
+import model.ClientPlayerManager;
+import view.screen.SkinPicker;
 
-import util.AnimationDrawable;
-import util.SpriteSheet;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * The renderable instance of a player on a map
+ * Manages all the vanity objects that represent each piece of the player's sprite
  */
-public class PlayerSprite extends Image implements Comparable<PlayerSprite>
+public class PlayerSprite
 {
+	// A Hashmap containing all the Vanity objects delimited by their type
+	HashMap<VanityType, Vanity> vanities;
+	NamePlate namePlate;
+	ChatBubble chatBubble;
+	float playerWidth;
 	/**
-	 * Global constant defining the speed in seconds at which a 
-	 *  sprite will move across the screen and animate.
-	 */
-	public float moveDuration = 0.3f;
-
-	protected ObjectMap<Direction, AnimationDrawable> animation;
-	protected AnimationDrawable currentAnimation;
-
-	// destination location of the movement
-	protected Vector2 dest;
-
-	protected Direction facing;
-
-	/**
-	 * Creates an instance where the sprite uses this texture region
+	 * Creates an instance where the sprite uses the vanities given
 	 *
-	 * @param region
+	 * @param vanities a hashmap containing all the vanity objects
 	 */
-	protected PlayerSprite(TextureRegion region)
+	protected PlayerSprite(HashMap<VanityType,Vanity> vanities)
 	{
-		SpriteSheet sourceImg = new SpriteSheet(region, 4, 4);
-		animation = new ObjectMap<>();
-		for (Direction dir : Direction.values())
-		{
-			TextureRegion[] row = sourceImg.getRow(dir.ordinal());
-			Animation a = new Animation(moveDuration / row.length, row);
-			a.setPlayMode(Animation.PlayMode.LOOP);
-			AnimationDrawable ad = new AnimationDrawable(a);
-			animation.put(dir, ad);
-		}
-		currentAnimation = animation.get(Direction.South);
-		setDrawable(currentAnimation);
-		setSize(currentAnimation.getMinWidth(), currentAnimation.getMinHeight());
-		dest = new Vector2();
-		facing = Direction.South;
+		this.vanities = vanities;
+		namePlate = new NamePlate("","", SkinPicker.getSkinPicker().getDefaultSkin());
+	}
+
+	/**
+	 * Creates an instance where the sprite uses the vanities given and gives them a name plate
+	 *
+	 * @param vanities a hashmap containing all the vanity objects
+	 *
+	 */
+	protected PlayerSprite(HashMap<VanityType,Vanity> vanities, int playerId)
+	{
+		ClientPlayer player = ClientPlayerManager.getSingleton().getPlayerFromID(playerId);
+		this.vanities = vanities;
+		playerWidth = vanities.get(VanityType.BODY).getWidth();
+
+		namePlate = new NamePlate(player.getName(),
+				player.getCrew().toString(),
+				SkinPicker.getSkinPicker().getDefaultSkin());
+
+		namePlate.setOffsetX((-namePlate.getWidth()/2) + (playerWidth/2));
+		namePlate.setAlignment(2);
+
+		chatBubble = new ChatBubble(player.getID());//added id as arg
+		chatBubble.setOffsetX((-chatBubble.getWidth()/2) + (playerWidth/2));
 	}
 
 	/**
@@ -59,26 +58,37 @@ public class PlayerSprite extends Image implements Comparable<PlayerSprite>
 	 */
 	protected PlayerSprite()
 	{
-		dest = new Vector2();
-		facing = Direction.South;
-
-		animation = new ObjectMap<>();
-		for (Direction dir : Direction.values())
-		{
-			animation.put(dir, null);
-		}
-		currentAnimation = animation.get(Direction.South);
-		setDrawable(currentAnimation);
+		vanities = new HashMap<VanityType, Vanity>();
+		Vanity body = new Vanity();
+		vanities.put(VanityType.BODY, body);
 	}
 
 	/**
-	 * Forcably sets the location on screen of the sprite without animating it
+	 * Forcibly sets the location on screen of the sprite without animating it
 	 *
 	 */
-	@Override
+	//@Override
 	public void setPosition(float x, float y)
 	{
-		super.setPosition(x, y);
+		vanities.forEach((w,z) -> z.setPosition(x, y));
+		if(namePlate != null)
+		{
+			namePlate.setPosition(x + namePlate.getOffsetX(),y + namePlate.getOffSetY());
+		}
+
+		if (chatBubble != null)
+		{
+			chatBubble.setPosition(x + chatBubble.getOffsetX(), y + chatBubble.getOffSetY());
+		}
+	}
+
+	public void addActors(Stage worldStage)
+	{
+		worldStage.addActor(namePlate);
+		worldStage.addActor(chatBubble);
+		vanities.values().stream()
+				.sorted()
+				.forEachOrdered((worldStage::addActor));
 	}
 
 	/**
@@ -91,56 +101,14 @@ public class PlayerSprite extends Image implements Comparable<PlayerSprite>
 	 */
 	public void move(final float x, final float y)
 	{
-		Vector2 current = new Vector2();
-		current.set(dest.x, dest.y);
-		clearActions();
-
-		// Interpolation.linear is how to transition between two
-		//points and in this case it is a linear transition
-		addAction(
-				Actions.moveTo(x, y, moveDuration, Interpolation.linear)
-		);
-		dest.set(x, y);
-
-		// change the facing direction so it shows the proper sprite strip to
-		// animate
-		if (current.x != dest.x || current.y != dest.y)
-		{
-			setFacing(Direction.getFacing(current, dest));
-		}
+		vanities.forEach((w,z) -> z.update(x, y));
+		namePlate.update(x,y);
+		chatBubble.update(x, y);
 	}
 
-	/**
-	 * Changes the facing direction of the player sprite
-	 * @param facing
-	 */
-	private void setFacing(Direction facing)
+	public Vanity getVanity(VanityType type)
 	{
-		this.facing = facing;
-		currentAnimation = animation.get(facing);
-		if (currentAnimation != null)
-		{
-			currentAnimation.setTime(0);
-		}
-		setDrawable(currentAnimation);
-	}
-
-	/**
-	 * Updates the properties of the sprite dependent on the game cycle rate.
-	 *
-	 * @param delta
-	 *            differences in time between update cycles of the application
-	 */
-	@Override
-	public void act(float delta)
-	{
-		super.act(delta);
-
-		// update animation if moving
-		if (!doneWalking() && currentAnimation != null)
-		{
-			currentAnimation.update(delta);
-		}
+		return vanities.get(type);
 	}
 
 	/**
@@ -148,53 +116,59 @@ public class PlayerSprite extends Image implements Comparable<PlayerSprite>
 	 */
 	public Direction getFacing()
 	{
-		return facing;
-	}
-
-	/**
-	 *
-	 * @return true if the player's movement is done
-	 */
-	public boolean doneWalking()
-	{
-		return getActions().size == 0;
-	}
-
-	/**
-	 * Compares and sorts player sprites by their Y position
-	 */
-	@Override
-	public int compareTo(PlayerSprite p)
-	{
-		if (this.dest.epsilonEquals(p.dest, .05f))
-		{
-			return 0;
-		}
-		else if (this.dest.y < p.dest.y)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
+		return vanities.get(VanityType.BODY).getFacing();
 	}
 
 	/**
 	 * get the length of time one movement takes
-	 * @return move duration 
+	 * @return move duration
 	 */
 	public float getMoveDuration()
 	{
-		return moveDuration;
+		return vanities.get(VanityType.BODY).getMoveDuration();
 	}
 
 	/**
-	 * set the length of time one movement takes
-	 * @param newDuration the duration to be set to
+	 * returns all vanities on the player
+	 * @return the vanities the player is wearing
 	 */
-	public void setMoveDuration(float newDuration)
+	public ArrayList<Vanity> getVanities()
 	{
-		this.moveDuration = newDuration;
+		return new ArrayList<>(vanities.values());
+	}
+
+	/**
+	 * The x position of the Player
+	 * @return the X position
+	 */
+	public float getX()
+	{
+		return vanities.get(VanityType.BODY).getX();
+	}
+
+
+	/**
+	 * The y poistion of the player sprite
+	 * @return the Y position
+	 */
+	public float getY()
+	{
+		return vanities.get(VanityType.BODY).getY();
+	}
+
+	/**
+	 * Get the NamePlate
+	 * @return returns the nameplate of the player
+	 */
+	public NamePlate getNamePlate()
+	{
+		return namePlate;
+	}
+
+	public void removeActors()
+	{
+		getVanities().forEach(x -> x.remove());
+		namePlate.remove();
+		chatBubble.remove();
 	}
 }

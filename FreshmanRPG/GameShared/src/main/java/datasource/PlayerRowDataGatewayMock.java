@@ -5,7 +5,6 @@ import java.util.HashMap;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.PlayersForTest;
-import datatypes.Position;
 
 /**
  * A mock implementation for PlayerRowDataGateway
@@ -89,7 +88,7 @@ public class PlayerRowDataGatewayMock implements PlayerRowDataGateway
 	 * @param pin - pin of player
 	 * @param mapName - name of the map that player is currently on
 	 * @param position - position of the player
-	 * @param buffPool - Quiznasium Bonus Point pool of the player
+	 * @param buffPool - Rec Center Bonus Point pool of the player
 	 */
 	public PlayerRowDataGatewayMock(String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major,
 									int section, int buffPool, boolean online)
@@ -123,7 +122,7 @@ public class PlayerRowDataGatewayMock implements PlayerRowDataGateway
 		nextKey = 1;
 		for (PlayersForTest p : PlayersForTest.values())
 		{
-			playerInfo.put(nextKey, new MockPlayerTableRow(p.getAppearanceType(), p.getKnowledgeScore(),
+			playerInfo.put(nextKey, new MockPlayerTableRow(p.getAppearanceType(), p.getDoubloons(),
 					p.getExperiencePoints(), p.getCrew(), p.getMajor(), p.getSection(), p.getBuffPool(), p.getOnline()));
 			nextKey++;
 		}

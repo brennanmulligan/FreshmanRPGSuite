@@ -20,9 +20,9 @@ public class MapFileMessageTest
 	@Test
 	public void testToString() throws Exception
 	{
-		MapFileMessage msg = new MapFileMessage("theGreen.tmx");
-		assertEquals("theGreen.tmx", msg.toString());
-		assertEquals("theGreen.tmx", msg.getMapFileName());
+		MapFileMessage msg = new MapFileMessage("quad.tmx");
+		assertEquals("quad.tmx", msg.toString());
+		assertEquals("quad.tmx", msg.getMapFileName());
 	}
 
 }

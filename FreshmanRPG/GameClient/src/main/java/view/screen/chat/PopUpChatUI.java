@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ObjectFloatMap;
 
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.ChatTextDetails;
 import datatypes.ChatType;
 import datatypes.QuestStateEnum;
@@ -25,8 +25,8 @@ import model.CommandChatMessageSent;
 import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
 import model.QualifiedObserver;
-import model.reports.AdventureNeedingNotificationReport;
-import model.reports.AdventureStateChangeReportInClient;
+import model.reports.ObjectiveNeedingNotificationReport;
+import model.reports.ObjectiveStateChangeReportInClient;
 import model.reports.BuffPoolChangedReport;
 import model.reports.ChatReceivedReport;
 import model.reports.DisplayTextReport;
@@ -35,7 +35,7 @@ import model.reports.QuestNeedingNotificationReport;
 import model.reports.QuestStateChangeReport;
 import view.screen.OverlayingScreen;
 import view.screen.SkinPicker;
-import view.screen.popup.AdventureNotificationCompleteBehavior;
+import view.screen.popup.ObjectiveNotificationCompleteBehavior;
 import view.screen.popup.QuestNotificationCompleteBehavior;
 
 /**
@@ -106,13 +106,13 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 			behavior.clicked();
 
 		}
-		else if (report.getClass().equals(AdventureNeedingNotificationReport.class))
+		else if (report.getClass().equals(ObjectiveNeedingNotificationReport.class))
 		{
-			AdventureNeedingNotificationReport r = (AdventureNeedingNotificationReport) report;
-			AdventureNotificationCompleteBehavior behavior = new AdventureNotificationCompleteBehavior(r.getPlayerID(), r.getQuestID(), r.getAdventureID());
-			AdventureStateEnum state = r.getState();
+			ObjectiveNeedingNotificationReport r = (ObjectiveNeedingNotificationReport) report;
+			ObjectiveNotificationCompleteBehavior behavior = new ObjectiveNotificationCompleteBehavior(r.getPlayerID(), r.getQuestID(), r.getObjectiveID());
+			ObjectiveStateEnum state = r.getState();
 
-			systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Adventure " + state.getDescription() + ": " + r.getAdventureDescription(), systemChatType));
+			systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Objective " + state.getDescription() + ": " + r.getObjectiveDescription(), systemChatType));
 			behavior.clicked();
 		}
 		else if (report.getClass().equals(QuestStateChangeReport.class))
@@ -131,13 +131,13 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 				behavior.clicked();
 			}
 		}
-		else if (report.getClass().equals(AdventureStateChangeReportInClient.class))
+		else if (report.getClass().equals(ObjectiveStateChangeReportInClient.class))
 		{
-			AdventureStateChangeReportInClient r = (AdventureStateChangeReportInClient) report;
-			AdventureNotificationCompleteBehavior behavior = new AdventureNotificationCompleteBehavior(r.getPlayerID(), r.getQuestID(), r.getAdventureID());
-			if (r.getNewState() == AdventureStateEnum.COMPLETED)
+			ObjectiveStateChangeReportInClient r = (ObjectiveStateChangeReportInClient) report;
+			ObjectiveNotificationCompleteBehavior behavior = new ObjectiveNotificationCompleteBehavior(r.getPlayerID(), r.getQuestID(), r.getObjectiveID());
+			if (r.getNewState() == ObjectiveStateEnum.COMPLETED)
 			{
-				systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Adventure Completed: " + r.getAdventureDescription(), systemChatType));
+				systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Objective Completed: " + r.getObjectiveDescription(), systemChatType));
 				behavior.clicked();
 			}
 		}
@@ -154,7 +154,7 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 		else if (report.getClass().equals(BuffPoolChangedReport.class))
 		{
 			BuffPoolChangedReport r = (BuffPoolChangedReport) report;
-			systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "You have used 1 Bonus Point. You have " + r.getBuffPool() + " Quiznasium Bonus Points Left.", systemChatType));
+			systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "You have used 1 Bonus Point. You have " + r.getBuffPool() + " Rec Center Bonus Points Left.", systemChatType));
 		} // adds a message spoken by users to be displayed in the UI
 		else if (report.getClass().equals(ChatReceivedReport.class))
 		{
@@ -188,9 +188,9 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 	{
 		QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
 		cm.registerObserver(this, QuestNeedingNotificationReport.class);
-		cm.registerObserver(this, AdventureNeedingNotificationReport.class);
+		cm.registerObserver(this, ObjectiveNeedingNotificationReport.class);
 		cm.registerObserver(this, QuestStateChangeReport.class);
-		cm.registerObserver(this, AdventureStateChangeReportInClient.class);
+		cm.registerObserver(this, ObjectiveStateChangeReportInClient.class);
 		cm.registerObserver(this, InteractionDeniedReport.class);
 		cm.registerObserver(this, DisplayTextReport.class);
 		cm.registerObserver(this, BuffPoolChangedReport.class);

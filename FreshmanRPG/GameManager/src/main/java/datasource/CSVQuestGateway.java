@@ -55,7 +55,7 @@ public class CSVQuestGateway
 	}
 
 
-	private static final String[] REQUIRED_COLUMNS = {"adventureID", "questTitle", "adventureCompletionType", "description", "triggerMapName", "triggerRow", "triggerCol",
+	private static final String[] REQUIRED_COLUMNS = {"objectiveID", "questTitle", "objectiveCompletionType", "description", "triggerMapName", "triggerRow", "triggerCol",
 			"exp", "fulfillment", "quest_action_type", "teleport_map", "teleport_x", "teleport_y", "start_week", "end_week"};
 
 	/**

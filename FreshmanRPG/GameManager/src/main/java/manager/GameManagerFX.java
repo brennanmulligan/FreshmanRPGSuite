@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 import model.OptionsManager;
 import model.QualifiedObservableConnector;
 import model.reports.AllPlayersReport;
-import model.reports.AllQuestsAndAdventuresReport;
+import model.reports.AllQuestsAndObjectivesReport;
 import model.reports.ObjectListReport;
-import model.reports.PlayersUncompletedAdventuresReport;
+import model.reports.PlayersUncompletedObjectivesReport;
 import model.reports.QuestionListReport;
 import ui.fx.UserInterface;
 import ui.fx.contentviews.*;
@@ -122,13 +122,13 @@ public class GameManagerFX extends Application
 		PlayerContentView.getInstance().refresh();
 		QualifiedObservableConnector.getSingleton().registerObserver(QuizbotContentView.getInstance(), QuestionListReport.class);
 		QuizbotContentView.getInstance().refresh();
-		QualifiedObservableConnector.getSingleton().registerObserver(AdventureContentView.getInstance(), AllQuestsAndAdventuresReport.class);
-		AdventureContentView.getInstance().refresh();
+		QualifiedObservableConnector.getSingleton().registerObserver(ObjectiveContentView.getInstance(), AllQuestsAndObjectivesReport.class);
+		ObjectiveContentView.getInstance().refresh();
 		QualifiedObservableConnector.getSingleton().registerObserver(InteractableObjectContentView.getInstance(), ObjectListReport.class);
 		InteractableObjectContentView.getInstance().refresh();
 		QualifiedObservableConnector.getSingleton().registerObserver(MessageBoardContentView.getInstance(), ObjectListReport.class);
 		MessageBoardContentView.getInstance().refresh();
-		QualifiedObservableConnector.getSingleton().registerObserver(ModifyPlayerStateModal.getInstance(), PlayersUncompletedAdventuresReport.class);
+		QualifiedObservableConnector.getSingleton().registerObserver(ModifyPlayerStateModal.getInstance(), PlayersUncompletedObjectivesReport.class);
 	}
 
 	/**

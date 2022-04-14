@@ -4,8 +4,10 @@
     "Datasource",
     "dotenv",
     "frpg",
+    "Geolocator",
     "mockito",
     "riverpod",
-    "Schyler"
+    "Schyler",
+    "swutil"
   ]
 }

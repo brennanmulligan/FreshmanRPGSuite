@@ -20,10 +20,14 @@ public abstract class NPCBehavior implements Serializable, QualifiedObserver
 
 	protected int playerID;
 
+	protected String filePath;
+
 	NPCBehavior(int playerID)
 	{
 		this.playerID = playerID;
 	}
+
+
 
 	/**
 	 * @return how often this behavior wants to be performed
@@ -45,6 +49,10 @@ public abstract class NPCBehavior implements Serializable, QualifiedObserver
 			cm.registerObserver(this, reportType);
 		}
 	}
+
+
+
+
 
 	/**
 	 * Execute the timed event

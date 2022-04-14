@@ -21,6 +21,12 @@ public interface NPCRowDataGateway
 	public String getBehaviorClass();
 
 	/**
+	 *
+	 * @return the NPC data file path
+	 */
+	public String getFilePath();
+
+	/**
 	 * This NPCs unique playerID
 	 *
 	 * @return the player ID

@@ -32,7 +32,7 @@ public class AddQuestModalTest extends ApplicationTest
 	@Test
 	public void testTitleCorrect()
 	{
-		clickOn("#AdventureMenuButton");
+		clickOn("#ObjectiveMenuButton");
 		clickOn("#AddButton");
 		clickOn("#QuestButton");
 		assertEquals("Add Quest", AddQuestModal.getInstance().getModalTitle().getText());

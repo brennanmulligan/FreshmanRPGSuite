@@ -19,7 +19,7 @@ import org.apache.pdfbox.util.Matrix;
 import model.GetCharLocationAndSize.PDFCharacter;
 
 /**
- * Creates a PDF printout for Prize Items bought with Knowledge Points
+ * Creates a PDF printout for Prize Items bought with Doubloons
  *
  * @author Kevin Marek
  *
@@ -39,12 +39,12 @@ public class PDFPrizeWriter
 	private PDRectangle pageSize;
 
 	/**
-	 * Create a file that serves as a receipt for a knowledge point prize purchase
+	 * Create a file that serves as a receipt for a doubloon prize purchase
 	 *
 	 * @param fileTitle
 	 *            - item purchased, becomes part of the final file name
 	 * @param price
-	 *            - knowledge points spent on the item
+	 *            - doubloons spent on the item
 	 * @throws IOException
 	 */
 	public void createPDFOfPurchasedPrize(String fileTitle, int price, String itemName) throws IOException
@@ -73,7 +73,7 @@ public class PDFPrizeWriter
 			// left corner as 0,0 reference
 			contents.transform(new Matrix(0, 1, -1, 0, pageWidth, 0));
 
-			File fileImage = new File("ShopPurchaseReceipt.jpg");
+			File fileImage = new File("../GameClient-desktop/ShopPurchaseReceipt.jpg");
 			PDImageXObject pdImage = PDImageXObject.createFromFile(
 					fileImage.getAbsolutePath(), doc);
 			contents.saveGraphicsState();
@@ -88,6 +88,7 @@ public class PDFPrizeWriter
 
 			// Add the player name to the pdf
 			contents.newLineAtOffset(400, 270);
+			System.out.println(playerName);
 			contents.showText(playerName);
 			contents.endText();
 

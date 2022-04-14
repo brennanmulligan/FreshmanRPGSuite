@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-import dataDTO.KnowledgePointPrizeDTO;
+import dataDTO.DoubloonPrizeDTO;
 import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
 import model.QualifiedObserver;
-import model.reports.KnowledgePointPrizeListReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonPrizeListReport;
+import model.reports.DoubloonChangeReport;
 import view.screen.OverlayingScreen;
 
 /**
@@ -42,8 +42,8 @@ public class ShopUI extends OverlayingScreen implements QualifiedObserver
 	private void setUpListener()
 	{
 		QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
-		cm.registerObserver(this, KnowledgePointPrizeListReport.class);
-		cm.registerObserver(this, KnowledgePointsChangeReport.class);
+		cm.registerObserver(this, DoubloonPrizeListReport.class);
+		cm.registerObserver(this, DoubloonChangeReport.class);
 	}
 
 	/**
@@ -55,11 +55,11 @@ public class ShopUI extends OverlayingScreen implements QualifiedObserver
 	@Override
 	public void receiveReport(QualifiedObservableReport report)
 	{
-		if (report.getClass() == KnowledgePointPrizeListReport.class)
+		if (report.getClass() == DoubloonPrizeListReport.class)
 		{
-			KnowledgePointPrizeListReport rep = (KnowledgePointPrizeListReport) report;
-			List<KnowledgePointPrizeDTO> temp = rep.getPrizes();
-			KnowledgePointPrizeDTO[] biggerTemp = new KnowledgePointPrizeDTO[temp.size()];
+			DoubloonPrizeListReport rep = (DoubloonPrizeListReport) report;
+			List<DoubloonPrizeDTO> temp = rep.getPrizes();
+			DoubloonPrizeDTO[] biggerTemp = new DoubloonPrizeDTO[temp.size()];
 			for (int i = 0; i < temp.size(); i++)
 			{
 				biggerTemp[i] = temp.get(i);
@@ -67,10 +67,10 @@ public class ShopUI extends OverlayingScreen implements QualifiedObserver
 			shopTable.addShopItem(biggerTemp);
 		}
 
-		if (report.getClass() == KnowledgePointsChangeReport.class)
+		if (report.getClass() == DoubloonChangeReport.class)
 		{
-			KnowledgePointsChangeReport rep = (KnowledgePointsChangeReport) report;
-			shopTable.updateKnowledgePoints(rep.getKnowledgePoints());
+			DoubloonChangeReport rep = (DoubloonChangeReport) report;
+			shopTable.updateDoubloons(rep.getDoubloons());
 		}
 	}
 

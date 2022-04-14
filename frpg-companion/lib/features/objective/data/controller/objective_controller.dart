@@ -1,6 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:frpg_companion/features/network/location/location_service.dart';
+import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
+import 'package:geolocator/geolocator.dart';
 part 'objective_controller.freezed.dart';
 
 ///
@@ -14,10 +21,9 @@ class ObjectiveState with _$ObjectiveState {
   const factory ObjectiveState({
     @Default(false) showResponse,
     @Default(0) playerID,
-    @Default(0) questID,
-    @Default(0) objectiveID,
     @Default("") playerName,
     CompleteObjectiveResponse? objectiveResponse,
+    FetchAllObjectiveResponse? fetchAllObjectiveResponse,
   }) = _ObjectiveState;
 
   ///
@@ -40,6 +46,28 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
     ObjectiveState? state,
   })  : _repository = repository,
         super(state ?? const ObjectiveState());
+
+  Future<void> fetchAllObjective({
+    required num playerId,
+  }) async {
+    final response = await _repository.fetchAllObjectives(
+      request: FetchAllObjectiveRequest(
+        playerID: playerID,
+      ),
+    );
+    FetchAllObjectiveResponse fetchAllObjectiveResponse = response.when(
+      data: (data) => data,
+      failure: (failure) => const FetchAllObjectiveResponse(
+        information: [],
+      ),
+    );
+
+    state = state.copyWith(
+      fetchAllObjectiveResponse: fetchAllObjectiveResponse,
+    );
+  }
+
+  // Update the state.
 
   ///
   /// Complete objective.
@@ -66,12 +94,21 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
       ),
     );
 
-    // Update the state.
     state = state.copyWith(
       showResponse: true,
       objectiveResponse: objectiveResponse,
     );
+
+    await fetchAllObjective(
+      playerId: state.playerID,
+    );
   }
+
+  ///
+  /// Get list of objectives
+  ///
+  FetchAllObjectiveResponse? get fetchAllObjectiveResponse =>
+      state.fetchAllObjectiveResponse;
 
   ///
   /// Get the objective response.
@@ -89,27 +126,20 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
   num get playerID => state.playerID;
 
   ///
-  /// Get the quest ID.
-  ///
-  num get questID => state.questID;
-
-  ///
-  /// Get the objective ID.
-  ///
-  num get objectiveID => state.objectiveID;
-
-  ///
   ///
   ///
   String get playerName => state.playerName;
 
   ///
-  /// Set the player ID.
   ///
-  void setPlayer(num playerID, String name) {
+  ///
+  void setPlayer({
+    required String playerName,
+    required num playerID,
+  }) async {
     state = state.copyWith(
+      playerName: playerName.capitalize(),
       playerID: playerID,
-      playerName: name,
     );
   }
 
@@ -117,21 +147,79 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
   /// Use a QR code to seed a CompleteObjectiveRequest,
   /// then send it for completion.
   ///
-  Future<void> getDataFromCode({required String qrData}) async {
+  Future<void> getDataFromCode({
+    required String qrData,
+    required ObjectiveInformation info,
+    required num currentLong,
+    required num currentLat,
+  }) async {
     List<String> data = qrData.split('_');
-    final useableData = data.length == 2 ? data : ['-1', '-1'];
-    num questID = int.parse(useableData.first);
-    num objectiveID = int.parse(useableData.last);
-    state = state.copyWith(
-      questID: questID,
-      objectiveID: objectiveID,
-    );
-    if (questID != -1 && objectiveID != -1) {
-      await completeObjective(
-        playerID: state.playerID,
-        objectiveID: state.objectiveID,
-        questID: state.questID,
+    final useableData = data.length == 4 ? data : ['-1', '-1', '-1', '-1'];
+    num questID = int.parse(useableData[0]);
+    num objectiveID = int.parse(useableData[1]);
+    num latitude = double.parse(useableData[2]);
+    num longitude = double.parse(useableData[3]);
+
+    debugPrint('Theirs lon:$longitude lat:$latitude');
+    debugPrint('Ours lon:$currentLong lat:$currentLat');
+
+    const tolerance = 0.01;
+
+    const R = 6371;
+
+    final dLat = (latitude - currentLat) * (pi / 180.0);
+    final dLon = (longitude - currentLong) * (pi / 180.0);
+
+    final a = (sin(dLat / 2) * sin(dLat / 2)) +
+        (cos((currentLat) * (pi / 180.0)) * cos((latitude) * (pi / 180.0))) *
+            (sin(dLon / 2) * sin(dLon / 2));
+
+    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    final d = R * c;
+
+    final latDiff =
+        num.parse((currentLat.abs() - latitude.abs()).abs().toStringAsFixed(4));
+    var lonDiff = num.parse(
+        (currentLong.abs() - longitude.abs()).abs().toStringAsFixed(4));
+
+    debugPrint('$lonDiff $latDiff D -> $d');
+
+    if (d > tolerance) {
+      const failure = CompleteObjectiveResponse(
+        responseType: ObjectiveResponseType.outOfRange,
       );
+      state = state.copyWith(
+        showResponse: true,
+        objectiveResponse: failure,
+      );
+    } else {
+      if (questID != -1 &&
+          objectiveID != -1 &&
+          info.questID == questID &&
+          info.objectiveID == objectiveID) {
+        await completeObjective(
+          playerID: state.playerID,
+          objectiveID: objectiveID,
+          questID: questID,
+        );
+      } else {
+        const failure = CompleteObjectiveResponse(
+          responseType: ObjectiveResponseType.objectiveNotValid,
+        );
+        state = state.copyWith(
+          showResponse: true,
+          objectiveResponse: failure,
+        );
+      }
     }
+  }
+
+  /// the scanned qr has to match the expected objective
+
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

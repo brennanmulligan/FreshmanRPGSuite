@@ -1,9 +1,12 @@
 package model.reports;
 
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
 import model.QualifiedObservableReport;
+
+import java.util.ArrayList;
 
 /**
  * This report is sent when a player successfully connects to this area server
@@ -22,6 +25,7 @@ public final class AddExistingPlayerReport implements QualifiedObservableReport
 	private Crew crew;
 	private Major major;
 	private int section;
+	private final ArrayList<VanityDTO> vanityDTOs;
 
 	/**
 	 * @param recipientID the playerID of the player who needs to be told about
@@ -36,7 +40,7 @@ public final class AddExistingPlayerReport implements QualifiedObservableReport
 	 * @param section the section of the player
 	 */
 	public AddExistingPlayerReport(int recipientID, int playerID, String playerName, String appearanceType,
-								   Position position, Crew crew, Major major, int section)
+								   Position position, Crew crew, Major major, int section, ArrayList<VanityDTO> vanityDTOs)
 	{
 		this.recipientPlayerID = recipientID;
 		this.playerID = playerID;
@@ -46,6 +50,7 @@ public final class AddExistingPlayerReport implements QualifiedObservableReport
 		this.crew = crew;
 		this.major = major;
 		this.section = section;
+		this.vanityDTOs = vanityDTOs;
 	}
 
 	/**
@@ -112,6 +117,15 @@ public final class AddExistingPlayerReport implements QualifiedObservableReport
 	public int getRecipientPlayerID()
 	{
 		return recipientPlayerID;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public ArrayList<VanityDTO> getVanity()
+	{
+		return vanityDTOs;
 	}
 
 	/**

@@ -29,7 +29,9 @@
 		<string>_dartobservatory._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Used to scan qr codes.</string>
+	<string>Camera access is used to scan QR codes which allow your to complete objectives. This camera data is not sent to any server and deleted after use.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location data is used to complete objectives. This data is only used when the app is running and is not set to any server or stored.</string>
 	<key>UIInterfaceOrientationPortrait</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>

@@ -17,7 +17,7 @@ public class LevelTableDataGatewayRDSTest extends LevelTableDataGatewayTest
 {
 
 	/**
-	 * @see datasource.AdventureTableDataGatewayTest#getGateway()
+	 * @see ObjectiveTableDataGatewayTest#getGateway()
 	 */
 	@Override
 	public LevelTableDataGateway getGateway()

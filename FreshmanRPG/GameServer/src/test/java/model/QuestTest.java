@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import dataENUM.ObjectiveCompletionType;
 import org.junit.Test;
 
 import criteria.CriteriaStringDTO;
 import criteria.GameLocationDTO;
-import dataENUM.AdventureCompletionType;
 import dataENUM.QuestCompletionActionType;
 import datatypes.Position;
 
@@ -30,15 +30,15 @@ public class QuestTest
 	@Test
 	public void testInitialize()
 	{
-		ArrayList<AdventureRecord> adventures = new ArrayList<>();
-		adventures.add(new AdventureRecord(5, 42, "Merlin Zone", 4, AdventureCompletionType.CHAT,
+		ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
+		objectives.add(new ObjectiveRecord(5, 42, "Merlin Zone", 4, ObjectiveCompletionType.CHAT,
 				new CriteriaStringDTO("Henry")));
-		adventures.add(new AdventureRecord(5, 420, "Library Quest", 8, AdventureCompletionType.MOVEMENT,
-				new GameLocationDTO("theGreen.tmx", new Position(42, 3))));
+		objectives.add(new ObjectiveRecord(5, 420, "Library Quest", 8, ObjectiveCompletionType.MOVEMENT,
+				new GameLocationDTO("quad.tmx", new Position(42, 3))));
 
 		Position pos = new Position(33, 44);
 
-		QuestRecord q = new QuestRecord(245, "TITLE!!!!", "I am a description", "HappyZone", pos, adventures, 42, 13,
+		QuestRecord q = new QuestRecord(245, "TITLE!!!!", "I am a description", "HappyZone", pos, objectives, 42, 13,
 				QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2015, Calendar.MARCH, 21).getTime(),
 				new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
 
@@ -47,27 +47,27 @@ public class QuestTest
 		assertEquals("I am a description", q.getDescription());
 		assertEquals("HappyZone", q.getMapName());
 		assertEquals(pos, q.getPos());
-		assertEquals(q.getAdventures(), adventures);
-		assertEquals(4, q.getAdventureXP(42));
-		assertEquals(8, q.getAdventureXP(420));
+		assertEquals(q.getObjectives(), objectives);
+		assertEquals(4, q.getObjectiveXP(42));
+		assertEquals(8, q.getObjectiveXP(420));
 		assertEquals(42, q.getExperiencePointsGained());
-		assertEquals(13, q.getAdventuresForFulfillment());
-		ArrayList<AdventureRecord> advs = q.getAdventures();
-		for (AdventureRecord a : advs)
+		assertEquals(13, q.getObjectivesForFulfillment());
+		ArrayList<ObjectiveRecord> advs = q.getObjectives();
+		for (ObjectiveRecord a : advs)
 		{
-			if (a.getAdventureID() == 42)
+			if (a.getObjectiveID() == 42)
 			{
-				assertEquals(AdventureCompletionType.CHAT, a.getCompletionType());
+				assertEquals(ObjectiveCompletionType.CHAT, a.getCompletionType());
 				assertEquals(new CriteriaStringDTO("Henry"), a.getCompletionCriteria());
 			}
-			else if (a.getAdventureID() == 420)
+			else if (a.getObjectiveID() == 420)
 			{
-				assertEquals(AdventureCompletionType.MOVEMENT, a.getCompletionType());
-				assertEquals(new GameLocationDTO("theGreen.tmx", new Position(42, 3)), a.getCompletionCriteria());
+				assertEquals(ObjectiveCompletionType.MOVEMENT, a.getCompletionType());
+				assertEquals(new GameLocationDTO("quad.tmx", new Position(42, 3)), a.getCompletionCriteria());
 			}
 			else
 			{
-				fail("Unexpected adventure with description " + a.getAdventureDescription());
+				fail("Unexpected objective with description " + a.getObjectiveDescription());
 			}
 		}
 
@@ -82,11 +82,11 @@ public class QuestTest
 	public void testSetters()
 	{
 		QuestRecord q = new QuestRecord(-1, null, null, null, null, null, 42, 45, null, null, null, null);
-		ArrayList<AdventureRecord> adventures = new ArrayList<>();
-		adventures.add(new AdventureRecord(5, 42, "Merlin Zone", 4, AdventureCompletionType.CHAT,
+		ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
+		objectives.add(new ObjectiveRecord(5, 42, "Merlin Zone", 4, ObjectiveCompletionType.CHAT,
 				new CriteriaStringDTO("Henry")));
-		adventures.add(new AdventureRecord(5, 420, "Library Quest", 8, AdventureCompletionType.MOVEMENT,
-				new GameLocationDTO("theGreen.tmx", new Position(42, 3))));
+		objectives.add(new ObjectiveRecord(5, 420, "Library Quest", 8, ObjectiveCompletionType.MOVEMENT,
+				new GameLocationDTO("quad.tmx", new Position(42, 3))));
 		Position pos = new Position(22, 20);
 
 		q.setQuestID(44);
@@ -94,13 +94,13 @@ public class QuestTest
 		q.setDescription("I am set");
 		q.setMapName("Map Name");
 		q.setPos(pos);
-		q.setAdventures(adventures);
+		q.setObjectives(objectives);
 
 		assertEquals(44, q.getQuestID());
 		assertEquals("title", q.getTitle());
 		assertEquals("I am set", q.getDescription());
 		assertEquals("Map Name", q.getMapName());
 		assertEquals(pos, q.getPos());
-		assertEquals(adventures, q.getAdventures());
+		assertEquals(objectives, q.getObjectives());
 	}
 }

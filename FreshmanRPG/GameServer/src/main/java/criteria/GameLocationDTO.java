@@ -8,7 +8,7 @@ import datatypes.Position;
  * @author Merlin
  *
  */
-public class GameLocationDTO implements AdventureCompletionCriteria, QuestCompletionActionParameter
+public class GameLocationDTO implements ObjectiveCompletionCriteria, QuestCompletionActionParameter
 {
 
 	/**

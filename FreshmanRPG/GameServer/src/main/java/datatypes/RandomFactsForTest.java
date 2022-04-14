@@ -10,7 +10,7 @@ import dataDTO.RandomFactDTO;
  */
 
 /**
- * Creates adventures for the DB
+ * Creates objectives for the DB
  *
  * @author merlin
  *
@@ -21,7 +21,7 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_1(1, PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID(), "Software Engineers are Cool", LocalDate.of(2014, 2, 11),
+	FACT_1(1, PlayersForTest.BIG_RED.getPlayerID(), "Glad to have you on campus!", LocalDate.of(2014, 2, 11),
 			LocalDate.of(9999, 2, 11)),
 	/**
 	 *
@@ -31,7 +31,7 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_3(3, PlayersForTest.RANDOM_FACTS_NPC_1.getPlayerID(), "Everyone should woohoo regularly",
+	FACT_3(3, PlayersForTest.BIG_RED.getPlayerID(), "Go Red Raiders!",
 			LocalDate.of(2014, 2, 11), LocalDate.of(9999, 2, 11)),
 	/**
 	 *
@@ -46,17 +46,17 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_6(6, PlayersForTest.HUO.getPlayerID(), "Have you ever heard of the rubber duck debugging method?", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_6(6, PlayersForTest.PROFESSOR_H.getPlayerID(), "Have you ever heard of the rubber duck debugging method?", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
 	 */
-	FACT_7(7, PlayersForTest.HUO.getPlayerID(), "Did you know a rubber duck is only 20 knowledge points in the shop", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_7(7, PlayersForTest.PROFESSOR_H.getPlayerID(), "Did you know a rubber duck is only 20 doubloons in the shop", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
 	 */
-	FACT_8(8, PlayersForTest.HUO.getPlayerID(), "Stuck on a problem? Talk it out with a trusty rubber ducky!!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_8(8, PlayersForTest.PROFESSOR_H.getPlayerID(), "Stuck on a problem? Talk it out with a trusty rubber ducky!!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
@@ -66,12 +66,12 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_10(10, PlayersForTest.TIM_NPC.getPlayerID(), "Make sure to logout when you are done working", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_10(10, PlayersForTest.IT_GUY_NPC.getPlayerID(), "Make sure to logout when you are done working.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
 	 */
-	FACT_11(11, PlayersForTest.QUAD_GUY.getPlayerID(), "Right Behind me is the MCT go check it out!!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_11(11, PlayersForTest.QUAD_GUY.getPlayerID(), "You should go check out MCT!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
@@ -86,7 +86,7 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_14(14, PlayersForTest.QUAD_GUY.getPlayerID(), "The library and the cub are towards the top right of this area go exploring.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+	FACT_14(14, PlayersForTest.QUAD_GUY.getPlayerID(), "The library and the cub are towards the top right of this area, go explore!!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
 	/**
 	 *
@@ -96,7 +96,12 @@ public enum RandomFactsForTest
 	/**
 	 *
 	 */
-	FACT_16(16, PlayersForTest.TIM_NPC.getPlayerID(), "questions? https://web.engr.ship.edu/for-students/faq/", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2));
+	FACT_16(16, PlayersForTest.IT_GUY_NPC.getPlayerID(), "Have any questions?", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+
+	FACT_17(17, PlayersForTest.PRESIDENT_NPC.getPlayerID(), "Hello there! Hope you're having a good semester!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+
+	FACT_18(18, PlayersForTest.PRESIDENT_NPC.getPlayerID(), "I'm the president and very cool.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2));
+
 
 
 	private int randomFactID;

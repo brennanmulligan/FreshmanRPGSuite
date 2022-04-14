@@ -45,7 +45,7 @@ public class NPCRowDataGatewayRDSTest extends NPCRowDataGatewayTest
 	{
 		PlayersForTest testPlayer = PlayersForTest.FRANK;
 
-		new NPCRowDataGatewayRDS(testPlayer.getPlayerID(), "model.RedHatBehavior");
+		new NPCRowDataGatewayRDS(testPlayer.getPlayerID(), "model.RedHatBehavior","");
 
 		NPCRowDataGateway finderTester = new NPCRowDataGatewayRDS(testPlayer.getPlayerID());
 
@@ -62,7 +62,7 @@ public class NPCRowDataGatewayRDSTest extends NPCRowDataGatewayTest
 	{
 		NPCsForTest testPlayer = NPCsForTest.NPC1;
 
-		new NPCRowDataGatewayRDS(testPlayer.getPlayerID(), testPlayer.getBehaviorClass());
+		new NPCRowDataGatewayRDS(testPlayer.getPlayerID(), testPlayer.getBehaviorClass(),"");
 	}
 
 

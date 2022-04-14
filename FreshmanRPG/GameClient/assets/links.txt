@@ -1,4 +1,4 @@
-adventure complete 
+objective complete
 	https://freesound.org/people/LittleRobotSoundFactory/sounds/270404/
 quest complete
 	https://freesound.org/people/LittleRobotSoundFactory/sounds/270402/

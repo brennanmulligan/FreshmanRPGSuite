@@ -19,7 +19,7 @@ public class BuffMessageHandler extends MessageHandler
 	public void process(Message msg)
 	{
 		BuffMessage buffMsg = (BuffMessage) msg;
-		CommandDisplayText cmd = new CommandDisplayText("You have received " + buffMsg.getExperiencePointPool() + " Quiznasium Bonus Points.");
+		CommandDisplayText cmd = new CommandDisplayText("You have received " + buffMsg.getExperiencePointPool() + " Rec Center Bonus Points.");
 		ClientModelFacade.getSingleton().queueCommand(cmd);
 	}
 

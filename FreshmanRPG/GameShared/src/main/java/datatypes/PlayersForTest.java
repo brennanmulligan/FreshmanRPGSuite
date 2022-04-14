@@ -1,9 +1,10 @@
 package datatypes;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Map;
+import dataDTO.VanityDTO;
+import datasource.DatabaseException;
+
+import java.sql.SQLException;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,92 +19,92 @@ public enum PlayersForTest
 	 * John must be player 1 for the current quest state report tests to pass
 	 */
 
-	JOHN(1, "John", "null_pointer_exception", 91, 7, "pw", "theGreen.tmx", 1111, null, 42, 45, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, 4, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	JOHN(1, "John", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 42, 45, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, 4, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad", "Mowrey"))),
 
 	/**
 	 * Merlin must be player 2 for the player mapper tests to pass. That number maps
-	 * to player 2 in the quest and adventure states in QuestStatesForTest and
-	 * AdventureStatesForTest
+	 * to player 2 in the quest and objective states in QuestStatesForTest and
+	 * ObjectiveStatesForTest
 	 */
 
-	MERLIN(2, "Merlin", "merlin", 91, 7, "pw", "theGreen.tmx", 1111, null, 42, 46, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	MERLIN(2, "Merlin", "merlin", 52, 52, "pw", "quad.tmx", 1111, null, 42, 46, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	NICK(3, "Nick", "off_by_one", 7, 13, "pw", "homework.tmx", 1111, null, 0, 35, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 2, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	NICK(3, "Nick", "off_by_one", 7, 13, "pw", "library.tmx", 1111, null, 0, 35, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 2, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	JOSH(4, "Josh", "Ninja", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 25, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "SortingRoom"))),
+	JOSH(4, "Josh", "Ninja", 52, 52, "pw", "quad.tmx", 1111, null, 0, 25, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "SortingRoom"))),
 	/**
 	 *
 	 */
 
-	MATT(5, "Matt", "male_a", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 12, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
-
-	/**
-	 *
-	 */
-
-	STEVE(6, "Steve", "knight_with_straw_hat", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	MATT(5, "Matt", "male_a", 52, 52, "pw", "quad.tmx", 1111, null, 0, 12, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	FRANK(7, "Frank", "out_of_bounds", 91, 7, "pw", "theGreen.tmx", 1441, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	STEVE(6, "Steve", "knight_with_straw_hat", 52, 52, "pw", "quad.tmx", 1111, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	GA(8, "Ga", "off_by_one", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 15, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	FRANK(7, "Frank", "out_of_bounds", 52, 52, "pw", "quad.tmx", 1441, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	ANDY(9, "Andy", "off_by_one", 3, 10, "pw", "wellingtonRoom.tmx", 1111, null, 0, 33, Crew.NULL_POINTER, Major.ELECTRICAL_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	GA(8, "Ga", "off_by_one", 52, 52, "pw", "quad.tmx", 1111, null, 0, 15, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	DAVE(10, "Dave", "out_of_bounds", 4, 13, "pw", null, 1111, null, 0, 12, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	ANDY(9, "Andy", "off_by_one", 3, 10, "pw", "wellingtonRoom.tmx", 1111, null, 0, 33, Crew.NULL_POINTER, Major.ELECTRICAL_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	LOSER(11, "Loser", "off_by_one", 4, 13, "pw", null, 1111, null, 0, 3, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium"))),
+	DAVE(10, "Dave", "out_of_bounds", 4, 13, "pw", null, 1111, null, 0, 12, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	MOCK_NPC(12, "NPC1", "Magi", 4, 13, "", "silly.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	LOSER(11, "Loser", "off_by_one", 4, 13, "pw", null, 1111, null, 0, 3, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center"))),
+
+	/**
+	 *
+	 */
+
+	MOCK_NPC(12, "NPC1", "Magi", 4, 13, "", "silly.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 * Necessary for the game
 	 */
 
-	QUIZBOT(13, "QuizBot", "Magi", 4, 19, "", "quiznasium.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("TheGreen"))),
+	QUIZBOT(13, "QuizBot", "Magi", 4, 19, "", "recCenter.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Quad"))),
 
 	/**
 	 *
 	 */
 
-	MOCK_NPC3(14, "NPC3", "Magi", 4, 13, "", "silly.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	MOCK_NPC3(14, "NPC3", "Magi", 4, 13, "", "silly.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	RYAN(15, "Ryan", "female_a", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	RYAN(15, "Ryan", "female_a", 52, 52, "pw", "quad.tmx", 1111, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 * Newbie must have the default_player appearance.
@@ -115,77 +116,84 @@ public enum PlayersForTest
 	 *
 	 */
 
-	RED_HAT(17, "Red Hat", "RedHat", 9, 7, "", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	RED_HAT(17, "Red Hat", "RedHat", 9, 7, "", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
 
-	MARTY(18, "Marty", "off_by_one", 95, 7, "pw", "theGreen.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	MARTY(18, "Marty", "off_by_one", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
-	HERSH(19, "Hersh", "null_pointer_exception", 92, 7, "pw", "theGreen.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	HERSH(19, "Hersh", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */
-	JEFF(20, "Jeff", "null_pointer_exception", 92, 7, "pw", "theGreen.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 50, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	JEFF(20, "Jeff", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 50, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
-	JAWN(21, "Jawn", "null_pointer_exception", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	JAWN(21, "Jawn", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */
-	DATBOI(22, "DAT_BOI", "merlin", 91, 7, "pw", "theGreen.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 2, 50, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	DATBOI(22, "DAT_BOI", "merlin", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 2, 50, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */
-	TUTOR(23, "Tutor", "tutor", 10, 3, "pw", "homework.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	TUTOR(23, "Tutor", "tutor", 14, 48, "pw", "library.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */
-	RANDOM_FACTS_NPC_1(24, "RandomFacts", "merlin", 88, 21, "", "theGreen.tmx", 0, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	BIG_RED(24, "Big Red", "merlin", 75, 40, "", "quad.tmx", 0, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
-	RANDOM_FACTS_NPC_2(25, "RandomFactsGuru", "merlin", 17, 67, "", "homework.tmx", 0, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	RANDOM_FACTS_NPC_2(25, "RandomFactsGuru", "merlin", 17, 67, "", "library.tmx", 0, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 * duck NPC
 	 */
-	HUO(26, "Huo", "Magi", 38, 8, "", "Ducktopia.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Ducktopia"))),
+	PROFESSOR_H(26, "Professor H", "Magi", 38, 8, "", "Ducktopia.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("Ducktopia"))),
 
 	/**
 	 * Quad NPC
 	 */
-	QUAD_GUY(27, "Quad_GUY", "tutor", 88, 10, "", "theGreen.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("theGreen"))),
+	QUAD_GUY(27, "Quad_GUY", "tutor", 64, 55, "", "quad.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad"))),
 
 	/**
 	 * tim
 	 */
-	TIM_NPC(28, "Tim", "Magi", 55, 47, "", "mct1.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("mct1"))),
+	IT_GUY_NPC(28, "IT Guy", "Magi", 55, 47, "", "mct1.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("mct1"))),
 
 	/**
 	 * Merlin must be player 2 for the player mapper tests to pass. That number maps
-	 * to player 2 in the quest and adventure states in QuestStatesForTest and
-	 * AdventureStatesForTest
+	 * to player 2 in the quest and objective states in QuestStatesForTest and
+	 * ObjectiveStatesForTest
 	 */
 
-	MERLIN_OFFLINE(29, "Merlin_Offline", "merlin", 91, 7, "pw", "theGreen.tmx", 1111, null, 42, 46, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Quiznasium", "TheGreen"))),
+	MERLIN_OFFLINE(29, "Merlin_Offline", "merlin", 52, 52, "pw", "quad.tmx", 1111, null, 42, 46, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
-	 * Dr. Mooney npc
+	 * TEAcher npc, used for the tea quest
 	 */
-	MOONEY_NPC(30, "DJMoon", "Magi", 95, 10, "", "theGreen.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 3, 0, true, new ArrayList<>(Arrays.asList("theGreen"))),
+	TEACHER_NPC(30, "TEAcher", "Magi", 67, 70, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 3, 0, true, new ArrayList<>(Arrays.asList("quad"))),
 
 	/**
 	 * NPC for playing rock, paper, scissors
 	 */
-	RockPaperScissors_NPC(31, "RPSGuy", "andy", 23, 15, "", "current.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 3, 0, true, new ArrayList<>(Arrays.asList("theGreen")));
+	RockPaperScissors_NPC(31, "RPSGuy", "andy", 30, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 3, 0, true, new ArrayList<>(Arrays.asList("quad"))),
+
+	/**
+	 * NPC for mowrey info person
+	 */
+	MOWREY_FRONTDESK_NPC(32, "MowreyInfoPerson", "Magi", 48, 56, "", "mowrey.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.CS_AND_E_GENERAL, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey"))),
+
+	PRESIDENT_NPC(33, "President", "Magi", 89, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey")));
 
 
 	private int playerID;
@@ -197,7 +205,7 @@ public enum PlayersForTest
 	private String mapName;
 	private int pin;
 	private String changedOn;
-	private int knowledgePoints;
+	private int doubloons;
 	private Crew crew;
 	private Major major;
 	private int section;
@@ -223,7 +231,7 @@ public enum PlayersForTest
 
 	private int experiencePoints;
 
-	PlayersForTest(int id, String playerName, String type, int row, int col, String password, String mapName, int pin, String changedOn, int quizScore, int experiencePoints,
+	PlayersForTest(int id, String playerName, String type, int row, int col, String password, String mapName, int pin, String changedOn, int doubloons, int experiencePoints,
 				   Crew crew, Major major, int section, int buffPool, boolean online, ArrayList<String> mapsVisited)
 
 	{
@@ -238,7 +246,7 @@ public enum PlayersForTest
 		this.changedOn = changedOn;
 		this.experiencePoints = experiencePoints;
 		this.crew = crew;
-		this.knowledgePoints = quizScore;
+		this.doubloons = doubloons;
 		this.major = major;
 		this.section = section;
 		this.buffPool = buffPool;
@@ -315,13 +323,13 @@ public enum PlayersForTest
 	}
 
 	/**
-	 * get this player's current quiz score
+	 * get this player's current doubloons
 	 *
-	 * @return this player's score
+	 * @return this player's doubloons
 	 */
-	public int getKnowledgeScore()
+	public int getDoubloons()
 	{
-		return knowledgePoints;
+		return doubloons;
 	}
 
 	/**
@@ -419,6 +427,43 @@ public enum PlayersForTest
 	public void setOnline(boolean online)
 	{
 		this.online = online;
+	}
+
+	/**
+	 * TODO: FIX
+	 * @return
+	 */
+	public List<VanityDTO> getOwnedItems()
+	{
+		List<VanityDTO> items = new ArrayList<>();
+		for (PlayerOwnsVanityForTest inventoryItem : PlayerOwnsVanityForTest.values())
+		{
+			if (inventoryItem.getPlayerID() == playerID)
+			{
+				VanityForTest item = VanityForTest.values()[inventoryItem.getVanityID() - 1];
+				items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType())));
+			}
+		}
+		for (DefaultItemsForTest dItem : DefaultItemsForTest.values())
+		{
+			VanityForTest item = VanityForTest.values()[dItem.getDefaultID()-1];
+			items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType())));
+		}
+		return items;
+	}
+
+	public List<VanityDTO> getVanityItems()
+	{
+		List<VanityDTO> items = new ArrayList<>();
+		for (PlayerOwnsVanityForTest inventoryItem : PlayerOwnsVanityForTest.values())
+		{
+			if (inventoryItem.getPlayerID() == playerID && inventoryItem.getIsWearing() == 1)
+			{
+				VanityForTest item = VanityForTest.values()[inventoryItem.getVanityID() - 1];
+				items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType())));
+			}
+		}
+		return items;
 	}
 
 

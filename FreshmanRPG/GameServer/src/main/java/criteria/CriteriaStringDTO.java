@@ -1,12 +1,12 @@
 package criteria;
 
 /**
- * Wraps a string so it can be the criteria for completing an adventure
+ * Wraps a string so it can be the criteria for completing an objective
  *
  * @author Merlin
  *
  */
-public class CriteriaStringDTO implements AdventureCompletionCriteria, InteractableItemActionParameter
+public class CriteriaStringDTO implements ObjectiveCompletionCriteria, InteractableItemActionParameter
 {
 	/**
 	 *

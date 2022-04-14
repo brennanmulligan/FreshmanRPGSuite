@@ -70,7 +70,7 @@ public class QuestStateTableDataGatewayRDSTest extends QuestStateTableDataGatewa
 		gateway.deleteQuestState(100);
 		listOfQuestStates = gateway.retrieveAllQuestStates();
 
-		assertEquals(startSize - 1, listOfQuestStates.size());
+		assertEquals(startSize - 2, listOfQuestStates.size());
 		assertEquals(QuestStateEnum.AVAILABLE, listOfQuestStates.get(0).getState());
 		assertEquals(QuestStateEnum.COMPLETED, listOfQuestStates.get(21).getState());
 	}

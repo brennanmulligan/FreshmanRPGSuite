@@ -1,21 +1,22 @@
 package communication.packers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import communication.StateAccumulator;
 import communication.messages.PlayerJoinedMessage;
 import datasource.DatabaseException;
 import datasource.PlayerRowDataGatewayMock;
+import datatypes.PlayersForTest;
 import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.reports.AddExistingPlayerReport;
 import model.reports.PlayerConnectionReport;
-import datatypes.PlayersForTest;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Merlin
@@ -52,12 +53,17 @@ public class PlayerJoinedMessagePackerTest
 		Player playerFromID = playerManager.getPlayerFromID(PlayersForTest.JOHN.getPlayerID());
 		PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
 				playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
-				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection());
+				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
 		ServerPlayerJoinedMessagePacker packer = new ServerPlayerJoinedMessagePacker();
 		packer.setAccumulator(stateAccumulator);
 		PlayerJoinedMessage msg = (PlayerJoinedMessage) packer.pack(report);
 		assertEquals(PlayersForTest.JOHN.getPlayerName(), msg.getPlayerName());
-		assertEquals(PlayersForTest.JOHN.getAppearanceType(), msg.getAppearanceType());
+
+
+// Functionality was removed... will add it back later :)
+//		String bodyID = report.getVanity().get(0).getTextureName();
+//
+//		assertEquals(bodyID, msg.getBodyID());
 		assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getPlayerID());
 		assertEquals(PlayersForTest.JOHN.getPosition(), msg.getPosition());
 		assertEquals(PlayersForTest.JOHN.getCrew(), msg.getCrew());
@@ -83,12 +89,11 @@ public class PlayerJoinedMessagePackerTest
 		AddExistingPlayerReport report = new AddExistingPlayerReport(PlayersForTest.MERLIN.getPlayerID(),
 				PlayersForTest.JOHN.getPlayerID(), PlayersForTest.JOHN.getPlayerName(),
 				PlayersForTest.JOHN.getAppearanceType(), PlayersForTest.JOHN.getPosition(),
-				PlayersForTest.JOHN.getCrew(), PlayersForTest.JOHN.getMajor(), PlayersForTest.JOHN.getSection());
+				PlayersForTest.JOHN.getCrew(), PlayersForTest.JOHN.getMajor(), PlayersForTest.JOHN.getSection(), new ArrayList<>());
 		ServerPlayerJoinedMessagePacker packer = new ServerPlayerJoinedMessagePacker();
 		packer.setAccumulator(stateAccumulator);
 		PlayerJoinedMessage msg = (PlayerJoinedMessage) packer.pack(report);
 		assertEquals(PlayersForTest.JOHN.getPlayerName(), msg.getPlayerName());
-		assertEquals(PlayersForTest.JOHN.getAppearanceType(), msg.getAppearanceType());
 		assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getPlayerID());
 		assertEquals(PlayersForTest.JOHN.getPosition(), msg.getPosition());
 		assertEquals(PlayersForTest.JOHN.getCrew(), msg.getCrew());
@@ -114,7 +119,7 @@ public class PlayerJoinedMessagePackerTest
 		AddExistingPlayerReport report = new AddExistingPlayerReport(PlayersForTest.MERLIN.getPlayerID(),
 				PlayersForTest.JOHN.getPlayerID(), PlayersForTest.JOHN.getPlayerName(),
 				PlayersForTest.JOHN.getAppearanceType(), PlayersForTest.JOHN.getPosition(),
-				PlayersForTest.JOHN.getCrew(), PlayersForTest.JOHN.getMajor(), PlayersForTest.JOHN.getSection());
+				PlayersForTest.JOHN.getCrew(), PlayersForTest.JOHN.getMajor(), PlayersForTest.JOHN.getSection(),new ArrayList<>());
 		ServerPlayerJoinedMessagePacker packer = new ServerPlayerJoinedMessagePacker();
 		packer.setAccumulator(stateAccumulator);
 		PlayerJoinedMessage msg = (PlayerJoinedMessage) packer.pack(report);

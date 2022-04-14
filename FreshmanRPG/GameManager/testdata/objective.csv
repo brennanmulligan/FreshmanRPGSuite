@@ -1,0 +1,2 @@
+questID,objectiveID,questTitle,objectiveCompletionType,description,parameter,triggerMapName,triggerRow,triggerCol,exp,fulfillment,quest_action_type,teleport_map,teleport_x,teleport_y,start_week,end_week
+1,1,,REAL_LIFE,Campus Aware,Find the Department Secretary of the Computer Science & Engineering Department and introduce yourself,-,,,1,,no_action,,,,1,3

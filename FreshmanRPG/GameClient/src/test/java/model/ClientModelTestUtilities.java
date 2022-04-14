@@ -61,6 +61,7 @@ public class ClientModelTestUtilities
 	public static void setUpOtherPlayerForTest(PlayersForTest player)
 	{
 		ClientPlayerManager.getSingleton().initializePlayer(player.getPlayerID(), player.getPlayerName(),
-				player.getAppearanceType(), player.getPosition(), player.getCrew(), player.getMajor(), player.getSection());
+				player.getVanityItems(), player.getPosition(), player.getCrew(),
+				player.getMajor(), player.getSection());
 	}
 }

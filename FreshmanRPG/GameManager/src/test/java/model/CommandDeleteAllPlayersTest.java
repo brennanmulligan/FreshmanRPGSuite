@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import datasource.AdventureStateTableDataGatewayMock;
+import datasource.ObjectiveStateTableDataGatewayMock;
 import datasource.DatabaseException;
 import datasource.PlayerConnectionRowDataGatewayMock;
 import datasource.PlayerLoginRowDataGatewayMock;
@@ -36,7 +36,7 @@ public class CommandDeleteAllPlayersTest
 		new PlayerRowDataGatewayMock().resetData();
 		new PlayerLoginRowDataGatewayMock().resetData();
 		QuestStateTableDataGatewayMock.getSingleton().resetData();
-		AdventureStateTableDataGatewayMock.getSingleton().resetData();
+		ObjectiveStateTableDataGatewayMock.getSingleton().resetData();
 		QuestManager.resetSingleton();
 		new PlayerConnectionRowDataGatewayMock(1).resetData();
 		GameManagerPlayerManager.resetSingleton();

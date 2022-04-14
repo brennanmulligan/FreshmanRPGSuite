@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  */
 public abstract class OverlayingScreenTable extends ScrollPane
 {
-	private final float containerPadding = 10f;
+	private float containerPadding = 10f;
 	protected Table container;
 
 	/**
@@ -37,5 +37,14 @@ public abstract class OverlayingScreenTable extends ScrollPane
 	public float getPadding()
 	{
 		return containerPadding;
+	}
+
+	/**
+	 * Set the padding for the container
+	 */
+	public void setPadding(float padding)
+	{
+		containerPadding = padding;
+		container.pad(padding);
 	}
 }

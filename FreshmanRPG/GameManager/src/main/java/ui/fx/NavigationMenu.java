@@ -7,7 +7,7 @@ import ui.fx.framework.MainMenu;
 
 /**
  * @author Josh McMillen, Ben Uleau Navigation menu singleton (bar on the left
- *         containing players, quizbot questions, and quests/adventures
+ *         containing players, quizbot questions, and quests/objectives
  */
 public class NavigationMenu extends BorderPane
 {

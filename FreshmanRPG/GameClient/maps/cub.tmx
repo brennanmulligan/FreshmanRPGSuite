@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+ <properties>
+  <property name="55 97" value="quad.tmx 90 27"/>
+  <property name="56 97" value="quad.tmx 90 27"/>
+  <property name="57 97" value="quad.tmx 90 27"/>
+  <property name="62 97" value="quad.tmx 93 27"/>
+  <property name="63 97" value="quad.tmx 93 27"/>
+  <property name="64 97" value="quad.tmx 93 27"/>
+ </properties>
  <tileset firstgid="1" source="tileset/tileset file/Inq XP MI- Medieval Indoors - Hi Class.tsx"/>
  <tileset firstgid="609" source="tileset/tileset file/Inq XP MI- Medieval Indoors.tsx"/>
  <tileset firstgid="2785" source="tileset/tileset file/collision.tsx"/>
@@ -107,7 +115,15 @@
 135,136,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,135,136,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,135,136,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,133,134,135,136,133,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,134,135,136
 </data>
  </layer>
- <layer id="2" name="Collision" width="120" height="100">
+ <layer id="2" name="Collision" width="120" height="100" visible="0">
+  <properties>
+   <property name="55 97" value="quad.tmx 90 27"/>
+   <property name="56 97" value="quad.tmx 90 27"/>
+   <property name="57 97" value="quad.tmx 90 27"/>
+   <property name="62 97" value="quad.tmx 93 27"/>
+   <property name="63 97" value="quad.tmx 93 27"/>
+   <property name="64 97" value="quad.tmx 93 27"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2786,2786,2786,2786,2786,2786,2786,2786,2786,2786,2786,2786,2786,2786,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2786,2786,0,0,0,2786,0,0,2786,0,0,0,2786,2786,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -212,12 +228,6 @@
 </data>
  </layer>
  <layer id="3" name="height 0" width="120" height="100">
-  <properties>
-   <property name="56 1" value="theGreen.tmx 103 37"/>
-   <property name="56 98" value="theGreen.tmx 103 37"/>
-   <property name="63 1" value="theGreen.tmx 106 37"/>
-   <property name="63 98" value="theGreen.tmx 106 37"/>
-  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221226254,3221226261,3221226264,3221226263,3221226262,3221226261,3221226264,3221226262,3221226261,3221226264,3221226263,3221226262,3221226261,782,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3221226254,3221226253,3221226256,783,3221226254,3221226253,3221226256,784,3221226253,782,783,3221226254,3221226253,782,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

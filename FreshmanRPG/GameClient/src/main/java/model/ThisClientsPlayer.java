@@ -5,20 +5,20 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import dataDTO.ClientPlayerAdventureStateDTO;
+import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import dataDTO.FriendDTO;
 import datasource.LevelRecord;
-import datatypes.AdventureStateEnum;
+import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
-import model.reports.AdventureNeedingNotificationReport;
-import model.reports.AdventureStateChangeReportInClient;
+import model.reports.ObjectiveNeedingNotificationReport;
+import model.reports.ObjectiveStateChangeReportInClient;
 import model.reports.BuffPoolChangedReport;
 import model.reports.ClientTimeToLevelUpDeadlineReport;
 import model.reports.CurrentFriendListReport;
 import model.reports.ExperiencePointsChangeReport;
-import model.reports.KnowledgePointsChangeReport;
+import model.reports.DoubloonChangeReport;
 import model.reports.QuestNeedingNotificationReport;
 import model.reports.QuestStateChangeReport;
 import model.reports.QuestStateReport;
@@ -37,7 +37,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 
 	private int experiencePoints;
 	private LevelRecord record;
-	private int knowledgePoints;
+	private int doubloons;
 	private Timer levelUpTimer = null;
 	private String timeLeft;
 	private Date timeToLevelUp;
@@ -169,15 +169,15 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 						q.getQuestID(), q.getQuestDescription(), q.getQuestState());
 				QualifiedObservableConnector.getSingleton().sendReport(report);
 			}
-			for (ClientPlayerAdventureStateDTO a : q.getAdventureList())
+			for (ClientPlayerObjectiveStateDTO objective : q.getObjectiveList())
 			{
-				if (a.isNeedingNotification())
+				if (objective.isNeedingNotification())
 				{
-					AdventureNeedingNotificationReport report = new AdventureNeedingNotificationReport(
+					ObjectiveNeedingNotificationReport report = new ObjectiveNeedingNotificationReport(
 							ClientPlayerManager.getSingleton().getThisClientsPlayer()
-									.getID(), q.getQuestID(), a.getAdventureID(),
-							a.getAdventureDescription(), a.getAdventureState(),
-							a.isNeedingNotification(), a.getWitnessTitle());
+									.getID(), q.getQuestID(), objective.getObjectiveID(),
+							objective.getObjectiveDescription(), objective.getObjectiveState(),
+							objective.isNeedingNotification(), objective.getWitnessTitle());
 					QualifiedObservableConnector.getSingleton().sendReport(report);
 				}
 			}
@@ -252,29 +252,29 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 
 	/**
 	 * @param questID
-	 *            for ThisClientsPlayer's quest that the adventure is in
-	 * @param adventureID
-	 *            for the adventure who are looking for
-	 * @param adventureDescription
-	 *            for the target adventure
-	 * @param adventureState
-	 *            enum for the target adventure
+	 *            for ThisClientsPlayer's quest that the objective is in
+	 * @param objectiveID
+	 *            for the objective who are looking for
+	 * @param objectiveDescription
+	 *            for the target objective
+	 * @param objectiveState
+	 *            enum for the target objective
 	 */
-	public void sendAdventureStateChangeReport(int questID, int adventureID,
-											   String adventureDescription, AdventureStateEnum adventureState)
+	public void sendObjectiveStateChangeReport(int questID, int objectiveID,
+                                               String objectiveDescription, ObjectiveStateEnum objectiveState)
 	{
-		for (ClientPlayerQuestStateDTO q : questList)
+		for (ClientPlayerQuestStateDTO quest : questList)
 		{
-			if (q.getQuestID() == questID)
+			if (quest.getQuestID() == questID)
 			{
-				for (ClientPlayerAdventureStateDTO a : q.getAdventureList())
+				for (ClientPlayerObjectiveStateDTO objective : quest.getObjectiveList())
 				{
-					if (a.getAdventureID() == adventureID)
+					if (objective.getObjectiveID() == objectiveID)
 					{
-						a.setAdventureState(adventureState);
-						AdventureStateChangeReportInClient r = new AdventureStateChangeReportInClient(
-								this.getID(), questID, adventureID, adventureDescription,
-								adventureState);
+						objective.setObjectiveState(objectiveState);
+						ObjectiveStateChangeReportInClient r = new ObjectiveStateChangeReportInClient(
+								this.getID(), questID, objectiveID, objectiveDescription,
+								objectiveState);
 						QualifiedObservableConnector.getSingleton().sendReport(r);
 					}
 				}
@@ -296,18 +296,18 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 	/**
 	 * Overwrite the experience and level record in the clients player
 	 *
-	 * @param knowledge current knowledge
+	 * @param doubloons current doubloons
 	 * @param buffPool remaining bonus points.
 	 */
-	public void knowledgePointsAndBuffPoolChanged(int knowledge, int buffPool)
+	public void doubloonsAndBuffPoolChanged(int doubloons, int buffPool)
 	{
 		if (this.buffPool != buffPool)
 		{
 			setBuffPool(buffPool);
 			sendBuffPoolChangeReport();
 		}
-		setKnowledgePoints(knowledge);
-		sendKnowledgePointsChangeReport();
+		setDoubloons(doubloons);
+		sendDoubloonChangeReport();
 	}
 
 	/**
@@ -324,30 +324,29 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 	}
 
 	/**
-	 * @param knowledge
-	 *            points of this player
+	 * @param doubloons of this player
 	 */
-	public void setKnowledgePoints(int knowledge)
+	public void setDoubloons(int doubloons)
 	{
-		this.knowledgePoints = knowledge;
+		this.doubloons = doubloons;
 	}
 
 	/**
-	 * sending the knowledge changed report
+	 * sending the doubloon changed report
 	 */
-	public void sendKnowledgePointsChangeReport()
+	public void sendDoubloonChangeReport()
 	{
-		KnowledgePointsChangeReport r = new KnowledgePointsChangeReport(this.knowledgePoints);
+		DoubloonChangeReport r = new DoubloonChangeReport(this.doubloons);
 		QualifiedObservableConnector.getSingleton().sendReport(r);
 	}
 
 	/**
 	 *
-	 * @return the knowledgePoints for this player
+	 * @return the doubloons for this player
 	 */
-	public int getKnowledgePoints()
+	public int getDoubloons()
 	{
-		return this.knowledgePoints;
+		return this.doubloons;
 	}
 
 
@@ -378,7 +377,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 	}
 
 	/**
-	 * sending the knowledge changed report
+	 * sending the buff pool changed report
 	 */
 	public void sendBuffPoolChangeReport()
 	{

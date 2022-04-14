@@ -4,7 +4,7 @@ import model.ClientModelFacade;
 import model.CommandQuestNotificationComplete;
 
 /**
- * Handles behavior for adventure being completed
+ * Handles behavior for objective being completed
  * @author Ryan
  *
  */
@@ -27,7 +27,7 @@ public class QuestNotificationCompleteBehavior implements PopupBehavior
 	/**
 	 * @see view.screen.popup.PopupBehavior#clicked()
 	 *
-	 * Create a CommandAdventureNotificationComplete command
+	 * Create a CommandObjectiveNotificationComplete command
 	 */
 	@Override
 	public void clicked()

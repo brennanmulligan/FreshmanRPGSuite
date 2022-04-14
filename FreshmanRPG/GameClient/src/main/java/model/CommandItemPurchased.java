@@ -60,7 +60,7 @@ public class CommandItemPurchased extends Command
 	@Override
 	boolean execute() throws IOException
 	{
-		//Create and send a report that will make the knowledge points be subtracted
+		//Create and send a report that will make the doubloons be subtracted
 		ItemPurchasedReport report = new ItemPurchasedReport(playerID, price);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 

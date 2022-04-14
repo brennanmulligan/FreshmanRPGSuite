@@ -1,6 +1,10 @@
 package model.reports;
 
+import dataDTO.VanityDTO;
+import datatypes.VanityType;
 import model.QualifiedObservableReport;
+
+import java.util.List;
 
 /**
  * Report that a player's appearance has been changed
@@ -12,19 +16,17 @@ public class ChangePlayerAppearanceReport implements QualifiedObservableReport
 {
 
 	private int playerID;
-	private String appearanceType;
+	private List<VanityDTO> vanities;
 
 	/**
-	 * @param playerID
-	 *            the player's unique id
-	 * @param appearanceType
-	 *            the new appearance type
-	 */
-	public ChangePlayerAppearanceReport(int playerID, String appearanceType)
+	 * @param playerID the player's unique id
+	 * @param vanities the list of all vanity objects the player is wearing
+	*/
+	public ChangePlayerAppearanceReport(int playerID, List<VanityDTO> vanities)
 	{
 		super();
 		this.playerID = playerID;
-		this.appearanceType = appearanceType;
+		this.vanities = vanities;
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class ChangePlayerAppearanceReport implements QualifiedObservableReport
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((appearanceType == null) ? 0 : appearanceType.hashCode());
+		result = prime * result + ((vanities == null) ? 0 : vanities.hashCode());
 		result = prime * result + playerID;
 		return result;
 	}
@@ -59,14 +61,14 @@ public class ChangePlayerAppearanceReport implements QualifiedObservableReport
 			return false;
 		}
 		ChangePlayerAppearanceReport other = (ChangePlayerAppearanceReport) obj;
-		if (appearanceType == null)
+		if (vanities == null)
 		{
-			if (other.appearanceType != null)
+			if (other.vanities != null)
 			{
 				return false;
 			}
 		}
-		else if (!appearanceType.equals(other.appearanceType))
+		else if (!vanities.equals(other.vanities))
 		{
 			return false;
 		}
@@ -78,18 +80,18 @@ public class ChangePlayerAppearanceReport implements QualifiedObservableReport
 	}
 
 	/**
-	 * @return the player's new appearance type
-	 */
-	public String getAppearanceType()
-	{
-		return appearanceType;
-	}
-
-	/**
 	 * @return the ID of the player being redrawn
 	 */
 	public int getPlayerID()
 	{
 		return playerID;
+	}
+
+	/**
+	 * @return The list of all of the vanities a player has
+	 */
+	public List<VanityDTO> getVanities()
+	{
+		return vanities;
 	}
 }

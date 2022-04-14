@@ -4,23 +4,28 @@
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="" />
+      <option name="scriptParameters" value="--scan --scan --scan --scan" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
         <list>
-          <option value=":GameServer:DBBuildQuestsAndAdventures" />
+          <option value=":GameServer:DBBuildQuestsAndObjectives" />
           <option value=":GameServer:DBBuildTestDBPlayers" />
           <option value=":GameServer:DBBuildTestLevels" />
           <option value=":GameServer:DBBuildTestQuestions" />
           <option value=":GameServer:DBBuildTestInteractableItems" />
           <option value=":LoginServer:DBBuildTestDBPlayerLogin" />
           <option value=":GameShared:DBBuildTestDBServers" />
-          <option value=":GameServer:DBBuildTestKnowledgePointPrizes" />
+          <option value=":GameServer:DBBuildTestDoubloonPrizes" />
           <option value=":GameServer:DBBuildTestRandomFacts" />
           <option value=":GameServer:DBBuildTestDBVisitedMaps" />
           <option value=":GameServer:DBBuildFriends" />
+          <option value=":GameServer:DBBuildTestInfoNPC" />
+          <option value=":GameServer:DBBuildTestRoamingNPC" />
+          <option value=":GameServer:DBBuildTestVanityItems" />
+          <option value=":GameServer:DBBuildTestVanityInventory" />
+          <option value=":GameServer:DBBuildTestDefaultItems" />
         </list>
       </option>
       <option name="vmOptions" value="" />

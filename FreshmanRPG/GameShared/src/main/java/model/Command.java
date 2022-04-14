@@ -1,5 +1,7 @@
 package model;
 
+import datasource.DatabaseException;
+
 import java.io.IOException;
 
 /**

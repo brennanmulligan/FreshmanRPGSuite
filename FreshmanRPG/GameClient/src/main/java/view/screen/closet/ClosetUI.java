@@ -1,0 +1,149 @@
+package view.screen.closet;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import dataDTO.VanityDTO;
+import datatypes.VanityType;
+import model.ClientPlayerManager;
+import model.QualifiedObservableConnector;
+import model.QualifiedObservableReport;
+import model.QualifiedObserver;
+import view.screen.OverlayingScreen;
+import view.screen.SkinPicker;
+import model.reports.ClientKeyInputSentReport;
+
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * A screen where the player can modify their appearance.
+ * @author Stefan Milanovic & Nick Starkey
+ */
+public class ClosetUI extends OverlayingScreen implements QualifiedObserver
+{
+    private final float WIDTH = 600f;
+    private final float HEIGHT = 380f;
+    private final ClosetTable closetTable;
+
+    /**
+     * Basic constructor.
+     */
+    public ClosetUI()
+    {
+        super();
+
+        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        cm.registerObserver(this, ClientKeyInputSentReport.class);
+
+        Table mainTable = new Table(SkinPicker.getSkinPicker().getCrewSkin());
+        mainTable.setFillParent(true);
+        mainTable.row();
+
+        closetTable = new ClosetTable(false);
+        mainTable.add(closetTable).expand().fill();
+        container.addActor(mainTable);
+    }
+
+    /**
+     * Retrieves the players current and owned vanities then updates the view.
+     */
+    private void loadAllVanities()
+    {
+        ClientPlayerManager playerManager = ClientPlayerManager.getSingleton();
+
+        List<VanityDTO> currentVanities = playerManager.getThisClientsPlayer().getVanities();
+        List<VanityDTO> ownedVanities = playerManager.getThisClientsPlayer().getOwnedItems();
+
+        closetTable.setSelectedVanities(currentVanities);
+        closetTable.setOwnedVanities(ownedVanities);
+        closetTable.updateView();
+    }
+
+    @Override
+    public float getMyWidth()
+    {
+        return WIDTH;
+    }
+
+    @Override
+    public float getMyHeight()
+    {
+        return HEIGHT;
+    }
+
+    @Override
+    public void toggleVisibility()
+    {
+        VisibleAction action;
+        if (isVisible())
+        {
+            action = Actions.hide();
+        }
+        else
+        {
+            action = Actions.show();
+            loadAllVanities();
+        }
+        addAction(action);
+
+    }
+
+    /**
+     * TEMP: for testing purposes pulls all vanities directly from the TextureAtlas files.
+     * @return a list of VanityDTOs for testing purposes.
+     */
+    private List<VanityDTO> getAllPossibleVanitiesForTest()
+    {
+        // Add the current vanities
+        ClientPlayerManager manager = ClientPlayerManager.getSingleton();
+        List<VanityDTO> currentVanities = manager.getThisClientsPlayer().getVanities();
+        List<VanityDTO> allVanities = new ArrayList<>(currentVanities);
+
+        // For testing purposes, generate all possible vanities.
+        String uiPath = "ui-data/";
+        HashMap<VanityType, String> atlasPathByVanityType = new HashMap<> (Map.of(
+                VanityType.HAT, uiPath.concat("hats.atlas"),
+                VanityType.HAIR, uiPath.concat("hair.atlas"),
+                VanityType.SHIRT, uiPath.concat("shirts.atlas"),
+                VanityType.PANTS, uiPath.concat("pants.atlas"),
+                VanityType.SHOES, uiPath.concat("shoes.atlas"),
+                VanityType.BODY, uiPath.concat("body.atlas")
+        ));
+
+        List<String> currentTextures = currentVanities.stream()
+                .map(VanityDTO::getTextureName).collect(Collectors.toList());
+
+        int vanityIndex = currentVanities.stream().max(Comparator.comparing(VanityDTO::getID)).get().getID() + 1;
+        for (VanityType vanityType : VanityType.values())
+        {
+            TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(atlasPathByVanityType.get(vanityType)));
+            for (TextureAtlas.AtlasRegion region : atlas.getRegions())
+            {
+                if (!currentTextures.contains(region.name))
+                {
+                    allVanities.add(new VanityDTO(vanityIndex++, region.name, "", region.name, vanityType));
+                }
+            }
+        }
+
+        return allVanities;
+    }
+
+    @Override
+    public void receiveReport(QualifiedObservableReport report)
+    {
+        if (report.getClass().equals(ClientKeyInputSentReport.class))
+        {
+            ClientKeyInputSentReport r = (ClientKeyInputSentReport) report;
+            // Check for I
+            if (r.getInput().equals(Input.Keys.toString(Input.Keys.I)))
+            {
+                this.toggleVisibility();
+            }
+        }
+    }
+}

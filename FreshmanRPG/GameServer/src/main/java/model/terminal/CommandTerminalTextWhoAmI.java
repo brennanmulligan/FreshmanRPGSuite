@@ -7,7 +7,6 @@ import dataDTO.LevelManagerDTO;
 import datasource.DatabaseException;
 import model.Player;
 import model.PlayerManager;
-import model.terminal.TerminalCommand;
 
 /**
  * When the word is written into the terminal
@@ -35,7 +34,7 @@ public class CommandTerminalTextWhoAmI extends TerminalCommand
 			data = "Name: " + player.getPlayerName() + "," +
 					"Crew: " + player.getCrew() + "," +
 					"Major: " + player.getMajor() + "," +
-					"Knowledge Points: " + player.getKnowledgePoints() + "," +
+					"Doubloons: " + player.getDoubloons() + "," +
 					"Current Experience: " + player.getExperiencePoints() + "," +
 					"Experience Required For Next Level: " + LevelManagerDTO.getSingleton().getLevelForPoints(player.getExperiencePoints()).getLevelUpPoints() + "," +
 					"Level Up Deadline: " + convertDateToString(LevelManagerDTO.getSingleton().getLevelForPoints(player.getExperiencePoints()).getDeadlineDate())

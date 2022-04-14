@@ -20,12 +20,12 @@ public enum InteractableItemsForTest
 	/**
 	 * Buffer Book
 	 */
-	BOOK(1, "Buff Book", 0, 0, InteractableItemActionType.BUFF, new CriteriaIntegerDTO(50), "theGreen.tmx"),
+	BOOK(1, "Buff Book", 0, 0, InteractableItemActionType.BUFF, new CriteriaIntegerDTO(50), "quad.tmx"),
 
 	/**
 	 * Chest with an item
 	 */
-	CHEST(2, "Item Chest", 1, 1, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is a testing message"), "theGreen.tmx"),
+	CHEST(2, "Item Chest", 1, 1, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is a testing message"), "quad.tmx"),
 
 	/**
 	 * Test item for demo purposes
@@ -35,17 +35,17 @@ public enum InteractableItemsForTest
 	/**
 	 * Test item for buff
 	 */
-	BUFF_TEST(4, "Buff Test", 7, 52, InteractableItemActionType.BUFF, new CriteriaIntegerDTO(50), "homework.tmx"),
+	BUFF_TEST(4, "Buff Test", 7, 52, InteractableItemActionType.BUFF, new CriteriaIntegerDTO(50), "library.tmx"),
 
 	/**
 	 * Test item for display message
 	 */
-	MSG_TEST(5, "Message Test", 6, 54, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is a test message"), "homework.tmx"),
+	MSG_TEST(5, "Message Test", 6, 54, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is a test message"), "library.tmx"),
 
 	/**
 	 * returns a popup message
 	 */
-	BOOKSHELF(6, "Bookshelf", 0, 5, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You used the bookshelf. It has nothing interesting in it"), "theGreen.tmx"),
+	BOOKSHELF(6, "Bookshelf", 0, 5, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You used the bookshelf. It has nothing interesting in it"), "quad.tmx"),
 
 	/**
 	 * Drink a shiny potion
@@ -55,31 +55,31 @@ public enum InteractableItemsForTest
 	/**
 	 * Find the Recipe on the Tree
 	 */
-	TEA_RECIPE(8, "Tea Recipe", 83, 42, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a tea recipe!"), "theGreen.tmx"),
+	TEA_RECIPE(8, "Tea Recipe", 66, 39, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a tea recipe!"), "quad.tmx"),
 
 	/**
 	 * Pick the flowers near spawn for the recipe
 	 */
-	TEA_FLOWER_1(9, "Red Flower", 86, 2, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a red flower. It would taste delicious in a tea.  "), "theGreen.tmx"),
+	TEA_FLOWER_1(9, "Red Flower", 56, 41, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a red flower. It would taste delicious in a tea.  "), "quad.tmx"),
 
 	/**
 	 *
 	 */
-	TEA_FLOWER_2(10, "Purple Flower", 86, 4, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a purple flower. It would taste delicious in a tea.  "), "theGreen.tmx"),
+	TEA_FLOWER_2(10, "Purple Flower", 56, 45, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a purple flower. It would taste delicious in a tea.  "), "quad.tmx"),
 
 	/**
 	 *
 	 */
-	TEA_FLOWER_3(11, "Pink Flower", 86, 6, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a pink flower. It would taste delicious in a tea.  "), "theGreen.tmx"),
+	TEA_FLOWER_3(11, "Pink Flower", 56, 58, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a pink flower. It would taste delicious in a tea.  "), "quad.tmx"),
 
 	/**
 	 *
 	 */
-	TEA_FLOWER_4(12, "Yellow Flower", 86, 8, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a yellow flower. It would taste delicious in a tea.  "), "theGreen.tmx"),
+	TEA_FLOWER_4(12, "Yellow Flower", 56, 62, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("You found a yellow flower. It would taste delicious in a tea.  "), "quad.tmx"),
 
-	TRIGGER_QUEST(14,"Quest Triggering Item",83,33,InteractableItemActionType.QUEST_TRIGGER,new CriteriaStringDTO("105,106,107"),"theGreen.tmx"),
+	TRIGGER_QUEST(14,"Quest Triggering Item",50,37,InteractableItemActionType.QUEST_TRIGGER,new CriteriaStringDTO("105,106,107"),"quad.tmx"),
 
-	TRIGGER_QUEST_MESSAGE(15,"Message Triggering Item",83,30,InteractableItemActionType.MESSAGE, new CriteriaStringDTO("hello"),"theGreen.tmx"),
+	TRIGGER_QUEST_MESSAGE(15,"Message Triggering Item",83,30,InteractableItemActionType.MESSAGE, new CriteriaStringDTO("hello"),"quad.tmx"),
 
 	/**
 	 *
@@ -94,24 +94,42 @@ public enum InteractableItemsForTest
 	/**
 	 *
 	 */
-	MESSAGE_BOARD_THE_GREEN(18, "Green Message Board", 84, 12, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to the Green"), "theGreen.tmx"),
+	MESSAGE_BOARD_THE_GREEN(18, "Green Message Board", 84, 12, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to the Green"), "quad.tmx"),
 
 	/**
 	 *
 	 */
-	MESSAGE_BOARD_QUIZNAZIUM(19, "Quiznazium Message Board", 7, 6, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to the Quiznazium"), "quiznazium.tmx"),
+	MESSAGE_BOARD_REC_CENTER(19, "Rec Center Message Board", 7, 6, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to the Rec Center"), "recCenter.tmx"),
 
 	/**
 	 *
 	 */
-	MESSAGE_BOARD_STUDY_HALL(20, "Study Hall Message Board", 5, 48, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to Study Hall"), "homework.tmx"),
+	MESSAGE_BOARD_LIBRARY(20, "Library Message Board", 5, 48, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to Library"), "library.tmx"),
 
-	/**
-	 *
-	 */
-	MSG_BOARD_CURRENT(21, "Current Message Board", 22, 21, InteractableItemActionType.BOARD, new CriteriaStringDTO("Welcome to the Current"), "current.tmx"),
 
-	SECRET_TREE(22, "Secret Tree", 86, 29, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("The secret password is.... rubber ducky"), "theGreen.tmx");
+	SECRET_TREE(22, "Secret Tree", 119, 74, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("The secret password is.... rubber ducky"), "quad.tmx"),
+
+	SIGN_CUB(23, "Cub Sign", 28, 92, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the CUB."), "quad.tmx"),
+
+	SIGN_LIBRARY(24, "Library Sign", 51, 54, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the Library."), "quad.tmx"),
+
+	SIGN_GROVE(25, "Grove Sign", 18, 25, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is Grove Hall."), "quad.tmx"),
+
+	SIGN_DHC(26, "DHC Sign", 99, 15, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is Dauphin Humanities Center."), "quad.tmx"),
+
+	SIGN_FISHBOWL(27, "Fishbowl Sign", 75, 23, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is MCT."), "quad.tmx"),
+
+	SIGN_SHIPPEN(28, "Shippen Hall Sign", 120, 49, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is Shippen Hall."), "quad.tmx"),
+
+	SIGN_FSC_UPPER(29, "FSC Upper Sign", 65, 84, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is Franklin Science Center."), "quad.tmx"),
+
+	SIGN_FSC_LOWER(30, "FSC Lower Sign", 99, 87, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is Franklin Science Center."), "quad.tmx"),
+
+	SIGN_REC_CENTER(31, "Rec Center Sign", 30, 27, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the Rec Center."), "outsideOfMowery.tmx"),
+	SIGN_MOWREY(32, "Mowrey Sign", 15, 71, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the Mowrey Tutoring Center."), "outsideOfMowrey.tmx"),
+	SIGN_REISNER(33, "Reisner Sign", 67, 59, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the Reisner Dining Hall."), "outsideOfMowrey.tmx"),
+	SIGN_HEALTH_CENTER(34, "Health Center Sign", 95, 63, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is the Etters Health Center."), "outsideOfMowrey.tmx");
+
 
 	private int itemID;
 	private String name;

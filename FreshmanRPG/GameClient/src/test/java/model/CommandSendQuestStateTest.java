@@ -26,7 +26,7 @@ public class CommandSendQuestStateTest
 	public void executeTest()
 	{
 		ThisClientsPlayer cp = ThisClientsPlayerTest.setUpThisClientsPlayer(PlayersForTest.JOHN);
-		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoAdventures();
+		ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoObjectives();
 		cp.addQuest(q);
 		ArrayList<ClientPlayerQuestStateDTO> expected = new ArrayList<>() ;
 		expected.add(q);

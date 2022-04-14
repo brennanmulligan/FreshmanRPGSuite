@@ -1,0 +1,47 @@
+
+hats.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+hat_andy
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hat_beanie
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hat_br
+  rotate: false
+  xy: 265, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hat_duck
+  rotate: false
+  xy: 397, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hat_merlin
+  rotate: false
+  xy: 529, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+hat_none
+  rotate: false
+  xy: 661, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

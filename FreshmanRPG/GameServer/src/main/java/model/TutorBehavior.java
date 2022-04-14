@@ -64,4 +64,5 @@ public class TutorBehavior extends NPCBehavior
 		return reportTypes;
 	}
 
+
 }

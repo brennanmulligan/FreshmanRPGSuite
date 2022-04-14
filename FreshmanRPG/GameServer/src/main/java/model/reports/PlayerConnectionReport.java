@@ -1,16 +1,19 @@
 package model.reports;
 
+import dataDTO.VanityDTO;
 import datatypes.Crew;
 import datatypes.Major;
 import datatypes.Position;
 import model.QualifiedObservableReport;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * This report is sent when a player successfully connects to this area server
  *
- * @author Merlin
+ * @author Merlin, Aaron W., Jake H.
  *
  */
 public final class PlayerConnectionReport implements QualifiedObservableReport
@@ -23,6 +26,8 @@ public final class PlayerConnectionReport implements QualifiedObservableReport
 	private final Crew crew;
 	private final Major major;
 	private final int section;
+	private final ArrayList<VanityDTO> vanityDTOs;
+	private final ArrayList<VanityDTO> ownedItems;
 
 	/**
 	 * Information about a player who has just joined this server
@@ -34,9 +39,28 @@ public final class PlayerConnectionReport implements QualifiedObservableReport
 	 * @param crew the crew to which the player belongs
 	 * @param major the major of this player
 	 * @param section the section of the player
+	 * @param vanityDTOs holds info about what the player is wearing
 	 */
 	public PlayerConnectionReport(int playerID, String playerName, String appearanceType, Position position, Crew crew,
-								  Major major, int section)
+								  Major major, int section, ArrayList<VanityDTO> vanityDTOs)
+	{
+		this(playerID, playerName, appearanceType, position, crew, major, section, vanityDTOs, new ArrayList<>());
+	}
+
+	/**
+	 * Information about a player who has just joined this server
+	 *
+	 * @param playerID the player's ID
+	 * @param playerName the player's name
+	 * @param appearanceType the player's appearance type
+	 * @param position where the player is standing
+	 * @param crew the crew to which the player belongs
+	 * @param major the major of this player
+	 * @param section the section of the player
+	 * @param vanityDTOs holds info about what the player is wearing
+	 */
+	public PlayerConnectionReport(int playerID, String playerName, String appearanceType, Position position, Crew crew,
+								  Major major, int section, ArrayList<VanityDTO> vanityDTOs, ArrayList<VanityDTO> ownedItems)
 	{
 		this.playerID = playerID;
 		this.playerName = playerName;
@@ -45,6 +69,8 @@ public final class PlayerConnectionReport implements QualifiedObservableReport
 		this.crew = crew;
 		this.major = major;
 		this.section = section;
+		this.vanityDTOs = vanityDTOs;
+		this.ownedItems = ownedItems;
 	}
 
 	/**
@@ -105,6 +131,19 @@ public final class PlayerConnectionReport implements QualifiedObservableReport
 		return position;
 	}
 
+	/**
+	 * @return the dto holding info about what the player is wearing
+	 */
+	public ArrayList<VanityDTO> getVanity()
+	{
+		return vanityDTOs;
+	}
+
+	public ArrayList<VanityDTO> getOwnedItems()
+	{
+		return ownedItems;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -117,12 +156,14 @@ public final class PlayerConnectionReport implements QualifiedObservableReport
 			return false;
 		}
 		PlayerConnectionReport that = (PlayerConnectionReport) o;
-		return playerID == that.playerID && section == that.section && Objects.equals(playerName, that.playerName) && Objects.equals(appearanceType, that.appearanceType) && Objects.equals(position, that.position) && crew == that.crew && major == that.major;
+		return playerID == that.playerID && section == that.section && Objects.equals(playerName, that.playerName) &&
+				Objects.equals(appearanceType, that.appearanceType) && Objects.equals(position, that.position) &&
+				crew == that.crew && major == that.major && Objects.equals(vanityDTOs, that.vanityDTOs) && Objects.equals(ownedItems, that.ownedItems);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(playerID, playerName, appearanceType, position, crew, major, section);
+		return Objects.hash(playerID, playerName, appearanceType, position, crew, major, section, vanityDTOs, ownedItems);
 	}
 }

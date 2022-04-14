@@ -17,6 +17,7 @@ public class NPCRowDataGatewayRDS implements NPCRowDataGateway
 
 	private int playerID;
 	private String behaviorClass;
+	private String filePath;
 	private Connection connection;
 
 	/**
@@ -37,6 +38,7 @@ public class NPCRowDataGatewayRDS implements NPCRowDataGateway
 			ResultSet result = stmt.executeQuery();
 			result.next();
 			this.behaviorClass = result.getString("behaviorClass");
+			this.filePath = result.getString("filePath");
 
 		}
 		catch (SQLException e)
@@ -53,15 +55,16 @@ public class NPCRowDataGatewayRDS implements NPCRowDataGateway
 	 *            NPC
 	 * @throws DatabaseException if we can't add the info to the database
 	 */
-	public NPCRowDataGatewayRDS(int playerID, String behaviorClass) throws DatabaseException
+	public NPCRowDataGatewayRDS(int playerID, String behaviorClass, String filePath) throws DatabaseException
 	{
 		Connection connection = DatabaseManager.getSingleton().getConnection();
 		try
 		{
 			PreparedStatement stmt =  connection.prepareStatement(
-					"Insert INTO NPCs SET playerID = ?, behaviorClass = ?");
+					"Insert INTO NPCs SET playerID = ?, behaviorClass = ?, filePath = ?");
 			stmt.setInt(1, playerID);
 			stmt.setString(2, behaviorClass);
+			stmt.setString(3, filePath);
 			stmt.executeUpdate();
 
 			this.playerID = playerID;
@@ -83,6 +86,7 @@ public class NPCRowDataGatewayRDS implements NPCRowDataGateway
 		String sql = "Create TABLE NPCs ("
 				+ "playerID INT NOT NULL,"
 				+ "behaviorClass VARCHAR(80),"
+				+ "filePath VARCHAR(80),"
 				+ "PRIMARY KEY (playerID),"
 				+ "FOREIGN KEY (playerID) REFERENCES Players(playerID) "
 				+ "ON DELETE CASCADE)";
@@ -110,6 +114,15 @@ public class NPCRowDataGatewayRDS implements NPCRowDataGateway
 	public String getBehaviorClass()
 	{
 		return behaviorClass;
+	}
+
+	/**
+	 * @see datasource.NPCRowDataGateway#getFilePath()
+	 */
+	@Override
+	public String getFilePath()
+	{
+		return filePath;
 	}
 
 	/**

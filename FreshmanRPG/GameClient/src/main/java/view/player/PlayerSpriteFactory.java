@@ -1,41 +1,88 @@
 package view.player;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import dataDTO.VanityDTO;
+import datatypes.VanityType;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A Factory for generating renderable instances of players on a map
  */
 public class PlayerSpriteFactory
 {
-
-	private TextureAtlas atlas;
+	PlayerBodyFactory bodyFactory;
+	PlayerHatFactory hatFactory;
+	PlayerHairFactory hairFactory;
+	PlayerShirtFactory shirtFactory;
+	PlayerPantsFactory pantsFactory;
+	PlayerShoesFactory shoesFactory;
+	PlayerEyesFactory eyesFactory;
 
 	/**
-	 * Creates a new PlayerSpriteFactory that generates renderable players using
-	 * a specified texture atlas
-	 *
-	 * @param atlas
-	 *            the file of the texture dictionary of appearances
+	 * A factory for creating a PlayerSprite from a factory for each piece of the sprite
+	 * @param hatFactory Factory for building the hat's vanity object
+	 * @param bodyFactory Factory for building the body's vanity object
 	 */
-	public PlayerSpriteFactory(FileHandle atlas)
+	public PlayerSpriteFactory(PlayerHatFactory hatFactory, PlayerHairFactory hairFactory,
+							   PlayerBodyFactory bodyFactory, PlayerShirtFactory shirtFactory,
+							   PlayerPantsFactory pantsFactory, PlayerShoesFactory shoesFactory,PlayerEyesFactory eyesFactory)
 	{
-		this.atlas = new TextureAtlas(atlas);
+		this.bodyFactory = bodyFactory;
+		this.hatFactory = hatFactory;
+		this.pantsFactory = pantsFactory;
+		this.hairFactory = hairFactory;
+		this.shoesFactory = shoesFactory;
+		this.shirtFactory = shirtFactory;
+		this.eyesFactory = eyesFactory;
 	}
 
 	/**
 	 * Generates a player sprite with a PlayerSprite representation
 	 *
-	 * @param type
-	 *            The sprite type identifying the look of the player
-	 * @return new player sprite instance
+	 * @param vanitiesDTOList
+	 * 			  List of all vanity DTOs that the player is wearing
+	 * @return PlayerSprite
+	 * 			  Built from all the Vanity objects
 	 */
-	public PlayerSprite create(PlayerType type)
+	public PlayerSprite create(List<VanityDTO> vanitiesDTOList, int playerId)
 	{
-		TextureRegion region = this.atlas.findRegion(type.regionName);
+		HashMap<VanityType, String> vanityTextureNames = new HashMap<>();
 
-		PlayerSprite player = new PlayerSprite(region);
+		if(vanitiesDTOList != null)
+		{
+			vanitiesDTOList.forEach(x->vanityTextureNames.put(x.getVanityType(), x.getTextureName()));
+		}
+		System.out.println(playerId);
+		HashMap <VanityType, Vanity> vanities = new HashMap<>();
+		vanities.put(VanityType.HAT,hatFactory.create(vanityTextureNames.get(VanityType.HAT)));
+		vanities.put(VanityType.BODY,bodyFactory.create(vanityTextureNames.get(VanityType.BODY)));
+		vanities.put(VanityType.HAIR,hairFactory.create(vanityTextureNames.get(VanityType.HAIR)));
+		vanities.put(VanityType.PANTS,pantsFactory.create(vanityTextureNames.get(VanityType.PANTS)));
+		vanities.put(VanityType.SHOES,shoesFactory.create(vanityTextureNames.get(VanityType.SHOES)));
+		vanities.put(VanityType.SHIRT,shirtFactory.create(vanityTextureNames.get(VanityType.SHIRT)));
+		vanities.put(VanityType.EYES,eyesFactory.create(vanityTextureNames.get(VanityType.EYES)));
+		PlayerSprite player = new PlayerSprite(vanities, playerId); // shoes, pants, hair atlas' as well
+		return player;
+	}
+	public PlayerSprite create(List<VanityDTO> vanitiesDTOList)
+	{
+		HashMap<VanityType, String> vanityTextureNames = new HashMap<>();
+
+		if(vanitiesDTOList != null)
+		{
+			vanitiesDTOList.forEach(x->vanityTextureNames.put(x.getVanityType(), x.getTextureName()));
+		}
+		HashMap <VanityType, Vanity> vanities = new HashMap<>();
+		vanities.put(VanityType.HAT,hatFactory.create(vanityTextureNames.get(VanityType.HAT)));
+		vanities.put(VanityType.BODY,bodyFactory.create(vanityTextureNames.get(VanityType.BODY)));
+		vanities.put(VanityType.HAIR,hairFactory.create(vanityTextureNames.get(VanityType.HAIR)));
+		vanities.put(VanityType.PANTS,pantsFactory.create(vanityTextureNames.get(VanityType.PANTS)));
+		vanities.put(VanityType.SHOES,shoesFactory.create(vanityTextureNames.get(VanityType.SHOES)));
+		vanities.put(VanityType.SHIRT,shirtFactory.create(vanityTextureNames.get(VanityType.SHIRT)));
+		vanities.put(VanityType.EYES,eyesFactory.create(vanityTextureNames.get(VanityType.EYES)));
+		PlayerSprite player = new PlayerSprite(vanities); // shoes, pants, hair atlas' as well
 		return player;
 	}
 }

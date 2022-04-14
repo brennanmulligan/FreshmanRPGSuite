@@ -27,14 +27,14 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 		private Position position;
 		private int questID;
 		private int experiencePointsGained;
-		private int adventuresForFulfillment;
+		private int objectivesForFulfillment;
 		private Date startDate;
 		private Date endDate;
 		private QuestCompletionActionType completionActionType;
 		private QuestCompletionActionParameter completionActionParameter;
 
 		public QuestData(int questID, String questTitle, String questDescription, String mapName, Position position,
-						 int experiencePointsGained, int adventuresForFulfillment,
+						 int experiencePointsGained, int objectivesForFulfillment,
 						 QuestCompletionActionType completionActionType, QuestCompletionActionParameter completionActionParam,
 						 Date startDate, Date endDate)
 		{
@@ -44,16 +44,16 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 			this.position = position;
 			this.questID = questID;
 			this.experiencePointsGained = experiencePointsGained;
-			this.adventuresForFulfillment = adventuresForFulfillment;
+			this.objectivesForFulfillment = objectivesForFulfillment;
 			this.completionActionType = completionActionType;
 			this.completionActionParameter = completionActionParam;
 			this.startDate = startDate;
 			this.endDate = endDate;
 		}
 
-		public int getAdventuresForFulfillment()
+		public int getObjectivesForFulfillment()
 		{
-			return adventuresForFulfillment;
+			return objectivesForFulfillment;
 		}
 
 		public QuestCompletionActionParameter getCompletionActionParameter()
@@ -147,7 +147,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 
 	private Position triggerPosition;
 	private int experiencePointsGained;
-	private int adventuresForFulfillment;
+	private int objectivesForFulfillment;
 	private QuestCompletionActionType completionActionType;
 	private QuestCompletionActionParameter completionActionParameter;
 	private String questTitle;
@@ -175,7 +175,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 			this.triggerPosition = questData.getPosition();
 			this.questID = questID;
 			this.experiencePointsGained = questData.getExperiencePointsGained();
-			this.adventuresForFulfillment = questData.getAdventuresForFulfillment();
+			this.objectivesForFulfillment = questData.getObjectivesForFulfillment();
 			this.completionActionType = questData.getCompletionActionType();
 			this.completionActionParameter = questData.getCompletionActionParameter();
 			this.startDate = questData.getStartDate();
@@ -193,7 +193,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 	 * @param mapName - The map name
 	 * @param position - The Position
 	 * @param experienceGained - The exp gained
-	 * @param adventuresForFullfillment - Adventures to fulfill the quest
+	 * @param objectivesForFullfillment - Objectives to fulfill the quest
 	 * @param completionActionType - How you complete the quest
 	 * @param completionActionParameter - What you need to complete the quest
 	 * @param startDate - Start date
@@ -205,7 +205,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 			String mapName,
 			Position position,
 			int experienceGained,
-			int adventuresForFullfillment,
+			int objectivesForFullfillment,
 			QuestCompletionActionType completionActionType,
 			QuestCompletionActionParameter completionActionParameter,
 			Date startDate,
@@ -224,7 +224,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 		this.triggerMapName = mapName;
 		this.triggerPosition = position;
 		this.experiencePointsGained = experienceGained;
-		this.adventuresForFulfillment = adventuresForFullfillment;
+		this.objectivesForFulfillment = objectivesForFullfillment;
 		this.completionActionType = completionActionType;
 		this.completionActionParameter = completionActionParameter;
 		this.startDate = startDate;
@@ -232,19 +232,19 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 
 		QuestData questData = new QuestData(this.questID, title,
 				description, mapName, position, experienceGained,
-				adventuresForFullfillment, completionActionType,
+				objectivesForFullfillment, completionActionType,
 				completionActionParameter, startDate, endDate);
 
 		questInfo.put(this.questID, questData);
 	}
 
 	/**
-	 * @see datasource.QuestRowDataGateway#getAdventuresForFulfillment()
+	 * @see datasource.QuestRowDataGateway#getObjectivesForFulfillment()
 	 */
 	@Override
-	public int getAdventuresForFulfillment()
+	public int getObjectivesForFulfillment()
 	{
-		return adventuresForFulfillment;
+		return objectivesForFulfillment;
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 		for (QuestsForTest p : QuestsForTest.values())
 		{
 			questInfo.put(p.getQuestID(), new QuestData(p.getQuestID(), p.getQuestTitle(), p.getQuestDescription(),
-					p.getMapName(), p.getPosition(), p.getExperienceGained(), p.getAdventuresForFulfillment(),
+					p.getMapName(), p.getPosition(), p.getExperienceGained(), p.getObjectiveForFulfillment(),
 					p.getCompletionActionType(), p.getCompletionActionParameter(), p.getStartDate(), p.getEndDate()));
 		}
 	}
@@ -361,7 +361,7 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 		QuestData questData = new QuestData(this.questID, this.questTitle,
 				this.questDescription, this.triggerMapName, this.triggerPosition,
 				this.experiencePointsGained,
-				this.adventuresForFulfillment, this.completionActionType,
+				this.objectivesForFulfillment, this.completionActionType,
 				this.completionActionParameter, this.startDate, this.endDate);
 
 		questInfo.put(this.questID, questData);
@@ -408,11 +408,11 @@ public class QuestRowDataGatewayMock implements QuestRowDataGateway
 	}
 
 	/**
-	 * @see datasource.QuestRowDataGateway#setAdventuresForFulfillment(int)
+	 * @see datasource.QuestRowDataGateway#setObjectivesForFulfillment(int)
 	 */
-	public void setAdventuresForFulfillment(int adventuresForFulfillment)
+	public void setObjectivesForFulfillment(int objectivesForFulfillment)
 	{
-		this.adventuresForFulfillment = adventuresForFulfillment;
+		this.objectivesForFulfillment = objectivesForFulfillment;
 	}
 
 	/**

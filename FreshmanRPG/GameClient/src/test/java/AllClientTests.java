@@ -2,7 +2,7 @@ import communication.handlers.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import communication.packers.AdventureNotificationCompletePackerTest;
+import communication.packers.ObjectiveNotificationCompletePackerTest;
 import communication.packers.AreaCollisionMessagePackerTest;
 import communication.packers.ChatMessagePackerTest;
 import communication.packers.KeyInputPackerTest;
@@ -13,8 +13,8 @@ import communication.packers.TeleportationInitiationMessagePackerTest;
 import model.ChatManagerTest;
 import model.ClientPlayerManagerTest;
 import model.ClientPlayerTest;
-import model.CommandAdventureNotificationCompleteTest;
-import model.CommandAdventureStateChangeTest;
+import model.CommandObjectiveNotificationCompleteTest;
+import model.CommandObjectiveStateChangeTest;
 import model.CommandChatMessageReceivedTest;
 import model.CommandChatMessageSentTest;
 import model.CommandClearModelStateTest;
@@ -23,13 +23,13 @@ import model.CommandDisplayTextTest;
 import model.CommandHighScoreResponseTest;
 import model.CommandInitializePlayerTest;
 import model.CommandKeyInputSentTest;
-import model.CommandKnowledgePointsChangedTest;
+import model.CommandDoubloonsChangedTest;
 import model.CommandLoginFailedTest;
 import model.CommandLoginTest;
 import model.CommandNewMapTest;
 import model.CommandOverwriteExperienceTest;
 import model.CommandOverwriteQuestStateTest;
-import model.CommandPrintAdventuresTest;
+import model.CommandPrintObjectivesTest;
 import model.CommandQuestStateChangeTest;
 import model.CommandRecieveTerminalResponseTest;
 import model.CommandRemovePlayerTest;
@@ -37,11 +37,11 @@ import model.CommandSendQuestStateTest;
 import model.CommandUpdateFriendsListTest;
 import model.MapManagerTest;
 import model.ModelFacadeTest;
-import model.PDFAdventureWriterTest;
+import model.PDFObjectiveWriterTest;
 import model.ThisClientsPlayerTest;
-import model.reports.AdventureNotificationCompleteReportTest;
-import model.reports.AdventureStateChangeReportTest;
-import model.reports.AdventuresNeedingNotificationReportTest;
+import model.reports.ObjectiveNotificationCompleteReportTest;
+import model.reports.ObjectiveStateChangeReportTest;
+import model.reports.ObjectiveNeedingNotificationReportTest;
 import model.reports.AreaCollisionReportTest;
 import model.reports.ChangeMapReportTest;
 import model.reports.ChatSentReportTest;
@@ -62,7 +62,7 @@ import view.player.DirectionTest;
 import view.player.PlayerSpriteTest;
 import view.screen.ScreenListenerTest;
 import view.screen.map.ScreenMapInputTest;
-import view.screen.popup.AdventureCompleteBehaviorTest;
+import view.screen.popup.ObjectiveCompleteBehaviorTest;
 
 /**
  * All of the tests for the client code. Notice that the packages, and classes
@@ -77,32 +77,32 @@ import view.screen.popup.AdventureCompleteBehaviorTest;
 @Suite.SuiteClasses(
 {
 		// communication.handlers
-		AdventureStateChangeMessageHandlerTest.class,
-		ReceiveTerminalTextMessageHandlerTest.class,
 		BuffMessageHandlerTest.class,
 		ChatMessageHandlerTest.class,
 		DisplayTextMessageHandlerTest.class,
+		DoubloonsChangedMessageHandlerTest.class,
 		ExperienceChangedMessageHandlerTest.class,
 		HighScoreResponseHandlerTest.class,
 		InitializeThisClientsPlayerMessageHandlerTest.class,
-		KnowledgeChangedMessageHandlerTest.class,
 		LoginFailedMessageHandlerTest.class,
 		MapFileMessageHandlerTest.class,
+		ObjectiveStateChangeMessageHandlerTest.class,
 		OtherPlayerMovedMessageHandlerTest.class,
 		PlayerAppearanceChangeMessageHandlerTest.class,
-		PlayerLeaveMessageHandlerTest.class,
 		PlayerJoinedMessageHandlerTest.class,
-		TimeToLevelUpDeadlineHandlerTest.class,
+		PlayerLeaveMessageHandlerTest.class,
 		QuestStateChangeMessageHandlerTest.class,
+		ReceiveTerminalTextMessageHandlerTest.class,
 		TerminalTextExitHandlerTest.class,
+		TimeToLevelUpDeadlineHandlerTest.class,
 		
 		// communication.packers
-		AdventureNotificationCompletePackerTest.class,
 		AreaCollisionMessagePackerTest.class,
 		ChatMessagePackerTest.class,
 		KeyInputPackerTest.class,
 		LoginMessagePackerTest.class,
 		MovementMessagePackerTest.class,
+		ObjectiveNotificationCompletePackerTest.class,
 		SendTerminalTextPackerTest.class,
 		TeleportationInitiationMessagePackerTest.class,
 
@@ -110,37 +110,34 @@ import view.screen.popup.AdventureCompleteBehaviorTest;
 		ChatManagerTest.class,
 		ClientPlayerManagerTest.class,
 		ClientPlayerTest.class,
-		CommandAdventureNotificationCompleteTest.class,
-		CommandAdventureStateChangeTest.class,
 		CommandChatMessageReceivedTest.class,
 		CommandChatMessageSentTest.class,
 		CommandClearModelStateTest.class,
 		CommandClientMovePlayerTest.class,
+		CommandDisplayTextTest.class,
+		CommandDoubloonsChangedTest.class,
 		CommandHighScoreResponseTest.class,
 		CommandInitializePlayerTest.class,
 		CommandKeyInputSentTest.class,
-		CommandKnowledgePointsChangedTest.class,
 		CommandLoginFailedTest.class,
 		CommandLoginTest.class,
 		CommandNewMapTest.class,
+		CommandObjectiveNotificationCompleteTest.class,
+		CommandObjectiveStateChangeTest.class,
 		CommandOverwriteExperienceTest.class,
 		CommandOverwriteQuestStateTest.class,
-		CommandPrintAdventuresTest.class,
-		CommandRecieveTerminalResponseTest.class,
+		CommandPrintObjectivesTest.class,
 		CommandQuestStateChangeTest.class,
+		CommandRecieveTerminalResponseTest.class,
 		CommandRemovePlayerTest.class,
 		CommandSendQuestStateTest.class,
 		CommandUpdateFriendsListTest.class,
-		CommandDisplayTextTest.class,
 		MapManagerTest.class,
 		ModelFacadeTest.class,
-		PDFAdventureWriterTest.class,
+		PDFObjectiveWriterTest.class,
 		ThisClientsPlayerTest.class,
 
 		// model.reports
-		AdventureNotificationCompleteReportTest.class,
-		AdventuresNeedingNotificationReportTest.class,
-		AdventureStateChangeReportTest.class,
 		AreaCollisionReportTest.class,
 		ChangeMapReportTest.class,
 		ChatSentReportTest.class,
@@ -151,12 +148,15 @@ import view.screen.popup.AdventureCompleteBehaviorTest;
 		LoginFailedReportTest.class,
 		LoginInitiatedReportTest.class,
 		NewMapReportTest.class,
-		SendTerminalTextReportTest.class,
+		ObjectiveNeedingNotificationReportTest.class,
+		ObjectiveNotificationCompleteReportTest.class,
+		ObjectiveStateChangeReportTest.class,
 		PlayerMovedReportTest.class,
 		QuestStateChangeReportTest.class,
 		QuestStateReportTest.class,
-		TimeToLevelUpDeadlineTest.class,
+		SendTerminalTextReportTest.class,
 		TerminalResponseReportTest.class,
+		TimeToLevelUpDeadlineTest.class,
 
 		// view.player
 		DirectionTest.class,
@@ -169,7 +169,7 @@ import view.screen.popup.AdventureCompleteBehaviorTest;
 		ScreenMapInputTest.class,
 
 		//view.screen.popup
-		AdventureCompleteBehaviorTest.class,
+		ObjectiveCompleteBehaviorTest.class,
 
 })
 /**

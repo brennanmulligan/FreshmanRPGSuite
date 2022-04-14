@@ -1,7 +1,10 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import dataDTO.VanityDTO;
+import datatypes.VanityType;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -12,6 +15,11 @@ import datatypes.Position;
 import model.reports.ChangePlayerAppearanceReport;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
+import view.player.Vanity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Tests the player class
@@ -39,18 +47,19 @@ public class ClientPlayerTest
 	public void testSettersGetters()
 	{
 		ClientPlayer p = new ClientPlayer(1);
+		VanityDTO vanityDTO = new VanityDTO();
+		List<VanityDTO> vanityDTOS = new ArrayList<>();
+		vanityDTOS.add(vanityDTO);
+
 		p.setName("name");
-		p.setAppearanceTypeNoReport("type");
+		p.setVanityReport(vanityDTOS);
 		p.setCrew(Crew.NULL_POINTER);
 		p.setMajor(Major.ELECTRICAL_ENGINEERING);
 
 		assertEquals("name", p.getName());
-		assertEquals("type", p.getAppearanceType());
+		assertEquals(vanityDTOS, p.getVanities());
 		assertEquals(Crew.NULL_POINTER, p.getCrew());
 		assertEquals(Major.ELECTRICAL_ENGINEERING, p.getMajor());
-
-		p.setAppearanceTypeReport("type2");
-		assertEquals( "type2", p.getAppearanceType() );
 	}
 
 	/**
@@ -60,21 +69,29 @@ public class ClientPlayerTest
 	@Test
 	public void testAppearanceReportIsGenerated()
 	{
+		VanityDTO vanityDTO = new VanityDTO();
+		List<VanityDTO> vanityDTOS = new ArrayList<>();
+		vanityDTOS.add(vanityDTO);
+
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-		obs.receiveReport(new ChangePlayerAppearanceReport(1,"Nothing"));
+		obs.receiveReport(new ChangePlayerAppearanceReport(4,vanityDTOS));
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChangePlayerAppearanceReport.class);
 		EasyMock.replay(obs);
 
-		ClientPlayer p = new ClientPlayer(1);
-		p.setAppearanceTypeReport("Nothing");
+		ClientPlayer p = new ClientPlayer(4);
+		p.setVanityReport(vanityDTOS);
 		EasyMock.verify(obs);
 
 		obs = EasyMock.createMock(QualifiedObserver.class);
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChangePlayerAppearanceReport.class);
 		EasyMock.replay(obs);
 
-		p = new ClientPlayer(1);
-		p.setAppearanceTypeNoReport("Nothing2");
+		VanityDTO vanityDTO2 = new VanityDTO(0, "Hat", "", "", VanityType.BODY);
+		List<VanityDTO> vanityDTOS2 = new ArrayList<>();
+		vanityDTOS.add(vanityDTO);
+
+		p = new ClientPlayer(4);
+		p.setVanityNoReport(vanityDTOS2);
 		EasyMock.verify(obs);
 	}
 

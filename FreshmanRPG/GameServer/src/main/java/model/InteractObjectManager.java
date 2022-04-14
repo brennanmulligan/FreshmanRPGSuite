@@ -11,7 +11,6 @@ import criteria.InteractableItemActionParameter;
 import criteria.QuestListCompletionParameter;
 import dataDTO.InteractableItemDTO;
 import dataENUM.InteractableItemActionType;
-import dataENUM.QuestCompletionActionType;
 import datasource.DatabaseException;
 import datasource.InteractableItemRowDataGateway;
 import datasource.InteractableItemRowDataGatewayMock;
@@ -20,7 +19,6 @@ import datasource.InteractableItemTableDataGateway;
 import datasource.InteractableItemTableDataGatewayMock;
 import datasource.InteractableItemTableDataGatewayRDS;
 import datatypes.Position;
-import datatypes.QuestStateEnum;
 import model.reports.InteractableObjectBuffReport;
 import model.reports.InteractableObjectTextReport;
 import model.reports.InteractionDeniedReport;
@@ -203,7 +201,7 @@ public class InteractObjectManager implements QualifiedObserver
 								{
 									QuestManager.getSingleton().triggerQuest(playerId, questID);
 								}
-								catch (IllegalQuestChangeException | IllegalAdventureChangeException e)
+								catch (IllegalQuestChangeException | IllegalObjectiveChangeException e)
 								{
 									return false;
 								}
