@@ -24,6 +24,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+/**
+ * @author Joshua, Ktyal, Ryan and John
+ * Behavior class for NPCS that roam or have smart dialogue or both!
+ */
 public class RoamingInfoNPCBehavior extends NPCBehavior
 {
     List<List<String>> parsedDialogueXML;
@@ -42,8 +46,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     public RoamingInfoNPCBehavior(int playerId)
     {
         super(playerId);
-//        setUpListening();
-        System.out.println(this.playerID + " has been made");
         parsedDialogueXML = new ArrayList<List<String>>();
         parsedPathXML = new ArrayList<NPCPath>();
         currentTarget = "start";
@@ -51,17 +53,15 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             NPCRowDataGatewayRDS gateway = new NPCRowDataGatewayRDS(playerId);
             filePath = gateway.getFilePath();
-
-
         }
         catch (DatabaseException e)
         {
             e.printStackTrace();
         }
         parseFileInfo();
+        //If the NPC has no dialogue defined then it does not have to listen for anything
         if(!parsedDialogueXML.isEmpty())
         {
-            System.out.println(this.playerID + " is Listening");
             setUpListening();
         }
     }
@@ -95,7 +95,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
         }
 
-
+    /**
+     * Get report types that this class listens for
+      * @return
+     */
     @Override
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
     {
@@ -104,22 +107,29 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         return reportTypes;
     }
 
+    /**
+     * When this NPC receives a report, if it recognizes something
+     * it will respond to the player from the dialogue tree
+     * @param incomingReport
+     */
     @Override
     public void receiveReport(QualifiedObservableReport incomingReport)
     {
-        System.out.println(this.playerID + " received a report");
+        //If this NPC has no dialogue, go no further
         if(!parsedDialogueXML.isEmpty())
         {
             if (incomingReport instanceof ChatMessageReceivedReport)
             {
                 ChatMessageReceivedReport report = (ChatMessageReceivedReport) incomingReport;
                 Player player = PlayerManager.getSingleton().getPlayerFromID(report.getSenderID());
+                //Make sure NPC is not talking to themselves
                 if (player.getPlayerID() != this.playerID)
                 {
+                    //Make the players message soemthing we can read easier
                     String input = report.getChatText().toLowerCase().replaceAll(" ", "");
-                    System.out.println(input + " " + this.playerID);
                     for (List<String> node : parsedDialogueXML)
                     {
+                        //Gets the important info from the parsedDialogueXML
                         String id = node.get(0);
                         String pattern = node.get(1);
                         String responses = node.get(2);
@@ -131,6 +141,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
                         if (nodeId.equals(currentTarget))
                         {
+                            //If the players message matches a pattern were looking for send them the appropriate message
                             if (Pattern.matches(pattern, input) || (Pattern.matches(pattern, "")))
                             {
                                 ChatManager.getSingleton()
@@ -138,13 +149,9 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                                                         .getPlayerFromID(playerID)
                                                         .getPlayerPosition(),
                                                 ChatType.Local);
-
+                                //Set current target to the target specified in the XML, so we can navigate the tree
                                 currentTarget = target;
                                 break;
-                            }
-                            else
-                            {
-                                System.out.println("Sorry I didnt understand that, try again you dumb");
                             }
                         }
                     }
@@ -153,6 +160,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         }
     }
 
+    /**
+     * Parses the Roaming and Dialogue info from the
+     * XML and stores it locally
+     */
     public void parseFileInfo()
     {
         parseDialogueXML(filePath);
