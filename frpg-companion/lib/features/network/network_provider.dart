@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/manager/network_manager.dart';
+import 'package:frpg_networking_api/networking/service_client/implementations/service_client_http.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 ///
@@ -10,9 +11,9 @@ class NetworkProvider {
   /// Manage the network controller.
   ///
   static final networkController =
-      StateNotifierProvider<NetworkController, NetworkState>(
+      StateNotifierProvider<NetworkManager, NetworkManagerState>(
     (ref) {
-      return NetworkController();
+      return NetworkManager();
     },
   );
 

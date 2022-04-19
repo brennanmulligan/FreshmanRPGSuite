@@ -4,6 +4,8 @@ void main() {
   runApp(const MyApp());
 }
 
+// TODO: Update iOS and Android builds to use proper versions for Geolocator. Add location support.
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

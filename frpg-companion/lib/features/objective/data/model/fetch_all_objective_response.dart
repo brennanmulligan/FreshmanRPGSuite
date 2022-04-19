@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 
 class FetchAllObjectiveResponse extends Equatable {
   final List<ObjectiveInformation> information;

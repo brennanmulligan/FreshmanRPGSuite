@@ -62,6 +62,6 @@ Future<void> initialize({
   await dotenv.load(
     fileName: '.env',
   );
-  container.read(NetworkProvider.networkController.notifier).assignBaseURL();
+  container.read(NetworkProvider.networkController.notifier).setBaseURL();
   container.refresh(NetworkProvider.serviceClient);
 }

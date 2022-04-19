@@ -1,7 +1,8 @@
 import 'dart:convert';
-
-import 'service_client.dart';
 import 'package:http/http.dart' as http;
+
+import '../service_client.dart';
+import '../type_definitions/type_definitions.dart';
 
 ///
 /// Implementation of service client using HTTP.
