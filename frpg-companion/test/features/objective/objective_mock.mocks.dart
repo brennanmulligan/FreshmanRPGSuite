@@ -2,10 +2,12 @@
 // in frpg_companion/test/features/objective/objective_mock.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:frpg_companion/features/network/network.dart' as _i2;
 import 'package:frpg_companion/features/objective/data/data.dart' as _i3;
+import 'package:frpg_networking_api/networking/result/result.dart' as _i4;
+import 'package:frpg_networking_api/networking/service_client/service_client.dart'
+    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -32,7 +34,7 @@ class _FakeCompleteObjectiveDatasource_3 extends _i1.Fake
 class _FakeFetchAllObjectiveDatasource_4 extends _i1.Fake
     implements _i3.FetchAllObjectiveDatasource {}
 
-class _FakeResult_5<T> extends _i1.Fake implements _i2.Result<T> {}
+class _FakeResult_5<T> extends _i1.Fake implements _i4.Result<T> {}
 
 /// A class which mocks [ServiceClient].
 ///
@@ -47,15 +49,15 @@ class MockServiceClient extends _i1.Mock implements _i2.ServiceClient {
       (super.noSuchMethod(Invocation.getter(#baseURL), returnValue: '')
           as String);
   @override
-  _i4.Future<Map<String, dynamic>> get(
+  _i5.Future<Map<String, dynamic>> get(
           {String? endpoint, Map<String, String>? headers}) =>
       (super.noSuchMethod(
           Invocation.method(#get, [], {#endpoint: endpoint, #headers: headers}),
           returnValue:
-              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i4
+              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i5
           .Future<Map<String, dynamic>>);
   @override
-  _i4.Future<Map<String, dynamic>> post(
+  _i5.Future<Map<String, dynamic>> post(
           {String? endpoint,
           Map<String, String>? headers,
           Map<String, dynamic>? body}) =>
@@ -63,7 +65,7 @@ class MockServiceClient extends _i1.Mock implements _i2.ServiceClient {
           Invocation.method(
               #post, [], {#endpoint: endpoint, #headers: headers, #body: body}),
           returnValue:
-              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i4
+              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i5
           .Future<Map<String, dynamic>>);
 }
 
@@ -80,13 +82,13 @@ class MockFetchAllObjectiveDatasource extends _i1.Mock
   _i2.ServiceClient get sc => (super.noSuchMethod(Invocation.getter(#sc),
       returnValue: _FakeServiceClient_0()) as _i2.ServiceClient);
   @override
-  _i4.Future<_i3.FetchAllObjectiveResponse> fetchAllObjective(
+  _i5.Future<_i3.FetchAllObjectiveResponse> fetchAllObjective(
           {_i3.FetchAllObjectiveRequest? request}) =>
       (super.noSuchMethod(
               Invocation.method(#fetchAllObjective, [], {#request: request}),
               returnValue: Future<_i3.FetchAllObjectiveResponse>.value(
                   _FakeFetchAllObjectiveResponse_1()))
-          as _i4.Future<_i3.FetchAllObjectiveResponse>);
+          as _i5.Future<_i3.FetchAllObjectiveResponse>);
 }
 
 /// A class which mocks [CompleteObjectiveDatasource].
@@ -102,13 +104,13 @@ class MockCompleteObjectiveDatasource extends _i1.Mock
   _i2.ServiceClient get sc => (super.noSuchMethod(Invocation.getter(#sc),
       returnValue: _FakeServiceClient_0()) as _i2.ServiceClient);
   @override
-  _i4.Future<_i3.CompleteObjectiveResponse> completeObjective(
+  _i5.Future<_i3.CompleteObjectiveResponse> completeObjective(
           {_i3.CompleteObjectiveRequest? request}) =>
       (super.noSuchMethod(
               Invocation.method(#completeObjective, [], {#request: request}),
               returnValue: Future<_i3.CompleteObjectiveResponse>.value(
                   _FakeCompleteObjectiveResponse_2()))
-          as _i4.Future<_i3.CompleteObjectiveResponse>);
+          as _i5.Future<_i3.CompleteObjectiveResponse>);
 }
 
 /// A class which mocks [ObjectiveRepository].
@@ -131,19 +133,19 @@ class MockObjectiveRepository extends _i1.Mock
               returnValue: _FakeFetchAllObjectiveDatasource_4())
           as _i3.FetchAllObjectiveDatasource);
   @override
-  _i4.Future<_i2.Result<_i3.CompleteObjectiveResponse>> completeObjective(
+  _i5.Future<_i4.Result<_i3.CompleteObjectiveResponse>> completeObjective(
           {_i3.CompleteObjectiveRequest? request}) =>
       (super.noSuchMethod(
           Invocation.method(#completeObjective, [], {#request: request}),
-          returnValue: Future<_i2.Result<_i3.CompleteObjectiveResponse>>.value(
-              _FakeResult_5<_i3.CompleteObjectiveResponse>())) as _i4
-          .Future<_i2.Result<_i3.CompleteObjectiveResponse>>);
+          returnValue: Future<_i4.Result<_i3.CompleteObjectiveResponse>>.value(
+              _FakeResult_5<_i3.CompleteObjectiveResponse>())) as _i5
+          .Future<_i4.Result<_i3.CompleteObjectiveResponse>>);
   @override
-  _i4.Future<_i2.Result<_i3.FetchAllObjectiveResponse>> fetchAllObjectives(
+  _i5.Future<_i4.Result<_i3.FetchAllObjectiveResponse>> fetchAllObjectives(
           {_i3.FetchAllObjectiveRequest? request}) =>
       (super.noSuchMethod(
           Invocation.method(#fetchAllObjectives, [], {#request: request}),
-          returnValue: Future<_i2.Result<_i3.FetchAllObjectiveResponse>>.value(
-              _FakeResult_5<_i3.FetchAllObjectiveResponse>())) as _i4
-          .Future<_i2.Result<_i3.FetchAllObjectiveResponse>>);
+          returnValue: Future<_i4.Result<_i3.FetchAllObjectiveResponse>>.value(
+              _FakeResult_5<_i3.FetchAllObjectiveResponse>())) as _i5
+          .Future<_i4.Result<_i3.FetchAllObjectiveResponse>>);
 }

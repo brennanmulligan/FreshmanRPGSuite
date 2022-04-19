@@ -1,7 +1,5 @@
-
-
 import 'package:equatable/equatable.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 
 ///
 /// Object to request for logging in with credentials.
@@ -13,10 +11,8 @@ class LoginWithCredentialsRequest extends Equatable {
   ///
   /// Constructor
   ///
-  const LoginWithCredentialsRequest({
-    required this.username,
-    required this.password
-  });
+  const LoginWithCredentialsRequest(
+      {required this.username, required this.password});
 
   ///
   /// Converting object to string
@@ -24,22 +20,17 @@ class LoginWithCredentialsRequest extends Equatable {
   @override
   String toString() {
     return 'LoginWithCredentialsRequest(username: $username, '
-           'password: $password)';
+        'password: $password)';
   }
 
   ///
   /// Get properties for comparison
   ///
   @override
-  List<Object?> get props => [
-    username, password
-  ];
+  List<Object?> get props => [username, password];
 
   ///
   /// Convert object to JSON.
   ///
-  JSON get asJson => {
-    'username': username,
-    'password': password
-  };
+  JSON get asJson => {'username': username, 'password': password};
 }

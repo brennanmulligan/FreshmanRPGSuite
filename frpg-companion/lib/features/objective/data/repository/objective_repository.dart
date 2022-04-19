@@ -1,5 +1,5 @@
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 
 ///
 /// Template for an objective repository.
@@ -12,7 +12,8 @@ abstract class ObjectiveRepository {
   /// Constructor.
   ///
   const ObjectiveRepository({
-    required this.completeObjectiveDatasource, required this.fetchAllObjectiveDatasource,
+    required this.completeObjectiveDatasource,
+    required this.fetchAllObjectiveDatasource,
   });
 
   ///

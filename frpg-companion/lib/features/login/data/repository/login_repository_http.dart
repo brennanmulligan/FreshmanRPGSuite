@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:frpg_companion/features/login/data/data.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/failure/implementations/http_failure.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 
 ///
 /// Login repository implementation using HTTP.

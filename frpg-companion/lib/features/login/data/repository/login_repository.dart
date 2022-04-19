@@ -1,5 +1,5 @@
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/login/data/data.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 
 ///
 /// Template for an login repository.

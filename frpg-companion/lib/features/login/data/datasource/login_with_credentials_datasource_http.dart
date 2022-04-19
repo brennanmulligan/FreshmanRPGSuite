@@ -1,10 +1,11 @@
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/login/data/data.dart';
+import 'package:frpg_networking_api/networking/service_client/service_client.dart';
 
 ///
 /// HTTP implementation of `LoginWithCredentialsDatasource`.
 ///
-class LoginWithCredentialsDatasourceHTTP extends LoginWithCredentialsDatasource {
+class LoginWithCredentialsDatasourceHTTP
+    extends LoginWithCredentialsDatasource {
   ///
   /// Constructor.
   ///

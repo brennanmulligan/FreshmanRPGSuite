@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  frpg_networking_api:
+    path: ../frpg_networking_api
 
 
   # The following adds the Cupertino Icons font to your application.
