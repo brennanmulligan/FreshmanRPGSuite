@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frpg_companion/features/login/presentation/view/login_view.dart';
 import 'package:frpg_companion/features/network/network.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 ///
 /// Data for light theme.
@@ -59,9 +59,7 @@ Future<void> initialize({
   /// refresh.
   ///
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(
-    fileName: '.env',
-  );
+  await dotenv.load(fileName: '.env');
   container.read(NetworkProvider.networkController.notifier).setBaseURL();
   container.refresh(NetworkProvider.serviceClient);
 }

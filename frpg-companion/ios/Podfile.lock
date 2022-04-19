@@ -4,14 +4,11 @@ PODS:
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
-  - permission_handler_apple (9.0.4):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
-  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -20,15 +17,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
-  permission_handler_apple:
-    :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
 
-PODFILE CHECKSUM: 44060a700414ac2ceaba2cf540f4019e6b665587
+PODFILE CHECKSUM: f10c0438b63bc24e6bbc207956dc27d16c4408f2
 
 COCOAPODS: 1.11.2
