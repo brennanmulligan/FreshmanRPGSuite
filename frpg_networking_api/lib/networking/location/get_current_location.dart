@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:frpg_networking_api/networking/result/exports.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 import 'package:frpg_networking_api/networking/failure/implementations/location_access_failure.dart';
 import 'package:geolocator/geolocator.dart';
 

@@ -100,7 +100,8 @@ class __$NetworkManagerStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_NetworkManagerState extends _NetworkManagerState {
+class _$_NetworkManagerState extends _NetworkManagerState
+    with DiagnosticableTreeMixin {
   const _$_NetworkManagerState({this.baseURL = 'localhost:8080'}) : super._();
 
   @JsonKey()
@@ -108,8 +109,16 @@ class _$_NetworkManagerState extends _NetworkManagerState {
   final dynamic baseURL;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NetworkManagerState(baseURL: $baseURL)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NetworkManagerState'))
+      ..add(DiagnosticsProperty('baseURL', baseURL));
   }
 
   @override
