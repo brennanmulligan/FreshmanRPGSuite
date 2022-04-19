@@ -5,19 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Companion App (debug)",
+      "name": "Game Manager (debug)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug"
     },
     {
-      "name": "Companion App (profile)",
+      "name": "Game Manager (profile)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
     },
     {
-      "name": "Companion App (release)",
+      "name": "Game Manager (release)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

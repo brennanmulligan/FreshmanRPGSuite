@@ -1,1 +1,1 @@
-library restful_api;
+library frpg_networking_api;
