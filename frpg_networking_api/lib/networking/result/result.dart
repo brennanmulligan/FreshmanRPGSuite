@@ -3,21 +3,6 @@ import '../failure/failure.dart';
 part 'result.freezed.dart';
 
 ///
-/// Extension on `Result`.
-///
-extension ResultExtension on _$Result {
-  ///
-  /// Check if `Result` is an instance of `ResultData`.
-  ///
-  bool get isData => this is ResultData;
-
-  ///
-  /// Check if `Result` is an instance of `ResultFailure`.
-  ///
-  bool get isFailure => this is ResultFailure;
-}
-
-///
 /// Wrapper for `Future` responses. Used to prevent crashes caused
 /// by runtime exceptions. Result can either be an instance of ResultData
 /// or ResultFailure. If an exception is thrown, then `Result` is an

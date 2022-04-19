@@ -37,25 +37,20 @@ class NetworkManager extends StateNotifier<NetworkManagerState> {
   ///
   void setBaseURL() {
     String baseURL;
+    debugPrint('--- BEGIN base URL Dump ---');
     if (kDebugMode) {
+      debugPrint('Mode: debug');
       if (Platform.isAndroid) {
         baseURL = dotenv.get('API_DEBUG_ANDROID');
       } else {
         baseURL = dotenv.get('API_DEBUG_IOS');
       }
     } else if (kProfileMode) {
+      debugPrint('Mode: profile');
       baseURL = dotenv.get('API_PROFILE');
     } else {
-      baseURL = dotenv.get('API_RELEASE');
-    }
-
-    debugPrint('--- BEGIN base URL Dump ---');
-    if (kDebugMode) {
-      debugPrint('Mode: debug');
-    } else if (kProfileMode) {
-      debugPrint('Mode: profile');
-    } else {
       debugPrint('Mode: release');
+      baseURL = dotenv.get('API_RELEASE');
     }
     debugPrint('baseURL: $baseURL');
     debugPrint('--- END base URL Dump ---');

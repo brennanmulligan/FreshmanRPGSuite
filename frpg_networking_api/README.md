@@ -11,12 +11,18 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+# FRPG Networking API
+
+This package is a collection of external networking tools shared between multiple projects in the FreshmanRPG suite.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This package has support for the following features:
+
+- RESTFUL API calls
+- Location Services
+- Result / Failure Runtime Safety Net
+- Setting server endpoints at runtime
 
 ## Getting started
 

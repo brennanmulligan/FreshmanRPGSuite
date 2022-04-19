@@ -1,6 +1,6 @@
 name: frpg_networking_api
 description: Shared networking API for the FreshmanRPG suite.
-version: 0.0.1
+version: 1.0.0
 homepage:
 
 environment:
