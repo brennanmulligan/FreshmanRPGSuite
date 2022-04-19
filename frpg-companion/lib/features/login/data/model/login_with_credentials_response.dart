@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 
 ///
 /// Object to response for completing login.
 ///
 class LoginWithCredentialsResponse extends Equatable {
   final num playerID;
+
   ///
   /// Constructor.
   ///

@@ -5,19 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "frpg_companion (debug mode)",
+      "name": "Companion App (debug)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug"
     },
     {
-      "name": "frpg_companion (profile mode)",
+      "name": "Companion App (profile)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
     },
     {
-      "name": "frpg_companion (release mode)",
+      "name": "Companion App (release)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

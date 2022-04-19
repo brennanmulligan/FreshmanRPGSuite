@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frpg_companion/features/login/login_provider.dart';
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../objective/objective.dart';

@@ -1,5 +1,5 @@
-import 'package:frpg_companion/features/network/result/result.dart';
 import 'package:frpg_companion/features/login/login.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

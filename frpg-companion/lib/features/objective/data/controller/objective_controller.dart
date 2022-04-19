@@ -1,13 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:frpg_companion/features/network/location/location_service.dart';
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
-import 'package:geolocator/geolocator.dart';
 part 'objective_controller.freezed.dart';
 
 ///

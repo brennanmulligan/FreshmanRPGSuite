@@ -1,12 +1,4 @@
-///
-/// Alias `Map<String, dynamic>` as `JSON`.
-///
-typedef JSON = Map<String, dynamic>;
-
-///
-/// Alias `Map<String, String>` as `HEADER`.
-///
-typedef HEADER = Map<String, String>;
+import 'type_definitions/type_definitions.dart';
 
 ///
 /// Template for a service client.

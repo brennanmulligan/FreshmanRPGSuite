@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'failure.dart';
+import '../failure/failure.dart';
 part 'result.freezed.dart';
 
 ///
@@ -24,19 +24,4 @@ class Result<T> with _$Result<T> {
   factory Result.failure({
     required Failure failure,
   }) = ResultFailure;
-}
-
-///
-/// Extension on `Result`.
-///
-extension ResultExtension on Result {
-  ///
-  /// Check if `Result` is an instance of `ResultData`.
-  ///
-  bool get isData => this is ResultData;
-
-  ///
-  /// Check if `Result` is an instance of `ResultFailure`.
-  ///
-  bool get isFailure => this is ResultFailure;
 }

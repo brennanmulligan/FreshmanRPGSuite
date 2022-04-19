@@ -1,5 +1,5 @@
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
+import 'package:frpg_networking_api/networking/service_client/service_client.dart';
 
 ///
 /// Template for completing an objective.
