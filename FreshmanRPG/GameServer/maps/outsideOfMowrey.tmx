@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="105" nextobjectid="1">
+ <properties>
+  <property name="0 96" value="quad.tmx 112 26"/>
+  <property name="0 97" value="quad.tmx 112 26"/>
+  <property name="0 98" value="quad.tmx 112 26"/>
+  <property name="0 99" value="quad.tmx 112 26"/>
+  <property name="24 28" value="recCenter.tmx 4 21"/>
+  <property name="25 28" value="recCenter.tmx 4 21"/>
+  <property name="26 28" value="recCenter.tmx 4 21"/>
+  <property name="72 14" value="mowrey.tmx 29 39"/>
+  <property name="73 14" value="mowrey.tmx 29 39"/>
+ </properties>
+ <tileset firstgid="1" source="tileset/tileset file/Inq XP MT- Medieval Town.tsx"/>
+ <tileset firstgid="4177" source="tileset/tileset file/collision.tsx"/>
+ <group id="97" name="background" visible="0">
+  <properties>
+   <property name="0 96" value="quad.tmx 112 26"/>
+   <property name="0 97" value="quad.tmx 112 26"/>
+   <property name="0 98" value="quad.tmx 112 26"/>
+   <property name="0 99" value="quad.tmx 112 26"/>
+   <property name="72 14" value="mowrey.tmx 29 39"/>
+   <property name="73 14" value="mowrey.tmx 29 39"/>
+  </properties>
+  <group id="2" name="Ground">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <layer id="3" name="Grass" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt0kENAAAMhDDOv+kl09EHBkhXTR4wwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMPAGDl9DJxE=
+  </data>
+   </layer>
+   <layer id="4" name="Main Path" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHtmsFuGzEMBdMe27/t/x8aoniAoZCNNqSWdDwCBCKsRHFnrBhx/fb2/OPn+yP8XqblGD0E8NHDPToVHxGZnjw+erhHp+IjItOTx0cP9+hUfERkevL46OEenYqPiExPHh893KNT8RGR6cnjo4d7dCo+IjI9eXz0cI9O9Xz8+RWtJn+aQOTD8tmpz/GtDmOPgOdDHKsiPvZc2Ko7fOx3w0rPh71/ZCdkv0Yg8vG1auzKEsBHlmDtfnzU8sxWw0eWYO1+fNTyzFbzfFiO0UMAHz3co1PxEZHpyeNjj7txWufezmur8LHHa+VkP58Y6zn2GeKps070f1fNldMpRus5+PANr5zw4XO6K4uPu0jvnXOHj/UM/f/Tqbu49+QzV3msKjl59fERvxYiXpavmGLvRavP+EggcuIxrMzh46MLZU46sdpefXyIvh89Ztn7IOZebf2b3w1ZI2CMKqeo4kMkZkR8zPCgLvAhEjMiPmZ4UBf4EIkZER8zPKgLfIjEjIiPGR7UBT5EYkbExwwP6gIfIjEj4mOGB3WBD5GYEfExw4O6wIdIzIj4mOFBXeBDJGZEfMzwoC7wIRIzIj5meFAX+BCJGREfMzyoC3yIxIyIjxke1AU+RGJGxMcMD+riig9vrX1v1fKMGgIe44ivt3aSD+vvO8z1u9n/e6Z17TQfXn+vljN/E4b18WrsvefFx6zXwSQf1svufHxt7e55lnUTfl9d6cG4rj6u7GdtLQF81PLMVsNHlmDtfnzU8sxWw0eWYO1+fNTyzFbDR5Zg7X581PLMVsNHlmDtfnzU8sxWw0eWYM3+H+9lbOKjhme2ilzgI0syt//xXqwu7HNFyzHOE5CH6F7IBT7Ou9AJuBCJ3qi7Ya/96HcU9+I+R9yL+1h/dtKOC1vDOE8AF+cZXznhs/cL7sUVmrm1X3GBnxzzaPeOC2PvzajmM+T13F7s7N/6efwOz+Pfel6v3ym3PreevdPH2pN4r/lX+dmev3O8Cufd55ziQ/eC2Hk7/r13yEFvJ5xuBP4CBWM0bg==
+  </data>
+   </layer>
+   <layer id="73" name="Table area pathway" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt1jEKwCAQBEBTpMz/vxslbfC6Y8ERrrJQZ/F0DIMAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgcIbAPY+ZVmfI/59yZfEE1drPyUMeWenLQx67/qhfeT+Sboh+lZTG99fd9Y/uOf1Kv0q6IfpVUhr6VVYa8pDH/r3ynu99/K96b5D3vNe7Wk0elVDvvDx6vavV5FEJ9c6vPNKqVyBrtWtuJ62yhOyGAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAIE0gRfwtCB5
+  </data>
+   </layer>
+  </group>
+  <group id="5" name="Rec Center">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <group id="10" name="Front">
+    <layer id="12" name="Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0DtOAzEUhtFhyUAVqICKUAFVoAK2BAkFEIq8Cl5L4F9AIlvCNNYZ6Wvm6lr2GQYfAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQI9C+zvDcNBocMd89rdnv1av20U66NCxzvmtbut79zzeSexPi10lvljekrTNEvPqXa3Z7/WbzuP67jQReYv6TW9pXl6T7W7re/c83mXcb0qdJ35Ii3TKq3TJtXu9uzX+m2TuN4Uus38I32mr/SdflLtbus793zeXVzvCz1kvu37y+628/wjQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAgf8R+AWv0WJn
+  </data>
+    </layer>
+    <layer id="19" name="Back Pillars" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1bENAjEQRUFTDmSQcf0XxpVA8l80li7ddxqv5HMcAgQIECBAgAABAgQIECBAgAABAgQIECBAoBZ4Ps553d/yFI3l/5ez3/ddfMb3UTRKs2Wr2N2isTQqZxe7WzRKs2Wr2N2isTQqZxe7WzRKs2Xre7/l1/g9LxpLI7MJECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgT+F/gBMN8FRw==
+  </data>
+    </layer>
+    <layer id="13" name="Front Decorations" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0bEJACAMBMCAziDuv5iOoiK2VoLNfRMCKcJ9hBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQI3gZojetoXbc4yd/kncLo4H6xOhAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgMBLgQHu9QPB
+  </data>
+    </layer>
+    <layer id="15" name="Bottom of Roof" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0bENwDAMA7Ac0P/vbbN30CJNNJDNkAPqHEOAAAECBAgQIECAAAECBAgQIECAAAECBAgQIPB8BO1HORdod3HzTS6gj9xqsamPhXJ+Qx+51WJTHwvl/IY+cqvF5u2jOe385t9lEyBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACBP4EXGKkITQ==
+  </data>
+    </layer>
+    <layer id="14" name="Front Pillars" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1TEOwjAQAEHnOaGDLnTw/0fhJ6S5LdBYSnsbjU/yWg4BAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAv8qcB5rPfY3eYrG5P+Xs5/7Ll7D91E0SrPJVrG7RWPSqJxd7G7RKM0mW8XuFo1Jo3J2sbtFozSbbF37LX8Pv+dFY9KonP3Zd/Edvo+iUZppESBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBwT+AHhnAGUQ==
+  </data>
+    </layer>
+   </group>
+   <group id="9" name="Roof">
+    <layer id="21" name="Inside of Back Tower Caps" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0MENACAIA8Ayke4/nToEfLwm/RZyiRAgQIAAAQIECBAgQIAAAQIECBAgQIDADwKrkn3bmYkbnf/bJkCAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwBM4KyoAww==
+  </data>
+    </layer>
+    <layer id="20" name="Roof Back Tower Caps" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0bENwDAIBEA8edI5XTxyWOJJc0i0PLqvMgQIECBAgAABAgQIECBAgAABAgQIEMgIXKvq7k3OREby/8nbu7t4wn1MZEyaJbPe7uKE+5jISBq5TYAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQOAvgQ+0xwZn
+  </data>
+    </layer>
+    <layer id="16" name="Roof Rails" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1sEJgDAMBdA4ojqBeOv+A6gb9BL8ygvkVkL6PoVWKQIECBAgQIAAAQIECBAgQIAAAQIECBAgQOANgXWp2hp7v2ereYGj2etsnj9/02+clEdWTvKQR5ZA1jbehzyyBLK2ed7HaGz/q6y8bUOAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBP4mcAGTDRcj
+  </data>
+    </layer>
+    <layer id="18" name="Inside of Tower Caps" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0MENACAIA8Ayke4/nQ4hxMc16beQS4QAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIDAO4FVyb7tzMSNzv9tEyBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAn8LHLGUAMM=
+  </data>
+    </layer>
+    <layer id="17" name="Roof Tower Caps" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0TEOgEAIBEDu5dqdnT5ZavslMRkSWpbMVhkCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwL8FjlV19iZnIiP5/+Tt3V1c4T4mMibNkll3d/GE+5jISBq5TYAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIEvgIvtRcGZw==
+  </data>
+    </layer>
+    <layer id="22" name="Decorations" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt07ENgCAQhtG/YQc30E5HdGU3kNrYncWZPBJKEngfl1gECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIEegqsI9nmtnoI7LPF8WGPZeTs8bJ/3uI5H1exjR61f/A2H5UmetR6OE2AAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECgKnADSLkFSA==
+  </data>
+    </layer>
+   </group>
+  </group>
+  <group id="6" name="Mowrey">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <group id="57" name="Front">
+    <layer id="58" name="Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0dsJgDAMBdCCA7n/duIAgfQR0PYU/Ck3MTltzSFAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAt8VuK/WRr/vbvXfyUbf4q1z1gt4j/WmmY4z7r21mXlOz/SazuRPt87sP+PbW5uZ5/RMr+lM/nTrzP6Rb6Y2ylT0jP61232FXUXP3dyjfSrsKnpG87snQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAgT0FHuGJJOs=
+  </data>
+    </layer>
+    <layer id="59" name="Side Shadow" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt2DEOgzAQBEDzMz6aMv+EngrDSms0lFG4rGe5FIzhIkCAwDOB/zb2ZxOudydmXn/lm5/8tvfPlZj5fsrOiQm7xMxOvTVS6aOrJ33oo0ugK4390EeXQFca+6GPLoGuNPZDH10CXWnO91eusID/oDDwzfH6uAlW9HXv24vKOKPYJX10CXSlsR/66BLoSmM/9NEl0JXGfuijS2A+TeJZTsycP+FadybsEjPXUp1Pm3gXm5g5f0J3EiBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgECzwAEBPRVP
+  </data>
+    </layer>
+    <layer id="66" name="Baseboards" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1DEOAiEUBNBNPJQnsLT0/ldR+rFgcAuXR0Lzw3zg7YbjMAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQWBV43LoOba7bbZ/Us/webW4f2e6mrWub6055vVR6X0bt9Zn3Yo7ct57X0/v9jdL/nGozO6d8qs303GVtckq1GY+UT7WZnrusTe/SqK2MM3qunEeWAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBP5P4A2k8wxD
+  </data>
+    </layer>
+    <layer id="67" name="Window" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1LEJwDAMBEAX2X+nlNkqmMS9ijcIc27UPa8zaAyPAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECZwrc17dXdZ6p0Ger5/+P6uzTXBMCOYF5j9ZNSqXuyEx1654z79G6SamuOzJT3eQQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECdYEXetwPtQ==
+  </data>
+    </layer>
+   </group>
+   <group id="61" name="Inside Front">
+    <layer id="60" name="Inside Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0FsKgCAQBVChBbX/3YUf4oMZ7TPiBJFe50qcUjwECBAgQIAAAQIECBAgQIAAgW8J3Fcpb97sr99020x2h7wLNKvTtzfm1ak3ns9Nu0hg9Nqto27Ndp31LLtD3gVWs2zfG/Mqm4/yuWkXCURuURZ1axbNZll2h5wAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAgX8IPBGKFIM=
+  </data>
+    </layer>
+    <layer id="65" name="Baseboards" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1DEKgEAMBEDBR/kCS0v//xW9Lo1rSuXmQAhmE44RXBaHAAECBAgQIECAAAECBAgQIPAtgX19v0/KpF7d3M3VmRnro/E9Uib1qmc3V2dmrDtOKZN61bObqzMz1h2nlEm96tnN1ZkZ6/P+X20vz8g8nc782J92PO32ngABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACBfwlcSzUKGw==
+  </data>
+    </layer>
+    <layer id="68" name="Windows" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0bEJwDAMBEAV2X8nl94qhXGlV5kicG4Ejx7MqcojQIAAAQIECBAgQIAAAQIECBAgQOBvAuvpP05Z3zrJ3Z3m1JNngR3ukbLcrrq705x6cgIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBD4RuAFnAwJbQ==
+  </data>
+    </layer>
+    <group id="69" name="Door">
+     <layer id="70" name="Base of Door" width="100" height="100">
+      <data encoding="base64" compression="zlib">
+   eAHt0cEJADAMAkCh0MGy/1BttkjgBP9yJkKAAAECBAgQIECAAAECBAgQIECAwFaBuklXZgicP6MrMwT8MeMHKwgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAhsFHieOQCd
+  </data>
+     </layer>
+     <layer id="71" name="Frame of door" width="100" height="100">
+      <data encoding="base64" compression="zlib">
+   eAHt0cEJACAMA8D4cXBX1gHULVq4QP7hkggBAgQIECBAgAABAgQIECBAgAABAl0F1kx+pYbAHsl5lRoC/qjxgxUECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIEOgpcqXcE4w==
+  </data>
+     </layer>
+     <layer id="72" name="Shadows" width="100" height="100">
+      <data encoding="base64" compression="zlib">
+   eAHt0bEJADAQAkAhZfbf9/kdUhg4wV7ORAgQIECAAAECBAgQIECAAAECBAgQIEDghcA9yVY6BPzR8YMVBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBH4UGO83ADk=
+  </data>
+     </layer>
+    </group>
+   </group>
+   <group id="54" name="Roof">
+    <layer id="55" name="Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt191OhDAQBlASr3w09Up9YV/LO7cxJNh0sm2m3ZXNISFQoAM93/Kz22YiQIBAn8DL07a9VvPnpZ2Z3qt6pf5bsmbmes7Ut9h9VPOMPGbXPJNp5lrlkdGb37eVR/lt18+wkXZ9b5R29p6bP/L/WTHKo2Wa2SaPvvzl0ed0q6PkcSvpvvOUPC7vhq9rc/SsutZv31/6m+YJtO4j74R5vqOV5DEqtvZ4eaz1Ha0uj1GxtcdH7/O1Z1U9EpBHJHOf7fK4j/t+1u/nfe13GeXRu9238V/PnlbJ4Dgf++z/63qWrYzkcdSM11d8N62oGY/gsfassFtR87HU49G0nj/ZZ0vJo66brRmPwB4CBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwLkEfgBLcH5E
+  </data>
+    </layer>
+    <layer id="56" name="Base Front Top" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0UEOwzAIBMB+oP//btt7kInwHlJPpFwQrPDwevkIECDQE3h/267+3vR111Xer+ZbCyTsEpnrl/xHR8Iukfkf2utXVHaJ+nobHQn3KpP2WqCyS9TX2+hIuFeZtNcClV2ivt5GR1eguk93Xt9eAffY6zlNc4+p4N5599jrOU1zj6ng3nn32Os5TXOPqeDe+eoed+p7Nzo77Y571Xu2YO/1lV2i3tvo7K6Ee5V5tnTv9ZVdot7b6Oyuyn2iksic7POk2YRdIvNJppNdE3aJzMkbzRIgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgcIbAB4e7En0=
+  </data>
+    </layer>
+    <layer id="62" name="Railing" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt2c2ugjAQBlCWvpq6unGlvv97KCuMmTZDaq1wj4kJljKl5wN/6jR5ECBAICdwPEzT6e15fr5uefSo2XI+Wzr2L7C/BG1r5tSj5prxt9y3h12Pmls2XnPukd18/Pt72JrX0fit91xUc49tpTw+PVd55ETlkXP6Vi95fEs6N871+V3qlniWqmWOnfvcG7+zlcb/r+3RfeQzYdzVII9x9tHI8ohUxrXJY5x9NLI8IpVxbfIYZx+NLI9IZVxblMd8Ntl1rdY1/HEz/82RS3lkz9ZvlZxU9N9RdM3nqpV7yaNs87qn9bp/rVXblkdNZ9lXyiO7LhX1W6ovW/JYLGpbUR6tdj1q1uawp3097HrU3JN5bS7Renvr2niPmrU52EeAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAIFZ4AHBsTHt
+  </data>
+    </layer>
+    <layer id="63" name="Roof Top Decor" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt2TEKwjAYgNEsiqd0dNVFdPFAuulmR0dPZeYSSgMJ/Suv4KKpTd9XEZKUHAQIEJgvcNzOH2tkf4GLHv2RK69w36X0yC9HDIFnbvEa9dg3+t0Mmxj3uKZZvHOLYdTj0KjHR49Qj8JXj1A9TIYAAQJLCpwb/dcveQ//dO2bHqFynvQI1eOqR6ge1iBD5UjWIGP1MBsCBNoIWN+td+y5/2F9t75Haf+j/lvKZ1jfLbtMvVva/5ga7zMCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIEBgPQI/SOUSAw==
+  </data>
+    </layer>
+    <layer id="64" name="Roof Top Chairs" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt2TEKACAMA8CMPtuv6csUurs5FC5Q6Jrr2EQIECBAgAABAgQI/BXYI3PV5O5CgAABAgQIECBAgAABAgQIECBAgAABAgQIEGgv4P/R/oQKECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACBp8ABn5YITQ==
+  </data>
+    </layer>
+   </group>
+  </group>
+  <group id="7" name="Health Center">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <group id="41" name="Front">
+    <layer id="40" name="Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1kEKwkAMBdBAT6Ou1AtYvbhHM0uhWXXRL/gGsgkMKS8z01RZBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwL8InJaqcyAuXdPaCqxLPZ6BeHXN7dfIXPuc3gJxdz/Gw6cfI0ss6b2K0Y+F3Y+RJZbUjxj9WLhnq/ee+ep7Btiz33w1tqPcj9klldWPlPxcVz9ml1S2593q9//w6P+HRYAAAQIECBAg8MMCHwypap4=
+  </data>
+    </layer>
+    <layer id="42" name="Front Wood Panelling" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0cEJwDAQA8GDtBX331ZaEAR0D4/fB8KzMx4BAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBwi8B5dn76Lu3u/DZf1SO3alzq0VDON/TIrRqXejSU8w09cqvGpR4N5XxDj9yqcalHQznf0CO3alzq0VC2QYAAAQIECBAgQOCfwAfydQV2
+  </data>
+    </layer>
+    <layer id="49" name="Doors" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0yEKADEMBMCFE/3YveZk/y96Jio+UJjAmqwIDCQxBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECgC3wrqfTWZlrgfZLK9G33usD+/6PSWxsCBAgQIECAAIHbBQ6FKAOU
+  </data>
+    </layer>
+    <layer id="50" name="Windows" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1DEKw1AMREEXuahLHzNlbhVC/JoPApcGT5rlb4QwU2jb/AgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQ+Ansr7/D+8zeZX05qfX/mvuwf9rz9P44vT5n9i7ry8mr/9c8hv3THj2BOwlcvS/NTd/eXSqbX9/1056n91fvS3OTV3epbH5910979ATuJDDdk+5K2dz07c2Vzfcu66c9T++ne9JdKZubvJorm+9d1k979AQIECBAgAABAgQIELizwBez8C4J
+  </data>
+    </layer>
+    <layer id="53" name="Flowers?" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0DEBAAAAwqD1T+1lC4hAYcCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDABwacQAAB
+  </data>
+    </layer>
+   </group>
+   <group id="43" name="Roof">
+    <layer id="44" name="Base Roof" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0TEOhFAIBNAfz79qtff1l5TawBTPhIRCHXis5SFAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAYFrgd6z1pc79/rXr3vUv9fYf9fvp3RPzq2l3n+gxPVP3DWre9O6J+dWnu0/0mJ6p+wY1b3r3xPzq090nekzP1H2Dmje9e2J+9enuEz3MRIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIBAvsADuxaRWQ==
+  </data>
+    </layer>
+    <layer id="45" name="Front Roof Peaks" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0DdOBEEURdES7APYLi7ABbgAF+C2MRABEbAFXAAzBDiJl3e1KkItpPOkm3ypKjilGAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAEC/1FgfqqUhbSYltJysuEEVuK/mtbSetpINpzAZvy30nbaSbvJhhPYi/9+OkiH6SjZ3wmM4nuRLnucj3M/SafpLJ2n2lr/1N64dQWu4nudbnqcH3J/TE/pOb2k2lr/1N64dQVu43uX7nucX3N/S+M0Se+pttY/tTduXYGZ6VJm01yq7SP+n+krfaefVFvrn9obNwIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECLQEfgHyWi0v
+  </data>
+    </layer>
+    <layer id="46" name="Back Roof Peaks" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0AENAAAIw7AH/8KQhY0ndAqWJiJAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACBJoGdphsvBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQ+CdwysoAyw==
+  </data>
+    </layer>
+    <layer id="48" name="Pillars and Shadow" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0zEKACEMBMBw2hz+/78m3V1hJ6SZhS2sArMYIQQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBA4C/wjognO7IzW2/pEyj/9ak9+raoy/bo9T9drz8iBAgQIECAAIFbAhu6UAC9
+  </data>
+    </layer>
+    <layer id="47" name="Middle House Roof" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0csJhFAURMGH+cczGIHOSo1F3fgDO4sLUg0ngerWjAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIEPi6wNC1NqZ/snqBKT/MafFH+Rm/fLCmLe2pT1YncMT/TFe605OMAAECBAgQIECAAAECBAhUCLyLmQ4R
+  </data>
+    </layer>
+   </group>
+  </group>
+  <group id="8" name="Reisner">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <group id="23" name="Front">
+    <layer id="25" name="Base Front" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt2DEOgCAMBdDG+19MndRJvYxEV7taEh8JU4eS9ykDERYBAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIEPhOYBwipg723M5gRSzNYe1gb/K4r6M8+ppKecjj7X30Xj33wnyYD/OR3wHzkdtUVORRoZ73lEduU1GRR4V63lMeuU1FRR4V6nlPeeQ2FZW9/eMdHezTf2JF/HoSIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIEDgdwIXhvKy1A==
+  </data>
+    </layer>
+    <layer id="35" name="Wood Panelling" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1LENACAIBEDc3J1dQEoLShIsjpIGck+IUAQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgMCUwFmxp2a/c3MPlQLy+OsM5CGPSsC/qlT0CBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQKBb4ALuHwmh
+  </data>
+    </layer>
+    <layer id="31" name="Pillars" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1TEKACEMBEBBrvQB/v+j94CksUqxY7kI2QyIazkECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgkCjw7br1VFab5CVT9t3cPP268Wnex1RW2+UlU/bd3Dx9GxMg8CJwm/9jKnvp7S4BAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAlXgByVCAhU=
+  </data>
+    </layer>
+    <layer id="26" name="Front mini patio roof" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0sEJgEAMBMDF/vX8ePWaA182EJFZWPIMTJIIAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAgf8J7FvS2aP2j+pZleQqh87OZ/+a0nuL9x+4BwECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBL4ocAMGLjzg
+  </data>
+    </layer>
+    <layer id="32" name="Front Sign" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0DEBAAAAwqD1T+1lC4hAYcCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDABwacQAAB
+  </data>
+    </layer>
+    <layer id="34" name="Door Background" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0rENACEMA0CLhl2/ZAI250PPAAidJffROYkQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAicBFZLduUOga8n1XnHNa4YtUfVHl6BAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBJ4U+AFjMATX
+  </data>
+    </layer>
+    <layer id="33" name="Door Overhang" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0TEKgDAMBdBsnlM33ewJcnQD2dq9ILzCh6QdCu9HOAQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABArPAeURcnaw553f7XoG7ung6WbM+9vIvv73VxehkzfpYhFwQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwN8FPnj6CEc=
+  </data>
+    </layer>
+    <group id="36" name="Windows">
+     <layer id="37" name="Below Mini Roof" width="100" height="100">
+      <data encoding="base64" compression="zlib">
+   eAHt0TEOgzAQBEAX/Jgu6cLH8RYr0eAmBQVzEjpzawwaxlAECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIDAkwL7dv/2ZNcrO6/3ffbf2f0XvC/5LP7Hd2bJ26PTdftq1j3pqZ7VeWbNslZj/Bb/45hZ8vZ4dd2+mnVPeqpndZ5Zs6wVAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAg8B6BE/EWIKs=
+  </data>
+     </layer>
+     <layer id="38" name="Above Mini Roof" width="100" height="100">
+      <data encoding="base64" compression="zlib">
+   eAHt0bEKhTAMBdAoOjz/f9VNN9//6WS2Lu3SSeQEAiUlBM6NUAQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAm8WuKaIO7tWa863xl/vXu2OWREY5ogxu1Z7ZnE08ujdq90xKwK/zGJp5HFmFv9GHr175bIXAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECHxZ4AEuZgw9
+  </data>
+     </layer>
+    </group>
+    <layer id="39" name="Vines" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1UEKgzAQBdAsSumyq9L7n7QNdKgiSP2BguEFJBqZjHmjsTWNAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAj8V+Bxae3+Po62irsFsZXr+smd5K85ZuxTjx6Xxi5r8Ryo6Wz1KJdkXSP1qFi1WMuXy3r0t6vRWLXYOnfT1KX+IdtZ90dGvsn9mc9/t9cjbanryDuQPusZ4lLPWlviOpqzcs/YJ55Lh6P7VdUi3R+XuZ0TIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAh8BV7hNQQR
+  </data>
+    </layer>
+   </group>
+   <group id="24" name="Roof">
+    <layer id="27" name="Front Base Shingles" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1DEKhTAQBNDB2yt+tfG+rmglWn7Y4gWGFCkMbzYmFgECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAIFkHJLpzlz7r7JU1spW+ef581v6SPYy7xJ99OninAlLH91moMu/yvu4JkMfvV6IPvTxNQO9ZNyGAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBN4EDoCipAA=
+  </data>
+    </layer>
+    <layer id="28" name="Front Roof Peaks" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt0LlKhEEQhdEf39xxAbdAHQNHDdwCt8BRA2c0cHsvb1KpAwat0Kfgo4OiKTjDYAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECfyewvDQMo7SSVtNaWk+L5qd/v90tutnDfiP2m2krbaedVNN6V3d7fnfjv5f20zgdpJrWu7rb83sY/0k6SsfpJNW03tXdnt/T+J+l83SRLlNN613d7fm9iv91ukm36S7VtN7V3Z7f+/hP00N6TE+ppvWu7vb8Psd/lubpJb2mmta7utvz+xb/9/SRPtNXqmm9q7teAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIEPifAt9VEZCN
+  </data>
+    </layer>
+    <layer id="29" name="Back Roof Peask" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt170KgzAUBlDxbQuV0kF3f/revQGFNKiDgx1yhIsmn7mSk8mmcREgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQL/EHi0v1/tivGWPmP+LNveS/e8Z7nuLMt71Pr8Lvz7GA/rXJklo6Ps6rq8Z61nYN8ECBAgQIAAAQIECBAgUKfAK/6/x6gpao5aoj5Raf7urM4TsGsCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAIE9gS+O4hui
+  </data>
+    </layer>
+    <layer id="30" name="Decor" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1jEOgCAMBVAGL+/oTRw9ngcgaUMCxMbHyIdSHgutGQQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACB7wjcR9xLlse7+3R2vf6E2jNP8h5ZPnr72fVGz7eeAAECBAgQILBK4Az+VbuzVXesVPcK3mN3VslNrwQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIEPiTwAviUgn7
+  </data>
+    </layer>
+   </group>
+  </group>
+  <layer id="90" name="Cant enter here" width="100" height="100">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <data encoding="base64" compression="zlib">
+   eAHt3TsOwjAQBNCtcxOgglTA5fboDJ37FHGsZ2kbS/n4TTtRqiwCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECxwQeW/WxO7iaAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIEDgagK3reqeybem1gQCz+TwyuzymCCNqndy+GS+8pgiDy9BgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgRWERg7vP9/xqTP29nrVc53tXOMHd70eDt93s6ePE4Kcuzwpsfb6fN29uRxUh4eS4AAAQIEVhH4AbblC4o=
+  </data>
+  </layer>
+  <group id="74" name="Outdoor Decorations">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <layer id="102" name="Signs" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt2yEOACAIAECjPzX6/2YjG5gTdiaDUziagzEsAgQIECBAgAABAgQIECBAgAABAgQIECDQS2DNXvlUz2arR/USip8AAQIECBAgQIAAAQIECBAgQIAAgSQB/9dJkEnX+L9OgnQNAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgEALmSYPii4150i/KIAgCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAwDMB/bzPqK8e0s97xeQQAQIECBQQODphA5k=
+  </data>
+   </layer>
+   <group id="77" name="Chairs">
+    <layer id="78" name="Front Chairs" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1jEOgzAQRUFK7n+lXCOHCVsgvxoaiMbV311h2dPgbbMIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAu8T+O7rzM3Tbd18ddY9mtcJJAIECBAgQIDAfwn0zdN83rK95pl/jndae80zb908M4sAAQIECBC4J9B/a/Ps2rr56qx7NN+7ga8JECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAs8R+AEsFRm8
+  </data>
+    </layer>
+    <layer id="79" name="Back Chairs" width="100" height="100">
+     <data encoding="base64" compression="zlib">
+   eAHt1jEOgCAQRUFK738+D2MoiK80VGrGxg8rm3UaHcNFgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAm8VOI97sua523Xzbq09mu8JJAIECBAgQIDAvwT6z9O83rJ7zU/qfb55nXUnQIAAAQIE9gX6bW2eHbtu3q21R/P+9E4SIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIPAVgQtatxjx
+  </data>
+    </layer>
+   </group>
+   <layer id="76" name="Tables" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt1rFOwzAUBdBOiC7ARJkYGYGp8P8fhrDF0BLF12pkKZFyIllK9HLt5Hh4PhxcBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQuAi8Hi/307vRtTTfdO29Pr+F/RhdS/Pt1X/63+9lPx7LeJrZl1r7KOOzUbs1l9aaftden8/F+lTGy4x5rX2V8d2o3ZpLa+3V338TILBM4Oc+53rno5TvZfPK+6zezfSJa4ne+Sjle9nrddz/CTyU/Widmeob6bxV6ynfy9a867/Ac9mP1pmpvpnOW7We8r1szbsIbE0g9dnRtTTf1lzW+p7UZ0fX0nxr/f/W1q19ttXDUw9ekkuZrbms9T21z7Z6eOrBS3Ips9b/W5cAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgMFLgFxYVFWM=
+  </data>
+   </layer>
+   <layer id="80" name="Bows and Dummies" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt1UEKwyAQAEAv7X9a6Bd6zKGnPqH/7bGfqUJCocSDYIIbRlgEEd2dxSQlgwABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIHFPgdsyywlRV86+thyksaKLPOe9XZQ5aVui0vYXQ7VtN/n5OaYnVDRZ3FZhyP5bY9WKXESBAgMDwApec4XX4LCX4L/A+pVTCaBN4zNtrc9tpv92f3IsSxjgC3sf2vWj5f5T3oSfb96TlBt+sFi17CRDoKdDy/+h5r7MIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgT6CHwBawsNlg==
+  </data>
+   </layer>
+   <layer id="86" name="Planters" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt1DEOAkEMA8AADQf/fyzQEBrXdOdiVloppTWWPOMRIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIPATeN1n3vs/+73zBS7HzHX/bb93vsCxPTz2P/VxfhmbwF5V1JAQ9ioUFYe9qqghIexVKCoOe1VRQ0LYq1BUHPaqooaEsFehqDjsVUUNCWGvQlFx2KuKGhLCXoWi4rBXFTUkhL0KRcVhrypqEIIAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQJ/CXwB4y4UQQ==
+  </data>
+   </layer>
+   <layer id="82" name="Flowers" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt2kEKwjAQBdCK3v90HkHUhYogKO5MkYGQkGXLQF8hxI6Rju9ryaLT5CBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgEBOgeM+Z1+6IkCAQCtwcr9qSZwTIJBUwP4qaTDaIkCgE7C/6kgUCBBIKmB/lTQYbREg0AnYX3UkCgQIECBAgAABAgQIECBAgAABAgQIECCwYYFzee7zUsbV858pfgWPksOtjKc8UuTxLjl8yrhXI0VjG28i8tg4Q4qvP2cRR/06au38Letf1Wfa952vJzBnEXnIZD330ZUij5hH69SXF4gM6tl/ZHn30RV2h/+9KubIZbRenQABAgQIECBAgAABAgQIECBAgACBdQR++1Mm8Q==
+  </data>
+   </layer>
+   <layer id="83" name="Logs" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt3MEJACAIAEAHaIpq/xlriAqNE/yanJ+IMEIQIECAAAECBM4J9BYxds6dggABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIvBLwf+2VtHMIECBAgACBTALuQJmmoRcCBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECdQTsLqkzK50SIECAAAECBAgQIECAAAECBAjcFfBWdtdXdQIECBAgQIAAAQI/CCxZRwLC
+  </data>
+   </layer>
+   <layer id="84" name="Trees" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt3UtuwjAQAFD2vUgP0UUXLeX+J2q6ZHDzsQye2K8Si4TYmXn2GIxEuVz8ESBAgAABAgQIECBAIJfA+1uueEaP5mNy72zz7WsZj+/lcV0eP5OPTcbam71eso1JrJfbYDUT59vnYPllm09b8Yw+37by9zwBAgQItBHItv9ok5VeCBAYQcD+I9co2n/kGg/RECBAgAABAgQIEOgtYM/WewTu72/Pdu/hiAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgMARgfh9qSNtXdtewPel2pvqkQABAgQIECBAgEArgRb/w7Smj5o2rXI+Wz+szjZi4m0lED/fqfkNhZo+atq0yjlrP3/rUOnznWi1FX+pj2e02epz1OdrfEe1kNc8AnEdqnmt2KNV836sps2eWDJfYx3KPDrl2Gacp2WJ856N6+B5M+kb+VotROO115qadbCmTV+t19z9P3der/GPd8nkvlavMe4RjmMt7MlpNqM9Jq2uyVQLrXLSTzuBrXpVm4/Wa++rHq8+dibW67HWc1wdjW5+w3iOgS9kGdevZ9Zm4fbdTsW8uwUSbjxrbca847E1KkwUhwQIECBAgAABAlMJ/AI1Tit1
+  </data>
+   </layer>
+   <layer id="85" name="Shrubs" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt3EEKgCAQAEDP/f9P9ay6CHtQMBTWaIRQpNZtzD1WikaAAAECBAgQIECAAAECBAgQIECAAAECBAgQIEAgX+A8SrmeSyNAgMDuAurV7jskPwIEqoB6VSX0BAjsLqBe7b5D8ssUcD4y9a39J4HWWWvNZZjEPOJ4JpcYJ45nYnqWAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIJAh4F/LGerWJEBgVECNGpVyHwECGQJqVIb6d9es38vbvvfGq+L04psnQIAAAQKrBW4ZvCwy
+  </data>
+   </layer>
+   <layer id="87" name="Outdoor Lamps" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt2jEOwCAIAEDHLv3/d32BJugAketoSwJHow3pGC4CBAgQIECAAAECBAgQIECAAAECBAgQIFBL4P9q5SMbAgQIECBAIC7gPI+biSBAgAABAgQIECBAgAABAgQIECDwsoCZ4cvd7Vmbd7pn31VNgACBSgLOorNucDtzE0WAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQ6C6w+w91d6+7m/oJECBAgACBfIHVt8pqPT/jWAav1BGr2tMECBAgQIAAAQIECBAgQIDAjYB5wo2eWAIEKgjYxyp0QQ4ECBAgQIAAAQIECBAgQIAAAQIECGQIZM9HJ9nbASc=
+  </data>
+   </layer>
+   <layer id="88" name="Well" width="100" height="100">
+    <data encoding="base64" compression="zlib">
+   eAHt0bENACAMA0G37D8YdDAOWSJSirOUPrpPjAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAYLrAXsmpsxkCt1o8PWbE8AUBAgQIEGgQ+IaeA3M=
+  </data>
+   </layer>
+  </group>
+ </group>
+ <group id="98" name="foreground" visible="0">
+  <layer id="91" name="foreground" width="100" height="100">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <data encoding="base64" compression="zlib">
+   eAHtndlu1TAQhi0QagH1CQCxtNCy94KlFyx9HbYLNiE2iVVif6X2rn0otj8XlqycsR07cWwnv6VRcuzMeOabeHISNadKsZEACZAACZAACZAACaQgsHZUqbOQc5B1yAaELR+BS+B/GXIFchWyCWHLR+Aa+F+H3IDchGxBuF7y5eMW+N+G3IHchWxDprxeaqvP0nrJd7YMP3Nt9VlaL8NTyWdx6udbPrLyzL+XlPoD+QuR2tTPNynm3H2HlnN7wPlJgARyENg5otQuhK0MAnvIxX5F+fBdz233HyvA3VXKyEw9Xriu57b7j665aI7L2aZWr2z3H13zkTMXzdy11SsfL95/+AhxPITA1OpVSOwlHju1elUiY/pULwHWq7Jyl6Ne2e7ZyiKTx5sc68N2z5aHQFmz5lgftnu2ssjU74201qS+HPdsph/mfh/qph1zv4/NIXWltSb1+eb0PTP06Uvjph/mvnRs1z7TjrnfVb+m41zPDGuKI9bX01A8A1mNNJDinI50ZRJq5xHFBcjFHtHM/ZzugY6qJEACAQT6Xj8CpvIeymuRUjHXj5TceC3ynrbiASVwu3dAqfuQB5CHkEcQ3cYe0/POefsY/J9AnkKeQZ5DdBt7TM/bd1vS9SM0lpfg/wryGvIG8hai29hjet6+25jrR985h9D/AvbvIR8gHyGfIJ8hTf/YY0PEQxskQAIkQAIkQAIkQAIkMCUC/5p37w7LEZ1E/ynLWIyeS0f2YH69S+C9bGG+jv4Ny1iMnktnfuQZMQmQAAmQAAmkIeD7/uP6vtV45NL36aaJqG6rvu8/ru9bTeQufZ9u3eToPQmUTeD4snp3DFK2l/Pxbg25WJ1APmKvwTF6Lh3zzJnz+1Kx1+AYPZeOmQ++L2XSyL/P96Xy58D0IMf7Uub83HcTcP0dqm1s5eCizVx9i57U3+P6O1RpLBd7ad766feP4ISwPnL19Y+GFkiABEigbAK27yq2/rKjWfSuxjik7ypNZLb+xajL7kkRxxDPd2JsxOiUkh39vlQKf6TnO6GsJBs+X2N0fDaHGn+B9ztczXxfynWcz46kKz3fCWUl2ZDmMvtidEz9IfZ/gXuofIXON8h3yA/IT0iojeZ4W5Oe74SykmzY5tP9MTpadyrbrnWIrMbJeGgdGser+c4SWofmS2qcyFPVoa510IwyRsfUn9t+CK+YOhijM4cc2LiH8JLqoO95gqQzB96+GG3cQ3jZ6qDreYJNx+fvlMaltWDjTl7pMy+thbG5++pYegrlzGBbC2N7qOuYtF7H9iXnfF3WwpiMpPWak0+Jc6dmZP7WcinrtcQ8aJ9SMzJ/a1lar3P8/+ntmmR+lhjpXKXepl6bqf2Ptd+Ou/15E/9Xfshm1iiX3dRr0zV3zrF23O3PWwPnw6xRrrhzrk2XX6nH2nG3P28jHzv4LYVdy+8ppPaP9hcJ7CEX+z3y0bVGLc7MnhQEutaoFHN3sanPl9CtzfZQdmz2p96vz5fQrY3LUHZs9tlPAjUS4PPR8rKmn4+W5xk9ykHgP4TORwE=
+  </data>
+  </layer>
+  <layer id="93" name="foreground_top" width="100" height="100">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <data encoding="base64" compression="zlib">
+   eAHt0TEKgEAMBMBtFL+mnS+50i9b+gRjJYj1ITgLRyDNhdlECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBDoJTBPSRuTpebz7cO963XP3/9Zq4et+njLUX1IX4GrDyFAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgMAXBE7LWAYW
+  </data>
+  </layer>
+  <layer id="94" name="foreground_top2" width="100" height="100">
+   <properties>
+    <property name="0 96" value="quad.tmx 112 26"/>
+    <property name="0 97" value="quad.tmx 112 26"/>
+    <property name="0 98" value="quad.tmx 112 26"/>
+    <property name="0 99" value="quad.tmx 112 26"/>
+    <property name="72 14" value="mowrey.tmx 29 39"/>
+    <property name="73 14" value="mowrey.tmx 29 39"/>
+   </properties>
+   <data encoding="base64" compression="zlib">
+   eAHt0LEJAAAIAzBHb/P/g3xAR53SsRQKiRACBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBD4FKue3rZ/XWgIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQOBKoAH9PgCl
+  </data>
+  </layer>
+ </group>
+ <imagelayer id="100" name="background">
+  <image source="tileset/outsideOfMowreyBackUpdated.png" width="3200" height="3200"/>
+ </imagelayer>
+ <imagelayer id="99" name="foreground">
+  <image source="tileset/tileset file/foregroundMowreyOutside.png" width="3200" height="3200"/>
+ </imagelayer>
+ <layer id="89" name="Collision" width="100" height="100" visible="0">
+  <properties>
+   <property name="0 96" value="quad.tmx 112 26"/>
+   <property name="0 97" value="quad.tmx 112 26"/>
+   <property name="0 98" value="quad.tmx 112 26"/>
+   <property name="0 99" value="quad.tmx 112 26"/>
+   <property name="24 28" value="recCenter.tmx 4 21"/>
+   <property name="25 28" value="recCenter.tmx 4 21"/>
+   <property name="26 28" value="recCenter.tmx 4 21"/>
+   <property name="72 14" value="mowrey.tmx 29 39"/>
+   <property name="73 14" value="mowrey.tmx 29 39"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eAHtVgluBDEI2yf0bf3/Y6poZQmNIAcBwqREWpEhwTZmutvPp1Y5UA6UA3MO/P58Ptxnrpq/xeG1XK2xAx7eeWCOO7njhod3Hph3uD3uQvLOIz9WUzc8fJcwy+2xA5J3Hvmxmrrh4buEWW6PHZC888iP1Xz/9565d+sdD98lzFs9tOxL8s4jr9HddPyn5eG7hGnhK7AtsCSMCA5wNy66wB0RKa92D53a+pk6K46Gs7rAjYh6PFtGYO9ESz0jrB2d3rWSdm/eJ76kwyP/5M70LPUbpVHi98xH9abhsehbw/ussdAxi/HkzvQ820PvnkU/PXzrs129Tc/qsu6hh7eqjd7v4XqdUf6ovVcvHK5FTxyuV85C7wijaafLqxcOl/Jq9xyuV06rcafOqxcO9y06oX1Hr7YW3BFRq5HWRegEB+WN2oM7Ilr0FKETHBZ6VzHAHRFXtdH7Wn07GLQ2ai/1ucPvgQk9EraUR12L0h0pT2uj9h5aIjElLuSpj8jNRlobtZe07fB7YEIPsPFsHYHfYq0YB+A5ZeNyOI+cDdVB99CiiRSH7jVYVVMOrDjQ3rda5UAWByy+/+qdzjLN0lEOlAPlQJwDFr8flmrrt0jnZvmm862qyoEIB/A9myFa9ot+LDEjsKA7Q4zoNztHhjlAQ3avIvTBiwwxot/sHBnmAA3ZvYrQBy8yxIh+s3NkmAM0ZPcqQh+8yBAj+s3OkWEO0JDdqwh98CJD1PQL3Vyt9VkPj+PX5MCRIe7o52rRk9VZD4/j0OTAkSFq9N9Wk2EO0HCbt5p+4EWGqNF/W02GOUDDbd5q+oEXGaJGP61BDzRH9zvno1rKs7MHT4a400erRQ8Szs75qFbiXM2DJ0Nc1X7j/QxzgIYb/V3tCV5kiKvab7yfYQ7QoPG3V2t91sPTaOdqwJEhcvpGOejm7lmf9fA4fk0OHIjAwHNkBPctsXlXqxwoB8YO9P5WuLNMuXF3daMcKAfKgXKgHCgHbnaA+7+k9Svl3+bFLX28zffSG+NAe79PfWI6fBfLqVnMfM/N3Bm5rcHQ1Ix0zJ437lOfWY303kmvqA6v/alZ3O6rdl41D61zPnVZ5lF/L9/5ZpmHz9v2PtSaR66Z3T6P5/fg85mbxswdrs4i98Z5nPTLwvMeRuZ53Oy7NJPM85A0e+SzzD7LPLL44THrFcws81jRbH0XHljjavCg5UTU6I2qaX6cWCfmAM7Vfk95tKpz5z68ORF3dO/Wot9dHOt66DoRrXvxxGv+RKwTcwAn19+z7+czV3NTDt6sRK7/lXrc5XB6OW0dMHfrgVPx68DtfqK/1ci9H6sY7X6tcqAcKAfKgXLg9O/BH0Tly8I=
+  </data>
+ </layer>
+</map>

@@ -20,7 +20,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -35,6 +34,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     protected int chatDelayCounter = 0;
     private int pathStep = 0;
     private String filePath;
+    private SmartPath sp;
 
 
     static final int CHAT_EXPIRE_DELAY_SECONDS = 25;
@@ -42,6 +42,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     public RoamingInfoNPCBehavior(int playerId)
     {
         super(playerId);
+        sp = new SmartPath(playerId);
+        sp.printPassabilityMap();
 //        setUpListening();
         System.out.println(this.playerID + " has been made");
         parsedDialogueXML = new ArrayList<List<String>>();
