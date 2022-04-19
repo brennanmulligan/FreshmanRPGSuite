@@ -16,7 +16,7 @@ public class SmartPath
 
         String mapFileName = OptionsManager.getSingleton().getMapName();
         String mapFilePath = giveMeAUTI(mapFileName);
-        ServerMapManager.getSingleton().changeToGardlightNewFile(mapFilePath);
+        ServerMapManager.getSingleton().changeToNewFile(mapFilePath);
 
         passabilityMap = ServerMapManager.getSingleton().getPassabilityMap();
         printPassabilityMap();
