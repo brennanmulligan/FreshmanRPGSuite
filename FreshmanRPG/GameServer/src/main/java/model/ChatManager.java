@@ -48,7 +48,7 @@ public class ChatManager
 	}
 
 	/**
-	 * Broadcasts the chat message out to all connected clients and NPCs
+	 * Broadcasts the chat message out to all connected clients
 	 *
 	 * @param senderID
 	 *            The name of the player who sent the message
@@ -64,6 +64,27 @@ public class ChatManager
 	protected void sendChatToClients(int senderID, int receiverID, String message, Position pos, ChatType type)
 	{
 		ChatMessageReceivedReport report = new ChatMessageReceivedReport(senderID, receiverID, message, pos, type);
+		QualifiedObservableConnector.getSingleton().sendReport(report);
+
+	}
+
+	/**
+	 * Broadcasts the chat message out to all NPCs
+	 *
+	 * @param senderID
+	 *            The name of the player who sent the message
+	 * @param receiverID
+	 * 		      the player who receives the text
+	 * @param message
+	 *            The text of the message
+	 * @param pos
+	 *            The position of the player when they sent the message
+	 * @param type
+	 *            The type of chat message this is
+	 */
+	protected void sendChatToNPCs(int senderID, int receiverID, String message, Position pos, ChatType type)
+	{
+		NPCChatReport report = new NPCChatReport(senderID, receiverID, message, pos, type);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
 	}
@@ -85,7 +106,10 @@ public class ChatManager
 	{
 		if (!cheatCodeManager.handleChatTextForCheatBehaviors(senderID, chatText))
 		{
+			//Send the chat to clients before sending to NPCS
+			//So player messages show up before NPC responses
 			sendChatToClients(senderID, receiverID, chatText, location, type);
+			sendChatToNPCs(senderID, receiverID, chatText, location, type);
 		}
 	}
 }
