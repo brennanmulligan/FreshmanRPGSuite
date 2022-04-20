@@ -27,7 +27,7 @@ public enum VanityAwardsForTest
     /**
      * @return the quest id
      */
-    public int getQuestId()
+    public int getQuestID()
     {
         return questId;
     }
@@ -35,7 +35,7 @@ public enum VanityAwardsForTest
     /**
      * @return the vanity id given for that quest
      */
-    public int getVanityId()
+    public int getVanityID()
     {
         return vanityId;
     }
