@@ -6,7 +6,7 @@ import datasource.DatabaseException;
 import datasource.NPCRowDataGatewayRDS;
 import datatypes.ChatType;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.NPCChatReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -103,7 +103,9 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
     {
         ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-        reportTypes.add(ChatMessageReceivedReport.class);
+        //NPCs that respond to chat messages have to listen to different reports
+        //So that player messages can show up before NPC messages
+        reportTypes.add(NPCChatReport.class);
         return reportTypes;
     }
 
@@ -118,9 +120,9 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         //If this NPC has no dialogue, go no further
         if(!parsedDialogueXML.isEmpty())
         {
-            if (incomingReport instanceof ChatMessageReceivedReport)
+            if (incomingReport instanceof NPCChatReport)
             {
-                ChatMessageReceivedReport report = (ChatMessageReceivedReport) incomingReport;
+                NPCChatReport report = (NPCChatReport) incomingReport;
                 Player player = PlayerManager.getSingleton().getPlayerFromID(report.getSenderID());
                 //Make sure NPC is not talking to themselves
                 if (player.getPlayerID() != this.playerID)
