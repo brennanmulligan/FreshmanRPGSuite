@@ -103,7 +103,9 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
     {
         ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-        reportTypes.add(ChatMessageReceivedReport.class);
+        //NPCs that respond to chat messages have to listen to different reports
+        //So that player messages can show up before NPC messages
+        reportTypes.add(NPCChatReport.class);
         return reportTypes;
     }
 
