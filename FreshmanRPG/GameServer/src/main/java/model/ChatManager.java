@@ -3,6 +3,7 @@ package model;
 import datatypes.ChatType;
 import datatypes.Position;
 import model.reports.ChatMessageReceivedReport;
+import model.reports.NPCChatReport;
 
 /**
  * @author Dave
