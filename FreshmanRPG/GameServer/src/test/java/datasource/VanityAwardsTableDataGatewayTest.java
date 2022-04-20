@@ -10,18 +10,11 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-/**
- * Tests for the VanityAwardsTableDataGateway
- */
 public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
 {
     protected VanityAwardsTableDataGateway gateway;
     abstract VanityAwardsTableDataGateway findGateway() throws DatabaseException;
 
-    /**
-     * Get the right gateway and set up the gateway
-     * @throws DatabaseException shouldnt
-     */
     @Before
     public void setup() throws DatabaseException
     {
@@ -42,10 +35,6 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         assertNotNull(a);
     }
 
-    /**
-     * Tests to make sure we can get all the vanity awards
-     * @throws DatabaseException shouldnt
-     */
     @Test
     public void testGetAllItems() throws DatabaseException
     {
@@ -62,10 +51,6 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         assertTrue(testAwards.containsAll(awardsFromGatewayIDs) && awardsFromGatewayIDs.containsAll(testAwards));
     }
 
-    /**
-     * Test to make sure we can get an award for a quest id
-     * @throws DatabaseException shouldnt
-     */
     @Test
     public void testGetAItemForQuest() throws DatabaseException
     {
@@ -75,8 +60,7 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
 
         for (VanityAwardsForTest item : VanityAwardsForTest.values())
         {
-            if(item.getQuestID() == 1)
-            {
+            if(item.getQuestID() == 1) {
                 testAwards.add(item.getVanityID());
             }
         }
@@ -85,10 +69,6 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         assertTrue(testAwards.containsAll(awardsFromGatewayIDs) && awardsFromGatewayIDs.containsAll(testAwards));
     }
 
-    /**
-     * Test to make sure we can get multiple awards for a quest id
-     * @throws DatabaseException shouldnt
-     */
     @Test
     public void testGetMultipleItemsForQuest() throws DatabaseException
     {
@@ -98,8 +78,7 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
 
         for (VanityAwardsForTest item : VanityAwardsForTest.values())
         {
-            if(item.getQuestID() == 4)
-            {
+            if(item.getQuestID() == 4) {
                 testAwards.add(item.getVanityID());
             }
         }
@@ -109,7 +88,7 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
     }
 
     /**
-     * Tests to make sure we can add a vanity award
+     * Tests to make sure we can add an item
      * REQUIRES: Merlin hat to not be a vanity award
      */
     @Test
@@ -125,10 +104,6 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         assertTrue(awardsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
-    /**
-     * Tests to make sure we cannot add a duplicate vanity award
-     * @throws DatabaseException
-     */
     @Test (expected = DatabaseException.class)
     public void cannotAddDuplicateItem() throws DatabaseException
     {
@@ -136,40 +111,18 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         gateway.addVanityAward(4, awardsFromGateway.get(0).getID());
     }
 
-    /**
-     * Tests to make sure we cannot add an invalid vanity award
-     * @throws DatabaseException
-     */
     @Test (expected = DatabaseException.class)
     public void cannotAddInvalidVanityAward() throws DatabaseException
     {
-        gateway.addVanityAward(1, -1);
+        gateway.addVanityAward(-1, -1);
     }
 
-    /**
-     * Tests to make sure we cannot add a vanity award to an invalid quest id
-     * @throws DatabaseException
-     */
-    @Test (expected = DatabaseException.class)
-    public void cannotAddVanityAwardForInvalidQuest() throws DatabaseException
-    {
-        gateway.addVanityAward(-1, 1);
-    }
-
-    /**
-     * Tests to make sure we cannot remove an invalid vanity award
-     * @throws DatabaseException
-     */
     @Test (expected = DatabaseException.class)
     public void cannotRemoveInvalidAward() throws DatabaseException
     {
-        gateway.removeVanityAward(1, -1);
+        gateway.removeVanityAward(-1, -1);
     }
 
-    /**
-     * Tests to make sure we can remove a vanity award
-     * @throws DatabaseException
-     */
     @Test
     public void testRemoveAward() throws DatabaseException
     {
@@ -183,10 +136,6 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
         assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
-    /**
-     * @param awardsFromGateway the vanity awards from the gateway
-     * @return a list of the awards ids
-     */
     private ArrayList<Integer> getIDsFromVanityDTO(ArrayList<VanityDTO> awardsFromGateway)
     {
         ArrayList<Integer> awardsFromGatewayIDs = new ArrayList<>();
