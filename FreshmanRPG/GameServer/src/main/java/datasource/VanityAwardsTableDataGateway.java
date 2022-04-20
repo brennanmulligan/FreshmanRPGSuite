@@ -17,6 +17,14 @@ public interface VanityAwardsTableDataGateway
     ArrayList<VanityDTO> getVanityAwards() throws DatabaseException;
 
     /**
+     * Gets all the vanity awards for a given questID
+     * @param questID the quest
+     * @return a list of all the vanity awards given by that quest
+     * @throws DatabaseException shouldnt
+     */
+    ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException;
+
+    /**
      * Adds a vanity award to the vanity awards list so it can be given as a quest reward
      * @param awardID the ID of the vanity award to add
      * @throws DatabaseException shouldn't
