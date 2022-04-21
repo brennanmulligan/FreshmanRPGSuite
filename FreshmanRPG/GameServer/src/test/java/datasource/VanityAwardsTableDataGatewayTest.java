@@ -75,7 +75,8 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
 
         for (VanityAwardsForTest item : VanityAwardsForTest.values())
         {
-            if(item.getQuestID() == 1) {
+            if(item.getQuestID() == 1)
+            {
                 testAwards.add(item.getVanityID());
             }
         }
@@ -97,7 +98,8 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
 
         for (VanityAwardsForTest item : VanityAwardsForTest.values())
         {
-            if(item.getQuestID() == 4) {
+            if(item.getQuestID() == 4)
+            {
                 testAwards.add(item.getVanityID());
             }
         }
