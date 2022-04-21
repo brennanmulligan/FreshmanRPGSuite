@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the VanityTableDataGateway
+ * Tests for the VanityItemsTableDataGateway
  */
 public abstract class VanityItemsTableDataGatewayTest extends DatabaseTest
 {

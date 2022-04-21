@@ -64,7 +64,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * Gets all the vanity awards stored in the database
      *
      * @return a list of all the vanity awards
-     * @throws DatabaseException shouldn't
+     * @throws DatabaseException shouldnt
      */
     @Override
     public ArrayList<VanityDTO> getVanityAwards() throws DatabaseException {
@@ -92,7 +92,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * Gets all the vanity awards stored in the database
      *
      * @return a list of all the vanity awards
-     * @throws DatabaseException shouldn't
+     * @throws DatabaseException thrown if quest ID is invalid
      */
     @Override
     public ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException {
@@ -123,7 +123,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * Adds a vanity award to the vanity awards list so it can be given as a quest reward
      *
      * @param awardID the ID of the vanity award to add
-     * @throws DatabaseException shouldn't
+     * @throws DatabaseException thrown if quest or award ids are invalid
      */
     @Override
     public void addVanityAward(int questID, int awardID) throws DatabaseException {
@@ -149,7 +149,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * Removes a vanity award from the vanity awards list so it cant be given out anymore
      *
      * @param awardID the id of the award to be removed
-     * @throws DatabaseException shouldnt
+     * @throws DatabaseException thrown if quest or award ids are invalid
      */
     @Override
     public void removeVanityAward(int questID, int awardID) throws DatabaseException {
