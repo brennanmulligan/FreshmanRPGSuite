@@ -114,7 +114,13 @@ public abstract class VanityAwardsTableDataGatewayTest  extends DatabaseTest
     @Test (expected = DatabaseException.class)
     public void cannotAddInvalidVanityAward() throws DatabaseException
     {
-        gateway.addVanityAward(-1, -1);
+        gateway.addVanityAward(1, -1);
+    }
+
+    @Test (expected = DatabaseException.class)
+    public void cannotAddVanityAwardForInvalidQuest() throws DatabaseException
+    {
+        gateway.addVanityAward(-1, 1);
     }
 
     @Test (expected = DatabaseException.class)
