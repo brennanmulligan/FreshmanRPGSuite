@@ -10,7 +10,8 @@ public class VanityAwardsTableDataGatewayMockTest extends VanityAwardsTableDataG
      * @throws DatabaseException
      */
     @Override
-    VanityAwardsTableDataGateway findGateway() throws DatabaseException {
+    VanityAwardsTableDataGateway findGateway() throws DatabaseException
+    {
         return VanityAwardsTableDataGatewayMock.getSingleton();
     }
 }
