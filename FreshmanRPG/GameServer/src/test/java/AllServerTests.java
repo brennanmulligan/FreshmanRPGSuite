@@ -126,7 +126,6 @@ import model.reports.UpdatePlayerInformationReportTest;
 				VanityItemsTableDataGatewayRDSTest.class,
 				//VanityItemsTableDataGatewayTest.class
 				VanityShopTableDataGatewayMockTest.class,
-				VanityShopTableDataGatewayRDSTest.class,
 				//VanityShopTableDataGatewayTest.class
 				VisitedMapsGatewayMockTest.class,
 				VisitedMapsGatewayRDSTest.class,
