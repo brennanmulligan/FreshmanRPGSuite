@@ -5,7 +5,6 @@ import datatypes.VanityAwardsForTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 /**
  * A class for the mock data source of the VanityAwards table
  */
@@ -25,6 +24,21 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
         {
             this.questID = questID;
             this.vanityID = vanityID;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+            MockVanityAwardsRow that = (MockVanityAwardsRow) o;
+            return questID == that.questID && vanityID == that.vanityID;
         }
     }
 
@@ -71,25 +85,20 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Gets all the vanity awards for a given questID
      *
      * @param questID the quest
-     * @return a list of all the vanity awards given by that quest
+     * @return a list of all the vanity awards given by that quest, or empty list
      * @throws DatabaseException shouldnt
      */
     @Override
     public ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException
     {
-        ArrayList<VanityDTO> dtoList;
+        ArrayList<VanityDTO> dtoList = new ArrayList<>();
         if (vanityAwardsTable.containsKey(questID))
         {
-           dtoList = new ArrayList<>();
            ArrayList<MockVanityAwardsRow> row = vanityAwardsTable.get(questID);
            for (MockVanityAwardsRow m : row)
            {
                dtoList.add(vanityItemsGateway.getVanityItemByID(m.vanityID));
            }
-        }
-        else
-        {
-            throw new DatabaseException("Quest (" + questID + ") does not contain any vanity awards");
         }
         return dtoList;
     }
@@ -98,11 +107,24 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Adds a vanity award to the vanity awards list so it can be given as a quest reward
      *
      * @param awardID the ID of the vanity award to add
-     * @throws DatabaseException shouldn't
+     * @throws DatabaseException if quest or vanity does not exist, or if the award is already added
      */
     @Override
     public void addVanityAward(int questID, int awardID) throws DatabaseException
     {
+        try
+        {
+            new QuestRowDataGatewayMock(questID);
+        }
+        catch (DatabaseException e)
+        {
+            throw new DatabaseException("Vanity award could not be added because quest (" + questID + ") does not exist");
+        }
+        if (vanityItemsGateway.getVanityItemByID(awardID) == null)
+        {
+            throw new DatabaseException("Vanity ID (" + awardID + ") can't be added because it is invalid");
+        }
+
         if (vanityAwardsTable.containsKey(questID))
         {
             ArrayList<MockVanityAwardsRow> rows = vanityAwardsTable.get(questID);
@@ -127,7 +149,7 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Removes a vanity award from the vanity awards list so it cant be given out anymore
      *
      * @param awardID the id of the award to be removed
-     * @throws DatabaseException shouldnt
+     * @throws DatabaseException if quest does not award the vanity id being removed
      */
     @Override
     public void removeVanityAward(int questID, int awardID) throws DatabaseException
