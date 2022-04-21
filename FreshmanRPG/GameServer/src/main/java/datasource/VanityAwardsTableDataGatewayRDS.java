@@ -37,9 +37,10 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
         String dropSql = "DROP TABLE IF EXISTS VanityAwards";
         String vanityAwardsCreationSql = "CREATE TABLE VanityAwards(" +
                 "questID INT NOT NULL," +
-                "vanityID INT NOT NULL," +
+                "awardID INT NOT NULL," +
                 "FOREIGN KEY (questID) REFERENCES Quests(questID) ON DELETE CASCADE," +
-                "FOREIGN KEY (vanityID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE);";
+                "FOREIGN KEY (awardID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE," +
+                "CONSTRAINT PK_questID_awardID PRIMARY KEY (questID, awardID));";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
@@ -77,7 +78,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
 
             while (result.next())
             {
-                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("vanityID")));
+                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("awardID")));
             }
         }
         catch (SQLException e)
@@ -106,7 +107,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
 
             while (result.next())
             {
-                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("vanityID")));
+                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("awardID")));
             }
         }
         catch (SQLException e)
@@ -115,6 +116,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
         }
         return VanityAwards;
     }
+
+
 
     /**
      * Adds a vanity award to the vanity awards list so it can be given as a quest reward
@@ -153,7 +156,7 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try
         {
-            PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityAwards WHERE questID = ?, awardID = ? ");
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityAwards WHERE questID = ? AND awardID = ? ");
             stmt.setInt(1, questID);
             stmt.setInt(2, awardID);
             int updated = stmt.executeUpdate();
