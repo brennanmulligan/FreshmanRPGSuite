@@ -67,7 +67,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * @throws DatabaseException shouldnt
      */
     @Override
-    public ArrayList<VanityDTO> getVanityAwards() throws DatabaseException {
+    public ArrayList<VanityDTO> getVanityAwards() throws DatabaseException
+    {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
         VanityItemsTableDataGatewayInterface vanityItemsGateway = VanityItemsTableDataGatewayRDS.getSingleton();
@@ -95,7 +96,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * @throws DatabaseException thrown if quest ID is invalid
      */
     @Override
-    public ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException {
+    public ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException
+    {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
         VanityItemsTableDataGatewayInterface vanityItemsGateway = VanityItemsTableDataGatewayRDS.getSingleton();
@@ -126,7 +128,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * @throws DatabaseException thrown if quest or award ids are invalid
      */
     @Override
-    public void addVanityAward(int questID, int awardID) throws DatabaseException {
+    public void addVanityAward(int questID, int awardID) throws DatabaseException
+    {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try
         {
@@ -152,7 +155,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * @throws DatabaseException thrown if quest or award ids are invalid
      */
     @Override
-    public void removeVanityAward(int questID, int awardID) throws DatabaseException {
+    public void removeVanityAward(int questID, int awardID) throws DatabaseException
+    {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try
         {
@@ -177,7 +181,8 @@ public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGat
      * @throws DatabaseException shouldnt
      */
     @Override
-    public void resetData() throws DatabaseException {
+    public void resetData() throws DatabaseException
+    {
 
     }
 }
