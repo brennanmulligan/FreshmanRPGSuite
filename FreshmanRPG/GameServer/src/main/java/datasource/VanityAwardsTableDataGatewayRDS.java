@@ -1,0 +1,180 @@
+package datasource;
+
+import dataDTO.VanityDTO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+/**
+ * The RDS gateway for the items in the vanity awards table
+ */
+public class VanityAwardsTableDataGatewayRDS implements VanityAwardsTableDataGateway
+{
+    private static VanityAwardsTableDataGateway singleton;
+
+    /**
+     * Gets the instance of this gateway
+     * @return the instance
+     */
+    public static VanityAwardsTableDataGateway getSingleton()
+    {
+        if (singleton == null)
+        {
+            singleton = new VanityAwardsTableDataGatewayRDS();
+        }
+        return singleton;
+    }
+
+    /**
+     * Drop and re-create the VanityAwards table this gateway manages
+     * @throws DatabaseException shouldnt
+     */
+    public static void createTable() throws DatabaseException
+    {
+        String dropSql = "DROP TABLE IF EXISTS VanityAwards";
+        String vanityAwardsCreationSql = "CREATE TABLE VanityAwards(" +
+                "questID INT NOT NULL," +
+                "vanityID INT NOT NULL," +
+                "FOREIGN KEY (questID) REFERENCES Quests(questID) ON DELETE CASCADE," +
+                "FOREIGN KEY (vanityID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE);";
+
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(dropSql);
+            stmt.execute();
+            stmt.close();
+
+            stmt = connection.prepareStatement(vanityAwardsCreationSql);
+            stmt.execute();
+            stmt.close();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Could not create the Vanity awards table", e);
+        }
+    }
+
+    /**
+     * Gets all the vanity awards stored in the database
+     *
+     * @return a list of all the vanity awards
+     * @throws DatabaseException shouldn't
+     */
+    @Override
+    public ArrayList<VanityDTO> getVanityAwards() throws DatabaseException {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
+        VanityItemsTableDataGatewayInterface vanityItemsGateway = VanityItemsTableDataGatewayRDS.getSingleton();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards");
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next())
+            {
+                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("vanityID")));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return VanityAwards;
+    }
+
+    /**
+     * Gets all the vanity awards stored in the database
+     *
+     * @return a list of all the vanity awards
+     * @throws DatabaseException shouldn't
+     */
+    @Override
+    public ArrayList<VanityDTO> getVanityAwardsForQuest(int questID) throws DatabaseException {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
+        VanityItemsTableDataGatewayInterface vanityItemsGateway = VanityItemsTableDataGatewayRDS.getSingleton();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards WHERE questID = ?");
+            stmt.setInt(1, questID);
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next())
+            {
+                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("vanityID")));
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return VanityAwards;
+    }
+
+    /**
+     * Adds a vanity award to the vanity awards list so it can be given as a quest reward
+     *
+     * @param awardID the ID of the vanity award to add
+     * @throws DatabaseException shouldn't
+     */
+    @Override
+    public void addVanityAward(int questID, int awardID) throws DatabaseException {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityAwards SET questID = ?, awardID = ?");
+            stmt.setInt(1, questID);
+            stmt.setInt(2, awardID);
+            int updated = stmt.executeUpdate();
+            if (updated != 1)
+            {
+                throw new DatabaseException("Could not add new Vanity award to database (NOT ADDED)");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Could not add new Vanity award to database", e);
+        }
+    }
+
+    /**
+     * Removes a vanity award from the vanity awards list so it cant be given out anymore
+     *
+     * @param awardID the id of the award to be removed
+     * @throws DatabaseException shouldnt
+     */
+    @Override
+    public void removeVanityAward(int questID, int awardID) throws DatabaseException {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityAwards WHERE questID = ?, awardID = ? ");
+            stmt.setInt(1, questID);
+            stmt.setInt(2, awardID);
+            int updated = stmt.executeUpdate();
+            if (updated != 1)
+            {
+                throw new DatabaseException("Could not remove vanity award from database (NOT ADDED)");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Could not remove vanity award from database", e);
+        }
+    }
+
+    /**
+     * Resets the data
+     *
+     * @throws DatabaseException shouldnt
+     */
+    @Override
+    public void resetData() throws DatabaseException {
+
+    }
+}
