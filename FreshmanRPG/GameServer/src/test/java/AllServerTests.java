@@ -85,6 +85,9 @@ import model.reports.UpdatePlayerInformationReportTest;
 				TestPlayerDTO.class,
 
 				// dataSource
+				DefaultItemsTableDataGatewayMockTest.class,
+				DefaultItemsTableDataGatewayRDSTest.class,
+				//DefaultItemsTableDataGatewayTest.class
 				ObjectiveRecordTest.class,
 				ObjectiveStateTableDataGatewayMockTest.class,
 				ObjectiveStateTableDataGatewayRDSTest.class,
@@ -113,6 +116,17 @@ import model.reports.UpdatePlayerInformationReportTest;
 				RandomFactsTableDataGatewayMockTest.class,
 				RandomFactsTableDataGatewayRDSTest.class,
 //		RandomFactsTableDataGatewayTest.class,
+				VanityAwardsTableDataGatewayMockTest.class,
+				VanityAwardsTableDataGatewayRDSTest.class,
+				//VanityAwardsTableDataGatewayTest.class
+				VanityInventoryTableDataGatewayMockTest.class,
+				VanityInventoryTableDataGatewayRDSTest.class,
+				//VanityInventoryTableDataGatewayTest.class
+				VanityItemsTableDataGatewayMockTest.class,
+				VanityItemsTableDataGatewayRDSTest.class,
+				//VanityItemsTableDataGatewayTest.class
+				VanityShopTableDataGatewayMockTest.class,
+				//VanityShopTableDataGatewayTest.class
 				VisitedMapsGatewayMockTest.class,
 				VisitedMapsGatewayRDSTest.class,
 
@@ -170,14 +184,7 @@ import model.reports.UpdatePlayerInformationReportTest;
 				TeleportOnQuestCompletionReportTest.class,
 				TimeToLevelUpDeadlineTest.class,
 				UpdatePlayerInformationReportTest.class,
-				VanityShopTableDataGatewayMockTest.class,
-				//VanityShopTableDataGatewayTest.class
-				VanityInventoryTableDataGatewayMockTest.class,
-				VanityInventoryTableDataGatewayRDSTest.class,
-				//VanityInventoryTableDataGatewayTest.class
-				VanityItemsTableDataGatewayMockTest.class,
-				VanityItemsTableDataGatewayRDSTest.class,
-				//VanityItemsTableDataGatewayTest.class
+
 		})
 
 public class AllServerTests
