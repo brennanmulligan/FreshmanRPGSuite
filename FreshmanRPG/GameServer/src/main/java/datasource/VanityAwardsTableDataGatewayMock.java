@@ -85,7 +85,7 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Gets all the vanity awards for a given questID
      *
      * @param questID the quest
-     * @return a list of all the vanity awards given by that quest
+     * @return a list of all the vanity awards given by that quest, or empty list
      * @throws DatabaseException shouldnt
      */
     @Override
@@ -107,7 +107,7 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Adds a vanity award to the vanity awards list so it can be given as a quest reward
      *
      * @param awardID the ID of the vanity award to add
-     * @throws DatabaseException shouldn't
+     * @throws DatabaseException if quest or vanity does not exist, or if the award is already added
      */
     @Override
     public void addVanityAward(int questID, int awardID) throws DatabaseException
@@ -149,7 +149,7 @@ public class VanityAwardsTableDataGatewayMock implements VanityAwardsTableDataGa
      * Removes a vanity award from the vanity awards list so it cant be given out anymore
      *
      * @param awardID the id of the award to be removed
-     * @throws DatabaseException shouldnt
+     * @throws DatabaseException if quest does not award the vanity id being removed
      */
     @Override
     public void removeVanityAward(int questID, int awardID) throws DatabaseException
