@@ -6,6 +6,18 @@ import org.junit.Test;
 
 public class SmartPathTest
 {
+    boolean f = false;
+    boolean t = true;
+
+    private final boolean[][] testPassibilityMap =
+            {
+                      {t, t, f, t, f}
+                    , {t, t, t, t, t}
+                    , {t, f, f, f, t}
+                    , {t, f, f, f, t}
+                    , {f, t, t, t, t}
+            };
+
     @Before
     public void setUp()
     {
@@ -17,6 +29,11 @@ public class SmartPathTest
         OptionsManager.getSingleton().setUsingMocKDataSource(true);
         QualifiedObservableConnector.resetSingleton();
         ChatManager.resetSingleton();
+    }
+
+    @Test
+    public void testRightPath() {
+
     }
 
     @Test
