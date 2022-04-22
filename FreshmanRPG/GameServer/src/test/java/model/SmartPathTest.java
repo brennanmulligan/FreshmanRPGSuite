@@ -13,13 +13,14 @@ public class SmartPathTest
         npc.setMapName("quad.tmx");
         PlayerManager.getSingleton().addNpc(npc);
 
+        OptionsManager.getSingleton().setMapName("quad.tmx");
         OptionsManager.getSingleton().setUsingMocKDataSource(true);
         QualifiedObservableConnector.resetSingleton();
         ChatManager.resetSingleton();
     }
 
     @Test
-    public void testTest()
+    public void testConstructor()
     {
         SmartPath sp = new SmartPath(PlayersForTest.PRESIDENT_NPC.getPlayerID());
         sp.printPassabilityMap();

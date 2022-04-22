@@ -1,11 +1,15 @@
 package model;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.headless.HeadlessApplication;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import datasource.DatabaseException;
@@ -13,7 +17,12 @@ import datasource.ServerRowDataGateway;
 import datasource.ServerRowDataGatewayMock;
 import datasource.ServerRowDataGatewayRDS;
 import datatypes.Position;
+import org.mockito.Mockito;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Iterator;
 
 /**
@@ -24,10 +33,9 @@ public class ServerMapManager
 	private static ServerMapManager singleton;
 	private TiledMap tiledMap;
 	private boolean[][] passabilityMap;
-	private boolean headless;
-	private boolean noCollisionLayer;
 	private ObjectMap<Position, TeleportHotSpot> teleportMap;
 	private Array<MapObject> regions;
+	private String mapFile;
 
 	private static final String COLLISION_LAYER = "Collision";
 	private static final String REGION_LAYER = "Regions";
@@ -37,10 +45,8 @@ public class ServerMapManager
 	 */
 	private ServerMapManager()
 	{
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			headless = true;
-		}
+		mapFile = OptionsManager.getSingleton().getMapName();
+		loadMapData(mapFile);
 	}
 
 	/**
@@ -63,21 +69,64 @@ public class ServerMapManager
 		return singleton;
 	}
 
+	public String findMapFileAbsolutePath(String mapFile)
+	{
+		String mapFilePath = "";
+		URI path;
+		try
+		{
+			path = SmartPath.class.getProtectionDomain().getCodeSource()
+					.getLocation().toURI();
+		}
+		catch (URISyntaxException e1)
+		{
+			e1.printStackTrace();
+			return "";
+		}
+
+		try
+		{
+			URL decodedPath = path.toURL();
+
+			mapFilePath = (new URL(decodedPath, "../../../../maps/" + mapFile))
+					.toURI().getSchemeSpecificPart();
+		}
+		catch (MalformedURLException | URISyntaxException e)
+		{
+			e.printStackTrace();
+		}
+
+		return mapFilePath;
+	}
+
+
+	private static Application application;
 	/**
 	 * @param fileTitle
-	 *            the title of the file we should switch to
+	 *            the title of the file we should load map
 	 */
-	public void changeToNewFile(String fileTitle)
+	public void loadMapData(String fileTitle)
 	{
-		if (!headless)
-		{
+		application = new HeadlessApplication(new ApplicationAdapter() {
+		});
 
-			setMap(new TmxMapLoader().load(fileTitle));
+		// Use Mockito to mock the OpenGL methods since we are running
+		// headlessly
+		Gdx.gl20 = Mockito.mock(GL20.class);
+		Gdx.gl = Gdx.gl20;
+
+
+		String mapFilePath = findMapFileAbsolutePath(fileTitle);
+
+		if (Gdx.files.internal(mapFilePath).exists())
+		{
+			System.out.println("The file exists");
 		}
 		else
 		{
-			this.noCollisionLayer = true;
+			System.out.println("File does not exists");
 		}
+		//setMap(new TmxMapLoader().load(mapFilePath));
 	}
 
 	/**
@@ -95,13 +144,11 @@ public class ServerMapManager
 		MapLayer regionLayer = null;
 		MapProperties properties = null;
 
-		if (!headless)
-		{
-			collisionLayer = (TiledMapTileLayer) tiledMap.getLayers()
-					.get(COLLISION_LAYER);
-			properties = this.tiledMap.getProperties();
-			regionLayer = tiledMap.getLayers().get(REGION_LAYER);
-		}
+
+		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers()
+				.get(COLLISION_LAYER);
+		properties = this.tiledMap.getProperties();
+		regionLayer = tiledMap.getLayers().get(REGION_LAYER);
 
 		if (collisionLayer != null)
 		{
@@ -118,10 +165,6 @@ public class ServerMapManager
 				}
 			}
 
-		}
-		else
-		{
-			noCollisionLayer = true;
 		}
 
 		//parse out regions, which are mainly used for quests
