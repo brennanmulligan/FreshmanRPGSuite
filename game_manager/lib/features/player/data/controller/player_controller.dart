@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:game_manager/features/player/data/data.dart';
 part 'player_controller.freezed.dart';
+
 ///
 /// Create a state for the controller.
 ///
 @freezed
 class PlayerState with _$PlayerState {
   ///
-  /// Managed state for plaeyr stuff.
+  /// Managed state for player stuff.
   ///
   const factory PlayerState({
     @Default(false) showResponse,
@@ -36,28 +37,28 @@ class PlayerController extends StateNotifier<PlayerState> {
   PlayerController({
     required PlayerRepository repository,
     PlayerState? state,
-  }) : _repository = repository,
-      super(state ?? const PlayerState());
-  
+  })  : _repository = repository,
+        super(state ?? const PlayerState());
+
   Future<void> createPlayer({
-    required String name, required String password, required num crew, 
-    required num major, required num section,
+    required String name,
+    required String password,
+    required num crew,
+    required num major,
+    required num section,
   }) async {
     final response = await _repository.createPlayer(
-      request: CreatePlayerRequest(
-        name: name, 
-        password: password, 
-        crew: crew, 
-        major: major, 
-        section: section,
-      )
-    );
+        request: CreatePlayerRequest(
+      name: name,
+      password: password,
+      crew: crew,
+      major: major,
+      section: section,
+    ));
     CreatePlayerResponse createPlayerResponse = response.when(
-      data: (data) => data,
-      failure: (failure) => const CreatePlayerResponse(
-        responseType: PlayerResponseType.networkFailure
-      )
-    );
+        data: (data) => data,
+        failure: (failure) => const CreatePlayerResponse(
+            responseType: PlayerResponseType.networkFailure));
 
     state = state.copyWith(
       showResponse: true,
