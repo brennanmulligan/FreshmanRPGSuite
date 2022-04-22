@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
 import 'features/network/network_provider.dart';
 
+import 'features/network/network_provider.dart';
+
 ///
 /// Data for light theme.
 ///
