@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'features/network/network_provider.dart';
+
 ///
 /// Data for light theme.
 ///
@@ -55,6 +57,6 @@ Future<void> initialize({
   ///
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  // container.read(NetworkProvider.networkController.notifier).setBaseURL();
-  // container.refresh(NetworkProvider.serviceClient);
+  container.read(NetworkProvider.networkController.notifier).setBaseURL();
+  container.refresh(NetworkProvider.serviceClient);
 }
