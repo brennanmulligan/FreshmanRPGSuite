@@ -30,7 +30,7 @@ class CreateQRView extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Center(
           child: SafeArea(
-            minimum: EdgeInsets.all(10.0), // subject to change
+            minimum: const EdgeInsets.all(10.0), // subject to change
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -108,7 +108,7 @@ class CreateQRView extends HookConsumerWidget {
     final qrCode = qrValidationResult.qrCode ?? QrCode(1, 1);
     final painter = QrPainter.withQr(
       qr: qrCode,
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: const Color.fromARGB(255, 255, 255, 255),
       gapless: true,
       embeddedImageStyle: null,
       embeddedImage: null,
