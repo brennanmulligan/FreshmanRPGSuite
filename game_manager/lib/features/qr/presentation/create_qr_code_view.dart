@@ -4,43 +4,25 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frpg_networking_api/networking/location/location.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:file_saver/file_saver.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void main() {
-  runApp(MyApp());
-}
+import '../../network/network_provider.dart';
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class CreateQRView extends HookConsumerWidget {
+  CreateQRView({Key? key}) : super(key: key);
+
+  final questIDReader = TextEditingController();
+  final objectiveIDReader = TextEditingController();
+  final latitudeReader = TextEditingController();
+  final longitudeReader = TextEditingController();
+  final fileNameReader = TextEditingController();
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: GenerateQRPage(),
-    );
-  }
-}
-
-class GenerateQRPage extends StatefulWidget {
-  @override
-  _GenerateQRPageState createState() => _GenerateQRPageState();
-}
-
-class _GenerateQRPageState extends State<GenerateQRPage> {
-  TextEditingController questIDReader = TextEditingController();
-  TextEditingController objectiveIDReader = TextEditingController();
-  TextEditingController latitudeReader = TextEditingController();
-  TextEditingController longitudeReader = TextEditingController();
-  TextEditingController fileNameReader = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('QR GENERATOR'),
@@ -82,19 +64,15 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                       const InputDecoration(labelText: 'Enter fileName'),
                 ),
                 ElevatedButton(
-                    onPressed: () async {
-                      setState(() {});
-                    },
-                    child: const Text('Show Preview')),
+                    onPressed: () async {}, child: const Text('Show Preview')),
                 ElevatedButton(
                     onPressed: () async {
-                      // Something like this
-                      // Location location = await getlocation();
-                      // latitudeReader.text = '${location.latitude}';
-                      // longitudeReader.text = '${location.longitde}';
-                      latitudeReader.text = 'dffd';
-                      longitudeReader.text = 'sdfsd';
-                      setState(() {});
+                      final network =
+                          ref.watch(NetworkProvider.networkController.notifier);
+                      Location location = await network.getLocation();
+
+                      latitudeReader.text = '${location.latitude}';
+                      longitudeReader.text = '${location.longitude}';
                     },
                     child: const Text('GET CURRENT LOCATION')),
                 ElevatedButton(
