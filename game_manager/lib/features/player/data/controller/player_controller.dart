@@ -14,11 +14,6 @@ class PlayerState with _$PlayerState {
   ///
   const factory PlayerState({
     @Default(false) showResponse,
-    // @Default("") name,
-    // @Default("") password,
-    // @Default(-1) crew,
-    // @Default(-1) major,
-    // @Default(-1) section,
     CreatePlayerResponse? createPlayerResponse,
   }) = _PlayerState;
 

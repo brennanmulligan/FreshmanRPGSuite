@@ -1,4 +1,4 @@
-import 'package:game_manager/features/player/data/data.dart/';
+import 'package:game_manager/features/player/data/data.dart';
 import 'package:frpg_networking_api/networking/service_client/service_client.dart';
 
 ///
