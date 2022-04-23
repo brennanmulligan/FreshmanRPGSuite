@@ -51,6 +51,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   build_runner: ^2.1.10
+  qr_flutter: ^4.0.0
+  path_provider: ^2.0.2
+  gallery_saver: ^2.3.1
+  file_saver: ^0.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
