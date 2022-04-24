@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
+import 'features/network/network_provider.dart';
 
 ///
 /// Data for light theme.
@@ -36,7 +38,7 @@ void main() async {
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'Freshman RPG Game Manager',
-        home: Container(),
+        home: CreateQRView(),
       ),
     ),
   );
@@ -55,6 +57,6 @@ Future<void> initialize({
   ///
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  // container.read(NetworkProvider.networkController.notifier).setBaseURL();
-  // container.refresh(NetworkProvider.serviceClient);
+  container.read(NetworkProvider.networkController.notifier).setBaseURL();
+  container.refresh(NetworkProvider.serviceClient);
 }
