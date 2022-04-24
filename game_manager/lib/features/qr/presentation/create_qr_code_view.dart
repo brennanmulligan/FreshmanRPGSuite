@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../network/network_provider.dart';
 
 class CreateQRView extends HookConsumerWidget {
