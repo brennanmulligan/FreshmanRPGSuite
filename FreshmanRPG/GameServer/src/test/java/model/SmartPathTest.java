@@ -40,6 +40,5 @@ public class SmartPathTest
     public void testConstructor()
     {
         SmartPath sp = new SmartPath(PlayersForTest.PRESIDENT_NPC.getPlayerID());
-        sp.printPassabilityMap();
     }
 }

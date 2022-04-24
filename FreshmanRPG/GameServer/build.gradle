@@ -19,8 +19,6 @@ dependencies {
     testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.5'
 
 
-    implementation group: 'org.mockito', name: 'mockito-core', version: '4.5.0'
-    implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-headless', version: '1.10.0'
     implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.9.0'
     implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.21'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.16'

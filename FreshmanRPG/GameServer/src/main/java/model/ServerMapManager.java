@@ -1,29 +1,25 @@
 package model;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplication;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import datasource.DatabaseException;
 import datasource.ServerRowDataGateway;
 import datasource.ServerRowDataGatewayMock;
 import datasource.ServerRowDataGatewayRDS;
 import datatypes.Position;
-import org.mockito.Mockito;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Holds the map information that will be passed to the server for teleport
@@ -31,10 +27,7 @@ import java.util.Iterator;
 public class ServerMapManager
 {
 	private static ServerMapManager singleton;
-	private TiledMap tiledMap;
-	private boolean[][] passabilityMap;
-	private ObjectMap<Position, TeleportHotSpot> teleportMap;
-	private Array<MapObject> regions;
+	private boolean[][] collisionMap;
 	private String mapFile;
 
 	private static final String COLLISION_LAYER = "Collision";
@@ -47,6 +40,7 @@ public class ServerMapManager
 	{
 		mapFile = OptionsManager.getSingleton().getMapName();
 		loadMapData(mapFile);
+		printCollisionMap();
 	}
 
 	/**
@@ -99,120 +93,98 @@ public class ServerMapManager
 		return mapFilePath;
 	}
 
-
-	private static Application application;
-	/**
-	 * @param fileTitle
-	 *            the title of the file we should load map
-	 */
-	public void loadMapData(String fileTitle)
+	public void printCollisionMap()
 	{
-		application = new HeadlessApplication(new ApplicationAdapter() {
-		});
-
-		// Use Mockito to mock the OpenGL methods since we are running
-		// headlessly
-		Gdx.gl20 = Mockito.mock(GL20.class);
-		Gdx.gl = Gdx.gl20;
-
-
-		String mapFilePath = findMapFileAbsolutePath(fileTitle);
-
-		if (Gdx.files.internal(mapFilePath).exists())
+		for (int i = 0; i < collisionMap.length; i++)
 		{
-			System.out.println("The file exists");
+			for (int j = 0; j < collisionMap[i].length; j++)
+			{
+				System.out.print(collisionMap[i][j] + " ");
+			}
+			System.out.println();
 		}
-		else
-		{
-			System.out.println("File does not exists");
-		}
-		//setMap(new TmxMapLoader().load(mapFilePath));
 	}
 
 	/**
-	 * setting the Tiled map that is managed by this
-	 *
-	 * @param tiledMap
-	 *            TiledMap map
+	 * @param fileTitle
+	 *            the title of the map file
 	 */
-	public void setMap(TiledMap tiledMap)
+	public void loadMapData(String fileTitle)
 	{
-		this.tiledMap = tiledMap;
+		String mapFilePath = findMapFileAbsolutePath(fileTitle);
+		getMapDimensions(mapFilePath);
+		parseCollisionMapFromTMX(mapFilePath);
+	}
 
-		// set the map's passability
-		TiledMapTileLayer collisionLayer = null;
-		MapLayer regionLayer = null;
-		MapProperties properties = null;
+	private void getMapDimensions(String fileTitle)
+	{
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
 
-		collisionLayer = (TiledMapTileLayer) tiledMap.getLayers()
-				.get(COLLISION_LAYER);
-		properties = this.tiledMap.getProperties();
-		regionLayer = tiledMap.getLayers().get(REGION_LAYER);
-
-		if (collisionLayer != null)
+		DocumentBuilder docBuilder = null;
+		try
 		{
-			int width = tiledMap.getProperties().get("width", Integer.class);
-			int height = tiledMap.getProperties().get("height", Integer.class);
-			this.passabilityMap = new boolean[height][width];
+			docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File(fileTitle));
+			doc.getDocumentElement().normalize();
+			NodeList list = doc.getElementsByTagName("map");
+			Element element = (Element) list.item(0);
+			String widthAsString = element.getAttribute("width");
+			String heightAsString = element.getAttribute("height");
+			widthAsString = widthAsString.trim();
+			heightAsString = heightAsString.trim();
+			mapWidth = Integer.parseInt(widthAsString);
+			mapHeight = Integer.parseInt(heightAsString);
+			collisionMap = new boolean[mapHeight][mapWidth];
+			System.out.println(mapWidth);
+			System.out.println(mapHeight);
 
-			for (int row = 0; row < height; row++)
-			{
-				for (int col = 0; col < width; col++)
-				{
-					TiledMapTileLayer.Cell cell = collisionLayer.getCell(col, row);
-					passabilityMap[height - row - 1][col] = (cell == null);
-				}
-			}
 
 		}
-
-		//parse out regions, which are mainly used for quests
-		if (regionLayer != null)
+		catch (Exception e)
 		{
-			this.regions = new Array<>();
-			for (MapObject object : regionLayer.getObjects())
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Parses a TMX file for it's collision layer and returns the collsionMap
+	 * @param mapFilePath
+	 * @return
+	 */
+	private void parseCollisionMapFromTMX(String mapFilePath)
+	{
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+
+
+		DocumentBuilder docBuilder;
+		try
+		{
+			docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			docBuilder = docBuilderFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File(mapFilePath));
+			doc.getDocumentElement().normalize();
+			NodeList list = doc.getElementsByTagName("layer");
+
+			int temp = 0;
+			Node node = list.item(temp);
+			Element element = (Element) node;
+			while (!element.getAttribute("name").equals(COLLISION_LAYER))
 			{
-				//only add named regions, else we can't identify where we are
-				if (object.getName() != null)
-				{
-					regions.add(object);
-				}
+				temp++;
+				node = list.item(temp);
+				element = (Element) node;
+			}
+
+			if (temp < list.getLength())
+			{
+				getCollisionMapFromElement(element);
 			}
 		}
-
-		//handle parsing out teleportation hotspots
-		if (properties != null)
+		catch (Exception e)
 		{
-			if (this.teleportMap == null)
-			{
-				this.teleportMap = new ObjectMap<>();
-			}
-			this.teleportMap.clear();
-
-			Iterator<String> propKeys = properties.getKeys();
-			while (propKeys.hasNext())
-			{
-				String key = propKeys.next();
-				//parse position of the hotspot when a property isn't a hotspot definition
-				if (key.matches("[0-9]+ [0-9]+"))
-				{
-					String[] values = key.split(" ", 2);
-					int col, row;
-					col = Integer.parseInt(values[0]);
-					row = Integer.parseInt(values[1]);
-					Position from = new Position(row, col);
-
-					values = properties.get(key).toString().split(" ");
-					String mapName = values[0];
-					col = Integer.parseInt(values[1]);
-					row = Integer.parseInt(values[2]);
-					Position to = new Position(row, col);
-
-					TeleportHotSpot hotspot = new TeleportHotSpot(mapName, to);
-					this.teleportMap.put(from, hotspot);
-				}
-			}
+			e.printStackTrace();
 		}
 	}
 
@@ -286,8 +258,8 @@ public class ServerMapManager
 		return mapTitle;
 	}
 
-	public boolean[][] getPassabilityMap()
+	public boolean[][] getCollisionMap()
 	{
-		return passabilityMap;
+		return collisionMap;
 	}
 }

@@ -1,13 +1,11 @@
 package model;
 
-import datatypes.Position;
-
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class SmartPath
 {
-    private boolean[][] passabilityMap;
+    private boolean[][] collisionMap;
     private int playerId;
 
     public SmartPath(int playerId)
@@ -17,17 +15,6 @@ public class SmartPath
         passabilityMap = ServerMapManager.getSingleton().getPassabilityMap();
     }
 
-    public void printPassabilityMap()
-    {
-        for (int i = 0; i < passabilityMap.length; i++)
-        {
-            for (int j = 0; j < passabilityMap[i].length; j++)
-            {
-                System.out.print(passabilityMap[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
     private void AStar()
     {
         PriorityQueue<AStarPosition> openPathSteps = new PriorityQueue<AStarPosition>(700, new AStarPositionComparator());
