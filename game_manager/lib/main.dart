@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'features/network/network_provider.dart';
+import 'features/qr/presentation/create_qr_code_view.dart';
 
 ///
 /// Data for light theme.
@@ -38,7 +39,7 @@ void main() async {
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'Freshman RPG Game Manager',
-        home: Container(),
+        home: const CreateQRView(),
       ),
     ),
   );

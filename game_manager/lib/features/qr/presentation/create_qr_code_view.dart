@@ -14,15 +14,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../network/network_provider.dart';
 
 class CreateQRView extends HookConsumerWidget {
-  CreateQRView({Key? key}) : super(key: key);
-
-  final questIDReader = TextEditingController();
-  final objectiveIDReader = TextEditingController();
-  final latitudeReader = TextEditingController();
-  final longitudeReader = TextEditingController();
-  final fileNameReader = TextEditingController();
+  const CreateQRView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final questIDReader = TextEditingController();
+    final objectiveIDReader = TextEditingController();
+    final latitudeReader = TextEditingController();
+    final longitudeReader = TextEditingController();
+    final fileNameReader = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('QR GENERATOR'),
@@ -71,8 +70,10 @@ class CreateQRView extends HookConsumerWidget {
                           ref.watch(NetworkProvider.networkController.notifier);
                       Location location = await network.getLocation();
 
-                      latitudeReader.text = '${location.latitude}';
-                      longitudeReader.text = '${location.longitude}';
+                      latitudeReader.text =
+                          location.latitude.toStringAsFixed(4);
+                      longitudeReader.text =
+                          location.longitude.toStringAsFixed(4);
                     },
                     child: const Text('GET CURRENT LOCATION')),
                 ElevatedButton(
