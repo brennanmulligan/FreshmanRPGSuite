@@ -29,6 +29,8 @@ public class ServerMapManager
 	private static ServerMapManager singleton;
 	private boolean[][] collisionMap;
 	private String mapFile;
+	private int mapHeight;
+	private int mapWidth;
 
 	private static final String COLLISION_LAYER = "Collision";
 	private static final String REGION_LAYER = "Regions";
@@ -187,6 +189,26 @@ public class ServerMapManager
 			e.printStackTrace();
 		}
 	}
+
+	private void getCollisionMapFromElement(Element element)
+	{
+		String name = element.getAttribute("name");
+		String message = element.getTextContent();
+		message = message.trim();
+		String[] rowsOfMap = message.split("\n");
+		for(int row = 0; row < rowsOfMap.length; row++)
+		{
+			String[] rowOfMap = rowsOfMap[row].split(",");
+			for(int col = 0; col < rowOfMap.length; col++)
+			{
+				if(Integer.parseInt(rowOfMap[col]) != 0)
+				{
+					collisionMap[row][col] = true;
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Returns the position based on the mapTitle

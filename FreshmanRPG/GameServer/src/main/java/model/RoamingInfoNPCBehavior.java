@@ -43,7 +43,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     {
         super(playerId);
         sp = new SmartPath(playerId);
-        sp.printPassabilityMap();
 //        setUpListening();
         System.out.println(this.playerID + " has been made");
         parsedDialogueXML = new ArrayList<List<String>>();

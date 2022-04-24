@@ -12,7 +12,7 @@ public class SmartPath
     {
         this.playerId = playerId;
 
-        passabilityMap = ServerMapManager.getSingleton().getPassabilityMap();
+        collisionMap = ServerMapManager.getSingleton().getCollisionMap();
     }
 
     private void AStar()
