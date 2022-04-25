@@ -6,16 +6,18 @@ import org.junit.Test;
 
 public class SmartPathTest
 {
-    boolean f = false;
     boolean t = true;
+    boolean f = false;
 
-    private final boolean[][] testPassibilityMap =
+    private final boolean[][] testCollisionMap =
             {
-                      {t, t, f, t, f}
-                    , {t, t, t, t, t}
-                    , {t, f, f, f, t}
-                    , {t, f, f, f, t}
-                    , {f, t, t, t, t}
+                      {f, f, f, t, t, f, f, f}
+                    , {f, t, f, f, f, t, f, f}
+                    , {f, t, t, t, f, t, f, f}
+                    , {f, t, f, f, f, t, f, f}
+                    , {f, t, f, t, t, f, f, f}
+                    , {f, t, f, f, f, f, f, f}
+                    , {f, f, f, f, f, f, f, f}
             };
 
     @Before
@@ -39,6 +41,6 @@ public class SmartPathTest
     @Test
     public void testConstructor()
     {
-        SmartPath sp = new SmartPath(PlayersForTest.PRESIDENT_NPC.getPlayerID());
+        SmartPath sp = new SmartPath();
     }
 }

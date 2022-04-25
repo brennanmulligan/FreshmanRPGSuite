@@ -6,12 +6,9 @@ import java.util.PriorityQueue;
 public class SmartPath
 {
     private boolean[][] collisionMap;
-    private int playerId;
 
     public SmartPath(int playerId)
     {
-        this.playerId = playerId;
-
         collisionMap = ServerMapManager.getSingleton().getCollisionMap();
     }
 
@@ -20,8 +17,11 @@ public class SmartPath
         PriorityQueue<AStarPosition> openPathSteps = new PriorityQueue<AStarPosition>(700, new AStarPositionComparator());
     }
 
-    private class AStarPositionComparator implements Comparator {
-
+    /**
+     * Comparator for comparing astar positions
+     */
+    public static class AStarPositionComparator implements Comparator<AStarPosition>
+    {
         @Override
         public int compare(Object o1, Object o2) {
             return 0;

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Stack;
 import java.util.regex.Pattern;
 
 public class RoamingInfoNPCBehavior extends NPCBehavior
@@ -34,17 +35,20 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     protected int chatDelayCounter = 0;
     private int pathStep = 0;
     private String filePath;
-    private SmartPath sp;
-
+    private final SmartPath sp;
+    private boolean isRoamingOnSmartPath = false;
+    private boolean isSmartPathEnabled = true;
+    private Stack<Position> smartPath;
+    private Position startPosition;
+    private Position targetPosition;
 
     static final int CHAT_EXPIRE_DELAY_SECONDS = 25;
 
     public RoamingInfoNPCBehavior(int playerId)
     {
         super(playerId);
-        sp = new SmartPath(playerId);
-//        setUpListening();
-        System.out.println(this.playerID + " has been made");
+        setUpListening();
+        sp = new SmartPath();
         parsedDialogueXML = new ArrayList<List<String>>();
         parsedPathXML = new ArrayList<NPCPath>();
         currentTarget = "start";
@@ -52,8 +56,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             NPCRowDataGatewayRDS gateway = new NPCRowDataGatewayRDS(playerId);
             filePath = gateway.getFilePath();
-
-
         }
         catch (DatabaseException e)
         {
@@ -65,36 +67,66 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             System.out.println(this.playerID + " is Listening");
             setUpListening();
         }
+
+        startPosition = new Position(30,89);
+        targetPosition = new Position(7, 66);
     }
 
 
-
-        @Override
-        protected void doTimedEvent()
+    @Override
+    protected void doTimedEvent()
+    {
+        if (isSmartPathEnabled && roamDelayCounter == 0)
         {
-            if (roamDelayCounter == 0 && parsedPathXML.size() > 0)
-            {
-                roamOnPath();
-            }
-            roamDelayCounter = (roamDelayCounter + 1) % ROAM_DELAY_SECONDS;
+            walkSmartPath();
+        }
+        if (roamDelayCounter == 0 && parsedPathXML.size() > 0)
+        {
+            //roamOnPath();
+        }
+        roamDelayCounter = (roamDelayCounter + 1) % ROAM_DELAY_SECONDS;
 
+    }
+
+    private void walkSmartPath()
+    {
+        if (!isRoamingOnSmartPath)
+        {
+            smartPath = sp.aStar(startPosition, targetPosition);
+            isRoamingOnSmartPath = true;
+        }
+        else
+        {
+            if(smartPath.isEmpty())
+            {
+                isRoamingOnSmartPath = false;
+                Position tempPos = startPosition;
+                startPosition = targetPosition;
+                targetPosition = tempPos;
+            }
+            else
+            {
+                CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
+                cmd.execute();
+            }
+        }
+    }
+
+    /**
+     * method to actually update the npc's position on the server
+     */
+    protected void roamOnPath()
+    {
+        NPCPath path = parsedPathXML.get(1);
+        CommandMovePlayer cmd = new CommandMovePlayer(playerID, path.getPath().get(pathStep));
+        cmd.execute();
+        pathStep++;
+        if (pathStep >= path.getPath().size())
+        {
+            pathStep = 0;
         }
 
-        /**
-         * method to actually update the npc's position on the server
-         */
-        protected void roamOnPath()
-        {
-            NPCPath path = parsedPathXML.get(1);
-            CommandMovePlayer cmd = new CommandMovePlayer(playerID, path.getPath().get(pathStep));
-            cmd.execute();
-            pathStep++;
-            if(pathStep >= path.getPath().size())
-            {
-                pathStep = 0;
-            }
-
-        }
+    }
 
 
     @Override

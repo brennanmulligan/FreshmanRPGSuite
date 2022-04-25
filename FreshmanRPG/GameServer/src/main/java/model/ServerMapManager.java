@@ -18,8 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Holds the map information that will be passed to the server for teleport
@@ -28,7 +26,7 @@ public class ServerMapManager
 {
 	private static ServerMapManager singleton;
 	private boolean[][] collisionMap;
-	private String mapFile;
+	private final String mapFile;
 	private int mapHeight;
 	private int mapWidth;
 
@@ -42,7 +40,6 @@ public class ServerMapManager
 	{
 		mapFile = OptionsManager.getSingleton().getMapName();
 		loadMapData(mapFile);
-		printCollisionMap();
 	}
 
 	/**
@@ -65,6 +62,11 @@ public class ServerMapManager
 		return singleton;
 	}
 
+	/**
+	 * Appends absolute path to map file, may change if project file system is restructured
+	 * @param mapFile name of map file
+	 * @return absolute path
+	 */
 	public String findMapFileAbsolutePath(String mapFile)
 	{
 		String mapFilePath = "";
@@ -95,30 +97,22 @@ public class ServerMapManager
 		return mapFilePath;
 	}
 
-	public void printCollisionMap()
-	{
-		for (int i = 0; i < collisionMap.length; i++)
-		{
-			for (int j = 0; j < collisionMap[i].length; j++)
-			{
-				System.out.print(collisionMap[i][j] + " ");
-			}
-			System.out.println();
-		}
-	}
-
 	/**
-	 * @param fileTitle
-	 *            the title of the map file
+	 * Loads map collision data
+	 * @param fileTitle title of map file
 	 */
 	public void loadMapData(String fileTitle)
 	{
 		String mapFilePath = findMapFileAbsolutePath(fileTitle);
-		getMapDimensions(mapFilePath);
+		loadMapDimensions(mapFilePath);
 		parseCollisionMapFromTMX(mapFilePath);
 	}
 
-	private void getMapDimensions(String fileTitle)
+	/**
+	 * Load map dimensions from file
+	 * @param fileTitle title of map file
+	 */
+	private void loadMapDimensions(String fileTitle)
 	{
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -151,9 +145,8 @@ public class ServerMapManager
 	}
 
 	/**
-	 * Parses a TMX file for it's collision layer and returns the collsionMap
-	 * @param mapFilePath
-	 * @return
+	 * Parses a TMX file for it's collision layer and returns the collisionMap
+	 * @param mapFilePath path to map file
 	 */
 	private void parseCollisionMapFromTMX(String mapFilePath)
 	{
@@ -181,7 +174,7 @@ public class ServerMapManager
 
 			if (temp < list.getLength())
 			{
-				getCollisionMapFromElement(element);
+				loadCollisionMapFromElement(element);
 			}
 		}
 		catch (Exception e)
@@ -190,9 +183,12 @@ public class ServerMapManager
 		}
 	}
 
-	private void getCollisionMapFromElement(Element element)
+	/**
+	 * Loads collision map from an element assumed to hold collision data
+	 * @param element assumed to hold collision data
+	 */
+	private void loadCollisionMapFromElement(Element element)
 	{
-		String name = element.getAttribute("name");
 		String message = element.getTextContent();
 		message = message.trim();
 		String[] rowsOfMap = message.split("\n");
@@ -280,6 +276,10 @@ public class ServerMapManager
 		return mapTitle;
 	}
 
+	/**
+	 * Gets collision map
+	 * @return collisionMap
+	 */
 	public boolean[][] getCollisionMap()
 	{
 		return collisionMap;
