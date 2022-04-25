@@ -70,4 +70,9 @@ task DBBuildTestDefaultItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'DatabaseBuilders.BuildTestDefaultItems'
 }
+
+task DBBuildTestVanityAwards(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildTestVanityAwards'
+}
 // Gradle equivalent to VisitedMap.seed - start

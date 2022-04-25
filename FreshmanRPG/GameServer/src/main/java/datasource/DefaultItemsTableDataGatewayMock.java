@@ -67,6 +67,12 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
         }
     }
 
+    /**
+     * Removes a vanity item from the default item list so it wont
+     * be in all player's inventories anymore
+     * @param defaultID the id of the item to be removed
+     * @throws DatabaseException shouldnt
+     */
     @Override
     public void removeDefaultItem(int defaultID) throws DatabaseException
     {
@@ -76,6 +82,10 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
         }
     }
 
+    /**
+     * Resets the data
+     * @throws DatabaseException shouldnt
+     */
     @Override
     public void resetData() throws DatabaseException
     {

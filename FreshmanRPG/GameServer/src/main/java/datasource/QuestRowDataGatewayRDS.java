@@ -30,7 +30,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		Connection connection = DatabaseManager.getSingleton().getConnection();
 		try
 		{
-			PreparedStatement stmt =  connection.prepareStatement("DROP TABLE IF EXISTS Quests");
+			PreparedStatement stmt =  connection.prepareStatement("DROP TABLE IF EXISTS Quests, VanityAwards");
 			stmt.executeUpdate();
 			stmt.close();
 			stmt =  connection.prepareStatement(

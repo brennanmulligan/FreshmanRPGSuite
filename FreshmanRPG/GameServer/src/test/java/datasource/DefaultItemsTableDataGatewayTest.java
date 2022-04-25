@@ -10,11 +10,18 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the DefaultItemsTableDataGateway
+ */
 public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
 {
     protected DefaultItemsTableDataGateway gateway;
     abstract DefaultItemsTableDataGateway findGateway() throws DatabaseException;
 
+    /**
+     * Get the right gateway and set up the gateway
+     * @throws DatabaseException shouldnt
+     */
     @Before
     public void setup() throws DatabaseException
     {
@@ -35,6 +42,10 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertNotNull(a);
     }
 
+    /**
+     * Tests to make sure we can get all the default items
+     * @throws DatabaseException shouldnt
+     */
     @Test
     public void testGetAllItems() throws DatabaseException
     {
@@ -68,6 +79,10 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertTrue(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
+    /**
+     * Tests to make sure we cannot add a duplicate default item
+     * @throws DatabaseException
+     */
     @Test (expected = DatabaseException.class)
     public void cannotAddDuplicateItem() throws DatabaseException
     {
@@ -75,12 +90,20 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         gateway.addDefaultItem(itemsFromGateway.get(0));
     }
 
+    /**
+     * Tests to make sure we cannot add an invalid default item
+     * @throws DatabaseException
+     */
     @Test (expected = DatabaseException.class)
     public void cannotAddInvalidVanityItem() throws DatabaseException
     {
         gateway.addDefaultItem(-1);
     }
 
+    /**
+     * Tests to make sure we can remove a default item
+     * @throws DatabaseException
+     */
     @Test
     public void testRemoveItem() throws DatabaseException
     {
@@ -92,12 +115,20 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
+    /**
+     * Tests to make sure we cannot remove an invalid default item
+     * @throws DatabaseException
+     */
     @Test (expected = DatabaseException.class)
     public void cannotRemoveInvalidItem() throws DatabaseException
     {
         gateway.removeDefaultItem(-1);
     }
 
+    /**
+     * @param itemsFromGateway the default items from the gateway
+     * @return a list of the awards ids
+     */
     private ArrayList<Integer> getIDsFromVanityDTO(ArrayList<VanityDTO> itemsFromGateway)
     {
         ArrayList<Integer> itemsFromGatewayIDs = new ArrayList<>();
