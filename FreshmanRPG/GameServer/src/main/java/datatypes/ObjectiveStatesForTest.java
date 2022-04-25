@@ -79,7 +79,7 @@ public enum ObjectiveStatesForTest
 
 	PLAYER1_QUEST100_ADV11(1,100,11,ObjectiveStateEnum.TRIGGERED, false),
 
-
+	PLAYER1_QUEST17_ADV1(1,17, 1, ObjectiveStateEnum.TRIGGERED,false),
 
 	PLAYER1_QUEST4_ADV1(1, 107, 1, ObjectiveStateEnum.TRIGGERED, false),
 

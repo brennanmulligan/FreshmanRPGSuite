@@ -3,7 +3,6 @@ package dataENUM;
 import criteria.GameLocationDTO;
 import criteria.QuestCompletionActionParameter;
 import criteria.QuestListCompletionParameter;
-import criteria.VanityAwardDTO;
 
 /**
  * @author Merlin
@@ -29,7 +28,7 @@ public enum QuestCompletionActionType
 	/**
 	 *
 	 */
-	ADD_VANITY_TO_INVENTORY(VanityAwardDTO.class);
+	ADD_VANITY_TO_INVENTORY(null);
 
 	private Class<? extends QuestCompletionActionParameter> completionActionParameterType;
 
