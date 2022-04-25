@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 
 import 'objective_response_type.dart';
 

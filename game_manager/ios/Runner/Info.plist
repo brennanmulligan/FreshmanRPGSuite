@@ -28,6 +28,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is used to scan QR codes which allow your to complete objectives. This camera data is not sent to any server and deleted after use.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location data is used to complete objectives. This data is only used when the app is running and is not set to any server or stored.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

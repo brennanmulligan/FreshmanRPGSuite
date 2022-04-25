@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 
 class ObjectiveInformation extends Equatable {
   final String description;
@@ -42,6 +42,4 @@ class ObjectiveInformation extends Equatable {
     return 'ObjectiveInformation(description: $description, '
         'questID: $questID, objectiveID: $objectiveID)';
   }
-
-  
 }
