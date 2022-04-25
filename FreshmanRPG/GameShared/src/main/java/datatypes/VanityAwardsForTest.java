@@ -2,13 +2,15 @@ package datatypes;
 
 public enum VanityAwardsForTest
 {
-    BigRedHat(1, VanityForTest.BR_Hat.getId()),
-    BigRedShirt(2, VanityForTest.BR_Shirt.getId()),
-    BigRedPants(3, VanityForTest.BR_Pants.getId()),
-    BigRedAll(4, VanityForTest.BR_Hat.getId()),
-    BigRedAll1(4, VanityForTest.BR_Pants.getId()),
-    BigRedAll2(4, VanityForTest.BR_Shirt.getId()),
-    BigRedAll3(4, VanityForTest.BR_Hair.getId());
+//    BigRedHat(1, VanityForTest.BR_Hat.getId()),
+//    BigRedShirt(2, VanityForTest.BR_Shirt.getId()),
+//    BigRedPants(3, VanityForTest.BR_Pants.getId()),
+//    BigRedAll(4, VanityForTest.BR_Hat.getId()),
+//    BigRedAll1(4, VanityForTest.BR_Pants.getId()),
+//    BigRedAll2(4, VanityForTest.BR_Shirt.getId()),
+//    BigRedAll3(4, VanityForTest.BR_Hair.getId()),
+
+    BigRedAll4(17, VanityForTest.BR_Hat.getId());
     private final int questId;
     private final int vanityId;
 
