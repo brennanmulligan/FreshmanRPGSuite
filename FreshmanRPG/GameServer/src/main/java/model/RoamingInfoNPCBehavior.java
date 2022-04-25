@@ -72,17 +72,18 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             setUpListening();
         }
 
-        startPosition = new Position(30,89);
-        targetPosition = new Position(7, 66);
+        startPosition = new Position(66,87);
+        targetPosition = new Position(56, 80);
     }
 
 
     @Override
     protected void doTimedEvent()
     {
-        if (isSmartPathEnabled && roamDelayCounter == 0)
+        if (isSmartPathEnabled)
         {
             walkSmartPath();
+
         }
         if (roamDelayCounter == 0 && parsedPathXML.size() > 0)
         {
@@ -98,6 +99,20 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             smartPath = sp.aStar(startPosition, targetPosition);
             isRoamingOnSmartPath = true;
+            /**
+             * check to prevent popping the last position, as next time we enter method,
+             * we need at least one left for our outer else condition to not cause a Null Pointer
+             */
+            if(smartPath.size() > 1)
+            {
+                CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
+                cmd.execute();
+
+            }
+            else
+            {
+                isRoamingOnSmartPath = false;
+            }
         }
         else
         {
