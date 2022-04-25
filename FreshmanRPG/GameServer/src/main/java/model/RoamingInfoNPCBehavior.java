@@ -98,6 +98,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         if (!isRoamingOnSmartPath)
         {
             smartPath = sp.aStar(startPosition, targetPosition);
+            // Pop off current position
+            smartPath.pop();
             isRoamingOnSmartPath = true;
             /**
              * check to prevent popping the last position, as next time we enter method,
@@ -116,17 +118,13 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         }
         else
         {
-            if(smartPath.isEmpty())
-            {
+            CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
+            cmd.execute();
+            if (smartPath.isEmpty()) {
                 isRoamingOnSmartPath = false;
                 Position tempPos = startPosition;
                 startPosition = targetPosition;
                 targetPosition = tempPos;
-            }
-            else
-            {
-                CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
-                cmd.execute();
             }
         }
     }
