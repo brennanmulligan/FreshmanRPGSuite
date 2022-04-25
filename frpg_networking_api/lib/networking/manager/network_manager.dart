@@ -40,10 +40,14 @@ class NetworkManager extends StateNotifier<NetworkManagerState> {
     debugPrint('--- BEGIN base URL Dump ---');
     if (kDebugMode) {
       debugPrint('Mode: debug');
-      if (Platform.isAndroid) {
-        baseURL = dotenv.get('API_DEBUG_ANDROID');
-      } else {
+      if (kIsWeb) {
         baseURL = dotenv.get('API_DEBUG_IOS');
+      } else {
+        if (Platform.isAndroid) {
+          baseURL = dotenv.get('API_DEBUG_ANDROID');
+        } else {
+          baseURL = dotenv.get('API_DEBUG_IOS');
+        }
       }
     } else if (kProfileMode) {
       debugPrint('Mode: profile');

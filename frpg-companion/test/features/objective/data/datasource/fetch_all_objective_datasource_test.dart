@@ -42,8 +42,8 @@ void main() {
         json: testJSONResponse,
       );
       when(
-        mockServiceClient.post(
-            endpoint: anyNamed('endpoint'), body: anyNamed('body')),
+        mockServiceClient.get(
+            endpoint: anyNamed('endpoint'), ),
       ).thenAnswer((realInvocation) async => testJSONResponse);
 
       final actual = await datasource.fetchAllObjective(
@@ -52,9 +52,8 @@ void main() {
         ),
       );
 
-      verify(mockServiceClient.post(
+      verify(mockServiceClient.get(
         endpoint: anyNamed('endpoint'),
-        body: anyNamed('body'),
       ));
       expect(actual, expected);
     });
