@@ -7,4 +7,10 @@
     <Path id = "1" type = "regular">
         <message>30,89 30,88 30,87 31,87 32,87 33,87 33,88 33,89 32,89 31,89</message>
     </Path>
+    <Path id = "0" type = "smart">
+        <message>66,87 56,80</message>
+    </Path>
+    <Path id = "1" type = "smart">
+        <message>56,80 66,87</message>
+    </Path>
 </paths>

@@ -32,7 +32,8 @@ import java.util.regex.Pattern;
 public class RoamingInfoNPCBehavior extends NPCBehavior
 {
     List<List<String>> parsedDialogueXML;
-    List<NPCPath> parsedPathXML;
+    List<NPCPath> parsedRegularPaths;
+    List<NPCPath> parsedSmartPaths;
     private String currentTarget;
     static final int CHAT_DELAY_SECONDS = 5;
     static final int ROAM_DELAY_SECONDS = 2;
@@ -47,6 +48,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     private Position startPosition;
     private Position targetPosition;
 
+    static final String REGULAR_PATH_TYPE = "regular";
+    static final String SMART_PATH_TYPE = "smart";
     static final int CHAT_EXPIRE_DELAY_SECONDS = 25;
 
     public RoamingInfoNPCBehavior(int playerId)
@@ -54,7 +57,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         super(playerId);
         sp = new SmartPath();
         parsedDialogueXML = new ArrayList<List<String>>();
-        parsedPathXML = new ArrayList<NPCPath>();
+        parsedRegularPaths = new ArrayList<NPCPath>();
+        parsedSmartPaths = new ArrayList<NPCPath>();
         currentTarget = "start";
         try
         {
@@ -72,8 +76,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             setUpListening();
         }
 
-        startPosition = new Position(66,87);
-        targetPosition = new Position(56, 80);
+        startPosition = parsedSmartPaths.get(0).getPath().get(0);
+        targetPosition = parsedSmartPaths.get(0).getPath().get(1);
     }
 
 
@@ -83,20 +87,18 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         if (isSmartPathEnabled)
         {
             walkSmartPath();
-
         }
-        if (roamDelayCounter == 0 && parsedPathXML.size() > 0)
+        else if (parsedRegularPaths.size() > 0)
         {
-            //roamOnPath();
+            roamOnPath();
         }
-        roamDelayCounter = (roamDelayCounter + 1) % ROAM_DELAY_SECONDS;
-
     }
 
     private void walkSmartPath()
     {
         if (!isRoamingOnSmartPath)
         {
+
             smartPath = sp.aStar(startPosition, targetPosition);
             // Pop off current position
             smartPath.pop();
@@ -134,7 +136,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
      */
     protected void roamOnPath()
     {
-        NPCPath path = parsedPathXML.get(1);
+        NPCPath path = parsedRegularPaths.get(1);
         CommandMovePlayer cmd = new CommandMovePlayer(playerID, path.getPath().get(pathStep));
         cmd.execute();
         pathStep++;
@@ -219,7 +221,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     public void parseFileInfo()
     {
         parseDialogueXML(filePath);
-        parsePathXML(filePath);
+        parsePathXML();
     }
 
 
@@ -279,14 +281,13 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
     /**
      * Fills out parsedPathXML with info from the XML at filePath
-     * @param filePath
      */
-    private void parsePathXML(String filePath)
+    private void parsePathXML()
     {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
 
-        DocumentBuilder docBuilder = null;
+        DocumentBuilder docBuilder;
         try
         {
             docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -303,11 +304,17 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
                     Element element = (Element) node;
                     String id = element.getAttribute("id");
+                    String type = element.getAttribute("type");
                     String message = element.getTextContent();
 
-                    NPCPath path = new NPCPath(id, message);
-                    parsedPathXML.add(path);
-
+                    if (type.equals(REGULAR_PATH_TYPE))
+                    {
+                        addPathsToList(id, message, parsedRegularPaths);
+                    }
+                    else if (type.equals(SMART_PATH_TYPE))
+                    {
+                        addPathsToList(id, message, parsedSmartPaths);
+                    }
                 }
             }
         }
@@ -315,11 +322,16 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             e.printStackTrace();
         }
-
-
     }
 
+    private List<NPCPath> addPathsToList(String id, String message, List<NPCPath> list)
+    {
+        NPCPath path = new NPCPath(id, message);
+        list.add(path);
+        return list;
     }
+
+}
     class NPCPath
     {
 
