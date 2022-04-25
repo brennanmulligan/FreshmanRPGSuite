@@ -133,8 +133,6 @@ public class ServerMapManager
 			mapWidth = Integer.parseInt(widthAsString);
 			mapHeight = Integer.parseInt(heightAsString);
 			collisionMap = new boolean[mapHeight][mapWidth];
-			System.out.println(mapWidth);
-			System.out.println(mapHeight);
 
 
 		}

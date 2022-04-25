@@ -1,8 +1,14 @@
 package model;
 
 import datatypes.PlayersForTest;
+import datatypes.Position;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Stack;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class SmartPathTest
 {
@@ -42,5 +48,42 @@ public class SmartPathTest
     public void testConstructor()
     {
         SmartPath sp = new SmartPath();
+    }
+
+    @Test
+    public void testAStar()
+    {
+       SmartPath sp = new SmartPath();
+       sp.setCollisionMap(testCollisionMap);
+       Stack<Position> steps = sp.aStar(new Position(0,0), new Position(6,7));
+       Position temp = steps.pop();
+       assertEquals(new Position(0,0), temp);
+       temp = steps.pop();
+       assertEquals(new Position(1,0), temp);
+       temp = steps.pop();
+       assertEquals(new Position(2, 0), temp);
+
+       temp = steps.pop();
+       assertEquals(new Position(3, 0), temp);
+       temp = steps.pop();
+       assertEquals(new Position(4, 0), temp);
+        temp = steps.pop();
+        assertEquals(new Position(5, 0), temp);
+        temp = steps.pop();
+        assertEquals(new Position(6, 0), temp);
+       temp = steps.pop();
+       assertEquals(new Position(6, 1), temp);
+       temp = steps.pop();
+       assertEquals(new Position(6, 2), temp);
+       temp = steps.pop();
+       assertEquals(new Position(6, 3), temp);
+       temp = steps.pop();
+       assertEquals(new Position(6, 4), temp);
+        temp = steps.pop();
+        assertEquals(new Position(6, 5), temp);
+        temp = steps.pop();
+        assertEquals(new Position(6, 6), temp);
+        temp = steps.pop();
+        assertEquals(new Position(6, 7), temp);
     }
 }

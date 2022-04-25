@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <paths>
-    <Path id = "0">
+    <Path id = "0" type = "regular">
         <message>30,89 31,89 32,89 33,89 34,89 35,89 34,89 33,89 32,89 31,89</message>
     </Path>
-    <Path id = "1">
+    <Path id = "1" type = "regular">
         <message>30,89 30,88 30,87 31,87 32,87 33,87 33,88 33,89 32,89 31,89</message>
     </Path>
 </paths>
