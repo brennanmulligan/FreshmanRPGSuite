@@ -7,10 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.VisibleAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import dataDTO.VanityDTO;
 import datatypes.VanityType;
-import model.ClientPlayerManager;
-import model.QualifiedObservableConnector;
-import model.QualifiedObservableReport;
-import model.QualifiedObserver;
+import model.*;
+import model.reports.ServerPlayerOwnedItemsResponseReport;
 import view.screen.OverlayingScreen;
 import view.screen.SkinPicker;
 import model.reports.ClientKeyInputSentReport;
@@ -28,6 +26,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     private final float WIDTH = 600f;
     private final float HEIGHT = 380f;
     private final ClosetTable closetTable;
+    List<VanityDTO> serverOwnedVanities;
 
     /**
      * Basic constructor.
@@ -51,15 +50,17 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     /**
      * Retrieves the players current and owned vanities then updates the view.
      */
-    private void loadAllVanities()
+    private synchronized void loadAllVanities()
     {
         ClientPlayerManager playerManager = ClientPlayerManager.getSingleton();
 
         List<VanityDTO> currentVanities = playerManager.getThisClientsPlayer().getVanities();
-        List<VanityDTO> ownedVanities = playerManager.getThisClientsPlayer().getOwnedItems();
+
+        CommandServerPlayerOwnedItemsRequest cmd = new CommandServerPlayerOwnedItemsRequest();
+        ClientModelFacade.getSingleton().queueCommand(cmd);
 
         closetTable.setSelectedVanities(currentVanities);
-        closetTable.setOwnedVanities(ownedVanities);
+        closetTable.setOwnedVanities(serverOwnedVanities);
         closetTable.updateView();
     }
 
@@ -86,6 +87,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
         else
         {
             action = Actions.show();
+
             loadAllVanities();
         }
         addAction(action);
@@ -144,6 +146,12 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
             {
                 this.toggleVisibility();
             }
+        }
+        else if (report.getClass().equals(ServerPlayerOwnedItemsResponseReport.class)) {
+            System.out.println("Report received");
+            ServerPlayerOwnedItemsResponseReport r = (ServerPlayerOwnedItemsResponseReport) report;
+
+            serverOwnedVanities = r.getServerOwnedVanities();
         }
     }
 }
