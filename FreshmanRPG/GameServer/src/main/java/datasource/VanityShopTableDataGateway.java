@@ -11,12 +11,13 @@ import model.VanityTableRow;
 public interface VanityShopTableDataGateway
 {
     /**
-     * @return the rows
-     */
-    ArrayList<VanityTableRow> getRows();
-
-    /**
      * @return the list of vanity show items
      */
-    ArrayList<VanityDTO> getVanityShopInventory();
+    ArrayList<VanityDTO> getVanityShopInventory() throws DatabaseException;
+
+    void addItem(int vanityID, int price) throws DatabaseException;
+
+    void updateItem(int vanityID, int price) throws DatabaseException;
+
+    void resetData();
 }
