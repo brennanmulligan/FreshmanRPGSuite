@@ -26,7 +26,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     private final float WIDTH = 600f;
     private final float HEIGHT = 380f;
     private final ClosetTable closetTable;
-    List<VanityDTO> serverOwnedVanities;
+    List<VanityDTO> currentVanities;
 
     /**
      * Basic constructor.
@@ -37,6 +37,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
 
         QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
         cm.registerObserver(this, ClientKeyInputSentReport.class);
+        cm.registerObserver(this, ServerPlayerOwnedItemsResponseReport.class);
 
         Table mainTable = new Table(SkinPicker.getSkinPicker().getCrewSkin());
         mainTable.setFillParent(true);
@@ -53,15 +54,10 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     private synchronized void loadAllVanities()
     {
         ClientPlayerManager playerManager = ClientPlayerManager.getSingleton();
-
-        List<VanityDTO> currentVanities = playerManager.getThisClientsPlayer().getVanities();
+        currentVanities = playerManager.getThisClientsPlayer().getVanities();
 
         CommandServerPlayerOwnedItemsRequest cmd = new CommandServerPlayerOwnedItemsRequest();
         ClientModelFacade.getSingleton().queueCommand(cmd);
-
-        closetTable.setSelectedVanities(currentVanities);
-        closetTable.setOwnedVanities(serverOwnedVanities);
-        closetTable.updateView();
     }
 
     @Override
@@ -148,10 +144,13 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
             }
         }
         else if (report.getClass().equals(ServerPlayerOwnedItemsResponseReport.class)) {
-            System.out.println("Report received");
+//            System.out.println("\nReport received");
             ServerPlayerOwnedItemsResponseReport r = (ServerPlayerOwnedItemsResponseReport) report;
 
-            serverOwnedVanities = r.getServerOwnedVanities();
+            closetTable.setOwnedVanities(r.getServerOwnedVanities());
+//            r.getServerOwnedVanities().forEach(System.out::println);
+            closetTable.setSelectedVanities(currentVanities);
+            closetTable.updateView();
         }
     }
 }

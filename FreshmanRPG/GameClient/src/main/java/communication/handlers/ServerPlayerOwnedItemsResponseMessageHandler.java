@@ -2,8 +2,11 @@ package communication.handlers;
 
 import communication.messages.Message;
 import communication.messages.ServerPlayerOwnedItemsResponseMessage;
+import dataDTO.VanityDTO;
 import model.ClientModelFacade;
 import model.CommandServerPlayerOwnedItemsResponse;
+
+import java.util.ArrayList;
 
 /**
  * Handler for the ServerPlayerOwnedItemsResponseMessage
@@ -22,6 +25,11 @@ public class ServerPlayerOwnedItemsResponseMessageHandler extends MessageHandler
         {
             System.out.println("step 6");
             ServerPlayerOwnedItemsResponseMessage actualMsg = (ServerPlayerOwnedItemsResponseMessage) msg;
+
+            ArrayList<VanityDTO> items = actualMsg.getServerOwnedVanities();
+            System.out.println("\nItems from ServerPlayerOwnedItemsResponseMessageHandler");
+            items.forEach(System.out::println);
+
             CommandServerPlayerOwnedItemsResponse cmd = new CommandServerPlayerOwnedItemsResponse(actualMsg.getServerOwnedVanities());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }

@@ -144,7 +144,6 @@ public class QuestState
 		if (!awardedVanities.isEmpty()) {
 			Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
 			awardedVanities.forEach(x -> player.addItemToInventory(x));
-
 		}
 	}
 

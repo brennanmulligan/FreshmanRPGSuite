@@ -3,20 +3,24 @@ package communication.handlers;
 import communication.messages.Message;
 import communication.messages.ServerPlayerOwnedItemsRequestMessage;
 import communication.messages.ServerPlayerOwnedItemsResponseMessage;
+import dataDTO.VanityDTO;
 import model.PlayerManager;
+
+import java.util.ArrayList;
 
 public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
 {
 
     @Override
-    public void process(Message msg) {
+    public void process(Message msg)
+    {
         ServerPlayerOwnedItemsRequestMessage actualMsg = (ServerPlayerOwnedItemsRequestMessage) msg;
-        System.out.println("step 4 " + actualMsg.getPlayerID());
         try
         {
-            this.getStateAccumulator()
-                    .queueMessage(new ServerPlayerOwnedItemsResponseMessage(PlayerManager.getSingleton()
-                            .getPlayerFromID(actualMsg.getPlayerID()).getAllOwnedItems()));
+            ArrayList<VanityDTO> ownedItems = PlayerManager.getSingleton().getPlayerFromID(actualMsg.getPlayerID()).getAllOwnedItems();
+            ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems);
+            System.out.println("\n---Msg to send---\n" + msgToSend);
+            this.getStateAccumulator().queueMessage(msgToSend);
         }
         catch (Exception e)
         {
@@ -25,7 +29,8 @@ public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
     }
 
     @Override
-    public Class<?> getMessageTypeWeHandle() {
+    public Class<?> getMessageTypeWeHandle()
+    {
         return ServerPlayerOwnedItemsRequestMessage.class;
     }
 }
