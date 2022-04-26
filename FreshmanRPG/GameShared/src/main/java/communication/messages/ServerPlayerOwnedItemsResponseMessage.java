@@ -19,6 +19,8 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
     public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems)
     {
         System.out.println("step 5");
+        System.out.println("\nItems from constructor ServerPlayerOwnedItemsResponseMessage");
+        serverOwnedItems.forEach(System.out::println);
         this.serverOwnedItems = serverOwnedItems;
     }
 
@@ -27,6 +29,8 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
      */
     public ArrayList<VanityDTO> getServerOwnedVanities()
     {
+        System.out.println("\nItems from getServerOwnedVanities() ServerPlayerOwnedItemsResponseMessage");
+        serverOwnedItems.forEach(System.out::println);
         return serverOwnedItems;
     }
 
@@ -49,5 +53,13 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
     public int hashCode()
     {
         return Objects.hash(serverOwnedItems);
+    }
+
+    public String toString() {
+        String str = "";
+        for (VanityDTO dto : serverOwnedItems) {
+            str += dto.getName() + "\n";
+        }
+        return str;
     }
 }

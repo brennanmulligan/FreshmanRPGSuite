@@ -21,6 +21,8 @@ public class ServerPlayerOwnedItemsResponseReport implements QualifiedObservable
      */
     public ArrayList<VanityDTO> getServerOwnedVanities()
     {
+//        System.out.println("\nItems from getServerOwnedVanities() ServerPlayerOwnedItemsResponseReport");
+//        serverOwnedItems.forEach(System.out::println);
         return serverOwnedItems;
     }
 
