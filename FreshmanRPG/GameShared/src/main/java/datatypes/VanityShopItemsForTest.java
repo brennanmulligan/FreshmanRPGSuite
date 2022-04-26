@@ -1,6 +1,7 @@
 package datatypes;
 
-public enum VanityShopItemsForTest {
+public enum VanityShopItemsForTest
+{
     BeanieHat(VanityForTest.BeanieHat.getId(), 1),
     DuckHat(VanityForTest.DuckHat.getId(), 2),
     MerlinHat(VanityForTest.MerlinHat.getId(), 10),
@@ -21,11 +22,13 @@ public enum VanityShopItemsForTest {
         this.price = price;
     }
 
-    public int getVanityID() {
+    public int getVanityID()
+    {
         return vanityID;
     }
 
-    public int getPrice() {
+    public int getPrice()
+    {
         return price;
     }
 }
