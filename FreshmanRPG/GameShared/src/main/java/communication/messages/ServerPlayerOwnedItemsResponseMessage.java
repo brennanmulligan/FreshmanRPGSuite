@@ -21,7 +21,7 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
         System.out.println("step 5");
         System.out.println("\nItems from constructor ServerPlayerOwnedItemsResponseMessage");
         serverOwnedItems.forEach(System.out::println);
-        this.serverOwnedItems = serverOwnedItems;
+        this.serverOwnedItems = new ArrayList<>(serverOwnedItems);
     }
 
     /**
