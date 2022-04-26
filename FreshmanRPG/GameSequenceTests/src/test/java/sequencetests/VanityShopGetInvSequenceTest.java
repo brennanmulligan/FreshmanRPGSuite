@@ -6,6 +6,7 @@ import dataDTO.VanityDTO;
 import datasource.DatabaseException;
 import datatypes.PlayersForTest;
 import datatypes.VanityForTest;
+import datatypes.VanityShopItemsForTest;
 import datatypes.VanityType;
 import model.*;
 
@@ -20,9 +21,10 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
     public VanityShopGetInvSequenceTest()
     {
         ArrayList<VanityDTO> response = new ArrayList<>();
-        for (VanityForTest items : VanityForTest.values())
+        for (VanityShopItemsForTest items : VanityShopItemsForTest.values())
         {
-            response.add(new VanityDTO(items.getId(), items.getName(), items.getDescription(), items.getTextureName(), VanityType.fromInt(items.getVanityType()), items.getPrice()));
+            VanityForTest item = VanityForTest.values()[items.getVanityID()-1];
+            response.add(new VanityDTO(items.getVanityID(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType()), items.getPrice()));
         }
         MessageFlow[] sequence =
                 {
