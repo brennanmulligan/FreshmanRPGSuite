@@ -151,11 +151,19 @@ public class SmartPath
     {
         Stack<Position> pathSteps = new Stack<>();
         AStarPosition currentPosition = new AStarPosition(targetPosition);
+        if(currentPosition.getFOfN() == 1000000)
+        {
+            return null;
+        }
         pathSteps.add(new Position(currentPosition.getRow(), currentPosition.getColumn()));
         while(currentPosition.getParent() != null)
         {
             pathSteps.add(new Position(currentPosition.getParent().getRow(), currentPosition.getParent().getColumn()));
             currentPosition = currentPosition.getParent();
+            if(currentPosition.getFOfN() == 1000000)
+            {
+                return null;
+            }
         }
         return pathSteps;
     }
