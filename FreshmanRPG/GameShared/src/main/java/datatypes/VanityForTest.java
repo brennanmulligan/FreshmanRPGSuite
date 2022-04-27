@@ -74,6 +74,8 @@ public enum VanityForTest
 
     BR_Shirt(2,"Big Red Shirt","","shirt_br",5),
 
+    Base_Shirt(2, "Default Shirt", "", "base_shirt", 0),
+
     /**
      * Represents a PANTS vanity object.
      */

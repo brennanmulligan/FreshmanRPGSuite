@@ -45,6 +45,7 @@ seed_stage_2_GameServer:
         - ./../gradlew DBBuildTestVanityInventory
         - ./../gradlew DBBuildTestDefaultItems
         - ./../gradlew DBBuildTestVanityAwards
+        - ./../gradlew DBBuildTestVanityShop
 
 test_game_shared:
     stage: test

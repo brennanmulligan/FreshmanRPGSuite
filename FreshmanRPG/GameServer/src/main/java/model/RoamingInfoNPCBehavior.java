@@ -33,7 +33,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     List<List<String>> parsedDialogueXML;
     List<NPCPath> parsedPathXML;
     private String currentTarget;
-    static final int CHAT_DELAY_SECONDS = 5;
+    static final int CHAT_DELAY_SECONDS = 20;
     static final int ROAM_DELAY_SECONDS = 2;
     protected int roamDelayCounter = 1;
     protected int chatDelayCounter = 0;
@@ -77,6 +77,11 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             }
             roamDelayCounter = (roamDelayCounter + 1) % ROAM_DELAY_SECONDS;
 
+            if (chatDelayCounter == 0)
+            {
+                currentTarget = "start";
+            }
+            chatDelayCounter = (chatDelayCounter + 1) % CHAT_DELAY_SECONDS;
         }
 
         /**
@@ -127,6 +132,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                 //Make sure NPC is not talking to themselves
                 if (player.getPlayerID() != this.playerID)
                 {
+                    //Reset the chat counter, whenever it successfully speaks to a player
+                    chatDelayCounter = 1;
                     //Make the players message soemthing we can read easier
                     String input = report.getChatText().toLowerCase().replaceAll(" ", "");
                     for (List<String> node : parsedDialogueXML)

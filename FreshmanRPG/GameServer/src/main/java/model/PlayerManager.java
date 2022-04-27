@@ -408,11 +408,12 @@ public class PlayerManager implements QualifiedObserver
 	/**
 	 * @return list of the vanity shops inventory
 	 */
-	//TODO: real datasource
-	public ArrayList<VanityDTO> getVanityShopInventory()
+	public ArrayList<VanityDTO> getVanityShopInventory() throws DatabaseException
 	{
+		if (OptionsManager.getSingleton().isUsingMockDataSource())
+		{
 			return VanityShopTableDataGatewayMock.getSingleton().getVanityShopInventory();
+		}
+			return VanityShopTableDataGatewayRDS.getSingleton().getVanityShopInventory();
 	}
-
-
 }

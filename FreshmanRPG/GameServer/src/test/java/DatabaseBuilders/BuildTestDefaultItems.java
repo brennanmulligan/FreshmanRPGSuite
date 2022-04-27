@@ -27,7 +27,7 @@ public class BuildTestDefaultItems
         DefaultItemsTableDataGateway gateway = DefaultItemsTableDataGatewayRDS.getSingleton();
         for (DefaultItemsForTest v : DefaultItemsForTest.values())
         {
-            gateway.addDefaultItem(v.getDefaultID());
+            gateway.addDefaultItem(v.getDefaultID(), v.getDefaultWearing());
         }
     }
 }
