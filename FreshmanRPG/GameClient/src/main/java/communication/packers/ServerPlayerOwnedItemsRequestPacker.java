@@ -12,13 +12,15 @@ public class ServerPlayerOwnedItemsRequestPacker extends MessagePacker
 {
 
     @Override
-    public Message pack(QualifiedObservableReport object) {
+    public Message pack(QualifiedObservableReport object)
+    {
         System.out.println("step 2");
         return new ServerPlayerOwnedItemsRequestMessage(ClientPlayerManager.getSingleton().getThisClientsPlayer().getID());
     }
 
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack() {
+    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    {
         ArrayList<Class<? extends QualifiedObservableReport>> result =
                 new ArrayList<>();
         result.add(ServerPlayerOwnedItemsRequestReport.class);
