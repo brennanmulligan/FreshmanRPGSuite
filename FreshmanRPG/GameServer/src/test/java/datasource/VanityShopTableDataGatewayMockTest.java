@@ -9,6 +9,6 @@ public class VanityShopTableDataGatewayMockTest extends VanityShopTableDataGatew
     @Override
     VanityShopTableDataGateway findGateway() throws DatabaseException
     {
-        return new VanityShopTableDataGatewayMock();
+        return VanityShopTableDataGatewayMock.getSingleton();
     }
 }

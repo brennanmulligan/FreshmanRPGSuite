@@ -26,6 +26,8 @@
           <option value=":GameServer:DBBuildTestVanityItems" />
           <option value=":GameServer:DBBuildTestVanityInventory" />
           <option value=":GameServer:DBBuildTestDefaultItems" />
+          <option value=":GameServer:DBBuildTestVanityAwards" />
+          <option value=":GameServer:DBBuildTestVanityShop" />
         </list>
       </option>
       <option name="vmOptions" value="" />

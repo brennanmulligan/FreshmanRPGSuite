@@ -195,7 +195,7 @@ public class ServerMapManager
 			String[] rowOfMap = rowsOfMap[row].split(",");
 			for(int col = 0; col < rowOfMap.length; col++)
 			{
-				if(Integer.parseInt(rowOfMap[col]) != 0)
+				if(!rowOfMap[col].equals("0"))
 				{
 					collisionMap[row][col] = true;
 				}

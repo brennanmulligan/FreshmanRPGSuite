@@ -72,6 +72,6 @@ public class QuestStateTableDataGatewayRDSTest extends QuestStateTableDataGatewa
 
 		assertEquals(startSize - 2, listOfQuestStates.size());
 		assertEquals(QuestStateEnum.AVAILABLE, listOfQuestStates.get(0).getState());
-		assertEquals(QuestStateEnum.COMPLETED, listOfQuestStates.get(21).getState());
+		assertEquals(QuestStateEnum.EXPIRED, listOfQuestStates.get(21).getState());
 	}
 }

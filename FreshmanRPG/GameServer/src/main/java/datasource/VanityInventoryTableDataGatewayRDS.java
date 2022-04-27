@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The RDS implementation of the row data gateway
@@ -16,6 +17,7 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
 {
 
     private static VanityInventoryTableDataGatewayInterface singleton;
+    private final DefaultItemsTableDataGateway defaultItemsTableDataGateway = DefaultItemsTableDataGatewayRDS.getSingleton();
 
     /**
      * Gets the instance of this gateway
@@ -95,6 +97,26 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
         {
             throw new DatabaseException("Couldn't get the list of items the player is wearing", e);
         }
+        ArrayList<VanityType> types = new ArrayList<>(Arrays.asList(VanityType.values()));
+        ArrayList<VanityType> toRemove = new ArrayList<>();
+        toRemove.add(VanityType.NAMEPLATE);
+        for (VanityDTO dto : results)
+        {
+            toRemove.add(dto.getVanityType());
+        }
+        types.removeAll(toRemove);
+        for (VanityType type : types)
+        {
+            try
+            {
+                results.add(defaultItemsTableDataGateway.getDefaultItem(type));
+            }
+            catch (DatabaseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         return results;
     }
 
@@ -162,44 +184,47 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
     @Override
     public void updateCurrentlyWearing(int playerID, ArrayList<VanityDTO> newWearing) throws DatabaseException
     {
-        Connection connection = DatabaseManager.getSingleton().getConnection();
-        ArrayList<VanityDTO> owned = getAllOwnedItems(playerID);
-        ArrayList<Integer> itemsIDs = new ArrayList<>();
-        for (VanityDTO dto : newWearing)
+        if (newWearing != null)
         {
-            itemsIDs.add(dto.getID());
-        }
-
-        for (VanityDTO item : newWearing)
-        {
-            if (!owned.contains(item))
+            Connection connection = DatabaseManager.getSingleton().getConnection();
+            ArrayList<VanityDTO> owned = getAllOwnedItems(playerID);
+            ArrayList<Integer> itemsIDs = new ArrayList<>();
+            for (VanityDTO dto : newWearing)
             {
-                throw new DatabaseException("Player " + playerID + "can't put on item "+
-                        item.getID() + " because they don't own it.");
+                itemsIDs.add(dto.getID());
             }
-        }
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 0 WHERE playerID = ?");
-            stmt.setInt(1, playerID);
-            stmt.executeUpdate();
-            for (int id : itemsIDs)
+
+            for (VanityDTO item : newWearing)
             {
-                stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 1 WHERE playerID = ? AND vanityID = ?");
-                stmt.setInt(1, playerID);
-                stmt.setInt(2, id);
-                int updated = stmt.executeUpdate();
-                if (updated == 0)
+                if (!owned.contains(item))
                 {
-                    addItemToInventory(playerID, id, 1);
+                    throw new DatabaseException("Player " + playerID + "can't put on item " +
+                            item.getID() + " because they don't own it.");
                 }
             }
-            stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS(SELECT * FROM DefaultItems WHERE vanityID = DefaultItems.defaultID) AND isWearing = 0;");
-            stmt.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            throw new DatabaseException("Couldn't update what the player is wearing", e);
+            try
+            {
+                PreparedStatement stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 0 WHERE playerID = ?");
+                stmt.setInt(1, playerID);
+                stmt.executeUpdate();
+                for (int id : itemsIDs)
+                {
+                    stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 1 WHERE playerID = ? AND vanityID = ?");
+                    stmt.setInt(1, playerID);
+                    stmt.setInt(2, id);
+                    int updated = stmt.executeUpdate();
+                    if (updated == 0)
+                    {
+                        addItemToInventory(playerID, id, 1);
+                    }
+                }
+                stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS(SELECT * FROM DefaultItems WHERE vanityID = DefaultItems.defaultID) AND isWearing = 0;");
+                stmt.executeUpdate();
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Couldn't update what the player is wearing", e);
+            }
         }
     }
 

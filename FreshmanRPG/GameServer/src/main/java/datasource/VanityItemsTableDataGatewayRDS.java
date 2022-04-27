@@ -34,7 +34,7 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
      */
     public static void createTable() throws DatabaseException
     {
-        String dropSql = "DROP TABLE IF EXISTS VanityItems, DefaultItems";
+        String dropSql = "DROP TABLE IF EXISTS VanityItems, DefaultItems, VanityAwards, VanityShop";
         String vanityItemCreationSql = "CREATE TABLE VanityItems(" +
                 "vanityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "+
                 "name VARCHAR(255), " +

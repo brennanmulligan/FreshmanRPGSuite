@@ -35,7 +35,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     List<NPCPath> parsedRegularPaths;
     List<NPCPath> parsedSmartPaths;
     private String currentTarget;
-    static final int CHAT_DELAY_SECONDS = 5;
+    static final int CHAT_DELAY_SECONDS = 20;
     static final int ROAM_DELAY_SECONDS = 2;
     protected int roamDelayCounter = 1;
     protected int chatDelayCounter = 0;
@@ -76,8 +76,15 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             setUpListening();
         }
 
-        startPosition = parsedSmartPaths.get(0).getPath().get(0);
-        targetPosition = parsedSmartPaths.get(0).getPath().get(1);
+        if (!parsedSmartPaths.isEmpty())
+        {
+            startPosition = parsedSmartPaths.get(0).getPath().get(0);
+            targetPosition = parsedSmartPaths.get(0).getPath().get(1);
+        }
+        else
+        {
+            isSmartPathEnabled = false;
+        }
     }
 
 
@@ -92,6 +99,11 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             roamOnPath();
         }
+        if (chatDelayCounter == 0)
+        {
+            currentTarget = "start";
+        }
+        chatDelayCounter = (chatDelayCounter + 1) % CHAT_DELAY_SECONDS;
     }
 
     private void walkSmartPath()
@@ -187,6 +199,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                 //Make sure NPC is not talking to themselves
                 if (player.getPlayerID() != this.playerID)
                 {
+                    //Reset the chat counter, whenever it successfully speaks to a player
+                    chatDelayCounter = 1;
                     //Make the players message soemthing we can read easier
                     String input = report.getChatText().toLowerCase().replaceAll(" ", "");
                     for (List<String> node : parsedDialogueXML)

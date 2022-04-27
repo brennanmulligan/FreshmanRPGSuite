@@ -87,6 +87,7 @@ public enum QuestsForTest
 	 */
 	TEST_CHAT_RESPONSE_QUEST(16, "Chat Response", "Get talked at by NPC", new GameLocationDTO("mowrey.tmx", new Position(29, 36)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
+	INVENTORY_QUEST_TEST(17, "Test Quest Reward", "Testing adding swag to inventory on quest complete", new GameLocationDTO("quad.tmx", new Position(92, 7)), 0, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
 	 * The real opening quest
@@ -94,7 +95,7 @@ public enum QuestsForTest
 	ONRAMPING_QUEST(100, "Introductory Quest",
 			"Welcome!  For your first quest, you need to learn a little bit about this world.  Press Q to see what you need to do.  "
 					+ "Double clicking on a quest in the quest screen will show you its objectives.",
-			PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 9, QuestCompletionActionType.TELEPORT,
+			PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 11, QuestCompletionActionType.TELEPORT,
 			new GameLocationDTO("quad.tmx", new Position(92, 7)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 

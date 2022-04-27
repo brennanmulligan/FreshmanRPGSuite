@@ -63,6 +63,7 @@ public enum QuestStatesForTest
 	 *
 	 */
 	PLAYER4_QUEST4(4, 4, QuestStateEnum.AVAILABLE, true),
+	PLAYER1_QUEST17(1, 17, QuestStateEnum.TRIGGERED, false),
 	/**
 	 *
 	 */
