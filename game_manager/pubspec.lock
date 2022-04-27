@@ -205,7 +205,7 @@ packages:
     source: hosted
     version: "6.1.2"
   file_saver:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: file_saver
       url: "https://pub.dartlang.org"
@@ -223,13 +223,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_barcode_scanner:
-    dependency: "direct main"
-    description:
-      name: flutter_barcode_scanner
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   flutter_dotenv:
     dependency: transitive
     description:
@@ -251,13 +244,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.5"
   flutter_riverpod:
     dependency: transitive
     description:
@@ -276,14 +262,14 @@ packages:
     source: sdk
     version: "0.0.0"
   freezed:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
   freezed_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
@@ -304,7 +290,7 @@ packages:
     source: path
     version: "1.0.0"
   gallery_saver:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: gallery_saver
       url: "https://pub.dartlang.org"
@@ -486,7 +472,7 @@ packages:
     source: hosted
     version: "1.8.0"
   path_provider:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -584,7 +570,7 @@ packages:
     source: hosted
     version: "2.1.0"
   qr_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: qr_flutter
       url: "https://pub.dartlang.org"

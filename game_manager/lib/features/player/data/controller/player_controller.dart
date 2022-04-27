@@ -14,12 +14,10 @@ class PlayerState with _$PlayerState {
   ///
   const factory PlayerState({
     @Default(false) showResponse,
+    //@Default(true) providedInvalidInfo,
     CreatePlayerResponse? createPlayerResponse,
   }) = _PlayerState;
 
-  ///
-  /// Creating a private singleton instance of the state.
-  ///
   const PlayerState._();
 }
 
@@ -35,13 +33,8 @@ class PlayerController extends StateNotifier<PlayerState> {
   })  : _repository = repository,
         super(state ?? const PlayerState());
 
-  Future<void> createPlayer({
-    required String name,
-    required String password,
-    required num crew,
-    required num major,
-    required num section,
-  }) async {
+  Future<void> createPlayer(
+      String name, String password, num crew, num major, num section) async {
     final response = await _repository.createPlayer(
         request: CreatePlayerRequest(
       name: name,
@@ -56,8 +49,16 @@ class PlayerController extends StateNotifier<PlayerState> {
             responseType: PlayerResponseType.networkFailure));
 
     state = state.copyWith(
+      //providedInvalidInfo: createPlayerResponse.responseType == -1,
       showResponse: true,
       createPlayerResponse: createPlayerResponse,
     );
   }
+
+  ///
+  /// Get providedInvalidInfo
+  ///
+  //bool get providedInvalidInfo => state.providedInvalidInfo;
+
+  get createPlayerResponse => state.createPlayerResponse;
 }
