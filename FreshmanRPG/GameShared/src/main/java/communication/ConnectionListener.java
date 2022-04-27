@@ -75,14 +75,8 @@ public class ConnectionListener implements Runnable
 		}
 		finally
 		{
-			try
-			{
-				DatabaseManager.getSingleton().closeConnection();
-			}
-			catch (SQLException | DatabaseException e)
-			{
-				e.printStackTrace();
-			}
+
+
 		}
 	}
 

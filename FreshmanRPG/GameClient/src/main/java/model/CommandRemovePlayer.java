@@ -2,6 +2,7 @@ package model;
 
 
 import model.reports.LogoutReport;
+import model.reports.PlayerDisconnectedFromAreaServerReport;
 
 /**
  * Command to the model signifying the a player has been disconnected from the
@@ -29,10 +30,12 @@ public class CommandRemovePlayer extends Command
 	@Override
 	boolean execute()
 	{
-		LogoutReport report = new LogoutReport();
-		QualifiedObservableConnector.getSingleton().sendReport(report);
-
+		if(playerID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID()) {
+			LogoutReport report = new LogoutReport();
+			QualifiedObservableConnector.getSingleton().sendReport(report);
+		}
 		ClientPlayerManager.getSingleton().removePlayer(playerID);
+
 		return true;
 	}
 

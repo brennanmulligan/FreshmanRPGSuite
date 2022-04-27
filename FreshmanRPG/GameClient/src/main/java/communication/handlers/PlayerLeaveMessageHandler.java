@@ -3,6 +3,7 @@ package communication.handlers;
 import communication.messages.Message;
 import communication.messages.PlayerLeaveMessage;
 import model.ClientModelFacade;
+import model.ClientPlayerManager;
 import model.CommandRemovePlayer;
 
 /**
@@ -24,6 +25,7 @@ public class PlayerLeaveMessageHandler extends MessageHandler
 	@Override
 	public void process(Message msg)
 	{
+
 
 		if (msg.getClass().equals(PlayerLeaveMessage.class))
 		{
