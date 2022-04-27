@@ -21,8 +21,6 @@ public class CommandServerPlayerOwnedItemsResponse extends Command
     boolean execute() throws IOException
     {
         ServerPlayerOwnedItemsResponseReport report = new ServerPlayerOwnedItemsResponseReport(serverOwnedItems);
-//        System.out.println("\nItems from CommandServerPlayerOwnedItemsResponse");
-//        serverOwnedItems.forEach(System.out::println);
         QualifiedObservableConnector.getSingleton().sendReport(report);
 
         return true;
