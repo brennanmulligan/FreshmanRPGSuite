@@ -20,7 +20,8 @@ public class ServerPlayerOwnedItemsResponseMessageHandler extends MessageHandler
      * @param msg the message to handle
      */
     @Override
-    public void process(Message msg) {
+    public void process(Message msg)
+    {
         if (msg.getClass().equals(ServerPlayerOwnedItemsResponseMessage.class))
         {
             System.out.println("step 6");
@@ -41,7 +42,8 @@ public class ServerPlayerOwnedItemsResponseMessageHandler extends MessageHandler
      * @return the type of message
      */
     @Override
-    public Class<?> getMessageTypeWeHandle() {
+    public Class<?> getMessageTypeWeHandle()
+    {
         return ServerPlayerOwnedItemsResponseMessage.class;
     }
 }

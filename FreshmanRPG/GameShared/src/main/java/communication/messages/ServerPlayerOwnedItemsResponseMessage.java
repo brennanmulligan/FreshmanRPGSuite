@@ -55,9 +55,11 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
         return Objects.hash(serverOwnedItems);
     }
 
-    public String toString() {
+    public String toString()
+    {
         String str = "";
-        for (VanityDTO dto : serverOwnedItems) {
+        for (VanityDTO dto : serverOwnedItems)
+        {
             str += dto.getName() + "\n";
         }
         return str;

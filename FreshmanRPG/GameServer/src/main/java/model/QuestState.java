@@ -141,7 +141,8 @@ public class QuestState
 		VanityAwardsTableDataGateway gateway = VanityAwardsTableDataGatewayRDS.getSingleton();
 		ArrayList<VanityDTO> awardedVanities = gateway.getVanityAwardsForQuest(questID);
 
-		if (!awardedVanities.isEmpty()) {
+		if (!awardedVanities.isEmpty())
+		{
 			Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
 			awardedVanities.forEach(x -> player.addItemToInventory(x));
 		}

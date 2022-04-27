@@ -143,7 +143,8 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
                 this.toggleVisibility();
             }
         }
-        else if (report.getClass().equals(ServerPlayerOwnedItemsResponseReport.class)) {
+        else if (report.getClass().equals(ServerPlayerOwnedItemsResponseReport.class))
+        {
 //            System.out.println("\nReport received");
             ServerPlayerOwnedItemsResponseReport r = (ServerPlayerOwnedItemsResponseReport) report;
 
