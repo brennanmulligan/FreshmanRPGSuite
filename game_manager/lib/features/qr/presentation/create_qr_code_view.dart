@@ -69,9 +69,9 @@ class CreateQRView extends HookConsumerWidget {
                       Location location = await network.getLocation();
 
                       latitudeReader.text =
-                          location.latitude.toStringAsFixed(4);
+                          location.latitude.toStringAsFixed(6);
                       longitudeReader.text =
-                          location.longitude.toStringAsFixed(4);
+                          location.longitude.toStringAsFixed(6);
                     },
                     child: const Text('GET CURRENT LOCATION')),
                 ElevatedButton(
