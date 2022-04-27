@@ -6,8 +6,11 @@ import java.util.Date;
 
 import criteria.GameLocationDTO;
 import criteria.QuestListCompletionParameter;
+import dataDTO.VanityDTO;
 import dataENUM.QuestCompletionActionType;
 import datasource.DatabaseException;
+import datasource.VanityAwardsTableDataGateway;
+import datasource.VanityAwardsTableDataGatewayRDS;
 import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.reports.QuestStateChangeReport;
@@ -133,6 +136,15 @@ public class QuestState
 					qs.changeState(QuestStateEnum.TRIGGERED, true);
 				}
 			}
+		}
+
+		VanityAwardsTableDataGateway gateway = VanityAwardsTableDataGatewayRDS.getSingleton();
+		ArrayList<VanityDTO> awardedVanities = gateway.getVanityAwardsForQuest(questID);
+
+		if (!awardedVanities.isEmpty())
+		{
+			Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
+			awardedVanities.forEach(x -> player.addItemToInventory(x));
 		}
 	}
 

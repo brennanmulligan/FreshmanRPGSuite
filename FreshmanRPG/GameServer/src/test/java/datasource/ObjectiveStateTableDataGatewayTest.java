@@ -84,7 +84,7 @@ public abstract class ObjectiveStateTableDataGatewayTest extends DatabaseTest
 	{
 		gateway = getGateway();
 		ArrayList<ObjectiveStateRecordDTO> records = gateway.getPendingObjectivesForPlayer(1);
-		assertEquals(8, records.size());
+		assertEquals(9, records.size());
 		// the records could be in either order
 		ObjectiveStatesForTest first = ObjectiveStatesForTest.PLAYER1_QUEST2_ADV3;
 		ObjectiveStatesForTest other = ObjectiveStatesForTest.PLAYER1_QUEST3_ADV1;
@@ -94,6 +94,7 @@ public abstract class ObjectiveStateTableDataGatewayTest extends DatabaseTest
 		ObjectiveStatesForTest sixth = ObjectiveStatesForTest.PLAYER1_QUEST4_ADV2;
 		ObjectiveStatesForTest seventh = ObjectiveStatesForTest.PLAYER1_QUEST100_ADV10;
 		ObjectiveStatesForTest eighth = ObjectiveStatesForTest.PLAYER1_QUEST100_ADV11;
+		ObjectiveStatesForTest ninth = ObjectiveStatesForTest.PLAYER1_QUEST17_ADV1;
 
 		for (ObjectiveStateRecordDTO record : records)
 		{
@@ -159,6 +160,14 @@ public abstract class ObjectiveStateTableDataGatewayTest extends DatabaseTest
 				assertEquals(eighth.getState(), record.getState());
 				assertEquals(eighth.getQuestID(), record.getQuestID());
 				assertEquals(eighth.isNeedingNotification(), record.isNeedingNotification());
+			}
+			else if( (record.getObjectiveID() == ninth.getObjectiveID()
+					&& (record.getQuestID() == ninth.getQuestID())))
+			{
+				assertEquals(ninth.getObjectiveID(), record.getObjectiveID());
+				assertEquals(ninth.getState(), record.getState());
+				assertEquals(ninth.getQuestID(), record.getQuestID());
+				assertEquals(ninth.isNeedingNotification(), record.isNeedingNotification());
 			}
 			else
 			{

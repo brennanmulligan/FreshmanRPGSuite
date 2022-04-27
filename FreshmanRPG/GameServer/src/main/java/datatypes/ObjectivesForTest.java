@@ -160,6 +160,9 @@ public enum ObjectivesForTest
 	 */
 	QUEST_15_OBJECTIVE_1(1, "Quest 15: Objective 1: Make another friend!", 15, 1, ObjectiveCompletionType.FRIENDS, new CriteriaIntegerDTO(2)),
 
+	QUEST_17_OBJECTIVE_1(1, "Press 'U' to view the shop", 17, 2,
+			ObjectiveCompletionType.KEYSTROKE, new CriteriaStringDTO("u")),
+
 	/****************************************************/
 	/* Onramping Objectives */
 	/****************************************************/

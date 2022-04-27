@@ -8,7 +8,9 @@ public enum VanityAwardsForTest
     BigRedAll(4, VanityForTest.BR_Hat.getId()),
     BigRedAll1(4, VanityForTest.BR_Pants.getId()),
     BigRedAll2(4, VanityForTest.BR_Shirt.getId()),
-    BigRedAll3(4, VanityForTest.BR_Hair.getId());
+    BigRedAll3(4, VanityForTest.BR_Hair.getId()),
+
+    BigRedAll4(17, VanityForTest.BR_Hat.getId());
     private final int questId;
     private final int vanityId;
 
