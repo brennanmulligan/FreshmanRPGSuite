@@ -25,7 +25,6 @@ public class PlayerLeaveMessagePacker extends MessagePacker
 		if (object.getClass().equals(PlayerLeaveReport.class))
 		{
 			PlayerLeaveReport report = (PlayerLeaveReport) object;
-
 			PlayerLeaveMessage msg = new PlayerLeaveMessage(report.getPlayerID());
 			return msg;
 		}

@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import communication.messages.Message;
 import communication.packers.MessagePackerSet;
@@ -28,7 +31,7 @@ public class ConnectionOutgoing implements Runnable
 	 *
 	 */
 	private StateAccumulator stateAccumulator;
-
+	private Logger logger;
 	/**
 	 * @param socket Socket being used - will be null for JUnit tests
 	 * @param stateAccumulator the accumulator that is gathering events that
@@ -45,7 +48,15 @@ public class ConnectionOutgoing implements Runnable
 			this.ostream = new ObjectOutputStream(socket.getOutputStream());
 		}
 		this.stateAccumulator = stateAccumulator;
+		logger =
+				Logger.getLogger(OptionsManager.getSingleton().getMapName()+socket.getLocalAddress());
+		FileHandler fileHandler = new FileHandler(logger.getName() + ".log",false);
 
+		//Assigning handlers to LOGGER object
+		logger.addHandler(fileHandler);
+
+		fileHandler.setLevel(Level.INFO);
+		logger.setLevel(Level.ALL);
 	}
 
 	/**
@@ -72,11 +83,13 @@ public class ConnectionOutgoing implements Runnable
 						{
 							try
 							{
+								logger.log(Level.FINE,"Sending " + msg.getClass() + " to " + stateAccumulator.getPlayerID());
+
 								this.ostream.writeObject(msg);
 							}
 							catch (SocketException e)
 							{
-								System.out.println("Write failed");
+								System.out.println("Write failed.  Player: " + stateAccumulator.getPlayerID());
 								cleanUpAndExit();
 								done = true;
 							}
