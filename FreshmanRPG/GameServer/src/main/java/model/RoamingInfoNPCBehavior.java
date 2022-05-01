@@ -43,7 +43,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     private String filePath;
     private final SmartPath sp;
     private boolean isRoamingOnSmartPath = false;
-    private boolean isSmartPathEnabled = true;
+    private boolean isSmartPathEnabled;
     private Stack<Position> smartPath;
     private Position startPosition;
     private Position targetPosition;
@@ -76,10 +76,22 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             setUpListening();
         }
 
+        smartPathSetup(0);
+    }
+
+    /**
+     * Basic smartPathing behavior
+     * Sets the starting and target positions in smart path if the XML has them
+     * @param pathID int path id number to use
+     */
+    private void smartPathSetup(int pathID)
+    {
+        //if we have smart paths, set our roaming behavior to smart
         if (!parsedSmartPaths.isEmpty())
         {
-            startPosition = parsedSmartPaths.get(0).getPath().get(0);
-            targetPosition = parsedSmartPaths.get(0).getPath().get(1);
+            isSmartPathEnabled = true;
+            startPosition = parsedSmartPaths.get(pathID).getPath().get(START_POSITION_LOCATION);
+            targetPosition = parsedSmartPaths.get(pathID).getPath().get(END_POSITION_LOCATION);
         }
         else
         {
@@ -88,6 +100,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     }
 
 
+    /**
+     * Currently, this will try to walk on smart path if one has been read from the xml, then it looks for regular
+     * paths, if none are found then no movement occurs
+     */
     @Override
     protected void doTimedEvent()
     {
@@ -112,8 +128,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
 
             smartPath = sp.aStar(startPosition, targetPosition);
-            /**
-             * if no viable path is found, our smarth path will return null.
+            /*
+             * if no viable path is found, our smart path will return null.
              */
             try
             {
@@ -124,7 +140,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             {
                 System.out.println("No viable path for NPC " + playerID);
             }
-            /**
+            /*
              * check to prevent popping the last position, as next time we enter method,
              * we need at least one left for our outer else condition to not cause a Null Pointer
              */
@@ -174,7 +190,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
     /**
      * Get report types that this class listens for
-      * @return
+      * @return ArrayList of report types
      */
     @Override
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
@@ -359,36 +375,50 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     }
 
 }
-    class NPCPath
+
+/**
+ * @author Ryan C and John L
+ *
+ * Holds info about the NPC path
+ *
+ * This class should be extracted to its own file if any other class end up using it
+ */
+class NPCPath
+{
+
+    private int pathID;
+    ArrayList<Position> path;
+
+    public NPCPath(String pathID, String sPath)
     {
-
-        private int pathID;
-        ArrayList<Position> path;
-
-        public NPCPath(String pathID, String sPath)
-        {
-            this.pathID = Integer.parseInt(pathID);
-            path = parsePath(sPath);
-        }
-
-        private ArrayList<Position> parsePath(String sPath)
-        {
-            sPath = sPath.replaceAll("[ ]{2,}", "");
-            sPath = sPath.replaceAll("\\n", "");
-            String[] sPositions = sPath.split("\\s+");
-            path = new ArrayList<>();
-            for (int i = 0; i < sPositions.length; i++)
-            {
-                Position pos = new Position(
-                        Integer.parseInt(sPositions[i].substring(0, sPositions[i].indexOf(",")))
-                        , Integer.parseInt(sPositions[i].substring(sPositions[i].indexOf(",") + 1)));
-                path.add(pos);
-            }
-            return path;
-        }
-        public ArrayList<Position> getPath()
-        {
-            return this.path;
-        }
+        this.pathID = Integer.parseInt(pathID);
+        path = parsePath(sPath);
     }
+
+    /**
+     * Parses a path read from the XML file
+     * @param sPath String read from XML
+     * @return ArrayList containing path
+     */
+    private ArrayList<Position> parsePath(String sPath)
+    {
+        sPath = sPath.replaceAll("[ ]{2,}", "");
+        sPath = sPath.replaceAll("\\n", "");
+        String[] sPositions = sPath.split("\\s+");
+        path = new ArrayList<>();
+        for (int i = 0; i < sPositions.length; i++)
+        {
+            Position pos = new Position(
+                    Integer.parseInt(sPositions[i].substring(0, sPositions[i].indexOf(",")))
+                    , Integer.parseInt(sPositions[i].substring(sPositions[i].indexOf(",") + 1)));
+            path.add(pos);
+        }
+        return path;
+    }
+
+    public ArrayList<Position> getPath()
+    {
+        return this.path;
+    }
+}
 

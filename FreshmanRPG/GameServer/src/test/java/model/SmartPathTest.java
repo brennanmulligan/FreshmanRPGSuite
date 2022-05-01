@@ -40,11 +40,6 @@ public class SmartPathTest
     }
 
     @Test
-    public void testRightPath() {
-
-    }
-
-    @Test
     public void testConstructor()
     {
         SmartPath sp = new SmartPath();

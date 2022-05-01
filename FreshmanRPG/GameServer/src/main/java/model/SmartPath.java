@@ -5,13 +5,15 @@ import datatypes.Position;
 
 import java.util.*;
 
+/**
+ * @author Ryan Carroll and John Lang
+ *
+ * Loads collision data and uses A* search algorithm to provide NPC smart path
+ */
 public class SmartPath
 {
     private boolean[][] collisionMap;
 
-    /**
-     * @author Ryan Carroll and John Lang
-     */
     public SmartPath()
     {
         collisionMap = ServerMapManager.getSingleton().getCollisionMap();
@@ -98,7 +100,7 @@ public class SmartPath
     }
 
     /**
-     *
+     * Constructs and adds the new positions we are considering to our AStar open step tracker, if it hasn't been visited.
      * @param destination the square we wish to get to
      * @param openPathSteps the queue containing the path steps we have encountered and have yet to take
      * @param originalSquare the starting square of our traversal
@@ -109,7 +111,8 @@ public class SmartPath
      *         as a stack, with the first path step at the top, the destination at the bottom.
      */
     private Stack<Position> addAStarPathStep(Position destination, PriorityQueue<AStarPosition> openPathSteps,
-                                             AStarPosition originalSquare, AStarPosition temp, Position direction, boolean[][] isVisited)
+                                             AStarPosition originalSquare, AStarPosition temp, Position direction,
+                                             boolean[][] isVisited)
     {
         AStarPosition cardinalStar = new AStarPosition(direction,
                 new Position(originalSquare.getRow(), originalSquare.getColumn()), destination,
