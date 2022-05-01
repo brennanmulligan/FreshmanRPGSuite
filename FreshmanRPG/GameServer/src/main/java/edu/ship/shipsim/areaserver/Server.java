@@ -12,6 +12,7 @@ import communication.packers.MessagePackerSet;
 import model.InteractObjectManager;
 import model.OptionsManager;
 import model.PlayerManager;
+import model.ServerMapManager;
 
 /**
  * A daemon that resides on the server listening to the gigabuds and to client

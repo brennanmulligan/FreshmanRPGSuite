@@ -190,11 +190,6 @@ public class PlayerManager implements QualifiedObserver
 		return players.get(playerID);
 	}
 
-	public NPC getNPCFromID(int playerID)
-	{
-		return npcs.get(playerID);
-	}
-
 	/**
 	 * @param playerName the player name of the player we are searching for
 	 * @return the player ID of the player we are searching for
