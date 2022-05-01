@@ -108,24 +108,28 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
     private void walkSmartPath()
     {
-        if (!isRoamingOnSmartPath) {
+        if (!isRoamingOnSmartPath)
+        {
 
             smartPath = sp.aStar(startPosition, targetPosition);
             /**
              * if no viable path is found, our smarth path will return null.
              */
-            try {
+            try
+            {
                 smartPath.pop();
                 isRoamingOnSmartPath = true;
             }
-            catch (NullPointerException e) {
+            catch (NullPointerException e)
+            {
                 System.out.println("No viable path for NPC " + playerID);
             }
             /**
              * check to prevent popping the last position, as next time we enter method,
              * we need at least one left for our outer else condition to not cause a Null Pointer
              */
-            if(smartPath != null) {
+            if(smartPath != null)
+            {
                 if (smartPath.size() > 1)
                 {
                     CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
@@ -142,7 +146,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         {
             CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
             cmd.execute();
-            if (smartPath.isEmpty()) {
+            if (smartPath.isEmpty())
+            {
                 isRoamingOnSmartPath = false;
                 Position tempPos = startPosition;
                 startPosition = targetPosition;

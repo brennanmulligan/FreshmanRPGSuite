@@ -52,7 +52,10 @@ public class SmartPath
             {
                 Stack<Position> northStar = addAStarPathStep(destination, openPathSteps,
                         originalSquare, temp, north, isVisited);
-                if (northStar != null) return northStar;
+                if (northStar != null)
+                {
+                    return northStar;
+                }
             }
 
             //add square to south
@@ -61,7 +64,10 @@ public class SmartPath
             {
                 Stack<Position> southStar = addAStarPathStep(destination, openPathSteps,
                         originalSquare, temp, south, isVisited);
-                if (southStar != null) return southStar;
+                if (southStar != null)
+                {
+                    return southStar;
+                }
             }
             //add square to the east
             Position east = new Position(temp.getRow(), temp.getColumn() + 1);
@@ -69,7 +75,10 @@ public class SmartPath
             {
                 Stack<Position> eastStar = addAStarPathStep(destination, openPathSteps,
                         originalSquare, temp, east, isVisited);
-                if (eastStar != null) return eastStar;
+                if (eastStar != null)
+                {
+                    return eastStar;
+                }
             }
 
             //add square to the west
@@ -78,7 +87,10 @@ public class SmartPath
             {
                 Stack<Position> westStar = addAStarPathStep(destination, openPathSteps,
                         originalSquare, temp, west, isVisited);
-                if (westStar != null) return westStar;
+                if (westStar != null)
+                {
+                    return westStar;
+                }
             }
         }
 
