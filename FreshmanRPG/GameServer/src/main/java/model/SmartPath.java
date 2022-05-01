@@ -20,10 +20,13 @@ public class SmartPath
     }
 
     /**
-     *
+     * Sets up our priority queue (as per the A* algorithm) that uses our custom comparator. Our comparator uses each position's f(n) and puts the lowest
+     * in the front of the queue. Adds initial position and positions directly accesible from that initial position. We then add those positions and repeat the
+     * process, starting with the lowest f(n).
      * @param source the original square which we begin traveling
      * @param destination the target square we wish to get to with the optimal path
      * @return a stack containing the path steps composing the optimal path
+     *
      */
     public Stack<Position> aStar(Position source, Position destination)
     {

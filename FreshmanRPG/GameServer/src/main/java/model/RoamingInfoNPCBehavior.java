@@ -31,13 +31,13 @@ import java.util.regex.Pattern;
  */
 public class RoamingInfoNPCBehavior extends NPCBehavior
 {
+    private static final int END_POSITION_LOCATION = 1;
+    private static final int START_POSITION_LOCATION = 0;
     List<List<String>> parsedDialogueXML;
     List<NPCPath> parsedRegularPaths;
     List<NPCPath> parsedSmartPaths;
     private String currentTarget;
     static final int CHAT_DELAY_SECONDS = 20;
-    static final int ROAM_DELAY_SECONDS = 2;
-    protected int roamDelayCounter = 1;
     protected int chatDelayCounter = 0;
     private int pathStep = 0;
     private String filePath;
@@ -52,6 +52,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     static final String SMART_PATH_TYPE = "smart";
     static final int CHAT_EXPIRE_DELAY_SECONDS = 25;
 
+    /**
+     *
+     * @param playerId the Player ID of the NPC we are constructing a RoamingInfo behavior for.
+     */
     public RoamingInfoNPCBehavior(int playerId)
     {
         super(playerId);
@@ -59,9 +63,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         parsedDialogueXML = new ArrayList<List<String>>();
         parsedRegularPaths = new ArrayList<NPCPath>();
         parsedSmartPaths = new ArrayList<NPCPath>();
-        currentTarget = "start";
+        currentTarget = "start"; // beginning level of dialogue tree
         try
         {
+            //grab filepath from the NPC table, this is the XML containing the dialogue and path position information (see Wiki)
             NPCRowDataGatewayRDS gateway = new NPCRowDataGatewayRDS(playerId);
             filePath = gateway.getFilePath();
         }
@@ -93,6 +98,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             startPosition = parsedSmartPaths.get(pathID).getPath().get(START_POSITION_LOCATION);
             targetPosition = parsedSmartPaths.get(pathID).getPath().get(END_POSITION_LOCATION);
         }
+        //no smart paths found, sets the behavior to regular
         else
         {
             isSmartPathEnabled = false;
@@ -122,6 +128,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
         chatDelayCounter = (chatDelayCounter + 1) % CHAT_DELAY_SECONDS;
     }
 
+    /**
+     * Our method for our smart roaming behavior. We get a stack returned from SmartPath.aStar() (if a viable path is found, otherwise it returns null).
+     * We have a check to see if the NPC has begun his smart roam yet, if not, he will get the path steps from A*.
+     */
     private void walkSmartPath()
     {
         if (!isRoamingOnSmartPath)
@@ -136,6 +146,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                 smartPath.pop();
                 isRoamingOnSmartPath = true;
             }
+            /*
+             * if SmartPath.aStar() returns null, notify developers that no viable path was found. This will only happen
+             * when collision prevents a possible path from the start position to the end position given to A* for a certain map.
+             */
             catch (NullPointerException e)
             {
                 System.out.println("No viable path for NPC " + playerID);
@@ -146,6 +160,11 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
              */
             if(smartPath != null)
             {
+                /*
+                 * check that we have more than one position left in stack, otherwise the next time we enter this
+                 * method, we will have a null pointer exception. If position stack size is equal to 1,
+                 * reset the smart pathing by setting isRoamingOnSmartPath to false.
+                 */
                 if (smartPath.size() > 1)
                 {
                     CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
@@ -158,6 +177,12 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                 }
             }
         }
+        /*
+         * We are roaming on smart path currently, thus we simply pop and then check to make sure our stack
+         * is not empty, if it is we begin a new A* path search, from the end position TO the beginning position,
+         * that way our roaming npc walks back and forth between the two positions and doesn't stop when
+         * he gets to his destination
+         */
         else
         {
             CommandMovePlayer cmd = new CommandMovePlayer(playerID, smartPath.pop());
@@ -173,14 +198,15 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     }
 
     /**
-     * method to actually update the npc's position on the server
+     * method to actually update the regular roaming npc's position on the server, called every time doTimedEvent is called
      */
     protected void roamOnPath()
     {
         NPCPath path = parsedRegularPaths.get(1);
         CommandMovePlayer cmd = new CommandMovePlayer(playerID, path.getPath().get(pathStep));
         cmd.execute();
-        pathStep++;
+        pathStep++; //tracks which point in our path we are currently at.
+        // reset pathStep if it exceeds the total amount of steps in the path
         if (pathStep >= path.getPath().size())
         {
             pathStep = 0;
@@ -222,7 +248,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                 {
                     //Reset the chat counter, whenever it successfully speaks to a player
                     chatDelayCounter = 1;
-                    //Make the players message soemthing we can read easier
+                    //Make the players message something we can read easier
                     String input = report.getChatText().toLowerCase().replaceAll(" ", "");
                     for (List<String> node : parsedDialogueXML)
                     {
@@ -366,6 +392,14 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
             e.printStackTrace();
         }
     }
+
+    /**
+     *
+     * @param id the NPC ID number of the roaming NPC
+     * @param message the position content of the XML, either coordinate by coordinate, or a start and end position for A* smart pathing.
+     * @param list the ArrayList that contains the multiple paths for any given roaming NPC
+     * @return
+     */
 
     private List<NPCPath> addPathsToList(String id, String message, List<NPCPath> list)
     {
