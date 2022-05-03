@@ -1,8 +1,10 @@
 package api.controller;
 
 
+import api.model.CreatePlayerResponce;
 import api.model.Player;
 import api.service.PlayerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +32,11 @@ public class PlayerController {
      * @return Returns result int
      */
     @PostMapping("/player")
-    public ResponseEntity<Object> addPlayer(@RequestBody Player player){
+    public ResponseEntity<Object> addPlayer(@RequestBody Player player) throws JsonProcessingException {
+        System.out.println("fdf");
         int result = playerService.addPlayer(player);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        CreatePlayerResponce responseObj = new CreatePlayerResponce(result);
+        System.out.println("dsdf");
+        return new ResponseEntity<>(responseObj.toJSON(),HttpStatus.OK);
     }
 }
