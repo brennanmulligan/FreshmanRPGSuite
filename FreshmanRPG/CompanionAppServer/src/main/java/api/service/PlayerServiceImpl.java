@@ -54,7 +54,8 @@ public class PlayerServiceImpl implements PlayerService
                         false);
             }
         } catch (DatabaseException e) {
-            return 1;
+            e.printStackTrace();
+//            return 1;
         }
 
         return 0;

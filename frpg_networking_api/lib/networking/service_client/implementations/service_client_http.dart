@@ -35,7 +35,10 @@ class ServiceClientHTTP extends ServiceClient {
     final response = await http.get(
       Uri.http(baseURL, endpoint),
       headers: headers ??
-          <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
+          <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Access-Control-Allow-Origin': '*',
+          },
     );
     return _processResponse(response);
   }
@@ -52,7 +55,10 @@ class ServiceClientHTTP extends ServiceClient {
     final response = await http.post(
       Uri.http(baseURL, endpoint),
       headers: headers ??
-          <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
+          <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Access-Control-Allow-Origin': '*',
+          },
       body: jsonEncode(body),
     );
     return _processResponse(response);

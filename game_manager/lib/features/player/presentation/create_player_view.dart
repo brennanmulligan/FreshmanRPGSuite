@@ -44,7 +44,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: true,
                 controller: password,
                 decoration: InputDecoration(
                   label: Row(
@@ -60,7 +59,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: true,
                 controller: crew,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -77,7 +75,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: false,
                 controller: major,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -94,7 +91,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: false,
                 controller: section,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -114,74 +110,73 @@ class CreatePLayerView extends HookConsumerWidget {
                 height: 60,
               ),
               MaterialButton(
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: () async {
-                  await notifier.createPlayer(
-                    username.text,
-                    password.text,
-                    num.parse(crew.text),
-                    num.parse(major.text),
-                    num.parse(section.text),
-                  );
-                  if (notifier.createPlayerResponse?.responseType ==
-                      PlayerResponseType.created) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.check,
-                                color: Colors.green,
-                                size: 40,
-                              ),
-                              const Spacer(),
-                              Flexible(
-                                flex: 6,
-                                child: Text(
-                                  notifier.createPlayerResponse?.responseType
-                                          .description() ??
-                                      '',
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  onPressed: () async {
+                    await notifier.createPlayer(
+                      username.text,
+                      password.text,
+                      num.parse(crew.text),
+                      num.parse(major.text),
+                      num.parse(section.text),
+                    );
+                    if (notifier.createPlayerResponse?.responseType ==
+                        PlayerResponseType.created) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                  size: 40,
                                 ),
-                              ),
-                            ],
+                                Spacer(),
+                                Flexible(
+                                  flex: 6,
+                                  child: Text(
+                                    'Player Created'
+                                    // notifier.createPlayerResponse?.responseType
+                                    //         .description() ??
+                                    ,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.error,
-                                color: Colors.red,
-                                size: 40,
-                              ),
-                              Spacer(),
-                              Flexible(
-                                flex: 6,
-                                child: Text(
-                                  // notifier.createPlayerResponse?.responseType
-                                  //         .description() ??
-                                  //     '',
-                                  'Cannot create player, check the inputs'
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                  size: 40,
                                 ),
-                              ),
-                            ],
+                                Spacer(),
+                                Flexible(
+                                  flex: 6,
+                                  child: Text(
+                                      // notifier.createPlayerResponse?.responseType
+                                      //         .description() ??
+                                      //     '',
+                                      'Cannot create player, check the inputs'),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Create Player')
-              ),
+                      );
+                    }
+                  },
+                  child: const Text('Create Player')),
             ],
           ),
         ),

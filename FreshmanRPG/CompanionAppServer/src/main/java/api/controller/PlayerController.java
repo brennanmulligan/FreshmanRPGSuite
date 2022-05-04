@@ -1,10 +1,13 @@
 package api.controller;
 
 
+import api.model.CreatePlayerResponce;
 import api.model.Player;
 import api.service.PlayerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +32,11 @@ public class PlayerController {
      * @param player Basic player information in GameManagerPlayerDTO
      * @return Returns result int
      */
+    @CrossOrigin // Required for web client support
     @PostMapping("/player")
-    public ResponseEntity<Object> addPlayer(@RequestBody Player player){
+    public ResponseEntity<Object> addPlayer(@RequestBody Player player) throws JsonProcessingException {
         int result = playerService.addPlayer(player);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        CreatePlayerResponce responseObj = new CreatePlayerResponce(result);
+        return new ResponseEntity<>(responseObj.toJSON(),HttpStatus.OK);
     }
 }

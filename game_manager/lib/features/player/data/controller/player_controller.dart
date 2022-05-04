@@ -35,6 +35,7 @@ class PlayerController extends StateNotifier<PlayerState> {
 
   Future<void> createPlayer(
       String name, String password, num crew, num major, num section) async {
+    debugPrint("in controller");
     final response = await _repository.createPlayer(
         request: CreatePlayerRequest(
       name: name,
@@ -44,9 +45,11 @@ class PlayerController extends StateNotifier<PlayerState> {
       section: section,
     ));
     CreatePlayerResponse createPlayerResponse = response.when(
-        data: (data) => data,
-        failure: (failure) => const CreatePlayerResponse(
-            responseType: PlayerResponseType.networkFailure));
+      data: (data) => data,
+      failure: (failure) => const CreatePlayerResponse(
+        responseType: PlayerResponseType.networkFailure,
+      ),
+    );
 
     state = state.copyWith(
       //providedInvalidInfo: createPlayerResponse.responseType == -1,

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
 import 'package:game_manager/features/player/data/data.dart';
 import 'package:frpg_networking_api/networking/service_client/service_client.dart';
 
@@ -11,22 +13,20 @@ class CreatePlayerDatasourceHTTP extends CreatePlayerDatasource {
   const CreatePlayerDatasourceHTTP({
     required ServiceClient sc,
   }) : super(sc: sc);
-  
+
   ///
   /// Allows us to create a player from a request.
   ///
   @override
   Future<CreatePlayerResponse> createPlayer({
     required CreatePlayerRequest request,
-    }) async {
+  }) async {
     const endpoint = '/player';
     final body = request.asJson;
     final response = await sc.post(
       endpoint: endpoint,
       body: body,
     );
-    return CreatePlayerResponse.fromJson(
-      json: response
-    );
+    return CreatePlayerResponse.fromJson(json: response);
   }
 }
