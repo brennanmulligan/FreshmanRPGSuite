@@ -32,8 +32,7 @@ class CreateQRView extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 QrImage(
-                  data:
-                      '${questIDReader.text}_${objectiveIDReader.text}_${latitudeReader.text}_${longitudeReader.text}',
+                  data: 'Create a QR code',
                   size: 300,
                 ),
                 TextField(
@@ -61,8 +60,6 @@ class CreateQRView extends HookConsumerWidget {
                       const InputDecoration(labelText: 'Enter fileName'),
                 ),
                 ElevatedButton(
-                    onPressed: () async {}, child: const Text('Show Preview')),
-                ElevatedButton(
                     onPressed: () async {
                       final network =
                           ref.watch(NetworkProvider.networkController.notifier);
@@ -82,6 +79,29 @@ class CreateQRView extends HookConsumerWidget {
                           latitudeReader.text,
                           longitudeReader.text,
                           fileNameReader.text);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                  size: 40,
+                                ),
+                                Spacer(),
+                                Flexible(
+                                  flex: 6,
+                                  child: Text(
+                                    'QR code created',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     child: const Text('GENERATE QR'))
               ],

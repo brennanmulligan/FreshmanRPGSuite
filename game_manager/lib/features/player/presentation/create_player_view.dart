@@ -44,7 +44,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: true,
                 controller: password,
                 decoration: InputDecoration(
                   label: Row(
@@ -60,7 +59,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: true,
                 controller: crew,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -77,7 +75,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: false,
                 controller: major,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -94,7 +91,6 @@ class CreatePLayerView extends HookConsumerWidget {
                 ),
               ),
               TextField(
-                obscureText: false,
                 controller: section,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -144,7 +140,7 @@ class CreatePLayerView extends HookConsumerWidget {
                                     'Player Created'
                                     // notifier.createPlayerResponse?.responseType
                                     //         .description() ??
-                                    '',
+                                    ,
                                   ),
                                 ),
                               ],
