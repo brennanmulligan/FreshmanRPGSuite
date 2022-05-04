@@ -27,6 +27,7 @@ public class Player
      */
     public Player(String name, String password, int crew, int major, int section)
     {
+        System.out.println("creating player");
         this.name = name;
         this.password = password;
         this.crew = crew;

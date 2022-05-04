@@ -17,17 +17,17 @@ class PlayerRepositoryHTTP extends PlayerRepository {
   /// Create a player on a remote server
   ///
   @override
-  Future<Result<CreatePlayerResponse>> createPlayer({
-    required CreatePlayerRequest request}) async {
+  Future<Result<CreatePlayerResponse>> createPlayer(
+      {required CreatePlayerRequest request}) async {
     try {
-      final response = 
-        await createPlayerDatasource.createPlayer(request: request);
+      final response =
+          await createPlayerDatasource.createPlayer(request: request);
       return Result.data(data: response);
     } catch (exception, stackTrace) {
+      print(exception);
+      print(stackTrace);
       return Result.failure(
-        failure: HTTPFailure(
-          message: '$exception : $stackTrace'
-        ),
+        failure: HTTPFailure(message: '$exception : $stackTrace'),
       );
     }
   }
