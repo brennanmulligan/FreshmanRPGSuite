@@ -21,17 +21,12 @@ class CreatePlayerDatasourceHTTP extends CreatePlayerDatasource {
   Future<CreatePlayerResponse> createPlayer({
     required CreatePlayerRequest request,
   }) async {
-    debugPrint("in createPlayer");
     const endpoint = '/player';
     final body = request.asJson;
-    print(sc.baseURL);
-    print(request.toString());
     final response = await sc.post(
       endpoint: endpoint,
       body: body,
     );
-    debugPrint(response.toString());
-    debugPrint("out createPlayer");
     return CreatePlayerResponse.fromJson(json: response);
   }
 }

@@ -32,13 +32,11 @@ public class PlayerController {
      * @param player Basic player information in GameManagerPlayerDTO
      * @return Returns result int
      */
-    @CrossOrigin
+    @CrossOrigin // Required for web client support
     @PostMapping("/player")
     public ResponseEntity<Object> addPlayer(@RequestBody Player player) throws JsonProcessingException {
-        System.out.println("fdf");
         int result = playerService.addPlayer(player);
         CreatePlayerResponce responseObj = new CreatePlayerResponce(result);
-        System.out.println("dsdf");
         return new ResponseEntity<>(responseObj.toJSON(),HttpStatus.OK);
     }
 }

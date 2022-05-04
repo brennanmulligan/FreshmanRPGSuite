@@ -56,7 +56,6 @@ class PlayerController extends StateNotifier<PlayerState> {
       showResponse: true,
       createPlayerResponse: createPlayerResponse,
     );
-    debugPrint("out controller");
   }
 
   ///

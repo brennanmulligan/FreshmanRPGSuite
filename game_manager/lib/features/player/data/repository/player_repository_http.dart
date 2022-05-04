@@ -24,8 +24,6 @@ class PlayerRepositoryHTTP extends PlayerRepository {
           await createPlayerDatasource.createPlayer(request: request);
       return Result.data(data: response);
     } catch (exception, stackTrace) {
-      print(exception);
-      print(stackTrace);
       return Result.failure(
         failure: HTTPFailure(message: '$exception : $stackTrace'),
       );
