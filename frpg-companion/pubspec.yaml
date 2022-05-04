@@ -38,6 +38,8 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   frpg_networking_api:
     path: ../frpg_networking_api
+  freezed: ^1.1.0
+  freezed_annotation: ^1.1.0
   
 
 dev_dependencies:

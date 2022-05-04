@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" name="RPGmakerXPMegaTilesetByLmnopguy7" tilewidth="32" tileheight="32" tilecount="3824" columns="8">
+  <image source="tileset/RPGmakerXPMegaTilesetByLmnopguy7.png" trans="ff00ff" width="256" height="15300"/>
+ </tileset>
+ <tileset firstgid="3825" name="Inq XP MI- Medieval Indoors" tilewidth="32" tileheight="32" tilecount="2176" columns="8">
+  <image source="tileset/Inq XP MI- Medieval Indoors.png" trans="ff00ff" width="256" height="8704"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztz0kvXWEABuDDwi0L1OKaJbSaGP+baWH6HbpjxwLXQitFa2zNsxY1JmJIhNpQLOhzkyZNmtzrLizvmzw53znfmzc5dWlBUE8DjTTRwXt66aOfCJ8YZoRRPvOFMcaJptmzhVbaaKeTLgb5wEeGmGCSKab5yjdmmP27Fyv37h/+68x5n2eBRZZYZoXVZ/ZSQkGQyoneKWecs8Y6G2zynR9ssR1nM91WBpc6V/zimh1+ssse+xxwyFGcvde2crjRueU3dzH6j74/Re9C8f85mt1wEHRnBEEP+foFFFJEMSWkEeJVAnvH9iK2BijVL+MNbynnHZlkkZ3A3kX437lCv5IqqqmhljC55CWwl0wyybxc/gBMckd1
+  </data>
+ </layer>
+</map>

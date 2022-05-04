@@ -1,6 +1,5 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'player_controller.dart';
@@ -34,11 +33,7 @@ const $PlayerState = _$PlayerStateTearOff();
 /// @nodoc
 mixin _$PlayerState {
   dynamic get showResponse =>
-      throw _privateConstructorUsedError; // @Default("") name,
-// @Default("") password,
-// @Default(-1) crew,
-// @Default(-1) major,
-// @Default(-1) section,
+      throw _privateConstructorUsedError; //@Default(true) providedInvalidInfo,
   CreatePlayerResponse? get createPlayerResponse =>
       throw _privateConstructorUsedError;
 
@@ -126,11 +121,7 @@ class _$_PlayerState extends _PlayerState with DiagnosticableTreeMixin {
   @JsonKey()
   @override
   final dynamic showResponse;
-  @override // @Default("") name,
-// @Default("") password,
-// @Default(-1) crew,
-// @Default(-1) major,
-// @Default(-1) section,
+  @override //@Default(true) providedInvalidInfo,
   final CreatePlayerResponse? createPlayerResponse;
 
   @override
@@ -178,11 +169,7 @@ abstract class _PlayerState extends PlayerState {
 
   @override
   dynamic get showResponse;
-  @override // @Default("") name,
-// @Default("") password,
-// @Default(-1) crew,
-// @Default(-1) major,
-// @Default(-1) section,
+  @override //@Default(true) providedInvalidInfo,
   CreatePlayerResponse? get createPlayerResponse;
   @override
   @JsonKey(ignore: true)

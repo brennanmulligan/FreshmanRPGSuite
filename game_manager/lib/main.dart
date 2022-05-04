@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:game_manager/features/dashboard/presentaion/dashboard_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
 import 'features/network/network_provider.dart';
+import 'features/player/presentation/create_player_view.dart';
 
 ///
 /// Data for light theme.
@@ -38,7 +40,7 @@ void main() async {
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'Freshman RPG Game Manager',
-        home: CreateQRView(),
+        home: const DashboardView(),
       ),
     ),
   );

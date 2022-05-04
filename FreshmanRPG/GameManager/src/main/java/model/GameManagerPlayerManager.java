@@ -39,7 +39,7 @@ public class GameManagerPlayerManager
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
-	protected synchronized static GameManagerPlayerManager getInstance() throws DatabaseException
+	public synchronized static GameManagerPlayerManager getInstance() throws DatabaseException
 	{
 		if (manager == null)
 		{
@@ -89,7 +89,7 @@ public class GameManagerPlayerManager
 	 * @throws DatabaseException
 	 *             - shouldn't
 	 */
-	protected PlayerDTO addPlayer(String name, String password, int crewID, int majorID, int sectionID)
+	public PlayerDTO addPlayer(String name, String password, int crewID, int majorID, int sectionID)
 			throws DatabaseException
 	{
 		PlayerDTO player = addPlayerToDatabase(name, password, crewID, majorID, sectionID);
@@ -327,10 +327,9 @@ public class GameManagerPlayerManager
 	 * @param id
 	 *            PlayerID
 	 * @return Index
-	 * @throws DatabaseException
-	 *             If the player can not be pulled from the database.
+	 *
 	 */
-	protected int playerIndex(int id) throws DatabaseException
+	protected int playerIndex(int id)
 	{
 		ArrayList<PlayerDTO> players = this.getPlayers();
 
