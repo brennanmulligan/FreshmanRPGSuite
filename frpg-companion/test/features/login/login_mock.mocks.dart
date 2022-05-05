@@ -2,10 +2,12 @@
 // in frpg_companion/test/features/login/login_mock.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:frpg_companion/features/login/data/data.dart' as _i3;
-import 'package:frpg_companion/features/network/network.dart' as _i2;
+import 'package:frpg_networking_api/networking/result/result.dart' as _i4;
+import 'package:frpg_networking_api/networking/service_client/service_client.dart'
+    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -29,7 +31,7 @@ class _FakeLoginWithCredentialsDatasource_2 extends _i1.Fake
 class _FakeLogoutDatasource_3 extends _i1.Fake implements _i3.LogoutDatasource {
 }
 
-class _FakeResult_4<T> extends _i1.Fake implements _i2.Result<T> {}
+class _FakeResult_4<T> extends _i1.Fake implements _i4.Result<T> {}
 
 /// A class which mocks [ServiceClient].
 ///
@@ -44,15 +46,15 @@ class MockServiceClient extends _i1.Mock implements _i2.ServiceClient {
       (super.noSuchMethod(Invocation.getter(#baseURL), returnValue: '')
           as String);
   @override
-  _i4.Future<Map<String, dynamic>> get(
+  _i5.Future<Map<String, dynamic>> get(
           {String? endpoint, Map<String, String>? headers}) =>
       (super.noSuchMethod(
           Invocation.method(#get, [], {#endpoint: endpoint, #headers: headers}),
           returnValue:
-              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i4
+              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i5
           .Future<Map<String, dynamic>>);
   @override
-  _i4.Future<Map<String, dynamic>> post(
+  _i5.Future<Map<String, dynamic>> post(
           {String? endpoint,
           Map<String, String>? headers,
           Map<String, dynamic>? body}) =>
@@ -60,7 +62,7 @@ class MockServiceClient extends _i1.Mock implements _i2.ServiceClient {
           Invocation.method(
               #post, [], {#endpoint: endpoint, #headers: headers, #body: body}),
           returnValue:
-              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i4
+              Future<Map<String, dynamic>>.value(<String, dynamic>{})) as _i5
           .Future<Map<String, dynamic>>);
 }
 
@@ -77,13 +79,13 @@ class MockLoginWithCredentialsDatasource extends _i1.Mock
   _i2.ServiceClient get sc => (super.noSuchMethod(Invocation.getter(#sc),
       returnValue: _FakeServiceClient_0()) as _i2.ServiceClient);
   @override
-  _i4.Future<_i3.LoginWithCredentialsResponse> loginWithCredentials(
+  _i5.Future<_i3.LoginWithCredentialsResponse> loginWithCredentials(
           {_i3.LoginWithCredentialsRequest? request}) =>
       (super.noSuchMethod(
               Invocation.method(#loginWithCredentials, [], {#request: request}),
               returnValue: Future<_i3.LoginWithCredentialsResponse>.value(
                   _FakeLoginWithCredentialsResponse_1()))
-          as _i4.Future<_i3.LoginWithCredentialsResponse>);
+          as _i5.Future<_i3.LoginWithCredentialsResponse>);
 }
 
 /// A class which mocks [LogoutDatasource].
@@ -98,10 +100,10 @@ class MockLogoutDatasource extends _i1.Mock implements _i3.LogoutDatasource {
   _i2.ServiceClient get sc => (super.noSuchMethod(Invocation.getter(#sc),
       returnValue: _FakeServiceClient_0()) as _i2.ServiceClient);
   @override
-  _i4.Future<void> logOut({_i3.LogoutRequest? request}) =>
+  _i5.Future<void> logOut({_i3.LogoutRequest? request}) =>
       (super.noSuchMethod(Invocation.method(#logOut, [], {#request: request}),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
 }
 
 /// A class which mocks [LoginRepository].
@@ -122,17 +124,17 @@ class MockLoginRepository extends _i1.Mock implements _i3.LoginRepository {
       (super.noSuchMethod(Invocation.getter(#logoutDatasource),
           returnValue: _FakeLogoutDatasource_3()) as _i3.LogoutDatasource);
   @override
-  _i4.Future<_i2.Result<_i3.LoginWithCredentialsResponse>> loginWithCredentials(
+  _i5.Future<_i4.Result<_i3.LoginWithCredentialsResponse>> loginWithCredentials(
           {_i3.LoginWithCredentialsRequest? request}) =>
       (super.noSuchMethod(
               Invocation.method(#loginWithCredentials, [], {#request: request}),
               returnValue:
-                  Future<_i2.Result<_i3.LoginWithCredentialsResponse>>.value(
+                  Future<_i4.Result<_i3.LoginWithCredentialsResponse>>.value(
                       _FakeResult_4<_i3.LoginWithCredentialsResponse>()))
-          as _i4.Future<_i2.Result<_i3.LoginWithCredentialsResponse>>);
+          as _i5.Future<_i4.Result<_i3.LoginWithCredentialsResponse>>);
   @override
-  _i4.Future<void> logOut({_i3.LogoutRequest? request}) =>
+  _i5.Future<void> logOut({_i3.LogoutRequest? request}) =>
       (super.noSuchMethod(Invocation.method(#logOut, [], {#request: request}),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
 }

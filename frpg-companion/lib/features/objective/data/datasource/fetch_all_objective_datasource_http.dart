@@ -1,8 +1,8 @@
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:frpg_companion/features/objective/data/data.dart';
+import 'package:frpg_networking_api/networking/service_client/service_client.dart';
 
 ///
-/// HTTP implementaion of 'FetchAllObjectiveDatasource'
+/// HTTP implementation of 'FetchAllObjectiveDatasource'
 ///
 class FetchAllObjectiveDatasourceHTTP extends FetchAllObjectiveDatasource {
   ///

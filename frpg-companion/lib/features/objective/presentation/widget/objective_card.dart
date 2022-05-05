@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:frpg_companion/features/network/network.dart';
+import 'package:frpg_networking_api/networking/location/location.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../objective.dart';
@@ -42,7 +43,7 @@ class ObjectiveCard extends HookConsumerWidget {
               onPressed: () async {
                 final network =
                     ref.watch(NetworkProvider.networkController.notifier);
-                network.getLocation();
+                Location location = await network.getLocation();
 
                 if (kDebugMode) {
                   await notifier.getDataFromCode(
@@ -60,8 +61,8 @@ class ObjectiveCard extends HookConsumerWidget {
                       ScanMode.QR,
                     ),
                     info: info,
-                    currentLat: network.latitude,
-                    currentLong: network.longitude,
+                    currentLat: location.latitude,
+                    currentLong: location.longitude,
                   );
                 }
                 if (notifier.objectiveResponse?.responseType ==

@@ -1,5 +1,5 @@
-import 'package:frpg_companion/features/network/result/result.dart';
 import 'package:frpg_companion/features/objective/objective.dart';
+import 'package:frpg_networking_api/networking/result/result.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -75,7 +75,7 @@ void main() {
 
     test('Test for ResultData.', () async {
       const expected = FetchAllObjectiveResponse(information: []);
-      
+
       when(mockFetchAllObjectiveDatasource.fetchAllObjective(
         request: anyNamed('request'),
       )).thenAnswer((realInvocation) async => expected);
@@ -91,7 +91,5 @@ void main() {
       ));
       expect(actual, Result.data(data: expected));
     });
-      
-    });
-
+  });
 }

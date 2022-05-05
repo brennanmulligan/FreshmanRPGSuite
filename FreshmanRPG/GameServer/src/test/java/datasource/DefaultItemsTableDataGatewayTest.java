@@ -3,6 +3,7 @@ package datasource;
 import dataDTO.VanityDTO;
 import datatypes.DefaultItemsForTest;
 import datatypes.VanityForTest;
+import datatypes.VanityType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,11 +11,18 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Tests for the DefaultItemsTableDataGateway
+ */
 public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
 {
     protected DefaultItemsTableDataGateway gateway;
     abstract DefaultItemsTableDataGateway findGateway() throws DatabaseException;
 
+    /**
+     * Get the right gateway and set up the gateway
+     * @throws DatabaseException shouldnt
+     */
     @Before
     public void setup() throws DatabaseException
     {
@@ -35,6 +43,10 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertNotNull(a);
     }
 
+    /**
+     * Tests to make sure we can get all the default items
+     * @throws DatabaseException shouldnt
+     */
     @Test
     public void testGetAllItems() throws DatabaseException
     {
@@ -68,6 +80,10 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertTrue(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
+    /**
+     * Tests to make sure we cannot add a duplicate default item
+     * @throws DatabaseException when duplicate item is added
+     */
     @Test (expected = DatabaseException.class)
     public void cannotAddDuplicateItem() throws DatabaseException
     {
@@ -75,12 +91,20 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         gateway.addDefaultItem(itemsFromGateway.get(0));
     }
 
+    /**
+     * Tests to make sure we cannot add an invalid default item
+     * @throws DatabaseException when invalid item is added
+     */
     @Test (expected = DatabaseException.class)
     public void cannotAddInvalidVanityItem() throws DatabaseException
     {
         gateway.addDefaultItem(-1);
     }
 
+    /**
+     * Tests to make sure we can remove a default item
+     * @throws DatabaseException shouldnt
+     */
     @Test
     public void testRemoveItem() throws DatabaseException
     {
@@ -92,12 +116,54 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
         assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
+    /**
+     * Tests to make sure we cannot remove an invalid default item
+     * @throws DatabaseException when removing invalid item
+     */
     @Test (expected = DatabaseException.class)
     public void cannotRemoveInvalidItem() throws DatabaseException
     {
         gateway.removeDefaultItem(-1);
     }
 
+    @Test
+    public void testGetDefaultWearing() throws DatabaseException
+    {
+        ArrayList<Integer> shouldBe = new ArrayList<>();
+        for (DefaultItemsForTest item : DefaultItemsForTest.values())
+        {
+            if (item.getDefaultWearing() == 1)
+            {
+                shouldBe.add(item.getDefaultID());
+            }
+        }
+
+        ArrayList<Integer> actual = getIDsFromVanityDTO(gateway.getDefaultWearing());
+
+        assertTrue(shouldBe.containsAll(actual) && actual.containsAll(shouldBe));
+    }
+
+    @Test
+    public void changeDefault() throws DatabaseException
+    {
+        ArrayList<Integer> wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
+        assertFalse(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
+        gateway.setDefaultWearing(DefaultItemsForTest.LightBlueEyes.getDefaultID());
+        wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
+        assertTrue(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
+        assertFalse(wearing.contains(DefaultItemsForTest.DefaultEyes.getDefaultID()));
+    }
+
+    @Test (expected = DatabaseException.class)
+    public void cannotSetInvalidDefault() throws DatabaseException
+    {
+        gateway.setDefaultWearing(-1);
+    }
+
+    /**
+     * @param itemsFromGateway the default items from the gateway
+     * @return a list of the awards ids
+     */
     private ArrayList<Integer> getIDsFromVanityDTO(ArrayList<VanityDTO> itemsFromGateway)
     {
         ArrayList<Integer> itemsFromGatewayIDs = new ArrayList<>();

@@ -68,7 +68,7 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	{
 		setup();
 		ArrayList<QuestStateRecordDTO> records = gateway.getQuestStates(1);
-		assertEquals(7, records.size());
+		assertEquals(8, records.size());
 		// the records could be in any order
 		for (int i = 0; i < 5; i++)
 		{
@@ -106,7 +106,7 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 		gateway = getGatewaySingleton();
 		gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4, QuestStateEnum.TRIGGERED, true);
 		ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID());
-		assertEquals(8, actual.size());
+		assertEquals(9, actual.size());
 		assertTrue(actual.contains(new QuestStateRecordDTO(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4,
 				QuestStateEnum.TRIGGERED, true)));
 
