@@ -8,6 +8,10 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import datasource.LoggerManager;
+import model.OptionsManager;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.handlers.MessageHandlerSet;
@@ -26,6 +30,12 @@ import datasource.DatabaseManager;
 public class ConnectionIncomingTest
 {
 
+	@BeforeClass
+	public static void setup()
+	{
+		LoggerManager.resetSingleton();
+		LoggerManager.createLogger(OptionsManager.getSingleton().getHostName());
+	}
 	/**
 	 * An incoming message should be routed by the MessageProcessor to the
 	 * MessageHandler register for that type of message
