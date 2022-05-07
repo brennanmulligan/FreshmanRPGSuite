@@ -6,3 +6,5 @@ config.txt
 /bin
 database
 config.txt
+/Test.log
+/first.log

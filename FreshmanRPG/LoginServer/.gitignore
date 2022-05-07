@@ -1,2 +1,4 @@
 bin
 config.txt
+/LoginServer.log
+/LoginServer.log.lck

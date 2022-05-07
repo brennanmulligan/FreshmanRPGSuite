@@ -9,6 +9,7 @@ import communication.ConnectionManager;
 import communication.StateAccumulator;
 import communication.handlers.MessageHandlerSet;
 import communication.packers.MessagePackerSet;
+import datasource.LoggerManager;
 import model.InteractObjectManager;
 import model.OptionsManager;
 import model.PlayerManager;
@@ -81,7 +82,7 @@ public class Server implements Runnable
 		{
 			OptionsManager om = OptionsManager.getSingleton();
 			om.setDbIdentifier(dbIdentifier);
-
+			LoggerManager.createLogger("" + mapName);
 			String hostName;
 			if (!runningLocal)
 			{
