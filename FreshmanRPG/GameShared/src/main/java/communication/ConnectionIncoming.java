@@ -12,6 +12,7 @@ import communication.handlers.MessageHandlerSet;
 import communication.messages.Message;
 import datasource.DatabaseException;
 import datasource.DatabaseManager;
+import datasource.LoggerManager;
 import model.OptionsManager;
 
 /**
@@ -39,15 +40,7 @@ public class ConnectionIncoming implements Runnable
 
 		this.socket = socket;
 		this.messageHandlers = processor;
-		logger =
-				Logger.getLogger(OptionsManager.getSingleton().getMapName()+socket.getLocalAddress());
-		FileHandler fileHandler = new FileHandler(logger.getName() + ".log",false);
-
-		//Assigning handlers to LOGGER object
-		logger.addHandler(fileHandler);
-
-		fileHandler.setLevel(Level.INFO);
-		logger.setLevel(Level.ALL);
+		logger = LoggerManager.getSingleton().getLogger();
 	}
 
 
