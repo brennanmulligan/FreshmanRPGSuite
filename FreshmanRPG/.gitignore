@@ -8,6 +8,10 @@ GameManager/.settings/org.eclipse.jdt.ui.prefs
 .idea/*
 .gradle/
 **/build/
+**/*.log
+**/*.log.*
+**/*.lck
+**Include
 
 # Include IntelliJ Run Configurations
 !.idea/
