@@ -1,0 +1,28 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Seed GameServer" type="GradleRunConfiguration" factoryName="Gradle" folderName="Rebuilding Database">
+    <ExternalSystemSettings>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/GameServer" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="DBBuildQuestsAndObjectives" />
+          <option value="DBBuildTestDBPlayers" />
+          <option value="DBBuildTestLevels" />
+          <option value="DBBuildTestQuestions" />
+          <option value="DBBuildTestInteractableItems" />
+          <option value="DBBuildTestVanityItems" />
+        </list>
+      </option>
+      <option name="vmOptions" />
+    </ExternalSystemSettings>
+    <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+    <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <DebugAllEnabled>false</DebugAllEnabled>
+    <method v="2" />
+  </configuration>
+</component>

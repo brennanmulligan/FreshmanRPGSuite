@@ -9,32 +9,18 @@
         <list />
       </option>
       <option name="taskNames">
-        <list>
-          <option value=":GameServer:DBBuildQuestsAndObjectives" />
-          <option value=":GameServer:DBBuildTestDBPlayers" />
-          <option value=":GameServer:DBBuildTestLevels" />
-          <option value=":GameServer:DBBuildTestQuestions" />
-          <option value=":GameServer:DBBuildTestInteractableItems" />
-          <option value=":LoginServer:DBBuildTestDBPlayerLogin" />
-          <option value=":GameShared:DBBuildTestDBServers" />
-          <option value=":GameServer:DBBuildTestDoubloonPrizes" />
-          <option value=":GameServer:DBBuildTestRandomFacts" />
-          <option value=":GameServer:DBBuildTestDBVisitedMaps" />
-          <option value=":GameServer:DBBuildFriends" />
-          <option value=":GameServer:DBBuildTestInfoNPC" />
-          <option value=":GameServer:DBBuildTestRoamingNPC" />
-          <option value=":GameServer:DBBuildTestVanityItems" />
-          <option value=":GameServer:DBBuildTestVanityInventory" />
-          <option value=":GameServer:DBBuildTestDefaultItems" />
-          <option value=":GameServer:DBBuildTestVanityAwards" />
-          <option value=":GameServer:DBBuildTestVanityShop" />
-        </list>
+        <list />
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
-    <method v="2" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seed GameServer" run_configuration_type="GradleRunConfiguration" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seed LoginServer" run_configuration_type="GradleRunConfiguration" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seed GameShared" run_configuration_type="GradleRunConfiguration" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seed Stage 2" run_configuration_type="GradleRunConfiguration" />
+    </method>
   </configuration>
 </component>

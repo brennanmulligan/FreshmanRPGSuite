@@ -80,6 +80,7 @@ public class BuildQuestsAndObjectives
 					quest.getCompletionActionParameter(), quest.getStartDate(), quest.getEndDate());
 			;
 		}
+		System.out.println();
 	}
 
 	/**
