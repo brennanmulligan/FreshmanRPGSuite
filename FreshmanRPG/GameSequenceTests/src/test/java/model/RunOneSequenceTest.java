@@ -11,6 +11,7 @@ import communication.CommunicationException;
 import datasource.DatabaseException;
 import model.SequenceTest;
 import model.SequenceTestRunner;
+import sequencetests.CdTeleportationSequenceTest;
 import sequencetests.LoginSuccessSequenceTest;
 
 /**
@@ -41,7 +42,7 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<LoginSuccessSequenceTest> testClass = LoginSuccessSequenceTest.class;
+		Class<CdTeleportationSequenceTest> testClass = CdTeleportationSequenceTest.class;
 		SequenceTestRunner testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new SequenceTestRunner("My Single Sequence Test", testClass);
