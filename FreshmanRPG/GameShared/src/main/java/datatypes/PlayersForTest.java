@@ -27,7 +27,9 @@ public enum PlayersForTest
 	 * ObjectiveStatesForTest
 	 */
 
-	MERLIN(2, "Merlin", "merlin", 52, 52, "pw", "quad.tmx", 1111, null, 42, 46, Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+	MERLIN(2, "Merlin", "merlin", 52, 52, "pw", "quad.tmx", 1111, null, 42, 46,
+			Crew.OUT_OF_BOUNDS, Major.SOFTWARE_ENGINEERING, 1, 0, true,
+			new ArrayList<>(Arrays.asList("Rec Center", "Quad", "Map1"))),
 
 	/**
 	 *
