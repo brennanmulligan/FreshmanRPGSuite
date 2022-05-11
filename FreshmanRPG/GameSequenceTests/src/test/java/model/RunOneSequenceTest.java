@@ -3,9 +3,16 @@ package model;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import datasource.DatabaseManager;
+import model.OptionsManager;
+import org.junit.Test;
+
 import communication.CommunicationException;
 import datasource.DatabaseException;
-import sequencetests.*;
+import model.SequenceTest;
+import model.SequenceTestRunner;
+import sequencetests.CdTeleportationSequenceTest;
+import sequencetests.LoginSuccessSequenceTest;
 
 /**
  * Runs all client tests
@@ -35,14 +42,13 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<TeleportationTwiceSequenceTest> testClass = TeleportationTwiceSequenceTest.class;
-		RunAllSequenceTests testToRun;
+		Class<CdTeleportationSequenceTest> testClass = CdTeleportationSequenceTest.class;
+		SequenceTestRunner testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
-		testToRun = new RunAllSequenceTests("My Single Sequence Test", testClass);
+		testToRun = new SequenceTestRunner("My Single Sequence Test", testClass);
 
 		testToRun.setUpTheTest(sequence);
 		testToRun.singleSequenceTest();
-		System.out.println("Single Sequence Tests Complete");
 	}
 
 }
