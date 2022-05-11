@@ -77,4 +77,12 @@ public class SendTerminalTextMessage implements Message, Serializable
 		return terminalText;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "SendTerminalTextMessage{" +
+				"playerID=" + playerID +
+				", terminalText='" + terminalText + '\'' +
+				'}';
+	}
 }
