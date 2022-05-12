@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-
 import datasource.DatabaseException;
 
 /**
@@ -12,13 +11,9 @@ import datasource.DatabaseException;
  */
 public abstract class SequenceTest
 {
+	protected Interaction interaction;
+	protected ArrayList<MessageFlow> messageSequence;
 
-	/**
-	 * The constructor of the subclass must fill this with the sequence of
-	 * message flows for the test
-	 */
-	protected ArrayList<MessageFlow> messageSequence = new ArrayList<>();
-	
 	/**
 	 * The list of server ids this sequence needs to run on
 	 */
@@ -27,19 +22,25 @@ public abstract class SequenceTest
 	/**
 	 * @return the command that will initiate the sequence
 	 */
-	public abstract Command getInitiatingCommand();
+	public Command getInitiatingCommand()
+	{
+			return interaction.getInitiatingCommand();
+	}
 
 	/**
 	 * @return the type of server where the initiating command is run
 	 */
-	public abstract ServerType getInitiatingServerType();
+	public ServerType getInitiatingServerType()
+	{
+		return interaction.getInitiatingServerType();
+	}
 
 	/**
 	 * @return the sequence of message flows that define the protocol
 	 */
 	public ArrayList<MessageFlow> getMessageSequence()
 	{
-		return messageSequence;
+		return interaction.getMessageSequence();
 	}
 	
 	/**
@@ -54,7 +55,10 @@ public abstract class SequenceTest
 	/**
 	 * @return the player ID of the player that is initiating this sequence
 	 */
-	public abstract int getInitiatingPlayerID();
+	public int getInitiatingPlayerID()
+	{
+		return interaction.getInitiatingPlayerID();
+	}
 
 	/**
 	 * Set up anything in the singletons (like OptionsManager) that is required

@@ -49,6 +49,7 @@ public class RunOneSequenceTest
 
 		testToRun.setUpTheTest(sequence);
 		testToRun.singleSequenceTest();
+		System.out.println("Single Sequence Tests Complete");
 	}
 
 }

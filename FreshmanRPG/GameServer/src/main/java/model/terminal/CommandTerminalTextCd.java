@@ -17,8 +17,6 @@ import model.PlayerMapper;
  */
 public class CommandTerminalTextCd extends TerminalCommand
 {
-	private final String terminalIdentifier = "cd";
-	private final String description = "For every new location you visit, you can teleport to it.";
 
 	/**
 	 * Teleports the player to the given location if the player is not in that map.
@@ -30,7 +28,6 @@ public class CommandTerminalTextCd extends TerminalCommand
 		String destination = destinations[0];
 
 		String mapName = ServerMapManager.getSingleton().getMapNameFromMapTitle(destination);
-
 		try
 		{
 			Player player = new PlayerMapper(playerID).getPlayer();
@@ -75,7 +72,7 @@ public class CommandTerminalTextCd extends TerminalCommand
 	@Override
 	public String getTerminalIdentifier()
 	{
-		return terminalIdentifier;
+		return "cd";
 	}
 
 	/**
@@ -84,7 +81,7 @@ public class CommandTerminalTextCd extends TerminalCommand
 	@Override
 	public String getDescription()
 	{
-		return description;
+		return "For every new location you visit, you can teleport to it.";
 	}
 
 

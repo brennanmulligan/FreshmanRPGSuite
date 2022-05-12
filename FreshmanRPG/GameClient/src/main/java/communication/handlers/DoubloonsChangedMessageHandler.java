@@ -33,7 +33,6 @@ public class DoubloonsChangedMessageHandler extends MessageHandler
 	@Override
 	public Class<?> getMessageTypeWeHandle()
 	{
-		// TODO Auto-generated method stub
 		return DoubloonsChangedMessage.class;
 	}
 

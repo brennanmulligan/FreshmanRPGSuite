@@ -10,7 +10,7 @@ import datatypes.FriendStatusEnum;
 /**
  *
  * @author Christian C, Andrew M
- * @description mock gateway for the friend command
+ * description mock gateway for the friend command
  *
  */
 public class FriendTableDataGatewayMock implements FriendTableDataGateway
@@ -55,9 +55,9 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 
 	/**
 	 * add method to update hashmap when a player adds a new friend
-	 * @param playerID
-	 * @param friendID
-	 * @param status
+	 * @param playerID The player's ID
+	 * @param friendName The friend's name
+	 * @param status The status of this relationship
 	 */
 	@Override
 	public void add(int playerID, String friendName, FriendStatusEnum status)
@@ -69,9 +69,8 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 	@Override
 	public ArrayList<FriendDTO> getAllFriends(int id) throws DatabaseException
 	{
-		ArrayList<FriendDTO> friends = friend.get(id);
 
-		return friends;
+		return friend.get(id);
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 	}
 
 	@Override
-	public int getFriendCounter(int id) throws DatabaseException
+	public int getFriendCounter(int id)
 	{
 
 		return friend.getFriendCount(id);
