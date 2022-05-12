@@ -15,7 +15,7 @@ public final class ClientPlayerMovedReport implements QualifiedObservableReport
 {
 	private final int playerID;
 	private final Position thePosition;
-	private boolean thisClientsPlayer;
+	private final boolean thisClientsPlayer;
 
 	/**
 	 * @return true if this client's player is the one who moved
@@ -30,7 +30,7 @@ public final class ClientPlayerMovedReport implements QualifiedObservableReport
 	 *            the unique identifier of the player moving
 	 * @param position
 	 *            the position he moved to
-	 * @param thisClientsPlayer TODO
+	 * @param thisClientsPlayer true if the player moving is the one running this client
 	 */
 	public ClientPlayerMovedReport(int playerID, Position position, boolean thisClientsPlayer)
 	{

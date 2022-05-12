@@ -91,7 +91,6 @@ public class QuestManager implements QualifiedObserver
 			}
 			catch (DatabaseException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

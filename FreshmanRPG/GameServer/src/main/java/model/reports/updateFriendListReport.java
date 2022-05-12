@@ -23,7 +23,7 @@ public class updateFriendListReport implements QualifiedObservableReport
 
 	/**
 	 * get player id
-	 * @return
+	 * @return The ID of the player making the request
 	 */
 	public int getPlayerID()
 	{
@@ -32,7 +32,7 @@ public class updateFriendListReport implements QualifiedObservableReport
 
 	/**
 	 * getter for friend name
-	 * @return
+	 * @return The names of the friends of the requesting player
 	 */
 	public String getFriends()
 	{
@@ -52,13 +52,12 @@ public class updateFriendListReport implements QualifiedObservableReport
 	 */
 	public int getFriendID()
 	{
-		// TODO Auto-generated method stub
 		return friend.getFriendID();
 	}
 
 	/**
 	 * return the friend DTO
-	 * @return
+	 * @return The details of one friend
 	 */
 	public FriendDTO getFriendDTO()
 	{
