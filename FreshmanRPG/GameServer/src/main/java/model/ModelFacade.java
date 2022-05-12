@@ -36,9 +36,9 @@ public class ModelFacade
 		singleton = null;
 	}
 
-	private InformationQueue commandQueue;
+	private final InformationQueue commandQueue;
 	private boolean commandsPending;
-	private Timer timer;
+	private final Timer timer;
 
 	/**
 	 * Checks if commands are pending
@@ -124,5 +124,16 @@ public class ModelFacade
 	public int queueSize()
 	{
 		return commandQueue.getQueueSize();
+	}
+
+	/**
+	 * If we have created the thread that processes things, kill it
+	 */
+	public synchronized static void killThreads()
+	{
+		if (singleton != null && singleton.timer != null)
+		{
+			singleton.timer.cancel();
+		}
 	}
 }

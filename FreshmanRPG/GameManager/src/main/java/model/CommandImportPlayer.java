@@ -18,7 +18,7 @@ import model.reports.ErrorReport;
 public class CommandImportPlayer extends Command
 {
 
-	private File file;
+	private final File file;
 
 	/**
 	 * Initialize command to execute on a given file.
@@ -36,8 +36,8 @@ public class CommandImportPlayer extends Command
 	@Override
 	boolean execute()
 	{
-		GameManagerPlayerManager playerManager = null;
-		CSVPlayerGateway gateway = null;
+		GameManagerPlayerManager playerManager;
+		CSVPlayerGateway gateway;
 
 		try
 		{
@@ -57,13 +57,11 @@ public class CommandImportPlayer extends Command
 		{
 			sendErrorReport(e.getMessage());
 			return false;
-			// TODO Auto-generated catch block
 		}
 		catch (InvalidColumnException e)
 		{
 			sendErrorReport("Invalid Columns in CSV File");
 			return false;
-			// TODO Auto-generated catch block
 		}
 
 

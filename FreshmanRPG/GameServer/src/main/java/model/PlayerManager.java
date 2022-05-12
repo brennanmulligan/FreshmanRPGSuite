@@ -51,8 +51,8 @@ public class PlayerManager implements QualifiedObserver
 
 	private static PlayerManager singleton;
 
-	private HashMap<Integer, Player> players;
-	private ArrayList<NPC> npcs;
+	private final HashMap<Integer, Player> players;
+	private final ArrayList<NPC> npcs;
 
 	/**
 	 * @return a list of the NPCs
@@ -223,7 +223,8 @@ public class PlayerManager implements QualifiedObserver
 	/**
 	 * Load the npcs that belong on this map, add them to player manager, and start
 	 * them
-	 * @param quietMode TODO
+	 * @param quietMode If true, the NPCs won't be started and therefore, won't
+	 *                     generate chat messages.  Good for sequence testing!
 	 *
 	 * @throws DatabaseException when database goes wrong
 	 */

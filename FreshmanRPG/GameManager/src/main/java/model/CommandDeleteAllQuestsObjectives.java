@@ -33,7 +33,6 @@ public class CommandDeleteAllQuestsObjectives extends Command
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;

@@ -21,13 +21,13 @@ import datatypes.Position;
  */
 public class PlayerMapper
 {
-	private PlayerRowDataGateway playerGateway;
-	private PlayerConnectionRowDataGateway playerConnectionGateway;
-	private QuestStateTableDataGateway questStateGateway;
-	private ObjectiveStateTableDataGateway objectiveStateGateway;
-	private ObjectiveTableDataGateway objectiveTableDataGateway;
-	private VisitedMapsGateway visitedMapsGateway;
-	private VanityInventoryTableDataGatewayInterface vanityTableDataGateway;
+	private final PlayerRowDataGateway playerGateway;
+	private final PlayerConnectionRowDataGateway playerConnectionGateway;
+	private final QuestStateTableDataGateway questStateGateway;
+	private final ObjectiveStateTableDataGateway objectiveStateGateway;
+	private final ObjectiveTableDataGateway objectiveTableDataGateway;
+	private final VisitedMapsGateway visitedMapsGateway;
+	private final VanityInventoryTableDataGatewayInterface vanityTableDataGateway;
 
 	//For testing in Mock Player Data Gateway
 	private static PlayerDTO editedPlayerInfo;
@@ -113,6 +113,7 @@ public class PlayerMapper
 					major, section, 0, false);
 			this.questStateGateway = QuestStateTableDataGatewayMock.getSingleton();
 			this.objectiveStateGateway = ObjectiveStateTableDataGatewayMock.getSingleton();
+			this.objectiveTableDataGateway = ObjectiveTableDataGatewayMock.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayMock(this.playerGateway.getPlayerID(), pin, mapName, position);
 			new PlayerLoginRowDataGatewayMock(this.playerGateway.getPlayerID(), name, password);
 			this.visitedMapsGateway = new VisitedMapsGatewayMock(this.playerGateway.getPlayerID());
@@ -124,6 +125,7 @@ public class PlayerMapper
 					major, section, 0, false);
 			this.questStateGateway = QuestStateTableDataGatewayRDS.getSingleton();
 			this.objectiveStateGateway = ObjectiveStateTableDataGatewayRDS.getSingleton();
+			this.objectiveTableDataGateway = ObjectiveTableDataGatewayRDS.getSingleton();
 			this.playerConnectionGateway = new PlayerConnectionRowDataGatewayRDS(this.playerGateway.getPlayerID(), pin, mapName, position);
 			new PlayerLoginRowDataGatewayRDS(this.playerGateway.getPlayerID(), name, password);
 			this.visitedMapsGateway = new VisitedMapsGatewayRDS(this.playerGateway.getPlayerID());
@@ -233,7 +235,7 @@ public class PlayerMapper
 	}
 
 	/**
-	 * @param playerID TODO
+	 * @param playerID The player we want to create
 	 * @return a new object of the type this mapper is managing
 	 */
 	protected Player createPlayerObject(int playerID)

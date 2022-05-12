@@ -40,11 +40,10 @@ public class SequenceTestRunner
 	private SequenceTest testcase;
 	private StateAccumulator stateAccumulator;
 	private MessageHandlerSet messageHandlerSet;
-	private MessagePackerSet messagePackerSet;
 	private StateAccumulator secondStateAccumulator;
 	// private MessageHandlerSet secondMessageHandlerSet;
 	private MessagePackerSet secondMessagePackerSet;
-	private Class<?> testClass;
+	private final Class<?> testClass;
 
 	/**
 	 * @return the list of sequence tests
@@ -54,33 +53,38 @@ public class SequenceTestRunner
 	{
 		return Arrays.asList(new Object[][]
 				{
-						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
-						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
-
-						//{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
-						//		{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
-						//				RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
-						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
-						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
-						{"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
-						{"NoMoreBuffSequencerTest", NoMoreBuffSequenceTest.class},
-						{"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
-						{"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
-						{"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
-						{"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
-						{"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
-						{"LoginBadPinSequenceTest", LoginBadPinSequenceTest.class},
-						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
+						{"CdTeleportationSequenceTest",
+								CdTeleportationSequenceTest.class},
 						{"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
-						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
+						{"LoginBadPinSequenceTest", LoginBadPinSequenceTest.class},
+						{"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
+						{"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
+						{"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
+						{"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
+						{"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
+						{"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
 						{"ObjectiveCompletionItemInteractSequenceTest",
 								ObjectiveCompletionItemInteractSequenceTest.class},
+						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
+
+						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
+						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
+						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
+
+						//{"PlayerHasVanityItemSequenceTest",
+						// PlayerHasVanityItemSequenceTest.class};
+						//		{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
+						//				RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
+						//{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
+						// Terminal Text Sequence Test
+						// Trigger BuffMessage Sequence Test
 						{"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class},});
 	}
 
 	/**
 	 * @param test the description of the message protocol for a given situation
-	 * @throws IOException       shouldn't
 	 * @throws DatabaseException shouldn't
 	 */
 	public void setUpTheTest(SequenceTest test) throws DatabaseException
@@ -91,8 +95,7 @@ public class SequenceTestRunner
 		ModelFacade.resetSingleton();
 		testcase.setUpMachines();
 
-		messagePackerSet = new MessagePackerSet();
-		stateAccumulator = new StateAccumulator(messagePackerSet);
+		stateAccumulator = new StateAccumulator(new MessagePackerSet());
 		stateAccumulator.setPlayerId(test.getInitiatingPlayerID());
 		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
 		secondMessagePackerSet = null;
@@ -130,8 +133,11 @@ public class SequenceTestRunner
 		{
 			if (testcase.getServerList().contains(serverToTest))
 			{
+				// TODO This is where you will have to loop through the interactions
+				//  and run each one
 				String result = run(serverToTest, true);
 				ClientModelFacade.killThreads();
+				ModelFacade.killThreads();
 				assertEquals(SUCCESS_MSG, result);
 			}
 		}
