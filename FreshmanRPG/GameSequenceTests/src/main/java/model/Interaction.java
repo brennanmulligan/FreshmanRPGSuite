@@ -1,24 +1,32 @@
 package model;
 
+import model.Command;
+import model.CommandSendTerminalText;
+import model.MessageFlow;
+import model.ServerType;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Interaction
 {
-    private final Command command;
-    private final int initiatingPlayerID;
-    private final ServerType initiatingMachineType;
     ArrayList<MessageFlow> messageSequence;
 
-    public Interaction(Command command, int initiatingPlayerID,
-                       ServerType initiatingMachineType, MessageFlow[] sequence)
+    public Interaction(MessageFlow[] sequence, CommandSendTerminalText command,
+                       int initiatingPlayerID, ServerType initiatingMachineType)
     {
         this.command = command;
         this.initiatingPlayerID = initiatingPlayerID;
         this.initiatingMachineType = initiatingMachineType;
         messageSequence = new ArrayList<>();
         messageSequence.addAll(Arrays.asList(sequence));
+
     }
+
+
+    private final CommandSendTerminalText command;
+    private final int initiatingPlayerID;
+    private final ServerType initiatingMachineType;
 
     public Command getInitiatingCommand()
     {

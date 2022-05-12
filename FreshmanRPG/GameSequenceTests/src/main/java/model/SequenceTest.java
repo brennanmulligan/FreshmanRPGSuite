@@ -11,10 +11,8 @@ import datasource.DatabaseException;
  */
 public abstract class SequenceTest
 {
-	protected ArrayList<Interaction> interactions = new ArrayList<>();
-
-	protected ArrayList<Interaction> getInteractions() { //noinspection unchecked
-		return (ArrayList<Interaction>) interactions.clone(); }
+	protected Interaction interaction;
+	protected ArrayList<MessageFlow> messageSequence;
 
 	/**
 	 * The list of server ids this sequence needs to run on
@@ -22,13 +20,44 @@ public abstract class SequenceTest
 	protected ArrayList<ServerType> serverList = new ArrayList<>();
 
 	/**
-	 *
+	 * @return the command that will initiate the sequence
+	 */
+	public Command getInitiatingCommand()
+	{
+			return interaction.getInitiatingCommand();
+	}
+
+	/**
+	 * @return the type of server where the initiating command is run
+	 */
+	public ServerType getInitiatingServerType()
+	{
+		return interaction.getInitiatingServerType();
+	}
+
+	/**
+	 * @return the sequence of message flows that define the protocol
+	 */
+	public ArrayList<MessageFlow> getMessageSequence()
+	{
+		return interaction.getMessageSequence();
+	}
+	
+	/**
+	 * 
 	 * @return the server numbers for this sequence to run on
 	 */
-	public final ArrayList<ServerType> getServerList()
+	public ArrayList<ServerType> getServerList()
 	{
-		//noinspection unchecked
-		return (ArrayList<ServerType>) serverList.clone();
+		return serverList;
+	}
+
+	/**
+	 * @return the player ID of the player that is initiating this sequence
+	 */
+	public int getInitiatingPlayerID()
+	{
+		return interaction.getInitiatingPlayerID();
 	}
 
 	/**
@@ -41,6 +70,6 @@ public abstract class SequenceTest
 	/**
 	 * Reset any gateways this test has changed so that more tests can be run
 	 */
-	public abstract void resetNecessarySingletons();
+	public abstract void resetDataGateways();
 
 }
