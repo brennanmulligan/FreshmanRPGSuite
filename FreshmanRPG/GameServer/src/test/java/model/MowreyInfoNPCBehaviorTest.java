@@ -4,6 +4,7 @@ import datasource.DatabaseException;
 import datatypes.ChatType;
 import datatypes.PlayersForTest;
 import model.reports.ChatMessageReceivedReport;
+import model.reports.NPCChatReport;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +41,11 @@ public class MowreyInfoNPCBehaviorTest
         PlayerManager.getSingleton().addPlayer(1);
         QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
         QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-        obs.receiveReport(EasyMock.anyObject(ChatMessageReceivedReport.class));
+        obs.receiveReport(EasyMock.anyObject(NPCChatReport.class));
         EasyMock.replay(obs);
 
-        ChatMessageReceivedReport report = new ChatMessageReceivedReport(p.getPlayerID(), 0 , "Hello, Mowrey", PlayersForTest.NICK.getPosition(), ChatType.Local);
+        NPCChatReport report = new NPCChatReport(p.getPlayerID(), 0 , "Hello, Mowrey",
+                PlayersForTest.NICK.getPosition(), ChatType.Local);
         behavior.receiveReport(report);
 
         EasyMock.verify(obs);

@@ -57,7 +57,6 @@ public class SequenceTestRunner
 								CdTeleportationSequenceTest.class},
 						{"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
 						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
-						{"LoginBadPinSequenceTest", LoginBadPinSequenceTest.class},
 						{"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
 						{"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
 						{"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
@@ -68,7 +67,8 @@ public class SequenceTestRunner
 								ObjectiveCompletionItemInteractSequenceTest.class},
 						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
 						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
-
+						{"RecCenterGrantsDoubloonsWithBuffSequenceTest",
+								RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
 						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
 						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
 						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
@@ -90,19 +90,16 @@ public class SequenceTestRunner
 	public void setUpTheTest(SequenceTest test) throws DatabaseException
 	{
 		this.testcase = test;
+		resetCommonSingletons();
+
+	}
+
+	private void resetCommonSingletons()
+	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 		ModelFacade.resetSingleton();
-		testcase.setUpMachines();
-
-		stateAccumulator = new StateAccumulator(new MessagePackerSet());
-		stateAccumulator.setPlayerId(test.getInitiatingPlayerID());
-		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
-		secondMessagePackerSet = null;
-		secondStateAccumulator = null;
-
 		ClientModelFacade.getSingleton(true, true);
-
 	}
 
 	/**
@@ -126,8 +123,7 @@ public class SequenceTestRunner
 			CommunicationException, DatabaseException, NoSuchMethodException, InvocationTargetException
 	{
 
-		SequenceTest testcase = (SequenceTest) testClass.getConstructor().newInstance();
-		setUpTheTest(testcase);
+		testcase = (SequenceTest) testClass.getConstructor().newInstance();
 
 		for (ServerType serverToTest : ServerType.values())
 		{
@@ -154,17 +150,15 @@ public class SequenceTestRunner
 	 */
 	public String run(ServerType sType, boolean verbose) throws CommunicationException, DatabaseException, IOException
 	{
-		if (sType.supportsOneToManyConnections() && secondMessagePackerSet == null)
+		if (verbose)
 		{
-			secondMessagePackerSet = new MessagePackerSet();
-			secondStateAccumulator = new StateAccumulator(secondMessagePackerSet);
-			// secondMessageHandlerSet = new
-			// MessageHandlerSet(secondStateAccumulator);
+			System.out.println("Starting test for " + sType);
 		}
-		// ModelFacade lookHere = ModelFacade.getSingleton();
-		testcase.resetDataGateways();
+		resetCommonSingletons();
+		testcase.resetNecessarySingletons();
 		testcase.setUpMachines();
-		purgeAccumulators();
+		setUpAccumulators(sType, testcase.getInitiatingPlayerID());
+
 		ArrayList<MessageFlow> messages = testcase.getMessageSequence();
 		initiateTheSequence(sType, messages);
 		for (MessageFlow msgFlow : messages)
@@ -180,7 +174,6 @@ public class SequenceTestRunner
 				if (msgFlow.getDestination().equals(ServerType.OTHER_CLIENT))
 				{
 					msgInAccumulator = secondStateAccumulator.getFirstMessage();
-
 				}
 				else
 				{
@@ -217,7 +210,27 @@ public class SequenceTestRunner
 		{
 			return extraMessagesError;
 		}
+		if (verbose)
+		{
+			System.out.println("Finished test for " + sType);
+		}
 		return SUCCESS_MSG;
+	}
+
+	private void setUpAccumulators(ServerType sType, int playerID)
+	{
+		stateAccumulator = new StateAccumulator(new MessagePackerSet());
+		stateAccumulator.setPlayerId(playerID);
+		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
+		secondMessagePackerSet = null;
+		secondStateAccumulator = null;
+		if (sType.supportsOneToManyConnections() && secondMessagePackerSet == null)
+		{
+			secondMessagePackerSet = new MessagePackerSet();
+			secondStateAccumulator = new StateAccumulator(secondMessagePackerSet);
+			// secondMessageHandlerSet = new
+			// MessageHandlerSet(secondStateAccumulator);
+		}
 	}
 
 	private void purgeAccumulators()

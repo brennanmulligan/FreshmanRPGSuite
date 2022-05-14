@@ -432,7 +432,6 @@ public enum PlayersForTest
 	}
 
 	/**
-	 * TODO: FIX
 	 * @return
 	 */
 	public List<VanityDTO> getOwnedItems()

@@ -2,7 +2,7 @@ package model;
 
 import datatypes.ChatType;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.NPCChatReport;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -142,7 +142,7 @@ public class NPCBehaviorRPS extends NPCBehavior
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
     {
         ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-        reportTypes.add(ChatMessageReceivedReport.class);
+        reportTypes.add(NPCChatReport.class);
 
         return reportTypes;
     }
@@ -153,14 +153,13 @@ public class NPCBehaviorRPS extends NPCBehavior
     public void receiveReport(QualifiedObservableReport incomingReport)
     {
 
-        if (incomingReport instanceof ChatMessageReceivedReport && !RPSFinished)
+        if (incomingReport instanceof NPCChatReport && !RPSFinished)
         {
-            ChatMessageReceivedReport chatReport = (ChatMessageReceivedReport) incomingReport;
+            NPCChatReport chatReport = (NPCChatReport) incomingReport;
             Player player = PlayerManager.getSingleton().getPlayerFromID(this.playerID);
             ChatManager chat = ChatManager.getSingleton();
 
-            ChatMessageReceivedReport report = (ChatMessageReceivedReport) incomingReport;
-            String userAnswer = report.getChatText().toLowerCase();//.replaceAll(" ", "");
+            String userAnswer = chatReport.getChatText().toLowerCase();//.replaceAll(" ", "");
 
             if (userAnswer.equalsIgnoreCase("rubber ducky") && !RPSRoundStarted)
             {

@@ -5,11 +5,8 @@ import communication.messages.TeleportationContinuationMessage;
 import datasource.DatabaseException;
 import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
-import datatypes.Position;
 import datatypes.ServersForTest;
 import model.*;
-
-import java.io.IOException;
 
 /**
  * When cd Map1 is entered into the terminal, this sequence is sent
@@ -18,8 +15,7 @@ import java.io.IOException;
  */
 public class CdTeleportationSequenceTest extends SequenceTest
 {
-    private static final Position TELEPORT_POSITION = new Position(10, 10);
-
+    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(),
@@ -50,10 +46,10 @@ public class CdTeleportationSequenceTest extends SequenceTest
     }
 
     /**
-     * @see model.SequenceTest#resetDataGateways()
+     * @see model.SequenceTest#resetNecessarySingletons()
      */
     @Override
-    public void resetDataGateways()
+    public void resetNecessarySingletons()
     {
         try
         {

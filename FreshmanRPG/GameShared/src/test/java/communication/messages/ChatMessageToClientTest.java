@@ -14,7 +14,7 @@ import datatypes.PlayersForTest;
  * @author Andrew
  *
  */
-public class ChatMessageTest
+public class ChatMessageToClientTest
 {
 
 	/**
@@ -24,7 +24,8 @@ public class ChatMessageTest
 	public void test()
 	{
 		Position p = new Position(0, 0);
-		ChatMessage msg = new ChatMessage(PlayersForTest.MERLIN.getPlayerID(), 0, "Hello World!", p, ChatType.Local);
+		ChatMessageToClient
+                msg = new ChatMessageToClient(PlayersForTest.MERLIN.getPlayerID(), 0, "Hello World!", p, ChatType.Local);
 		assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getSenderID());
 		assertEquals(0, msg.getReceiverID());
 		assertEquals("Hello World!", msg.getChatText());

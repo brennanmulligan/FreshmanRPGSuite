@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import model.reports.ChatMessageToClientReport;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,9 +55,11 @@ public class ChatManagerTest
 	public void testNotifiesObserversOnDirectSend()
 	{
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(42, 0, "message", new Position(1, 1),
+		ChatMessageToClientReport report = new ChatMessageToClientReport(42, 0, "message",
+				new Position(1, 1),
 				ChatType.Local);
-		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
+		QualifiedObservableConnector.getSingleton().registerObserver(obs,
+				ChatMessageToClientReport.class);
 		obs.receiveReport(EasyMock.eq(report));
 		EasyMock.replay(obs);
 
@@ -98,8 +101,10 @@ public class ChatManagerTest
 		// set up a mock object to listen so we can check that it doesn't receive
 		// anything
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(merlin.getPlayerID(), 0, "message", merlin.getPosition(),
+		QualifiedObservableConnector.getSingleton().registerObserver(obs,
+				ChatMessageToClientReport.class);
+		ChatMessageToClientReport report = new ChatMessageToClientReport(merlin.getPlayerID()
+				, 0, "message", merlin.getPosition(),
 				ChatType.Local);
 		obs.receiveReport(EasyMock.eq(report));
 		EasyMock.replay(obs);

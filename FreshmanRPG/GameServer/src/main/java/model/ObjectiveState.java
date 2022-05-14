@@ -219,10 +219,15 @@ public class ObjectiveState
 			{
 				ObjectiveRecord objective = QuestManager.getSingleton().getObjective(parentQuestState.getID(),
 						objectiveID);
+				String witness = null;
+				if (objective.isRealLifeObjective())
+				{
+					witness = objective.getCompletionCriteria().toString();
+				}
 				QualifiedObservableConnector.getSingleton().sendReport(
 						new ObjectiveStateChangeReport(parentQuestState.getPlayerID(), parentQuestState.getID(),
 								objectiveID, objective.getObjectiveDescription(), objectiveState,
-								objective.isRealLifeObjective(), objective.getCompletionCriteria().toString()));
+								objective.isRealLifeObjective(), witness));
 			}
 		}
 		else

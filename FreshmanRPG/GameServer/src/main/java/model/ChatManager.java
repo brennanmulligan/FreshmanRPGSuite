@@ -2,7 +2,7 @@ package model;
 
 import datatypes.ChatType;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.ChatMessageToClientReport;
 import model.reports.NPCChatReport;
 
 /**
@@ -64,7 +64,8 @@ public class ChatManager
 	 */
 	protected void sendChatToClients(int senderID, int receiverID, String message, Position pos, ChatType type)
 	{
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(senderID, receiverID, message, pos, type);
+		ChatMessageToClientReport report = new ChatMessageToClientReport(senderID,
+				receiverID,	message, pos, type);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
 	}

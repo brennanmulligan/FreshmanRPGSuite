@@ -14,7 +14,7 @@ import java.io.File;
  *
  *Receives the message parameters and passes them to the ChatManager 
  */
-public class CommandChatMessageReceived extends Command
+public class CommandChatMessageReceivedFromServer extends Command
 {
 	private String chatText;
 	private int senderID;
@@ -29,7 +29,8 @@ public class CommandChatMessageReceived extends Command
 	 * @param location of the player when the message was sent
 	 * @param type is the type of message: local, world, area
 	 */
-	public CommandChatMessageReceived(int senderID, int receiverID, String chatText, Position location, ChatType type)
+	public CommandChatMessageReceivedFromServer(int senderID, int receiverID,
+											 String chatText, Position location, ChatType type)
 	{
 		this.senderID = senderID;
 		this.receiverID = receiverID;

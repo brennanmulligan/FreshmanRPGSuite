@@ -20,12 +20,14 @@ public enum InteractableItemsForTest
 	/**
 	 * Buffer Book
 	 */
-	BOOK(1, "Buff Book", 0, 0, InteractableItemActionType.BUFF, new CriteriaIntegerDTO(50), "quad.tmx"),
+	BOOK(1, "Buff Book", 1, 1, InteractableItemActionType.BUFF,
+			new CriteriaIntegerDTO(50), "quad.tmx"),
 
 	/**
 	 * Chest with an item
 	 */
-	CHEST(2, "Item Chest", 1, 1, InteractableItemActionType.MESSAGE, new CriteriaStringDTO("This is a testing message"), "quad.tmx"),
+	CHEST(2, "Item Chest", 5, 5, InteractableItemActionType.MESSAGE,
+			new CriteriaStringDTO("This is a testing message"), "quad.tmx"),
 
 	/**
 	 * Test item for demo purposes

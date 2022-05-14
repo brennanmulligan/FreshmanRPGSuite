@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import communication.handlers.ObjectiveNotificationCompleteMessageHandlerTest;
-import communication.handlers.ChatMessageHandlerTest;
+import communication.handlers.ChatMessageToServerHandlerTest;
 import communication.handlers.ConnectMessageHandlerTest;
 import communication.handlers.DisconnectMessageHandlerTest;
 import communication.handlers.HighScoreRequestMessageHandlerTest;
@@ -28,7 +28,6 @@ import model.reports.InteractableObjectTextReportTest;
 import model.reports.KeyInputRecievedReportTest;
 import model.reports.DoubloonsChangeReportTest;
 import model.reports.ObjectInRangeReportTest;
-//import model.reports.PlayerAppearanceChangeReportTest;
 import model.reports.PlayerConnectionReportTest;
 import model.reports.PlayerFinishedInitializingReportTest;
 import model.reports.PlayerMovedReportTest;
@@ -53,7 +52,7 @@ import model.reports.UpdatePlayerInformationReportTest;
 		{
 				// communication.handlers
 				ObjectiveNotificationCompleteMessageHandlerTest.class,
-				ChatMessageHandlerTest.class,
+				ChatMessageToServerHandlerTest.class,
 				ConnectMessageHandlerTest.class,
 				DisconnectMessageHandlerTest.class,
 				HighScoreRequestMessageHandlerTest.class,
