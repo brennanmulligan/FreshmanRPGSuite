@@ -22,7 +22,7 @@ public abstract class SequenceTest
 	/**
 	 * @return the command that will initiate the sequence
 	 */
-	public Command getInitiatingCommand()
+	public final Command getInitiatingCommand()
 	{
 			return interaction.getInitiatingCommand();
 	}
@@ -30,7 +30,7 @@ public abstract class SequenceTest
 	/**
 	 * @return the type of server where the initiating command is run
 	 */
-	public ServerType getInitiatingServerType()
+	public final ServerType getInitiatingServerType()
 	{
 		return interaction.getInitiatingServerType();
 	}
@@ -38,7 +38,7 @@ public abstract class SequenceTest
 	/**
 	 * @return the sequence of message flows that define the protocol
 	 */
-	public ArrayList<MessageFlow> getMessageSequence()
+	public final ArrayList<MessageFlow> getMessageSequence()
 	{
 		return interaction.getMessageSequence();
 	}
@@ -47,7 +47,7 @@ public abstract class SequenceTest
 	 * 
 	 * @return the server numbers for this sequence to run on
 	 */
-	public ArrayList<ServerType> getServerList()
+	public final ArrayList<ServerType> getServerList()
 	{
 		return serverList;
 	}
@@ -55,7 +55,7 @@ public abstract class SequenceTest
 	/**
 	 * @return the player ID of the player that is initiating this sequence
 	 */
-	public int getInitiatingPlayerID()
+	public final int getInitiatingPlayerID()
 	{
 		return interaction.getInitiatingPlayerID();
 	}
@@ -70,6 +70,6 @@ public abstract class SequenceTest
 	/**
 	 * Reset any gateways this test has changed so that more tests can be run
 	 */
-	public abstract void resetDataGateways();
+	public abstract void resetNecessarySingletons();
 
 }

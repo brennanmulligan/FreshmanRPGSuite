@@ -23,7 +23,7 @@ import model.reports.ChatSentReport;
  * @author Steve
  *
  */
-public class ChatManagerTest 
+public class ClientChatManagerTest
 {
 	/**
 	 * Always start with a new singleton

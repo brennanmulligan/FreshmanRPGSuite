@@ -10,9 +10,12 @@ import java.util.Arrays;
 
 public class Interaction
 {
+    private final Command command;
+    private final int initiatingPlayerID;
+    private final ServerType initiatingMachineType;
     ArrayList<MessageFlow> messageSequence;
 
-    public Interaction(MessageFlow[] sequence, CommandSendTerminalText command,
+    public Interaction(MessageFlow[] sequence, Command command,
                        int initiatingPlayerID, ServerType initiatingMachineType)
     {
         this.command = command;
@@ -20,13 +23,7 @@ public class Interaction
         this.initiatingMachineType = initiatingMachineType;
         messageSequence = new ArrayList<>();
         messageSequence.addAll(Arrays.asList(sequence));
-
     }
-
-
-    private final CommandSendTerminalText command;
-    private final int initiatingPlayerID;
-    private final ServerType initiatingMachineType;
 
     public Command getInitiatingCommand()
     {

@@ -3,16 +3,12 @@ package model;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import datasource.DatabaseManager;
-import model.OptionsManager;
-import org.junit.Test;
-
 import communication.CommunicationException;
 import datasource.DatabaseException;
-import model.SequenceTest;
-import model.SequenceTestRunner;
-import sequencetests.CdTeleportationSequenceTest;
-import sequencetests.LoginSuccessSequenceTest;
+import sequencetests.MovementTriggerQuestSequenceTest;
+import sequencetests.NoMultipleBuffSequenceTest;
+import sequencetests.ObjectiveCompletionItemInteractSequenceTest;
+import sequencetests.RecCenterGrantsDoubloonsWithBuffSequenceTest;
 
 /**
  * Runs all client tests
@@ -42,7 +38,7 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<CdTeleportationSequenceTest> testClass = CdTeleportationSequenceTest.class;
+		Class<RecCenterGrantsDoubloonsWithBuffSequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
 		SequenceTestRunner testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new SequenceTestRunner("My Single Sequence Test", testClass);

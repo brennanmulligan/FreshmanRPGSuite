@@ -70,17 +70,22 @@ public class QualifiedObservableConnector
 	 */
 	public void sendReport(QualifiedObservableReport report)
 	{
-		synchronized (this)
-		{
-			ArrayList<QualifiedObserver> relevantObservers = observers.get(report.getClass());
+
+			ArrayList<QualifiedObserver> relevantObservers =
+					observers.get(report.getClass());
 			if (relevantObservers != null)
 			{
-				for (QualifiedObserver a : relevantObservers)
+				// Clone the relevant observer list because there is a chance that
+				// someone who gets this report will want to register another observer.
+				// That would cause concurrent modification exception
+				ArrayList<QualifiedObserver>  x =
+						(ArrayList<QualifiedObserver>) relevantObservers.clone();
+				for (QualifiedObserver a : x)
 				{
 					a.receiveReport(report);
 				}
 			}
-		}
+
 	}
 
 	/**
@@ -91,10 +96,13 @@ public class QualifiedObservableConnector
 	 * @param reportType
 	 *            the report type the observer wants to receive
 	 */
-	public synchronized void registerObserver(QualifiedObserver observer,
+	public void registerObserver(QualifiedObserver observer,
 											  Class<? extends QualifiedObservableReport> reportType)
 	{
-		rememberObserver(observer, reportType);
+		synchronized (singleton)
+		{
+			rememberObserver(observer, reportType);
+		}
 	}
 
 	/**
@@ -132,7 +140,7 @@ public class QualifiedObservableConnector
 	 */
 	public void unregisterObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
 	{
-		synchronized (this)
+		synchronized (singleton)
 		{
 			ArrayList<QualifiedObserver> observerList = observers.get(reportType);
 			if (observerList != null)
@@ -154,7 +162,7 @@ public class QualifiedObservableConnector
 	 */
 	public boolean doIObserve(QualifiedObserver obs, Class<? extends QualifiedObservableReport> reportType)
 	{
-		synchronized (this)
+		synchronized (singleton)
 		{
 			ArrayList<QualifiedObserver> relavantObservers = observers.get(reportType);
 			if (relavantObservers == null)

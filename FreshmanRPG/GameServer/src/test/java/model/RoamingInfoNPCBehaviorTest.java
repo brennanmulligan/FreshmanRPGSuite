@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import dataDTO.RandomFactDTO;
+import model.reports.NPCChatReport;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -61,7 +62,8 @@ public class RoamingInfoNPCBehaviorTest
         EasyMock.replay(obs);
 
 
-        ChatMessageReceivedReport report = new ChatMessageReceivedReport(player.getPlayerID(), 0, "Heiddy ho, neighborino", player.getPlayerPosition(), ChatType.Local);
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Heiddy ho, " +
+                "neighborino", player.getPlayerPosition(), ChatType.Local);
 
         behavior.receiveReport(report);
 

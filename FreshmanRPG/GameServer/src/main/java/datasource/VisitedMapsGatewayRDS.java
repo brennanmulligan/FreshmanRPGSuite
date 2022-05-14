@@ -59,6 +59,7 @@ public class VisitedMapsGatewayRDS implements VisitedMapsGateway
 	 * @param playerID the players id
 	 * @param mapTitle the map the player has just visited
 	 * @throws DatabaseException if error on database access
+	 * TODO a constructor should NOT add data to the database!
 	 */
 	public VisitedMapsGatewayRDS(int playerID, String mapTitle) throws DatabaseException
 	{

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import datatypes.ChatType;
 import datatypes.Position;
+import model.reports.NPCChatReport;
 import model.reports.PlayerFinishedInitializingReport;
-import model.reports.ChatMessageReceivedReport;
 
 /**
  * Defines the behavior of the red hat
@@ -60,9 +60,9 @@ public class RedHatBehavior extends NPCBehavior
 						new Position(9, 7), ChatType.Zone);
 			}
 		}
-		if (report instanceof ChatMessageReceivedReport)
+		if (report instanceof NPCChatReport)
 		{
-			ChatMessageReceivedReport chatReport = (ChatMessageReceivedReport) report;
+			NPCChatReport chatReport = (NPCChatReport) report;
 
 			Player player = PlayerManager.getSingleton().getPlayerFromID(chatReport.getSenderID());
 			if (player.getAppearanceType().equals("default_player"))
@@ -104,7 +104,7 @@ public class RedHatBehavior extends NPCBehavior
 	protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
 	{
 		ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-		reportTypes.add(ChatMessageReceivedReport.class);
+		reportTypes.add(NPCChatReport.class);
 		reportTypes.add(PlayerFinishedInitializingReport.class);
 
 		return reportTypes;

@@ -26,7 +26,9 @@ public class CommandChatMessageReceivedTest
 		Position location = new Position(1,1);
 		ChatType type = ChatType.Local;
 		
-		CommandChatMessageReceived ccmr = new CommandChatMessageReceived(senderID, receiver, message, location, type);
+		CommandChatMessageReceivedFromServer ccmr =
+				new CommandChatMessageReceivedFromServer(senderID,
+				receiver, message, location, type);
 		assertEquals(message, ccmr.getChatText());
 		assertEquals(senderID, ccmr.getSenderID());
 		assertEquals(receiver, ccmr.getReceiverID());

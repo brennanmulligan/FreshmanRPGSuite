@@ -304,7 +304,7 @@ public class ObjectiveStateTest
 				ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getQuestID(),
 				ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getObjectiveID(),
 				ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(), ObjectiveStateEnum.COMPLETED, false,
-				"Criteria Game Location: (4, 15)");
+				null);
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, ObjectiveStateChangeReport.class);
 
 		obs.receiveReport(EasyMock.eq(report));

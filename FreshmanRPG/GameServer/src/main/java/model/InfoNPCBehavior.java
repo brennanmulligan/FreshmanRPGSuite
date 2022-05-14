@@ -5,8 +5,7 @@ import datasource.*;
 import datatypes.ChatType;
 import datatypes.PlayersForTest;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
-import model.reports.PlayerMovedReport;
+import model.reports.NPCChatReport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +89,7 @@ public class InfoNPCBehavior extends NPCBehavior
     protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
     {
         ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-        reportTypes.add(ChatMessageReceivedReport.class);
+        reportTypes.add(NPCChatReport.class);
         return reportTypes;
     }
 
@@ -105,10 +104,10 @@ public class InfoNPCBehavior extends NPCBehavior
     @Override
     public void receiveReport(QualifiedObservableReport incomingReport)
     {
-        if (incomingReport instanceof ChatMessageReceivedReport)
+        if (incomingReport instanceof NPCChatReport)
         {
 
-            ChatMessageReceivedReport chatReport = (ChatMessageReceivedReport) incomingReport;
+            NPCChatReport chatReport = (NPCChatReport) incomingReport;
             String userReply = chatReport.getChatText().toLowerCase().replaceAll(" ", "");
 
 
