@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import edu.ship.shipsim.areaserver.Server;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -41,8 +42,7 @@ public class SequenceTestRunner
 	private StateAccumulator stateAccumulator;
 	private MessageHandlerSet messageHandlerSet;
 	private StateAccumulator secondStateAccumulator;
-	// private MessageHandlerSet secondMessageHandlerSet;
-	private MessagePackerSet secondMessagePackerSet;
+
 	private final Class<?> testClass;
 
 	/**
@@ -85,9 +85,8 @@ public class SequenceTestRunner
 
 	/**
 	 * @param test the description of the message protocol for a given situation
-	 * @throws DatabaseException shouldn't
 	 */
-	public void setUpTheTest(SequenceTest test) throws DatabaseException
+	public void setUpTheTest(SequenceTest test)
 	{
 		this.testcase = test;
 		resetCommonSingletons();
@@ -127,6 +126,7 @@ public class SequenceTestRunner
 
 		for (ServerType serverToTest : ServerType.values())
 		{
+//			ServerType serverToTest = ServerType.AREA_SERVER;
 			if (testcase.getServerList().contains(serverToTest))
 			{
 				// TODO This is where you will have to loop through the interactions
@@ -219,15 +219,15 @@ public class SequenceTestRunner
 
 	private void setUpAccumulators(ServerType sType, int playerID)
 	{
+
 		stateAccumulator = new StateAccumulator(new MessagePackerSet());
 		stateAccumulator.setPlayerId(playerID);
 		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
-		secondMessagePackerSet = null;
+
 		secondStateAccumulator = null;
-		if (sType.supportsOneToManyConnections() && secondMessagePackerSet == null)
+		if (sType.supportsOneToManyConnections())
 		{
-			secondMessagePackerSet = new MessagePackerSet();
-			secondStateAccumulator = new StateAccumulator(secondMessagePackerSet);
+			secondStateAccumulator = new StateAccumulator(new MessagePackerSet());
 			// secondMessageHandlerSet = new
 			// MessageHandlerSet(secondStateAccumulator);
 		}
