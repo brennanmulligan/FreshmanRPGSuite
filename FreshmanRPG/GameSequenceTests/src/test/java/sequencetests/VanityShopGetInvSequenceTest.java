@@ -47,7 +47,7 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
                 {
                         new MessageFlow(ServerType.THIS_PLAYER_CLIENT,
                                 ServerType.AREA_SERVER,
-                                new VanityShopInventoryRequestMessage(), false),
+                                new VanityShopInventoryRequestMessage(), true),
                         new MessageFlow(ServerType.AREA_SERVER,
                                 ServerType.THIS_PLAYER_CLIENT,
                                 new VanityShopInventoryResponseMessage(response), true)};
