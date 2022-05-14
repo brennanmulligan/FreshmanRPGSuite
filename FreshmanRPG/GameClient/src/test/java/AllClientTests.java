@@ -4,13 +4,13 @@ import org.junit.runners.Suite;
 
 import communication.packers.ObjectiveNotificationCompletePackerTest;
 import communication.packers.AreaCollisionMessagePackerTest;
-import communication.packers.ChatMessagePackerTest;
+import communication.packers.ChatMessageToServerPackerTest;
 import communication.packers.KeyInputPackerTest;
 import communication.packers.LoginMessagePackerTest;
 import communication.packers.MovementMessagePackerTest;
 import communication.packers.SendTerminalTextPackerTest;
 import communication.packers.TeleportationInitiationMessagePackerTest;
-import model.ChatManagerTest;
+import model.ClientChatManagerTest;
 import model.ClientPlayerManagerTest;
 import model.ClientPlayerTest;
 import model.CommandObjectiveNotificationCompleteTest;
@@ -78,7 +78,7 @@ import view.screen.popup.ObjectiveCompleteBehaviorTest;
 {
 		// communication.handlers
 		BuffMessageHandlerTest.class,
-		ChatMessageHandlerTest.class,
+		ClientChatMessageHandlerTest.class,
 		DisplayTextMessageHandlerTest.class,
 		DoubloonsChangedMessageHandlerTest.class,
 		ExperienceChangedMessageHandlerTest.class,
@@ -98,7 +98,7 @@ import view.screen.popup.ObjectiveCompleteBehaviorTest;
 		
 		// communication.packers
 		AreaCollisionMessagePackerTest.class,
-		ChatMessagePackerTest.class,
+		ChatMessageToServerPackerTest.class,
 		KeyInputPackerTest.class,
 		LoginMessagePackerTest.class,
 		MovementMessagePackerTest.class,
@@ -107,7 +107,7 @@ import view.screen.popup.ObjectiveCompleteBehaviorTest;
 		TeleportationInitiationMessagePackerTest.class,
 
 		// model
-		ChatManagerTest.class,
+		ClientChatManagerTest.class,
 		ClientPlayerManagerTest.class,
 		ClientPlayerTest.class,
 		CommandChatMessageReceivedTest.class,

@@ -23,9 +23,8 @@ public class LevelManagerDTO
 
 	/**
 	 * @return the only LevelManager in the system
-	 * @throws DatabaseException shouln't
 	 */
-	public static synchronized LevelManagerDTO getSingleton() throws DatabaseException
+	public static synchronized LevelManagerDTO getSingleton()
 	{
 		if (singleton == null)
 		{
@@ -36,7 +35,7 @@ public class LevelManagerDTO
 
 	private LevelTableDataGateway gateway;
 
-	private LevelManagerDTO() throws DatabaseException
+	private LevelManagerDTO()
 	{
 		if (OptionsManager.getSingleton().isUsingMockDataSource())
 		{
@@ -46,7 +45,13 @@ public class LevelManagerDTO
 		{
 			gateway = LevelTableDataGatewayRDS.getSingleton();
 		}
-		allLevels = gateway.getAllLevels();
+		try
+		{
+			allLevels = gateway.getAllLevels();
+		} catch (DatabaseException e)
+		{
+			e.printStackTrace();
+		}
 		Collections.sort(allLevels);
 	}
 

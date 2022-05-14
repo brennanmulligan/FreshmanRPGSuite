@@ -1,9 +1,10 @@
 package communication.handlers;
 
-import communication.messages.ChatMessage;
+import communication.messages.ChatMessageToClient;
+import communication.messages.ChatMessageToServer;
 import communication.messages.Message;
 import model.ClientModelFacade;
-import model.CommandChatMessageReceived;
+import model.CommandChatMessageReceivedFromServer;
 
 /**
  * Should process an incoming ChatMessage that is reporting that a message was sent by a Player
@@ -11,7 +12,7 @@ import model.CommandChatMessageReceived;
  * @author Frank Schmidt
  *
  */
-public class ChatMessageHandler extends MessageHandler
+public class ClientChatMessageHandler extends MessageHandler
 {
 
 	/**
@@ -22,10 +23,12 @@ public class ChatMessageHandler extends MessageHandler
 	@Override
 	public void process(Message msg)
 	{
-		if (msg.getClass().equals(ChatMessage.class))
+		if (msg.getClass().equals(ChatMessageToClient.class))
 		{
-			ChatMessage chatMessage = (ChatMessage) msg;
-			CommandChatMessageReceived cmd = new CommandChatMessageReceived(chatMessage.getSenderID(), chatMessage.getReceiverID(), chatMessage.getChatText(),
+			ChatMessageToClient chatMessage = (ChatMessageToClient) msg;
+			CommandChatMessageReceivedFromServer cmd =
+					new CommandChatMessageReceivedFromServer(chatMessage.getSenderID(),
+							chatMessage.getReceiverID(), chatMessage.getChatText(),
 					chatMessage.getPosition(), chatMessage.getType());
 			ClientModelFacade.getSingleton().queueCommand(cmd);
 		}
@@ -38,7 +41,7 @@ public class ChatMessageHandler extends MessageHandler
 	@Override
 	public Class<?> getMessageTypeWeHandle()
 	{
-		return ChatMessage.class;
+		return ChatMessageToClient.class;
 	}
 
 }

@@ -1,16 +1,16 @@
 package communication.messages;
 
-import java.io.Serializable;
-
 import datatypes.ChatType;
 import datatypes.Position;
+
+import java.io.Serializable;
 
 /**
  *
  * Create a ChatMessage that is used for sending messages.
  *
  */
-public class ChatMessage implements Message, Serializable
+public class ChatMessageToServer implements Message, Serializable
 {
 
 
@@ -24,12 +24,12 @@ public class ChatMessage implements Message, Serializable
 	/**
 	 * Create a chat message
 	 *
-	 * @param playerID user sending the message
+	 * @param senderID user sending the message
 	 * @param chatText the message to be sent
 	 * @param location the location of the sender
 	 * @param type the type of chat message being sent
 	 */
-	public ChatMessage(int senderID, int receiverID, String chatText, Position location, ChatType type)
+	public ChatMessageToServer(int senderID, int receiverID, String chatText, Position location, ChatType type)
 	{
 		this.chatText = chatText;
 		this.senderID = senderID;
@@ -54,7 +54,7 @@ public class ChatMessage implements Message, Serializable
 		{
 			return false;
 		}
-		ChatMessage other = (ChatMessage) obj;
+		ChatMessageToServer other = (ChatMessageToServer) obj;
 		if (chatText == null)
 		{
 			if (other.chatText != null)
@@ -148,12 +148,13 @@ public class ChatMessage implements Message, Serializable
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
+	 * @see Object#toString()
 	 */
 	@Override
 	public String toString()
 	{
-		return "ChatMessage [chatText=" + chatText + ", position=" + position + ", type=" + type + ", playerID="
+		return "ChatMessageToServer [chatText=" + chatText + ", position=" + position +
+				", type=" + type + ", playerID="
 				+ senderID + "]";
 	}
 

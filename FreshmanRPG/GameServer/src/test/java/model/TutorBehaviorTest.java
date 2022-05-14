@@ -3,6 +3,8 @@ package model;
 import java.sql.SQLException;
 
 import datatypes.PlayersForTest;
+import model.reports.ChatMessageToClientReport;
+import model.reports.NPCChatReport;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,11 +50,14 @@ public class TutorBehaviorTest
 
 		PlayerManager.getSingleton().addPlayer(1);
 		QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-		obs.receiveReport(EasyMock.anyObject(ChatMessageReceivedReport.class));
+		QualifiedObservableConnector.getSingleton().registerObserver(obs,
+				ChatMessageToClientReport.class);
+		obs.receiveReport(EasyMock.anyObject(ChatMessageToClientReport.class));
 		EasyMock.replay(obs);
 
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(p.getPlayerID(), 0, "Hello, tutor", PlayersForTest.NICK.getPosition(), ChatType.Local);
+		NPCChatReport
+				report = new NPCChatReport(p.getPlayerID(), 0, "Hello, tutor",
+				PlayersForTest.NICK.getPosition(), ChatType.Local);
 		behavior.receiveReport(report);
 
 		EasyMock.verify(obs);
@@ -76,7 +81,8 @@ public class TutorBehaviorTest
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
 		EasyMock.replay(obs);
 
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(p.getPlayerID(), 0, "Hello, tutor", PlayersForTest.NICK.getPosition(), ChatType.Zone);
+		NPCChatReport report = new NPCChatReport(p.getPlayerID(), 0, "Hello, tutor",
+				PlayersForTest.NICK.getPosition(), ChatType.Zone);
 		behavior.receiveReport(report);
 
 		EasyMock.verify(obs);

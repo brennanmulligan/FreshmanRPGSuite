@@ -86,7 +86,7 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(e.getMessage());
         }
         return item;
     }

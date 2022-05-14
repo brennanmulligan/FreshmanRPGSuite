@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import datatypes.ChatType;
 import datatypes.PlayersForTest;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.NPCChatReport;
 
 /**
  * @author cr5603
@@ -32,9 +32,9 @@ public class TutorBehavior extends NPCBehavior
 	@Override
 	public void receiveReport(QualifiedObservableReport report)
 	{
-		if (report instanceof ChatMessageReceivedReport)
+		if (report instanceof NPCChatReport)
 		{
-			ChatMessageReceivedReport chatReport = (ChatMessageReceivedReport) report;
+			NPCChatReport chatReport = (NPCChatReport) report;
 
 			if (chatReport.getType() == ChatType.Local && chatReport.getSenderID() != PlayersForTest.TUTOR.getPlayerID())
 			{
@@ -60,7 +60,7 @@ public class TutorBehavior extends NPCBehavior
 	protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
 	{
 		ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-		reportTypes.add(ChatMessageReceivedReport.class);
+		reportTypes.add(NPCChatReport.class);
 		return reportTypes;
 	}
 

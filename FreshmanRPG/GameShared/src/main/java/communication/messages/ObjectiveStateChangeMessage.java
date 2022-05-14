@@ -25,6 +25,61 @@ public class ObjectiveStateChangeMessage implements Message, Serializable
 	private boolean realLifeObjective;
 	private String witnessTitle;
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		ObjectiveStateChangeMessage that = (ObjectiveStateChangeMessage) o;
+
+		if (playerID != that.playerID)
+		{
+			return false;
+		}
+		if (questID != that.questID)
+		{
+			return false;
+		}
+		if (objectiveID != that.objectiveID)
+		{
+			return false;
+		}
+		if (realLifeObjective != that.realLifeObjective)
+		{
+			return false;
+		}
+		if (!objectiveDescription.equals(that.objectiveDescription))
+		{
+			return false;
+		}
+		if (newState != that.newState)
+		{
+			return false;
+		}
+		return witnessTitle != null ? witnessTitle.equals(that.witnessTitle) :
+				that.witnessTitle == null;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = playerID;
+		result = 31 * result + questID;
+		result = 31 * result + objectiveID;
+		result = 31 * result + objectiveDescription.hashCode();
+		result = 31 * result + newState.hashCode();
+		result = 31 * result + (realLifeObjective ? 1 : 0);
+		result = 31 * result + (witnessTitle != null ? witnessTitle.hashCode() : 0);
+		return result;
+	}
+
 	/**
 	 * @param playerID the current player's id
 	 * @param questID the quest id

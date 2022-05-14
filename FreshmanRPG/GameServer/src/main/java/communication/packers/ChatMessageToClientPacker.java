@@ -2,10 +2,10 @@ package communication.packers;
 
 import java.util.ArrayList;
 
-import communication.messages.ChatMessage;
+import communication.messages.ChatMessageToClient;
 import communication.messages.Message;
 import model.QualifiedObservableReport;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.ChatMessageToClientReport;
 
 /**
  * @author Dave
@@ -13,7 +13,7 @@ import model.reports.ChatMessageReceivedReport;
  *         Packs up information from the ChatManager into a ChatMessage to be
  *         sent to the server.
  */
-public class ChatMessagePacker extends MessagePacker
+public class ChatMessageToClientPacker extends MessagePacker
 {
 
 	/**
@@ -24,13 +24,14 @@ public class ChatMessagePacker extends MessagePacker
 	public Message pack(QualifiedObservableReport object)
 	{
 
-		if (object.getClass() != ChatMessageReceivedReport.class)
+		if (object.getClass() != ChatMessageToClientReport.class)
 		{
-			throw new IllegalArgumentException("ChatMessagePacker cannot pack messages of type " + object.getClass());
+			throw new IllegalArgumentException("ChatMessageToClientPacker cannot pack " +
+					"messages of type " + object.getClass());
 		}
 
-		ChatMessageReceivedReport report = (ChatMessageReceivedReport) object;
-		ChatMessage msg = new ChatMessage(report.getSenderID(), report.getReceiverID(), report.getChatText(), report.getPosition(),
+		ChatMessageToClientReport report = (ChatMessageToClientReport) object;
+		ChatMessageToClient msg = new ChatMessageToClient(report.getSenderID(), report.getReceiverID(), report.getChatText(), report.getPosition(),
 				report.getType());
 
 		return msg;
@@ -43,7 +44,7 @@ public class ChatMessagePacker extends MessagePacker
 	public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
 	{
 		ArrayList<Class<? extends QualifiedObservableReport>> result = new ArrayList<>();
-		result.add(ChatMessageReceivedReport.class);
+		result.add(ChatMessageToClientReport.class);
 		return result;
 	}
 

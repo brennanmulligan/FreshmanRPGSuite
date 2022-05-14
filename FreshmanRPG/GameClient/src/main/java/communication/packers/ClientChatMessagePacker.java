@@ -2,7 +2,8 @@ package communication.packers;
 
 import java.util.ArrayList;
 
-import communication.messages.ChatMessage;
+import communication.messages.ChatMessageToClient;
+import communication.messages.ChatMessageToServer;
 import communication.messages.Message;
 import model.QualifiedObservableReport;
 import model.reports.ChatSentReport;
@@ -31,7 +32,8 @@ public class ClientChatMessagePacker extends MessagePacker
 		}
 
 		ChatSentReport report = (ChatSentReport) object;
-		ChatMessage msg = new ChatMessage(report.getSenderID(), report.getReceiverID(), report.getMessage(), report.getPosition(),
+		ChatMessageToServer msg = new ChatMessageToServer(report.getSenderID(),
+				report.getReceiverID(), report.getMessage(), report.getPosition(),
 				report.getType());
 
 		return msg;

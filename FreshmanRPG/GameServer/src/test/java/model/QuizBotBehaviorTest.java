@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import model.reports.NPCChatReport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +53,8 @@ public class QuizBotBehaviorTest
 		String answer = question.getAnswer();
 
 		// check that spaces don't matter
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(player.getPlayerID(), 0, "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
+		NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0,
+				"    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
 		int score = player.getQuizScore();
 
 		behavior.receiveReport(report);
@@ -66,7 +68,8 @@ public class QuizBotBehaviorTest
 	@Test
 	public void testIncorrectAnswer()
 	{
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(player.getPlayerID(), 0, "incorrect", player.getPlayerPosition(), ChatType.Local);
+		NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "incorrect",
+				player.getPlayerPosition(), ChatType.Local);
 		int score = player.getQuizScore();
 		behavior.receiveReport(report);
 		assertEquals(score, player.getQuizScore());
