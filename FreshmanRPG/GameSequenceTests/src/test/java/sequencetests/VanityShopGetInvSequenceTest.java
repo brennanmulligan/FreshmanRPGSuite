@@ -28,13 +28,33 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
         buildInteraction(response);
     }
 
-    /**
-     * Reset any gateways this test has changed so that more tests can be run
-     */
-    @Override
-    public void resetNecessarySingletons()
+    private ArrayList<VanityDTO> buildResponse()
     {
-        PlayerManager.resetSingleton();
+        ArrayList<VanityDTO> response = new ArrayList<>();
+        for (VanityShopItemsForTest items : VanityShopItemsForTest.values())
+        {
+            VanityForTest item = VanityForTest.values()[items.getVanityID() - 1];
+            response.add(new VanityDTO(items.getVanityID(), item.getName(),
+                    item.getDescription(), item.getTextureName(),
+                    VanityType.fromInt(item.getVanityType()), items.getPrice()));
+        }
+        return response;
+    }
+
+    private void buildInteraction(ArrayList<VanityDTO> response)
+    {
+        MessageFlow[] sequence =
+                {
+                        new MessageFlow(ServerType.THIS_PLAYER_CLIENT,
+                                ServerType.AREA_SERVER,
+                                new VanityShopInventoryRequestMessage(), false),
+                        new MessageFlow(ServerType.AREA_SERVER,
+                                ServerType.THIS_PLAYER_CLIENT,
+                                new VanityShopInventoryResponseMessage(response), true)};
+        interaction = new Interaction(sequence,
+                new CommandShopInventoryRequest(),
+                PlayersForTest.MERLIN.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
     }
 
     /**
@@ -56,29 +76,12 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
 
     }
 
-    private void buildInteraction(ArrayList<VanityDTO> response)
+    /**
+     * Reset any gateways this test has changed so that more tests can be run
+     */
+    @Override
+    public void resetNecessarySingletons()
     {
-        MessageFlow[] sequence =
-                {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                        new VanityShopInventoryRequestMessage(), true),
-                        new MessageFlow(ServerType.AREA_SERVER,
-                                ServerType.THIS_PLAYER_CLIENT,
-                                new VanityShopInventoryResponseMessage(response), true)};
-        interactions.add(new Interaction(new CommandShopInventoryRequest(),
-                PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
-    }
-
-    private ArrayList<VanityDTO> buildResponse()
-    {
-        ArrayList<VanityDTO> response = new ArrayList<>();
-        for (VanityShopItemsForTest items : VanityShopItemsForTest.values())
-        {
-            VanityForTest item = VanityForTest.values()[items.getVanityID() - 1];
-            response.add(new VanityDTO(items.getVanityID(), item.getName(),
-                    item.getDescription(), item.getTextureName(),
-                    VanityType.fromInt(item.getVanityType()), items.getPrice()));
-        }
-        return response;
+        PlayerManager.resetSingleton();
     }
 }

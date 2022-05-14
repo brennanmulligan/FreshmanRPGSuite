@@ -13,13 +13,14 @@ import model.*;
  */
 public class NoMultipleBuffSequenceTest extends SequenceTest
 {
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new KeyInputMessage("e"), true),
+            {
+                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                            new KeyInputMessage("e"), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new InteractionDeniedMessage(
-                                    PlayersForTest.JEFF.getPlayerID()), true)};
+                                    PlayersForTest.JEFF.getPlayerID()), true)
+            };
 
     /**
      * Runs through the message flow
@@ -28,19 +29,10 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
     {
         this.serverList.add(ServerType.THIS_PLAYER_CLIENT);
         this.serverList.add(ServerType.AREA_SERVER);
-        interactions.add(new Interaction(new CommandKeyInputSent("e"),
-                PlayersForTest.JEFF.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
-    }
-
-    /**
-     * Clear used data
-     */
-    @Override
-    public void resetNecessarySingletons()
-    {
-        PlayerManager.resetSingleton();
-        InteractObjectManager.resetSingleton();
+        interaction = new Interaction(sequence,
+                new CommandKeyInputSent("e"),
+                PlayersForTest.JEFF.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
     }
 
     /**
@@ -61,5 +53,15 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
         playerFromID.setPlayerPosition(InteractableItemsForTest.BOOK.getPosition());
 
         InteractObjectManager.getSingleton();
+    }
+
+    /**
+     * Clear used data
+     */
+    @Override
+    public void resetNecessarySingletons()
+    {
+        PlayerManager.resetSingleton();
+        InteractObjectManager.resetSingleton();
     }
 }

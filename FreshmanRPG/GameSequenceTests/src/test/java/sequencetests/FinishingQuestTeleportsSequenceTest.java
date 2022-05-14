@@ -22,11 +22,11 @@ import java.io.IOException;
 public class FinishingQuestTeleportsSequenceTest extends SequenceTest
 {
 
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
-                            QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
+            {
+                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                            new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                                    QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                             new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
                                     QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
@@ -37,16 +37,18 @@ public class FinishingQuestTeleportsSequenceTest extends SequenceTest
                                     QuestsForTest.THE_LITTLE_QUEST.getQuestDescription(),
                                     QuestStateEnum.TRIGGERED), true)};
 
-
+    /**
+     * @throws IOException shouldn't
+     */
     public FinishingQuestTeleportsSequenceTest()
     {
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.OTHER_CLIENT);
-        interactions.add(new Interaction(
+        interaction = new Interaction(sequence,
                 new CommandClientMovePlayer(PlayersForTest.MATT.getPlayerID(),
                         QuestsForTest.THE_LITTLE_QUEST.getPosition()),
-                PlayersForTest.MATT.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                PlayersForTest.MATT.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
     }
 
     /**

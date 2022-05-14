@@ -18,11 +18,11 @@ import model.*;
 public class MovementTriggerQuestSequenceTest extends SequenceTest
 {
 
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
-                            QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
+            {
+                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                            new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                                    QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                             new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
                                     QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
@@ -39,11 +39,22 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
         serverList.add(ServerType.OTHER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interactions.add(new Interaction(
+        interaction = new Interaction(sequence,
                 new CommandClientMovePlayer(PlayersForTest.MATT.getPlayerID(),
                         QuestsForTest.THE_LITTLE_QUEST.getPosition()),
-                PlayersForTest.MATT.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                PlayersForTest.MATT.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
+    }
+
+    /**
+     * @see model.SequenceTest#setUpMachines()
+     */
+    @Override
+    public void setUpMachines()
+    {
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName());
+        ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
     }
 
     /**
@@ -60,16 +71,5 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
         {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * @see model.SequenceTest#setUpMachines()
-     */
-    @Override
-    public void setUpMachines()
-    {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName());
-        ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
     }
 }

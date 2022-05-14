@@ -19,14 +19,15 @@ public class ObjectSendsPopupMessageSequenceTest extends SequenceTest
     /**
      * the sequence of messages
      */
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new KeyInputMessage("e"), true),
+            {
+                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                            new KeyInputMessage("e"), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new DisplayTextMessage(PlayersForTest.JAWN.getPlayerID(),
                                     InteractableItemsForTest.BOOKSHELF.getMessage()),
-                            true)};
+                            true)
+            };
 
     /**
      * runs through message flow
@@ -36,9 +37,10 @@ public class ObjectSendsPopupMessageSequenceTest extends SequenceTest
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interactions.add(new Interaction(new CommandKeyInputSent("e"),
-                PlayersForTest.JAWN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+        interaction = new Interaction(sequence,
+                new CommandKeyInputSent("e"),
+                PlayersForTest.JAWN.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
     }
 
     /**

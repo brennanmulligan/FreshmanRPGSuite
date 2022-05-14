@@ -22,41 +22,48 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
     /**
      * the flow of messages to occur
      */
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence = new MessageFlow[]{
             new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new ChatMessageToServer(PlayersForTest.JEFF.getPlayerID(), 0,
                             NPCQuestionsForTest.ONE.getA(),
-                            PlayersForTest.JEFF.getPosition(), ChatType.Zone), false),
+                            PlayersForTest.JEFF.getPosition(), ChatType.Zone),
+                    false),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), 0,
-                            "First answer", PlayersForTest.JEFF.getPosition(),
-                            ChatType.Zone), true),
+                            "First answer",
+                            PlayersForTest.JEFF.getPosition(), ChatType.Zone),
+                    true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), 0,
-                            "First answer", PlayersForTest.JEFF.getPosition(),
-                            ChatType.Zone), true),
+                            "First answer",
+                            PlayersForTest.JEFF.getPosition(), ChatType.Zone),
+                    true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0,
                             "Jeff answered correctly.  The answer was First answer",
-                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local), true),
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local),
+                    true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0,
                             "Jeff answered correctly.  The answer was First answer",
-                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local), true),
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local),
+                    true),
 
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new DoubloonsChangedMessage(PlayersForTest.JEFF.getPlayerID(),
                             PlayersForTest.JEFF.getDoubloons() + 2,
-                            PlayersForTest.JEFF.getBuffPool() - 1), true),
+                            PlayersForTest.JEFF.getBuffPool() - 1),
+                    true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0,
-                            "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
-                            ChatType.Local), true),
+                            "Jeff score is now 2",
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local),
+                    true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0,
-                            "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
-                            ChatType.Local), true),
+                            "Jeff score is now 2",
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local),
+                    true),
 
     };
 
@@ -68,8 +75,9 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interactions.add(new Interaction(null, PlayersForTest.JEFF.getPlayerID(),
-                ServerType.AREA_SERVER, sequence));
+        interaction = new Interaction(sequence, null,
+                PlayersForTest.JEFF.getPlayerID(),
+                ServerType.AREA_SERVER);
     }
 
     /**
@@ -101,8 +109,9 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
             if (npc.getBehavior().getClass().equals(QuizBotBehavior.class))
             {
                 QuizBotBehavior behavior = (QuizBotBehavior) npc.getBehavior();
-                behavior.setExpectedQuestion(NPCQuestion.getSpecificQuestion(
-                        NPCQuestionsForTest.ONE.getQuestionID()));
+                behavior.setExpectedQuestion(
+                        NPCQuestion.getSpecificQuestion(
+                                NPCQuestionsForTest.ONE.getQuestionID()));
 
             }
         }

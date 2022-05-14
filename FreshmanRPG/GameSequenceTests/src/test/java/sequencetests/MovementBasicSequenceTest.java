@@ -14,19 +14,22 @@ import model.*;
 public class MovementBasicSequenceTest extends SequenceTest
 {
 
-    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
-                            new Position(PlayersForTest.MATT.getPosition().getRow(),
-                                    PlayersForTest.MATT.getPosition().getColumn() + 1)),
-                    true),
+            {
+                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                            new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                                    new Position(
+                                            PlayersForTest.MATT.getPosition().getRow(),
+                                            PlayersForTest.MATT.getPosition()
+                                                    .getColumn() + 1)),
+                            true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                             new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
                                     new Position(
                                             PlayersForTest.MATT.getPosition().getRow(),
                                             PlayersForTest.MATT.getPosition()
-                                                    .getColumn() + 1)), true)};
+                                                    .getColumn() + 1)),
+                            true)};
 
     /**
      *
@@ -37,12 +40,14 @@ public class MovementBasicSequenceTest extends SequenceTest
         serverList.add(ServerType.OTHER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interactions.add(new Interaction(
+        interaction = new Interaction(sequence,
                 new CommandClientMovePlayer(PlayersForTest.MATT.getPlayerID(),
-                        new Position(PlayersForTest.MATT.getPosition().getRow(),
-                                PlayersForTest.MATT.getPosition().getColumn() + 1)),
-                PlayersForTest.MATT.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                        new Position(
+                                PlayersForTest.MATT.getPosition().getRow(),
+                                PlayersForTest.MATT
+                                        .getPosition().getColumn() + 1)),
+                PlayersForTest.MATT.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT);
     }
 
     /**
