@@ -5,10 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import communication.CommunicationException;
 import datasource.DatabaseException;
-import sequencetests.MovementTriggerQuestSequenceTest;
-import sequencetests.NoMultipleBuffSequenceTest;
-import sequencetests.ObjectiveCompletionItemInteractSequenceTest;
-import sequencetests.RecCenterGrantsDoubloonsWithBuffSequenceTest;
+import sequencetests.*;
 
 /**
  * Runs all client tests
@@ -38,7 +35,7 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<RecCenterGrantsDoubloonsWithBuffSequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
+		Class<VanityShopGetInvSequenceTest> testClass = VanityShopGetInvSequenceTest.class;
 		SequenceTestRunner testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new SequenceTestRunner("My Single Sequence Test", testClass);
