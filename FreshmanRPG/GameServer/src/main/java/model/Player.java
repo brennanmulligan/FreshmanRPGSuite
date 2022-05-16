@@ -489,6 +489,7 @@ public class Player
 		playerInfo.setPlayerID(getPlayerID());
 		playerInfo.setPlayerName(getPlayerLogin().getPlayerName());
 		playerInfo.setPlayerPassword(getPlayerLogin().getPlayerPassword());
+		playerInfo.setVanityItems(getAllOwnedItems());
 		return playerInfo;
 	}
 

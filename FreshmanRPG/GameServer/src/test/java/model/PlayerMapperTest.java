@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import dataDTO.VanityDTO;
 import datasource.*;
 import datatypes.PlayersForTest;
 import org.junit.Before;
@@ -117,10 +118,11 @@ public class PlayerMapperTest
 		assertPlayersEqual(player, found.getPlayer());
 	}
 
-	protected PlayerDTO getPlayerWeAreCreating()
+	protected PlayerDTO getPlayerWeAreCreating() throws DatabaseException
 	{
 		return new PlayerDTO(-1, "the player name", "the player password", "the appearance type", 12,
-				new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, new ArrayList<>(), new ArrayList<>());
+				new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, new ArrayList<>(),
+				DefaultItemsTableDataGatewayMock.getSingleton().getDefaultItems());
 	}
 
 	protected PlayerMapper findMapperForID(int playerID) throws DatabaseException
@@ -145,6 +147,7 @@ public class PlayerMapperTest
 		assertEquals(expected.getExperiencePoints(), actual.getExperiencePoints());
 		assertEquals(expected.getCrew(), actual.getCrew());
 		assertEquals(expected.getSection(), actual.getSection());
+		assertEquals(expected.getVanityItems(), actual.getVanityItems());
 	}
 
 	protected void assertPlayersEqual(PlayerDTO expected, Player actual)
@@ -157,13 +160,12 @@ public class PlayerMapperTest
 		assertPlayersEqual(expected.getPlayerInfo(), actual.getPlayerInfo());
 	}
 
-	//TODO: Modify PlayersForTest to handle vanity items
 	protected void assertPlayersEqual(PlayersForTest expected, Player actual)
 	{
 		PlayerDTO dto = new PlayerDTO(expected.getPlayerID(), expected.getPlayerName(), expected.getPlayerPassword(),
 				expected.getAppearanceType(), expected.getDoubloons(), expected.getPosition(),
 				expected.getMapName(), expected.getExperiencePoints(), expected.getCrew(), expected.getMajor(),
-				expected.getSection(), expected.getMapsVisited(), new ArrayList<>());
+				expected.getSection(), expected.getMapsVisited(), (ArrayList<VanityDTO>) expected.getOwnedItems());
 
 		assertPlayersEqual(dto, actual);
 	}

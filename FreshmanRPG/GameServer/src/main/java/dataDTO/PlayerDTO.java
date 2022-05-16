@@ -477,6 +477,14 @@ public class PlayerDTO
 	}
 
 	/**
+	 * @param ownedItems a list of the vanity items this player owns
+	 */
+	public void setVanityItems(ArrayList<VanityDTO> ownedItems)
+	{
+		vanityDTOs = ownedItems;
+	}
+
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
