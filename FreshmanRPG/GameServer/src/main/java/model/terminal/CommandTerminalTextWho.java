@@ -24,7 +24,7 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String execute(int playerID, String[] arg)
 	{
-		String data = "";
+		StringBuilder data = new StringBuilder();
 
 		try
 		{
@@ -38,14 +38,15 @@ public class CommandTerminalTextWho extends TerminalCommand
 
 			for (PlayerDTO player : playerList)
 			{
-				data += player.getPlayerName() + ":" + player.getMapName() + ":";
+				data.append(player.getPlayerName()).append(":")
+						.append(player.getMapName()).append(":");
 			}
 		}
 		catch (DatabaseException e)
 		{
 			e.printStackTrace();
 		}
-		return formatString(data);
+		return formatString(data.toString());
 	}
 
 	/**
@@ -58,17 +59,17 @@ public class CommandTerminalTextWho extends TerminalCommand
 		String data = (String) generic;
 		String[] tokenized = data.split(":");
 		int count = 1;
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (String token : tokenized)
 		{
-			result += String.format("|%-10.10s|", token);
+			result.append(String.format("|%-10.10s|", token));
 			if (count % 2 == 0)
 			{
-				result += "\n";
+				result.append("\n");
 			}
 			count++;
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**
