@@ -15,10 +15,10 @@ public class ObjectNotInRangeSequenceTest extends SequenceTest
     /**
      * the flow of messages to occur
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {
-                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                            new KeyInputMessage("e"), true)
+            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                    new KeyInputMessage("e"), true)
 
             };
 
@@ -30,10 +30,9 @@ public class ObjectNotInRangeSequenceTest extends SequenceTest
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interaction = new Interaction(sequence,
-                new CommandKeyInputSent("e"),
-                PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT);
+        interactions.add(new Interaction(new CommandKeyInputSent("e"),
+                PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
+                sequence));
     }
 
     /**

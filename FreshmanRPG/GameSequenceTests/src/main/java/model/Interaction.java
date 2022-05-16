@@ -1,10 +1,5 @@
 package model;
 
-import model.Command;
-import model.CommandSendTerminalText;
-import model.MessageFlow;
-import model.ServerType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,8 +10,8 @@ public class Interaction
     private final ServerType initiatingMachineType;
     ArrayList<MessageFlow> messageSequence;
 
-    public Interaction(MessageFlow[] sequence, Command command,
-                       int initiatingPlayerID, ServerType initiatingMachineType)
+    public Interaction(Command command, int initiatingPlayerID,
+                       ServerType initiatingMachineType, MessageFlow[] sequence)
     {
         this.command = command;
         this.initiatingPlayerID = initiatingPlayerID;
