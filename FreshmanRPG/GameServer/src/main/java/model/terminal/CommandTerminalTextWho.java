@@ -3,8 +3,8 @@ package model.terminal;
 import java.util.ArrayList;
 
 import dataDTO.PlayerDTO;
-import datasource.DatabaseException;
-import datasource.PlayerTableDataGatewayRDS;
+import datasource.*;
+import model.OptionsManager;
 import model.terminal.TerminalCommand;
 
 /**
@@ -15,8 +15,6 @@ import model.terminal.TerminalCommand;
  */
 public class CommandTerminalTextWho extends TerminalCommand
 {
-	private final String terminalIdentifier = "who";
-	private final String description = "Print information about users who are currently logged in.";
 	private String arg;
 
 	/**
@@ -30,7 +28,13 @@ public class CommandTerminalTextWho extends TerminalCommand
 
 		try
 		{
-			ArrayList<PlayerDTO> playerList = PlayerTableDataGatewayRDS.getSingleton().retrieveAllOnlinePlayers();
+			PlayerTableDataGateway gateway =  PlayerTableDataGatewayMock.getSingleton();
+			if (!OptionsManager.getSingleton().isUsingMockDataSource())
+			{
+				gateway = PlayerTableDataGatewayRDS.getSingleton();
+			}
+
+			ArrayList<PlayerDTO> playerList = gateway.retrieveAllOnlinePlayers();
 
 			for (PlayerDTO player : playerList)
 			{
@@ -73,7 +77,7 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String getTerminalIdentifier()
 	{
-		return terminalIdentifier;
+		return "who";
 	}
 
 	/**
@@ -82,6 +86,6 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String getDescription()
 	{
-		return description;
+		return "Print information about users who are currently logged in.";
 	}
 }

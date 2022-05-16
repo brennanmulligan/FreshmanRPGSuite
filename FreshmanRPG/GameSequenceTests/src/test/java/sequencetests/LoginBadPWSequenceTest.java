@@ -18,39 +18,25 @@ import java.io.IOException;
 public class LoginBadPWSequenceTest extends SequenceTest
 {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
-            {
-                    new MessageFlow(ServerType.THIS_PLAYER_CLIENT,
-                            ServerType.LOGIN_SERVER,
-                            new LoginMessage(PlayersForTest.MERLIN.getPlayerName(),
-                                    PlayersForTest.MERLIN.getPlayerPassword() + "Z"),
-                            true),
+            {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.LOGIN_SERVER,
+                    new LoginMessage(PlayersForTest.MERLIN.getPlayerName(),
+                            PlayersForTest.MERLIN.getPlayerPassword() + "Z"), true),
                     new MessageFlow(ServerType.LOGIN_SERVER,
-                            ServerType.THIS_PLAYER_CLIENT,
-                            new LoginFailedMessage(), true)
-            };
+                            ServerType.THIS_PLAYER_CLIENT, new LoginFailedMessage(),
+                            true)};
 
-    /**
-     * @throws IOException shouldn't
-     */
+
     public LoginBadPWSequenceTest()
     {
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.LOGIN_SERVER);
-        interaction = new Interaction(sequence,
+        interactions.add(new Interaction(
                 new CommandLogin(PlayersForTest.MERLIN.getPlayerName(),
                         PlayersForTest.MERLIN.getPlayerPassword() + "Z"),
-                PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT);
-    }
-
-    /**
-     * @see model.SequenceTest#setUpMachines()
-     */
-    @Override
-    public void setUpMachines()
-    {
-        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+                PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
+                sequence));
     }
 
     /**
@@ -66,5 +52,14 @@ public class LoginBadPWSequenceTest extends SequenceTest
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @see model.SequenceTest#setUpMachines()
+     */
+    @Override
+    public void setUpMachines()
+    {
+        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
     }
 }

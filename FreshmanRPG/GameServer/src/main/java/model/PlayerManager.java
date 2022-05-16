@@ -145,8 +145,17 @@ public class PlayerManager implements QualifiedObserver
 					.getDescription()));
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
-			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), DoubloonPrizesTableDataGatewayRDS.getInstance().getAllDoubloonPrizes()));
-			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), FriendTableDataGatewayRDS.getInstance().getAllFriends(player.getPlayerID())));
+			DoubloonPrizesTableDataGateway doubloonPrizesGateway =
+					DoubloonPrizesTDGMock.getInstance();
+			FriendTableDataGateway friendTableDataGateway =
+					FriendTableDataGatewayMock.getSingleton();
+			if (!OptionsManager.getSingleton().isUsingMockDataSource())
+			{
+				doubloonPrizesGateway = DoubloonPrizesTableDataGatewayRDS.getInstance();
+				friendTableDataGateway = FriendTableDataGatewayRDS.getInstance();
+			}
+			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
+			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
 			return player;
 		}
 		else
@@ -360,14 +369,11 @@ public class PlayerManager implements QualifiedObserver
 			{
 				removePlayer(detailedReport.getPlayerID());
 			}
-			catch (DatabaseException e)
+			catch (DatabaseException|IllegalQuestChangeException e)
 			{
 				e.printStackTrace();
 			}
-			catch (IllegalQuestChangeException e)
-			{
-				e.printStackTrace();
-			}
+
 		}
 	}
 
@@ -383,17 +389,16 @@ public class PlayerManager implements QualifiedObserver
 	 * @param section - Players section number
 	 * @return true if successful
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException shouldn't
 	 */
 	public boolean editPlayer(int playerID, String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major, int section, String name, String password)
-			throws DatabaseException, IllegalQuestChangeException
+			throws DatabaseException
 	{
-		boolean result = editPlayerInDatabase(playerID, appearanceType, quizScore, experiencePoints, crew, major, section, name, password);
-		return result;
+		return editPlayerInDatabase(playerID, appearanceType, quizScore, experiencePoints,
+			crew, major, section, name, password);
 	}
 
 	private boolean editPlayerInDatabase(int playerID, String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major, int section, String name, String password)
-			throws DatabaseException, IllegalQuestChangeException
+			throws DatabaseException
 	{
 		PlayerMapper playerMap = new PlayerMapper(playerID);
 		Player player = playerMap.getPlayer();
