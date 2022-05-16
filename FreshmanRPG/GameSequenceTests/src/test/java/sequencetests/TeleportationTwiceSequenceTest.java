@@ -60,7 +60,7 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
                                     // Because of the way servers are mocked here, we
                                     // can't use CD twice, so the position coming back
                                     // hasn't been updated
-                                    ServerMapManager.getDefaultPositionForMap("Map1"),
+                                    ServerMapManager.getSingleton().getDefaultPositionForMap("Map1"),
                                     PlayersForTest.MERLIN.getCrew(),
                                     PlayersForTest.MERLIN.getMajor(),
                                     PlayersForTest.MERLIN.getSection(),
@@ -71,7 +71,8 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN.getPlayerID(),
                                     PlayersForTest.MERLIN.getPlayerName(),
                                     PlayersForTest.MERLIN.getVanityItems(),
-                                    ServerMapManager.getDefaultPositionForMap("Map1"),
+                                    ServerMapManager.getSingleton().getDefaultPositionForMap(
+                                            "Map1"),
                                     PlayersForTest.MERLIN.getCrew(),
                                     PlayersForTest.MERLIN.getMajor(),
                                     PlayersForTest.MERLIN.getSection()), true),
