@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import edu.ship.shipsim.areaserver.Server;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -69,15 +68,16 @@ public class SequenceTestRunner
 						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
 						{"RecCenterGrantsDoubloonsWithBuffSequenceTest",
 								RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
+						{"TlelportationTwiceSequenceTest",
+								TeleportationTwiceSequenceTest.class },
 						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
 						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
 						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
 
-						//{"PlayerHasVanityItemSequenceTest",
-						// PlayerHasVanityItemSequenceTest.class};
-						//		{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
-						//				RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
-						//{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
+
+							{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
+										RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
+						{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
 						// Terminal Text Sequence Test
 						// Trigger BuffMessage Sequence Test
 						{"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class},});
@@ -123,18 +123,23 @@ public class SequenceTestRunner
 	{
 
 		testcase = (SequenceTest) testClass.getConstructor().newInstance();
-
+		ArrayList<Interaction> interactions = testcase.getInteractions();
 		for (ServerType serverToTest : ServerType.values())
 		{
+			// Use this line instead of the loop if you want to debug on one server
 //			ServerType serverToTest = ServerType.AREA_SERVER;
 			if (testcase.getServerList().contains(serverToTest))
 			{
-				// TODO This is where you will have to loop through the interactions
-				//  and run each one
-				String result = run(serverToTest, true);
+				resetCommonSingletons();
+				testcase.resetNecessarySingletons();
+				testcase.setUpMachines();
+				for (Interaction interaction:interactions)
+				{
+					String result = run(serverToTest, interaction,true);
+					assertEquals(SUCCESS_MSG, result);
+				}
 				ClientModelFacade.killThreads();
 				ModelFacade.killThreads();
-				assertEquals(SUCCESS_MSG, result);
 			}
 		}
 	}
@@ -145,23 +150,19 @@ public class SequenceTestRunner
 	 *                test is looking at
 	 * @return A message describing what happened - SUCCESS_MSG if the test passed
 	 * @throws CommunicationException shouldn't
-	 * @throws DatabaseException      shouldn't
 	 * @throws IOException shouldn't
 	 */
-	public String run(ServerType sType, boolean verbose) throws CommunicationException, DatabaseException, IOException
+	public String run(ServerType sType, Interaction interaction, boolean verbose) throws CommunicationException, IOException
 	{
 		if (verbose)
 		{
-			System.out.println("Starting test for " + sType);
+			System.out.println("Starting Interaction for " + sType);
 		}
-		resetCommonSingletons();
-		testcase.resetNecessarySingletons();
-		testcase.setUpMachines();
-		setUpAccumulators(sType, testcase.getInitiatingPlayerID());
 
-		ArrayList<MessageFlow> messages = testcase.getMessageSequence();
-		initiateTheSequence(sType, messages);
-		for (MessageFlow msgFlow : messages)
+		setUpAccumulators(sType, interaction.getInitiatingPlayerID());
+
+		initiateTheSequence(sType, interaction);
+		for (MessageFlow msgFlow : interaction.getMessageSequence())
 		{
 			Message message = msgFlow.getMessage();
 			if (msgFlow.getSource().equals(sType) && msgFlow.isReaction())
@@ -212,7 +213,7 @@ public class SequenceTestRunner
 		}
 		if (verbose)
 		{
-			System.out.println("Finished test for " + sType);
+			System.out.println("Finished Interaction for " + sType);
 		}
 		return SUCCESS_MSG;
 	}
@@ -243,7 +244,7 @@ public class SequenceTestRunner
 	}
 
 	/**
-	 * There are two ways the sequence can be initiated: by the execution of a
+	 * There are two ways the interaction can be initiated: by the execution of a
 	 * command or by sending an initial message. If the test specifies a command,
 	 * execute it if we are the machine that should execute it. If the test doesn't
 	 * specify a command and we are the machine that should source the first
@@ -251,17 +252,17 @@ public class SequenceTestRunner
 	 * other machines)
 	 *
 	 * @param sType    the type of machine we are testing
-	 * @param messages the sequence of messages we are supposed to execute
+	 * @param interaction The specific interaction that is starting
 	 * @throws IOException shouldn't
 	 */
-	private void initiateTheSequence(ServerType sType, ArrayList<MessageFlow> messages) throws IOException
+	private void initiateTheSequence(ServerType sType, Interaction interaction) throws IOException
 	{
-		if (sType == testcase.getInitiatingServerType())
+		if (sType == interaction.getInitiatingServerType())
 		{
-			Command initiatingCommand = testcase.getInitiatingCommand();
+			Command initiatingCommand = interaction.getInitiatingCommand();
 			if (initiatingCommand != null)
 			{
-				testcase.getInitiatingCommand().execute();
+				interaction.getInitiatingCommand().execute();
 			}
 		}
 	}

@@ -83,41 +83,28 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
 
         int newExperiencePoints = PlayersForTest.MERLIN.getExperiencePoints() +
                 ObjectivesForTest.QUEST13_OBJECTIVE_1.getExperiencePointsGained();
-        MessageFlow[] sequence =
-                new MessageFlow[]{
-                        new MessageFlow(ServerType.THIS_PLAYER_CLIENT,
-                                ServerType.AREA_SERVER,
-                                new KeyInputMessage("e"), true),
-                        new MessageFlow(ServerType.AREA_SERVER,
-                                ServerType.THIS_PLAYER_CLIENT,
-                                //last two arguments should be false and null (bc this isn't a real life objective)
-                                new ObjectiveStateChangeMessage(
-                                        PlayersForTest.MERLIN.getPlayerID(),
-                                        ObjectivesForTest.QUEST13_OBJECTIVE_1.getQuestID(),
-                                        ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveID(),
-                                        ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveDescription(),
-                                        ObjectiveStateEnum.COMPLETED, false, null), true),
-                        new MessageFlow(ServerType.AREA_SERVER,
-                                ServerType.THIS_PLAYER_CLIENT,
-                                new ExperienceChangedMessage(
-                                        PlayersForTest.MERLIN.getPlayerID(),
-                                        newExperiencePoints,
-                                        LevelManagerDTO.getSingleton()
-                                                .getLevelForPoints(newExperiencePoints)),
-                                true),
-                        new MessageFlow(ServerType.AREA_SERVER,
-                                ServerType.THIS_PLAYER_CLIENT,
-                                new DisplayTextMessage(
-                                        PlayersForTest.MERLIN.getPlayerID(),
-                                        InteractableItemsForTest.CHEST.getMessage()),
-                                true),
+        MessageFlow[] sequence = new MessageFlow[]{
+                new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
+                        new KeyInputMessage("e"), true),
+                new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
+                        //last two arguments should be false and null (bc this isn't a real life objective)
+                        new ObjectiveStateChangeMessage(
+                                PlayersForTest.MERLIN.getPlayerID(),
+                                ObjectivesForTest.QUEST13_OBJECTIVE_1.getQuestID(),
+                                ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveID(),
+                                ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveDescription(),
+                                ObjectiveStateEnum.COMPLETED, false, null), true),
+                new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
+                        new ExperienceChangedMessage(PlayersForTest.MERLIN.getPlayerID(),
+                                newExperiencePoints, LevelManagerDTO.getSingleton()
+                                .getLevelForPoints(newExperiencePoints)), true),
+                new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
+                        new DisplayTextMessage(PlayersForTest.MERLIN.getPlayerID(),
+                                InteractableItemsForTest.CHEST.getMessage()), true),
+        };
 
-
-                };
-
-        interaction = new Interaction(sequence,
-                new CommandKeyInputSent("e"),
-                PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT);
+        interactions.add(new Interaction(new CommandKeyInputSent("e"),
+                PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
+                sequence));
     }
 }

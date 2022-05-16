@@ -22,35 +22,49 @@ public class TeleportationMovementSequenceTest extends SequenceTest
 
     private static final Position TELEPORT_POSITION = new Position(47, 16);
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new TeleportationInitiationMessage(
                             PlayersForTest.MERLIN.getPlayerID(), "recCenter.tmx",
-                            TELEPORT_POSITION),
-                    true),
+                            TELEPORT_POSITION), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new TeleportationContinuationMessage("recCenter.tmx",
                                     ServersForTest.REC_CENTER.getHostName(),
                                     ServersForTest.REC_CENTER.getPortNumber(),
-                                    PlayersForTest.MERLIN.getPlayerID(), 1111),
-                            true)
+                                    PlayersForTest.MERLIN.getPlayerID(), 1111), true)
                     // from there, the connection sequence is the same as for the login
                     // tests
             };
 
-    /**
-     * @throws IOException shouldn't
-     */
-    public TeleportationMovementSequenceTest() throws IOException
+
+    public TeleportationMovementSequenceTest()
     {
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interaction = new Interaction(sequence,
+        interactions.add(new Interaction(
                 new CommandClientMovePlayer(PlayersForTest.MERLIN.getPlayerID(),
-                        TELEPORT_POSITION),
-                PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT);
+                        TELEPORT_POSITION), PlayersForTest.MERLIN.getPlayerID(),
+                ServerType.THIS_PLAYER_CLIENT, sequence));
+    }
+
+    /**
+     * @see model.SequenceTest#resetNecessarySingletons()
+     */
+    public void resetNecessarySingletons()
+    {
+        try
+        {
+            PlayerManager.resetSingleton();
+            (new PlayerConnectionRowDataGatewayMock(
+                    PlayersForTest.MERLIN.getPlayerID())).resetData();
+            ClientPlayerManager.resetSingleton();
+            MapManager.resetSingleton();
+        } catch (DatabaseException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -78,23 +92,5 @@ public class TeleportationMovementSequenceTest extends SequenceTest
                 new TeleportHotSpot("recCenter.tmx", TELEPORT_POSITION));
         MapManager.getSingleton().setTeleportHotspots(spots);
 
-    }
-
-    /**
-     * @see model.SequenceTest#resetNecessarySingletons()
-     */
-    public void resetNecessarySingletons()
-    {
-        try
-        {
-            PlayerManager.resetSingleton();
-            (new PlayerConnectionRowDataGatewayMock(
-                    PlayersForTest.MERLIN.getPlayerID())).resetData();
-            ClientPlayerManager.resetSingleton();
-            MapManager.resetSingleton();
-        } catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

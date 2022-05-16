@@ -17,7 +17,7 @@ import datatypes.ServersForTest;
 public class ServerRowDataGatewayMock implements ServerRowDataGateway
 {
 
-	private class Server
+	private static class Server
 	{
 		private String hostName;
 
@@ -52,6 +52,8 @@ public class ServerRowDataGatewayMock implements ServerRowDataGateway
 			this.hostName = hostName;
 			this.portNumber = portNumber;
 			this.mapTitle = mapTitle;
+			this.teleportPositionY = teleportPositionY;
+			this.teleportPositionX = teleportPositionX;
 		}
 
 		public String getHostName()
@@ -302,8 +304,23 @@ public class ServerRowDataGatewayMock implements ServerRowDataGateway
 		return server.mapID;
 	}
 
-	public static ServerRowDataGateway findPosAndMapNameFromMapTitle(String string)
+	private void setServer(Server s)
 	{
-		return null;
+		this.server = s;
+	}
+	public static ServerRowDataGateway findPosAndMapNameFromMapTitle(String mapTitle)
+	{
+		ServerRowDataGatewayMock gateway = new ServerRowDataGatewayMock();
+		for (String mapName: servers.keySet())
+		{
+			Server s = servers.get(mapName);
+			if (s.mapTitle.equals(mapTitle))
+			{
+				gateway.setServer(s);
+				gateway.setMapName(mapName);
+			}
+		}
+
+		return gateway;
 	}
 }

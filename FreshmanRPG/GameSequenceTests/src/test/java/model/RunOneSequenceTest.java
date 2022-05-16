@@ -35,7 +35,7 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<VanityShopGetInvSequenceTest> testClass = VanityShopGetInvSequenceTest.class;
+		Class<TeleportationTwiceSequenceTest> testClass = TeleportationTwiceSequenceTest.class;
 		SequenceTestRunner testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new SequenceTestRunner("My Single Sequence Test", testClass);
