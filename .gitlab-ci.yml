@@ -95,7 +95,7 @@ test_game_sequence_tests:
             - GameSequenceTests/artifacts
     script:
         - cd GameSequenceTests
-        - ./../gradlew test --tests "model.SequenceTestRunner"
+        - ./../gradlew test --tests "model.RunAllSequenceTests"
 
 test_game_manager_tests:
     stage: test
