@@ -19,16 +19,13 @@ public class CdTeleportationSequenceTest extends SequenceTest
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(),
-                            "cd " + ServersForTest.FIRST_SERVER.getMapTitle()),
-                    true),
+                            "cd " + ServersForTest.FIRST_SERVER.getMapTitle()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new TeleportationContinuationMessage(
                                     ServersForTest.FIRST_SERVER.getMapName(),
                                     ServersForTest.FIRST_SERVER.getHostName(),
                                     ServersForTest.FIRST_SERVER.getPortNumber(),
-                                    PlayersForTest.MERLIN.getPlayerID(), 1111),
-                            true)
-            };
+                                    PlayersForTest.MERLIN.getPlayerID(), 1111), true)};
 
 
     /**
@@ -39,10 +36,9 @@ public class CdTeleportationSequenceTest extends SequenceTest
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interaction = new Interaction(sequence,
-                new CommandSendTerminalText("cd Firstserver"),
-                PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT);
+        interactions.add(new Interaction(new CommandSendTerminalText("cd Firstserver"),
+                PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
+                sequence));
     }
 
     /**

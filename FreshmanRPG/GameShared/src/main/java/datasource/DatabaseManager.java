@@ -15,7 +15,7 @@ import model.OptionsManager;
 public class DatabaseManager
 {
 	private static DatabaseManager singleton;
-	private HashMap<Long, Connection> connections;
+	private final HashMap<Long, Connection> connections;
 
 	/**
 	 * @return the only one
@@ -41,7 +41,7 @@ public class DatabaseManager
 	{
 		if (OptionsManager.getSingleton().isUsingTestDB())
 		{
-			System.err.println("Opening test database\n");
+			System.err.println("Opening test database");
 			String dbIdentifier = OptionsManager.getSingleton().getDbIdentifier();
 			if (dbIdentifier == null)
 			{

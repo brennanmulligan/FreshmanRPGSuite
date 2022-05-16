@@ -11,8 +11,10 @@ import datasource.DatabaseException;
  */
 public abstract class SequenceTest
 {
-	protected Interaction interaction;
-	protected ArrayList<MessageFlow> messageSequence;
+	protected ArrayList<Interaction> interactions = new ArrayList<>();
+
+	protected ArrayList<Interaction> getInteractions() { //noinspection unchecked
+		return (ArrayList<Interaction>) interactions.clone(); }
 
 	/**
 	 * The list of server ids this sequence needs to run on
@@ -20,44 +22,13 @@ public abstract class SequenceTest
 	protected ArrayList<ServerType> serverList = new ArrayList<>();
 
 	/**
-	 * @return the command that will initiate the sequence
-	 */
-	public final Command getInitiatingCommand()
-	{
-			return interaction.getInitiatingCommand();
-	}
-
-	/**
-	 * @return the type of server where the initiating command is run
-	 */
-	public final ServerType getInitiatingServerType()
-	{
-		return interaction.getInitiatingServerType();
-	}
-
-	/**
-	 * @return the sequence of message flows that define the protocol
-	 */
-	public final ArrayList<MessageFlow> getMessageSequence()
-	{
-		return interaction.getMessageSequence();
-	}
-	
-	/**
-	 * 
+	 *
 	 * @return the server numbers for this sequence to run on
 	 */
 	public final ArrayList<ServerType> getServerList()
 	{
-		return serverList;
-	}
-
-	/**
-	 * @return the player ID of the player that is initiating this sequence
-	 */
-	public final int getInitiatingPlayerID()
-	{
-		return interaction.getInitiatingPlayerID();
+		//noinspection unchecked
+		return (ArrayList<ServerType>) serverList.clone();
 	}
 
 	/**
