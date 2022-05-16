@@ -31,7 +31,7 @@ import sequencetests.*;
  *
  */
 @RunWith(Parameterized.class)
-public class SequenceTestRunner
+public class RunAllSequenceTests
 {
 	/**
 	 * the message returned by the test if everything passes
@@ -105,7 +105,7 @@ public class SequenceTestRunner
 	 * @param input the string that the test should be named
 	 * @param expected the class of the sequence test we should run
 	 */
-	public SequenceTestRunner(String input, Class<?> expected)
+	public RunAllSequenceTests(String input, Class<?> expected)
 	{
 		this.testClass = expected;
 	}
@@ -291,6 +291,7 @@ public class SequenceTestRunner
 		{
 			try
 			{
+				//noinspection BusyWait
 				Thread.sleep(100);
 			}
 			catch (InterruptedException e)

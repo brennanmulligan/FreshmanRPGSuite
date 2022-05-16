@@ -21,17 +21,18 @@ public class TerminalTextSequenceTest extends SequenceTest
     public TerminalTextSequenceTest()
     {
         // This needs to create the string
-        String expected = "";
+        StringBuilder expected = new StringBuilder();
         for (PlayersForTest p : PlayersForTest.values())
         {
             if (p.getOnline())
             {
-                expected = expected + p.getPlayerName() + ':' + p.getMapName() + ":";
+                expected.append(p.getPlayerName()).append(':').append(p.getMapName())
+                        .append(":");
             }
         }
 
         CommandTerminalTextWho cttw = new CommandTerminalTextWho();
-        expected = cttw.formatString(expected);
+        expected = new StringBuilder(cttw.formatString(expected.toString()));
 
         MessageFlow[] sequence = new MessageFlow[]{
                 new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
@@ -40,7 +41,7 @@ public class TerminalTextSequenceTest extends SequenceTest
 
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                         new ReceiveTerminalTextMessage(PlayersForTest.JEFF.getPlayerID(),
-                                expected), true)};
+                                expected.toString()), true)};
 
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
