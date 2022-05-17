@@ -78,21 +78,20 @@ public class MessagePackerSetTest
 	}
 
 	/**
-	 * If there isn't any handler for the type of message, an exception should be
-	 * thrown
+	 * If there isn't any handler for the type of message, the list returned should be
+	 * empty
 	 *
-	 * @throws CommunicationException should
 	 */
-	@Test(expected = CommunicationException.class)
+	@Test
 	public void noSuchHandler() throws CommunicationException
 	{
 		MessagePackerSet set = new MessagePackerSet();
-		Message msg = EasyMock.createMock(Message.class);
-		QualifiedObservableReport report = EasyMock.createMock(QualifiedObservableReport.class);
-		EasyMock.replay(msg);
 
-		set.pack(report);
-		EasyMock.verify(msg);
+		QualifiedObservableReport report = EasyMock.createMock(QualifiedObservableReport.class);
+
+
+		ArrayList<Message> msgs = set.pack(report);
+		assertEquals(0,msgs.size());
 
 	}
 
@@ -125,10 +124,9 @@ public class MessagePackerSetTest
 	/**
 	 * We need to destroy the MessagePackerSet packers so that on connection close
 	 * they are closed as well.
-	 * @throws IOException
 	 */
 	@Test
-	public void destroyObservers() throws IOException
+	public void destroyObservers()
 	{
 		MessagePackerSet set = new MessagePackerSet();
 		QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
@@ -139,17 +137,17 @@ public class MessagePackerSetTest
 		assertEquals(0, set.getCount());
 	}
 
-	private class TestReport1 implements QualifiedObservableReport
+	private static class TestReport1 implements QualifiedObservableReport
 	{
 
 	}
 
-	private class TestReport2 implements QualifiedObservableReport
+	private static class TestReport2 implements QualifiedObservableReport
 	{
 
 	}
 
-	private class MockMessagePacker extends MessagePacker
+	private static class MockMessagePacker extends MessagePacker
 	{
 
 		/**

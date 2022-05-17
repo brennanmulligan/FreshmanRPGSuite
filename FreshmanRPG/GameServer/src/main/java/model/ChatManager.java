@@ -15,7 +15,7 @@ import model.reports.NPCChatReport;
 public class ChatManager
 {
 	private static ChatManager me;
-	private CheatCodeManager cheatCodeManager;
+	private final CheatCodeManager cheatCodeManager;
 
 	/**
 	 * Singleton constructor
@@ -45,6 +45,7 @@ public class ChatManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		me = null;
 	}
 

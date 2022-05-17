@@ -1,5 +1,6 @@
 package model;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -13,8 +14,8 @@ import java.io.File;
  */
 public class CommandClientMovePlayer extends Command
 {
-	private int playerID;
-	private Position position;
+	private final int playerID;
+	private final Position position;
 	private boolean isTeleporting;
 
 	/**
@@ -61,7 +62,10 @@ public class CommandClientMovePlayer extends Command
 			{
 				thisClientsPlayer.teleport(position);
 
-				SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/teleport.mp3"))), 3);
+				File soundFile = new File("../GameClient/assets/teleport.mp3");
+				FileHandle fileHandle =
+						new FileHandle(soundFile);
+				SoundManager.addSound(Gdx.audio.newSound(fileHandle), 3);
 
 				SoundManager.stopLoopingSounds();
 

@@ -3,7 +3,9 @@ package communication.handlers;
 import static org.junit.Assert.assertEquals;
 
 import datatypes.PlayersForTest;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.ReceiveTerminalTextMessage;
@@ -19,6 +21,11 @@ import model.CommandRecieveTerminalResponse;
  */
 public class ReceiveTerminalTextMessageHandlerTest
 {
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 	/**
 	 * Reset the ModelFacade
 	 */

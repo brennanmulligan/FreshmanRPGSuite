@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import datatypes.FriendStatusEnum;
 import datatypes.PlayersForTest;
+import model.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.InitializeThisClientsPlayerMessage;
@@ -19,13 +21,6 @@ import dataDTO.FriendDTO;
 import datasource.LevelRecord;
 import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
-import model.ClientModelFacade;
-import model.ClientModelTestUtilities;
-import model.Command;
-import model.CommandDoubloonsChanged;
-import model.CommandOverwriteExperience;
-import model.CommandOverwriteQuestState;
-import model.CommandUpdateFriendsList;
 
 /**
  * @author Frank Schmidt
@@ -33,6 +28,11 @@ import model.CommandUpdateFriendsList;
  */
 public class InitializeThisClientsPlayerMessageHandlerTest
 {
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 
 	/**
 	 * Reset the ModelFacade

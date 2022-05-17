@@ -33,6 +33,7 @@ public class ModelFacade
 	 */
 	public synchronized static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 

@@ -34,7 +34,8 @@ public class QualifiedObservableConnector
 
 	private static QualifiedObservableConnector singleton;
 
-	private HashMap<Class<? extends QualifiedObservableReport>, ArrayList<QualifiedObserver>> observers;
+	private final HashMap<Class<? extends QualifiedObservableReport>,
+			ArrayList<QualifiedObserver>> observers;
 
 	private QualifiedObservableConnector()
 	{
@@ -58,6 +59,7 @@ public class QualifiedObservableConnector
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 
@@ -78,6 +80,7 @@ public class QualifiedObservableConnector
 				// Clone the relevant observer list because there is a chance that
 				// someone who gets this report will want to register another observer.
 				// That would cause concurrent modification exception
+				@SuppressWarnings("unchecked")
 				ArrayList<QualifiedObserver>  x =
 						(ArrayList<QualifiedObserver>) relevantObservers.clone();
 				for (QualifiedObserver a : x)
@@ -99,7 +102,7 @@ public class QualifiedObservableConnector
 	public void registerObserver(QualifiedObserver observer,
 											  Class<? extends QualifiedObservableReport> reportType)
 	{
-		synchronized (singleton)
+		synchronized (this)
 		{
 			rememberObserver(observer, reportType);
 		}
@@ -110,23 +113,16 @@ public class QualifiedObservableConnector
 	 *            the observer we should remember
 	 * @param reportType
 	 *            the report type this observer is interested in
-	 * @return true if this is a new observer for this report type and false if
-	 *         it was a duplicate request
 	 */
-	private boolean rememberObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
+	private void rememberObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
 	{
-		ArrayList<QualifiedObserver> relevantObservers = observers.get(reportType);
-		if (relevantObservers == null)
-		{
-			relevantObservers = new ArrayList<>();
-			observers.put(reportType, relevantObservers);
-		}
+		ArrayList<QualifiedObserver> relevantObservers =
+				observers.computeIfAbsent(reportType, k -> new ArrayList<>());
 		if (!relevantObservers.contains(observer))
 		{
 			relevantObservers.add(observer);
-			return true;
 		}
-		return false;
+
 	}
 
 	/**
@@ -140,7 +136,7 @@ public class QualifiedObservableConnector
 	 */
 	public void unregisterObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
 	{
-		synchronized (singleton)
+		synchronized (this)
 		{
 			ArrayList<QualifiedObserver> observerList = observers.get(reportType);
 			if (observerList != null)
@@ -162,7 +158,7 @@ public class QualifiedObservableConnector
 	 */
 	public boolean doIObserve(QualifiedObserver obs, Class<? extends QualifiedObservableReport> reportType)
 	{
-		synchronized (singleton)
+		synchronized (this)
 		{
 			ArrayList<QualifiedObserver> relavantObservers = observers.get(reportType);
 			if (relavantObservers == null)

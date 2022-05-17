@@ -6,7 +6,9 @@ import datatypes.PlayersForTest;
 import datatypes.VanityType;
 import model.ClientModelFacade;
 import model.CommandInitializePlayer;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +21,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class PlayerJoinedMessageHandlerTest
 {
-
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 	/**
 	 * Reset the ModelFacade
 	 */

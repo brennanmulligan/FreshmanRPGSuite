@@ -15,12 +15,12 @@ public class DoubloonManager
 {
 
 	private static DoubloonManager singleton;
-	private ArrayList<DoubloonPrizeDTO> doubloonList;
+	private final ArrayList<DoubloonPrizeDTO> doubloonList;
 
 	/**
 	 * initialize resource with existing widgets. Act as database.
 	 */
-	public DoubloonManager()
+	private DoubloonManager()
 	{
 		this.doubloonList = new ArrayList<>();
 	}
@@ -44,6 +44,7 @@ public class DoubloonManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 

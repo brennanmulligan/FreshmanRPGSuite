@@ -42,6 +42,7 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		if (singleton != null)
 		{
 			singleton.stopNpcs();

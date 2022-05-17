@@ -16,110 +16,12 @@ import com.badlogic.gdx.utils.Timer.Task;
 public class ClientModelFacade
 {
 
-	class ProcessCommandQueueTask extends java.util.TimerTask
-	{
-		@Override
-		public void run()
-		{
-			while (commandQueue.getQueueSize() > 0)
-			{
-				Command cmd;
-				try
-				{
-					synchronized (commandQueue)
-					{
-						cmd = (Command) commandQueue.getInfoPacket();
-						cmd.execute();
-						if (commandQueue.getQueueSize() == 0)
-						{
-							commandsPending = false;
-						}
-					}
-				}
-				catch (InterruptedException | IOException e)
-				{
-					e.printStackTrace();
-				}
-
-			}
-		}
-
-	}
-
 	private static ClientModelFacade singleton;
-
-	private boolean mockMode;
-
-	/**
-	 * Get the singleton. If one is there, use it. Otherwise set it up in
-	 * production mode
-	 *
-	 * @return the only one of these we have
-	 */
-	public synchronized static ClientModelFacade getSingleton()
-	{
-		if (singleton != null)
-		{
-			return singleton;
-		}
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			return getSingleton(true, true);
-		}
-		return getSingleton(false, false);
-	}
-
-	/**
-	 * @param headless
-	 *            true if we are running libgdx headless
-	 * @param mockMode
-	 *            true if this is running in testing mode
-	 * @return the only one of these there is
-	 */
-	public synchronized static ClientModelFacade getSingleton(boolean headless,
-															  boolean mockMode)
-	{
-		if (singleton == null)
-		{
-			singleton = new ClientModelFacade(headless, mockMode);
-		}
-		else
-		{
-			if ((singleton.headless != headless) || (singleton.mockMode != mockMode))
-			{
-				throw new IllegalArgumentException(
-						"Can't change the mode of this singleton without resetting it first");
-			}
-		}
-		return singleton;
-	}
-
-	/**
-	 * Used for testing to reset the state of the model
-	 *
-	 */
-	public synchronized static void resetSingleton()
-	{
-		singleton = null;
-
-		MapManager.resetSingleton();
-	}
-
-	private InformationQueue commandQueue;
+	private final boolean mockMode;
+	private final InformationQueue commandQueue;
 	private boolean commandsPending;
-	private boolean headless;
-
+	private final boolean headless;
 	private Timer timer;
-
-	/**
-	 * Checks if commands are pending
-	 *
-	 * @return if commands are pending
-	 */
-	public boolean hasCommandsPending()
-	{
-		return commandsPending;
-	}
 
 	/**
 	 * Make the default constructor private
@@ -184,6 +86,50 @@ public class ClientModelFacade
 	}
 
 	/**
+	 * Get the singleton. If one is there, use it. Otherwise set it up in
+	 * production mode
+	 *
+	 * @return the only one of these we have
+	 */
+	public synchronized static ClientModelFacade getSingleton()
+	{
+		if (singleton != null)
+		{
+			return singleton;
+		}
+		if (OptionsManager.getSingleton().isUsingMockDataSource())
+		{
+			return getSingleton(true, true);
+		}
+		return getSingleton(false, false);
+	}
+
+	/**
+	 * @param headless
+	 *            true if we are running libgdx headless
+	 * @param mockMode
+	 *            true if this is running in testing mode
+	 * @return the only one of these there is
+	 */
+	public synchronized static ClientModelFacade getSingleton(boolean headless,
+															  boolean mockMode)
+	{
+		if (singleton == null)
+		{
+			singleton = new ClientModelFacade(headless, mockMode);
+		}
+		else
+		{
+			if ((singleton.headless != headless) || (singleton.mockMode != mockMode))
+			{
+				throw new IllegalArgumentException(
+						"Can't change the mode of this singleton without resetting it first");
+			}
+		}
+		return singleton;
+	}
+
+	/**
 	 * If we have created the thread that processes things, kill it
 	 */
 	public synchronized static void killThreads()
@@ -192,6 +138,36 @@ public class ClientModelFacade
 		{
 			singleton.timer.cancel();
 		}
+	}
+
+	/**
+	 * Used for testing to reset the state of the model
+	 *
+	 */
+	public synchronized static void resetSingleton()
+	{
+		OptionsManager.getSingleton().assertTestMode();
+		singleton = null;
+
+		MapManager.resetSingleton();
+	}
+
+	/**
+	 * Clear the queue of commands waiting to be processed
+	 */
+	public void emptyQueue()
+	{
+		while (commandQueue.getQueueSize() > 0)
+		{
+			try
+			{
+				commandQueue.getInfoPacket();
+			} catch (InterruptedException e)
+			{
+				// It's ok - just keep going
+			}
+		}
+
 	}
 
 	/**
@@ -215,6 +191,19 @@ public class ClientModelFacade
 	}
 
 	/**
+	 * Tell the model whether or not it can use the functions of libGDX that
+	 * require graphics. Note that the default is that we do use graphics - we
+	 * just need to turn it off for testing
+	 *
+	 * @param headless
+	 *            true if we can't use graphics related things
+	 */
+	private void setHeadless(boolean headless)
+	{
+		MapManager.getSingleton().setHeadless(headless);
+	}
+
+	/**
 	 * Check if we are supposed to not process the commands - just queue them
 	 * (for testing purposes)
 	 *
@@ -223,6 +212,26 @@ public class ClientModelFacade
 	public boolean getMockMode()
 	{
 		return mockMode;
+	}
+
+	/**
+	 * @return the next command in the queue
+	 * @throws InterruptedException
+	 *             shouldn't
+	 */
+	public Command getNextCommand() throws InterruptedException
+	{
+		return (Command) commandQueue.getInfoPacket();
+	}
+
+	/**
+	 * Checks if commands are pending
+	 *
+	 * @return if commands are pending
+	 */
+	public boolean hasCommandsPending()
+	{
+		return commandsPending;
 	}
 
 	/**
@@ -241,19 +250,6 @@ public class ClientModelFacade
 	}
 
 	/**
-	 * Tell the model whether or not it can use the functions of libGDX that
-	 * require graphics. Note that the default is that we do use graphics - we
-	 * just need to turn it off for testing
-	 *
-	 * @param headless
-	 *            true if we can't use graphics related things
-	 */
-	private void setHeadless(boolean headless)
-	{
-		MapManager.getSingleton().setHeadless(headless);
-	}
-
-	/**
 	 * Used by tests to wait until the command they have queued has been
 	 * processed
 	 *
@@ -264,22 +260,33 @@ public class ClientModelFacade
 		return commandQueue.getQueueSize();
 	}
 
-	/**
-	 * @return the next command in the queue
-	 * @throws InterruptedException
-	 *             shouldn't
-	 */
-	public Command getNextCommand() throws InterruptedException
+	class ProcessCommandQueueTask extends java.util.TimerTask
 	{
-		return (Command) commandQueue.getInfoPacket();
-	}
+		@Override
+		public void run()
+		{
+			while (commandQueue.getQueueSize() > 0)
+			{
+				Command cmd;
+				try
+				{
+					synchronized (commandQueue)
+					{
+						cmd = (Command) commandQueue.getInfoPacket();
+						cmd.execute();
+						if (commandQueue.getQueueSize() == 0)
+						{
+							commandsPending = false;
+						}
+					}
+				}
+				catch (InterruptedException | IOException e)
+				{
+					e.printStackTrace();
+				}
 
-	/**
-	 * Clear the queue of commands waiting to be processed
-	 */
-	public void emptyQueue()
-	{
-		commandQueue = new InformationQueue();
+			}
+		}
 
 	}
 

@@ -6,7 +6,9 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
 import datatypes.PlayersForTest;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.ExperienceChangedMessage;
@@ -21,6 +23,12 @@ import model.CommandOverwriteExperience;
  */
 public class ExperienceChangedMessageHandlerTest
 {
+
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 
 	/**
 	 * Reset the ModelFacade

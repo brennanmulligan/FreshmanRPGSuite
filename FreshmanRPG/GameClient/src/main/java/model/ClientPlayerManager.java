@@ -31,7 +31,7 @@ public class ClientPlayerManager
 {
 
 	private static ClientPlayerManager singleton;
-	private HashMap<Integer, ClientPlayer> playerList;
+	private final HashMap<Integer, ClientPlayer> playerList;
 	private ThisClientsPlayer thisClientsPlayer;
 	private boolean loginInProgress;
 
@@ -62,6 +62,7 @@ public class ClientPlayerManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 

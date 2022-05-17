@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.HighScoreResponseMessage;
@@ -18,6 +20,11 @@ import model.CommandHighScoreResponse;
  */
 public class HighScoreResponseHandlerTest 
 {
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 
 	/**
 	 * Reset the ModelFacade

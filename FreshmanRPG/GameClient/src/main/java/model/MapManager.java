@@ -61,6 +61,7 @@ public class MapManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 
