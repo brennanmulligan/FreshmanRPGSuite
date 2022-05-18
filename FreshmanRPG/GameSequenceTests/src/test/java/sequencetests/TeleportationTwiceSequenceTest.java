@@ -37,22 +37,18 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN.getPlayerID(), 1111), true)};
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] disconnect =
-            {
-                    new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                            new PlayerLeaveMessage(PlayersForTest.MERLIN.getPlayerID())
-                            ,true),
+            {new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
+                    new PlayerLeaveMessage(PlayersForTest.MERLIN.getPlayerID()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new PlayerLeaveMessage(PlayersForTest.MERLIN.getPlayerID())
-                            ,true)
-            };
+                            new PlayerLeaveMessage(PlayersForTest.MERLIN.getPlayerID()),
+                            true)};
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] reconnect =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new ConnectMessage(PlayersForTest.MERLIN.getPlayerID(),
                             PlayersForTest.MERLIN.getPin()), false),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new PlayerJoinedMessage(
-                                    PlayersForTest.MERLIN.getPlayerID(),
+                            new PlayerJoinedMessage(PlayersForTest.MERLIN.getPlayerID(),
                                     PlayersForTest.MERLIN.getPlayerName(),
                                     PlayersForTest.MERLIN.getVanityItems(),
                                     // This is the default position for the map we
@@ -60,19 +56,18 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
                                     // Because of the way servers are mocked here, we
                                     // can't use CD twice, so the position coming back
                                     // hasn't been updated
-                                    ServerMapManager.getSingleton().getDefaultPositionForMap("Map1"),
+                                    ServerMapManager.getSingleton()
+                                            .getDefaultPositionForMap("Map1"),
                                     PlayersForTest.MERLIN.getCrew(),
                                     PlayersForTest.MERLIN.getMajor(),
                                     PlayersForTest.MERLIN.getSection(),
-                                    PlayersForTest.MERLIN.getOwnedItems()),
-                            true),
+                                    PlayersForTest.MERLIN.getOwnedItems()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                            new PlayerJoinedMessage(
-                                    PlayersForTest.MERLIN.getPlayerID(),
+                            new PlayerJoinedMessage(PlayersForTest.MERLIN.getPlayerID(),
                                     PlayersForTest.MERLIN.getPlayerName(),
                                     PlayersForTest.MERLIN.getVanityItems(),
-                                    ServerMapManager.getSingleton().getDefaultPositionForMap(
-                                            "Map1"),
+                                    ServerMapManager.getSingleton()
+                                            .getDefaultPositionForMap("Map1"),
                                     PlayersForTest.MERLIN.getCrew(),
                                     PlayersForTest.MERLIN.getMajor(),
                                     PlayersForTest.MERLIN.getSection()), true),
@@ -95,8 +90,7 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
                                     LEVEL_TWO_RECORD.getDeadlineDate(),
                                     LevelsForTest.TWO.getDescription()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new DoubloonPrizeMessage(
-                                    PlayersForTest.MERLIN.getPlayerID(),
+                            new DoubloonPrizeMessage(PlayersForTest.MERLIN.getPlayerID(),
                                     DataGatheringUtilities.getDoubloonPrizeList()),
                             true)};
 
@@ -136,7 +130,8 @@ public class TeleportationTwiceSequenceTest extends SequenceTest
             ClientPlayerManager.resetSingleton();
             MapManager.resetSingleton();
             QuestManager.resetSingleton();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }

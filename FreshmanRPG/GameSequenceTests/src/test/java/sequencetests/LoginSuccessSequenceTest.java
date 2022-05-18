@@ -2,16 +2,15 @@ package sequencetests;
 
 import communication.messages.*;
 import communication.packers.MapFileMessagePacker;
-import dataDTO.*;
-import datasource.*;
+import datasource.DatabaseException;
+import datasource.LevelRecord;
+import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.LevelsForTest;
 import datatypes.PlayersForTest;
-import datatypes.QuestStateEnum;
 import datatypes.ServersForTest;
 import model.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Defines the protocol for a successful login sequence
@@ -64,8 +63,9 @@ public class LoginSuccessSequenceTest extends SequenceTest
                             new MapFileMessage(MapFileMessagePacker.DIRECTORY_PREFIX +
                                     ServersForTest.QUAD.getMapName()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new InitializeThisClientsPlayerMessage(DataGatheringUtilities.getPlayersQuest(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
+                            new InitializeThisClientsPlayerMessage(
+                                    DataGatheringUtilities.getPlayersQuest(
+                                            PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
                                     DataGatheringUtilities.getPlayersFriends(
                                             PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
                                     PlayersForTest.MERLIN_OFFLINE.getExperiencePoints(),
@@ -112,7 +112,8 @@ public class LoginSuccessSequenceTest extends SequenceTest
             PlayerManager.resetSingleton();
             (new PlayerConnectionRowDataGatewayMock(
                     PlayersForTest.MERLIN_OFFLINE.getPlayerID())).resetData();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
@@ -129,7 +130,6 @@ public class LoginSuccessSequenceTest extends SequenceTest
         PlayerManager.resetSingleton();
         QuestManager.resetSingleton();
     }
-
 
 
 }

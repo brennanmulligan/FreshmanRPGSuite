@@ -8,8 +8,6 @@ import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 import model.*;
 
-import java.io.IOException;
-
 /**
  * Defines the protocol for a successful login sequence
  *
@@ -48,7 +46,8 @@ public class LoginBadPWSequenceTest extends SequenceTest
         {
             PlayerManager.resetSingleton();
             (new PlayerConnectionRowDataGatewayMock(2)).resetData();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }

@@ -69,7 +69,8 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
         {
             QuestManager.getSingleton().triggerQuest(p.getPlayerID(), questId);
 
-        } catch (IllegalObjectiveChangeException | IllegalQuestChangeException | DatabaseException e)
+        }
+        catch (IllegalObjectiveChangeException | IllegalQuestChangeException | DatabaseException e)
         {
 
             e.printStackTrace();
@@ -100,8 +101,7 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
                                 .getLevelForPoints(newExperiencePoints)), true),
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                         new DisplayTextMessage(PlayersForTest.MERLIN.getPlayerID(),
-                                InteractableItemsForTest.CHEST.getMessage()), true),
-        };
+                                InteractableItemsForTest.CHEST.getMessage()), true),};
 
         interactions.add(new Interaction(new CommandKeyInputSent("e"),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,

@@ -10,8 +10,6 @@ import datatypes.Position;
 import datatypes.ServersForTest;
 import model.*;
 
-import java.io.IOException;
-
 /**
  * Defines the protocol for a successful login sequence
  *

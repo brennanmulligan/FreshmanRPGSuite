@@ -10,8 +10,6 @@ import datatypes.QuestStateEnum;
 import datatypes.QuestsForTest;
 import model.*;
 
-import java.io.IOException;
-
 
 /**
  * Test the sequence of messages that should flow when completing a test forces teleportation to
@@ -59,7 +57,8 @@ public class FinishingQuestTeleportsSequenceTest extends SequenceTest
         try
         {
             (new PlayerConnectionRowDataGatewayMock(2)).resetData();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }

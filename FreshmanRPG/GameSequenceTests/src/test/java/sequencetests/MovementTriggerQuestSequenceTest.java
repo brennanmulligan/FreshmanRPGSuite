@@ -56,7 +56,8 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
         try
         {
             (new PlayerConnectionRowDataGatewayMock(2)).resetData();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }

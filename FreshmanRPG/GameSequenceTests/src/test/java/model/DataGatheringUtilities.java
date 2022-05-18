@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class DataGatheringUtilities
 {
-    public static ClientPlayerQuestStateDTO createClientPlayerQuestFor(QuestStateRecordDTO q)
-            throws DatabaseException
+    public static ClientPlayerQuestStateDTO createClientPlayerQuestFor(
+            QuestStateRecordDTO q) throws DatabaseException
     {
         QuestRowDataGateway qGateway = new QuestRowDataGatewayMock(q.getQuestID());
         ClientPlayerQuestStateDTO cpq =
@@ -46,10 +46,11 @@ public class DataGatheringUtilities
         try
         {
             DoubloonPrizesTableDataGateway gateway =
-                    (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                            "DoubloonPrizes");
+                    (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton()
+                            .getTableGateway("DoubloonPrizes");
             return gateway.getAllDoubloonPrizes();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
@@ -63,7 +64,8 @@ public class DataGatheringUtilities
         try
         {
             result = friendGateway.getAllFriends(playerID);
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
@@ -81,7 +83,8 @@ public class DataGatheringUtilities
             {
                 result.add(createClientPlayerQuestFor(q));
             }
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
