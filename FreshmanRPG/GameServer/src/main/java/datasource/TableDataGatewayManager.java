@@ -43,27 +43,29 @@ public class TableDataGatewayManager
                 gatewayClass = (Class<TableDataGateway>) Class.forName(
                         "datasource." + tableName + "TableDataGatewayMock");
                 gateway = gatewayClass.getConstructor().newInstance();
-                factorySingletons.put(tableName,gateway);
-            } else
+                factorySingletons.put(tableName, gateway);
+            }
+            else
             {
                 //noinspection unchecked
                 gatewayClass = (Class<TableDataGateway>) Class.forName(
                         "datasource." + tableName + "TableDataGatewayRDS");
                 gateway = gatewayClass.getConstructor().newInstance();
-                factorySingletons.put(tableName,gateway);
+                factorySingletons.put(tableName, gateway);
             }
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
+        }
+        catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
         }
-        assert(gateway != null);
+        assert (gateway != null);
         return gateway;
     }
 
     public void resetTableGateway(String tableName)
     {
         TableDataGateway gateway = getTableGateway(tableName);
-        assert(gateway != null);
+        assert (gateway != null);
         gateway.resetTableGateway();
     }
 }

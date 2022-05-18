@@ -84,11 +84,10 @@ public class QuizBotBehavior extends NPCBehavior
                 ChatManager.getSingleton().sendChatToClients(playerID, 0,
                         player.getPlayerName() + " score is now " + player.getQuizScore(),
                         PlayerManager.getSingleton().getPlayerFromID(playerID)
-                                .getPlayerPosition(),
-                        chatType);
+                                .getPlayerPosition(), chatType);
 
-//                pullNewQuestion();
-//                askQuestion();
+                //                pullNewQuestion();
+                //                askQuestion();
             }
         }
 
@@ -121,7 +120,6 @@ public class QuizBotBehavior extends NPCBehavior
     /**
      * Gets a new random question from the database.
      *
-     * @throws DatabaseException
      */
     private void pullNewQuestion()
     {
@@ -131,7 +129,8 @@ public class QuizBotBehavior extends NPCBehavior
             {
                 question = NPCQuestion.getRandomQuestion();
             }
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             System.err.println("Unable to retrieve a random question for the quiz bot");
             e.printStackTrace();

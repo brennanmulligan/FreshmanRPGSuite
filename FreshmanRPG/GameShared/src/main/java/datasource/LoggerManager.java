@@ -7,15 +7,20 @@ import java.util.logging.Logger;
 
 public class LoggerManager
 {
-    private Logger logger;
     private static LoggerManager loggerManager;
+    private Logger logger;
+
+    private LoggerManager()
+    {
+
+    }
 
     public static LoggerManager createLogger(String title)
     {
         if (loggerManager != null)
         {
-            throw new IllegalStateException("Logger has already been created - you " +
-                    "can't do that twice");
+            throw new IllegalStateException(
+                    "Logger has already been created - you " + "can't do that twice");
         }
         loggerManager = new LoggerManager();
         loggerManager.setFile(title);
@@ -30,10 +35,6 @@ public class LoggerManager
         }
         return loggerManager;
     }
-    private LoggerManager()
-    {
-
-    }
 
     public static void resetSingleton()
     {
@@ -43,7 +44,8 @@ public class LoggerManager
     public Logger getLogger()
     {
         return logger;
-}
+    }
+
     private void setFile(String title)
     {
         logger = Logger.getLogger(title);
@@ -51,15 +53,15 @@ public class LoggerManager
         try
         {
             fileHandler = new FileHandler(title + ".log");
-        } catch (IOException e)
+            fileHandler.setLevel(Level.ALL);
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
 
         //Assigning handlers to LOGGER object
         logger.addHandler(fileHandler);
-
-        fileHandler.setLevel(Level.ALL);
         logger.setLevel(Level.ALL);
     }
 }

@@ -37,7 +37,8 @@ public class MessagePackerSet extends TypeDetector
                 MessagePacker packer =
                         (MessagePacker) packerType.getConstructor().newInstance();
                 registerPacker(packer);
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+            }
+            catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
             {
                 e.printStackTrace();
             }
@@ -153,9 +154,9 @@ public class MessagePackerSet extends TypeDetector
 
         for (Class<? extends QualifiedObservableReport> reportWePack : reportsWePack)
         {
-			ArrayList<MessagePacker> relevantPackers =
-					packers.computeIfAbsent(reportWePack, k -> new ArrayList<>());
-			relevantPackers.add(packer);
+            ArrayList<MessagePacker> relevantPackers =
+                    packers.computeIfAbsent(reportWePack, k -> new ArrayList<>());
+            relevantPackers.add(packer);
         }
     }
 }

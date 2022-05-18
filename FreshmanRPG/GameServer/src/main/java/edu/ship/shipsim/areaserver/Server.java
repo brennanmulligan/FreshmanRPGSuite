@@ -22,11 +22,11 @@ import java.net.Socket;
  */
 public class Server implements Runnable, AutoCloseable
 {
-    private ServerSocket servSock;
     private final int port;
     private final String mapName;
     private final boolean runningLocal;
     private final String dbIdentifier;
+    private ServerSocket servSock;
 
     /**
      * Create a new Server listening on a given port
@@ -75,16 +75,20 @@ public class Server implements Runnable, AutoCloseable
             if (splitArg[0].equals("--port"))
             {
                 port = Integer.parseInt(splitArg[1]);
-            } else if (splitArg[0].equals("--map"))
+            }
+            else if (splitArg[0].equals("--map"))
             {
                 map = splitArg[1];
-            } else if (splitArg[0].equals("--localhost"))
+            }
+            else if (splitArg[0].equals("--localhost"))
             {
                 runningLocal = true;
-            } else if (splitArg[0].equals("--db"))
+            }
+            else if (splitArg[0].equals("--db"))
             {
                 dbIdentifier = splitArg[1];
-            } else if (splitArg[0].equals("--production"))
+            }
+            else if (splitArg[0].equals("--production"))
             {
                 OptionsManager.getSingleton().setUsingTestDB(true);
             }
@@ -93,7 +97,8 @@ public class Server implements Runnable, AutoCloseable
         {
             throw new IllegalArgumentException(
                     "Map name is required to run the server. Use the --map=STRING option.");
-        } else if (port == null && !OptionsManager.getSingleton().isUsingMockDataSource())
+        }
+        else if (port == null && !OptionsManager.getSingleton().isUsingMockDataSource())
         {
             throw new IllegalArgumentException(
                     "Port is required to run the server. Use the --port=INTEGER option.");
@@ -104,7 +109,8 @@ public class Server implements Runnable, AutoCloseable
             // supress teh warning because port can't be null
             //noinspection ConstantConditions
             S = new Server(map, port);
-        } else
+        }
+        else
         {
             // supress teh warning because port can't be null
             //noinspection ConstantConditions
@@ -119,7 +125,8 @@ public class Server implements Runnable, AutoCloseable
         try
         {
             servSock.close();
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             System.err.println("Could not close socket");
             System.exit(-1);
@@ -151,7 +158,8 @@ public class Server implements Runnable, AutoCloseable
             {
                 hostName = InetAddress.getLocalHost().getHostName();
 
-            } else
+            }
+            else
             {
                 hostName = "localhost";
             }
@@ -170,11 +178,11 @@ public class Server implements Runnable, AutoCloseable
                         new StateAccumulator(messagePackerSet);
 
                 new ConnectionManager(sock, stateAccumulator,
-                        new MessageHandlerSet(stateAccumulator), messagePackerSet,
-                        true);
+                        new MessageHandlerSet(stateAccumulator), messagePackerSet, true);
             }
 
-        } catch (Throwable e)
+        }
+        catch (Throwable e)
         {
             e.printStackTrace();
         }

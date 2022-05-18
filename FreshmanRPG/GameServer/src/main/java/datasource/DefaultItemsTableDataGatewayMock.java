@@ -11,73 +11,17 @@ import java.util.ArrayList;
  */
 public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGateway
 {
-    /**
-     * A class representing a default item row
-     */
-    private static class DefaultItemsRow
-    {
-        int vanityID;
-        int defaultWearing;
-
-        public DefaultItemsRow(int vanityID, int defaultWearing)
-        {
-            this.vanityID = vanityID;
-            this.defaultWearing = defaultWearing;
-        }
-
-        public int getVanityID()
-        {
-            return vanityID;
-        }
-
-        public int getDefaultWearing()
-        {
-            return defaultWearing;
-        }
-
-        @Override
-        public boolean equals(Object o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass())
-            {
-                return false;
-            }
-            DefaultItemsRow that = (DefaultItemsRow) o;
-            return vanityID == that.vanityID;
-        }
-    }
-
     private ArrayList<DefaultItemsRow> rows = new ArrayList<>();
     private VanityItemsTableDataGatewayInterface vanityItemsGateway;
-
     public DefaultItemsTableDataGatewayMock()
     {
         resetTableGateway();
     }
 
     /**
-     * Gets all the default items stored in the database
-     * @return a list of the default vanity items all players have
-     * @throws DatabaseException shouldn't
-     */
-    @Override
-    public ArrayList<VanityDTO> getDefaultItems() throws DatabaseException
-    {
-        ArrayList<VanityDTO> results = new ArrayList<>();
-        for (DefaultItemsRow row : rows)
-        {
-            results.add(vanityItemsGateway.getVanityItemByID(row.getVanityID()));
-        }
-        return results;
-    }
-
-    /**
      * Adds a vanity item to the default item list so it will
      * be in all player's inventories
+     *
      * @param defaultID the ID of the vanity item to add
      * @throws DatabaseException shouldn't
      */
@@ -90,7 +34,8 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
     /**
      * Adds a vanity item to the default item list so it will
      * be in all player's inventories
-     * @param defaultID the ID of the vanity item to add
+     *
+     * @param defaultID      the ID of the vanity item to add
      * @param defaultWearing 1 if it should be the default a player is wearing, 0 if not
      * @throws DatabaseException shouldn't
      */
@@ -98,34 +43,21 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
     public void addDefaultItem(int defaultID, int defaultWearing) throws DatabaseException
     {
         DefaultItemsRow toBeAdded = new DefaultItemsRow(defaultID, defaultWearing);
-        if (vanityItemsGateway.getVanityItemByID(defaultID) != null && !rows.contains(toBeAdded))
+        if (vanityItemsGateway.getVanityItemByID(defaultID) != null &&
+                !rows.contains(toBeAdded))
         {
             rows.add(toBeAdded);
         }
         else
         {
-            throw new DatabaseException("Cannot add default vanity item because it is already there");
-        }
-    }
-
-    /**
-     * Removes a vanity item from the default item list so it wont
-     * be in all player's inventories anymore
-     * @param defaultID the id of the item to be removed
-     * @throws DatabaseException shouldnt
-     */
-    @Override
-    public void removeDefaultItem(int defaultID) throws DatabaseException
-    {
-        DefaultItemsRow toBeRemoved = new DefaultItemsRow(defaultID, 0);
-        if (!rows.remove(toBeRemoved))
-        {
-            throw new DatabaseException("Default item could not be removed because it was not there to begin with");
+            throw new DatabaseException(
+                    "Cannot add default vanity item because it is already there");
         }
     }
 
     /**
      * Gets the default item for a specific vanity type
+     *
      * @param type the vanity type
      * @return a dto of the default item for that type, or null if no default
      * @throws DatabaseException shouldnt
@@ -143,6 +75,23 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
             }
         }
         return toReturn;
+    }
+
+    /**
+     * Gets all the default items stored in the database
+     *
+     * @return a list of the default vanity items all players have
+     * @throws DatabaseException shouldn't
+     */
+    @Override
+    public ArrayList<VanityDTO> getDefaultItems() throws DatabaseException
+    {
+        ArrayList<VanityDTO> results = new ArrayList<>();
+        for (DefaultItemsRow row : rows)
+        {
+            results.add(vanityItemsGateway.getVanityItemByID(row.getVanityID()));
+        }
+        return results;
     }
 
     /**
@@ -167,6 +116,7 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
     /**
      * Sets a default item as the default item that
      * is worn if a user doesn't have anything selected
+     *
      * @param vanityID the vanity id
      * @throws DatabaseException if the item isn't a default item
      */
@@ -209,6 +159,24 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
     }
 
     /**
+     * Removes a vanity item from the default item list so it wont
+     * be in all player's inventories anymore
+     *
+     * @param defaultID the id of the item to be removed
+     * @throws DatabaseException shouldnt
+     */
+    @Override
+    public void removeDefaultItem(int defaultID) throws DatabaseException
+    {
+        DefaultItemsRow toBeRemoved = new DefaultItemsRow(defaultID, 0);
+        if (!rows.remove(toBeRemoved))
+        {
+            throw new DatabaseException(
+                    "Default item could not be removed because it was not there to begin with");
+        }
+    }
+
+    /**
      * Resets the data
      */
     @Override
@@ -217,7 +185,8 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
         try
         {
             vanityItemsGateway = VanityItemsTableDataGatewayMock.getSingleton();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
@@ -225,6 +194,46 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
         for (DefaultItemsForTest item : DefaultItemsForTest.values())
         {
             rows.add(new DefaultItemsRow(item.getDefaultID(), item.getDefaultWearing()));
+        }
+    }
+
+    /**
+     * A class representing a default item row
+     */
+    private static class DefaultItemsRow
+    {
+        int vanityID;
+        int defaultWearing;
+
+        public DefaultItemsRow(int vanityID, int defaultWearing)
+        {
+            this.vanityID = vanityID;
+            this.defaultWearing = defaultWearing;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+            DefaultItemsRow that = (DefaultItemsRow) o;
+            return vanityID == that.vanityID;
+        }
+
+        public int getDefaultWearing()
+        {
+            return defaultWearing;
+        }
+
+        public int getVanityID()
+        {
+            return vanityID;
         }
     }
 }

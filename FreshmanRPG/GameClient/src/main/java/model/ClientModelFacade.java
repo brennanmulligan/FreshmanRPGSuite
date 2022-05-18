@@ -162,7 +162,8 @@ public class ClientModelFacade
 			try
 			{
 				commandQueue.getInfoPacket();
-			} catch (InterruptedException e)
+			}
+			catch (InterruptedException e)
 			{
 				// It's ok - just keep going
 			}
