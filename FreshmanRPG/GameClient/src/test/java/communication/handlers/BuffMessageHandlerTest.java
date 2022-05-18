@@ -2,7 +2,9 @@ package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
 
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.BuffMessage;
@@ -14,6 +16,12 @@ import model.CommandDisplayText;
  */
 public class BuffMessageHandlerTest
 {
+
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 	/**
 	 * Reset the ModelFacade
 	 */

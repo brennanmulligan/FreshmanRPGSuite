@@ -54,9 +54,12 @@ public class CommandReceiveTerminalText extends Command
 		{
 			result = cmd.execute(playerID, arg);
 		}
-		report = new ReceiveTerminalTextReport(playerID, result, cmd.getTerminalIdentifier());
-		QualifiedObservableConnector.getSingleton().sendReport(report);
-
+		if (result.length()>0)
+		{
+			report = new ReceiveTerminalTextReport(playerID, result,
+					cmd.getTerminalIdentifier());
+			QualifiedObservableConnector.getSingleton().sendReport(report);
+		}
 		return true;
 	}
 }

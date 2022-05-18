@@ -13,10 +13,6 @@ import datasource.PlayerLoginRowDataGatewayRDS;
 public class FindPlayerIDFromPlayerName
 {
 
-	//TODO WHY DO WE NEED THIS?
-	private static PlayerLoginRowDataGateway gateway;
-
-
 	/**
 	 * Find a player's Id by its name
 	 * @param playerName to search for
@@ -27,14 +23,13 @@ public class FindPlayerIDFromPlayerName
 	{
 		if (OptionsManager.getSingleton().isUsingMockDataSource())
 		{
-			gateway = new PlayerLoginRowDataGatewayMock(playerName);
+			return (new PlayerLoginRowDataGatewayMock(playerName).getPlayerID());
 		}
 		else
 		{
-			gateway = new PlayerLoginRowDataGatewayRDS(playerName);
+			return (new PlayerLoginRowDataGatewayRDS(playerName).getPlayerID());
 		}
 
-		return gateway.getPlayerID();
 	}
 
 }

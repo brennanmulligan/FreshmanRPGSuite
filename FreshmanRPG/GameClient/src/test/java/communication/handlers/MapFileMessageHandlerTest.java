@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.MapFileMessage;
@@ -20,6 +21,12 @@ import model.OptionsManager;
 public class MapFileMessageHandlerTest
 {
 
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
+
 	/**
 	 * reset the singletons and tell the model we are running headless
 	 */
@@ -28,8 +35,7 @@ public class MapFileMessageHandlerTest
 	{
 		ClientModelFacade.resetSingleton();
 		ClientModelFacade.getSingleton(true, false);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+
 	}
 
 	/**

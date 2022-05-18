@@ -3,7 +3,9 @@ package communication.handlers;
 import static org.junit.Assert.assertEquals;
 
 import datatypes.PlayersForTest;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.PlayerAppearanceChangeMessage;
@@ -20,7 +22,11 @@ import model.CommandChangePlayerAppearance;
  */
 public class PlayerAppearanceChangeMessageHandlerTest
 {
-	
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 	/**
 	 * Reset the ModelFacade
 	 */

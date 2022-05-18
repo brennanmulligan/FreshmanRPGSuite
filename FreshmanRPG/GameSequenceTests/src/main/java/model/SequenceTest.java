@@ -1,71 +1,47 @@
 package model;
 
-import java.util.ArrayList;
-
 import datasource.DatabaseException;
+
+import java.util.ArrayList;
 
 /**
  * Defines what is required to model one message in a message protocol sequence
- * 
- * @author Merlin
  *
+ * @author Merlin
  */
 public abstract class SequenceTest
 {
+    protected ArrayList<Interaction> interactions = new ArrayList<>();
+    /**
+     * The list of server ids this sequence needs to run on
+     */
+    protected ArrayList<ServerType> serverList = new ArrayList<>();
 
-	/**
-	 * The constructor of the subclass must fill this with the sequence of
-	 * message flows for the test
-	 */
-	protected ArrayList<MessageFlow> messageSequence = new ArrayList<>();
-	
-	/**
-	 * The list of server ids this sequence needs to run on
-	 */
-	protected ArrayList<ServerType> serverList = new ArrayList<>();
+    /**
+     * @return the server numbers for this sequence to run on
+     */
+    public final ArrayList<ServerType> getServerList()
+    {
+        //noinspection unchecked
+        return (ArrayList<ServerType>) serverList.clone();
+    }
 
-	/**
-	 * @return the command that will initiate the sequence
-	 */
-	public abstract Command getInitiatingCommand();
+    /**
+     * Reset any gateways this test has changed so that more tests can be run
+     */
+    public abstract void resetNecessarySingletons();
 
-	/**
-	 * @return the type of server where the initiating command is run
-	 */
-	public abstract ServerType getInitiatingServerType();
+    /**
+     * Set up anything in the singletons (like OptionsManager) that is required
+     * by this test
+     *
+     * @throws DatabaseException if Player Manager goofs
+     */
+    public abstract void setUpMachines() throws DatabaseException;
 
-	/**
-	 * @return the sequence of message flows that define the protocol
-	 */
-	public ArrayList<MessageFlow> getMessageSequence()
-	{
-		return messageSequence;
-	}
-	
-	/**
-	 * 
-	 * @return the server numbers for this sequence to run on
-	 */
-	public ArrayList<ServerType> getServerList()
-	{
-		return serverList;
-	}
-
-	/**
-	 * @return the player ID of the player that is initiating this sequence
-	 */
-	public abstract int getInitiatingPlayerID();
-
-	/**
-	 * Set up anything in the singletons (like OptionsManager) that is required
-	 * by this test
-	 * @throws DatabaseException if Player Manager goofs
-	 */
-	public abstract void setUpMachines() throws DatabaseException;
-
-	/**
-	 * Reset any gateways this test has changed so that more tests can be run
-	 */
-	public abstract void resetDataGateways();
+    protected ArrayList<Interaction> getInteractions()
+    { //noinspection unchecked
+        return (ArrayList<Interaction>) interactions.clone();
+    }
 
 }

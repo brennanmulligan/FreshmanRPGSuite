@@ -2,7 +2,9 @@ package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
 
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.ClientModelFacade;
@@ -14,6 +16,11 @@ import model.ClientModelFacade;
  */
 public class TimeToLevelUpDeadlineHandlerTest
 {
+    @BeforeClass
+    public static void hardReset()
+    {
+        OptionsManager.getSingleton().setTestMode(true);
+    }
 
     /**
      * Resets singleton

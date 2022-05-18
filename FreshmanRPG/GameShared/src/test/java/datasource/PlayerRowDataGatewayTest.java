@@ -94,14 +94,12 @@ public abstract class PlayerRowDataGatewayTest extends DatabaseTest
 	 * Get a gateway that creates a row in the data source with the given
 	 * information
 	 *
-	 * @param mapName the name of the map
 	 * @param appearanceType the appearance type of the player
 	 * @param quizScore This player's quiz score
 	 * @param experiencePoints this player's experience points
 	 * @param crew the crew to which this player belongs
 	 * @param major the major of this player
 	 * @param buffPool The size of the buff pool this player has
-	 * @param i
 	 * @return the gateway
 	 * @throws DatabaseException if we fail to create the row
 	 */

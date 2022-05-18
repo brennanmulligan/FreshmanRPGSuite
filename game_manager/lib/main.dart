@@ -6,6 +6,12 @@ import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
 import 'features/network/network_provider.dart';
 import 'features/player/presentation/create_player_view.dart';
 
+import 'features/network/network_provider.dart';
+
+import 'features/network/network_provider.dart';
+
+import 'features/network/network_provider.dart';
+
 ///
 /// Data for light theme.
 ///

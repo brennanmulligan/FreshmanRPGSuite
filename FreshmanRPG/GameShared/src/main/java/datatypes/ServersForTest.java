@@ -127,13 +127,11 @@ ServersForTest
 
 	public int getTeleportPositionX()
 	{
-		// TODO Auto-generated method stub
 		return teleportPositionX;
 	}
 
 	public int getTeleportPositionY()
 	{
-		// TODO Auto-generated method stub
 		return teleportPositionY;
 	}
 

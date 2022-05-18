@@ -2,7 +2,7 @@ package model;
 
 import datasource.DatabaseException;
 import datatypes.PlayersForTest;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.ChatMessageToClientReport;
 import model.reports.PlayerFinishedInitializingReport;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,21 +79,21 @@ public class RedHatBehaviorTest
 		Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.NEWBIE.getPlayerID());
 		PlayerManager.getSingleton().addPlayer(PlayersForTest.RED_HAT.getPlayerID());
 
-		MockQualifiedObserver mock = new MockQualifiedObserver(ChatMessageReceivedReport.class);
+		MockQualifiedObserver mock = new MockQualifiedObserver(ChatMessageToClientReport.class);
 		p.setAppearanceType("default_player");
 		assertEquals("default_player", p.getAppearanceType());
 
 		PlayerFinishedInitializingReport testConnection = new PlayerFinishedInitializingReport(p.getPlayerID(), p.getPlayerName(), p.getAppearanceType());
 		behavior.receiveReport(testConnection);
 
-		ChatMessageReceivedReport report = (ChatMessageReceivedReport) mock.getReport();
+		ChatMessageToClientReport report = (ChatMessageToClientReport) mock.getReport();
 		assertEquals("Newbie welcome to the game. Are you ready to be sorted?", report.getChatText());
 
 		p.setAppearanceType("male_a");
 		testConnection = new PlayerFinishedInitializingReport(p.getPlayerID(), p.getPlayerName(), p.getAppearanceType());
 
 		behavior.receiveReport(testConnection);
-		report = (ChatMessageReceivedReport) mock.getReport();
+		report = (ChatMessageToClientReport) mock.getReport();
 		assertEquals("Welcome back Newbie. Complete the introduction quest to leave this area.", report.getChatText());
 	}
 

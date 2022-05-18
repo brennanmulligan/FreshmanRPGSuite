@@ -2,7 +2,7 @@ package model;
 
 import datatypes.ChatType;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
+import model.reports.ChatMessageToClientReport;
 import model.reports.NPCChatReport;
 
 /**
@@ -15,7 +15,7 @@ import model.reports.NPCChatReport;
 public class ChatManager
 {
 	private static ChatManager me;
-	private CheatCodeManager cheatCodeManager;
+	private final CheatCodeManager cheatCodeManager;
 
 	/**
 	 * Singleton constructor
@@ -45,6 +45,7 @@ public class ChatManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		me = null;
 	}
 
@@ -64,7 +65,8 @@ public class ChatManager
 	 */
 	protected void sendChatToClients(int senderID, int receiverID, String message, Position pos, ChatType type)
 	{
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(senderID, receiverID, message, pos, type);
+		ChatMessageToClientReport report = new ChatMessageToClientReport(senderID,
+				receiverID,	message, pos, type);
 		QualifiedObservableConnector.getSingleton().sendReport(report);
 
 	}

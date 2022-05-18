@@ -2,8 +2,11 @@ import static view.screen.Screens.DEFAULT_RES;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
+import datasource.LoggerManager;
 import model.OptionsManager;
 import runners.GameLibGDX;
+
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,7 +38,7 @@ public class DesktopClient
 		}
 		OptionsManager.getSingleton().setLoginHost(host);
 		OptionsManager.getSingleton().setUsingMocKDataSource(false);
-
+		LoggerManager.createLogger("Client");
 		new LwjglApplication(new GameLibGDX(), "Game", (int) DEFAULT_RES[0], (int) DEFAULT_RES[1]);
 	}
 }

@@ -1,6 +1,7 @@
 package communication.handlers;
 
-import communication.messages.ChatMessage;
+import communication.messages.ChatMessageToClient;
+import communication.messages.ChatMessageToServer;
 import communication.messages.Message;
 import model.CommandChatMessageReceived;
 import model.ModelFacade;
@@ -11,7 +12,7 @@ import model.ModelFacade;
  *
  * @author Josh
  */
-public class ChatMessageHandler extends MessageHandler
+public class ChatMessageToServerHandler extends MessageHandler
 {
 
 	/**
@@ -23,9 +24,9 @@ public class ChatMessageHandler extends MessageHandler
 	public void process(Message msg)
 	{
 
-		if (msg.getClass().equals(ChatMessage.class))
+		if (msg.getClass().equals(ChatMessageToServer.class))
 		{
-			ChatMessage cMsg = (ChatMessage) msg;
+			ChatMessageToServer cMsg = (ChatMessageToServer) msg;
 
 			CommandChatMessageReceived cmd = new CommandChatMessageReceived(cMsg.getSenderID(), cMsg.getReceiverID(), cMsg.getChatText(),
 					cMsg.getPosition(), cMsg.getType());
@@ -40,6 +41,6 @@ public class ChatMessageHandler extends MessageHandler
 	@Override
 	public Class<?> getMessageTypeWeHandle()
 	{
-		return ChatMessage.class;
+		return ChatMessageToServer.class;
 	}
 }

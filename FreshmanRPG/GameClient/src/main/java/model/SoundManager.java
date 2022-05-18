@@ -12,20 +12,9 @@ import java.io.File;
  */
 public class SoundManager
 {
-    public static SoundManager instance = new SoundManager();
     // Add looping sounds such as walking as global variables so they can be accessed later.
     static Sound walking = Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/steps.mp3")));
     static Sound mapSound = null;
-
-    public SoundManager()
-    {
-
-    }
-
-    public static SoundManager getInstance()
-    {
-        return instance;
-    }
 
     /**
      * Add a sound to be played.

@@ -17,7 +17,7 @@ public class ClientChatManager
 	/**
 	 * The square radius that local chat can reach from a position
 	 */
-	private static int LOCAL_CHAT_RADIUS = 5;
+	private static final int LOCAL_CHAT_RADIUS = 5;
 
 	private static ClientChatManager singleton;
 
@@ -48,6 +48,7 @@ public class ClientChatManager
 	 */
 	public static synchronized void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 

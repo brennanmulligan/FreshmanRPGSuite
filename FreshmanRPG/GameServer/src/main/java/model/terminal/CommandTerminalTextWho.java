@@ -3,8 +3,8 @@ package model.terminal;
 import java.util.ArrayList;
 
 import dataDTO.PlayerDTO;
-import datasource.DatabaseException;
-import datasource.PlayerTableDataGatewayRDS;
+import datasource.*;
+import model.OptionsManager;
 import model.terminal.TerminalCommand;
 
 /**
@@ -15,8 +15,6 @@ import model.terminal.TerminalCommand;
  */
 public class CommandTerminalTextWho extends TerminalCommand
 {
-	private final String terminalIdentifier = "who";
-	private final String description = "Print information about users who are currently logged in.";
 	private String arg;
 
 	/**
@@ -26,22 +24,29 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String execute(int playerID, String[] arg)
 	{
-		String data = "";
+		StringBuilder data = new StringBuilder();
 
 		try
 		{
-			ArrayList<PlayerDTO> playerList = PlayerTableDataGatewayRDS.getSingleton().retrieveAllOnlinePlayers();
+			PlayerTableDataGateway gateway =  PlayerTableDataGatewayMock.getSingleton();
+			if (!OptionsManager.getSingleton().isUsingMockDataSource())
+			{
+				gateway = PlayerTableDataGatewayRDS.getSingleton();
+			}
+
+			ArrayList<PlayerDTO> playerList = gateway.retrieveAllOnlinePlayers();
 
 			for (PlayerDTO player : playerList)
 			{
-				data += player.getPlayerName() + ":" + player.getMapName() + ":";
+				data.append(player.getPlayerName()).append(":")
+						.append(player.getMapName()).append(":");
 			}
 		}
 		catch (DatabaseException e)
 		{
 			e.printStackTrace();
 		}
-		return formatString(data);
+		return formatString(data.toString());
 	}
 
 	/**
@@ -54,17 +59,17 @@ public class CommandTerminalTextWho extends TerminalCommand
 		String data = (String) generic;
 		String[] tokenized = data.split(":");
 		int count = 1;
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (String token : tokenized)
 		{
-			result += String.format("|%-10.10s|", token);
+			result.append(String.format("|%-10.10s|", token));
 			if (count % 2 == 0)
 			{
-				result += "\n";
+				result.append("\n");
 			}
 			count++;
 		}
-		return result;
+		return result.toString();
 	}
 
 	/**
@@ -73,7 +78,7 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String getTerminalIdentifier()
 	{
-		return terminalIdentifier;
+		return "who";
 	}
 
 	/**
@@ -82,6 +87,6 @@ public class CommandTerminalTextWho extends TerminalCommand
 	@Override
 	public String getDescription()
 	{
-		return description;
+		return "Print information about users who are currently logged in.";
 	}
 }

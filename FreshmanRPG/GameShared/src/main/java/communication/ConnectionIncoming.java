@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import communication.handlers.MessageHandlerSet;
 import communication.messages.Message;
 import datasource.DatabaseException;
 import datasource.DatabaseManager;
+import datasource.LoggerManager;
+import model.OptionsManager;
 
 /**
  * Responsible for communication between the server and a single connected
@@ -23,7 +28,7 @@ public class ConnectionIncoming implements Runnable
 	private ObjectInputStream istream;
 	private Socket socket;
 	private MessageHandlerSet messageHandlers;
-
+	private   Logger logger;
 	/**
 	 * @param socket Socket being used. Will be null for JUnit testing
 	 * @param processor the message processor which should handle messages that
@@ -35,13 +40,16 @@ public class ConnectionIncoming implements Runnable
 
 		this.socket = socket;
 		this.messageHandlers = processor;
+		logger = LoggerManager.getSingleton().getLogger();
 	}
+
 
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
 	public void run()
 	{
+
 		try
 		{
 			if (socket != null)
@@ -69,6 +77,7 @@ public class ConnectionIncoming implements Runnable
 					// catch the normal connection polling
 					if (Message.class.isAssignableFrom(inputObject.getClass()))
 					{
+						logger.log(Level.FINE,"Received " + inputObject.getClass());
 						processRequest((Message) inputObject);
 					}
 					else

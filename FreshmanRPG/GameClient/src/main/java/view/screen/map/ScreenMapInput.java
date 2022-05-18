@@ -47,7 +47,8 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 	}
 
 	/**
-	 * @seecom.badlogic.gdx.InputProcessor
+	 *
+	 * @see com.badlogic.gdx.InputProcessor
 	 */
 	@Override
 	public boolean keyDown(int keycode)
@@ -78,12 +79,12 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 	}
 
 	/**
-	 * @seecom.badlogic.gdx.InputProcessor
+	 * @see com.badlogic.gdx.InputProcessor
 	 */
 	@Override
 	public boolean keyUp(int keycode)
 	{
-		SoundManager.getInstance().stopWalkingSound();
+		SoundManager.stopWalkingSound();
 
 		Direction direction = PlayerInputEnum.getDirection(keycode);
 
@@ -224,7 +225,7 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 	}
 
 	/**
-	 * @seecom.badlogic.gdx.InputProcessor
+	 * @see com.badlogic.gdx.InputProcessor
 	 */
 	@Override
 	public boolean keyTyped(char character)
@@ -233,7 +234,7 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 	}
 
 	/**
-	 * @seecom.badlogic.gdx.InputProcessor
+	 * @see com.badlogic.gdx.InputProcessor
 	 */
 	@Override
 	public boolean mouseMoved(int screenX, int screenY)
@@ -242,7 +243,7 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 	}
 
 	/**
-	 * @seecom.badlogic.gdx.InputProcessor
+	 * @see com.badlogic.gdx.InputProcessor
 	 */
 	@Override
 	public boolean scrolled(int amount)
@@ -250,33 +251,30 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
 		return false;
 	}
 
-	/** (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.InputProcessor#touchDown(int, int, int, int)
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/** (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.InputProcessor#touchUp(int, int, int, int)
 	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/** (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.InputProcessor#touchDragged(int, int, int)
 	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

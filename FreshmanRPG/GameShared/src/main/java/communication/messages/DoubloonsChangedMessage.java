@@ -24,7 +24,6 @@ public class DoubloonsChangedMessage implements Message, Serializable
 	/**
 	 * @param playerID of the current player
 	 * @param doubloons the player has
-	 * @param level the player is
 	 * @param playerID of the current player
 	 * @param buffPool - the player's current bonuspoint pool
 	 */
@@ -33,6 +32,40 @@ public class DoubloonsChangedMessage implements Message, Serializable
 		this.doubloons = doubloons;
 		this.playerID = playerID;
 		this.buffPool = buffPool;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		DoubloonsChangedMessage that = (DoubloonsChangedMessage) o;
+
+		if (doubloons != that.doubloons)
+		{
+			return false;
+		}
+		if (playerID != that.playerID)
+		{
+			return false;
+		}
+		return buffPool == that.buffPool;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = doubloons;
+		result = 31 * result + playerID;
+		result = 31 * result + buffPool;
+		return result;
 	}
 
 	/**

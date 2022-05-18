@@ -11,7 +11,6 @@ import model.reports.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Merlin
@@ -42,6 +41,7 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		if (singleton != null)
 		{
 			singleton.stopNpcs();
@@ -51,8 +51,8 @@ public class PlayerManager implements QualifiedObserver
 
 	private static PlayerManager singleton;
 
-	private HashMap<Integer, Player> players;
-	private ArrayList<NPC> npcs;
+	private final HashMap<Integer, Player> players;
+	private final ArrayList<NPC> npcs;
 
 	/**
 	 * @return a list of the NPCs
@@ -145,8 +145,17 @@ public class PlayerManager implements QualifiedObserver
 					.getDescription()));
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
-			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), DoubloonPrizesTableDataGatewayRDS.getInstance().getAllDoubloonPrizes()));
-			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), FriendTableDataGatewayRDS.getInstance().getAllFriends(player.getPlayerID())));
+			DoubloonPrizesTableDataGateway doubloonPrizesGateway =
+					(DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+							"DoubloonPrizes");
+			FriendTableDataGateway friendTableDataGateway =
+					FriendTableDataGatewayMock.getSingleton();
+			if (!OptionsManager.getSingleton().isUsingMockDataSource())
+			{
+				friendTableDataGateway = FriendTableDataGatewayRDS.getInstance();
+			}
+			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
+			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
 			return player;
 		}
 		else
@@ -223,7 +232,8 @@ public class PlayerManager implements QualifiedObserver
 	/**
 	 * Load the npcs that belong on this map, add them to player manager, and start
 	 * them
-	 * @param quietMode TODO
+	 * @param quietMode If true, the NPCs won't be started and therefore, won't
+	 *                     generate chat messages.  Good for sequence testing!
 	 *
 	 * @throws DatabaseException when database goes wrong
 	 */
@@ -354,14 +364,11 @@ public class PlayerManager implements QualifiedObserver
 			{
 				removePlayer(detailedReport.getPlayerID());
 			}
-			catch (DatabaseException e)
+			catch (DatabaseException|IllegalQuestChangeException e)
 			{
 				e.printStackTrace();
 			}
-			catch (IllegalQuestChangeException e)
-			{
-				e.printStackTrace();
-			}
+
 		}
 	}
 
@@ -377,17 +384,16 @@ public class PlayerManager implements QualifiedObserver
 	 * @param section - Players section number
 	 * @return true if successful
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException shouldn't
 	 */
 	public boolean editPlayer(int playerID, String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major, int section, String name, String password)
-			throws DatabaseException, IllegalQuestChangeException
+			throws DatabaseException
 	{
-		boolean result = editPlayerInDatabase(playerID, appearanceType, quizScore, experiencePoints, crew, major, section, name, password);
-		return result;
+		return editPlayerInDatabase(playerID, appearanceType, quizScore, experiencePoints,
+			crew, major, section, name, password);
 	}
 
 	private boolean editPlayerInDatabase(int playerID, String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major, int section, String name, String password)
-			throws DatabaseException, IllegalQuestChangeException
+			throws DatabaseException
 	{
 		PlayerMapper playerMap = new PlayerMapper(playerID);
 		Player player = playerMap.getPlayer();

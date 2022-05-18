@@ -21,6 +21,40 @@ public class ExperienceChangedMessage implements Message, Serializable
 	private LevelRecord level;
 	private int playerID;
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		ExperienceChangedMessage that = (ExperienceChangedMessage) o;
+
+		if (experiencePoints != that.experiencePoints)
+		{
+			return false;
+		}
+		if (playerID != that.playerID)
+		{
+			return false;
+		}
+		return level.equals(that.level);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result = experiencePoints;
+		result = 31 * result + level.hashCode();
+		result = 31 * result + playerID;
+		return result;
+	}
+
 	/**
 	 * @param playerID the id of the plyaer
 	 * @param experiencePoints the amount of experience points the player has

@@ -15,7 +15,7 @@ public class PlayerLeaveMessage implements Message, Serializable
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private int playerID;
+	private final int playerID;
 
 	/**
 	 * @param playerID the unique ID of the player
@@ -23,6 +23,29 @@ public class PlayerLeaveMessage implements Message, Serializable
 	public PlayerLeaveMessage(int playerID)
 	{
 		this.playerID = playerID;
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		if (o == null || getClass() != o.getClass())
+		{
+			return false;
+		}
+
+		PlayerLeaveMessage that = (PlayerLeaveMessage) o;
+
+		return playerID == that.playerID;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return playerID;
 	}
 
 	/**

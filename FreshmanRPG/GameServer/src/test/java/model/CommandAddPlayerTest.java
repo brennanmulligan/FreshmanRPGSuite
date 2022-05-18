@@ -32,7 +32,6 @@ public class CommandAddPlayerTest
 		}
 		catch (DatabaseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

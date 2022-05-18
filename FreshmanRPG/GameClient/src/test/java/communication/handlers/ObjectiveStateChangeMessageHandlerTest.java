@@ -7,7 +7,9 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
 import datatypes.PlayersForTest;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.ObjectiveStateChangeMessage;
@@ -23,6 +25,11 @@ import model.CommandObjectiveStateChange;
  */
 public class ObjectiveStateChangeMessageHandlerTest
 {
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 
 	/**
 	 * Reset the ModelFacade
@@ -49,11 +56,9 @@ public class ObjectiveStateChangeMessageHandlerTest
 	 * Test that the handler messages handles the messages and creates
 	 * a command
 	 * @throws InterruptedException shouldn't
-	 * @throws NotBoundException shouldn't
-	 * @throws AlreadyBoundException shouldn't
 	 */
 	@Test
-	public void testMessageHandling() throws InterruptedException, AlreadyBoundException, NotBoundException
+	public void testMessageHandling() throws InterruptedException
 	{
 		ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JOHN);
 		ObjectiveStateChangeMessageHandler h = new ObjectiveStateChangeMessageHandler();

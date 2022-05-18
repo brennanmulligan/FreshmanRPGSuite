@@ -26,9 +26,7 @@ public class ServerMapManager
 {
 	private static ServerMapManager singleton;
 	private boolean[][] collisionMap;
-	private final String mapFile;
-	private int mapHeight;
-	private int mapWidth;
+
 
 	private static final String COLLISION_LAYER = "Collision";
 	private static final String REGION_LAYER = "Regions";
@@ -38,7 +36,7 @@ public class ServerMapManager
 	 */
 	private ServerMapManager()
 	{
-		mapFile = OptionsManager.getSingleton().getMapName();
+		String mapFile = OptionsManager.getSingleton().getMapName();
 		loadMapData(mapFile);
 	}
 
@@ -47,6 +45,7 @@ public class ServerMapManager
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		singleton = null;
 	}
 
@@ -86,7 +85,7 @@ public class ServerMapManager
 		{
 			URL decodedPath = path.toURL();
 
-			mapFilePath = (new URL(decodedPath, "../../../../maps/" + mapFile))
+			mapFilePath = (new URL(decodedPath, "../../maps/" + mapFile))
 					.toURI().getSchemeSpecificPart();
 		}
 		catch (MalformedURLException | URISyntaxException e)
@@ -117,7 +116,7 @@ public class ServerMapManager
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
 
-		DocumentBuilder docBuilder = null;
+		DocumentBuilder docBuilder;
 		try
 		{
 			docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -130,8 +129,8 @@ public class ServerMapManager
 			String heightAsString = element.getAttribute("height");
 			widthAsString = widthAsString.trim();
 			heightAsString = heightAsString.trim();
-			mapWidth = Integer.parseInt(widthAsString);
-			mapHeight = Integer.parseInt(heightAsString);
+			int mapWidth = Integer.parseInt(widthAsString);
+			int mapHeight = Integer.parseInt(heightAsString);
 			collisionMap = new boolean[mapHeight][mapWidth];
 
 

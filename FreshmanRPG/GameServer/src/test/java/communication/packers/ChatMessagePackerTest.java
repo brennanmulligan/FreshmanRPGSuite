@@ -2,12 +2,12 @@ package communication.packers;
 
 import static org.junit.Assert.assertEquals;
 
+import communication.messages.ChatMessageToClient;
+import model.reports.ChatMessageToClientReport;
 import org.junit.Test;
 
-import communication.messages.ChatMessage;
 import datatypes.ChatType;
 import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
 
 /**
  * @author Dave
@@ -29,9 +29,10 @@ public class ChatMessagePackerTest
 		Position loc = new Position(0, 0);
 		ChatType type = ChatType.Local;
 
-		ChatMessageReceivedReport report = new ChatMessageReceivedReport(sender, receiver, text, loc, type);
-		ChatMessagePacker packer = new ChatMessagePacker();
-		ChatMessage msg = (ChatMessage) packer.pack(report);
+		ChatMessageToClientReport report = new ChatMessageToClientReport(sender, receiver,
+				text, loc, type);
+		ChatMessageToClientPacker packer = new ChatMessageToClientPacker();
+		ChatMessageToClient msg = (ChatMessageToClient) packer.pack(report);
 
 		assertEquals(sender, msg.getSenderID());
 		assertEquals(receiver, msg.getReceiverID());

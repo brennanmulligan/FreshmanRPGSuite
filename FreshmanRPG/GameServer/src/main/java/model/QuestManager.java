@@ -43,15 +43,14 @@ import model.reports.FriendConnectionReceivedReport;
  */
 public class QuestManager implements QualifiedObserver
 {
-	private ObjectiveTableDataGateway objectiveGateway;
-	private HashMap<Integer, ArrayList<QuestState>> questStates;
+	private final ObjectiveTableDataGateway objectiveGateway;
+	private final HashMap<Integer, ArrayList<QuestState>> questStates;
 	private FriendTableDataGateway friendGateway;
 
 	/**
 	 * The method returns a singleton of QuestManager
 	 *
 	 * @return the only QuestManager in the system
-	 * @throws DatabaseException
 	 */
 	public synchronized static QuestManager getSingleton()
 	{
@@ -91,7 +90,6 @@ public class QuestManager implements QualifiedObserver
 			}
 			catch (DatabaseException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -102,6 +100,7 @@ public class QuestManager implements QualifiedObserver
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		if (singleton != null)
 		{
 			singleton = null;
@@ -134,13 +133,11 @@ public class QuestManager implements QualifiedObserver
 			questGateway = new QuestRowDataGatewayRDS(questID);
 		}
 
-		QuestRecord quest = new QuestRecord(questGateway.getQuestID(), questGateway.getQuestTitle(),
+		return new QuestRecord(questGateway.getQuestID(), questGateway.getQuestTitle(),
 				questGateway.getQuestDescription(), questGateway.getTriggerMapName(), questGateway.getTriggerPosition(),
 				objectiveGateway.getObjectivesForQuest(questID), questGateway.getExperiencePointsGained(),
 				questGateway.getObjectivesForFulfillment(), questGateway.getCompletionActionType(),
 				questGateway.getCompletionActionParameter(), questGateway.getStartDate(), questGateway.getEndDate());
-
-		return quest;
 	}
 
 	/**
@@ -201,7 +198,6 @@ public class QuestManager implements QualifiedObserver
 			throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
 		QuestState qs = getQuestStateByID(playerID, questID);
-		Calendar.getInstance().set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 		Date now = Calendar.getInstance().getTime();
 		QuestRecord q = getQuest(questID);
 
@@ -251,15 +247,7 @@ public class QuestManager implements QualifiedObserver
 				triggerQuestsForPosition(myReport.getPosition(), OptionsManager.getSingleton().getMapName(),
 						myReport.getPlayerID());
 			}
-			catch (DatabaseException e)
-			{
-				e.printStackTrace();
-			}
-			catch (IllegalObjectiveChangeException e)
-			{
-				e.printStackTrace();
-			}
-			catch (IllegalQuestChangeException e)
+			catch (DatabaseException|IllegalObjectiveChangeException|IllegalQuestChangeException e)
 			{
 				e.printStackTrace();
 			}
@@ -289,8 +277,7 @@ public class QuestManager implements QualifiedObserver
 
 	/**
 	 * method to handle friends
-	 * @param report
-	 * @throws DatabaseException
+	 * @param report a FriendConnectionReceivedReport
 	 */
 	public void handleFriends(QualifiedObservableReport report)
 	{
@@ -366,7 +353,7 @@ public class QuestManager implements QualifiedObserver
 	 * Iterates through all quests and objectives and validates if it's the correct
 	 * criteria for keyboard input.
 	 *
-	 * @param report
+	 * @param report a KeyInputRecievedReport
 	 */
 	private void handlePlayerInput(QualifiedObservableReport report)
 	{
@@ -419,7 +406,7 @@ public class QuestManager implements QualifiedObserver
 
 	/**
 	 * Check all chat reports that are received from an NPC and passes along the report
-	 * @param report
+	 * @param report a ChatMessageReceivedReport
 	 */
 	private void handlePlayerChatReceivedCriteriaCompletion(QualifiedObservableReport report)
 	{
@@ -448,8 +435,6 @@ public class QuestManager implements QualifiedObserver
 
 	/**
 	 * Checks if the received chat report meets the criteria to complete the quest
-	 * @param reportPlayerID
-	 * @param q
 	 */
 	private void checkAllChatReceivedObjectivesForCompletion(int reportPlayerID, int reportNPCID, String reportChat, QuestState q) throws PlayerNotFoundException
 	{
@@ -521,7 +506,8 @@ public class QuestManager implements QualifiedObserver
 	}
 
 	/**
-	 * @param report
+	 * See if gaining doubloons completed any objectives
+	 * @param report  A DoubloonChangeReport
 	 */
 	protected void handleDoubloonsChanged(QualifiedObservableReport report)
 	{
@@ -686,7 +672,7 @@ public class QuestManager implements QualifiedObserver
 	 *            player who sent chat message
 	 * @param q
 	 *            quest to get objective for
-	 * @throws PlayerNotFoundException
+	 * @throws PlayerNotFoundException if the player in the report is not logged in
 	 */
 	private void checkAllChatObjectivesForCompletion(int reportPlayerID, QuestState q) throws PlayerNotFoundException
 	{
@@ -723,7 +709,7 @@ public class QuestManager implements QualifiedObserver
 	 */
 	public ArrayList<ObjectiveRecord> getObjectivesByDoubloons(int questID, int reportPlayerId)
 	{
-		ArrayList<ObjectiveRecord> questObjectives = new ArrayList<>();
+		ArrayList<ObjectiveRecord> questObjectives;
 		ArrayList<ObjectiveRecord> pointsObjectives = new ArrayList<>();
 
 		try
@@ -791,7 +777,7 @@ public class QuestManager implements QualifiedObserver
 
 	private ArrayList<ObjectiveRecord> getObjectivesByInteractableObject(int questID, int reportPlayerId)
 	{
-		ArrayList<ObjectiveRecord> questObjectives = new ArrayList<>();
+		ArrayList<ObjectiveRecord> questObjectives;
 		ArrayList<ObjectiveRecord> pointsObjectives = new ArrayList<>();
 
 		try
@@ -822,14 +808,15 @@ public class QuestManager implements QualifiedObserver
 	}
 
 	/**
-	 * added for friends 
-	 * @param questID
-	 * @param reportPlayerId
-	 * @return
+	 * See if there are any objectives related to friends
+	 * @param questID the quest we are looking for
+	 * @param reportPlayerId the player we are looking for
+	 * @return a list of objectives that are related to friends and are active for this
+	 * player
 	 */
 	public ArrayList<ObjectiveRecord> getObjectivesByFriend(int questID, int reportPlayerId)
 	{
-		ArrayList<ObjectiveRecord> questObjectives = new ArrayList<>();
+		ArrayList<ObjectiveRecord> questObjectives;
 		ArrayList<ObjectiveRecord> pointsObjectives = new ArrayList<>();
 
 		try
@@ -900,11 +887,6 @@ public class QuestManager implements QualifiedObserver
 
 	/**
 	 * Validates if an input string matches the criteria string.
-	 *
-	 * @param input
-	 * @param playerId
-	 * @param questId
-	 * @param objectiveId
 	 */
 	private void validateInputCriteriaForObjectives(String input, int playerId, int questId, int objectiveId)
 	{
@@ -959,7 +941,7 @@ public class QuestManager implements QualifiedObserver
 			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		QuestManager qm = QuestManager.getSingleton();
-		ArrayList<Integer> questIDs = new ArrayList<>();
+		ArrayList<Integer> questIDs;
 
 		questIDs = qm.getQuestsByPosition(position, mapName);
 
@@ -1006,14 +988,15 @@ public class QuestManager implements QualifiedObserver
 	{
 
 		ArrayList<QuestState> questStateList = QuestManager.getSingleton().getQuestList(playerID);
-		QuestRecord quest = null;
+		QuestRecord quest;
 		try
 		{
 			quest = QuestManager.getSingleton().getQuest(questID);
 		}
 		catch (DatabaseException e)
 		{
-			e.printStackTrace();
+			// this should never happen . . .
+			return null;
 		}
 
 		QuestState qState = null;
@@ -1031,7 +1014,8 @@ public class QuestManager implements QualifiedObserver
 		if (qState == null)
 		{
 			Date now = Calendar.getInstance().getTime();
-			if (now.after(quest.getStartDate()))
+			Date startDate = quest.getStartDate();
+			if (startDate!= null && now.after(startDate))
 			{
 				qState = new QuestState(playerID, questID, QuestStateEnum.AVAILABLE, true);
 				try

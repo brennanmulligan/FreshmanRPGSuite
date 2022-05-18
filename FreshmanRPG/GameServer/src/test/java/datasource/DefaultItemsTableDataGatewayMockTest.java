@@ -5,6 +5,7 @@ public class DefaultItemsTableDataGatewayMockTest extends DefaultItemsTableDataG
     @Override
     DefaultItemsTableDataGateway findGateway() throws DatabaseException
     {
-        return DefaultItemsTableDataGatewayMock.getSingleton();
+        return (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                "DefaultItems");
     }
 }

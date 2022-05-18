@@ -8,6 +8,7 @@ import model.ClientModelFacade;
 import model.ClientPlayerManager;
 import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.rmi.AlreadyBoundException;
@@ -22,6 +23,11 @@ import java.rmi.NotBoundException;
  */
 public class TerminalTextExitHandlerTest
 {
+    @BeforeClass
+    public static void hardReset()
+    {
+        OptionsManager.getSingleton().setTestMode(true);
+    }
 
     /**
      * Reset the ModelFacade
@@ -31,17 +37,14 @@ public class TerminalTextExitHandlerTest
     {
         ClientPlayerManager.resetSingleton();
         ClientModelFacade.resetSingleton();
-        OptionsManager.resetSingleton();
-        OptionsManager.getSingleton().setUsingMocKDataSource(true);
     }
 
     /**
      * Test the handler processes the message fir a TerminalTextExitMessage from the Server Packer.
      *
-     * @throws InterruptedException for thread.sleep
      */
     @Test
-    public void testHandlerProcess() throws InterruptedException, AlreadyBoundException, NotBoundException
+    public void testHandlerProcess()
     {
         reset();
 

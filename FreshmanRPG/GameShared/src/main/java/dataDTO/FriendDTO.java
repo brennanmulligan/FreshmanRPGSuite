@@ -15,19 +15,19 @@ public class FriendDTO implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-	private int playerID;
-	private int friendID;
+	private final int playerID;
+	private final int friendID;
 	private FriendStatusEnum status;
-	private String playerName;
-	private String friendName;
+	private final String playerName;
+	private final String friendName;
 
 	/**
 	 * FriendDTO constructor
-	 * @param playerID
-	 * @param friendID
-	 * @param status
-	 * @param playerName TODO
-	 * @param friendName TODO
+	 * @param playerID The player's ID
+	 * @param friendID The friend's ID
+	 * @param status The status of this relationship
+	 * @param playerName The player's name
+	 * @param friendName The friend's name
 	 */
 	public FriendDTO(int playerID, int friendID, FriendStatusEnum status, String playerName, String friendName)
 	{
@@ -40,7 +40,7 @@ public class FriendDTO implements Serializable
 
 	/**
 	 * getter for player ID
-	 * @return
+	 * @return The ID of the player making the request
 	 */
 	public int getPlayerID()
 	{
@@ -49,7 +49,7 @@ public class FriendDTO implements Serializable
 
 	/**
 	 * getter for friend ID
-	 * @return
+	 * @return The ID of the player being asked
 	 */
 	public int getFriendID()
 	{
@@ -58,7 +58,7 @@ public class FriendDTO implements Serializable
 
 	/**
 	 * getter for status
-	 * @return
+	 * @return the status of the relationship
 	 */
 	public FriendStatusEnum getStatus()
 	{
@@ -72,7 +72,7 @@ public class FriendDTO implements Serializable
 
 	/**
 	 *getter for the player name 
-	 * @return
+	 * @return The name of the player making the request
 	 */
 	public String getPlayerName()
 	{
@@ -81,7 +81,7 @@ public class FriendDTO implements Serializable
 
 	/**
 	 * getter for the friend name
-	 * @return
+	 * @return The name of the player being asked
 	 */
 	public String getFriendName()
 	{

@@ -36,7 +36,7 @@ public class InteractObjectManager implements QualifiedObserver
 {
 	private static InteractObjectManager singleton;
 	private static InteractableItemTableDataGateway gateway;
-	private static InteractableItemRowDataGateway rowGateway;
+
 	private static final int WIDTH = 2;
 	private static final int HEIGHT = 2;
 
@@ -83,6 +83,7 @@ public class InteractObjectManager implements QualifiedObserver
 	 */
 	public static void resetSingleton()
 	{
+		OptionsManager.getSingleton().assertTestMode();
 		if (singleton != null)
 		{
 			QualifiedObservableConnector.getSingleton().unregisterObserver(singleton, KeyInputRecievedReport.class);
@@ -103,7 +104,7 @@ public class InteractObjectManager implements QualifiedObserver
 			try
 			{
 				KeyInputRecievedReport rpt = (KeyInputRecievedReport) report;
-				if (rpt.getInput().toUpperCase().equals("E"))
+				if (rpt.getInput().equalsIgnoreCase("E"))
 				{
 					int playerID = rpt.getPlayerId();
 					int objectID = objectInRange(playerID);
@@ -139,6 +140,7 @@ public class InteractObjectManager implements QualifiedObserver
 	{
 		try
 		{
+			InteractableItemRowDataGateway rowGateway;
 			if (OptionsManager.getSingleton().isUsingMockDataSource())
 			{
 				rowGateway = new InteractableItemRowDataGatewayMock(itemId);
@@ -183,8 +185,8 @@ public class InteractObjectManager implements QualifiedObserver
 					case QUEST_TRIGGER:
 						String paramString = param.toString();
 						paramString = paramString.replace("Criteria String: ", "");
-						List<String> arrayList = new ArrayList<String>    (Arrays.asList(paramString.split(",")));
-						ArrayList<Integer> questList = new ArrayList<Integer>();
+						List<String> arrayList = new ArrayList<>    (Arrays.asList(paramString.split(",")));
+						ArrayList<Integer> questList = new ArrayList<>();
 
 						for(String questID:arrayList)
 						{
@@ -193,10 +195,8 @@ public class InteractObjectManager implements QualifiedObserver
 						}
 
 						QuestListCompletionParameter ql = new QuestListCompletionParameter(questList); // Quests to trigger
-						QuestState qs; // State of quest
 						for (Integer questID : ql.getQuestIDs()) // For every quest in QuestLIstCompletionParameter
 						{
-							qs = QuestManager.getSingleton().getQuestStateByID(playerId, questID); // Get QuestState by playerId
 								try
 								{
 									QuestManager.getSingleton().triggerQuest(playerId, questID);
@@ -245,15 +245,15 @@ public class InteractObjectManager implements QualifiedObserver
 		ArrayList<InteractableItemDTO> items = gateway.getItemsOnMap(playerObject.getMapName());
 
 		// Checks whether the player is in the object range
-		for (int i = 0; i < items.size(); i++)
+		for (InteractableItemDTO item:items)
 		{
-			Position p = items.get(i).getPosition();
+			Position p = item.getPosition();
 
 			Rectangle objRec = new Rectangle(p.getRow(), p.getColumn(), WIDTH, HEIGHT);
 			boolean isInObjectRange = playerRec.intersects(objRec);
-			if (isInObjectRange == true)
+			if (isInObjectRange)
 			{
-				return items.get(i).getId();
+				return item.getId();
 			}
 		}
 		return -1;

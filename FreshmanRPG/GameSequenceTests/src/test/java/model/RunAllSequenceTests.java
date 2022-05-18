@@ -31,7 +31,7 @@ import sequencetests.*;
  *
  */
 @RunWith(Parameterized.class)
-public class SequenceTestRunner
+public class RunAllSequenceTests
 {
 	/**
 	 * the message returned by the test if everything passes
@@ -40,11 +40,9 @@ public class SequenceTestRunner
 	private SequenceTest testcase;
 	private StateAccumulator stateAccumulator;
 	private MessageHandlerSet messageHandlerSet;
-	private MessagePackerSet messagePackerSet;
 	private StateAccumulator secondStateAccumulator;
-	// private MessageHandlerSet secondMessageHandlerSet;
-	private MessagePackerSet secondMessagePackerSet;
-	private Class<?> testClass;
+
+	private final Class<?> testClass;
 
 	/**
 	 * @return the list of sequence tests
@@ -54,59 +52,60 @@ public class SequenceTestRunner
 	{
 		return Arrays.asList(new Object[][]
 				{
-						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
-						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
-
-						//{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
-						//		{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
-						//				RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
-						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
-						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
-						{"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
-						{"NoMoreBuffSequencerTest", NoMoreBuffSequenceTest.class},
-						{"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
-						{"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
-						{"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
-						{"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
-						{"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
-						{"LoginBadPinSequenceTest", LoginBadPinSequenceTest.class},
-						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
+						{"CdTeleportationSequenceTest",
+								CdTeleportationSequenceTest.class},
 						{"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
-						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+						{"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
+						{"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
+						{"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
+						{"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
+						{"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
+						{"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
+						{"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
 						{"ObjectiveCompletionItemInteractSequenceTest",
 								ObjectiveCompletionItemInteractSequenceTest.class},
+						{"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+						{"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
+						{"RecCenterGrantsDoubloonsWithBuffSequenceTest",
+								RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
+						{"TlelportationTwiceSequenceTest",
+								TeleportationTwiceSequenceTest.class },
+						{"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
+						{"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
+						{"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
+
+
+							{ "RecCenterGrantsDoubloonsWithBuffSequenceTest",
+										RecCenterGrantsDoubloonsWithBuffSequenceTest.class },
+						{"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
+						// Terminal Text Sequence Test
+						// Trigger BuffMessage Sequence Test
 						{"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class},});
 	}
 
 	/**
 	 * @param test the description of the message protocol for a given situation
-	 * @throws IOException       shouldn't
-	 * @throws DatabaseException shouldn't
 	 */
-	public void setUpTheTest(SequenceTest test) throws DatabaseException
+	public void setUpTheTest(SequenceTest test)
 	{
 		this.testcase = test;
+		resetCommonSingletons();
+
+	}
+
+	private void resetCommonSingletons()
+	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 		ModelFacade.resetSingleton();
-		testcase.setUpMachines();
-
-		messagePackerSet = new MessagePackerSet();
-		stateAccumulator = new StateAccumulator(messagePackerSet);
-		stateAccumulator.setPlayerId(test.getInitiatingPlayerID());
-		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
-		secondMessagePackerSet = null;
-		secondStateAccumulator = null;
-
 		ClientModelFacade.getSingleton(true, true);
-
 	}
 
 	/**
 	 * @param input the string that the test should be named
 	 * @param expected the class of the sequence test we should run
 	 */
-	public SequenceTestRunner(String input, Class<?> expected)
+	public RunAllSequenceTests(String input, Class<?> expected)
 	{
 		this.testClass = expected;
 	}
@@ -123,16 +122,24 @@ public class SequenceTestRunner
 			CommunicationException, DatabaseException, NoSuchMethodException, InvocationTargetException
 	{
 
-		SequenceTest testcase = (SequenceTest) testClass.getConstructor().newInstance();
-		setUpTheTest(testcase);
-
+		testcase = (SequenceTest) testClass.getConstructor().newInstance();
+		ArrayList<Interaction> interactions = testcase.getInteractions();
 		for (ServerType serverToTest : ServerType.values())
 		{
+			// Use this line instead of the loop if you want to debug on one server
+//			ServerType serverToTest = ServerType.AREA_SERVER;
 			if (testcase.getServerList().contains(serverToTest))
 			{
-				String result = run(serverToTest, true);
+				resetCommonSingletons();
+				testcase.resetNecessarySingletons();
+				testcase.setUpMachines();
+				for (Interaction interaction:interactions)
+				{
+					String result = run(serverToTest, interaction,true);
+					assertEquals(SUCCESS_MSG, result);
+				}
 				ClientModelFacade.killThreads();
-				assertEquals(SUCCESS_MSG, result);
+				ModelFacade.killThreads();
 			}
 		}
 	}
@@ -143,25 +150,19 @@ public class SequenceTestRunner
 	 *                test is looking at
 	 * @return A message describing what happened - SUCCESS_MSG if the test passed
 	 * @throws CommunicationException shouldn't
-	 * @throws DatabaseException      shouldn't
 	 * @throws IOException shouldn't
 	 */
-	public String run(ServerType sType, boolean verbose) throws CommunicationException, DatabaseException, IOException
+	public String run(ServerType sType, Interaction interaction, boolean verbose) throws CommunicationException, IOException
 	{
-		if (sType.supportsOneToManyConnections() && secondMessagePackerSet == null)
+		if (verbose)
 		{
-			secondMessagePackerSet = new MessagePackerSet();
-			secondStateAccumulator = new StateAccumulator(secondMessagePackerSet);
-			// secondMessageHandlerSet = new
-			// MessageHandlerSet(secondStateAccumulator);
+			System.out.println("Starting Interaction for " + sType);
 		}
-		// ModelFacade lookHere = ModelFacade.getSingleton();
-		testcase.resetDataGateways();
-		testcase.setUpMachines();
-		purgeAccumulators();
-		ArrayList<MessageFlow> messages = testcase.getMessageSequence();
-		initiateTheSequence(sType, messages);
-		for (MessageFlow msgFlow : messages)
+
+		setUpAccumulators(sType, interaction.getInitiatingPlayerID());
+
+		initiateTheSequence(sType, interaction);
+		for (MessageFlow msgFlow : interaction.getMessageSequence())
 		{
 			Message message = msgFlow.getMessage();
 			if (msgFlow.getSource().equals(sType) && msgFlow.isReaction())
@@ -174,7 +175,6 @@ public class SequenceTestRunner
 				if (msgFlow.getDestination().equals(ServerType.OTHER_CLIENT))
 				{
 					msgInAccumulator = secondStateAccumulator.getFirstMessage();
-
 				}
 				else
 				{
@@ -211,7 +211,27 @@ public class SequenceTestRunner
 		{
 			return extraMessagesError;
 		}
+		if (verbose)
+		{
+			System.out.println("Finished Interaction for " + sType);
+		}
 		return SUCCESS_MSG;
+	}
+
+	private void setUpAccumulators(ServerType sType, int playerID)
+	{
+
+		stateAccumulator = new StateAccumulator(new MessagePackerSet());
+		stateAccumulator.setPlayerId(playerID);
+		messageHandlerSet = new MessageHandlerSet(stateAccumulator);
+
+		secondStateAccumulator = null;
+		if (sType.supportsOneToManyConnections())
+		{
+			secondStateAccumulator = new StateAccumulator(new MessagePackerSet());
+			// secondMessageHandlerSet = new
+			// MessageHandlerSet(secondStateAccumulator);
+		}
 	}
 
 	private void purgeAccumulators()
@@ -224,7 +244,7 @@ public class SequenceTestRunner
 	}
 
 	/**
-	 * There are two ways the sequence can be initiated: by the execution of a
+	 * There are two ways the interaction can be initiated: by the execution of a
 	 * command or by sending an initial message. If the test specifies a command,
 	 * execute it if we are the machine that should execute it. If the test doesn't
 	 * specify a command and we are the machine that should source the first
@@ -232,17 +252,17 @@ public class SequenceTestRunner
 	 * other machines)
 	 *
 	 * @param sType    the type of machine we are testing
-	 * @param messages the sequence of messages we are supposed to execute
+	 * @param interaction The specific interaction that is starting
 	 * @throws IOException shouldn't
 	 */
-	private void initiateTheSequence(ServerType sType, ArrayList<MessageFlow> messages) throws IOException
+	private void initiateTheSequence(ServerType sType, Interaction interaction) throws IOException
 	{
-		if (sType == testcase.getInitiatingServerType())
+		if (sType == interaction.getInitiatingServerType())
 		{
-			Command initiatingCommand = testcase.getInitiatingCommand();
+			Command initiatingCommand = interaction.getInitiatingCommand();
 			if (initiatingCommand != null)
 			{
-				testcase.getInitiatingCommand().execute();
+				interaction.getInitiatingCommand().execute();
 			}
 		}
 	}
@@ -271,6 +291,7 @@ public class SequenceTestRunner
 		{
 			try
 			{
+				//noinspection BusyWait
 				Thread.sleep(100);
 			}
 			catch (InterruptedException e)

@@ -36,7 +36,7 @@ public enum QuestsForTest
 	 *
 	 */
 
-	THE_LITTLE_QUEST(4, "t3", "Quest 4", new GameLocationDTO("quad.tmx", new Position(2, 32)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	THE_LITTLE_QUEST(4, "t3", "Quest 4", new GameLocationDTO("quad.tmx", new Position(3, 32)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
@@ -72,7 +72,8 @@ public enum QuestsForTest
 	/**
 	 *
 	 */
-	INTERACTABLE_ITEM_QUEST_SUB(13, "Quest 13", "Interact with an item", new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	INTERACTABLE_ITEM_QUEST_SUB(13, "Quest 13", "Interact with an item",
+			new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
 	/**
 	 *

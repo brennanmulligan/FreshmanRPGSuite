@@ -88,7 +88,6 @@ public class VanityItemsTableDataGatewayMock implements VanityItemsTableDataGate
      * @param description the description of the vanity item
      * @param textureName the texture name of the vanity item
      * @param vanityType  the type of vanity
-     * TODO: Change max+1 to increment only
      */
     @Override
     public void addVanityItem(String name, String description, String textureName, VanityType vanityType)

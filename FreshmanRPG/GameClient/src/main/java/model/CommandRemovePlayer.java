@@ -12,37 +12,38 @@ import model.reports.LogoutReport;
 public class CommandRemovePlayer extends Command
 {
 
-	private int playerID;
+    private final int playerID;
 
-	/**
-	 * @param id
-	 *  the id of the player
-	 */
-	public CommandRemovePlayer(int id)
-	{
-		this.playerID = id;
-	}
+    /**
+     * @param id the id of the player
+     */
+    public CommandRemovePlayer(int id)
+    {
+        this.playerID = id;
+    }
 
-	/**
-	 * @see Command#execute()
-	 */
-	@Override
-	boolean execute()
-	{
-		LogoutReport report = new LogoutReport();
-		QualifiedObservableConnector.getSingleton().sendReport(report);
+    /**
+     * @return the ID of the player who left this area
+     */
+    public int getPlayerID()
+    {
+        return playerID;
+    }
 
-		ClientPlayerManager.getSingleton().removePlayer(playerID);
-		return true;
-	}
+    /**
+     * @see Command#execute()
+     */
+    @Override
+    boolean execute()
+    {
+        if (playerID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID())
+        {
+            LogoutReport report = new LogoutReport();
+            QualifiedObservableConnector.getSingleton().sendReport(report);
+        }
+        ClientPlayerManager.getSingleton().removePlayer(playerID);
 
-	/**
-	 *
-	 * @return the ID of the player who left this area
-	 */
-	public int getPlayerID()
-	{
-		return playerID;
-	}
+        return true;
+    }
 
 }

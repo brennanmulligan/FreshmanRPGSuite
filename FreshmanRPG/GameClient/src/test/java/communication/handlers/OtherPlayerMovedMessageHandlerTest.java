@@ -7,15 +7,13 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
 import datatypes.PlayersForTest;
+import model.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import communication.messages.OtherPlayerMovedMessage;
 import datatypes.Position;
-import model.ClientModelFacade;
-import model.ClientModelTestUtilities;
-import model.CommandClientMovePlayer;
-import model.MapManager;
 
 /**
  * @author Andrew
@@ -24,6 +22,11 @@ import model.MapManager;
  */
 public class OtherPlayerMovedMessageHandlerTest
 {
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
 	/**
 	 * reset the singletons and tell the model we are running headless
 	 */
@@ -49,14 +52,9 @@ public class OtherPlayerMovedMessageHandlerTest
 	 *
 	 * @throws InterruptedException
 	 *             shouldn't
-	 * @throws NotBoundException
-	 *             shouldn't
-	 * @throws AlreadyBoundException
-	 *             shouldn't
 	 */
 	@Test
-	public void engineNotified() throws InterruptedException, AlreadyBoundException,
-			NotBoundException
+	public void engineNotified() throws InterruptedException
 	{
 		MapManager.getSingleton().changeToNewFile("testmaps/simple.tmx");
 		ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);

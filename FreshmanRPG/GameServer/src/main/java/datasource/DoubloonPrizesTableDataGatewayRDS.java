@@ -20,7 +20,7 @@ public class DoubloonPrizesTableDataGatewayRDS extends DoubloonPrizesTableDataGa
 	private static DoubloonPrizesTableDataGatewayRDS singleton;
 
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		// does nothing
 
@@ -63,9 +63,6 @@ public class DoubloonPrizesTableDataGatewayRDS extends DoubloonPrizesTableDataGa
 		}
 	}
 
-	/**
-	 * @throws DatabaseException
-	 */
 	public static void createTable() throws DatabaseException
 	{
 		Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -86,12 +83,6 @@ public class DoubloonPrizesTableDataGatewayRDS extends DoubloonPrizesTableDataGa
 
 	}
 
-	/**
-	 * @param name
-	 * @param cost
-	 * @param description
-	 * @throws DatabaseException
-	 */
 	public void createRow(String name, int cost, String description) throws DatabaseException
 	{
 		String query = "INSERT INTO DoubloonPrizes " + "SET name = ?, cost = ?, description = ?";

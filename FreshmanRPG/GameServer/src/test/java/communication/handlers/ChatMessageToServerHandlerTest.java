@@ -2,10 +2,11 @@ package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
 
+import communication.messages.ChatMessageToServer;
 import org.junit.Before;
 import org.junit.Test;
 
-import communication.messages.ChatMessage;
+import communication.messages.ChatMessageToClient;
 import datatypes.ChatType;
 import datatypes.Position;
 import model.ModelFacade;
@@ -17,7 +18,7 @@ import model.QualifiedObservableConnector;
  * @author Josh
  */
 
-public class ChatMessageHandlerTest
+public class ChatMessageToServerHandlerTest
 {
 
 	/**
@@ -36,8 +37,8 @@ public class ChatMessageHandlerTest
 	@Test
 	public void testTypeWeHandle()
 	{
-		ChatMessageHandler h = new ChatMessageHandler();
-		assertEquals(ChatMessage.class, h.getMessageTypeWeHandle());
+		ChatMessageToServerHandler h = new ChatMessageToServerHandler();
+		assertEquals(ChatMessageToServer.class, h.getMessageTypeWeHandle());
 	}
 
 	/**
@@ -50,8 +51,10 @@ public class ChatMessageHandlerTest
 	{
 		reset();
 
-		ChatMessage cm = new ChatMessage(42, 0, "Hey", new Position(0, 0), ChatType.Local);
-		ChatMessageHandler ch = new ChatMessageHandler();
+		ChatMessageToServer
+                cm = new ChatMessageToServer(42, 0, "Hey", new Position(0, 0),
+				ChatType.Local);
+		ChatMessageToServerHandler ch = new ChatMessageToServerHandler();
 		ch.process(cm);
 		assertEquals(1, ModelFacade.getSingleton().queueSize());
 

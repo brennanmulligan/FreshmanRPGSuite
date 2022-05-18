@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 import communication.ConnectionManager;
 import communication.StateAccumulator;
 import communication.handlers.MessageHandlerSet;
 import communication.packers.MessagePackerSet;
+import datasource.LoggerManager;
 import model.OptionsManager;
 
 /**
@@ -27,6 +29,7 @@ public class LoginServer implements Runnable
 	public LoginServer()
 	{
 		initializeMessageHandlers();
+		LoggerManager.createLogger("LoginServer");
 	}
 
 	private void initializeMessageHandlers()

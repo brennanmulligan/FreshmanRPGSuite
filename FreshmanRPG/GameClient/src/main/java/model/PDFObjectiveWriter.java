@@ -25,9 +25,9 @@ import datatypes.ObjectiveStateEnum;
 public class PDFObjectiveWriter
 {
 
-	private static PDFont FANCYFONT = PDType1Font.TIMES_BOLD_ITALIC;
-	private static PDFont DESCRIPTIONFONT = PDType1Font.HELVETICA;
-	private PDPage page;
+	private static final PDFont FANCYFONT = PDType1Font.TIMES_BOLD_ITALIC;
+	private static final PDFont DESCRIPTIONFONT = PDType1Font.HELVETICA;
+
 	private PDRectangle pageSize;
 
 	/**
@@ -47,7 +47,7 @@ public class PDFObjectiveWriter
 
 				if (objective.isRealLifeObjective() && objective.getObjectiveState().equals(ObjectiveStateEnum.TRIGGERED))
 				{
-					page = new PDPage(PDRectangle.LETTER);
+					PDPage page = new PDPage(PDRectangle.LETTER);
 					page.setRotation(90);
 					doc.addPage(page);
 
@@ -97,7 +97,6 @@ public class PDFObjectiveWriter
 					}
 					catch (IOException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -111,7 +110,6 @@ public class PDFObjectiveWriter
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -120,8 +118,8 @@ public class PDFObjectiveWriter
 	/**
 	 * If points are two digits, center it differently
 	 *
-	 * @param contents
-	 * @param points
+	 * @param contents What should go onto the page
+	 * @param points How many points the objective is worth
 	 */
 	private void showExperiencePoints(PDPageContentStream contents, int points)
 	{
@@ -147,7 +145,6 @@ public class PDFObjectiveWriter
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -156,8 +153,8 @@ public class PDFObjectiveWriter
 	 * If description is > 100 chars, split it into two strings based on nearest
 	 * whitespace to middle
 	 *
-	 * @param contents
-	 * @param description
+	 * @param contents The contents of the page
+	 * @param description The description of the objective
 	 */
 	private void showObjectiveDescription(PDPageContentStream contents, String description)
 	{
@@ -209,7 +206,6 @@ public class PDFObjectiveWriter
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
