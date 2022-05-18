@@ -1,10 +1,5 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import dataDTO.VanityDTO;
@@ -21,6 +16,8 @@ import datatypes.Major;
 import datatypes.Position;
 import datatypes.ObjectiveStatesForTest;
 import datatypes.QuestStatesForTest;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the PlayerMapper class
@@ -53,11 +50,9 @@ public class PlayerMapperTest
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
 	 */
 	@Test
-	public void canFindExisting() throws DatabaseException, IllegalQuestChangeException
+	public void canFindExisting() throws DatabaseException
 	{
 		PlayerMapper pm = getMapper();
 		Player p = pm.getPlayer();
@@ -120,9 +115,12 @@ public class PlayerMapperTest
 
 	protected PlayerDTO getPlayerWeAreCreating() throws DatabaseException
 	{
+		DefaultItemsTableDataGateway gateway =
+				(DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"DefaultItems");
 		return new PlayerDTO(-1, "the player name", "the player password", "the appearance type", 12,
 				new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, new ArrayList<>(),
-				DefaultItemsTableDataGatewayMock.getSingleton().getDefaultItems());
+				gateway.getDefaultItems());
 	}
 
 	protected PlayerMapper findMapperForID(int playerID) throws DatabaseException
@@ -302,7 +300,7 @@ public class PlayerMapperTest
 
 		for (PlayersForTest player : PlayersForTest.values())
 		{
-			boolean foundOne = true;
+			boolean foundOne = false;
 
 			for (PlayerDTO returnedPlayer : playersList)
 			{
@@ -316,6 +314,7 @@ public class PlayerMapperTest
 			if (!foundOne)
 			{
 				allFound = false;
+				break;
 			}
 		}
 
@@ -335,15 +334,15 @@ public class PlayerMapperTest
 	{
 		PlayerMapper pm = getMapper();
 		Player p = pm.getPlayer();
-		ArrayList<ObjectiveStateRecordDTO> testList = new ArrayList<>();
+		ArrayList<ObjectiveStateRecordDTO> testList;
 		testList = ObjectiveStateTableDataGatewayMock.getSingleton().getUncompletedObjectivesForPlayer(p.getPlayerID());
 
 		for (ObjectiveStateRecordDTO objective : testList)
 		{
 
-			assertFalse(objective.getState().equals(ObjectiveStateEnum.COMPLETED));
-			assertFalse(objective.getState().equals(ObjectiveStateEnum.HIDDEN));
-			assertFalse(objective.getState().equals(ObjectiveStateEnum.EXPIRED));
+			assertNotEquals(objective.getState(), ObjectiveStateEnum.COMPLETED);
+			assertNotEquals(objective.getState(), ObjectiveStateEnum.HIDDEN);
+			assertNotEquals(objective.getState(), ObjectiveStateEnum.EXPIRED);
 		}
 	}
 
