@@ -5,7 +5,6 @@ import datatypes.DefaultItemsForTest;
 import datatypes.VanityType;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * The mock gateway for the items in the default inventory table
@@ -15,7 +14,7 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
     /**
      * A class representing a default item row
      */
-    private class DefaultItemsRow
+    private static class DefaultItemsRow
     {
         int vanityID;
         int defaultWearing;
@@ -54,24 +53,10 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
 
     private ArrayList<DefaultItemsRow> rows = new ArrayList<>();
     private VanityItemsTableDataGatewayInterface vanityItemsGateway;
-    private static DefaultItemsTableDataGateway singleton;
 
-    private DefaultItemsTableDataGatewayMock() throws DatabaseException
+    public DefaultItemsTableDataGatewayMock()
     {
-        resetData();
-    }
-
-    /**
-     * Gets the instance of this gateway
-     * @return the instance
-     */
-    public static synchronized DefaultItemsTableDataGateway getSingleton() throws DatabaseException
-    {
-        if (singleton == null)
-        {
-            singleton = new DefaultItemsTableDataGatewayMock();
-        }
-        return singleton;
+        resetTableGateway();
     }
 
     /**
@@ -223,15 +208,19 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
         }
     }
 
-
     /**
      * Resets the data
-     * @throws DatabaseException shouldnt
      */
     @Override
-    public void resetData() throws DatabaseException
+    public void resetTableGateway()
     {
-        vanityItemsGateway = VanityItemsTableDataGatewayMock.getSingleton();
+        try
+        {
+            vanityItemsGateway = VanityItemsTableDataGatewayMock.getSingleton();
+        } catch (DatabaseException e)
+        {
+            e.printStackTrace();
+        }
         rows = new ArrayList<>();
         for (DefaultItemsForTest item : DefaultItemsForTest.values())
         {

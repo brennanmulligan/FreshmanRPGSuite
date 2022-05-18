@@ -7,6 +7,7 @@ import org.junit.Before;
 
 import model.OptionsManager;
 
+//TODO This doesn't test anything!
 /**
  *
  * @author Andrew M, Christian C
@@ -14,7 +15,7 @@ import model.OptionsManager;
  * test for mock implementation
  *
  */
-public class DoubloonPrizesTDGMockTest extends DoubloonPrizesTableDataGatewayTest
+public class DoubloonPrizesTableDataGatewayMockTest extends DoubloonPrizesTableDataGatewayTest
 {
 
 	// gateway instance
@@ -33,16 +34,13 @@ public class DoubloonPrizesTDGMockTest extends DoubloonPrizesTableDataGatewayTes
 	public void tearDown() throws DatabaseException, SQLException
 	{
 		super.tearDown();
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
+		TableDataGatewayManager.getSingleton().resetTableGateway("DoubloonPrizes");
 	}
-
 
 	@Override
 	public DoubloonPrizesTableDataGateway getGatewaySingleton() throws DatabaseException
 	{
-		return DoubloonPrizesTDGMock.getInstance();
+		return null;
 	}
+
 }

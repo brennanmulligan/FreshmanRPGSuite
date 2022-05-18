@@ -267,7 +267,7 @@ public class DefaultItemsTableDataGatewayRDS implements DefaultItemsTableDataGat
      * Resets the data
      */
     @Override
-    public void resetData()
+    public void resetTableGateway()
     {
 
     }

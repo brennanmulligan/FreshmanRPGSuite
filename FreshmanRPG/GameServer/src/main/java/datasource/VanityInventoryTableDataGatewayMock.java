@@ -34,7 +34,7 @@ public class VanityInventoryTableDataGatewayMock implements VanityInventoryTable
     /**
      * A class that represents a row in the database
      */
-    private class MockPlayerOwnsVanityRow
+    private static class MockPlayerOwnsVanityRow
     {
         int playerID;
         int vanityID;
@@ -109,7 +109,10 @@ public class VanityInventoryTableDataGatewayMock implements VanityInventoryTable
         {
             dtoList.add(vanityItemsGateway.getVanityItemByID(row.vanityID));
         }
-        ArrayList<VanityDTO> defaultItems = DefaultItemsTableDataGatewayMock.getSingleton().getDefaultItems();
+        DefaultItemsTableDataGateway defaultGateway =
+                (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "DefaultItems");
+        ArrayList<VanityDTO> defaultItems = defaultGateway.getDefaultItems();
         for (VanityDTO v : defaultItems)
         {
             if (!dtoList.contains(v))

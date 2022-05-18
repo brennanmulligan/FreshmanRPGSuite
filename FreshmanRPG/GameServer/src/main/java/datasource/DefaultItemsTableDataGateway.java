@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Interface for the default items gateway
  */
-public interface DefaultItemsTableDataGateway
+public interface DefaultItemsTableDataGateway extends TableDataGateway
 {
     /**
      * Gets all the default items stored in the database
@@ -64,9 +64,4 @@ public interface DefaultItemsTableDataGateway
      */
     void setDefaultWearing(int vanityID) throws DatabaseException;
 
-    /**
-     * Resets the data
-     * @throws DatabaseException shouldnt
-     */
-    void resetData() throws DatabaseException;
 }

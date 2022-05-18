@@ -1,7 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run All Tests" type="CompoundRunConfigurationType">
     <toRun name="GameClient - Test" type="GradleRunConfiguration" />
-    <toRun name="GameManager - Test" type="GradleRunConfiguration" />
     <toRun name="GameSequenceTests - Test" type="GradleRunConfiguration" />
     <toRun name="GameServer - Test" type="GradleRunConfiguration" />
     <toRun name="GameShared - Test" type="GradleRunConfiguration" />

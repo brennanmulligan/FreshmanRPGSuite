@@ -11,7 +11,6 @@ import model.reports.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Merlin
@@ -147,12 +146,12 @@ public class PlayerManager implements QualifiedObserver
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
 			DoubloonPrizesTableDataGateway doubloonPrizesGateway =
-					DoubloonPrizesTDGMock.getInstance();
+					(DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+							"DoubloonPrizes");
 			FriendTableDataGateway friendTableDataGateway =
 					FriendTableDataGatewayMock.getSingleton();
 			if (!OptionsManager.getSingleton().isUsingMockDataSource())
 			{
-				doubloonPrizesGateway = DoubloonPrizesTableDataGatewayRDS.getInstance();
 				friendTableDataGateway = FriendTableDataGatewayRDS.getInstance();
 			}
 			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));

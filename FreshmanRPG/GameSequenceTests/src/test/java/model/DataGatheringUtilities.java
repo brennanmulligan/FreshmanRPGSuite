@@ -45,7 +45,10 @@ public class DataGatheringUtilities
     {
         try
         {
-            return DoubloonPrizesTDGMock.getInstance().getAllDoubloonPrizes();
+            DoubloonPrizesTableDataGateway gateway =
+                    (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                            "DoubloonPrizes");
+            return gateway.getAllDoubloonPrizes();
         } catch (DatabaseException e)
         {
             e.printStackTrace();

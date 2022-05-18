@@ -3,7 +3,6 @@ package datasource;
 import dataDTO.VanityDTO;
 import datatypes.DefaultItemsForTest;
 import datatypes.VanityForTest;
-import datatypes.VanityType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
     public void setup() throws DatabaseException
     {
         gateway = findGateway();
-        gateway.resetData();
+        gateway.resetTableGateway();
     }
 
     /**
