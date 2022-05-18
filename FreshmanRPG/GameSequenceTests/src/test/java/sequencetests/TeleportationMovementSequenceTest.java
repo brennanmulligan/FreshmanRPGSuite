@@ -59,7 +59,8 @@ public class TeleportationMovementSequenceTest extends SequenceTest
                     PlayersForTest.MERLIN.getPlayerID())).resetData();
             ClientPlayerManager.resetSingleton();
             MapManager.resetSingleton();
-        } catch (DatabaseException e)
+        }
+        catch (DatabaseException e)
         {
             e.printStackTrace();
         }
