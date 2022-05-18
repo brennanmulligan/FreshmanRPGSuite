@@ -62,13 +62,15 @@ public class CommandClientMovePlayer extends Command
 			{
 				thisClientsPlayer.teleport(position);
 
-				File soundFile = new File("../GameClient/assets/teleport.mp3");
-				FileHandle fileHandle =
-						new FileHandle(soundFile);
-				SoundManager.addSound(Gdx.audio.newSound(fileHandle), 3);
+				if (!OptionsManager.getSingleton().isTestMode())
+				{
+					File soundFile = new File("../GameClient/assets/teleport.mp3");
+					FileHandle fileHandle =
+							new FileHandle(soundFile);
+					SoundManager.addSound(Gdx.audio.newSound(fileHandle), 3);
 
-				SoundManager.stopLoopingSounds();
-
+					SoundManager.stopLoopingSounds();
+				}
 				isTeleporting = true;
 			}
 

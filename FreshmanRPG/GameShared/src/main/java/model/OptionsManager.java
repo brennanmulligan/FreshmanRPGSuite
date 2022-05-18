@@ -86,6 +86,11 @@ public class OptionsManager
 		return dbIdentifier;
 	}
 
+	public boolean isTestMode()
+	{
+		return testMode;
+	}
+
 	/**
 	 * @param dbIdentifier defines which db we should use
 	 */

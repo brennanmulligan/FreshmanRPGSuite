@@ -85,7 +85,7 @@ public class ServerMapManager
 		{
 			URL decodedPath = path.toURL();
 
-			mapFilePath = (new URL(decodedPath, "../../../../maps/" + mapFile))
+			mapFilePath = (new URL(decodedPath, "../../maps/" + mapFile))
 					.toURI().getSchemeSpecificPart();
 		}
 		catch (MalformedURLException | URISyntaxException e)
