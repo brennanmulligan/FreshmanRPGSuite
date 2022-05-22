@@ -1,9 +1,8 @@
 package datasource;
 
-import java.sql.SQLException;
-
-import org.junit.After;
+import model.OptionsManager;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  * Tests the mock implementation
@@ -13,30 +12,18 @@ import org.junit.Before;
  */
 public class PlayerTableDataGatewayMockTest extends PlayerTableDataGatewayTest
 {
-	/**
-	 * @see datasource.DatabaseTest#setUp()
-	 */
-	@Before
-	public void setUp()
+	@BeforeClass
+	public static void hardReset()
 	{
-
+		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
-	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException
-	 *             shouldn't
-	 * @throws DatabaseException
-	 *             shouldn't
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
+	@Before
+	public void setUp() throws DatabaseException
 	{
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
+		PlayerTableDataGatewayMock gateway =
+				(PlayerTableDataGatewayMock) getGatewaySingleton();
+		gateway.resetTableGateway();
 	}
 
 	/**
@@ -45,7 +32,8 @@ public class PlayerTableDataGatewayMockTest extends PlayerTableDataGatewayTest
 	@Override
 	public PlayerTableDataGateway getGatewaySingleton()
 	{
-		return PlayerTableDataGatewayMock.getSingleton();
+		return (PlayerTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"Player");
 	}
 
 }

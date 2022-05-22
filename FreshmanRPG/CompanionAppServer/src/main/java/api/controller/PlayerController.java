@@ -2,7 +2,7 @@ package api.controller;
 
 
 import api.model.CreatePlayerResponce;
-import api.model.Player;
+import api.model.GameManagerPlayer;
 import api.service.PlayerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class PlayerController {
      */
     @CrossOrigin // Required for web client support
     @PostMapping("/player")
-    public ResponseEntity<Object> addPlayer(@RequestBody Player player) throws JsonProcessingException {
+    public ResponseEntity<Object> addPlayer(@RequestBody GameManagerPlayer player) throws JsonProcessingException {
         int result = playerService.addPlayer(player);
         CreatePlayerResponce responseObj = new CreatePlayerResponce(result);
         return new ResponseEntity<>(responseObj.toJSON(),HttpStatus.OK);

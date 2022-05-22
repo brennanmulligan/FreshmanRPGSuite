@@ -23,22 +23,10 @@ import model.ObjectiveRecord;
 public class ObjectiveTableDataGatewayRDS implements ObjectiveTableDataGateway
 {
 
-	private static ObjectiveTableDataGateway singleton;
-
-	/**
-	 * Retrieves the rds gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized ObjectiveTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new ObjectiveTableDataGatewayRDS();
-		}
-		return singleton;
+		return new ObjectiveTableDataGatewayRDS();
 	}
-
 	/**
 	 * A private constructor only called by the getSingleton method
 	 */
@@ -150,8 +138,7 @@ public class ObjectiveTableDataGatewayRDS implements ObjectiveTableDataGateway
 
 			if (queryResult.next())
 			{
-				ObjectiveRecord rec = buildObjectiveRecord(queryResult);
-				return rec;
+				return buildObjectiveRecord(queryResult);
 			}
 		}
 		catch (SQLException e)
@@ -168,9 +155,8 @@ public class ObjectiveTableDataGatewayRDS implements ObjectiveTableDataGateway
 			ObjectiveCompletionType completionType = ObjectiveCompletionType.findByID(queryResult.getInt("completionType"));
 			ObjectiveCompletionCriteria completionCriteria = extractCompletionCriteria(queryResult, completionType);
 
-			ObjectiveRecord rec = new ObjectiveRecord(queryResult.getInt("questID"), queryResult.getInt("objectiveID"), queryResult.getString("objectiveDescription"), queryResult
+			return new ObjectiveRecord(queryResult.getInt("questID"), queryResult.getInt("objectiveID"), queryResult.getString("objectiveDescription"), queryResult
 					.getInt("experiencePointsGained"), completionType, completionCriteria);
-			return rec;
 		}
 		catch (SQLException e)
 		{
@@ -178,11 +164,12 @@ public class ObjectiveTableDataGatewayRDS implements ObjectiveTableDataGateway
 		}
 	}
 
-	protected static ObjectiveCompletionCriteria extractCompletionCriteria(ResultSet queryResult, ObjectiveCompletionType completionType) throws SQLException, DatabaseException
+	public static ObjectiveCompletionCriteria extractCompletionCriteria(
+			ResultSet queryResult, ObjectiveCompletionType completionType) throws SQLException, DatabaseException
 	{
 		Class<? extends ObjectiveCompletionCriteria> completionCriteriaClass = completionType.getCompletionCriteriaType();
 		ByteArrayInputStream baip = new ByteArrayInputStream((byte[]) queryResult.getObject("completionCriteria"));
-		ObjectiveCompletionCriteria completionCriteria = null;
+		ObjectiveCompletionCriteria completionCriteria;
 		try
 		{
 			Object x = new ObjectInputStream(baip).readObject();
@@ -237,11 +224,7 @@ public class ObjectiveTableDataGatewayRDS implements ObjectiveTableDataGateway
 		return getObjectivesForQuest(questID).size() + 1;
 	}
 
-	/**
-	 * @see ObjectiveTableDataGateway#resetData()
-	 */
-	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 	}
 

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import datasource.DatabaseException;
 import datasource.LevelTableDataGatewayRDS;
+import datasource.TableDataGatewayManager;
 import model.OptionsManager;
 import datatypes.LevelsForTest;
 
@@ -32,15 +33,15 @@ public class BuildTestLevels
 	/**
 	 * Create a table of levels
 	 *
-	 * @throws SQLException
-	 * @throws DatabaseException
 	 */
-	private static void createLevelTable() throws SQLException, DatabaseException
+	private static void createLevelTable() throws  DatabaseException
 	{
 		LevelTableDataGatewayRDS.createTable();
+		LevelTableDataGatewayRDS gateway =
+				(LevelTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway("Level");
 		for (LevelsForTest level : LevelsForTest.values())
 		{
-			LevelTableDataGatewayRDS.getSingleton().createRow(level.getDescription(), level.getLevelUpPoints(),
+			gateway.createRow(level.getDescription(), level.getLevelUpPoints(),
 					level.getLevelUpMonth(), level.getLevelUpDayOfMonth());
 		}
 	}

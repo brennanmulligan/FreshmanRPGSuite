@@ -1,7 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Compile All Java" type="CompoundRunConfigurationType">
     <toRun name="GameClient - Compile Java" type="GradleRunConfiguration" />
-    <toRun name="GameManager - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameSequenceTests - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameServer - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameShared - Compile Java" type="GradleRunConfiguration" />

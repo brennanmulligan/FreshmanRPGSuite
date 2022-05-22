@@ -17,15 +17,8 @@ public class LevelManagerDTO
 
     private LevelManagerDTO()
     {
-        LevelTableDataGateway gateway;
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            gateway = LevelTableDataGatewayMock.getSingleton();
-        }
-        else
-        {
-            gateway = LevelTableDataGatewayRDS.getSingleton();
-        }
+        LevelTableDataGateway gateway =
+                (LevelTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Level");
         try
         {
             allLevels = gateway.getAllLevels();

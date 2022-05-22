@@ -15,18 +15,9 @@ import java.util.ArrayList;
 public class LevelTableDataGatewayRDS implements LevelTableDataGateway
 {
 
-	private static LevelTableDataGatewayRDS singleton;
-
-	/**
-	 * @return the one and only
-	 */
-	public static synchronized LevelTableDataGatewayRDS getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new LevelTableDataGatewayRDS();
-		}
-		return singleton;
+		return new LevelTableDataGatewayRDS();
 	}
 
 	/**
@@ -120,4 +111,9 @@ public class LevelTableDataGatewayRDS implements LevelTableDataGateway
 		}
 	}
 
+	@Override
+	public void resetTableGateway()
+	{
+
+	}
 }

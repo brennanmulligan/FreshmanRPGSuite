@@ -3,8 +3,12 @@ package datasource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.OptionsManager;
+import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dataDTO.QuestStateRecordDTO;
@@ -19,59 +23,35 @@ import datatypes.QuestStatesForTest;
 public class QuestStateTableDataGatewayRDSTest extends QuestStateTableDataGatewayTest
 {
 
+	@BeforeClass
+	public static void hardReset() throws DatabaseException
+	{
+		OptionsManager.getSingleton().setUsingTestDB(true);
+		OptionsManager.getSingleton().setTestMode(true);
+		DatabaseManager.getSingleton().setTesting();
+	}
+
+	@After
+	public void tearDown() throws DatabaseException
+	{
+		try
+		{
+			DatabaseManager.getSingleton().rollBack();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 	/**
-	 * @see datasource.QuestStateTableDataGatewayTest#getGatewaySingleton()
+	 * @see datasource.QuestStateTableDataGatewayTest#findGateway()
 	 */
 	@Override
-	public QuestStateTableDataGateway getGatewaySingleton()
+	public QuestStateTableDataGateway findGateway()
 	{
-		return QuestStateTableDataGatewayRDS.getSingleton();
+		return (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"QuestState");
 	}
 
-	/**
-	 * Tests retrieving all quest states from the gateway
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void testRetrievingAllQuestStates() throws DatabaseException
-	{
-		QuestStateTableDataGateway questState = QuestStateTableDataGatewayRDS.getSingleton();
-		ArrayList<QuestStateRecordDTO> quest = questState.retrieveAllQuestStates();
-		assertEquals(QuestStatesForTest.values().length, quest.size());
-	}
 
-	/**
-	 * Tests that the first and last items in the list are correct
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void testCorrectDataInList() throws DatabaseException
-	{
-		QuestStateTableDataGateway gateway = QuestStateTableDataGatewayRDS.getSingleton();
-		ArrayList<QuestStateRecordDTO> quest = gateway.retrieveAllQuestStates();
-		ArrayList<QuestStateRecordDTO> enumQuestStates = QuestStatesForTest.getAllQuestStateRecordDTOs();
-		assertTrue(quest.containsAll(enumQuestStates));
-	}
-
-	/**
-	 * Tests the functionality of deleting a quest state
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void testDeleteQuestState() throws DatabaseException
-	{
-		QuestStateTableDataGateway gateway = QuestStateTableDataGatewayRDS.getSingleton();
-		ArrayList<QuestStateRecordDTO> listOfQuestStates = gateway.retrieveAllQuestStates();
-
-		int startSize = listOfQuestStates.size();
-		gateway.deleteQuestState(100);
-		listOfQuestStates = gateway.retrieveAllQuestStates();
-
-		assertEquals(startSize - 2, listOfQuestStates.size());
-		assertEquals(QuestStateEnum.AVAILABLE, listOfQuestStates.get(0).getState());
-		assertEquals(QuestStateEnum.EXPIRED, listOfQuestStates.get(21).getState());
-	}
 }

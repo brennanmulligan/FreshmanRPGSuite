@@ -12,29 +12,18 @@ import datatypes.InteractableItemsForTest;
  * @author Elisabeth Ostrow, Jake Moore
  */
 
-public class InteractableItemTableDataGatewayMock extends InteractableItemTableDataGateway
+public class InteractableItemTableDataGatewayMock implements InteractableItemTableDataGateway
 {
 
-	// singleton instance
-	private static InteractableItemTableDataGatewayMock singleton = null;
-
-	/**
-	 * gets singleton instance
-	 *
-	 * @return singleton
-	 */
-	public static synchronized InteractableItemTableDataGatewayMock getInstance()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new InteractableItemTableDataGatewayMock();
-		}
-		return singleton;
+		return new InteractableItemTableDataGatewayMock();
 	}
+
 
 	private InteractableItemTableDataGatewayMock()
 	{
-		this.resetData();
+		this.resetTableGateway();
 	}
 
 	/**
@@ -42,11 +31,9 @@ public class InteractableItemTableDataGatewayMock extends InteractableItemTableD
 	 */
 	private HashMap<Integer, InteractableItemDTO> mockItemTable = new HashMap<>();
 
-	/**
-	 * @see datasource.InteractableItemTableDataGateway#resetData()
-	 */
+
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		this.mockItemTable = new HashMap<>();
 
@@ -67,7 +54,7 @@ public class InteractableItemTableDataGatewayMock extends InteractableItemTableD
 		ArrayList<InteractableItemDTO> result = new ArrayList<>();
 		for (InteractableItemDTO item : this.mockItemTable.values())
 		{
-			if (item.getMapName() == mapName)
+			if (item.getMapName().equals(mapName))
 			{
 				result.add(item);
 			}
@@ -81,9 +68,7 @@ public class InteractableItemTableDataGatewayMock extends InteractableItemTableD
 	@Override
 	public ArrayList<InteractableItemDTO> getAllItems()
 	{
-		ArrayList<InteractableItemDTO> result = new ArrayList<>();
-		result.addAll(this.mockItemTable.values());
-		return result;
+		return new ArrayList<>(this.mockItemTable.values());
 	}
 
 }

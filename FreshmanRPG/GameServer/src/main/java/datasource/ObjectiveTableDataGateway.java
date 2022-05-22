@@ -11,7 +11,7 @@ import model.ObjectiveRecord;
  * @author merlin
  *
  */
-public interface ObjectiveTableDataGateway
+public interface ObjectiveTableDataGateway extends TableDataGateway
 {
 
 	/**
@@ -53,10 +53,5 @@ public interface ObjectiveTableDataGateway
 	 * @throws DatabaseException - if no rows found with quest ID
 	 */
 	int getNextObjectiveID(int questID) throws DatabaseException;
-
-	/**
-	 * Used for testing
-	 */
-	void resetData();
 
 }

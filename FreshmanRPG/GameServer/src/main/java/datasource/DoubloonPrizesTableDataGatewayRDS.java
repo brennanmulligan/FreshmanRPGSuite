@@ -14,30 +14,21 @@ import dataDTO.DoubloonPrizeDTO;
  * @author Mina Kindo, Christian Chroutamel, Andrew Stake
  *
  */
-public class DoubloonPrizesTableDataGatewayRDS extends DoubloonPrizesTableDataGateway
+public class DoubloonPrizesTableDataGatewayRDS implements DoubloonPrizesTableDataGateway
 {
 
-	private static DoubloonPrizesTableDataGatewayRDS singleton;
+	static TableDataGateway getGateway()
+	{
+		return new DoubloonPrizesTableDataGatewayRDS();
+	}
 
+	/**
+	 * Resets the data
+	 */
 	@Override
 	public void resetTableGateway()
 	{
-		// does nothing
 
-	}
-
-
-	/**
-	 * @return unique instance
-	 */
-	public static synchronized DoubloonPrizesTableDataGatewayRDS getInstance()
-	{
-		if (singleton == null)
-		{
-			singleton = new DoubloonPrizesTableDataGatewayRDS();
-		}
-
-		return singleton;
 	}
 
 	@Override

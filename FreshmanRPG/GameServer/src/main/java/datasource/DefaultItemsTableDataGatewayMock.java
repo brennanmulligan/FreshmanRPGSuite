@@ -13,11 +13,15 @@ public class DefaultItemsTableDataGatewayMock implements DefaultItemsTableDataGa
 {
     private ArrayList<DefaultItemsRow> rows = new ArrayList<>();
     private VanityItemsTableDataGatewayInterface vanityItemsGateway;
-    public DefaultItemsTableDataGatewayMock()
+    private DefaultItemsTableDataGatewayMock()
     {
         resetTableGateway();
     }
 
+    static TableDataGateway getGateway()
+    {
+        return new DefaultItemsTableDataGatewayMock();
+    }
     /**
      * Adds a vanity item to the default item list so it will
      * be in all player's inventories

@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import model.OptionsManager;
+import org.junit.BeforeClass;
 
 public class FriendTableDataGatewayMockTest extends FriendTableDataGatewayTest
 {
@@ -13,11 +14,8 @@ public class FriendTableDataGatewayMockTest extends FriendTableDataGatewayTest
 	// gateway instance
 	private FriendTableDataGateway gateway;
 
-	/**
-	 * @see datasource.DatabaseTest#setUp()
-	 */
-	@Before
-	public void setUp()
+	@BeforeClass
+	public static void hardReset()
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
@@ -31,7 +29,7 @@ public class FriendTableDataGatewayMockTest extends FriendTableDataGatewayTest
 		super.tearDown();
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
 	}
 
@@ -41,6 +39,7 @@ public class FriendTableDataGatewayMockTest extends FriendTableDataGatewayTest
 	@Override
 	public FriendTableDataGateway getGatewaySingleton() throws DatabaseException
 	{
-		return FriendTableDataGatewayMock.getSingleton();
+		return (FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"Friend");
 	}
 }

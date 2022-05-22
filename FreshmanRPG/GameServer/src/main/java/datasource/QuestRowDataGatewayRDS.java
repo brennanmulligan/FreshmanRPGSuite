@@ -45,7 +45,7 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		}
 	}
 
-	private int questID;
+	private final int questID;
 	private String questTitle;
 	private String questDescription;
 	private String triggerMapName;
@@ -92,8 +92,9 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		}
 	}
 
-	protected static QuestCompletionActionParameter extractCompletionActionParameter(ResultSet result,
-																					 QuestCompletionActionType completionActionType) throws SQLException, DatabaseException
+	public static QuestCompletionActionParameter extractCompletionActionParameter(
+			ResultSet result,
+			QuestCompletionActionType completionActionType) throws SQLException, DatabaseException
 	{
 		Class<? extends QuestCompletionActionParameter> completionActionParameterType = completionActionType
 				.getCompletionActionParameterType();
@@ -102,7 +103,6 @@ public class QuestRowDataGatewayRDS implements QuestRowDataGateway
 		{
 			ByteArrayInputStream baip = new ByteArrayInputStream(
 					(byte[]) result.getObject("completionActionParameter"));
-			completionActionParameter = null;
 			try
 			{
 				Object x = new ObjectInputStream(baip).readObject();

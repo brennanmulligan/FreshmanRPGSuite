@@ -189,6 +189,10 @@ public class OptionsManager
 	public synchronized void setUsingTestDB(boolean usingTestDB)
 	{
 		this.usingTestDB = usingTestDB;
+		if(usingTestDB)
+		{
+			usingMockDataSource = false;
+		}
 	}
 
 

@@ -38,7 +38,7 @@ public abstract class ObjectiveStateTableDataGatewayTest extends DatabaseTest
 	public void setUp() throws DatabaseException
 	{
 		super.setUp();
-		this.getGateway().resetData();
+		this.getGateway().resetTableGateway();
 	}
 
 	/**
@@ -53,7 +53,7 @@ public abstract class ObjectiveStateTableDataGatewayTest extends DatabaseTest
 		super.tearDown();
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
 	}
 

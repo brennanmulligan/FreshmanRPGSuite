@@ -28,12 +28,9 @@ public class CommandTerminalTextWho extends TerminalCommand
 
 		try
 		{
-			PlayerTableDataGateway gateway =  PlayerTableDataGatewayMock.getSingleton();
-			if (!OptionsManager.getSingleton().isUsingMockDataSource())
-			{
-				gateway = PlayerTableDataGatewayRDS.getSingleton();
-			}
-
+			PlayerTableDataGateway gateway =
+					(PlayerTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+							"Player");
 			ArrayList<PlayerDTO> playerList = gateway.retrieveAllOnlinePlayers();
 
 			for (PlayerDTO player : playerList)

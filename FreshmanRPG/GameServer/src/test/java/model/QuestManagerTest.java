@@ -10,8 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import datasource.PlayerRowDataGatewayMock;
-import datasource.PlayerTableDataGatewayMock;
+import datasource.*;
 import datatypes.FriendStatusEnum;
 import datatypes.PlayersForTest;
 import org.easymock.EasyMock;
@@ -19,11 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import criteria.GameLocationDTO;
-import datasource.DatabaseException;
-import datasource.FriendDBMock;
-import datasource.FriendTableDataGateway;
-import datasource.FriendTableDataGatewayMock;
-import datasource.QuestStateTableDataGatewayMock;
 import datatypes.ObjectiveStateEnum;
 import datatypes.ChatType;
 import datatypes.Position;
@@ -57,11 +51,12 @@ public class QuestManagerTest
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
-		PlayerTableDataGatewayMock.getSingleton().resetData();
+		TableDataGatewayManager.getSingleton().resetTableGateway("Player");
 		new PlayerRowDataGatewayMock().resetData();
 		PlayerManager.resetSingleton();
 		playerManager = PlayerManager.getSingleton();
-		QuestStateTableDataGatewayMock.getSingleton().resetData();
+		TableDataGatewayManager.getSingleton().resetTableGateway(
+				"QuestState");
 		QuestManager.resetSingleton();
 		QuestManager.getSingleton();
 		InteractObjectManager.resetSingleton();
@@ -309,11 +304,9 @@ public class QuestManagerTest
 	/**
 	 * Test simple functionality of setting quests to a player.
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
 	 */
 	@Test
-	public void testAddQuests() throws IllegalQuestChangeException
+	public void testAddQuests()
 	{
 		Player p = playerManager.addPlayer(1);
 		QuestState quest = new QuestState(1, 1, QuestStateEnum.AVAILABLE, false);
@@ -328,16 +321,9 @@ public class QuestManagerTest
 	/**
 	 * Completes an objective that has the completion criteria of talking to a NPC.
 	 *
-	 * @throws DatabaseException
-	 *             shouldn't
-	 * @throws IllegalObjectiveChangeException
-	 *             Objective state changed when it shouldn't have
-	 * @throws IllegalQuestChangeException
-	 *             Quest state changed when it shouldn't have
 	 */
 	@Test
 	public void testCompleteObjectiveByChatting()
-			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerToTest = PlayersForTest.MARTY.getPlayerID();
 		Player playerOne = playerManager.addPlayer(playerToTest);
@@ -359,17 +345,9 @@ public class QuestManagerTest
 	/**
 	 * Objective isn't completed because the person is outside the range of who they
 	 * are supposed to talk to
-	 *
-	 * @throws DatabaseException
-	 *             shouldn't
-	 * @throws IllegalObjectiveChangeException
-	 *             Objective state changed when it shouldn't have
-	 * @throws IllegalQuestChangeException
-	 *             Quest state changed when it shouldn't have
 	 */
 	@Test
 	public void testNotCompleteObjectiveByChattingOutsideOfRange()
-			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 		int playerToTest = PlayersForTest.MARTY.getPlayerID();
 		Player playerOne = playerManager.addPlayer(playerToTest);
@@ -390,14 +368,9 @@ public class QuestManagerTest
 
 	/**
 	 * Make sure quest is triggered if it walks onto a location that has a quest
-	 *
-	 * @throws DatabaseException
-	 *             QuestManager works with DB
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
 	 */
 	@Test
-	public void testPlayerTriggerOnMovement() throws DatabaseException, IllegalQuestChangeException
+	public void testPlayerTriggerOnMovement()
 	{
 		Position pos1 = new Position(1, 1);
 		Position pos2 = QuestsForTest.THE_LITTLE_QUEST.getPosition();
@@ -439,13 +412,10 @@ public class QuestManagerTest
 	}
 
 	/**
-	 * When a player moves to the right place, we should trigger the quest
-	 *
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
+	 * When a player moves to the right place, we should trigger the questy
 	 */
 	@Test
-	public void triggersOnPlayerMovement() throws IllegalQuestChangeException
+	public void triggersOnPlayerMovement()
 	{
 		Player p = playerManager.addPlayer(1);
 		p.setPlayerPosition(QuestsForTest.ONE_BIG_QUEST.getPosition());
@@ -457,13 +427,11 @@ public class QuestManagerTest
 	 * When a player moves to the right place, we should get a list of objectives
 	 * completed at that location
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
 	 * @throws DatabaseException
 	 *             the state changed illegally
 	 */
 	@Test
-	public void getCompletedObjectivesOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void getCompletedObjectivesOnPlayerMovement() throws DatabaseException
 	{
 		GameLocationDTO location = (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
 		String mapName = location.getMapName();
@@ -664,13 +632,9 @@ public class QuestManagerTest
 	/**
 	 * When a player moves to the right place, should complete objective
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
-	 * @throws DatabaseException
-	 *             shouldn't
 	 */
 	@Test
-	public void completeObjectiveOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void completeObjectiveOnPlayerMovement()
 	{
 		// We need to add a quest and objective that are triggered on location
 		// but not already completed
@@ -688,13 +652,9 @@ public class QuestManagerTest
 	/**
 	 * When a player moves to the right place, should complete objective
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
-	 * @throws DatabaseException
-	 *             shouldn't
 	 */
 	@Test
-	public void alreadyCompletedObjectiveOnPlayerMovement() throws IllegalQuestChangeException, DatabaseException
+	public void alreadyCompletedObjectiveOnPlayerMovement()
 	{
 		// We need to add a quest and objective that are triggered on location
 		// but not already completed
@@ -760,13 +720,9 @@ public class QuestManagerTest
 	/**
 	 * A finished quest should be marked as finished not expired
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             thrown if changing to a wrong state
-	 * @throws DatabaseException
-	 *             shouldn't
 	 */
 	@Test
-	public void testGetQuestStateByIDWhenQuestStateIsExpired() throws IllegalQuestChangeException, DatabaseException
+	public void testGetQuestStateByIDWhenQuestStateIsExpired()
 	{
 		playerManager.addPlayer(19);
 		QuestState questState = QuestManager.getSingleton().getQuestStateByID(19, 8);
@@ -802,17 +758,9 @@ public class QuestManagerTest
 	 *
 	 * Test that the Quest is completed when the player has enough doubloons.
 	 *
-	 * @throws IllegalQuestChangeException
-	 *             - shouldn't
-	 * @throws IllegalObjectiveChangeException
-	 *             - shouldn't
-	 * @throws DatabaseException
-	 *             - shouldn't
-	 *
 	 */
 	@Test
 	public void testHandleDoubloonsChanged()
-			throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
 	{
 
 		int playerID = 19;
@@ -923,10 +871,6 @@ public class QuestManagerTest
 
 	}
 
-	/**
-	 *
-	 * @throws DatabaseException
-	 */
 	@Test
 	public void testHandleFriends() throws DatabaseException
 	{
@@ -966,7 +910,9 @@ public class QuestManagerTest
 		// Verified that the objective state is still set to triggered
 		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID2.getState());
 
-		FriendTableDataGateway gateway = FriendTableDataGatewayMock.getSingleton();
+		FriendTableDataGateway gateway =
+				(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"Friend");
 		//merlin and john became friends
 		gateway.add(playerID, "John", FriendStatusEnum.ACCEPTED);
 		//gateway.accept(playerID, "John");
@@ -984,6 +930,7 @@ public class QuestManagerTest
 				QuestManager.getSingleton().getObjectiveStateByID(playerIDD, questID, objectiveID).getState());
 	}
 
+	@Test
 	public void testHandleMultipleFriends() throws DatabaseException
 	{
 		int playerID = PlayersForTest.MERLIN.getPlayerID();
@@ -1009,7 +956,9 @@ public class QuestManagerTest
 		// Verified that the objective state is still set to triggered
 		assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
-		FriendTableDataGateway gateway = FriendTableDataGatewayMock.getSingleton();
+		FriendTableDataGateway gateway =
+				(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"Friend");
 		//merlin and john became friends
 		gateway.add(playerID, "John", FriendStatusEnum.ACCEPTED);
 
@@ -1026,22 +975,16 @@ public class QuestManagerTest
 
 		QualifiedObservableConnector.getSingleton().sendReport(report2);
 		QuestManager.getSingleton().handleFriends(report2);
-		assertTrue(gateway.getFriendCounter(playerID) == 2);
+		assertEquals(2, gateway.getFriendCounter(playerID));
 		// Verifies that the objective is now completed
 
 		assertEquals(ObjectiveStateEnum.COMPLETED,
 				QuestManager.getSingleton().getObjectiveStateByID(playerID, questID, objectiveID).getState());
-//
 	}
 
-	/**
-	 *
-	 * @throws DatabaseException
-	 * @throws IllegalObjectiveChangeException
-	 * @throws IllegalQuestChangeException
-	 */
+
 	@Test
-	public void testCompleteObjectiveByReceivingChat() throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
+	public void testCompleteObjectiveByReceivingChat()
 	{
 		int playerToTest = PlayersForTest.JEFF.getPlayerID();
 		int questID = ObjectivesForTest.RESPONSE_FROM_MOWREY_NPC.getQuestID();

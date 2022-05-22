@@ -1,8 +1,6 @@
 package datasource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import dataDTO.FriendDTO;
 import datatypes.FriendStatusEnum;
@@ -16,7 +14,6 @@ import datatypes.FriendStatusEnum;
 public class FriendTableDataGatewayMock implements FriendTableDataGateway
 {
 
-	private static FriendTableDataGatewayMock singleton = null;
 	FriendDBMock friend = FriendDBMock.getSingleton();
 
 	/**
@@ -24,33 +21,18 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 	 */
 	private FriendTableDataGatewayMock()
 	{
-		resetData();
+		resetTableGateway();
 	}
 
-	/**
-	 * getter for the singleton
-	 * @return singleton
-	 */
-	public static synchronized FriendTableDataGatewayMock getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new FriendTableDataGatewayMock();
-		}
-		return singleton;
+		return new FriendTableDataGatewayMock();
 	}
 
-
-	/**
-	 * 1 | playerID | friendID | Status
-	 * 2 | playerID | friendID | Status
-	 * 3 | playerID | friendID | Status
-	 *
-	 */
 	@Override
-	public void resetData()
+	public int accept(int playerID, String friendName)
 	{
-		friend.resetData();
+		return friend.update(playerID, friendName);
 	}
 
 	/**
@@ -67,16 +49,10 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 	}
 
 	@Override
-	public ArrayList<FriendDTO> getAllFriends(int id) throws DatabaseException
+	public ArrayList<FriendDTO> getAllFriends(int id)
 	{
 
 		return friend.get(id);
-	}
-
-	@Override
-	public int accept(int playerID, String friendName)
-	{
-		return friend.update(playerID, friendName);
 	}
 
 	@Override
@@ -87,23 +63,33 @@ public class FriendTableDataGatewayMock implements FriendTableDataGateway
 	}
 
 	/**
-	 * For updating the friends tab
-	 */
-	@Override
-	public String getSpecificNameFromId(int playerId)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * Updating the friends tab
 	 */
 	@Override
 	public int getSpecificIDFromName(String playerName)
 	{
-		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/**
+	 * For updating the friends tab
+	 */
+	@Override
+	public String getSpecificNameFromId(int playerId)
+	{
+		return null;
+	}
+
+	/**
+	 * 1 | playerID | friendID | Status
+	 * 2 | playerID | friendID | Status
+	 * 3 | playerID | friendID | Status
+	 *
+	 */
+	@Override
+	public void resetTableGateway()
+	{
+		friend.resetData();
 	}
 
 }

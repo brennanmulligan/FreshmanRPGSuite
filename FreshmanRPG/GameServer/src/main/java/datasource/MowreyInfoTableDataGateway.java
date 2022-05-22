@@ -10,9 +10,9 @@ import java.util.ArrayList;
 /**
  * Holds dialog information for the Mowrey NPC
  *
- * @authors Ryan and Ktyal
+ * @author Ryan and Ktyal
  */
-public interface MowreyInfoTableDataGateway
+public interface MowreyInfoTableDataGateway extends TableDataGateway
 {
 
     /**
@@ -38,9 +38,4 @@ public interface MowreyInfoTableDataGateway
     void createRow(int id, String question, String answer, LocalDate startDate, LocalDate endDate)
             throws DatabaseException;
 
-    /**
-     * Put data back to its original state - only useful in mock gateways for
-     * testing purposes
-     */
-    void resetData();
 }

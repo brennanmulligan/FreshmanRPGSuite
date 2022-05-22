@@ -1,6 +1,6 @@
 package api.service;
 
-import api.model.Player;
+import api.model.GameManagerPlayer;
 
 /**
  * Player Service interface
@@ -9,5 +9,5 @@ import api.model.Player;
  */
 public interface PlayerService
 {
-    int addPlayer(Player player);
+    int addPlayer(GameManagerPlayer player);
 }

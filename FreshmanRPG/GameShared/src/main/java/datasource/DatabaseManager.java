@@ -162,11 +162,12 @@ public class DatabaseManager
 	 *
 	 * @throws SQLException if the rollback fails
 	 */
-	public void rollBack() throws SQLException
+	public void rollBack() throws SQLException, DatabaseException
 	{
 		Statement stmt = getConnection().createStatement();
 		stmt.execute("ROLLBACK");
-		getConnection().setAutoCommit(true);
+		getConnection().commit();//
+		startTransaction();// setAutoCommit(true);
 	}
 
 	/**
@@ -196,14 +197,14 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			throw new DatabaseException("Unable to start transation ", e);
+			throw new DatabaseException("Unable to start transaction ", e);
 		}
 	}
 
 	/**
 	 * For testing purposes only
 	 */
-	public static void reset()
+	public static void resetSingleton()
 	{
 		try
 		{
@@ -217,7 +218,7 @@ public class DatabaseManager
 				}
 			}
 		}
-		catch (SQLException e)
+		catch (SQLException|DatabaseException e)
 		{
 			e.printStackTrace();
 		}

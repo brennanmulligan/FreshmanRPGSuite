@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import dataDTO.FriendDTO;
 import datatypes.FriendStatusEnum;
@@ -20,43 +19,29 @@ import datatypes.FriendStatusEnum;
  * @author Christian C, Andrew M
  *
  */
-public abstract class FriendTableDataGatewayTest extends DatabaseTest
+public abstract class FriendTableDataGatewayTest
 {
 
 	// gateway instance
 	private FriendTableDataGateway gateway;
 	//friendDBMock instance
-	private FriendDBMock friend = FriendDBMock.getSingleton();
+	private final FriendDBMock friendDatabase = FriendDBMock.getSingleton();
 
-	/**
-	 * @throws DatabaseException
-	 * @throws SQLException
-	 */
 	@After
 	public void tearDown() throws DatabaseException, SQLException
 	{
-		super.tearDown();
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
-		if (friend != null)
+		if (friendDatabase != null)
 		{
-			friend.resetData();
+			friendDatabase.resetData();
 		}
 	}
 
-	/**
-	 *
-	 * @return singleton
-	 * @throws DatabaseException
-	 */
-	public abstract FriendTableDataGateway getGatewaySingleton() throws DatabaseException;
+	abstract FriendTableDataGateway getGatewaySingleton() throws DatabaseException;
 
-	/**
-	 *
-	 * @throws DatabaseException
-	 */
 	@Test
 	public void isSingleton() throws DatabaseException
 	{
@@ -69,7 +54,6 @@ public abstract class FriendTableDataGatewayTest extends DatabaseTest
 	/**
 	 * Test get all friends
 	 *
-	 * @throws DatabaseException
 	 */
 	@Test
 	public void testGetAllFriends() throws DatabaseException
@@ -94,16 +78,14 @@ public abstract class FriendTableDataGatewayTest extends DatabaseTest
 
 	/**
 	 * test adding a friend to the FriendDBMock
-	 * @throws DatabaseException
-	 * @throws SQLException
 	 */
 	@Test
-	public void testAddFriend() throws DatabaseException, SQLException
+	public void testAddFriend() throws DatabaseException
 	{
 		FriendTableDataGateway gateway = getGatewaySingleton();
 		ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
 		assertEquals(3, friendListFromGateway.size());
-		friend.resetData();
+		friendDatabase.resetData();
 		gateway.add(1, "Frank", FriendStatusEnum.PENDING);
 
 		friendListFromGateway = gateway.getAllFriends(1);
@@ -138,7 +120,6 @@ public abstract class FriendTableDataGatewayTest extends DatabaseTest
 
 	/**
 	 * do the same test as add friend but frank accepts and we test that
-	 * @throws DatabaseException
 	 */
 	@Test
 	public void testAcceptFriend() throws DatabaseException
@@ -146,7 +127,7 @@ public abstract class FriendTableDataGatewayTest extends DatabaseTest
 		FriendTableDataGateway gateway = getGatewaySingleton();
 		ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
 		assertEquals(friendListFromGateway.size(), 3);
-		gateway.resetData();
+		gateway.resetTableGateway();
 		gateway.add(1, "Frank", FriendStatusEnum.PENDING); //john adds frank
 
 		friendListFromGateway = gateway.getAllFriends(1);
@@ -217,7 +198,7 @@ public abstract class FriendTableDataGatewayTest extends DatabaseTest
 		//test to see if I accept a request does the count increase if i check again
 		//uncomment below when gateway is refactored
 		gateway.accept(2, "John");
-		assertEquals(gateway.getFriendCounter(2), 1);
-		assertEquals(gateway.getFriendCounter(1), 2);
+		assertEquals(1, gateway.getFriendCounter(2));
+		assertEquals(2, gateway.getFriendCounter(1));
 	}
 }

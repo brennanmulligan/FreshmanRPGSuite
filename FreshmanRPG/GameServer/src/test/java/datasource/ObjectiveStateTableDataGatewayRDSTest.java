@@ -15,7 +15,8 @@ public class ObjectiveStateTableDataGatewayRDSTest extends ObjectiveStateTableDa
 	@Override
 	public ObjectiveStateTableDataGateway getGateway()
 	{
-		return ObjectiveStateTableDataGatewayRDS.getSingleton();
+		return (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"ObjectiveState");
 	}
 
 }

@@ -2,13 +2,10 @@ package model.reports;
 
 import static org.junit.Assert.*;
 
+import datasource.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import datasource.DatabaseException;
-import datasource.FriendDBMock;
-import datasource.FriendTableDataGateway;
-import datasource.FriendTableDataGatewayMock;
 import model.OptionsManager;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -20,10 +17,6 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  */
 public class FriendConnectionReceivedReportTest
 {
-
-	private FriendTableDataGateway gateway;
-
-
 	@Before
 	public void setup()
 	{
@@ -31,14 +24,14 @@ public class FriendConnectionReceivedReportTest
 		new FriendDBMock();
 	}
 
-	/**
-	 * @throws DatabaseException
-	 */
 	@Test
 	public void test() throws DatabaseException
 	{
 
-		gateway = FriendTableDataGatewayMock.getSingleton();
+		FriendTableDataGateway gateway =
+				(FriendTableDataGateway) TableDataGatewayManager.getSingleton()
+						.getTableGateway(
+								"Friend");
 
 		int senderID = gateway.accept(2, "John");
 		FriendConnectionReceivedReport accepted = new FriendConnectionReceivedReport(senderID, 2);

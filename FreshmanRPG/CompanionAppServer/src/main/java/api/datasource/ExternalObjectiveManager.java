@@ -2,39 +2,43 @@ package api.datasource;
 
 import datasource.DatabaseException;
 import datasource.ObjectiveTableDataGateway;
-import datasource.ObjectiveTableDataGatewayMock;
-import datasource.ObjectiveTableDataGatewayRDS;
+import datasource.TableDataGatewayManager;
 import model.ObjectiveRecord;
-import model.OptionsManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExternalObjectiveManager {
+public class ExternalObjectiveManager
+{
 
     private static ExternalObjectiveManager instance;
-    private ObjectiveTableDataGateway gateway;
+    private final ObjectiveTableDataGateway gateway;
 
-    private ExternalObjectiveManager() {
-        if (OptionsManager.getSingleton().isUsingMockDataSource()) {
-            gateway = ObjectiveTableDataGatewayMock.getSingleton();
-        } else {
-            gateway = ObjectiveTableDataGatewayRDS.getSingleton();
-        }
+    private ExternalObjectiveManager()
+    {
+        gateway =
+                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton()
+                        .getTableGateway("Objective");
     }
 
-    public static ExternalObjectiveManager getInstance() {
-        if (instance == null) {
+    public static ExternalObjectiveManager getInstance()
+    {
+        if (instance == null)
+        {
             instance = new ExternalObjectiveManager();
         }
         return instance;
     }
 
-    public List<ObjectiveRecord> getExternalObjectsForQuest(int questID) throws DatabaseException {
+    public List<ObjectiveRecord> getExternalObjectsForQuest(int questID)
+            throws DatabaseException
+    {
         List<ObjectiveRecord> questObjectives = gateway.getObjectivesForQuest(questID);
         List<ObjectiveRecord> externalObjectives = new ArrayList<>();
-        for (ObjectiveRecord objective : questObjectives) {
-            if (objective.isRealLifeObjective()) {
+        for (ObjectiveRecord objective : questObjectives)
+        {
+            if (objective.isRealLifeObjective())
+            {
                 externalObjectives.add(objective);
             }
         }

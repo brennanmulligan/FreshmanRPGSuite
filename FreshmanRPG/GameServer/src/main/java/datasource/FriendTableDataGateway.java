@@ -9,31 +9,29 @@ import datatypes.FriendStatusEnum;
 /**
  *
  * @author Christian C, Andrew M
- * @Description interface for the friend gateways 
  *
  */
-public interface FriendTableDataGateway
+public interface FriendTableDataGateway extends TableDataGateway
 {
 
 	/**
 	 * used for testing to reset the data back to a known state
 	 */
-	public abstract void resetData();
+	void resetTableGateway();
 
 	/**
-	 * @return the list of friends 
-	 * @throws DatabaseException
+	 * @return the list of friends
 	 */
-	public abstract ArrayList<FriendDTO> getAllFriends(int id) throws DatabaseException;
+	ArrayList<FriendDTO> getAllFriends(int id) throws DatabaseException;
 
-	public abstract void add(int playerID, String friendName, FriendStatusEnum status) throws DatabaseException;
+	void add(int playerID, String friendName, FriendStatusEnum status) throws DatabaseException;
 
-	public abstract int accept(int playerID, String friendName) throws DatabaseException;
+	int accept(int playerID, String friendName) throws DatabaseException;
 
-	public abstract int getFriendCounter(int id) throws DatabaseException;
+	int getFriendCounter(int id) throws DatabaseException;
 
-	public String getSpecificNameFromId(int playerId);
+	String getSpecificNameFromId(int playerId);
 
-	public int getSpecificIDFromName(String playerName);
+	int getSpecificIDFromName(String playerName);
 
 }

@@ -19,14 +19,15 @@ public class DataGatheringUtilities
                         qGateway.getObjectivesForFulfillment(), q.isNeedingNotification(),
                         null);
         ObjectiveStateTableDataGateway asGateway =
-                ObjectiveStateTableDataGatewayMock.getSingleton();
+                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "ObjectiveState");
         ArrayList<ObjectiveStateRecordDTO> objectivesForPlayer =
                 asGateway.getObjectiveStates(q.getPlayerID(), q.getQuestID());
+        ObjectiveTableDataGateway aGateway =
+                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "Objective");
         for (ObjectiveStateRecordDTO adv : objectivesForPlayer)
         {
-
-            ObjectiveTableDataGateway aGateway =
-                    ObjectiveTableDataGatewayMock.getSingleton();
             ObjectiveRecord objectiveRecord =
                     aGateway.getObjective(q.getQuestID(), adv.getObjectiveID());
 
@@ -60,7 +61,9 @@ public class DataGatheringUtilities
     public static ArrayList<FriendDTO> getPlayersFriends(int playerID)
     {
         ArrayList<FriendDTO> result = new ArrayList<>();
-        FriendTableDataGateway friendGateway = FriendTableDataGatewayMock.getSingleton();
+        FriendTableDataGateway friendGateway =
+                (FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "Friend");
         try
         {
             result = friendGateway.getAllFriends(playerID);
@@ -76,7 +79,8 @@ public class DataGatheringUtilities
     {
         ArrayList<ClientPlayerQuestStateDTO> result = new ArrayList<>();
         QuestStateTableDataGateway qsGateway =
-                QuestStateTableDataGatewayMock.getSingleton();
+                (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "QuestState");
         try
         {
             for (QuestStateRecordDTO q : qsGateway.getQuestStates(playerID))

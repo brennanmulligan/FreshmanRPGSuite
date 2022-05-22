@@ -1,43 +1,39 @@
 package datasource;
 
+import model.OptionsManager;
 import org.junit.After;
 import org.junit.Before;
-
-import model.OptionsManager;
+import org.junit.BeforeClass;
 
 /**
  * Mock test
  *
  * @author Jake Moore, Elisabeth Ostrow
  */
-public class InteractableItemTableDataGatewayMockTest extends InteractableItemTableDataGatewayTest
+public class InteractableItemTableDataGatewayMockTest
+        extends InteractableItemTableDataGatewayTest
 {
+    @BeforeClass
+    public static void hardReset()
+    {
+        OptionsManager.getSingleton().setUsingMocKDataSource(true);
+    }
 
-	/**
-	 * @see datasource.DatabaseTest#setUp()
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-	}
-
-	/**
-	 * @see datasource.DatabaseTest#tearDown()
-	 */
-	@After
-	public void tearDown()
-	{
-
-	}
-
-	/**
-	 * Gets the correct singleton
-	 */
-	@Override
-	public InteractableItemTableDataGateway getGatewaySingleton()
-	{
-		return InteractableItemTableDataGatewayMock.getInstance();
-	}
+    @Before
+    public void setUp() throws DatabaseException
+    {
+        DefaultItemsTableDataGatewayMock gateway =
+                (DefaultItemsTableDataGatewayMock) getGatewaySingleton();
+        gateway.resetTableGateway();
+    }
+    /**
+     * Gets the correct singleton
+     */
+    @Override
+    public InteractableItemTableDataGateway getGatewaySingleton()
+    {
+        return (InteractableItemTableDataGateway) TableDataGatewayManager.getSingleton()
+                .getTableGateway("InteractableItem");
+    }
 
 }

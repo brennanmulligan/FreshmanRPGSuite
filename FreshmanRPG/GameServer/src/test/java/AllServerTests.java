@@ -87,13 +87,15 @@ import model.reports.UpdatePlayerInformationReportTest;
 				DefaultItemsTableDataGatewayMockTest.class,
 				DefaultItemsTableDataGatewayRDSTest.class,
 				//DefaultItemsTableDataGatewayTest.class
-				ObjectiveRecordTest.class,
-				ObjectiveStateTableDataGatewayMockTest.class,
-				ObjectiveStateTableDataGatewayRDSTest.class,
-				// ObjectiveStateTableDataGatewayTest.class,
-				ObjectiveTableDataGatewayMockTest.class,
-				ObjectiveTableDataGatewayRDSTest.class,
-				// ObjectiveTableDataGateway.class
+				DoubloonPrizesTableDataGatewayMockTest.class,
+				DoubloonPrizesTableDataGatewayRDSTest.class,
+				//DoubloonPrizesTableDataGatewayTest.class,
+				FriendTableDataGatewayMockTest.class,
+				FriendTableDataGatewayRDSTest.class,
+				//FriendTableDataGatewayTest.class,
+				InteractableItemRowDataGatewayMockTest.class,
+				InteractableItemRowDataGatewayRDSTest.class,
+				//InteractableItemRowDataGatewayTest.class,
 				LevelTableDataGatewayMockTest.class,
 				LevelTableDataGatewayRDSTest.class,
 				// LevelTableDataGatewayTest.class,
@@ -103,6 +105,13 @@ import model.reports.UpdatePlayerInformationReportTest;
 				NPCRowDataGatewayMockTest.class,
 				NPCRowDataGatewayRDSTest.class,
 				// NPCRowDataGatewayTest.class,
+				ObjectiveRecordTest.class,
+				ObjectiveStateTableDataGatewayMockTest.class,
+				ObjectiveStateTableDataGatewayRDSTest.class,
+				// ObjectiveStateTableDataGatewayTest.class,
+				ObjectiveTableDataGatewayMockTest.class,
+				ObjectiveTableDataGatewayRDSTest.class,
+				// ObjectiveTableDataGateway.class
 				PlayerTableDataGatewayMockTest.class,
 				PlayerTableDataGatewayRDSTest.class,
 				// PlayerRowDataGatewayTest.class,
@@ -202,7 +211,6 @@ public class AllServerTests
 			PlayerConnectionTest.defaultAllPins();
 		}
 
-		;
 
 		@Override
 		protected void after()
@@ -210,6 +218,5 @@ public class AllServerTests
 
 		}
 
-		;
 	};
 }

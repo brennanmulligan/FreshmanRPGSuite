@@ -19,20 +19,9 @@ import datatypes.ObjectiveStateEnum;
 public class ObjectiveStateTableDataGatewayRDS implements ObjectiveStateTableDataGateway
 {
 
-	private static ObjectiveStateTableDataGateway singleton;
-
-	/**
-	 * Retrieves the rds gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized ObjectiveStateTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new ObjectiveStateTableDataGatewayRDS();
-		}
-		return singleton;
+		return new ObjectiveStateTableDataGatewayRDS();
 	}
 
 	/**
@@ -99,6 +88,12 @@ public class ObjectiveStateTableDataGatewayRDS implements ObjectiveStateTableDat
 		{
 			throw new DatabaseException("Couldn't find objective for quest ID " + questID, e);
 		}
+	}
+
+	@Override
+	public void resetTableGateway()
+	{
+
 	}
 
 	private ObjectiveStateEnum convertToState(int int1)
@@ -174,15 +169,6 @@ public class ObjectiveStateTableDataGatewayRDS implements ObjectiveStateTableDat
 
 	}
 
-	/**
-	 * @see ObjectiveStateTableDataGateway#resetData()
-	 */
-	@Override
-	public void resetData()
-	{
-		// nothing necessary
-
-	}
 
 	/**
 	 * @see ObjectiveStateTableDataGateway#getPendingObjectivesForPlayer(int)

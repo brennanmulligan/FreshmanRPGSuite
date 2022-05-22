@@ -19,10 +19,8 @@ import java.util.HashMap;
 public class InfoNPCBehavior extends NPCBehavior
 {
     private static final long serialVersionUID = 1L;
-    private InfoNPCTableDataGateway gateway;
     private ArrayList<InfoNPCDTO> info;
     private HashMap<String, String> responseAndInfoHashMap;
-    private HashMap<Integer, Integer> playersGreeted;
     static final int CHAT_DELAY_SECONDS = 18;
     private int chatDelayCounter = 0;
 
@@ -37,19 +35,15 @@ public class InfoNPCBehavior extends NPCBehavior
         super(playerID);
         setUpListening();
 
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            gateway = InfoNPCTableDataGatewayMock.getSingleton();
-        }
-        else
-        {
-            gateway = InfoNPCTableDataGatewayRDS.getSingleton();
-        }
+        InfoNPCTableDataGateway gateway =
+                (InfoNPCTableDataGateway) TableDataGatewayManager.getSingleton()
+                        .getTableGateway("InfoNPC");
+
         try
         {
             info = gateway.getAllInfoForNPC(playerID);
             responseAndInfoHashMap = new HashMap<>();
-            playersGreeted = new HashMap<>();
+            HashMap<Integer, Integer> playersGreeted = new HashMap<>();
             transferInfoDTOContentsToHashMap();
         }
         catch (DatabaseException e)

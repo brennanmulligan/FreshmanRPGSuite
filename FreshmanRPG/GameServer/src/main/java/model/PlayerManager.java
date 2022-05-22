@@ -149,11 +149,9 @@ public class PlayerManager implements QualifiedObserver
 					(DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
 							"DoubloonPrizes");
 			FriendTableDataGateway friendTableDataGateway =
-					FriendTableDataGatewayMock.getSingleton();
-			if (!OptionsManager.getSingleton().isUsingMockDataSource())
-			{
-				friendTableDataGateway = FriendTableDataGatewayRDS.getInstance();
-			}
+					(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+							"Friend");
+
 			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
 			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
 			return player;
@@ -222,11 +220,9 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public ArrayList<PlayerScoreRecord> getTopTenPlayers() throws DatabaseException
 	{
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			return PlayerTableDataGatewayMock.getSingleton().getTopTenList();
-		}
-		return PlayerTableDataGatewayRDS.getSingleton().getTopTenList();
+		PlayerTableDataGateway gateway =
+				(PlayerTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Player");
+		return gateway.getTopTenList();
 	}
 
 	/**

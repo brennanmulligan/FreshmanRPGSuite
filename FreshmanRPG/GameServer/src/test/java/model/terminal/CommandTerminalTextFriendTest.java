@@ -2,6 +2,8 @@ package model.terminal;
 
 import static org.junit.Assert.*;
 
+import datasource.FriendTableDataGateway;
+import datasource.TableDataGatewayManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +29,9 @@ public class CommandTerminalTextFriendTest
 	public void setup()
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		FriendTableDataGatewayMock.getSingleton().resetData();
+		FriendTableDataGateway friendGateway =
+				(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Friend");
+		friendGateway.resetTableGateway();
 		FriendDBMock friend = FriendDBMock.getSingleton();
 		friend.resetData();
 	}

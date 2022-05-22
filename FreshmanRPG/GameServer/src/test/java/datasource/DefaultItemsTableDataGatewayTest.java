@@ -3,6 +3,7 @@ package datasource;
 import dataDTO.VanityDTO;
 import datatypes.DefaultItemsForTest;
 import datatypes.VanityForTest;
+import model.OptionsManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Tests for the DefaultItemsTableDataGateway
  */
-public abstract class DefaultItemsTableDataGatewayTest extends DatabaseTest
+public abstract class DefaultItemsTableDataGatewayTest
 {
     protected DefaultItemsTableDataGateway gateway;
     abstract DefaultItemsTableDataGateway findGateway() throws DatabaseException;

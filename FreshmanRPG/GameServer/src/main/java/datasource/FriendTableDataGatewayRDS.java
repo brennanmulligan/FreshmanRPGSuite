@@ -10,28 +10,24 @@ import datatypes.FriendStatusEnum;
 public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 {
 
-	private static FriendTableDataGatewayRDS singleton;
 	static ArrayList<PlayerDTO> allPlayer;
 	private Connection connect;
 	private String playerName, friendName;
 
-	/**
-	 * getInstance method for the gateway
-	 * @return The only one and only
-	 * @throws DatabaseException if the attempt to retrieve gets an unexpected error
-	 */
-	public static synchronized FriendTableDataGatewayRDS getInstance() throws DatabaseException
+	static TableDataGateway getGateway() throws DatabaseException
 	{
-		if (singleton == null)
-		{
-			singleton = new FriendTableDataGatewayRDS();
-		}
-		allPlayer = PlayerTableDataGatewayRDS.getSingleton().retrieveAllPlayers();
-		return singleton;
+		return new FriendTableDataGatewayRDS();
 	}
 
+	private FriendTableDataGatewayRDS() throws DatabaseException
+	{
+		PlayerTableDataGateway playerGateway =
+				(PlayerTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Player");
+		allPlayer = playerGateway.retrieveAllPlayers();
+
+	}
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		// TODO Auto-generated method stub
 	}

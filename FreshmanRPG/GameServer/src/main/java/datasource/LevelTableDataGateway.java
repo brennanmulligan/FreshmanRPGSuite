@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author merlin
  *
  */
-public interface LevelTableDataGateway
+public interface LevelTableDataGateway extends TableDataGateway
 {
 
 	/**

@@ -1,28 +1,22 @@
 package model;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import criteria.CriteriaIntegerDTO;
 import criteria.CriteriaStringDTO;
 import criteria.InteractableItemActionParameter;
 import criteria.QuestListCompletionParameter;
 import dataDTO.InteractableItemDTO;
 import dataENUM.InteractableItemActionType;
-import datasource.DatabaseException;
-import datasource.InteractableItemRowDataGateway;
-import datasource.InteractableItemRowDataGatewayMock;
-import datasource.InteractableItemRowDataGatewayRDS;
-import datasource.InteractableItemTableDataGateway;
-import datasource.InteractableItemTableDataGatewayMock;
-import datasource.InteractableItemTableDataGatewayRDS;
+import datasource.*;
 import datatypes.Position;
 import model.reports.InteractableObjectBuffReport;
 import model.reports.InteractableObjectTextReport;
 import model.reports.InteractionDeniedReport;
 import model.reports.KeyInputRecievedReport;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * InteractObjectManager checks the player position against other objects'
@@ -30,233 +24,229 @@ import model.reports.KeyInputRecievedReport;
  * out
  *
  * @author Andy, Truc, and Emmanuel
- *
  */
 public class InteractObjectManager implements QualifiedObserver
 {
-	private static InteractObjectManager singleton;
-	private static InteractableItemTableDataGateway gateway;
+    private static final int WIDTH = 2;
+    private static final int HEIGHT = 2;
+    private static InteractObjectManager singleton;
+    private static InteractableItemTableDataGateway gateway;
 
-	private static final int WIDTH = 2;
-	private static final int HEIGHT = 2;
+    /**
+     * Protected for singleton
+     */
+    private InteractObjectManager()
+    {
+        gateway =
+                (InteractableItemTableDataGateway) TableDataGatewayManager.getSingleton()
+                        .getTableGateway(
+                                "InteractableItem");
+        gateway.resetTableGateway();
 
-	/**
-	 * Protected for singleton
-	 */
-	private InteractObjectManager()
-	{
-		// for testing purpose
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			gateway = InteractableItemTableDataGatewayMock.getInstance();
-			gateway.resetData();
-		}
-		else
-		{
-			try
-			{
-				gateway = InteractableItemTableDataGatewayRDS.getInstance();
-			}
-			catch (DatabaseException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		QualifiedObservableConnector.getSingleton().registerObserver(this, KeyInputRecievedReport.class);
-	}
+        QualifiedObservableConnector.getSingleton()
+                .registerObserver(this, KeyInputRecievedReport.class);
+    }
 
-	/**
-	 *
-	 * @return singleton instance of this manager
-	 */
-	public synchronized static InteractObjectManager getSingleton()
-	{
-		if (singleton == null)
-		{
-			singleton = new InteractObjectManager();
-		}
-		return singleton;
-	}
+    /**
+     * @return singleton instance of this manager
+     */
+    public synchronized static InteractObjectManager getSingleton()
+    {
+        if (singleton == null)
+        {
+            singleton = new InteractObjectManager();
+        }
+        return singleton;
+    }
 
-	/**
-	 * Reset the singleton for testing purpose
-	 */
-	public static void resetSingleton()
-	{
-		OptionsManager.getSingleton().assertTestMode();
-		if (singleton != null)
-		{
-			QualifiedObservableConnector.getSingleton().unregisterObserver(singleton, KeyInputRecievedReport.class);
-			singleton = null;
-		}
-	}
+    /**
+     * Reset the singleton for testing purpose
+     */
+    public static void resetSingleton()
+    {
+        OptionsManager.getSingleton().assertTestMode();
+        if (singleton != null)
+        {
+            QualifiedObservableConnector.getSingleton()
+                    .unregisterObserver(singleton, KeyInputRecievedReport.class);
+            singleton = null;
+        }
+    }
 
-	/**
-	 * handle a received report execute the appropriate item action if necessary
-	 *
-	 * edited by: Elisabeth Ostrow
-	 */
-	@Override
-	public void receiveReport(QualifiedObservableReport report)
-	{
-		if (report.getClass().equals(KeyInputRecievedReport.class))
-		{
-			try
-			{
-				KeyInputRecievedReport rpt = (KeyInputRecievedReport) report;
-				if (rpt.getInput().equalsIgnoreCase("E"))
-				{
-					int playerID = rpt.getPlayerId();
-					int objectID = objectInRange(playerID);
-					if (objectID >= 0)
-					{
-						execute(playerID, objectID);
-					}
-					// otherwise do nothing
-				}
-			}
-			catch (DatabaseException e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+    /**
+     * Checks whether the player is in the object locations on the map or not
+     *
+     * @param playerId the player whose location we're checking
+     * @return the object id of what is in range, -1 if nothing
+     * @throws DatabaseException shouldn't
+     *                           <p>
+     *                           edited by: Elisabeth Ostrow
+     */
+    public int objectInRange(int playerId) throws DatabaseException
+    {
+        // Gets player position from id
+        Player playerObject = PlayerManager.getSingleton().getPlayerFromID(playerId);
+        Position playerPosition = playerObject.getPlayerPosition();
+        int x = playerPosition.getRow();
+        int y = playerPosition.getColumn();
 
-	/**
-	 * Responsible for executing interaction with specific objects
-	 *
-	 * @param playerId
-	 *            - the player who is interacting with the object
-	 * @param itemId
-	 *            - the itemId from the database that the player is interacting with
-	 * @return whether or not execution was "successful"
-	 *
-	 * @author Adam Pine, Jacob Knight
-	 *
-	 *
-	 * edited by Stephen Clabaugh and Aaron Gerber
-	 */
-	protected boolean execute(int playerId, int itemId)
-	{
-		try
-		{
-			InteractableItemRowDataGateway rowGateway;
-			if (OptionsManager.getSingleton().isUsingMockDataSource())
-			{
-				rowGateway = new InteractableItemRowDataGatewayMock(itemId);
-			}
-			else
-			{
-				rowGateway = new InteractableItemRowDataGatewayRDS(itemId);
-			}
-			InteractableItemActionType type = rowGateway.getActionType();
-			InteractableItemActionParameter param = rowGateway.getActionParam();
-			if (type != null)
-			{
-				switch (type)
-				{
-					case NO_ACTION:
-						return true;
-					case MESSAGE:
-						CriteriaStringDTO txt = (CriteriaStringDTO) param;
-						InteractableObjectTextReport textReport = new InteractableObjectTextReport(playerId,
-								txt.getString());
-						QualifiedObservableConnector.getSingleton().sendReport(textReport);
-						return true;
-					case BOARD:
-						CriteriaStringDTO txt1 = (CriteriaStringDTO) param;
-						InteractableObjectTextReport textReport1 = new InteractableObjectTextReport(playerId,
-								txt1.getString());
-						QualifiedObservableConnector.getSingleton().sendReport(textReport1);
-						return true;
-					case BUFF:
-						Player p = PlayerManager.getSingleton().getPlayerFromID(playerId);
-						if (p.getBuffPool() == 0)
-						{
-							CriteriaIntegerDTO buffPool = (CriteriaIntegerDTO) param;
-							PlayerManager.getSingleton().getPlayerFromID(playerId).setBuffPool(buffPool.getTarget());
-							QualifiedObservableConnector.getSingleton().sendReport(new InteractableObjectBuffReport(playerId, buffPool.getTarget()));
-						}
-						else
-						{
-							QualifiedObservableConnector.getSingleton().sendReport(new InteractionDeniedReport(playerId));
-						}
-						return true;
-					case QUEST_TRIGGER:
-						String paramString = param.toString();
-						paramString = paramString.replace("Criteria String: ", "");
-						List<String> arrayList = new ArrayList<>    (Arrays.asList(paramString.split(",")));
-						ArrayList<Integer> questList = new ArrayList<>();
+        // Creates a rectangle around player
+        Rectangle playerRec = new Rectangle(x, y, WIDTH, HEIGHT);
 
-						for(String questID:arrayList)
-						{
-							System.out.println(questID);
-							questList.add(Integer.parseInt(questID.trim()));
-						}
+        // Gets all objects on the same map from DB
+        ArrayList<InteractableItemDTO> items =
+                gateway.getItemsOnMap(playerObject.getMapName());
 
-						QuestListCompletionParameter ql = new QuestListCompletionParameter(questList); // Quests to trigger
-						for (Integer questID : ql.getQuestIDs()) // For every quest in QuestLIstCompletionParameter
-						{
-								try
-								{
-									QuestManager.getSingleton().triggerQuest(playerId, questID);
-								}
-								catch (IllegalQuestChangeException | IllegalObjectiveChangeException e)
-								{
-									return false;
-								}
-						}
-						return true;
-					default:
-						return false;
-				}
-			}
-		}
-		catch (DatabaseException | NullPointerException e)
-		{
-			return false;
-		}
-		return false;
-	}
+        // Checks whether the player is in the object range
+        for (InteractableItemDTO item : items)
+        {
+            Position p = item.getPosition();
 
-	/**
-	 * Checks whether the player is in the object locations on the map or not
-	 *
-	 * @param playerId
-	 *            the player whose location we're checking
-	 * @return the object id of what is in range, -1 if nothing
-	 * @throws DatabaseException
-	 *             shouldn't
-	 *
-	 *             edited by: Elisabeth Ostrow
-	 */
-	public int objectInRange(int playerId) throws DatabaseException
-	{
-		// Gets player position from id
-		Player playerObject = PlayerManager.getSingleton().getPlayerFromID(playerId);
-		Position playerPosition = playerObject.getPlayerPosition();
-		int x = playerPosition.getRow();
-		int y = playerPosition.getColumn();
+            Rectangle objRec = new Rectangle(p.getRow(), p.getColumn(), WIDTH, HEIGHT);
+            boolean isInObjectRange = playerRec.intersects(objRec);
+            if (isInObjectRange)
+            {
+                return item.getId();
+            }
+        }
+        return -1;
+    }
 
-		// Creates a rectangle around player
-		Rectangle playerRec = new Rectangle(x, y, WIDTH, HEIGHT);
+    /**
+     * handle a received report execute the appropriate item action if necessary
+     * <p>
+     * edited by: Elisabeth Ostrow
+     */
+    @Override
+    public void receiveReport(QualifiedObservableReport report)
+    {
+        if (report.getClass().equals(KeyInputRecievedReport.class))
+        {
+            try
+            {
+                KeyInputRecievedReport rpt = (KeyInputRecievedReport) report;
+                if (rpt.getInput().equalsIgnoreCase("E"))
+                {
+                    int playerID = rpt.getPlayerId();
+                    int objectID = objectInRange(playerID);
+                    if (objectID >= 0)
+                    {
+                        execute(playerID, objectID);
+                    }
+                    // otherwise do nothing
+                }
+            }
+            catch (DatabaseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
-		// Gets all objects on the same map from DB
-		ArrayList<InteractableItemDTO> items = gateway.getItemsOnMap(playerObject.getMapName());
+    /**
+     * Responsible for executing interaction with specific objects
+     *
+     * @param playerId - the player who is interacting with the object
+     * @param itemId   - the itemId from the database that the player is interacting with
+     * @return whether or not execution was "successful"
+     * @author Adam Pine, Jacob Knight
+     * <p>
+     * <p>
+     * edited by Stephen Clabaugh and Aaron Gerber
+     */
+    protected boolean execute(int playerId, int itemId)
+    {
+        try
+        {
+            InteractableItemRowDataGateway rowGateway;
+            if (OptionsManager.getSingleton().isUsingMockDataSource())
+            {
+                rowGateway = new InteractableItemRowDataGatewayMock(itemId);
+            }
+            else
+            {
+                rowGateway = new InteractableItemRowDataGatewayRDS(itemId);
+            }
+            InteractableItemActionType type = rowGateway.getActionType();
+            InteractableItemActionParameter param = rowGateway.getActionParam();
+            if (type != null)
+            {
+                switch (type)
+                {
+                    case NO_ACTION:
+                        return true;
+                    case MESSAGE:
+                        CriteriaStringDTO txt = (CriteriaStringDTO) param;
+                        InteractableObjectTextReport textReport =
+                                new InteractableObjectTextReport(playerId,
+                                        txt.getString());
+                        QualifiedObservableConnector.getSingleton()
+                                .sendReport(textReport);
+                        return true;
+                    case BOARD:
+                        CriteriaStringDTO txt1 = (CriteriaStringDTO) param;
+                        InteractableObjectTextReport textReport1 =
+                                new InteractableObjectTextReport(playerId,
+                                        txt1.getString());
+                        QualifiedObservableConnector.getSingleton()
+                                .sendReport(textReport1);
+                        return true;
+                    case BUFF:
+                        Player p = PlayerManager.getSingleton().getPlayerFromID(playerId);
+                        if (p.getBuffPool() == 0)
+                        {
+                            CriteriaIntegerDTO buffPool = (CriteriaIntegerDTO) param;
+                            PlayerManager.getSingleton().getPlayerFromID(playerId)
+                                    .setBuffPool(buffPool.getTarget());
+                            QualifiedObservableConnector.getSingleton().sendReport(
+                                    new InteractableObjectBuffReport(playerId,
+                                            buffPool.getTarget()));
+                        }
+                        else
+                        {
+                            QualifiedObservableConnector.getSingleton()
+                                    .sendReport(new InteractionDeniedReport(playerId));
+                        }
+                        return true;
+                    case QUEST_TRIGGER:
+                        String paramString = param.toString();
+                        paramString = paramString.replace("Criteria String: ", "");
+                        List<String> arrayList =
+                                new ArrayList<>(Arrays.asList(paramString.split(",")));
+                        ArrayList<Integer> questList = new ArrayList<>();
 
-		// Checks whether the player is in the object range
-		for (InteractableItemDTO item:items)
-		{
-			Position p = item.getPosition();
+                        for (String questID : arrayList)
+                        {
+                            System.out.println(questID);
+                            questList.add(Integer.parseInt(questID.trim()));
+                        }
 
-			Rectangle objRec = new Rectangle(p.getRow(), p.getColumn(), WIDTH, HEIGHT);
-			boolean isInObjectRange = playerRec.intersects(objRec);
-			if (isInObjectRange)
-			{
-				return item.getId();
-			}
-		}
-		return -1;
-	}
+                        QuestListCompletionParameter ql =
+                                new QuestListCompletionParameter(
+                                        questList); // Quests to trigger
+                        for (Integer questID : ql.getQuestIDs()) // For every quest in QuestLIstCompletionParameter
+                        {
+                            try
+                            {
+                                QuestManager.getSingleton()
+                                        .triggerQuest(playerId, questID);
+                            }
+                            catch (IllegalQuestChangeException | IllegalObjectiveChangeException e)
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+        catch (DatabaseException | NullPointerException e)
+        {
+            return false;
+        }
+        return false;
+    }
 
 }
