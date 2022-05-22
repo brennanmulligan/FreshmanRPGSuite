@@ -15,38 +15,23 @@ import datatypes.ObjectiveStatesForTest;
  */
 public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDataGateway
 {
-	private static ObjectiveStateTableDataGateway singleton;
-
-	/**
-	 * Retrieves the mock gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized ObjectiveStateTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new ObjectiveStateTableDataGatewayMock();
-		}
-		return singleton;
+		return new ObjectiveStateTableDataGatewayMock();
 	}
-
 	/**
 	 * build the mock data from ObjectivesForTest
 	 */
 	private ObjectiveStateTableDataGatewayMock()
 	{
-		resetData();
+		resetTableGateway();
 	}
 
 
 	private Hashtable<Key, ArrayList<ObjectiveStateRecordDTO>> data;
 	private int maxQuestIDSeen;
 
-	/**
-	 * @see ObjectiveStateTableDataGateway#resetData()
-	 */
-	public void resetData()
+	public void resetTableGateway()
 	{
 		data = new Hashtable<>();
 		for (ObjectiveStatesForTest objectiveState : ObjectiveStatesForTest.values())
@@ -89,10 +74,11 @@ public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDa
 		}
 	}
 
+
 	private class Key
 	{
-		private int playerID;
-		private int questID;
+		private final int playerID;
+		private final int questID;
 
 		public Key(int playerID, int questID)
 		{
@@ -131,16 +117,11 @@ public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDa
 			{
 				return false;
 			}
-			;
 			if (playerID != other.playerID)
 			{
 				return false;
 			}
-			if (questID != other.questID)
-			{
-				return false;
-			}
-			return true;
+			return questID == other.questID;
 		}
 
 		private ObjectiveStateTableDataGatewayMock getOuterType()
@@ -189,7 +170,7 @@ public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDa
 	@Override
 	public void createTable() throws DatabaseException
 	{
-		resetData();
+		resetTableGateway();
 	}
 
 	/**
@@ -207,7 +188,7 @@ public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDa
 	 * @see ObjectiveStateTableDataGateway#getPendingObjectivesForPlayer(int)
 	 */
 	@Override
-	public ArrayList<ObjectiveStateRecordDTO> getPendingObjectivesForPlayer(int playerID) throws DatabaseException
+	public ArrayList<ObjectiveStateRecordDTO> getPendingObjectivesForPlayer(int playerID)
 	{
 		ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
 		for (int questID = 0; questID <= maxQuestIDSeen; questID++)
@@ -231,7 +212,7 @@ public class ObjectiveStateTableDataGatewayMock implements ObjectiveStateTableDa
 	 * @see ObjectiveStateTableDataGateway#getPendingObjectivesForPlayer(int)
 	 */
 	@Override
-	public ArrayList<ObjectiveStateRecordDTO> getUncompletedObjectivesForPlayer(int playerID) throws DatabaseException
+	public ArrayList<ObjectiveStateRecordDTO> getUncompletedObjectivesForPlayer(int playerID)
 	{
 		ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
 		for (int questID = 0; questID <= maxQuestIDSeen; questID++)

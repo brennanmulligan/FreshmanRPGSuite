@@ -4,8 +4,9 @@ import java.sql.SQLException;
 
 import datasource.DatabaseException;
 import datasource.DoubloonPrizesTableDataGatewayRDS;
+import datasource.TableDataGatewayManager;
 import model.OptionsManager;
-import datatypes.DoubloonPrizesForTest;;
+import datatypes.DoubloonPrizesForTest;
 
 /**
  *
@@ -15,11 +16,6 @@ import datatypes.DoubloonPrizesForTest;;
 public class BuildTestDoubloonPrizes
 {
 
-	/**
-	 * @param args
-	 * @throws DatabaseException
-	 * @throws SQLException
-	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(false);
@@ -29,16 +25,16 @@ public class BuildTestDoubloonPrizes
 
 	/**
 	 * Create a table of levels
-	 *
-	 * @throws SQLException
-	 * @throws DatabaseException
 	 */
-	private static void createDoubloonPrizesTable() throws SQLException, DatabaseException
+	private static void createDoubloonPrizesTable() throws DatabaseException
 	{
 		DoubloonPrizesTableDataGatewayRDS.createTable();
 		for (DoubloonPrizesForTest prize : DoubloonPrizesForTest.values())
 		{
-			DoubloonPrizesTableDataGatewayRDS.getInstance().createRow(prize.getName(), prize.getCost(), prize.getDescription());
+			DoubloonPrizesTableDataGatewayRDS gateway =
+					(DoubloonPrizesTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway(
+							"DoubloonPrizes");
+			gateway.createRow(prize.getName(), prize.getCost(), prize.getDescription());
 		}
 	}
 

@@ -13,41 +13,36 @@ import datatypes.Position;
  * @author Merlin
  *
  */
-public abstract class PlayerTableDataGateway
+public interface PlayerTableDataGateway extends TableDataGateway
 {
 
 	/**
 	 * the game location where new players should start
 	 */
-	public static final GameLocationDTO INITIAL_GAME_LOCATION = new GameLocationDTO("StartingRoom.tmx", new Position(2, 32));
-
-	/**
-	 * Used for testing to set the data back to a known state
-	 */
-	public abstract void resetData();
+	GameLocationDTO INITIAL_GAME_LOCATION = new GameLocationDTO("StartingRoom.tmx", new Position(2, 32));
 
 	/**
 	 * @return the top ten players as ranked by experience points
 	 * @throws DatabaseException if we can't retrieve the data
 	 */
-	public abstract ArrayList<PlayerScoreRecord> getTopTenList() throws DatabaseException;
+	ArrayList<PlayerScoreRecord> getTopTenList() throws DatabaseException;
 
 	/**
 	 * @return the entire list of players and their experience points
 	 * @throws DatabaseException if we can't retrieve the data
 	 */
-	public abstract ArrayList<PlayerScoreRecord> getHighScoreList() throws DatabaseException;
+	ArrayList<PlayerScoreRecord> getHighScoreList() throws DatabaseException;
 
 	/**
 	 * @return the entire list of players
 	 * @throws DatabaseException if we can't retrieve the data
 	 */
-	public abstract ArrayList<PlayerDTO> retrieveAllPlayers() throws DatabaseException;
+	ArrayList<PlayerDTO> retrieveAllPlayers() throws DatabaseException;
 
 	/**
 	 *
 	 * @return the list of online players
 	 * @throws DatabaseException if we can't retrieve the data
 	 */
-	public abstract ArrayList<PlayerDTO> retrieveAllOnlinePlayers() throws DatabaseException;
+	ArrayList<PlayerDTO> retrieveAllOnlinePlayers() throws DatabaseException;
 }

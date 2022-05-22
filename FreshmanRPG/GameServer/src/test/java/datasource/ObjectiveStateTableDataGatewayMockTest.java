@@ -23,7 +23,7 @@ public class ObjectiveStateTableDataGatewayMockTest extends ObjectiveStateTableD
 	public void setUp() throws DatabaseException
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		this.getGateway().resetData();
+		this.getGateway().resetTableGateway();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class ObjectiveStateTableDataGatewayMockTest extends ObjectiveStateTableD
 	{
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
 	}
 
@@ -47,7 +47,8 @@ public class ObjectiveStateTableDataGatewayMockTest extends ObjectiveStateTableD
 	@Override
 	public ObjectiveStateTableDataGateway getGateway()
 	{
-		return ObjectiveStateTableDataGatewayMock.getSingleton();
+		return (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"ObjectiveState");
 	}
 
 }

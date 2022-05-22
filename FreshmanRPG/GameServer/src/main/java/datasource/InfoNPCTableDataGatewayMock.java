@@ -9,18 +9,9 @@ import java.util.HashMap;
 
 public class InfoNPCTableDataGatewayMock extends InfoNPCTableDataGateway
 {
-    private static InfoNPCTableDataGatewayMock singleton;
-
-    /**
-     * @return the only one of these there is
-     */
-    public static InfoNPCTableDataGateway getSingleton()
+    static TableDataGateway getGateway()
     {
-        if (singleton == null)
-        {
-            singleton = new InfoNPCTableDataGatewayMock();
-        }
-        return singleton;
+        return new InfoNPCTableDataGatewayMock();
     }
 
     private HashMap<Integer, InfoNPCDTO> data = new HashMap<>();
@@ -34,7 +25,7 @@ public class InfoNPCTableDataGatewayMock extends InfoNPCTableDataGateway
     }
 
     @Override
-    public ArrayList<InfoNPCDTO> getAllInfoForNPC(int npcID) throws DatabaseException
+    public ArrayList<InfoNPCDTO> getAllInfoForNPC(int npcID)
     {
         ArrayList<InfoNPCDTO> results = new ArrayList<>();
         for (InfoNPCDTO x : data.values())
@@ -45,5 +36,11 @@ public class InfoNPCTableDataGatewayMock extends InfoNPCTableDataGateway
             }
         }
         return results;
+    }
+
+    @Override
+    public void resetTableGateway()
+    {
+        data = new HashMap<>();
     }
 }

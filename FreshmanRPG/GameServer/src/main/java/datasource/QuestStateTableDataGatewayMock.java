@@ -16,21 +16,12 @@ import datatypes.QuestStatesForTest;
  */
 public class QuestStateTableDataGatewayMock implements QuestStateTableDataGateway
 {
-	private static QuestStateTableDataGateway singleton;
 
-	/**
-	 * Retrieves the mock gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized QuestStateTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new QuestStateTableDataGatewayMock();
-		}
-		return singleton;
+		return new QuestStateTableDataGatewayMock();
 	}
+
 
 	private Hashtable<Integer, ArrayList<QuestStateRecordDTO>> data;
 
@@ -39,13 +30,11 @@ public class QuestStateTableDataGatewayMock implements QuestStateTableDataGatewa
 	 */
 	private QuestStateTableDataGatewayMock()
 	{
-		resetData();
+		resetTableGateway();
 	}
 
-	/**
-	 * @see datasource.QuestStateTableDataGateway#resetData()
-	 */
-	public void resetData()
+
+	public void resetTableGateway()
 	{
 		data = new Hashtable<>();
 		for (QuestStatesForTest a : QuestStatesForTest.values())
@@ -111,7 +100,7 @@ public class QuestStateTableDataGatewayMock implements QuestStateTableDataGatewa
 	@Override
 	public void createTable() throws DatabaseException
 	{
-		resetData();
+		resetTableGateway();
 	}
 
 	/**
@@ -170,15 +159,6 @@ public class QuestStateTableDataGatewayMock implements QuestStateTableDataGatewa
 			listOfQuestStateRecords.addAll(data.get(key));
 		}
 		return listOfQuestStateRecords;
-	}
-
-	/**
-	 * deletes a quest state when needed to
-	 */
-	@Override
-	public void deleteQuestState(int questID)
-	{
-		data.remove(questID);
 	}
 
 }

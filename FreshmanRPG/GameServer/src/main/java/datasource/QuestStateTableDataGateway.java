@@ -12,7 +12,7 @@ import datatypes.QuestStateEnum;
  * @author Merlin
  *
  */
-public interface QuestStateTableDataGateway
+public interface QuestStateTableDataGateway extends TableDataGateway
 {
 
 	/**
@@ -58,22 +58,10 @@ public interface QuestStateTableDataGateway
 			throws DatabaseException;
 
 	/**
-	 * Put data back to its original state - only useful in mock gateways for
-	 * testing purposes
-	 */
-	void resetData();
-
-	/**
 	 * retrieves all quests
 	 * @return all the quests
-	 * @throws DatabaseException
 	 */
 	ArrayList<QuestStateRecordDTO> retrieveAllQuestStates() throws DatabaseException;
 
-	/**
-	 * deletes a quest state when needed
-	 * @param questID
-	 * @throws DatabaseException
-	 */
-	void deleteQuestState(int questID) throws DatabaseException;
+
 }

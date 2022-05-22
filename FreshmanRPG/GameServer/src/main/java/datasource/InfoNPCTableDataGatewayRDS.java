@@ -15,19 +15,10 @@ import java.util.ArrayList;
  */
 public class InfoNPCTableDataGatewayRDS extends InfoNPCTableDataGateway
 {
-
-    private static InfoNPCTableDataGatewayRDS singleton;
-
-    public static synchronized InfoNPCTableDataGatewayRDS getSingleton()
+    static TableDataGateway getGateway()
     {
-        if (singleton == null)
-        {
-            singleton = new InfoNPCTableDataGatewayRDS();
-        }
-        return singleton;
+        return new InfoNPCTableDataGatewayRDS();
     }
-
-
     @Override
     public ArrayList<InfoNPCDTO> getAllInfoForNPC(int npcID) throws DatabaseException
     {
@@ -109,4 +100,9 @@ public class InfoNPCTableDataGatewayRDS extends InfoNPCTableDataGateway
     }
 
 
+    @Override
+    public void resetTableGateway()
+    {
+
+    }
 }

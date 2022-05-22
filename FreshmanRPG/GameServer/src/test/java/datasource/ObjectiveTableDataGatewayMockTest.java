@@ -15,7 +15,8 @@ public class ObjectiveTableDataGatewayMockTest extends ObjectiveTableDataGateway
 	@Override
 	public ObjectiveTableDataGateway getGateway()
 	{
-		return ObjectiveTableDataGatewayMock.getSingleton();
+		return (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"Objective");
 	}
 
 }

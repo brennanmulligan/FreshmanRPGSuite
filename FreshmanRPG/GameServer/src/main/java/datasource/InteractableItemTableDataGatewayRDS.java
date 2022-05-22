@@ -19,26 +19,12 @@ import datatypes.Position;
  *
  * @author Elisabeth Ostrow, Jake Moore
  */
-public class InteractableItemTableDataGatewayRDS extends InteractableItemTableDataGateway
+public class InteractableItemTableDataGatewayRDS implements InteractableItemTableDataGateway
 {
 
-	// singleton instance
-	private static InteractableItemTableDataGatewayRDS singleton = null;
-
-	/**
-	 * Gets singleton instance
-	 *
-	 * @return instance
-	 * @throws DatabaseException if an error occurs
-	 */
-	public static InteractableItemTableDataGateway getInstance() throws DatabaseException
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new InteractableItemTableDataGatewayRDS();
-		}
-
-		return singleton;
+		return new DefaultItemsTableDataGatewayRDS();
 	}
 
 	// connection
@@ -46,10 +32,8 @@ public class InteractableItemTableDataGatewayRDS extends InteractableItemTableDa
 
 	/**
 	 * Private constructor does nothing
-	 *
-	 * @throws DatabaseException
 	 */
-	private InteractableItemTableDataGatewayRDS() throws DatabaseException
+	private InteractableItemTableDataGatewayRDS()
 	{
 	}
 
@@ -57,7 +41,7 @@ public class InteractableItemTableDataGatewayRDS extends InteractableItemTableDa
 	 * Does nothing
 	 */
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		// Does nothing
 

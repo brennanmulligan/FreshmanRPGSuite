@@ -22,31 +22,16 @@ import datatypes.QuestStatesForTest;
  * @author merlin
  *
  */
-public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
+public abstract class QuestStateTableDataGatewayTest
 {
 
 	protected QuestStateTableDataGateway gateway;
 
-	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException shouldn't
-	 * @throws DatabaseException shouldn't
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
-	{
-		super.tearDown();
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
-	}
 
 	/**
 	 * @return the gateway we should test
 	 */
-	public abstract QuestStateTableDataGateway getGatewaySingleton();
+	public abstract QuestStateTableDataGateway findGateway();
 
 	/**
 	 *
@@ -54,8 +39,8 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void isASingleton()
 	{
-		QuestStateTableDataGateway x = getGatewaySingleton();
-		QuestStateTableDataGateway y = getGatewaySingleton();
+		QuestStateTableDataGateway x = findGateway();
+		QuestStateTableDataGateway y = findGateway();
 		assertSame(x, y);
 		assertNotNull(x);
 	}
@@ -74,10 +59,9 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 		{
 			QuestStateRecordDTO record = records.get(i);
 
-			QuestStatesForTest expected = QuestStatesForTest.PLAYER1_QUEST1;
 			if (record.getQuestID() == QuestStatesForTest.PLAYER1_QUEST2.getQuestID())
 			{
-				expected = QuestStatesForTest.PLAYER1_QUEST2;
+				QuestStatesForTest expected = QuestStatesForTest.PLAYER1_QUEST2;
 				assertEquals("Invalid state for quest id " + record.getQuestID(), expected.getState(),
 						record.getState());
 			}
@@ -91,8 +75,8 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Before
 	public void setup()
 	{
-		gateway = getGatewaySingleton();
-		gateway.resetData();
+		gateway = findGateway();
+		gateway.resetTableGateway();
 	}
 
 	/**
@@ -103,7 +87,6 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void canInsertARecord() throws DatabaseException
 	{
-		gateway = getGatewaySingleton();
 		gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4, QuestStateEnum.TRIGGERED, true);
 		ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID());
 		assertEquals(9, actual.size());
@@ -121,7 +104,6 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test(expected = DatabaseException.class)
 	public void cannotInsertDuplicateData() throws DatabaseException
 	{
-		gateway = getGatewaySingleton();
 		gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
 				QuestStatesForTest.PLAYER1_QUEST1.getQuestID(), QuestStateEnum.TRIGGERED, true);
 	}
@@ -134,7 +116,6 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void returnsEmptyListIfNone() throws DatabaseException
 	{
-		gateway = getGatewaySingleton();
 		ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(10);
 		assertEquals(0, actual.size());
 	}
@@ -146,7 +127,6 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void canChangeExistingState() throws DatabaseException
 	{
-		gateway = getGatewaySingleton();
 		int playerID = QuestStatesForTest.PLAYER1_QUEST1.getPlayerID();
 		int questID = QuestStatesForTest.PLAYER1_QUEST1.getQuestID();
 		gateway.udpateState(playerID, questID, QuestStateEnum.COMPLETED, true);
@@ -170,7 +150,6 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 	@Test
 	public void updatingNonExistentQuestException() throws DatabaseException
 	{
-		gateway = getGatewaySingleton();
 		int playerID = 10;
 		int questID = QuestStatesForTest.PLAYER1_QUEST1.getQuestID();
 		gateway.udpateState(playerID, questID, QuestStateEnum.COMPLETED, true);
@@ -185,4 +164,36 @@ public abstract class QuestStateTableDataGatewayTest extends DatabaseTest
 			}
 		}
 	}
+
+	/**
+	 * Tests retrieving all quest states from the gateway
+	 *
+	 * @throws DatabaseException shouldn't
+	 */
+	@Test
+	public void testRetrievingAllQuestStates() throws DatabaseException
+	{
+		QuestStateTableDataGateway questState =
+				(QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"QuestState");
+		ArrayList<QuestStateRecordDTO> quest = questState.retrieveAllQuestStates();
+		assertEquals(QuestStatesForTest.values().length, quest.size());
+	}
+
+	/**
+	 * Tests that the first and last items in the list are correct
+	 *
+	 * @throws DatabaseException shouldn't
+	 */
+	@Test
+	public void testCorrectDataInList() throws DatabaseException
+	{
+		QuestStateTableDataGateway gateway =
+				(QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"QuestState");
+		ArrayList<QuestStateRecordDTO> quest = gateway.retrieveAllQuestStates();
+		ArrayList<QuestStateRecordDTO> enumQuestStates = QuestStatesForTest.getAllQuestStateRecordDTOs();
+		assertTrue(quest.containsAll(enumQuestStates));
+	}
+
 }

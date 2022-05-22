@@ -23,7 +23,7 @@ import datatypes.PlayersForTest;
  * @author merlin
  *
  */
-public abstract class PlayerTableDataGatewayTest extends DatabaseTest
+public abstract class PlayerTableDataGatewayTest
 {
 
 	protected PlayerTableDataGateway gateway;
@@ -39,10 +39,9 @@ public abstract class PlayerTableDataGatewayTest extends DatabaseTest
 	@After
 	public void tearDown() throws DatabaseException, SQLException
 	{
-		super.tearDown();
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
 	}
 
@@ -144,7 +143,7 @@ public abstract class PlayerTableDataGatewayTest extends DatabaseTest
 
 			assertEquals(dbPlayer.getAppearanceType(), testPlayer.getAppearanceType());
 			assertEquals(dbPlayer.getMapName(), testPlayer.getMapName());
-			assertTrue(dbPlayer.getPosition().equals(testPlayer.getPosition()));
+			assertEquals(dbPlayer.getPosition(), testPlayer.getPosition());
 			assertEquals(dbPlayer.getDoubloons(), testPlayer.getDoubloons());
 			assertEquals(dbPlayer.getExperiencePoints(), testPlayer.getExperiencePoints());
 			// don't need to test buff pool here, that is retrieved through the Row Data

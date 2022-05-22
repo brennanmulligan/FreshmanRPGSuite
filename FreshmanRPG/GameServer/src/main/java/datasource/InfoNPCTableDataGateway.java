@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * gateway for all our player response/info npc information provided by that response
  */
 public abstract class InfoNPCTableDataGateway
+        implements TableDataGateway
 {
 
     public abstract ArrayList<InfoNPCDTO> getAllInfoForNPC(int npcID) throws DatabaseException;

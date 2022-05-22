@@ -8,12 +8,10 @@ public class DoubloonPrizesTableDataGatewayRDSTest extends DoubloonPrizesTableDa
 {
 
 	@Override
-	/**
-	 * @throws DatabaseException
-	 */
 	public DoubloonPrizesTableDataGateway getGatewaySingleton() throws DatabaseException
 	{
-		return DoubloonPrizesTableDataGatewayRDS.getInstance();
+		return (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"DoubloonPrizes");
 	}
 
 }

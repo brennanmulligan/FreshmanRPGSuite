@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import datasource.TableDataGatewayManager;
 import datatypes.PlayersForTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class PlayerTest
 		QualifiedObservableConnector.resetSingleton();
 		PlayerManager.resetSingleton();
 		playerManager = PlayerManager.getSingleton();
-		QuestStateTableDataGatewayMock.getSingleton().resetData();
+		TableDataGatewayManager.getSingleton().resetTableGateway("QuestState");
 	}
 
 	/**
@@ -95,10 +96,9 @@ public class PlayerTest
 	/**
 	 * Make sure we can retrieve a player's unique name from the db
 	 *
-	 * @throws DatabaseException shouldn'ts
 	 */
 	@Test
-	public void canGetPlayerName() throws DatabaseException
+	public void canGetPlayerName()
 	{
 		Player p = playerManager.addPlayer(1);
 		assertEquals("John", p.getPlayerName());
@@ -106,11 +106,9 @@ public class PlayerTest
 
 	/**
 	 * Make sure we can retrieve a player's major
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void canGetPlayerMajor() throws DatabaseException
+	public void canGetPlayerMajor()
 	{
 		Player p = playerManager.addPlayer(1);
 		assertEquals(Major.COMPUTER_ENGINEERING, p.getMajor());
@@ -133,11 +131,9 @@ public class PlayerTest
 
 	/**
 	 * Sets the players position and checks it
-	 *
-	 * @throws DatabaseException shouldn'ts
 	 */
 	@Test
-	public void testPlayerPosition() throws DatabaseException
+	public void testPlayerPosition()
 	{
 		Player p = playerManager.addPlayer(1);
 		Position pos = new Position(3, 3);
@@ -165,11 +161,9 @@ public class PlayerTest
 	/**
 	 * Tests that adding experience points to a player object generates
 	 * ExperienceChangedReport
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testAddExpPointsCreatesReport() throws DatabaseException
+	public void testAddExpPointsCreatesReport()
 	{
 		Player p = playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
 

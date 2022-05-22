@@ -14,26 +14,21 @@ import java.util.HashMap;
 public class LevelTableDataGatewayMock implements LevelTableDataGateway
 {
 
-	private static LevelTableDataGateway singleton;
-
-	/**
-	 * @return the only one of these we can have
-	 */
-	public static LevelTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new LevelTableDataGatewayMock();
-		}
-		return singleton;
+		return new LevelTableDataGatewayMock();
 	}
-
 	private HashMap<String, LevelRecord> data = new HashMap<>();
 
 	/**
 	 * Constructor for LevelTableDataGatewayMock
 	 */
 	private LevelTableDataGatewayMock()
+	{
+		putDataIntoTable();
+	}
+
+	private void putDataIntoTable()
 	{
 		for (LevelsForTest l : LevelsForTest.values())
 		{
@@ -46,7 +41,7 @@ public class LevelTableDataGatewayMock implements LevelTableDataGateway
 	 * @see datasource.LevelTableDataGateway#getAllLevels()
 	 */
 	@Override
-	public ArrayList<LevelRecord> getAllLevels() throws DatabaseException
+	public ArrayList<LevelRecord> getAllLevels()
 	{
 		ArrayList<LevelRecord> results = new ArrayList<>();
 		for (String desc : data.keySet())
@@ -56,4 +51,10 @@ public class LevelTableDataGatewayMock implements LevelTableDataGateway
 		return results;
 	}
 
+	@Override
+	public void resetTableGateway()
+	{
+		data = new HashMap<>();
+		putDataIntoTable();
+	}
 }

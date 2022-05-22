@@ -24,7 +24,9 @@ public class BuildTestDefaultItems
     private static void createDefaultItemsTable() throws DatabaseException
     {
         DefaultItemsTableDataGatewayRDS.createTable();
-        DefaultItemsTableDataGateway gateway = DefaultItemsTableDataGatewayRDS.getSingleton();
+        DefaultItemsTableDataGateway gateway =
+                (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                        "DefaultItems");
         for (DefaultItemsForTest v : DefaultItemsForTest.values())
         {
             gateway.addDefaultItem(v.getDefaultID(), v.getDefaultWearing());

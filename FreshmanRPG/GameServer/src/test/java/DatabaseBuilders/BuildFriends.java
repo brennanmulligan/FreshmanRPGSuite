@@ -4,17 +4,13 @@ import java.sql.SQLException;
 
 import datasource.DatabaseException;
 import datasource.FriendTableDataGatewayRDS;
+import datasource.TableDataGatewayManager;
 import model.OptionsManager;
 import datatypes.FriendEnum;
 
 public class BuildFriends
 {
 
-	/**
-	 * @param args
-	 * @throws DatabaseException
-	 * @throws SQLException
-	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
 		OptionsManager.getSingleton().setUsingMocKDataSource(false);
@@ -25,15 +21,15 @@ public class BuildFriends
 	/**
 	 * Create a table of friends
 	 *
-	 * @throws SQLException
-	 * @throws DatabaseException
 	 */
-	private static void createFriendTable() throws SQLException, DatabaseException
+	private static void createFriendTable() throws DatabaseException
 	{
+		FriendTableDataGatewayRDS gateway =
+				(FriendTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway("Friend");
 		FriendTableDataGatewayRDS.createTable();
 		for (FriendEnum friend : FriendEnum.values())
 		{
-			FriendTableDataGatewayRDS.getInstance().createRow(friend.getId(), friend.getFriendID(), friend.getStatus());
+			gateway.createRow(friend.getId(), friend.getFriendID(), friend.getStatus());
 		}
 	}
 }

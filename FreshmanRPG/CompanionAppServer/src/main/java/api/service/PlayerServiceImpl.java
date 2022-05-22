@@ -1,16 +1,20 @@
 package api.service;
 
-import api.model.Player;
+import api.model.GameManagerPlayer;
+import api.model.GameManagerPlayerManager;
+import api.model.GameManagerPlayer;
 import dataDTO.PlayerDTO;
+
 import datasource.*;
 import datatypes.ObjectiveStateEnum;
+import datasource.PlayerRowDataGateway;
 import datatypes.QuestStateEnum;
-import model.GameManagerPlayerManager;
+import api.model.GameManagerPlayerManager;
 import model.ObjectiveRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-//import model.GameManagerPlayerManager;
+
 
 @Service
 public class PlayerServiceImpl implements PlayerService
@@ -27,26 +31,36 @@ public class PlayerServiceImpl implements PlayerService
     }
 
     @Override
-    public int addPlayer(Player player)
+    public int addPlayer(GameManagerPlayer player)
     {
         GameManagerPlayerManager manager;
         int playerID;
 
-       // CommandAddPlayerInManager command = new CommandAddPlayerInManager(player.getName(), player.getPassword(), player.getCrew(),player.getMajor(),player.getSection());
+//        CommandAddPlayerInManager command = new CommandAddPlayerInManager(player.getName(), player.getPassword(), player.getCrew(),player.getMajor(),player.getSection());
         try {
             //Add Player
+//            PlayerRowDataGateway playerGateway =
+//                    new PlayerRowDataGatewayRDS(player.getName(),
+//                            player.getPassword(),
+//                    player.getCrew(), player.getMajor(), player.getSection())
             manager = GameManagerPlayerManager.getInstance();
             PlayerDTO createdPlayer = manager.addPlayer(player.getName(), player.getPassword(),
                     player.getCrew(), player.getMajor(), player.getSection());
             playerID = createdPlayer.getPlayerID();
 
             //Add Starter Quest
-            QuestStateTableDataGateway questStateTableDataGatewayRDS = QuestStateTableDataGatewayRDS.getSingleton();
+            QuestStateTableDataGateway questStateTableDataGatewayRDS =
+                    (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                            "QuestState");
             questStateTableDataGatewayRDS.udpateState(playerID, 100, QuestStateEnum.TRIGGERED, true);
 
             //Add Starter Objectives
-            ObjectiveStateTableDataGateway objectiveStateTableDataGateway = ObjectiveStateTableDataGatewayRDS.getSingleton();
-            ObjectiveTableDataGateway objectiveTableDataGateway = ObjectiveTableDataGatewayRDS.getSingleton();
+            ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
+                    (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                            "ObjectiveState");
+            ObjectiveTableDataGateway objectiveTableDataGateway =
+                    (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                            "Objective");
             ArrayList<ObjectiveRecord> objectiveList = objectiveTableDataGateway.getObjectivesForQuest(100);
             for (ObjectiveRecord objective : objectiveList)
             {

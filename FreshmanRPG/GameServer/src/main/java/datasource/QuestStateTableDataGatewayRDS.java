@@ -18,20 +18,10 @@ import datatypes.QuestStateEnum;
  */
 public class QuestStateTableDataGatewayRDS implements QuestStateTableDataGateway
 {
-	private static QuestStateTableDataGateway singleton;
 
-	/**
-	 * Retrieves the rds gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized QuestStateTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new QuestStateTableDataGatewayRDS();
-		}
-		return singleton;
+		return new QuestStateTableDataGatewayRDS();
 	}
 
 	/**
@@ -157,11 +147,7 @@ public class QuestStateTableDataGatewayRDS implements QuestStateTableDataGateway
 		}
 	}
 
-	/**
-	 * @see datasource.QuestStateTableDataGateway#resetData()
-	 */
-	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		// Nothing required
 	}
@@ -202,7 +188,6 @@ public class QuestStateTableDataGatewayRDS implements QuestStateTableDataGateway
 	 *
 	 * Returns a list of all quest
 	 * @throws DatabaseException shouldn't
-	 * @Author Drew Rife and Alec Waddelow
 	 */
 	@Override
 	public ArrayList<QuestStateRecordDTO> retrieveAllQuestStates() throws DatabaseException
@@ -238,24 +223,5 @@ public class QuestStateTableDataGatewayRDS implements QuestStateTableDataGateway
 		return listOfQuestStates;
 	}
 
-	/**
-	 * deletes a quest state based on ID
-	 * @throws DatabaseException shouldn't
-	 */
-	@Override
-	public void deleteQuestState(int questID) throws DatabaseException
-	{
-		Connection connection = DatabaseManager.getSingleton().getConnection();
-		try
-		{
-			PreparedStatement stmt =  connection.prepareStatement("delete from QuestStates where questID=?");
-			stmt.setInt(1, questID);
-			stmt.execute();
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 }

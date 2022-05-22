@@ -19,24 +19,13 @@ import datatypes.Position;
  * @author Merlin
  *
  */
-public class PlayerTableDataGatewayRDS extends PlayerTableDataGateway
+public class PlayerTableDataGatewayRDS implements PlayerTableDataGateway
 {
-	private static PlayerTableDataGateway singleton;
 
-	/**
-	 * Retrieves the rds gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized PlayerTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new PlayerTableDataGatewayRDS();
-		}
-		return singleton;
+		return new PlayerTableDataGatewayRDS();
 	}
-
 	/**
 	 * A private constructor only called by the getSingleton method
 	 */
@@ -45,11 +34,8 @@ public class PlayerTableDataGatewayRDS extends PlayerTableDataGateway
 		//do nothing this just explicitly makes it private
 	}
 
-	/**
-	 * @see datasource.QuestStateTableDataGateway#resetData()
-	 */
-	@Override
-	public void resetData()
+
+	public void resetTableGateway()
 	{
 		// Nothing required
 	}

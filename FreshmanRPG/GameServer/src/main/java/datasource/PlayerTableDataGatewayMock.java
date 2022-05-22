@@ -2,6 +2,7 @@ package datasource;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import dataDTO.PlayerDTO;
@@ -19,20 +20,17 @@ import datatypes.Position;
  * @author Merlin
  *
  */
-public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
+public class PlayerTableDataGatewayMock
+		implements PlayerTableDataGateway
 {
 
-	private static PlayerTableDataGateway singleton;
 	private ArrayList<MockPlayerAndLoginJoinRow> data;
 
-	/*For Testing Purposes*/
-/*	private HashMap<Integer, MockPlayerAndLoginJoinRow> playerData =
-			new HashMap<Integer, MockPlayerAndLoginJoinRow >();*/
-	private HashMap<Integer, PlayerDTO> saveEdits =
+	private final HashMap<Integer, PlayerDTO> saveEdits =
 			new HashMap<>();
 
 
-	private class MockPlayerAndLoginJoinRow
+	private static class MockPlayerAndLoginJoinRow
 	{
 		String playerName;
 		String appearanceType;
@@ -68,33 +66,22 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 		}
 	}
 
-	/**
-	 * Retrieves the mock gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized PlayerTableDataGateway getSingleton()
-	{
-		if (singleton == null)
-		{
-			singleton = new PlayerTableDataGatewayMock();
-		}
-		return singleton;
-	}
 
+	static TableDataGateway getGateway()
+	{
+		return new PlayerTableDataGatewayMock();
+	}
 	/**
 	 * just build the data from the PlayersForTest enum
 	 */
 	private PlayerTableDataGatewayMock()
 	{
-		resetData();
+		resetTableGateway();
 	}
 
-	/**
-	 * @see datasource.PlayerTableDataGateway#resetData()
-	 */
+
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		data = new ArrayList<>();
 		for (PlayersForTest p : PlayersForTest.values())
@@ -144,7 +131,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 	 * @see datasource.PlayerTableDataGateway#getHighScoreList()
 	 */
 	@Override
-	public ArrayList<PlayerScoreRecord> getHighScoreList() throws DatabaseException
+	public ArrayList<PlayerScoreRecord> getHighScoreList()
 	{
 		ArrayList<PlayerScoreRecord> playerList = new ArrayList<>();
 
@@ -152,7 +139,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 		{
 			playerList.add(convertToPlayerScoreRecord(row));
 		}
-		Collections.sort(playerList, (o1, o2) -> o1.compareTo(o2));
+		Collections.sort(playerList, Comparator.naturalOrder());
 		return playerList;
 	}
 
@@ -162,7 +149,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 	 * TODO: Get actual vanity items
 	 */
 	@Override
-	public ArrayList<PlayerDTO> retrieveAllPlayers() throws DatabaseException
+	public ArrayList<PlayerDTO> retrieveAllPlayers()
 	{
 		ArrayList<PlayerDTO> result = new ArrayList<>();
 		//For each key and value add a new playerInfos
@@ -173,7 +160,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 				result.add(new PlayerDTO(row.playerID, row.playerName,
 						row.password, row.appearanceType, row.quizScore,
 						row.position, row.mapName, row.experiencePoints,
-						row.crew, row.major, row.section, row.visitedMaps, new ArrayList<VanityDTO>()));
+						row.crew, row.major, row.section, row.visitedMaps, new ArrayList<>()));
 
 			}
 			else
@@ -218,7 +205,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 	 * TODO: Get actual vanity items
 	 */
 	@Override
-	public ArrayList<PlayerDTO> retrieveAllOnlinePlayers() throws DatabaseException
+	public ArrayList<PlayerDTO> retrieveAllOnlinePlayers()
 	{
 		ArrayList<PlayerDTO> result = new ArrayList<>();
 		//for each key and value, check if player is online and add to result
@@ -233,7 +220,7 @@ public class PlayerTableDataGatewayMock extends PlayerTableDataGateway
 					result.add(new PlayerDTO(row.playerID, row.playerName,
 							row.password, row.appearanceType, row.quizScore,
 							row.position, row.mapName, row.experiencePoints,
-							row.crew, row.major, row.section, row.visitedMaps, new ArrayList<VanityDTO>()));
+							row.crew, row.major, row.section, row.visitedMaps, new ArrayList<>()));
 				}
 				// if they are, grab them and add it to the list
 				else

@@ -17,7 +17,9 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
 {
 
     private static VanityInventoryTableDataGatewayInterface singleton;
-    private final DefaultItemsTableDataGateway defaultItemsTableDataGateway = DefaultItemsTableDataGatewayRDS.getSingleton();
+    private final DefaultItemsTableDataGateway defaultItemsTableDataGateway =
+            (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+                    "DefaultItems");
 
     /**
      * Gets the instance of this gateway

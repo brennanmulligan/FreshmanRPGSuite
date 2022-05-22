@@ -14,7 +14,6 @@ repositories {
 dependencies {
 	implementation project (':GameShared')
 	implementation project (':GameServer')
-	implementation project (':GameManager')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * RDS implementation of MowreyInfoTableDataGateway
  *
- * @authors Ryan and Ktyal
+ * @author Ryan and Ktyal
  */
 public class MowreyInfoTableDataGatewayRDS implements MowreyInfoTableDataGateway
 {
@@ -39,7 +39,7 @@ public class MowreyInfoTableDataGatewayRDS implements MowreyInfoTableDataGateway
     }
 
     @Override
-    public ArrayList<MowreyInfoDTO> getDialogOptions() throws DatabaseException
+    public ArrayList<MowreyInfoDTO> getDialogOptions()
     {
         return null;
     }
@@ -77,7 +77,7 @@ public class MowreyInfoTableDataGatewayRDS implements MowreyInfoTableDataGateway
     }
 
     @Override
-    public void resetData()
+    public void resetTableGateway()
     {
 
     }

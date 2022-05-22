@@ -12,7 +12,7 @@ import datatypes.ObjectiveStateEnum;
  * @author Merlin
  *
  */
-public interface ObjectiveStateTableDataGateway
+public interface ObjectiveStateTableDataGateway extends TableDataGateway
 {
 
 	/**
@@ -77,10 +77,5 @@ public interface ObjectiveStateTableDataGateway
 	 */
 	void createRow(int playerID, int questID, int objectiveID, ObjectiveStateEnum state, boolean needingNotification)
 			throws DatabaseException;
-
-	/**
-	 * reset the data back to the data in ObjectiveStatesForTest
-	 */
-	void resetData();
 
 }

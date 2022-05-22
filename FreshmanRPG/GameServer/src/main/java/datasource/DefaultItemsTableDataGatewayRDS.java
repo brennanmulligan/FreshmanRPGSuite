@@ -14,19 +14,9 @@ import java.util.ArrayList;
  */
 public class DefaultItemsTableDataGatewayRDS implements DefaultItemsTableDataGateway
 {
-    private static DefaultItemsTableDataGateway singleton;
-
-    /**
-     * Gets the instance of this gateway
-     * @return the instance
-     */
-    public static DefaultItemsTableDataGateway getSingleton()
+    static TableDataGateway getGateway()
     {
-        if (singleton == null)
-        {
-            singleton = new DefaultItemsTableDataGatewayRDS();
-        }
-        return singleton;
+        return new DefaultItemsTableDataGatewayRDS();
     }
 
     /**

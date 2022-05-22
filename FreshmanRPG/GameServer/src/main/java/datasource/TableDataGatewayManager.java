@@ -3,6 +3,7 @@ package datasource;
 import model.OptionsManager;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class TableDataGatewayManager
@@ -20,7 +21,8 @@ public class TableDataGatewayManager
         return singleton;
     }
 
-    private static void resetSingleton()
+
+     static void resetSingleton()
     {
         OptionsManager.getSingleton().assertTestMode();
         singleton = null;
@@ -28,38 +30,46 @@ public class TableDataGatewayManager
 
     public TableDataGateway getTableGateway(String tableName)
     {
-        TableDataGateway result = factorySingletons.get(tableName);
+        TableDataGateway result =
+                factorySingletons.get(getKey(tableName));
         if (result != null)
         {
             return result;
         }
         TableDataGateway gateway = null;
-        Class<TableDataGateway> gatewayClass;
+        Method getGatewayMethod;
         try
         {
             if (OptionsManager.getSingleton().isUsingMockDataSource())
             {
-                //noinspection unchecked
-                gatewayClass = (Class<TableDataGateway>) Class.forName(
-                        "datasource." + tableName + "TableDataGatewayMock");
-                gateway = gatewayClass.getConstructor().newInstance();
-                factorySingletons.put(tableName, gateway);
+                getGatewayMethod = Class.forName(
+                                        "datasource." + tableName + "TableDataGatewayMock")
+                        .getDeclaredMethod(
+                        "getGateway");
+
             }
             else
             {
-                //noinspection unchecked
-                gatewayClass = (Class<TableDataGateway>) Class.forName(
-                        "datasource." + tableName + "TableDataGatewayRDS");
-                gateway = gatewayClass.getConstructor().newInstance();
-                factorySingletons.put(tableName, gateway);
+                getGatewayMethod = Class.forName(
+                        "datasource." + tableName + "TableDataGatewayRDS").getDeclaredMethod(
+                        "getGateway");
             }
+            gateway =
+                    (TableDataGateway) getGatewayMethod.invoke(null);
+            //   gateway = gatewayClass.getConstructor().newInstance();
+            factorySingletons.put(getKey(tableName), gateway);
         }
-        catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e)
+        catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e)
         {
             e.printStackTrace();
         }
         assert (gateway != null);
         return gateway;
+    }
+
+    private String getKey(String tableName)
+    {
+        return tableName + OptionsManager.getSingleton().isUsingMockDataSource();
     }
 
     public void resetTableGateway(String tableName)

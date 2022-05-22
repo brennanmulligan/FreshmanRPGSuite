@@ -36,7 +36,7 @@ public abstract class InteractableItemTableDataGatewayTest extends DatabaseTest
 		super.tearDown();
 		if (gateway != null)
 		{
-			gateway.resetData();
+			gateway.resetTableGateway();
 		}
 	}
 

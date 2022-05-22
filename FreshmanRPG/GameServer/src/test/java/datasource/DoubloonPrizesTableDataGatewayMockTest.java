@@ -40,7 +40,8 @@ public class DoubloonPrizesTableDataGatewayMockTest extends DoubloonPrizesTableD
 	@Override
 	public DoubloonPrizesTableDataGateway getGatewaySingleton() throws DatabaseException
 	{
-		return null;
+		return (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"DoubloonPrizes");
 	}
 
 }

@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import datatypes.QuestStatesForTest;
+import model.OptionsManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dataDTO.QuestStateRecordDTO;
@@ -20,39 +22,28 @@ import dataDTO.QuestStateRecordDTO;
  */
 public class QuestStateTableDataGatewayMockTest extends QuestStateTableDataGatewayTest
 {
-	/**
-	 * @see datasource.DatabaseTest#setUp()
-	 */
+	@BeforeClass
+	public static void hardReset()
+	{
+		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+	}
+
 	@Before
-	public void setUp()
+	public void setUp() throws DatabaseException
 	{
-
+		QuestStateTableDataGatewayMock gateway =
+				(QuestStateTableDataGatewayMock) findGateway();
+		gateway.resetTableGateway();
 	}
 
 	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException
-	 *             shouldn't
-	 * @throws DatabaseException
-	 *             shouldn't
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
-	{
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
-	}
-
-	/**
-	 * @see datasource.QuestStateTableDataGatewayTest#getGatewaySingleton()
+	 * @see datasource.QuestStateTableDataGatewayTest#findGateway()
 	 */
 	@Override
-	public QuestStateTableDataGateway getGatewaySingleton()
+	public QuestStateTableDataGateway findGateway()
 	{
-		return QuestStateTableDataGatewayMock.getSingleton();
+		return (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+				"QuestState");
 	}
 
 	/**
@@ -64,7 +55,9 @@ public class QuestStateTableDataGatewayMockTest extends QuestStateTableDataGatew
 	@Test
 	public void retrieveAllQuestStates() throws DatabaseException
 	{
-		ArrayList<QuestStateRecordDTO> quest = QuestStateTableDataGatewayMock.getSingleton().retrieveAllQuestStates();
+		ArrayList<QuestStateRecordDTO> quest =
+				((QuestStateTableDataGateway)TableDataGatewayManager.getSingleton().getTableGateway(
+						"QuestState")).retrieveAllQuestStates();
 		assertEquals(QuestStatesForTest.values().length, quest.size());
 
 	}

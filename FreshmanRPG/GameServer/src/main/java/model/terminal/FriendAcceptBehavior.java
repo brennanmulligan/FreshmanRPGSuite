@@ -3,7 +3,7 @@ package model.terminal;
 import dataDTO.FriendDTO;
 import datasource.DatabaseException;
 import datasource.FriendTableDataGateway;
-import datasource.FriendTableDataGatewayRDS;
+import datasource.TableDataGatewayManager;
 import datatypes.FriendStatusEnum;
 import model.QualifiedObservableConnector;
 import model.reports.FriendConnectionReceivedReport;
@@ -25,23 +25,38 @@ class FriendAcceptBehavior extends FriendBehavior
         /*
          * Loop through the list of friends and try to accept each request
          */
-        for (int i = 0; i < friends.length; i++)
+        for (String friend : friends)
         {
             //Try to accept request from friend
             try
             {
-                gateway.accept(playerID, friends[i]);
-                result.append("> " + friends[i] + " " + FriendStatusEnum.ACCEPTED + "\n");
-                QualifiedObservableConnector.getSingleton().sendReport(new FriendConnectionReceivedReport(FriendTableDataGatewayRDS.getInstance().accept(playerID, friends[i]), playerID));
+                gateway.accept(playerID, friend);
+                result.append("> ").append(friend).append(" ")
+                        .append(FriendStatusEnum.ACCEPTED).append("\n");
+                FriendTableDataGateway friendGateway =
+                        (FriendTableDataGateway) TableDataGatewayManager.getSingleton()
+                                .getTableGateway("Friend");
+                QualifiedObservableConnector.getSingleton().sendReport(
+                        new FriendConnectionReceivedReport(
+                                friendGateway
+                                        .accept(playerID, friend), playerID));
 
 
                 //send the report to the other player
-                FriendDTO objForReportOne = new FriendDTO(playerID, gateway.getSpecificIDFromName(friends[i]), FriendStatusEnum.ACCEPTED, gateway.getSpecificNameFromId(playerID), friends[i]);
+                FriendDTO objForReportOne =
+                        new FriendDTO(playerID, gateway.getSpecificIDFromName(friend),
+                                FriendStatusEnum.ACCEPTED,
+                                gateway.getSpecificNameFromId(playerID), friend);
 
-                QualifiedObservableConnector.getSingleton().sendReport(new updateFriendListReport(objForReportOne));
+                QualifiedObservableConnector.getSingleton()
+                        .sendReport(new updateFriendListReport(objForReportOne));
 
-                FriendDTO objForReportTwo = new FriendDTO(gateway.getSpecificIDFromName(friends[i]), playerID, FriendStatusEnum.ACCEPTED, friends[i], gateway.getSpecificNameFromId(playerID));
-                QualifiedObservableConnector.getSingleton().sendReport(new updateFriendListReport(objForReportTwo));
+                FriendDTO objForReportTwo =
+                        new FriendDTO(gateway.getSpecificIDFromName(friend), playerID,
+                                FriendStatusEnum.ACCEPTED, friend,
+                                gateway.getSpecificNameFromId(playerID));
+                QualifiedObservableConnector.getSingleton()
+                        .sendReport(new updateFriendListReport(objForReportTwo));
 
             }
             catch (DatabaseException e)
@@ -49,7 +64,8 @@ class FriendAcceptBehavior extends FriendBehavior
                 //Player not found
                 if (e.getSimpleDescription().startsWith("Player not found or updated"))
                 {
-                    result.append("> " + friends[i] + " Error: Couldn't accept request\n");
+                    result.append("> ").append(friend)
+                            .append(" Error: Couldn't accept request\n");
                 }
                 //Other Database Exception
                 else
@@ -59,7 +75,8 @@ class FriendAcceptBehavior extends FriendBehavior
             }
             catch (NullPointerException e)
             {
-                result.append("> " + friends[i] + " Error: Couldn't accept request\n");
+                result.append("> ").append(friend)
+                        .append(" Error: Couldn't accept request\n");
             }
         }
         return result.toString();

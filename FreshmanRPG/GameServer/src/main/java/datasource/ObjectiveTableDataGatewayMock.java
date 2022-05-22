@@ -18,20 +18,9 @@ import model.ObjectiveRecord;
  */
 public class ObjectiveTableDataGatewayMock implements ObjectiveTableDataGateway
 {
-	private static ObjectiveTableDataGateway singleton;
-
-	/**
-	 * Retrieves the mock gateway singleton.
-	 *
-	 * @return singleton
-	 */
-	public static synchronized ObjectiveTableDataGateway getSingleton()
+	static TableDataGateway getGateway()
 	{
-		if (singleton == null)
-		{
-			singleton = new ObjectiveTableDataGatewayMock();
-		}
-		return singleton;
+		return new ObjectiveTableDataGatewayMock();
 	}
 
 	private Hashtable<Integer, ArrayList<ObjectiveRecord>> data;
@@ -41,7 +30,7 @@ public class ObjectiveTableDataGatewayMock implements ObjectiveTableDataGateway
 	 */
 	private ObjectiveTableDataGatewayMock()
 	{
-		resetData();
+		resetTableGateway();
 	}
 
 	/**
@@ -79,7 +68,6 @@ public class ObjectiveTableDataGatewayMock implements ObjectiveTableDataGateway
 	 */
 	@Override
 	public ArrayList<ObjectiveRecord> findObjectivesCompletedForMapLocation(String mapName, Position pos)
-			throws DatabaseException
 	{
 		Set<Integer> keys = data.keySet();
 		ArrayList<ObjectiveRecord> results = new ArrayList<>();
@@ -113,11 +101,8 @@ public class ObjectiveTableDataGatewayMock implements ObjectiveTableDataGateway
 		return getObjectivesForQuest(questID).size() + 1;
 	}
 
-	/**
-	 * @see ObjectiveTableDataGateway#resetData()
-	 */
 	@Override
-	public void resetData()
+	public void resetTableGateway()
 	{
 		data = new Hashtable<>();
 		for (ObjectivesForTest a : ObjectivesForTest.values())

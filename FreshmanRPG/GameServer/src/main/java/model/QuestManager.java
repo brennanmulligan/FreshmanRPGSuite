@@ -11,16 +11,7 @@ import criteria.ObjectiveCompletionCriteria;
 import criteria.CriteriaIntegerDTO;
 import criteria.CriteriaStringDTO;
 import dataENUM.ObjectiveCompletionType;
-import datasource.ObjectiveTableDataGateway;
-import datasource.ObjectiveTableDataGatewayMock;
-import datasource.ObjectiveTableDataGatewayRDS;
-import datasource.DatabaseException;
-import datasource.FriendTableDataGateway;
-import datasource.FriendTableDataGatewayMock;
-import datasource.FriendTableDataGatewayRDS;
-import datasource.QuestRowDataGateway;
-import datasource.QuestRowDataGatewayMock;
-import datasource.QuestRowDataGatewayRDS;
+import datasource.*;
 import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
@@ -45,7 +36,7 @@ public class QuestManager implements QualifiedObserver
 {
 	private final ObjectiveTableDataGateway objectiveGateway;
 	private final HashMap<Integer, ArrayList<QuestState>> questStates;
-	private FriendTableDataGateway friendGateway;
+	private final FriendTableDataGateway friendGateway;
 
 	/**
 	 * The method returns a singleton of QuestManager
@@ -76,23 +67,12 @@ public class QuestManager implements QualifiedObserver
 		QualifiedObservableConnector.getSingleton().registerObserver(this, ReceiveTerminalTextReport.class);
 
 		questStates = new HashMap<>();
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			this.objectiveGateway = ObjectiveTableDataGatewayMock.getSingleton();
-			this.friendGateway = FriendTableDataGatewayMock.getSingleton();
-		}
-		else
-		{
-			this.objectiveGateway = ObjectiveTableDataGatewayRDS.getSingleton();
-			try
-			{
-				this.friendGateway = FriendTableDataGatewayRDS.getInstance();
-			}
-			catch (DatabaseException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		this.friendGateway =
+				(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"Friend");
+		this.objectiveGateway =
+				(ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
+						"Objective");
 	}
 
 	/**
