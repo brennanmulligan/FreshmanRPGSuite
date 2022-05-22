@@ -39,37 +39,30 @@ public class DatabaseManager
 
 	private Connection openConnection() throws DatabaseException
 	{
-		if (OptionsManager.getSingleton().isUsingTestDB())
+		if (OptionsManager.getSingleton().isRunningInCI())
 		{
-			System.err.println("Opening test database");
 			String dbIdentifier = OptionsManager.getSingleton().getDbIdentifier();
-			if (dbIdentifier == null)
-			{
-				dbIdentifier = System.getProperty("dbIdentifier");
-			}
-			System.err.println("Db#" + dbIdentifier);
+
+			System.out.println("Connecting to database: #" + dbIdentifier);
 			if (dbIdentifier == null)
 			{
 				dbIdentifier = "01";
 			}
+
 			return openConnectionTo("jdbc:mysql://db.cs.ship.edu:3306/swe420_" + dbIdentifier +
 							"?autoReconnect=true&characterEncoding=latin1",
 					"swe420_" + dbIdentifier, "Password_" + dbIdentifier);
 		}
 		else
 		{
-			Connection newConnection = openConnectionTo("jdbc:mysql://db.cs.ship.edu:3306/ShipSim?autoReconnect=true", "program",
-					"pwd4ShipSim-F16");
-			try
-			{
-				newConnection.setAutoCommit(true);
-				return newConnection;
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-				return null;
-			}
+			System.out.println("Opening test database");
+
+			Connection connection = openConnectionTo("jdbc:mysql://127.0.0.1:3308/frpg?autoReconnect=true",
+					"frpg", "Database_Password");
+
+			System.out.println("Connected");
+
+			return connection;
 		}
 	}
 
@@ -149,7 +142,6 @@ public class DatabaseManager
 		try
 		{
 			return DriverManager.getConnection(url, username, passwd);
-
 		}
 		catch (SQLException e)
 		{

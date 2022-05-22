@@ -43,7 +43,7 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 		try
 		{
 			PreparedStatement stmt =  connect.prepareStatement("SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status"
-					+ " FROM  friends as F, Players as P WHERE F.playerID = P.playerID AND P.playerID = ?;");
+					+ " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND P.playerID = ?;");
 			stmt.setInt(1, id);
 
 			ResultSet result = stmt.executeQuery();
@@ -80,7 +80,7 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 
 			//Get the records where the id passed in is the friend
 			stmt =  connect.prepareStatement("SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status"
-					+ " FROM  friends as F, Players as P WHERE F.playerID = P.playerID AND F.FRIENDID = ?;");
+					+ " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND F.FRIENDID = ?;");
 			stmt.setInt(1, id);
 
 			result = stmt.executeQuery();
@@ -168,7 +168,7 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 			}
 			else
 			{
-				PreparedStatement stmt =  connect.prepareStatement("UPDATE friends SET status = 'ACCEPTED' WHERE playerID = ? AND FRIENDID = ?;");
+				PreparedStatement stmt =  connect.prepareStatement("UPDATE Friends SET status = 'ACCEPTED' WHERE playerID = ? AND FRIENDID = ?;");
 				stmt.setInt(1, friendId);
 				stmt.setInt(2, playerID);
 				stmt.executeUpdate();
@@ -191,10 +191,10 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 		Connection connect = DatabaseManager.getSingleton().getConnection();
 		try
 		{
-			PreparedStatement stmt =  connect.prepareStatement("DROP TABLE IF EXISTS friends;");
+			PreparedStatement stmt =  connect.prepareStatement("DROP TABLE IF EXISTS Friends;");
 			stmt.executeUpdate();
 			stmt.close();
-			stmt =  connect.prepareStatement("CREATE TABLE friends(playerID int NOT NULL,"
+			stmt =  connect.prepareStatement("CREATE TABLE Friends(playerID int NOT NULL,"
 					+ "FRIENDID int NOT NULL, status varchar(10) NOT NULL);");
 			stmt.executeUpdate();
 		}
@@ -214,7 +214,7 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 	public void createRow(int id, int friendID, FriendStatusEnum status) throws DatabaseException
 	{
 
-		String query = "INSERT INTO friends " + "SET playerID = ?, FRIENDID = ?, STATUS = ?";
+		String query = "INSERT INTO Friends " + "SET playerID = ?, FRIENDID = ?, STATUS = ?";
 		this.connect = DatabaseManager.getSingleton().getConnection();
 
 		PreparedStatement stmt;
@@ -240,7 +240,7 @@ public class FriendTableDataGatewayRDS implements FriendTableDataGateway
 		int friendCount = 0;
 		try
 		{
-			PreparedStatement stmt =  connect.prepareStatement("SELECT COUNT(*) AS total FROM friends WHERE status = 'ACCEPTED' AND (friendId = ? OR playerId = ?);");
+			PreparedStatement stmt =  connect.prepareStatement("SELECT COUNT(*) AS total FROM Friends WHERE status = 'ACCEPTED' AND (friendId = ? OR playerId = ?);");
 			stmt.setInt(1, id);
 			stmt.setInt(2, id);
 

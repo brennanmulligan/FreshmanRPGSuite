@@ -50,13 +50,7 @@ function testGameClient() {
 
 function testGameSequenceTests() {
     cd GameSequenceTests > /dev/null || exit
-    ./../gradlew test --tests "model.SequenceTestRunner" || exit
-    cd - > /dev/null || exit
-}
-
-function testGameManager() {
-    cd GameManager > /dev/null || exit
-    ./../gradlew test --tests "AllManagerTests" || exit
+    ./../gradlew test --tests "model.RunAllSequenceTests" || exit
     cd - > /dev/null || exit
 }
 
@@ -130,20 +124,22 @@ function runTests() {
     testGameServer
     testGameClient
     testGameSequenceTests
-    testGameManager
 }
 
 function runCheckstyle() {
     checkGameClient
     checkGameClientDesktop
-    checkGameManager
     checkGameSequenceTests
     checkGameServer
     checkGameShared
     checkLoginServer
 }
 
-seedFirst
-seedSecond
-runTests
-runCheckstyle
+function run() {
+    seedFirst
+    seedSecond
+    runTests
+    runCheckstyle
+}
+
+run "$1"
