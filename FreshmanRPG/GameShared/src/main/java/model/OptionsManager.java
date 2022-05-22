@@ -183,8 +183,26 @@ public class OptionsManager
 	}
 
 	/**
-	 * @param usingTestDB
-	 *            set to true if we are not supposed to use the production database
+	 * @return true if this code is running in Gitlab's CI
+	 */
+	public boolean isRunningInCI()
+	{
+		return System.getenv("GITLAB_CI") != null;
+	}
+
+	/**
+	 * @return true if this code is running inside docker
+	 */
+	public boolean isRunningInDocker()
+	{
+		return System.getenv("DOCKER_FRPG") != null;
+	}
+
+	/**
+	 * Used when we are an area server
+	 *
+	 * @param hostName
+	 *            the hostname a server is running on
 	 */
 	public synchronized void setUsingTestDB(boolean usingTestDB)
 	{
