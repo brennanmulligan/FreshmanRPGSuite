@@ -3,6 +3,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +11,6 @@ import communication.StateAccumulator;
 import communication.messages.OtherPlayerMovedMessage;
 import communication.messages.PlayerMovedMessage;
 import datatypes.Position;
-import model.OptionsManager;
 import model.PlayerManager;
 import model.reports.PlayerMovedReport;
 
@@ -21,7 +21,7 @@ import model.reports.PlayerMovedReport;
  * @author Matt
  *
  */
-public class MovementMessagePackerTest
+public class MovementMessagePackerTest extends ServerSideTest
 {
 	private StateAccumulator stateAccumulator;
 
@@ -29,15 +29,12 @@ public class MovementMessagePackerTest
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		PlayerManager.resetSingleton();
-
 		PlayerManager.getSingleton().addPlayer(1);
 		stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(1);
-
 	}
 
 	/**

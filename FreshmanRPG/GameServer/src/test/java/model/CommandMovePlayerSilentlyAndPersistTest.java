@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import datasource.DatabaseException;
 import datatypes.Position;
 import model.reports.PlayerMovedReport;
 import model.reports.PlayerReadyToTeleportReport;
@@ -19,28 +19,24 @@ import model.reports.PlayerReadyToTeleportReport;
  * @author Merlin
  *
  */
-public class CommandMovePlayerSilentlyAndPersistTest
+public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 {
 
 	/**
 	 * Reset PlayerManager
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
 		PlayerManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**
 	 * Update a player's position from id
-	 *
-	 * @throws PlayerNotFoundException
-	 *             shouldn't
 	 */
 	@Test
-	public void testValidPlayer() throws PlayerNotFoundException
+	public void testValidPlayer()
 	{
 		Position startPosition = new Position(0, 0);
 		Position newPosition = new Position(10, 10);
@@ -80,11 +76,9 @@ public class CommandMovePlayerSilentlyAndPersistTest
 	/**
 	 * Update a player's position from id
 	 *
-	 * @throws PlayerNotFoundException
-	 *             shouldn't
 	 */
 	@Test
-	public void testNoPlayer() throws PlayerNotFoundException
+	public void testNoPlayer()
 	{
 		Position newPosition = new Position(10, 10);
 
@@ -94,14 +88,9 @@ public class CommandMovePlayerSilentlyAndPersistTest
 
 	/**
 	 * Test that persistence happens
-	 *
-	 * @throws DatabaseException
-	 *             shouldn't
-	 * @throws IllegalQuestChangeException
-	 *             the state changed illegally
 	 */
 	@Test
-	public void testPersists() throws DatabaseException, IllegalQuestChangeException
+	public void testPersists()
 	{
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 		player.setPlayerPositionWithoutNotifying(new Position(101, 101));
@@ -122,7 +111,7 @@ public class CommandMovePlayerSilentlyAndPersistTest
 	 * Make sure that a report is thrown after command execution.
 	 */
 	@Test
-	public void testThrowsPlayerPersistedReport()
+	public void testSendsPlayerPersistedReport()
 	{
 		int id = PlayersForTest.MERLIN.getPlayerID();
 		PlayerManager.getSingleton().addPlayer(id);

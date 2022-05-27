@@ -30,12 +30,7 @@ import datasource.DatabaseManager;
 public class ConnectionIncomingTest
 {
 
-	@BeforeClass
-	public static void setup()
-	{
-		LoggerManager.resetSingleton();
-		LoggerManager.createLogger(OptionsManager.getSingleton().getHostName());
-	}
+
 	/**
 	 * An incoming message should be routed by the MessageProcessor to the
 	 * MessageHandler register for that type of message
@@ -94,7 +89,7 @@ class MockConnectionIncoming extends ConnectionIncoming
 		{
 			this.manager = DatabaseManager.getSingleton().getConnection();
 		}
-		catch (DatabaseException e)
+		catch (DatabaseException ignored)
 		{
 		}
 		finally
@@ -103,11 +98,7 @@ class MockConnectionIncoming extends ConnectionIncoming
 			{
 				DatabaseManager.getSingleton().closeConnection();
 			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-			catch (DatabaseException e)
+			catch (SQLException | DatabaseException e)
 			{
 				e.printStackTrace();
 			}

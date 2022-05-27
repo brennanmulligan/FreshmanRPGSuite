@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,17 +15,15 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public class PlayerManagerTest
+public class PlayerManagerTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		LoginPlayerManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
 	}

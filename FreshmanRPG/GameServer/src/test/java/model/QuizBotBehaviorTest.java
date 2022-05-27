@@ -2,14 +2,13 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import model.reports.NPCChatReport;
 import org.junit.Before;
 import org.junit.Test;
 
 import datasource.DatabaseException;
 import datatypes.ChatType;
-import datatypes.Position;
-import model.reports.ChatMessageReceivedReport;
 import datatypes.PlayersForTest;
 
 /**
@@ -17,9 +16,8 @@ import datatypes.PlayersForTest;
  *
  *         Make sure that the QuizBotBehavior acts as expected
  */
-public class QuizBotBehaviorTest
+public class QuizBotBehaviorTest extends ServerSideTest
 {
-
 	private QuizBotBehavior behavior;
 	private NPCQuestion question;
 	private Player player;
@@ -29,9 +27,8 @@ public class QuizBotBehaviorTest
 	 *             for each test
 	 */
 	@Before
-	public void setUp() throws DatabaseException
+	public void localSetUp() throws DatabaseException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		behavior = new QuizBotBehavior(PlayersForTest.QUIZBOT.getPlayerID());
 		question = behavior.getQuestion();
 		player = PlayerManager.getSingleton().addPlayer(PlayersForTest.ANDY.getPlayerID());

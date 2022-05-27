@@ -1,11 +1,9 @@
 package model;
 
-import java.io.Serializable;
-
 import datasource.DatabaseException;
 import datasource.NPCQuestionRowDataGateway;
-import datasource.NPCQuestionRowDataGatewayMock;
-import datasource.NPCQuestionRowDataGatewayRDS;
+
+import java.io.Serializable;
 
 /**
  * NPCQuestion class that modeling the questions for the quiz bot Will return a
@@ -15,81 +13,61 @@ import datasource.NPCQuestionRowDataGatewayRDS;
  */
 public class NPCQuestion implements Serializable
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private NPCQuestionRowDataGateway gateway;
+    private NPCQuestionRowDataGateway gateway;
 
-	private NPCQuestion()
-	{
-	}
+    private NPCQuestion()
+    {
+    }
 
-	/**
-	 * @param questionID the ID of the question you want returned
-	 * @return an NPCQuestion
-	 */
-	public static NPCQuestion getSpecificQuestion(int questionID)
-	{
-		NPCQuestion q = new NPCQuestion();
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			try
-			{
-				q.gateway = new NPCQuestionRowDataGatewayMock(questionID);
-			}
-			catch (DatabaseException e)
-			{
-				return null;
-			}
-		}
-		else
-		{
-			try
-			{
-				q.gateway = new NPCQuestionRowDataGatewayRDS(questionID);
-			}
-			catch (DatabaseException e)
-			{
-				return null;
-			}
-		}
-		return q;
-	}
+    /**
+     * @return a random question from the data source
+     * @throws DatabaseException if the data source can't complete the request
+     */
+    protected static NPCQuestion getRandomQuestion() throws DatabaseException
+    {
+        NPCQuestion q = new NPCQuestion();
+        q.gateway = NPCQuestionRowDataGateway.findRandomGateway();
+        return q;
+    }
 
-	/**
-	 * @return a random question from the data source
-	 * @throws DatabaseException if the data source can't complete the request
-	 */
-	protected static NPCQuestion getRandomQuestion() throws DatabaseException
-	{
-		NPCQuestion q = new NPCQuestion();
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			q.gateway = NPCQuestionRowDataGatewayMock.findRandomGateway();
-		}
-		else
-		{
-			q.gateway = NPCQuestionRowDataGatewayRDS.findRandomGateway();
-		}
-		return q;
-	}
+    /**
+     * @param questionID the ID of the question you want returned
+     * @return an NPCQuestion
+     */
+    public static NPCQuestion getSpecificQuestion(int questionID)
+    {
+        NPCQuestion q = new NPCQuestion();
 
-	/**
-	 * @return answer to question
-	 */
-	public String getAnswer()
-	{
-		return gateway.getAnswer();
-	}
+        try
+        {
+            q.gateway = new NPCQuestionRowDataGateway(questionID);
+        }
+        catch (DatabaseException e)
+        {
+            return null;
+        }
+        return q;
+    }
 
-	/**
-	 * @return question
-	 */
-	protected String getQuestionStatement()
-	{
-		return gateway.getQuestionStatement();
-	}
+    /**
+     * @return answer to question
+     */
+    public String getAnswer()
+    {
+        return gateway.getAnswer();
+    }
+
+    /**
+     * @return question
+     */
+    protected String getQuestionStatement()
+    {
+        return gateway.getQuestionStatement();
+    }
 
 }

@@ -2,14 +2,11 @@ package api.service;
 
 import api.model.GameManagerPlayer;
 import api.model.GameManagerPlayerManager;
-import api.model.GameManagerPlayer;
 import dataDTO.PlayerDTO;
 
 import datasource.*;
 import datatypes.ObjectiveStateEnum;
-import datasource.PlayerRowDataGateway;
 import datatypes.QuestStateEnum;
-import api.model.GameManagerPlayerManager;
 import model.ObjectiveRecord;
 import org.springframework.stereotype.Service;
 
@@ -50,17 +47,14 @@ public class PlayerServiceImpl implements PlayerService
 
             //Add Starter Quest
             QuestStateTableDataGateway questStateTableDataGatewayRDS =
-                    (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                            "QuestState");
-            questStateTableDataGatewayRDS.udpateState(playerID, 100, QuestStateEnum.TRIGGERED, true);
+                    QuestStateTableDataGateway.getSingleton();
+            questStateTableDataGatewayRDS.updateState(playerID, 100, QuestStateEnum.TRIGGERED, true);
 
             //Add Starter Objectives
             ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
-                    (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                            "ObjectiveState");
+                    ObjectiveStateTableDataGateway.getSingleton();
             ObjectiveTableDataGateway objectiveTableDataGateway =
-                    (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                            "Objective");
+                    ObjectiveTableDataGateway.getSingleton();
             ArrayList<ObjectiveRecord> objectiveList = objectiveTableDataGateway.getObjectivesForQuest(100);
             for (ObjectiveRecord objective : objectiveList)
             {

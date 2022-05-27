@@ -4,25 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Observable;
 
+import datasource.ServerSideTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.CommunicationException;
-import communication.ConnectionManager;
 import communication.StateAccumulator;
-import communication.handlers.MessageHandlerSet;
 import communication.messages.Message;
-import model.OptionsManager;
 import model.QualifiedObservableConnector;
 import model.QualifiedObservableReport;
-import model.QualifiedObserver;
 import model.reports.StubQualifiedObservableReport1;
 import model.reports.StubQualifiedObservableReport2;
 
@@ -32,7 +26,7 @@ import model.reports.StubQualifiedObservableReport2;
  * @author merlin
  *
  */
-public class MessagePackerSetTest
+public class MessagePackerSetTest extends ServerSideTest
 {
 
 	private ServerSocket servSock;
@@ -41,7 +35,7 @@ public class MessagePackerSetTest
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
 		QualifiedObservableConnector.resetSingleton();
 	}

@@ -87,12 +87,12 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
                 rs.getString("questDescription"),
                 rs.getString("triggerMapName"),
                 new Position(rs.getInt("triggerRow"), rs.getInt("triggerColumn")),
-                ((ObjectiveTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway("Objective"))
+                ObjectiveTableDataGateway.getSingleton()
                         .getObjectivesForQuest(rs.getInt("questID")),
                 rs.getInt("experiencePointsGained"),
                 rs.getInt("objectivesForFulfillment"),
                 qcat,
-                QuestRowDataGatewayRDS.extractCompletionActionParameter(rs, qcat),
+                QuestRowDataGateway.extractCompletionActionParameter(rs, qcat),
                 startDate,
                 endDate
         );

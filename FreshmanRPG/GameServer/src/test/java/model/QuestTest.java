@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import dataENUM.ObjectiveCompletionType;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import criteria.CriteriaStringDTO;
@@ -21,7 +22,7 @@ import datatypes.Position;
  * @author Scott Lantz, LaVonne Diller
  *
  */
-public class QuestTest
+public class QuestTest extends ServerSideTest
 {
 
 	/**

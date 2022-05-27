@@ -2,19 +2,19 @@ package communication.handlers;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.messages.ItemPurchasedMessage;
 import model.ModelFacade;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 
 /**
  * @author Josh Wood
  */
-public class ItemPurchasedHandlerTest
+public class ItemPurchasedHandlerTest extends ServerSideTest
 {
 
 	/**
@@ -25,8 +25,6 @@ public class ItemPurchasedHandlerTest
 	{
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**
@@ -61,10 +59,13 @@ public class ItemPurchasedHandlerTest
 		ItemPurchasedHandler handler = new ItemPurchasedHandler();
 
 		handler.process(msg);
-		while (ModelFacade.getSingleton().hasCommandsPending())
+		int count = 0;
+		while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
 		{
 			Thread.sleep(100);
+			count++;
 		}
+		assertTrue("ModelFacade didn't process our command", count < 10);
 		assertEquals(startingScore - price, p.getQuizScore());
 
 

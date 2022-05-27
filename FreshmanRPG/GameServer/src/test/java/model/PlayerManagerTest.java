@@ -8,9 +8,9 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,17 +27,15 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public class PlayerManagerTest
+public class PlayerManagerTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 		PlayerManager.resetSingleton();
 	}
@@ -98,7 +96,7 @@ public class PlayerManagerTest
 				PlayersForTest.MERLIN.getPlayerID(), PlayersForTest.MERLIN.getPlayerName(),
 				PlayersForTest.MERLIN.getAppearanceType(), PlayersForTest.MERLIN.getPosition(),
 				PlayersForTest.MERLIN.getCrew(), PlayersForTest.MERLIN.getMajor(), PlayersForTest.MERLIN.getSection(), new ArrayList<>());
-		;
+
 		obs.receiveReport(expected);
 		EasyMock.replay(obs);
 
@@ -182,15 +180,14 @@ public class PlayerManagerTest
 	 * Test that the known npcs will be in the database
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws SQLException shouldn't
 	 */
 	@Test
-	public void testNpcsLoaded() throws DatabaseException, SQLException
+	public void testNpcsLoaded() throws DatabaseException
 	{
 		OptionsManager om = OptionsManager.getSingleton();
-		om.setUsingMocKDataSource(true);
+		om.setTestMode(true);
 		om.updateMapInformation(PlayersForTest.QUIZBOT.getMapName(), "localhost", 1874);
-		PlayerManager.getSingleton().loadNpcs(false);
+		PlayerManager.getSingleton().loadNpcs(true);
 
 		assertNotNull(PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.QUIZBOT.getPlayerID()));
 

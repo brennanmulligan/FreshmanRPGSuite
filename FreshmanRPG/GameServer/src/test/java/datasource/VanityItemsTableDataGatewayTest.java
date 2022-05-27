@@ -13,38 +13,36 @@ import static org.junit.Assert.*;
 /**
  * Tests for the VanityItemsTableDataGateway
  */
-public abstract class VanityItemsTableDataGatewayTest extends DatabaseTest
+public class VanityItemsTableDataGatewayTest extends ServerSideTest
 {
-    protected VanityItemsTableDataGatewayInterface gateway;
-
-    abstract VanityItemsTableDataGatewayInterface findGateway() throws DatabaseException;
+    protected VanityItemsTableDataGateway gateway;
 
     /**
-     * Get the right gateway and set up the gateway
+     * Test to make sure we can add a vanity item
+     *
      * @throws DatabaseException shouldnt
      */
-    @Before
-    public void setup() throws DatabaseException
-    {
-        gateway = findGateway();
-        gateway.resetData();
-    }
-
-    /**
-     * Tests to make sure singleton pattern works
-     * @throws DatabaseException shouldn't
-     */
     @Test
-    public void isASingleton() throws DatabaseException
+    public void addVanityItem() throws DatabaseException
     {
-        VanityItemsTableDataGatewayInterface a = findGateway();
-        VanityItemsTableDataGatewayInterface b = findGateway();
-        assertEquals(a, b);
-        assertNotNull(a);
+        ArrayList<VanityDTO> old = gateway.getAllVanityItems();
+
+        VanityDTO newItem =
+                new VanityDTO(old.size() + 1, "new", "new item", "new", VanityType.HAT);
+        assertFalse(old.contains(newItem));
+        gateway.addVanityItem(newItem.getName(), newItem.getDescription(),
+                newItem.getTextureName(), newItem.getVanityType());
+        ArrayList<VanityDTO> newGate = gateway.getAllVanityItems();
+        VanityDTO lastItem = newGate.get(newGate.size() - 1);
+        assertEquals(newItem.getName(), lastItem.getName());
+        assertEquals(newItem.getDescription(), lastItem.getDescription());
+        assertEquals(newItem.getTextureName(), lastItem.getTextureName());
+        assertEquals(newItem.getVanityType(), lastItem.getVanityType());
     }
 
     /**
      * Tests to make sure we can get all vanity items
+     *
      * @throws DatabaseException shouldnt
      */
     @Test
@@ -53,7 +51,8 @@ public abstract class VanityItemsTableDataGatewayTest extends DatabaseTest
         ArrayList<VanityDTO> items = new ArrayList<>();
         for (VanityForTest v : VanityForTest.values())
         {
-            VanityDTO d = new VanityDTO(v.getId(), v.getName(), v.getDescription(), v.getTextureName(), VanityType.fromInt(v.getVanityType()));
+            VanityDTO d = new VanityDTO(v.getId(), v.getName(), v.getDescription(),
+                    v.getTextureName(), VanityType.fromInt(v.getVanityType()));
             items.add(d);
         }
 
@@ -66,34 +65,46 @@ public abstract class VanityItemsTableDataGatewayTest extends DatabaseTest
 
     /**
      * Test to make sure we can get an item from its ID
+     *
      * @throws DatabaseException shouldnt
      */
     @Test
     public void getItemByID() throws DatabaseException
     {
         VanityForTest item = VanityForTest.MerlinHat;
-        VanityDTO dto = new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType()));
+        VanityDTO dto = new VanityDTO(item.getId(), item.getName(), item.getDescription(),
+                item.getTextureName(), VanityType.fromInt(item.getVanityType()));
         assertEquals(dto, gateway.getVanityItemByID(item.getId()));
     }
 
     /**
-     * Test to make sure we can add a vanity item
-     * @throws DatabaseException shouldnt
+     * Tests to make sure singleton pattern works
+     *
+     * @throws DatabaseException shouldn't
      */
     @Test
-    public void addVanityItem() throws DatabaseException
+    public void isASingleton() throws DatabaseException
     {
-        ArrayList<VanityDTO> old = gateway.getAllVanityItems();
+        VanityItemsTableDataGateway a = findGateway();
+        VanityItemsTableDataGateway b = findGateway();
+        assertEquals(a, b);
+        assertNotNull(a);
+    }
 
-        VanityDTO newItem = new VanityDTO(old.size() + 1, "new", "new item", "new", VanityType.HAT);
-        assertFalse(old.contains(newItem));
-        gateway.addVanityItem(newItem.getName(), newItem.getDescription(), newItem.getTextureName(), newItem.getVanityType());
-        ArrayList<VanityDTO> newGate = gateway.getAllVanityItems();
-        VanityDTO lastItem = newGate.get(newGate.size()-1);
-        assertEquals(newItem.getName(), lastItem.getName());
-        assertEquals(newItem.getDescription(), lastItem.getDescription());
-        assertEquals(newItem.getTextureName(), lastItem.getTextureName());
-        assertEquals(newItem.getVanityType(), lastItem.getVanityType());
+    /**
+     * Get the right gateway and set up the gateway
+     *
+     * @throws DatabaseException shouldnt
+     */
+    @Before
+    public void setup() throws DatabaseException
+    {
+        gateway = findGateway();
+    }
+
+    VanityItemsTableDataGateway findGateway() throws DatabaseException
+    {
+        return VanityItemsTableDataGateway.getSingleton();
     }
 
 }

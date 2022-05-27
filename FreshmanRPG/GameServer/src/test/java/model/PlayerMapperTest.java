@@ -3,7 +3,10 @@ package model;
 import dataDTO.ObjectiveStateRecordDTO;
 import dataDTO.PlayerDTO;
 import dataDTO.VanityDTO;
-import datasource.*;
+import datasource.DatabaseException;
+import datasource.DefaultItemsTableDataGateway;
+import datasource.ObjectiveStateTableDataGateway;
+import datasource.ServerSideTest;
 import datatypes.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +20,10 @@ import static org.junit.Assert.*;
  *
  * @author Merlin
  */
-public class PlayerMapperTest
+public class PlayerMapperTest extends ServerSideTest
 {
+
+
     /**
      * Check to make sure that a newly-created mapper has the correct values.
      *
@@ -148,6 +153,14 @@ public class PlayerMapperTest
         assertTrue(allFound);
     }
 
+    @Before
+    public void localSetUp()
+    {
+        ObjectiveStateTableDataGateway objStateGateway =
+                ObjectiveStateTableDataGateway.getSingleton();
+        QuestManager.resetSingleton();
+    }
+
     /**
      * Make sure that all of the relevant information gets persisted to the data
      * source
@@ -218,26 +231,6 @@ public class PlayerMapperTest
     }
 
     /**
-     * @throws DatabaseException shouldn't
-     * @see datasource.DatabaseTest#setUp()
-     */
-    @Before
-    public void setUp() throws DatabaseException
-    {
-        OptionsManager.getSingleton().setUsingMocKDataSource(true);
-        new PlayerRowDataGatewayMock().resetData();
-        new PlayerLoginRowDataGatewayMock().resetData();
-        TableDataGatewayManager.getSingleton().resetTableGateway(
-                "QuestState");
-        ObjectiveStateTableDataGateway objStateGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("ObjectiveState");
-        objStateGateway.resetTableGateway();
-        QuestManager.resetSingleton();
-        new PlayerConnectionRowDataGatewayMock(1).resetData();
-    }
-
-    /**
      * Tests that we get the correct list of maps a player has visited.
      *
      * @throws DatabaseException - shouldn't
@@ -247,9 +240,9 @@ public class PlayerMapperTest
     {
 
         ArrayList<String> expected = getPlayerWeAreTesting().getMapsVisited();
-        expected.add("Map1");
+        expected.add("Ducktopia");
         PlayerMapper pm = new PlayerMapper(getPlayerWeAreTesting().getPlayerID());
-        pm.addMapToPlayer("map1.tmx");
+        pm.addMapToPlayer("Ducktopia.tmx");
         assertEquals(expected, pm.getPlayer().getPlayerVisitedMaps());
 
     }
@@ -267,8 +260,7 @@ public class PlayerMapperTest
         Player p = pm.getPlayer();
         ArrayList<ObjectiveStateRecordDTO> testList;
         ObjectiveStateTableDataGateway objStateGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("ObjectiveState");
+                ObjectiveStateTableDataGateway.getSingleton();
         testList = objStateGateway.getUncompletedObjectivesForPlayer(p.getPlayerID());
 
         for (ObjectiveStateRecordDTO objective : testList)
@@ -280,12 +272,20 @@ public class PlayerMapperTest
         }
     }
 
+    private void checkForMatchingContents(ArrayList<VanityDTO> first,
+                                          ArrayList<VanityDTO> second)
+    {
+        assertEquals(first.size(), second.size());
+        for (VanityDTO f : first)
+        {
+            assertTrue(second.contains(f));
+        }
+    }
+
     protected PlayerDTO getPlayerWeAreCreating() throws DatabaseException
     {
         DefaultItemsTableDataGateway gateway =
-                (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway(
-                                "DefaultItems");
+                DefaultItemsTableDataGateway.getSingleton();
         return new PlayerDTO(-1, "the player name", "the player password",
                 "the appearance type", 12,
                 new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER,
@@ -318,7 +318,7 @@ public class PlayerMapperTest
         assertEquals(expected.getExperiencePoints(), actual.getExperiencePoints());
         assertEquals(expected.getCrew(), actual.getCrew());
         assertEquals(expected.getSection(), actual.getSection());
-        assertEquals(expected.getVanityItems(), actual.getVanityItems());
+        checkForMatchingContents(expected.getVanityItems(), actual.getVanityItems());
     }
 
     protected void assertPlayersEqual(PlayerDTO expected, Player actual)

@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ import datatypes.PlayersForTest;
  * @author merlin
  *
  */
-public class CheatCodeManagerTest
+public class CheatCodeManagerTest extends ServerSideTest
 {
 
 	private CheatCodeManager mgr;
@@ -27,7 +28,7 @@ public class CheatCodeManagerTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 		mgr = new CheatCodeManager();
 	}
 

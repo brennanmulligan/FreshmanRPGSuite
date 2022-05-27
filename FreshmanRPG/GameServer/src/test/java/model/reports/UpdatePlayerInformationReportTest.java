@@ -4,14 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import dataDTO.ClientPlayerObjectiveStateDTO;
 import dataDTO.ClientPlayerQuestStateDTO;
 import datasource.DatabaseException;
-import model.IllegalQuestChangeException;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.QuestManager;
@@ -28,16 +27,15 @@ import datatypes.QuestsForTest;
  * @author Ryan, LaVonne, Olivia
  *
  */
-public class UpdatePlayerInformationReportTest
+public class UpdatePlayerInformationReportTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QuestManager.resetSingleton();
 	}
 
@@ -45,10 +43,9 @@ public class UpdatePlayerInformationReportTest
 	 * Tests that we can combine a quest description and state
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testCombineQuestDescriptionAndState() throws DatabaseException, IllegalQuestChangeException
+	public void testCombineQuestDescriptionAndState() throws DatabaseException
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 		UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(john);
@@ -78,10 +75,9 @@ public class UpdatePlayerInformationReportTest
 	 * Tests that we can combine a quest description and state
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testCombineObjectiveDescriptionAndState() throws DatabaseException, IllegalQuestChangeException
+	public void testCombineObjectiveDescriptionAndState() throws DatabaseException
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 		UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(john);
@@ -141,10 +137,9 @@ public class UpdatePlayerInformationReportTest
 	 * description and the points level requires
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testExperienceAndLevelPoints() throws DatabaseException, IllegalQuestChangeException
+	public void testExperienceAndLevelPoints() throws DatabaseException
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 

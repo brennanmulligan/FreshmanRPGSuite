@@ -3,8 +3,6 @@ package sequencetests;
 
 import communication.messages.LoginFailedMessage;
 import communication.messages.LoginMessage;
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 import model.*;
 
@@ -42,15 +40,7 @@ public class LoginBadPWSequenceTest extends SequenceTest
      */
     public void resetNecessarySingletons()
     {
-        try
-        {
-            PlayerManager.resetSingleton();
-            (new PlayerConnectionRowDataGatewayMock(2)).resetData();
-        }
-        catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
+        PlayerManager.resetSingleton();
     }
 
     /**

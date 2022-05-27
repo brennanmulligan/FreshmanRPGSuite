@@ -2,6 +2,7 @@ package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import model.QualifiedObservableConnector;
  * @author Austin Smale
  *
  */
-public class SendTerminalTextMessageHandlerTest
+public class SendTerminalTextMessageHandlerTest extends ServerSideTest
 {
 	/**
 	 * Reset the ModelFacade
@@ -27,26 +28,6 @@ public class SendTerminalTextMessageHandlerTest
 	{
 		ModelFacade.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
-	}
-
-	/**
-	 * Test the handler processes the messaged
-	 * @throws InterruptedException for thread.sleep
-	 */
-	@Test
-	public void testHandlerProcess() throws InterruptedException
-	{
-		reset();
-		SendTerminalTextMessage message = new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(), "who");
-		SendTerminalTextMessageHandler handler = new SendTerminalTextMessageHandler();
-		handler.process(message);
-		assertEquals(1, ModelFacade.getSingleton().queueSize());
-
-		while (ModelFacade.getSingleton().hasCommandsPending())
-		{
-			Thread.sleep(100);
-		}
-		reset();
 	}
 
 	/**

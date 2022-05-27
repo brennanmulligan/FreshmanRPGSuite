@@ -2,13 +2,12 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import dataDTO.LevelManagerDTO;
-import datasource.DatabaseException;
 import datasource.LevelRecord;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.QuestManager;
@@ -20,26 +19,23 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  * @author Olivia
  * @author LaVonne
  */
-public class ExperienceChangedReportTest
+public class ExperienceChangedReportTest extends ServerSideTest
 {
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QuestManager.resetSingleton();
 	}
 
 	/**
 	 * Tests that we can create a ExperienceChangedReport and get its experience
 	 * points and playerID
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testCreateReport() throws DatabaseException
+	public void testCreateReport()
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 		LevelRecord expected = LevelManagerDTO.getSingleton().getLevelForPoints(john.getExperiencePoints());

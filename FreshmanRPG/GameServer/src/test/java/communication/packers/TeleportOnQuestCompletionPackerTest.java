@@ -2,17 +2,15 @@ package communication.packers;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.StateAccumulator;
 import communication.messages.TeleportationContinuationMessage;
 import criteria.GameLocationDTO;
-import datasource.DatabaseException;
 import model.ModelFacade;
-import model.OptionsManager;
 import model.PlayerManager;
-import model.QuestManager;
 import model.reports.TeleportOnQuestCompletionReport;
 import datatypes.ObjectivesForTest;
 
@@ -22,21 +20,17 @@ import datatypes.ObjectivesForTest;
  * @author Abdul, Chris Hersh, Zach Thompson
  *
  */
-public class TeleportOnQuestCompletionPackerTest
+public class TeleportOnQuestCompletionPackerTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		QuestManager.resetSingleton();
-
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
-
 	}
 
 	/**
@@ -53,11 +47,9 @@ public class TeleportOnQuestCompletionPackerTest
 	/**
 	 * If the msg is to the player we are packing, the message should contain
 	 * the details of the quest
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testPackedMessageIsBuiltCorrectly() throws DatabaseException
+	public void testPackedMessageIsBuiltCorrectly()
 	{
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(1);

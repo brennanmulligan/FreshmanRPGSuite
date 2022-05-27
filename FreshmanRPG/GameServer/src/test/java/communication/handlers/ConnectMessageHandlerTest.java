@@ -1,14 +1,15 @@
 package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.ConnectionManager;
 import communication.messages.ConnectMessage;
 import model.ModelFacade;
-import model.OptionsManager;
 import model.PlayerConnection;
 import model.PlayerManager;
 
@@ -17,7 +18,7 @@ import model.PlayerManager;
  * @author merlin
  *
  */
-public class ConnectMessageHandlerTest
+public class ConnectMessageHandlerTest extends ServerSideTest
 {
 
 	/**
@@ -26,8 +27,6 @@ public class ConnectMessageHandlerTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 	}
@@ -56,10 +55,13 @@ public class ConnectMessageHandlerTest
 		handler.setConnectionManager(connectionManager);
 		ConnectMessage msg = new ConnectMessage(1, PlayerConnection.DEFAULT_PIN);
 		handler.process(msg);
-		while (ModelFacade.getSingleton().hasCommandsPending())
+		int count = 0;
+		while (count < 20 && ModelFacade.getSingleton().hasCommandsPending())
 		{
 			Thread.sleep(100);
+			count++;
 		}
+		assertTrue("Model never processed our command",count < 20);
 		assertEquals(1, connectionManager.getPlayerID());
 	}
 
@@ -75,10 +77,13 @@ public class ConnectMessageHandlerTest
 		ConnectMessageHandler handler = new ConnectMessageHandler();
 		ConnectMessage msg = new ConnectMessage(1, PlayerConnection.DEFAULT_PIN);
 		handler.process(msg);
-		while (ModelFacade.getSingleton().hasCommandsPending())
+		int count = 0;
+		while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
 		{
 			Thread.sleep(100);
+			count++;
 		}
+		assertTrue("ModelFacade didn't process our command", count < 10);
 		// if this doesn't throw a PlayerNotFoundExcetion, all is well
 		PlayerManager.getSingleton().getPlayerFromID(34);
 	}

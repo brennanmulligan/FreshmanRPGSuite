@@ -33,10 +33,9 @@ public class LoginSuccessfulMessageHandler extends MessageHandler
 			LoginSuccessfulMessage rMsg = (LoginSuccessfulMessage) msg;
 			try
 			{
-				Socket socket = null;
-				if (!OptionsManager.getSingleton().isUsingMockDataSource())
+				if (!OptionsManager.getSingleton().isTestMode())
 				{
-					socket = new Socket(rMsg.getHostName(), rMsg.getPortNumber());
+					Socket socket = new Socket(rMsg.getHostName(), rMsg.getPortNumber());
 					getConnectionManager().moveToNewSocket(socket);
 				}
 

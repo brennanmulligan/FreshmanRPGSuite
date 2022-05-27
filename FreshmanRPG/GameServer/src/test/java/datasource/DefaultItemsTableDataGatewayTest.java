@@ -3,7 +3,6 @@ package datasource;
 import dataDTO.VanityDTO;
 import datatypes.DefaultItemsForTest;
 import datatypes.VanityForTest;
-import model.OptionsManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,24 +13,65 @@ import static org.junit.Assert.*;
 /**
  * Tests for the DefaultItemsTableDataGateway
  */
-public abstract class DefaultItemsTableDataGatewayTest
+public class DefaultItemsTableDataGatewayTest extends ServerSideTest
 {
     protected DefaultItemsTableDataGateway gateway;
-    abstract DefaultItemsTableDataGateway findGateway() throws DatabaseException;
 
     /**
-     * Get the right gateway and set up the gateway
-     * @throws DatabaseException shouldnt
+     * Tests to make sure we cannot add a duplicate default item
+     *
+     * @throws DatabaseException when duplicate item is added
      */
-    @Before
-    public void setup() throws DatabaseException
+    @Test(expected = DatabaseException.class)
+    public void cannotAddDuplicateItem() throws DatabaseException
     {
-        gateway = findGateway();
-        gateway.resetTableGateway();
+        ArrayList<Integer> itemsFromGateway =
+                getIDsFromVanityDTO(gateway.getDefaultItems());
+        gateway.addDefaultItem(itemsFromGateway.get(0));
+    }
+
+    /**
+     * Tests to make sure we cannot add an invalid default item
+     *
+     * @throws DatabaseException when invalid item is added
+     */
+    @Test(expected = DatabaseException.class)
+    public void cannotAddInvalidVanityItem() throws DatabaseException
+    {
+        gateway.addDefaultItem(-1);
+    }
+
+    /**
+     * Tests to make sure we cannot remove an invalid default item
+     *
+     * @throws DatabaseException when removing invalid item
+     */
+    @Test(expected = DatabaseException.class)
+    public void cannotRemoveInvalidItem() throws DatabaseException
+    {
+        gateway.removeDefaultItem(-1);
+    }
+
+    @Test(expected = DatabaseException.class)
+    public void cannotSetInvalidDefault() throws DatabaseException
+    {
+        gateway.setDefaultWearing(-1);
+    }
+
+    @Test
+    public void changeDefault() throws DatabaseException
+    {
+        ArrayList<Integer> wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
+        assertFalse(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
+        gateway.setDefaultWearing(DefaultItemsForTest.LightBlueEyes.getDefaultID());
+        wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
+        assertTrue(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
+        assertFalse(wearing.contains(DefaultItemsForTest.DefaultEyes.getDefaultID()));
     }
 
     /**
      * Tests to make sure singleton pattern works
+     *
      * @throws DatabaseException shouldn't
      */
     @Test
@@ -44,7 +84,38 @@ public abstract class DefaultItemsTableDataGatewayTest
     }
 
     /**
+     * Get the right gateway and set up the gateway
+     *
+     * @throws DatabaseException shouldnt
+     */
+    @Before
+    public void setup() throws DatabaseException
+    {
+        gateway = findGateway();
+        gateway.resetTableGateway();
+    }
+
+    /**
+     * Tests to make sure we can add an item
+     * REQUIRES: Merlin hat to not be in default items
+     */
+    @Test
+    public void testAddItem() throws DatabaseException
+    {
+        ArrayList<Integer> itemsFromGateway =
+                getIDsFromVanityDTO(gateway.getDefaultItems());
+        assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
+
+        gateway.addDefaultItem(VanityForTest.MerlinHat.getId());
+
+        itemsFromGateway = getIDsFromVanityDTO(gateway.getDefaultItems());
+
+        assertTrue(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
+    }
+
+    /**
      * Tests to make sure we can get all the default items
+     *
      * @throws DatabaseException shouldnt
      */
     @Test
@@ -60,70 +131,8 @@ public abstract class DefaultItemsTableDataGatewayTest
         }
 
         itemsFromGatewayIDs = getIDsFromVanityDTO(itemsFromGateway);
-        assertTrue(testItems.containsAll(itemsFromGatewayIDs) && itemsFromGatewayIDs.containsAll(testItems));
-    }
-
-    /**
-     * Tests to make sure we can add an item
-     * REQUIRES: Merlin hat to not be in default items
-     */
-    @Test
-    public void testAddItem() throws DatabaseException
-    {
-        ArrayList<Integer> itemsFromGateway = getIDsFromVanityDTO(gateway.getDefaultItems());
-        assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
-
-        gateway.addDefaultItem(VanityForTest.MerlinHat.getId());
-
-        itemsFromGateway = getIDsFromVanityDTO(gateway.getDefaultItems());
-
-        assertTrue(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
-    }
-
-    /**
-     * Tests to make sure we cannot add a duplicate default item
-     * @throws DatabaseException when duplicate item is added
-     */
-    @Test (expected = DatabaseException.class)
-    public void cannotAddDuplicateItem() throws DatabaseException
-    {
-        ArrayList<Integer> itemsFromGateway = getIDsFromVanityDTO(gateway.getDefaultItems());
-        gateway.addDefaultItem(itemsFromGateway.get(0));
-    }
-
-    /**
-     * Tests to make sure we cannot add an invalid default item
-     * @throws DatabaseException when invalid item is added
-     */
-    @Test (expected = DatabaseException.class)
-    public void cannotAddInvalidVanityItem() throws DatabaseException
-    {
-        gateway.addDefaultItem(-1);
-    }
-
-    /**
-     * Tests to make sure we can remove a default item
-     * @throws DatabaseException shouldnt
-     */
-    @Test
-    public void testRemoveItem() throws DatabaseException
-    {
-        gateway.addDefaultItem(VanityForTest.MerlinHat.getId());
-        gateway.removeDefaultItem(VanityForTest.MerlinHat.getId());
-
-        ArrayList<Integer> itemsFromGateway = getIDsFromVanityDTO(gateway.getDefaultItems());
-
-        assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
-    }
-
-    /**
-     * Tests to make sure we cannot remove an invalid default item
-     * @throws DatabaseException when removing invalid item
-     */
-    @Test (expected = DatabaseException.class)
-    public void cannotRemoveInvalidItem() throws DatabaseException
-    {
-        gateway.removeDefaultItem(-1);
+        assertTrue(testItems.containsAll(itemsFromGatewayIDs) &&
+                itemsFromGatewayIDs.containsAll(testItems));
     }
 
     @Test
@@ -143,21 +152,21 @@ public abstract class DefaultItemsTableDataGatewayTest
         assertTrue(shouldBe.containsAll(actual) && actual.containsAll(shouldBe));
     }
 
+    /**
+     * Tests to make sure we can remove a default item
+     *
+     * @throws DatabaseException shouldnt
+     */
     @Test
-    public void changeDefault() throws DatabaseException
+    public void testRemoveItem() throws DatabaseException
     {
-        ArrayList<Integer> wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
-        assertFalse(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
-        gateway.setDefaultWearing(DefaultItemsForTest.LightBlueEyes.getDefaultID());
-        wearing = getIDsFromVanityDTO(gateway.getDefaultWearing());
-        assertTrue(wearing.contains(DefaultItemsForTest.LightBlueEyes.getDefaultID()));
-        assertFalse(wearing.contains(DefaultItemsForTest.DefaultEyes.getDefaultID()));
-    }
+        gateway.addDefaultItem(VanityForTest.MerlinHat.getId());
+        gateway.removeDefaultItem(VanityForTest.MerlinHat.getId());
 
-    @Test (expected = DatabaseException.class)
-    public void cannotSetInvalidDefault() throws DatabaseException
-    {
-        gateway.setDefaultWearing(-1);
+        ArrayList<Integer> itemsFromGateway =
+                getIDsFromVanityDTO(gateway.getDefaultItems());
+
+        assertFalse(itemsFromGateway.contains(VanityForTest.MerlinHat.getId()));
     }
 
     /**
@@ -172,5 +181,10 @@ public abstract class DefaultItemsTableDataGatewayTest
             itemsFromGatewayIDs.add(dto.getID());
         }
         return itemsFromGatewayIDs;
+    }
+
+    DefaultItemsTableDataGateway findGateway() throws DatabaseException
+    {
+        return DefaultItemsTableDataGateway.getSingleton();
     }
 }

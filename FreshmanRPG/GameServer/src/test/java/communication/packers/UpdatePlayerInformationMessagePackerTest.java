@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,8 +14,6 @@ import communication.StateAccumulator;
 import communication.messages.InitializeThisClientsPlayerMessage;
 import dataDTO.ClientPlayerQuestStateDTO;
 import datasource.DatabaseException;
-import model.IllegalQuestChangeException;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.QuestManager;
@@ -29,7 +28,7 @@ import datatypes.PlayersForTest;
  * @author Olivia
  * @author LaVonne
  */
-public class UpdatePlayerInformationMessagePackerTest
+public class UpdatePlayerInformationMessagePackerTest extends ServerSideTest
 {
 	private StateAccumulator stateAccumulator;
 
@@ -38,9 +37,8 @@ public class UpdatePlayerInformationMessagePackerTest
 	 * communicating with Merlin
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		PlayerManager.resetSingleton();
 		QuestManager.resetSingleton();
 
@@ -66,10 +64,9 @@ public class UpdatePlayerInformationMessagePackerTest
 	 * should ignore it
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void ifItIsntAboutUsDontPack() throws DatabaseException, IllegalQuestChangeException
+	public void ifItIsntAboutUsDontPack() throws DatabaseException
 	{
 
 		UpdatePlayerInformationMessagePacker packer = new UpdatePlayerInformationMessagePacker();
@@ -84,10 +81,9 @@ public class UpdatePlayerInformationMessagePackerTest
 	 * the message should contain the appropriate quests and objectives
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testPackedObjectIsCurrentPlayer() throws DatabaseException, IllegalQuestChangeException
+	public void testPackedObjectIsCurrentPlayer() throws DatabaseException
 	{
 		Player player = PlayerManager.getSingleton().getPlayerFromID(stateAccumulator.getPlayerID());
 		UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(player);
@@ -109,10 +105,9 @@ public class UpdatePlayerInformationMessagePackerTest
 	 * InitializeThisClientsPlayerMessage message
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void testPackExperiencePtsAndLevel() throws DatabaseException, IllegalQuestChangeException
+	public void testPackExperiencePtsAndLevel() throws DatabaseException
 	{
 		Player player = PlayerManager.getSingleton().getPlayerFromID(stateAccumulator.getPlayerID());
 		UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(player);

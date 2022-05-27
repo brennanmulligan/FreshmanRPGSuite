@@ -2,12 +2,11 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import datasource.DatabaseException;
-import datasource.PlayerRowDataGatewayMock;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -17,18 +16,16 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public class PlayerConnectionReportTest
+public class PlayerConnectionReportTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
 		PlayerManager.resetSingleton();
-		new PlayerRowDataGatewayMock().resetData();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**

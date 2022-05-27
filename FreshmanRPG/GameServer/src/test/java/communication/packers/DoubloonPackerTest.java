@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import communication.messages.DoubloonPrizeMessage;
@@ -18,7 +19,7 @@ import model.reports.DoubloonPrizeReport;
  *
  */
 
-public class DoubloonPackerTest
+public class DoubloonPackerTest extends ServerSideTest
 {
 
 	/**

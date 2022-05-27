@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 import communication.CommunicationException;
 import datasource.DatabaseException;
@@ -30,12 +31,13 @@ public class RunOneSequenceTest
 	 */
 
 	public static void main(String[] args)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException, IOException, CommunicationException, DatabaseException
+			throws InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException, IOException, CommunicationException,
+			DatabaseException, ModelFacadeException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<TeleportationMovementSequenceTest> testClass = TeleportationMovementSequenceTest.class;
+		Class<LoginSuccessSequenceTest> testClass = LoginSuccessSequenceTest.class;
 		RunAllSequenceTests testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new RunAllSequenceTests("My Single Sequence Test", testClass);

@@ -2,6 +2,7 @@ package dataDTO;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.Crew;
@@ -12,7 +13,7 @@ import datatypes.Position;
  * Test that the player DTO constructors set the defaults correctly.
  * @author Ben Uleau and Christopher Boyer
  */
-public class TestPlayerDTO
+public class TestPlayerDTO extends ServerSideTest
 {
 
 	/**

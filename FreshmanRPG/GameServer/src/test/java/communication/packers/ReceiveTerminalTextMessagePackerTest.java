@@ -2,6 +2,7 @@ package communication.packers;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import model.reports.ReceiveTerminalTextReport;
  * @author Chris Roadcap
  *
  */
-public class ReceiveTerminalTextMessagePackerTest
+public class ReceiveTerminalTextMessagePackerTest extends ServerSideTest
 {
 	/**
 	 * Test the packing ability

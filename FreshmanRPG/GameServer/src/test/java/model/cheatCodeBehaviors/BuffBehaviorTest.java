@@ -2,12 +2,12 @@ package model.cheatCodeBehaviors;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.OptionsManager;
 import model.PlayerManager;
 import model.QualifiedObservableConnector;
 import model.QualifiedObserver;
@@ -19,16 +19,15 @@ import model.reports.InteractableObjectBuffReport;
  * @author merlin
  *
  */
-public class BuffBehaviorTest
+public class BuffBehaviorTest extends ServerSideTest
 {
 
 	/**
 	 * We need to be in test mode and reset some singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 		PlayerManager.resetSingleton();
 	}

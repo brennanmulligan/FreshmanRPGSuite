@@ -1,16 +1,12 @@
 package datasource;
 
-import static org.junit.Assert.assertEquals;
-
-import java.sql.SQLException;
-
-import org.junit.After;
 import org.junit.Test;
 
 import datatypes.Crew;
 import datatypes.Major;
-import datatypes.Position;
 import datatypes.PlayersForTest;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests required of all player gateways
@@ -18,7 +14,7 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public abstract class PlayerRowDataGatewayTest extends DatabaseTest
+public class PlayerRowDataGatewayTest extends ServerSideTest
 {
 
 	protected PlayerRowDataGateway gateway;
@@ -31,24 +27,10 @@ public abstract class PlayerRowDataGatewayTest extends DatabaseTest
 	 * @throws DatabaseException if the playerID can't be found in the data
 	 *             source
 	 */
-	abstract PlayerRowDataGateway findGateway(int playerID) throws DatabaseException;
-
-	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException shouldn't
-	 * @throws DatabaseException shouldn't
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
+	PlayerRowDataGateway findGateway(int playerID) throws DatabaseException
 	{
-		super.tearDown();
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
+		return new PlayerRowDataGateway(playerID);
 	}
-
 	/**
 	 * @throws DatabaseException shouldn't
 	 */
@@ -87,7 +69,7 @@ public abstract class PlayerRowDataGatewayTest extends DatabaseTest
 		assertEquals(Major.SOFTWARE_ENGINEERING, after.getMajor());
 		assertEquals(1, after.getSection());
 		assertEquals(42, after.getBuffPool());
-		assertEquals(false, after.getOnline());
+		assertFalse(after.getOnline());
 	}
 
 	/**
@@ -99,13 +81,16 @@ public abstract class PlayerRowDataGatewayTest extends DatabaseTest
 	 * @param experiencePoints this player's experience points
 	 * @param crew the crew to which this player belongs
 	 * @param major the major of this player
+	 * @param section the section the player is enrolled in
 	 * @param buffPool The size of the buff pool this player has
 	 * @return the gateway
 	 * @throws DatabaseException if we fail to create the row
 	 */
-	abstract PlayerRowDataGateway createGateway(String appearanceType, int quizScore,
-												int experiencePoints, Crew crew, Major major, int section, int buffPool, boolean online) throws DatabaseException;
-
+	PlayerRowDataGateway createGateway(String appearanceType, int quizScore,
+												int experiencePoints, Crew crew, Major major, int section, int buffPool, boolean online) throws DatabaseException
+	{
+		return new PlayerRowDataGateway(appearanceType, quizScore, experiencePoints, crew, major, section, buffPool, online);
+	}
 	/**
 	 * make sure we get the right exception if we try to find someone who
 	 * doesn't exist
@@ -215,15 +200,36 @@ public abstract class PlayerRowDataGatewayTest extends DatabaseTest
 
 		//make sure she's offline
 		PlayerRowDataGateway offline = this.findGateway(PlayersForTest.MERLIN.getPlayerID());
-		assertEquals(false, offline.getOnline());
+		assertFalse(offline.getOnline());
 
 		//set back to online
 		this.gateway.setOnline(true);
 		this.gateway.persist();
 
 		PlayerRowDataGateway online = this.findGateway(PlayersForTest.MERLIN.getPlayerID());
-		assertEquals(true, online.getOnline());
+		assertTrue(online.getOnline());
 	}
 
-	//TODO : get all players online test
+	/**
+	 * Tests the delete method in PlayerRowDataGateway
+	 * @throws DatabaseException should
+	 */
+	@Test
+	public void testDeletePlayerByIdDeletesCorrectPlayer() throws DatabaseException
+	{
+		PlayerRowDataGateway firstMerlin = findGateway(PlayersForTest.MERLIN.getPlayerID());
+		firstMerlin.delete();
+
+		boolean found = false;
+		try
+		{
+			findGateway(PlayersForTest.MERLIN.getPlayerID());
+		}
+		catch (DatabaseException e)
+		{
+			found = true;
+		}
+		assertTrue(found);
+	}
+
 }

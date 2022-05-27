@@ -1,6 +1,6 @@
 package model;
 
-import datatypes.PlayersForTest;
+import datasource.ServerSideTest;
 import datatypes.Position;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import java.util.Stack;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class SmartPathTest
+public class SmartPathTest extends ServerSideTest
 {
     boolean t = true;
     boolean f = false;
@@ -27,14 +27,13 @@ public class SmartPathTest
             };
 
     @Before
-    public void setUp()
+    public void localSetUp()
     {
         NPC npc = new NPC(33);
         npc.setMapName("quad.tmx");
         PlayerManager.getSingleton().addNpc(npc);
 
         OptionsManager.getSingleton().setMapName("quad.tmx");
-        OptionsManager.getSingleton().setUsingMocKDataSource(true);
         QualifiedObservableConnector.resetSingleton();
         ChatManager.resetSingleton();
     }

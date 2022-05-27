@@ -7,7 +7,6 @@ import dataDTO.LevelManagerDTO;
 import datasource.DatabaseException;
 import datasource.FriendTableDataGateway;
 import datasource.LevelRecord;
-import datasource.TableDataGatewayManager;
 import model.*;
 
 import java.util.ArrayList;
@@ -157,9 +156,7 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
     private ArrayList<FriendDTO> getFriendList(int playerID) throws DatabaseException
     {
         FriendTableDataGateway friendGateway =
-                (FriendTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway(
-                                "Friend");
+                FriendTableDataGateway.getSingleton();
         return friendGateway.getAllFriends(playerID);
 
     }

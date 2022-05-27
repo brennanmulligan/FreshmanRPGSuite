@@ -19,15 +19,13 @@ import java.util.ArrayList;
  */
 public class PlayerMapper
 {
-    //For testing in Mock Player Data Gateway
-    private static PlayerDTO editedPlayerInfo;
     private final PlayerRowDataGateway playerGateway;
     private final PlayerConnectionRowDataGateway playerConnectionGateway;
     private final QuestStateTableDataGateway questStateGateway;
     private final ObjectiveStateTableDataGateway objectiveStateGateway;
     private final ObjectiveTableDataGateway objectiveTableDataGateway;
     private final VisitedMapsGateway visitedMapsGateway;
-    private final VanityInventoryTableDataGatewayInterface vanityTableDataGateway;
+    private final VanityInventoryTableDataGateway vanityTableDataGateway;
     /**
      * The player we are connecting to the gateways
      */
@@ -41,33 +39,16 @@ public class PlayerMapper
      */
     public PlayerMapper(int playerID) throws DatabaseException
     {
-        objectiveStateGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("ObjectiveState");
-        objectiveTableDataGateway =
-                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("Objective");
-        questStateGateway =
-                (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("QuestState");
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            this.playerGateway = new PlayerRowDataGatewayMock(playerID);
-            this.playerConnectionGateway =
-                    new PlayerConnectionRowDataGatewayMock(playerID);
-            this.visitedMapsGateway = new VisitedMapsGatewayMock(playerID);
-            this.vanityTableDataGateway =
-                    VanityInventoryTableDataGatewayMock.getSingleton();
-        }
-        else
-        {
-            this.playerGateway = new PlayerRowDataGatewayRDS(playerID);
-            this.playerConnectionGateway =
-                    new PlayerConnectionRowDataGatewayRDS(playerID);
-            this.visitedMapsGateway = new VisitedMapsGatewayRDS(playerID);
-            this.vanityTableDataGateway =
-                    VanityInventoryTableDataGatewayRDS.getSingleton();
-        }
+        objectiveStateGateway = ObjectiveStateTableDataGateway.getSingleton();
+        objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
+        questStateGateway = QuestStateTableDataGateway.getSingleton();
+
+        this.playerGateway = new PlayerRowDataGateway(playerID);
+
+        this.visitedMapsGateway = new VisitedMapsGateway(playerID);
+        this.vanityTableDataGateway = VanityInventoryTableDataGateway.getSingleton();
+
+        this.playerConnectionGateway = new PlayerConnectionRowDataGateway(playerID);
         this.player = createPlayerObject(playerID);
         player.setPlayerLogin(new PlayerLogin(playerID));
         player.setAppearanceType(playerGateway.getAppearanceType());
@@ -109,41 +90,19 @@ public class PlayerMapper
         //TODO: The defaults need to be configured properly
         int pin = 1111;
         String mapName = "sortingRoom.tmx";
-        objectiveStateGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("ObjectiveState");
-        objectiveTableDataGateway =
-                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("Objective");
-        questStateGateway =
-                (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("QuestState");
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            this.playerGateway = new PlayerRowDataGatewayMock(appearanceType, doubloons,
-                    experiencePoints, crew, major, section, 0, false);
-            this.playerConnectionGateway = new PlayerConnectionRowDataGatewayMock(
-                    this.playerGateway.getPlayerID(), pin, mapName, position);
-            new PlayerLoginRowDataGatewayMock(this.playerGateway.getPlayerID(), name,
-                    password);
-            this.visitedMapsGateway =
-                    new VisitedMapsGatewayMock(this.playerGateway.getPlayerID());
-            this.vanityTableDataGateway =
-                    VanityInventoryTableDataGatewayMock.getSingleton();
-        }
-        else
-        {
-            this.playerGateway = new PlayerRowDataGatewayRDS(appearanceType, doubloons,
-                    experiencePoints, crew, major, section, 0, false);
-            this.playerConnectionGateway = new PlayerConnectionRowDataGatewayRDS(
-                    this.playerGateway.getPlayerID(), pin, mapName, position);
-            new PlayerLoginRowDataGatewayRDS(this.playerGateway.getPlayerID(), name,
-                    password);
-            this.visitedMapsGateway =
-                    new VisitedMapsGatewayRDS(this.playerGateway.getPlayerID());
-            this.vanityTableDataGateway =
-                    VanityInventoryTableDataGatewayRDS.getSingleton();
-        }
+        objectiveStateGateway = ObjectiveStateTableDataGateway.getSingleton();
+        objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
+        questStateGateway = QuestStateTableDataGateway.getSingleton();
+        playerGateway =
+                new PlayerRowDataGateway(appearanceType, doubloons, experiencePoints,
+                        crew, major, section, 0, false);
+        visitedMapsGateway = new VisitedMapsGateway(this.playerGateway.getPlayerID());
+        vanityTableDataGateway = VanityInventoryTableDataGateway.getSingleton();
+
+        playerConnectionGateway =
+                new PlayerConnectionRowDataGateway(this.playerGateway.getPlayerID(), pin,
+                        mapName, position);
+        new PlayerLoginRowDataGateway(this.playerGateway.getPlayerID(), name, password);
         this.player = createPlayerObject(this.playerGateway.getPlayerID());
         player.setPlayerLogin(new PlayerLogin(this.playerGateway.getPlayerID()));
         player.setAppearanceType(playerGateway.getAppearanceType());
@@ -172,27 +131,43 @@ public class PlayerMapper
      */
     public static ArrayList<PlayerDTO> getAllPlayers()
     {
-        PlayerTableDataGatewayMock gateway =
-                (PlayerTableDataGatewayMock) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("Player");
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            if (editedPlayerInfo != null)
-            {
-                gateway.saveEditedPlayer(editedPlayerInfo.getPlayerID(),
-                        editedPlayerInfo.getPlayerName(),
-                        editedPlayerInfo.getPlayerPassword(),
-                        editedPlayerInfo.getAppearanceType(),
-                        editedPlayerInfo.getDoubloons(), editedPlayerInfo.getPosition(),
-                        editedPlayerInfo.getMapName(),
-                        editedPlayerInfo.getExperiencePoints(),
-                        editedPlayerInfo.getCrew(), editedPlayerInfo.getMajor(),
-                        editedPlayerInfo.getSection(), editedPlayerInfo.getVisitedMaps(),
-                        editedPlayerInfo.getVanityItems());
-            }
+        PlayerTableDataGateway gateway = PlayerTableDataGateway.getSingleton();
 
+        try
+        {
+            return gateway.retrieveAllPlayers();
         }
-        return gateway.retrieveAllPlayers();
+        catch (DatabaseException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns a list of all incomplete objectives corresponding to a particular player
+     *
+     * @return an ArrayList of incomplete objectives
+     * @throws DatabaseException - shouldn't
+     */
+    public ArrayList<ObjectiveRecord> getIncompleteObjectives() throws DatabaseException
+    {
+        ArrayList<ObjectiveRecord> recordList = new ArrayList<>();
+
+        ArrayList<ObjectiveStateRecordDTO> incompleteObjectives;
+        incompleteObjectives =
+                this.objectiveStateGateway.getUncompletedObjectivesForPlayer(
+                        this.player.getPlayerID());
+
+        for (ObjectiveStateRecordDTO objective : incompleteObjectives)
+        {
+            int questID = objective.getQuestID();
+            int objectiveID = objective.getObjectiveID();
+            ObjectiveRecord record =
+                    this.objectiveTableDataGateway.getObjective(questID, objectiveID);
+            recordList.add(record);
+        }
+        return recordList;
     }
 
     /**
@@ -206,18 +181,6 @@ public class PlayerMapper
     }
 
     /**
-     * For PlayerTableDataGatewayMock
-     * Keeps retrieve player from overwriting edits
-     * Set a player being edited
-     *
-     * @param playerInfo the information of the player
-     **/
-    protected void setPlayerToEdit(PlayerDTO playerInfo)
-    {
-        editedPlayerInfo = playerInfo;
-    }
-
-    /**
      * Return the player DTO
      *
      * @return - PlayerInfo DTO
@@ -225,6 +188,23 @@ public class PlayerMapper
     public PlayerDTO getPlayerInfo()
     {
         return player.getPlayerInfo();
+    }
+
+    /**
+     * Remove the player and all player data.
+     *
+     * @throws DatabaseException - shouldn't
+     */
+    public void remove() throws DatabaseException
+    {
+        PlayerLoginRowDataGateway loginGateway =
+                new PlayerLoginRowDataGateway(player.getPlayerID());
+
+        this.removeQuestStates();
+        loginGateway.deleteRow();
+        playerGateway.delete();
+        playerConnectionGateway.deleteRow();
+
     }
 
     protected void loadQuestStates() throws DatabaseException
@@ -298,16 +278,13 @@ public class PlayerMapper
 
         //Ensures that we're only adding new maps to the player
         String mapTitle = player.getLastVisitedMap();
-        VisitedMapsGateway gateway = getVisitedMapsGateway(player.getPlayerID());
-        if (!gateway.getMaps().contains(mapTitle))
+        if (mapTitle != null)
         {
-            if (OptionsManager.getSingleton().isUsingMockDataSource())
+            VisitedMapsGateway gateway = getVisitedMapsGateway(player.getPlayerID());
+            if (!gateway.getMaps().contains(mapTitle))
             {
-                new VisitedMapsGatewayMock(player.getPlayerID(), mapTitle);
-            }
-            else
-            {
-                new VisitedMapsGatewayRDS(player.getPlayerID(), mapTitle);
+                // insert the most recent map into the list of visited maps
+                new VisitedMapsGateway(player.getPlayerID(), mapTitle);
             }
         }
 
@@ -320,7 +297,7 @@ public class PlayerMapper
         {
             for (QuestState quest : questList)
             {
-                questStateGateway.udpateState(player.getPlayerID(), quest.getID(),
+                questStateGateway.updateState(player.getPlayerID(), quest.getID(),
                         quest.getStateValue(), quest.isNeedingNotification());
                 for (ObjectiveState a : quest.getObjectiveList())
                 {
@@ -333,14 +310,7 @@ public class PlayerMapper
 
     VisitedMapsGateway getVisitedMapsGateway(int playerID) throws DatabaseException
     {
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            return new VisitedMapsGatewayMock(player.getPlayerID());
-        }
-        else
-        {
-            return new VisitedMapsGatewayRDS(player.getPlayerID());
-        }
+        return new VisitedMapsGateway(player.getPlayerID());
     }
 
     /**
@@ -349,57 +319,6 @@ public class PlayerMapper
     protected void removeQuestStates()
     {
         QuestManager.getSingleton().removeQuestStatesForPlayer(player.getPlayerID());
-    }
-
-    /**
-     * Remove the player and all player data.
-     *
-     * @throws DatabaseException - shouldn't
-     */
-    public void remove() throws DatabaseException
-    {
-        PlayerLoginRowDataGateway loginGateway;
-
-        if (OptionsManager.getSingleton().isUsingMockDataSource())
-        {
-            loginGateway = new PlayerLoginRowDataGatewayMock(player.getPlayerID());
-        }
-        else
-        {
-            loginGateway = new PlayerLoginRowDataGatewayRDS(player.getPlayerID());
-        }
-        this.removeQuestStates();
-        loginGateway.deleteRow();
-        playerGateway.delete();
-        playerConnectionGateway.deleteRow();
-
-    }
-
-    /**
-     * Returns a list of all incomplete objectives corresponding to a particular player
-     *
-     * @return an ArrayList of incomplete objectives
-     * @throws DatabaseException - shouldn't
-     */
-    public ArrayList<ObjectiveRecord> getIncompleteObjectives()
-            throws DatabaseException
-    {
-        ArrayList<ObjectiveRecord> recordList = new ArrayList<>();
-
-        ArrayList<ObjectiveStateRecordDTO> incompleteObjectives;
-        incompleteObjectives =
-                this.objectiveStateGateway.getUncompletedObjectivesForPlayer(
-                        this.player.getPlayerID());
-
-        for (ObjectiveStateRecordDTO objective : incompleteObjectives)
-        {
-            int questID = objective.getQuestID();
-            int objectiveID = objective.getObjectiveID();
-            ObjectiveRecord record =
-                    this.objectiveTableDataGateway.getObjective(questID, objectiveID);
-            recordList.add(record);
-        }
-        return recordList;
     }
 
     /**

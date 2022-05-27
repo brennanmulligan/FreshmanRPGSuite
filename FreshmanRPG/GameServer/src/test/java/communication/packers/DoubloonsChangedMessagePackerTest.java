@@ -3,12 +3,12 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.StateAccumulator;
 import communication.messages.DoubloonsChangedMessage;
-import datasource.DatabaseException;
 import model.OptionsManager;
 import model.PlayerManager;
 import model.QuestManager;
@@ -19,7 +19,7 @@ import datatypes.PlayersForTest;
  * @author Matthew Croft
  *
  */
-public class DoubloonsChangedMessagePackerTest
+public class DoubloonsChangedMessagePackerTest extends ServerSideTest
 {
 	private StateAccumulator stateAccumulator;
 
@@ -27,9 +27,9 @@ public class DoubloonsChangedMessagePackerTest
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 		QuestManager.resetSingleton();
 
 		PlayerManager playerManager = PlayerManager.getSingleton();
@@ -53,11 +53,9 @@ public class DoubloonsChangedMessagePackerTest
 	/**
 	 * the message should contain the appropriate player's ID, experience points
 	 * and level object
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testPackedObjectIsCurrentPlayer() throws DatabaseException
+	public void testPackedObjectIsCurrentPlayer()
 	{
 		DoubloonChangeReport report = new DoubloonChangeReport(PlayersForTest.MERLIN.getPlayerID(),
 				PlayersForTest.MERLIN.getDoubloons(), PlayersForTest.MERLIN.getBuffPool());
@@ -72,11 +70,9 @@ public class DoubloonsChangedMessagePackerTest
 	/**
 	 * If the report is not about the player we are communicating with, we
 	 * should ignore it
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ifItIsntAboutUsDontPack() throws DatabaseException
+	public void ifItIsntAboutUsDontPack()
 	{
 
 		DoubloonChangePacker packer = new DoubloonChangePacker();

@@ -2,6 +2,7 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.ChatType;
@@ -13,7 +14,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  *
  *         Make sure that the SendChatMessageReport behaves properly.
  */
-public class SendChatMessageReportTest
+public class SendChatMessageReportTest extends ServerSideTest
 {
 	/**
 	 * The report should correctly remember the information it was given.

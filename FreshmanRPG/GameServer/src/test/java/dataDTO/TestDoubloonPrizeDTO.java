@@ -2,6 +2,7 @@ package dataDTO;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 
@@ -9,7 +10,7 @@ import org.junit.Test;
  * @author Andrew M, Christian C 
  * This is the test class for the DoubloonPrizeDTO
  */
-public class TestDoubloonPrizeDTO
+public class TestDoubloonPrizeDTO extends ServerSideTest
 {
 
 	/**

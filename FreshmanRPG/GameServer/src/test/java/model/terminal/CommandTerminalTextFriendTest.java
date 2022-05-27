@@ -2,14 +2,9 @@ package model.terminal;
 
 import static org.junit.Assert.*;
 
-import datasource.FriendTableDataGateway;
-import datasource.TableDataGatewayManager;
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
-import datasource.FriendDBMock;
-import datasource.FriendTableDataGatewayMock;
-import model.OptionsManager;
 import datatypes.FriendStatusEnum;
 import datatypes.PlayersForTest;
 
@@ -19,31 +14,10 @@ import datatypes.PlayersForTest;
  *
  * @author Zachary Semanco, Christian C.
  */
-public class CommandTerminalTextFriendTest
+public class CommandTerminalTextFriendTest extends ServerSideTest
 {
 
 	private final String terminalIdentifier = "friend";
-	//private FriendDBMock friend = FriendDBMock.getSingleton();
-
-	@Before
-	public void setup()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		FriendTableDataGateway friendGateway =
-				(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Friend");
-		friendGateway.resetTableGateway();
-		FriendDBMock friend = FriendDBMock.getSingleton();
-		friend.resetData();
-	}
-
-//	@After
-//	public void tearDown()
-//	{
-//		if(friend != null)
-//		{
-//			friend.resetData();
-//		}
-//	}
 
 	/**
 	 * Tests that we get the correct description of the command

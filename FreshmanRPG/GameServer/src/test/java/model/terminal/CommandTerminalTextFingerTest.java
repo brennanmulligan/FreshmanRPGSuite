@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import dataDTO.LevelManagerDTO;
@@ -15,7 +16,7 @@ import datatypes.PlayersForTest;
  * @author as3871
  *
  */
-public class CommandTerminalTextFingerTest
+public class CommandTerminalTextFingerTest extends ServerSideTest
 {
 
 	/**
@@ -42,10 +43,9 @@ public class CommandTerminalTextFingerTest
 
 	/**
 	 * Tests that you can finger another person who is online and not on the same map
-	 * @throws DatabaseException
 	 */
 	@Test
-	public void testThatAnOnlinePlayerCanFingerAnotherNotOnSameMap() throws DatabaseException
+	public void testThatAnOnlinePlayerCanFingerAnotherNotOnSameMap()
 	{
 		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
 		String actual = fingerCommand.execute(PlayersForTest.NICK.getPlayerID(), new String[]{"Merlin"});
@@ -54,10 +54,6 @@ public class CommandTerminalTextFingerTest
 
 		//build expected player profile
 		PlayersForTest merlin = PlayersForTest.MERLIN;
-		String dateString = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-		dateString = sdf.format(LevelManagerDTO.getSingleton().getLevelForPoints(merlin.getExperiencePoints()).getDeadlineDate());
-
 		String expected = "Name: " + merlin.getPlayerName() + "," +
 				"Crew: " + merlin.getCrew() + "," +
 				"Major: " + merlin.getMajor() + "," +
@@ -69,10 +65,9 @@ public class CommandTerminalTextFingerTest
 
 	/**
 	 * Tests that we can finger a player that is offline
-	 * @throws DatabaseException
 	 */
 	@Test
-	public void testThatAnOnlinePlayerCanFingerAnOfflinePlayer() throws DatabaseException
+	public void testThatAnOnlinePlayerCanFingerAnOfflinePlayer()
 	{
 		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
 		assertFalse(PlayersForTest.MARTY.getOnline());
@@ -81,10 +76,6 @@ public class CommandTerminalTextFingerTest
 
 //		build expected player profile
 		PlayersForTest marty = PlayersForTest.MARTY;
-		String dateString = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-		dateString = sdf.format(LevelManagerDTO.getSingleton().getLevelForPoints(marty.getExperiencePoints()).getDeadlineDate());
-
 		String expected = "Name: " + marty.getPlayerName() + "," +
 				"Crew: " + marty.getCrew() + "," +
 				"Major: " + marty.getMajor() + "," +
@@ -98,10 +89,9 @@ public class CommandTerminalTextFingerTest
 
 	/**
 	 * Test that you can Finger someone on the same server
-	 * @throws DatabaseException
 	 */
 	@Test
-	public void testThatAnOnlinePlayerCanFingerAnotherOnSameMap() throws DatabaseException
+	public void testThatAnOnlinePlayerCanFingerAnotherOnSameMap()
 	{
 		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
 		assertTrue(PlayersForTest.MERLIN.getOnline());
@@ -111,10 +101,6 @@ public class CommandTerminalTextFingerTest
 
 //		build expected player profile
 		PlayersForTest ga = PlayersForTest.GA;
-		String dateString = "";
-		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-		dateString = sdf.format(LevelManagerDTO.getSingleton().getLevelForPoints(ga.getExperiencePoints()).getDeadlineDate());
-
 		String expected = "Name: " + ga.getPlayerName() + "," +
 				"Crew: " + ga.getCrew() + "," +
 				"Major: " + ga.getMajor() + "," +

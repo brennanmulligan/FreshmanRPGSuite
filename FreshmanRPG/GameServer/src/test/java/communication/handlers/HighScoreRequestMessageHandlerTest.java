@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import communication.messages.HighScoreResponseMessage;
 import communication.messages.Message;
 import datasource.DatabaseException;
 import model.ModelFacade;
-import model.OptionsManager;
 import model.PlayerManager;
 
 /**
@@ -23,7 +23,7 @@ import model.PlayerManager;
  * @author Merlin
  *
  */
-public class HighScoreRequestMessageHandlerTest
+public class HighScoreRequestMessageHandlerTest extends ServerSideTest
 {
 	/**
 	 * Reset the PlayerManager
@@ -31,8 +31,6 @@ public class HighScoreRequestMessageHandlerTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 	}

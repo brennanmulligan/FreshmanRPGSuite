@@ -3,34 +3,30 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.StateAccumulator;
 import communication.messages.TeleportationContinuationMessage;
 import datasource.DatabaseException;
-import datasource.ServerRowDataGatewayMock;
 import model.MapToServerMapping;
-import model.OptionsManager;
 import model.reports.PlayerReadyToTeleportReport;
 import datatypes.PlayersForTest;
 
 /**
  * Tests the behavior of TeleportationInitiationPacker.
  */
-public class TeleportationContinuationPackerTest
+public class TeleportationContinuationPackerTest extends ServerSideTest
 {
-	private StateAccumulator stateAccumulator;
 
 	/**
 	 * Set up the state accumulator and enable testing mode.
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-		stateAccumulator = new StateAccumulator(null);
+		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
 	}
 
@@ -53,7 +49,6 @@ public class TeleportationContinuationPackerTest
 	@Test
 	public void testReturnedMessage() throws DatabaseException
 	{
-		new ServerRowDataGatewayMock().resetData();
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
 
@@ -75,13 +70,10 @@ public class TeleportationContinuationPackerTest
 	 * Tests to make sure that the continuation message only goes to the player who
 	 * is in the middle of teleporting
 	 *
-	 * @throws DatabaseException
-	 *             shouldn't
 	 */
 	@Test
-	public void shouldntPackForOtherAccumulators() throws DatabaseException
+	public void shouldntPackForOtherAccumulators()
 	{
-		new ServerRowDataGatewayMock().resetData();
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(PlayersForTest.MARTY.getPlayerID());
 

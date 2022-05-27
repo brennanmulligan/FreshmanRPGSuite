@@ -24,7 +24,7 @@ public class OptionsManager
 	private int portNumber;
 	private String loginHost;
 	private boolean usingTestDB = true;
-	private boolean usingMockDataSource = true;
+
 	private String dbIdentifier;
 	private String dbPathName = "../GameShared/config.txt";
 	/**
@@ -164,17 +164,6 @@ public class OptionsManager
 	}
 
 	/**
-	 * returns true if this server is running on mock data for testing purposes
-	 * where appropriate
-	 *
-	 * @return local mode
-	 */
-	public boolean isUsingMockDataSource()
-	{
-		return usingMockDataSource;
-	}
-
-	/**
 	 * @return true if we are not supposed to use the production database
 	 */
 	public boolean isUsingTestDB()
@@ -198,22 +187,12 @@ public class OptionsManager
 		return System.getenv("DOCKER_FRPG") != null;
 	}
 
-	/**
-	 * Used when we are an area server
-	 *
-	 * @param hostName
-	 *            the hostname a server is running on
-	 */
+
 	public synchronized void setUsingTestDB(boolean usingTestDB)
 	{
 		this.usingTestDB = usingTestDB;
-		if(usingTestDB)
-		{
-			usingMockDataSource = false;
-		}
+
 	}
-
-
 
 	/**
 	 * This is used to set the file location of the config file (used in RunOneSequenceTest)
@@ -224,20 +203,7 @@ public class OptionsManager
 		this.dbPathName = dbPathName;
 	}
 
-	/**
-	 * Will also set testMode to true and login host to local host
-	 * @param b
-	 *            if true, we will use mock data whenever possible
-	 */
-	public void setUsingMocKDataSource(boolean b)
-	{
-		this.testMode = b;
-		this.usingMockDataSource = b;
-		if (b)
-		{
-			setLoginHost("localhost");
-		}
-	}
+
 
 	public void setTestMode(boolean b)
 	{

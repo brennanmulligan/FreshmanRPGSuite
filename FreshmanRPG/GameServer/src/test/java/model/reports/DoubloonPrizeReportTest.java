@@ -4,11 +4,12 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import dataDTO.DoubloonPrizeDTO;
 
-public class DoubloonPrizeReportTest
+public class DoubloonPrizeReportTest extends ServerSideTest
 {
 
 	@Test

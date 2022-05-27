@@ -4,6 +4,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import communication.StateAccumulator;
@@ -16,7 +17,7 @@ import model.reports.InteractionDeniedReport;
  * @author jk1964
  * Tests the functionality of the ObjectInRangeMessagePacker
  */
-public class InteractionDeniedMessagePackerTest
+public class InteractionDeniedMessagePackerTest extends ServerSideTest
 {
 
 	/**

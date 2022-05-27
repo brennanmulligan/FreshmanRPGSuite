@@ -18,7 +18,6 @@ public class BuildTestVanityInventory
      */
     public static void main(String[] args) throws DatabaseException, SQLException
     {
-        OptionsManager.getSingleton().setUsingMocKDataSource(false);
         OptionsManager.getSingleton().setUsingTestDB(true);
         createVanityInventoryTable();
     }
@@ -26,12 +25,13 @@ public class BuildTestVanityInventory
     /**
      * Create a table of vanity inventory
      *
-     * @throws DatabaseException
+     * @throws DatabaseException shouldn't
      */
     private static void createVanityInventoryTable() throws DatabaseException
     {
-        VanityInventoryTableDataGatewayRDS.createTable();
-        VanityInventoryTableDataGatewayInterface gateway = VanityInventoryTableDataGatewayRDS.getSingleton();
+        VanityInventoryTableDataGateway.createTable();
+        VanityInventoryTableDataGateway gateway =
+                VanityInventoryTableDataGateway.getSingleton();
         for (PlayerOwnsVanityForTest v : PlayerOwnsVanityForTest.values())
         {
             gateway.addItemToInventory(v.getPlayerID(), v.getVanityID(), v.getIsWearing());

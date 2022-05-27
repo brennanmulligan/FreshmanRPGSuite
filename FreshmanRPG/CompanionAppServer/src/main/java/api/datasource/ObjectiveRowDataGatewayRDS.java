@@ -4,8 +4,7 @@ import criteria.ObjectiveCompletionCriteria;
 import dataENUM.ObjectiveCompletionType;
 import datasource.DatabaseException;
 import datasource.DatabaseManager;
-import datasource.ObjectiveTableDataGatewayRDS;
-import datasource.TableDataGatewayManager;
+import datasource.ObjectiveTableDataGateway;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -52,7 +51,7 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
             this.objectiveCompletionType =
                     ObjectiveCompletionType.findByID(result.getInt("completionType"));
             this.objectiveCompletionCriteria =
-                    ObjectiveTableDataGatewayRDS.extractCompletionCriteria(result,
+                    ObjectiveTableDataGateway.extractCompletionCriteria(result,
                             this.objectiveCompletionType);
 
         }
@@ -129,8 +128,7 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
                                       ObjectiveCompletionCriteria objectiveCompletionCriteria)
             throws DatabaseException
     {
-        this(((ObjectiveTableDataGatewayRDS) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("Objective")).getNextObjectiveID(questId),
+        this(ObjectiveTableDataGateway.getSingleton().getNextObjectiveID(questId),
                 objectiveDescription, questId, experiencePointsGained,
                 objectiveCompletionType,
                 objectiveCompletionCriteria);

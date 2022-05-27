@@ -2,8 +2,6 @@ package model;
 
 import datasource.DatabaseException;
 import datasource.PlayerLoginRowDataGateway;
-import datasource.PlayerLoginRowDataGatewayMock;
-import datasource.PlayerLoginRowDataGatewayRDS;
 
 /**
  * @author Robert Windsich
@@ -21,15 +19,7 @@ public class FindPlayerIDFromPlayerName
 	 */
 	public static int getPlayerID(String playerName) throws DatabaseException
 	{
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			return (new PlayerLoginRowDataGatewayMock(playerName).getPlayerID());
-		}
-		else
-		{
-			return (new PlayerLoginRowDataGatewayRDS(playerName).getPlayerID());
-		}
-
+			return (new PlayerLoginRowDataGateway(playerName).getPlayerID());
 	}
 
 }

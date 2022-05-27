@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 /**
@@ -11,7 +12,7 @@ import org.junit.Test;
  * @author Steve
  *
  */
-public class NPCTest
+public class NPCTest extends ServerSideTest
 {
 	/**
 	 * Test that the npc hits the behavior like it should

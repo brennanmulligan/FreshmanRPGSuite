@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import datatypes.ServersForTest;
  * @author Merlin
  *
  */
-public class MapToServerMappingTest
+public class MapToServerMappingTest extends ServerSideTest
 {
 
 	private MapToServerMapping map;
@@ -26,16 +27,7 @@ public class MapToServerMappingTest
 	public void setup()
 	{
 		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-	}
-
-	/**
-	 *
-	 */
-	@After
-	public void cleanup()
-	{
-		map.resetData();
+		OptionsManager.getSingleton().setTestMode(true);
 	}
 
 	/**

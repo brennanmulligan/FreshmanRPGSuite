@@ -1,155 +1,169 @@
 package datasource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import criteria.GameLocationDTO;
+import datatypes.ObjectivesForTest;
+import datatypes.Position;
+import datatypes.QuestsForTest;
+import model.ObjectiveRecord;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
-import criteria.GameLocationDTO;
-import datatypes.Position;
-import model.ObjectiveRecord;
-import datatypes.ObjectivesForTest;
-import datatypes.QuestsForTest;
+import static org.junit.Assert.*;
 
 /**
  * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
- *
  */
-public abstract class ObjectiveTableDataGatewayTest
+public class ObjectiveTableDataGatewayTest extends ServerSideTest
 {
 
-	/**
-	 * @return the gateway we should test
-	 */
-	public abstract ObjectiveTableDataGateway getGateway();
+    /**
+     * We should be able to receive a list of all quests completed at a location
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void canGetCompleteByLocationObjectives() throws DatabaseException
+    {
+        GameLocationDTO location =
+                (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
+        String mapName = location.getMapName();
+        Position pos = location.getPosition();
+        ObjectiveTableDataGateway gateway = getGateway();
+        ArrayList<ObjectivesForTest> objective = new ArrayList<>();
+        objective.add(ObjectivesForTest.QUEST2_OBJECTIVE2);
+        ArrayList<ObjectiveRecord> objectivesFound =
+                gateway.findObjectivesCompletedForMapLocation(mapName, pos);
+        assertEquals(objective.get(0).getObjectiveDescription(),
+                objectivesFound.get(0).getObjectiveDescription());
+    }
 
-	/**
-	 *
-	 */
-	@Test
-	public void isASingleton()
-	{
-		ObjectiveTableDataGateway x = getGateway();
-		ObjectiveTableDataGateway y = getGateway();
-		assertSame(x, y);
-		assertNotNull(x);
-	}
+    /**
+     * Given a quest ID, the TDG should be able to return the next appropriate objective ID.
+     *
+     * @throws DatabaseException - if record with that quest ID not found
+     */
+    @Test
+    public void canGetNextObjectiveID() throws DatabaseException
+    {
+        final int questId = QuestsForTest.CHAT_TO_AN_NPC_QUEST.getQuestID();
+        final ArrayList<ObjectiveRecord> objectives =
+                getGateway().getObjectivesForQuest(questId);
+        final int expected = objectives.size() + 1;
 
-	/**
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void retrieveAllObjectivesForQuest() throws DatabaseException
-	{
-		ObjectiveTableDataGateway gateway = getGateway();
-		ArrayList<ObjectiveRecord> records = gateway.getObjectivesForQuest(1);
-		assertEquals(3, records.size());
-		ObjectiveRecord record = records.get(0);
-		// the records could be in either order
-		if (record.getObjectiveID() == ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID())
-		{
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
-					record.getObjectiveDescription());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), record.getQuestID());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
-					record.getExperiencePointsGained());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getCompletionType(), record.getCompletionType());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getCompletionCriteria(), record.getCompletionCriteria());
-			record = records.get(1);
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
-					record.getObjectiveDescription());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getQuestID(), record.getQuestID());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getExperiencePointsGained(),
-					record.getExperiencePointsGained());
-		}
-		else
-		{
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveID(), record.getObjectiveID());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
-					record.getObjectiveDescription());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getQuestID(), record.getQuestID());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getExperiencePointsGained(),
-					record.getExperiencePointsGained());
-			record = records.get(1);
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
-					record.getObjectiveDescription());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), record.getQuestID());
-			assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
-					record.getExperiencePointsGained());
+        assertEquals(expected, getGateway().getNextObjectiveID(questId));
+    }
 
-		}
-	}
+    /**
+     * We should be able to retrieve the specific information about one single
+     * objective
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void canGetSingleObjective() throws DatabaseException
+    {
+        ObjectiveTableDataGateway gateway = getGateway();
+        ObjectiveRecord record =
+                gateway.getObjective(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(),
+                        ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID());
+        assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+                record.getObjectiveDescription());
+        assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID(),
+                record.getObjectiveID());
+        assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
+                record.getExperiencePointsGained());
+        assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(),
+                record.getQuestID());
+    }
 
-	/**
-	 * We should be able to retrieve the specific information about one single
-	 * objective
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void canGetSingleObjective() throws DatabaseException
-	{
-		ObjectiveTableDataGateway gateway = getGateway();
-		ObjectiveRecord record = gateway.getObjective(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(),
-				ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID());
-		assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(), record.getObjectiveDescription());
-		assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID(), record.getObjectiveID());
-		assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
-				record.getExperiencePointsGained());
-		assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(), record.getQuestID());
-	}
+    /**
+     * @return the gateway we should test
+     */
+    public ObjectiveTableDataGateway getGateway()
+    {
+        return ObjectiveTableDataGateway.getSingleton();
+    }
 
-	/**
-	 * We should be able to retrieve the specific information about one single
-	 * objective
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void nullForMissingObjective() throws DatabaseException
-	{
-		ObjectiveTableDataGateway gateway = getGateway();
-		ObjectiveRecord record = gateway.getObjective(42, 16);
-		assertNull(record);
-	}
+    /**
+     *
+     */
+    @Test
+    public void isASingleton()
+    {
+        ObjectiveTableDataGateway x = getGateway();
+        ObjectiveTableDataGateway y = getGateway();
+        assertSame(x, y);
+        assertNotNull(x);
+    }
 
-	/**
-	 * We should be able to receive a list of all quests completed at a location
-	 *
-	 * @throws DatabaseException shouldn't
-	 */
-	@Test
-	public void canGetCompleteByLocationObjectives() throws DatabaseException
-	{
-		GameLocationDTO location = (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
-		String mapName = location.getMapName();
-		Position pos = location.getPosition();
-		ObjectiveTableDataGateway gateway = getGateway();
-		ArrayList<ObjectivesForTest> objective = new ArrayList<>();
-		objective.add(ObjectivesForTest.QUEST2_OBJECTIVE2);
-		ArrayList<ObjectiveRecord> objectivesFound = gateway.findObjectivesCompletedForMapLocation(mapName, pos);
-		assertEquals(objective.get(0).getObjectiveDescription(), objectivesFound.get(0).getObjectiveDescription());
-	}
+    /**
+     * We should be able to retrieve the specific information about one single
+     * objective
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void nullForMissingObjective() throws DatabaseException
+    {
+        ObjectiveTableDataGateway gateway = getGateway();
+        ObjectiveRecord record = gateway.getObjective(42, 16);
+        assertNull(record);
+    }
 
-	/**
-	 * Given a quest ID, the TDG should be able to return the next appropriate objective ID.
-	 *
-	 * @throws DatabaseException - if record with that quest ID not found 
-	 */
-	@Test
-	public void canGetNextObjectiveID() throws DatabaseException
-	{
-		final int questId = QuestsForTest.CHAT_TO_AN_NPC_QUEST.getQuestID();
-		final ArrayList<ObjectiveRecord> objectives = getGateway().getObjectivesForQuest(questId);
-		final int expected = objectives.size() + 1;
+    /**
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void retrieveAllObjectivesForQuest() throws DatabaseException
+    {
+        ObjectiveTableDataGateway gateway = getGateway();
+        ArrayList<ObjectiveRecord> records = gateway.getObjectivesForQuest(1);
+        assertEquals(3, records.size());
+        ObjectiveRecord record = records.get(0);
+        // the records could be in either order
+        if (record.getObjectiveID() ==
+                ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveID())
+        {
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+                    record.getObjectiveDescription());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(),
+                    record.getQuestID());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
+                    record.getExperiencePointsGained());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getCompletionType(),
+                    record.getCompletionType());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getCompletionCriteria(),
+                    record.getCompletionCriteria());
+            record = records.get(1);
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
+                    record.getObjectiveDescription());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getQuestID(),
+                    record.getQuestID());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getExperiencePointsGained(),
+                    record.getExperiencePointsGained());
+        }
+        else
+        {
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveID(),
+                    record.getObjectiveID());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveDescription(),
+                    record.getObjectiveDescription());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getQuestID(),
+                    record.getQuestID());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE2.getExperiencePointsGained(),
+                    record.getExperiencePointsGained());
+            record = records.get(1);
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getObjectiveDescription(),
+                    record.getObjectiveDescription());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getQuestID(),
+                    record.getQuestID());
+            assertEquals(ObjectivesForTest.QUEST1_OBJECTIVE_1.getExperiencePointsGained(),
+                    record.getExperiencePointsGained());
 
-		assertEquals(expected, getGateway().getNextObjectiveID(questId));
-	}
+        }
+    }
 
 }

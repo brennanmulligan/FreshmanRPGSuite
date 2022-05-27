@@ -21,13 +21,13 @@ public class PlayerJoinedMessage implements Message, Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private final String playerName;
-	private int playerID;
-	private List<VanityDTO> vanities;
-	private List<VanityDTO> ownedItems;
-	private Position position;
-	private Crew crew;
-	private Major major;
-	private int section;
+	private final int playerID;
+	private final List<VanityDTO> vanities;
+	private final List<VanityDTO> ownedItems;
+	private final Position position;
+	private final Crew crew;
+	private final Major major;
+	private final int section;
 
 	/**
 	 * @param playerID the unique ID of the player
@@ -78,17 +78,52 @@ public class PlayerJoinedMessage implements Message, Serializable
 		{
 			return false;
 		}
+
 		PlayerJoinedMessage that = (PlayerJoinedMessage) o;
-		return playerID == that.playerID && section == that.section &&
-				playerName.equals(that.playerName) && Objects.equals(vanities, that.vanities) &&
-				position.equals(that.position) &&
-				crew == that.crew && major == that.major;
+
+		if (playerID != that.playerID)
+		{
+			return false;
+		}
+		if (section != that.section)
+		{
+			return false;
+		}
+		if (!playerName.equals(that.playerName))
+		{
+			return false;
+		}
+		if (!vanities.containsAll(that.vanities) || !that.vanities.containsAll(vanities))
+		{
+			return false;
+		}
+		if (!ownedItems.containsAll(that.ownedItems) || !that.ownedItems.containsAll(ownedItems))
+		{
+			return false;
+		}
+		if (!position.equals(that.position))
+		{
+			return false;
+		}
+		if (crew != that.crew)
+		{
+			return false;
+		}
+		return major == that.major;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(playerName, playerID, vanities, position, crew, major, section);
+		int result = playerName.hashCode();
+		result = 31 * result + playerID;
+		result = 31 * result + vanities.hashCode();
+		result = 31 * result + ownedItems.hashCode();
+		result = 31 * result + position.hashCode();
+		result = 31 * result + crew.hashCode();
+		result = 31 * result + major.hashCode();
+		result = 31 * result + section;
+		return result;
 	}
 
 	/**

@@ -19,9 +19,6 @@ import model.OptionsManager;
  */
 public class LoginServer implements Runnable
 {
-	private ServerSocket servSock;
-	private MessageHandlerSet handlers;
-	private MessagePackerSet packers;
 
 	/**
 	 *
@@ -45,17 +42,16 @@ public class LoginServer implements Runnable
 		int i = 0;
 		try
 		{
-			servSock = new ServerSocket(1871, 10);
+			ServerSocket servSock = new ServerSocket(1871, 10);
 			OptionsManager.getSingleton();
-			OptionsManager.getSingleton().setUsingMocKDataSource(false);
 			while (true)
 			{
 				Socket sock = servSock.accept();
 				i++;
-				packers = new MessagePackerSet();
+				MessagePackerSet packers = new MessagePackerSet();
 				StateAccumulator stateAccumulator = new StateAccumulator(packers);
 
-				handlers = new MessageHandlerSet(stateAccumulator);
+				MessageHandlerSet handlers = new MessageHandlerSet(stateAccumulator);
 				new ConnectionManager(sock, stateAccumulator, handlers, packers, true);
 
 			}
@@ -70,10 +66,9 @@ public class LoginServer implements Runnable
 	/**
 	 * @param args Main runner
 	 */
-	public static void main(String args[])
+	public static void main(String[] args)
 	{
 		OptionsManager.getSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		for (String arg : args)
 		{
 			String[] splitArg = arg.split("=");

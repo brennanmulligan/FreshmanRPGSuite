@@ -9,21 +9,21 @@ import java.util.ArrayList;
 /**
  * The RDS implementation of the row data gateway
  */
-public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatewayInterface
+public class VanityItemsTableDataGateway
 {
 
-    private static VanityItemsTableDataGatewayInterface singleton;
+    private static VanityItemsTableDataGateway singleton;
 
     /**
      * Gets the instance of this gateway
      * @return the instance
      * @throws DatabaseException shouldn't
      */
-    public static synchronized VanityItemsTableDataGatewayInterface getSingleton() throws DatabaseException
+    public static synchronized VanityItemsTableDataGateway getSingleton() throws DatabaseException
     {
         if (singleton == null)
         {
-            singleton = new VanityItemsTableDataGatewayRDS();
+            singleton = new VanityItemsTableDataGateway();
         }
         return singleton;
     }
@@ -66,11 +66,10 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
      * @param id the id of the vanity item
      * @return a DTO containing all the info of the vanity item
      */
-    @Override
     public VanityDTO getVanityItemByID(int id) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        VanityDTO item = null;
+        VanityDTO item;
         try
         {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE vanityID = ?");
@@ -94,7 +93,6 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
     /**
      * @return a list of all vanity items
      */
-    @Override
     public ArrayList<VanityDTO> getAllVanityItems() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -127,7 +125,6 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
      * @param id the id of the vanity item
      * @return the type of the vanity
      */
-    @Override
     public VanityType getVanityTypeByID(int id) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -150,13 +147,12 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
     /**
      * Updates a vanity item
      *
-     * @param id
+     * @param id          the vanity item's id
      * @param name        the new name
      * @param description the new description
      * @param textureName the new texture name
      * @param vanityType  the new vanity type
      */
-    @Override
     public void updateVanityItem(int id, String name, String description, String textureName, VanityType vanityType) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -183,7 +179,6 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
      * @param textureName the texture name of the vanity item
      * @param vanityType  the type of vanity
      */
-    @Override
     public void addVanityItem(String name, String description, String textureName, VanityType vanityType) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -204,14 +199,5 @@ public class VanityItemsTableDataGatewayRDS implements VanityItemsTableDataGatew
         {
             throw new DatabaseException("Could not add new Vanity Item to database", e);
         }
-    }
-
-    /**
-     * Resets the test data
-     */
-    @Override
-    public void resetData()
-    {
-
     }
 }

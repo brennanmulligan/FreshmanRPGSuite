@@ -3,6 +3,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import communication.StateAccumulator;
@@ -14,7 +15,7 @@ import model.reports.InteractableObjectBuffReport;
  * @author Elisabeth Ostrow, Stephen Clabaugh
  *
  */
-public class InteractableObjectBuffMessagePackerTest
+public class InteractableObjectBuffMessagePackerTest extends ServerSideTest
 {
 
 	/**

@@ -2,6 +2,7 @@ package model.terminal;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.PlayersForTest;
@@ -10,7 +11,7 @@ import datatypes.PlayersForTest;
  * @author Nathaniel and Ben
  *
  */
-public class CommandTerminalTextLSTest
+public class CommandTerminalTextLSTest extends ServerSideTest
 {
 
 	/**

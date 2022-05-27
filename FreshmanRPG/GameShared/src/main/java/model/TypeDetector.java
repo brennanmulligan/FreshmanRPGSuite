@@ -36,7 +36,7 @@ public abstract class TypeDetector
 	{
 		ArrayList<Class<?>> results = new ArrayList<>();
 		Reflections commandClasses = new Reflections(packageName);
-		Set<Class<?>> cmds = commandClasses.getSubTypesOf(type);
+		@SuppressWarnings("unchecked") Set<Class<?>> cmds = commandClasses.getSubTypesOf(type);
 
 		for (Class<?> cmd : cmds)
 		{
@@ -81,7 +81,7 @@ public abstract class TypeDetector
 	{
 		ArrayList<Class<?>> results = new ArrayList<>();
 		Reflections commandClasses = new Reflections(packageName);
-		Set<Class<?>> cmds = commandClasses.getSubTypesOf((Class<Object>) type);
+		@SuppressWarnings("unchecked") Set<Class<?>> cmds = commandClasses.getSubTypesOf((Class<Object>) type);
 
 		for (Class<?> cmd : cmds)
 		{

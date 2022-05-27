@@ -2,8 +2,6 @@ package model;
 
 import datasource.DatabaseException;
 import datasource.ServerRowDataGateway;
-import datasource.ServerRowDataGatewayMock;
-import datasource.ServerRowDataGatewayRDS;
 import datatypes.Position;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,7 +34,7 @@ public class ServerMapManager
 	 */
 	private ServerMapManager()
 	{
-		String mapFile = OptionsManager.getSingleton().getMapName();
+		String mapFile = "../../../maps/"+OptionsManager.getSingleton().getMapName();
 		loadMapData(mapFile);
 	}
 
@@ -213,7 +211,7 @@ public class ServerMapManager
 		try
 		{
 			ServerRowDataGateway gateway =
-					ServerRowDataGatewayRDS.findPosAndMapNameFromMapTitle(mapTitle);
+					ServerRowDataGateway.findPosAndMapNameFromMapTitle(mapTitle);
 			return new Position(gateway.getTeleportPositionX(),
 					gateway.getTeleportPositionY());
 		}
@@ -235,7 +233,7 @@ public class ServerMapManager
 		String mapName = null;
 		try
 		{
-			ServerRowDataGateway gateway = ServerRowDataGatewayRDS.findPosAndMapNameFromMapTitle(destination);
+			ServerRowDataGateway gateway = ServerRowDataGateway.findPosAndMapNameFromMapTitle(destination);
 			mapName = gateway.getMapName();
 		}
 		catch (DatabaseException e)
@@ -256,14 +254,7 @@ public class ServerMapManager
 		try
 		{
 			ServerRowDataGateway gateway;
-			if (OptionsManager.getSingleton().isUsingMockDataSource())
-			{
-				gateway = new ServerRowDataGatewayMock(mapName);
-			}
-			else
-			{
-				gateway = ServerRowDataGatewayRDS.findServerInfoFromMapName(mapName);
-			}
+			gateway = new ServerRowDataGateway(mapName);
 			mapTitle = gateway.getMapTitle();
 		}
 		catch (DatabaseException e)

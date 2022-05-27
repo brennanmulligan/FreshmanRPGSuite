@@ -4,8 +4,7 @@ import java.sql.SQLException;
 
 import datasource.DatabaseException;
 import datasource.DatabaseManager;
-import datasource.ServerRowDataGatewayRDS;
-import model.OptionsManager;
+import datasource.ServerRowDataGateway;
 import datatypes.ServersForTest;
 
 /**
@@ -25,17 +24,16 @@ public class BuildTestDBServers
 	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		createServerTable();
 	}
 
-	private static void createServerTable() throws SQLException, DatabaseException
+	private static void createServerTable() throws DatabaseException
 	{
 		DatabaseManager.getSingleton().getConnection();
-		ServerRowDataGatewayRDS.createTable();
+		ServerRowDataGateway.createTable();
 		for (ServersForTest p : ServersForTest.values())
 		{
-			new ServerRowDataGatewayRDS(p.getMapName(), p.getHostName(), p.getPortNumber(), p.getMapTitle(), p.getTeleportPositionX(), p.getTeleportPositionY());
+			new ServerRowDataGateway(p.getMapName(), p.getHostName(), p.getPortNumber(), p.getMapTitle(), p.getTeleportPositionX(), p.getTeleportPositionY());
 		}
 
 	}

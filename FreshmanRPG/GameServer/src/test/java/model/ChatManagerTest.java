@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import model.reports.ChatMessageToClientReport;
 import org.easymock.EasyMock;
 import org.junit.Before;
@@ -20,7 +21,7 @@ import datatypes.PlayersForTest;
  *
  *         Make sure the ChatManager behaves properly.
  */
-public class ChatManagerTest
+public class ChatManagerTest extends ServerSideTest
 {
 	/**
 	 * Start fresh for each test
@@ -44,7 +45,6 @@ public class ChatManagerTest
 		assertSame(cm1, cm2);
 		ChatManager.resetSingleton();
 		assertNotSame(cm1, ChatManager.getSingleton());
-
 	}
 
 	/**

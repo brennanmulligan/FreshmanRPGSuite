@@ -11,7 +11,7 @@ public class DataGatheringUtilities
     public static ClientPlayerQuestStateDTO createClientPlayerQuestFor(
             QuestStateRecordDTO q) throws DatabaseException
     {
-        QuestRowDataGateway qGateway = new QuestRowDataGatewayMock(q.getQuestID());
+        QuestRowDataGateway qGateway = new QuestRowDataGateway(q.getQuestID());
         ClientPlayerQuestStateDTO cpq =
                 new ClientPlayerQuestStateDTO(q.getQuestID(), qGateway.getQuestTitle(),
                         qGateway.getQuestDescription(), q.getState(),
@@ -19,13 +19,11 @@ public class DataGatheringUtilities
                         qGateway.getObjectivesForFulfillment(), q.isNeedingNotification(),
                         null);
         ObjectiveStateTableDataGateway asGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                        "ObjectiveState");
+                ObjectiveStateTableDataGateway.getSingleton();
         ArrayList<ObjectiveStateRecordDTO> objectivesForPlayer =
                 asGateway.getObjectiveStates(q.getPlayerID(), q.getQuestID());
         ObjectiveTableDataGateway aGateway =
-                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                        "Objective");
+                ObjectiveTableDataGateway.getSingleton();
         for (ObjectiveStateRecordDTO adv : objectivesForPlayer)
         {
             ObjectiveRecord objectiveRecord =
@@ -47,8 +45,7 @@ public class DataGatheringUtilities
         try
         {
             DoubloonPrizesTableDataGateway gateway =
-                    (DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton()
-                            .getTableGateway("DoubloonPrizes");
+                    DoubloonPrizesTableDataGateway.getSingleton();
             return gateway.getAllDoubloonPrizes();
         }
         catch (DatabaseException e)
@@ -61,11 +58,10 @@ public class DataGatheringUtilities
     public static ArrayList<FriendDTO> getPlayersFriends(int playerID)
     {
         ArrayList<FriendDTO> result = new ArrayList<>();
-        FriendTableDataGateway friendGateway =
-                (FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                        "Friend");
         try
         {
+            FriendTableDataGateway friendGateway =
+                    FriendTableDataGateway.getSingleton();
             result = friendGateway.getAllFriends(playerID);
         }
         catch (DatabaseException e)
@@ -79,8 +75,7 @@ public class DataGatheringUtilities
     {
         ArrayList<ClientPlayerQuestStateDTO> result = new ArrayList<>();
         QuestStateTableDataGateway qsGateway =
-                (QuestStateTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                        "QuestState");
+                QuestStateTableDataGateway.getSingleton();
         try
         {
             for (QuestStateRecordDTO q : qsGateway.getQuestStates(playerID))

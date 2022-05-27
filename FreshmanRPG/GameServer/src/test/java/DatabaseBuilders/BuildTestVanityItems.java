@@ -1,8 +1,7 @@
 package DatabaseBuilders;
 
 import datasource.DatabaseException;
-import datasource.VanityItemsTableDataGatewayInterface;
-import datasource.VanityItemsTableDataGatewayRDS;
+import datasource.VanityItemsTableDataGateway;
 import datatypes.VanityForTest;
 import datatypes.VanityType;
 import model.OptionsManager;
@@ -21,7 +20,6 @@ public class BuildTestVanityItems
      */
     public static void main(String[] args) throws DatabaseException, SQLException
     {
-        OptionsManager.getSingleton().setUsingMocKDataSource(false);
         OptionsManager.getSingleton().setUsingTestDB(true);
         createVanityItemTable();
     }
@@ -33,8 +31,9 @@ public class BuildTestVanityItems
      */
     public static void createVanityItemTable() throws DatabaseException
     {
-        VanityItemsTableDataGatewayRDS.createTable();
-        VanityItemsTableDataGatewayInterface gateway = VanityItemsTableDataGatewayRDS.getSingleton();
+        VanityItemsTableDataGateway.createTable();
+        VanityItemsTableDataGateway gateway =
+                VanityItemsTableDataGateway.getSingleton();
         for (VanityForTest v : VanityForTest.values())
         {
             gateway.addVanityItem(v.getName(), v.getDescription(), v.getTextureName(), VanityType.fromInt(v.getVanityType()));

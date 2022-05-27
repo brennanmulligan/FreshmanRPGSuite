@@ -5,7 +5,6 @@ import api.model.ObjectiveRequest;
 import api.model.PlayerTokenManager;
 import datasource.DatabaseException;
 import datasource.ObjectiveStateTableDataGateway;
-import datasource.TableDataGatewayManager;
 import datatypes.ObjectiveStateEnum;
 import model.*;
 import org.springframework.stereotype.Service;
@@ -31,9 +30,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
     public ObjectiveServiceImpl()
     {
         objectiveStateTableDataGateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway(
-                                "ObjectiveState");
+                ObjectiveStateTableDataGateway.getSingleton();
     }
 
     @Override
@@ -68,7 +65,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
             List<ObjectiveRecord> records = new ArrayList<>();
             try
             {
-                records = ExternalObjectiveManager.getInstance()
+                records = ExternalObjectiveManager.getSingleton()
                         .getExternalObjectsForQuest(quest.getID());
             }
             catch (DatabaseException e)

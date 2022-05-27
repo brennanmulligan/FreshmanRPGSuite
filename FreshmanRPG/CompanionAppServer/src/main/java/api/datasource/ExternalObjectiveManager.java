@@ -2,7 +2,6 @@ package api.datasource;
 
 import datasource.DatabaseException;
 import datasource.ObjectiveTableDataGateway;
-import datasource.TableDataGatewayManager;
 import model.ObjectiveRecord;
 
 import java.util.ArrayList;
@@ -17,11 +16,10 @@ public class ExternalObjectiveManager
     private ExternalObjectiveManager()
     {
         gateway =
-                (ObjectiveTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("Objective");
+                ObjectiveTableDataGateway.getSingleton();
     }
 
-    public static ExternalObjectiveManager getInstance()
+    public static ExternalObjectiveManager getSingleton()
     {
         if (instance == null)
         {

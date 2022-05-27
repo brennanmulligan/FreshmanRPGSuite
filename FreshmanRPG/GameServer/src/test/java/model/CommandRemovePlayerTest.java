@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,17 +11,16 @@ import org.junit.Test;
  * @author Merlin
  *
  */
-public class CommandRemovePlayerTest
+public class CommandRemovePlayerTest extends ServerSideTest
 {
 
 	/**
 	 *
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**

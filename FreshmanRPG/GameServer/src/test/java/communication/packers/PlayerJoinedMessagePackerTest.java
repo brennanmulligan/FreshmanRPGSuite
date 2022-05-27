@@ -2,10 +2,8 @@ package communication.packers;
 
 import communication.StateAccumulator;
 import communication.messages.PlayerJoinedMessage;
-import datasource.DatabaseException;
-import datasource.PlayerRowDataGatewayMock;
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
-import model.OptionsManager;
 import model.Player;
 import model.PlayerManager;
 import model.reports.AddExistingPlayerReport;
@@ -22,27 +20,23 @@ import static org.junit.Assert.assertNull;
  * @author Merlin
  *
  */
-public class PlayerJoinedMessagePackerTest
+public class PlayerJoinedMessagePackerTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		new PlayerRowDataGatewayMock().resetData();
 	}
 
 	/**
 	 * Checks that existing players are notified when a player is added
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ifThePlayerIsNotOnThisConnection() throws DatabaseException
+	public void ifThePlayerIsNotOnThisConnection()
 	{
 		PlayerManager playerManager = PlayerManager.getSingleton();
 		playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());
@@ -74,11 +68,9 @@ public class PlayerJoinedMessagePackerTest
 	 * When a player logs it, we get an AddExistingPlayerReport for each player
 	 * on the server. If the message is targeted at our accumulator, we should
 	 * pack a PlayerJoinedMessage
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void addNotifiesAboutExistingPlayer() throws DatabaseException
+	public void addNotifiesAboutExistingPlayer()
 	{
 		PlayerManager playerManager = PlayerManager.getSingleton();
 		playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
@@ -104,11 +96,9 @@ public class PlayerJoinedMessagePackerTest
 	/**
 	 * Add existing player reports should only be sent by the accumulator that
 	 * is talking to the recipient player
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ignoresExistingPlayerWhenNotMine() throws DatabaseException
+	public void ignoresExistingPlayerWhenNotMine()
 	{
 		PlayerManager playerManager = PlayerManager.getSingleton();
 		playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());

@@ -3,15 +3,14 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.StateAccumulator;
 import communication.messages.ExperienceChangedMessage;
 import dataDTO.LevelManagerDTO;
-import datasource.DatabaseException;
 import datasource.LevelRecord;
-import model.OptionsManager;
 import model.PlayerManager;
 import model.QuestManager;
 import model.reports.ExperienceChangedReport;
@@ -22,7 +21,7 @@ import datatypes.PlayersForTest;
  *
  *         Make sure that the ExperienceChangedMessagePacker behaves properly.
  */
-public class ExperienceChangedMessagePackerTest
+public class ExperienceChangedMessagePackerTest extends ServerSideTest
 {
 	private StateAccumulator stateAccumulator;
 
@@ -30,9 +29,8 @@ public class ExperienceChangedMessagePackerTest
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QuestManager.resetSingleton();
 
 		PlayerManager playerManager = PlayerManager.getSingleton();
@@ -56,11 +54,9 @@ public class ExperienceChangedMessagePackerTest
 	/**
 	 * the message should contain the appropriate player's ID, experience points
 	 * and level object
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testPackedObjectIsCurrentPlayer() throws DatabaseException
+	public void testPackedObjectIsCurrentPlayer()
 	{
 		LevelRecord record = LevelManagerDTO.getSingleton().getLevelForPoints(PlayersForTest.MERLIN.getExperiencePoints());
 		ExperienceChangedReport report = new ExperienceChangedReport(PlayersForTest.MERLIN.getPlayerID(),
@@ -77,11 +73,9 @@ public class ExperienceChangedMessagePackerTest
 	/**
 	 * If the report is not about the player we are communicating with, we
 	 * should ignore it
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ifItIsntAboutUsDontPack() throws DatabaseException
+	public void ifItIsntAboutUsDontPack()
 	{
 
 		ExperienceChangedMessagePacker packer = new ExperienceChangedMessagePacker();

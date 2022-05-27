@@ -1,41 +1,36 @@
 package DatabaseBuilders;
 
+import datasource.DatabaseException;
+import datasource.DoubloonPrizesTableDataGateway;
+import datatypes.DoubloonPrizesForTest;
+import model.OptionsManager;
+
 import java.sql.SQLException;
 
-import datasource.DatabaseException;
-import datasource.DoubloonPrizesTableDataGatewayRDS;
-import datasource.TableDataGatewayManager;
-import model.OptionsManager;
-import datatypes.DoubloonPrizesForTest;
-
 /**
- *
  * @author Mina, Christian
- *
  */
 public class BuildTestDoubloonPrizes
 {
 
-	public static void main(String[] args) throws DatabaseException, SQLException
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-		createDoubloonPrizesTable();
-	}
+    /**
+     * Create a table of levels
+     */
+    private static void createDoubloonPrizesTable() throws DatabaseException
+    {
+        DoubloonPrizesTableDataGateway.createTable();
+        for (DoubloonPrizesForTest prize : DoubloonPrizesForTest.values())
+        {
+            DoubloonPrizesTableDataGateway gateway =
+                    DoubloonPrizesTableDataGateway.getSingleton();
+            gateway.createRow(prize.getName(), prize.getCost(), prize.getDescription());
+        }
+    }
 
-	/**
-	 * Create a table of levels
-	 */
-	private static void createDoubloonPrizesTable() throws DatabaseException
-	{
-		DoubloonPrizesTableDataGatewayRDS.createTable();
-		for (DoubloonPrizesForTest prize : DoubloonPrizesForTest.values())
-		{
-			DoubloonPrizesTableDataGatewayRDS gateway =
-					(DoubloonPrizesTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway(
-							"DoubloonPrizes");
-			gateway.createRow(prize.getName(), prize.getCost(), prize.getDescription());
-		}
-	}
+    public static void main(String[] args) throws DatabaseException, SQLException
+    {
+        OptionsManager.getSingleton().setUsingTestDB(true);
+        createDoubloonPrizesTable();
+    }
 
 }

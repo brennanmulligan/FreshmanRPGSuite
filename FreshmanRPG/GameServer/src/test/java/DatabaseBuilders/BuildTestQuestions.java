@@ -3,7 +3,7 @@ package DatabaseBuilders;
 import java.sql.SQLException;
 
 import datasource.DatabaseException;
-import datasource.NPCQuestionRowDataGatewayRDS;
+import datasource.NPCQuestionRowDataGateway;
 import model.OptionsManager;
 import datatypes.NPCQuestionsForTest;
 
@@ -27,7 +27,6 @@ public class BuildTestQuestions
 	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createQuestionTable();
 	}
@@ -40,10 +39,10 @@ public class BuildTestQuestions
 	 */
 	public static void createQuestionTable() throws DatabaseException
 	{
-		NPCQuestionRowDataGatewayRDS.createTable();
+		NPCQuestionRowDataGateway.createTable();
 		for (NPCQuestionsForTest question : NPCQuestionsForTest.values())
 		{
-			new NPCQuestionRowDataGatewayRDS(question.getQ(), question.getA(), question.getStartDate(),
+			new NPCQuestionRowDataGateway(question.getQ(), question.getA(), question.getStartDate(),
 					question.getEndDate());
 		}
 	}

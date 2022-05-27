@@ -2,11 +2,9 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
-import org.junit.Before;
 import org.junit.Test;
-
-import model.OptionsManager;
 
 /**
  *
@@ -14,18 +12,8 @@ import model.OptionsManager;
  * Tests functionality of InteractableObjectBuffReport
  *
  */
-public class InteractableObjectBuffReportTest
+public class InteractableObjectBuffReportTest extends ServerSideTest
 {
-
-	/**
-	 * setup for testing InteractableObjectBuffReport
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-	}
 
 	/**
 	 * Test that the constructor works correctly

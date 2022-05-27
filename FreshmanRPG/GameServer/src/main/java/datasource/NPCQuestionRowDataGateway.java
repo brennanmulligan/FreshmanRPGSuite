@@ -1,95 +1,304 @@
 package datasource;
 
-import java.time.LocalDate;
-
 import dataDTO.QuestionDTO;
 
+import java.sql.*;
+import java.time.LocalDate;
+
 /**
- * Behavior required by gateways for the NPC Question table used by the quizbot
+ * The RDS implementation of the gateway
  *
  * @author Merlin
- *
  */
-public interface NPCQuestionRowDataGateway
+public class NPCQuestionRowDataGateway
 {
 
-	/**
-	 * For Testing Only
-	 */
-	public void resetData();
+    private int questionID;
+    private String questionStatement;
+    private String answer;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Connection connection;
 
-	/**
-	 *
-	 * @return the text of a question
-	 */
-	public String getQuestionStatement();
+    /**
+     * Finder constructor
+     *
+     * @param questionID the questions Unique ID
+     * @throws DatabaseException if we fail when talking to the database
+     */
+    public NPCQuestionRowDataGateway(int questionID) throws DatabaseException
+    {
+        this.connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT * FROM NPCQuestions WHERE questionID = ?");
+            stmt.setInt(1, questionID);
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            this.questionStatement = result.getString("questionStatement");
+            this.answer = result.getString("answer");
+            this.startDate = result.getDate("startDate").toLocalDate();
+            this.endDate = result.getDate("endDate").toLocalDate();
+            this.questionID = result.getInt("questionID");
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(
+                    "Couldn't find an NPC Question with ID " + questionID, e);
+        }
+    }
 
-	/**
-	 * The correct answer for this question
-	 *
-	 * @return the answer
-	 */
-	public String getAnswer();
+    /**
+     * Create constructor
+     *
+     * @param questionStatement the wording of the question
+     * @param answer            the answer to the question
+     * @param startDate         the first day the question is available
+     * @param endDate           the last day the question is available
+     * @throws DatabaseException if we fail when talking to the database
+     *                           (question ID already exists would be common)
+     */
+    public NPCQuestionRowDataGateway(String questionStatement, String answer,
+                                     LocalDate startDate,
+                                     LocalDate endDate) throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
 
-	/**
-	 * The date this question is available
-	 *
-	 * @return The date this question is available
-	 */
-	public LocalDate getStartDate();
+            PreparedStatement stmt =
+                    connection.prepareStatement(
+                            "Insert INTO NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ?",
+                            Statement.RETURN_GENERATED_KEYS
+                    );
 
-	/**
-	 * The last day the question is available
-	 *
-	 * @return The last day this question is available
-	 */
-	public LocalDate getEndDate();
+            stmt.setString(1, questionStatement);
+            stmt.setString(2, answer);
+            stmt.setDate(3, java.sql.Date.valueOf(startDate));
+            stmt.setDate(4, java.sql.Date.valueOf(endDate));
+            int affectedRow = stmt.executeUpdate();
 
-	/**
-	 * Sets a new value for question
-	 * @param question - the new value
-	 */
-	public void setQuestion(String question);
+            if (affectedRow == 0)
+            {
+                throw new SQLException("Creating NPCQuestion failed");
+            }
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys())
+            {
+                if (generatedKeys.next())
+                {
+                    this.questionID = generatedKeys.getInt(1);
+                }
+                else
+                {
+                    throw new SQLException(
+                            "Creating NPCQuestion failed, although key was generated");
+                }
+            }
+            this.questionStatement = questionStatement;
+            this.answer = answer;
+            this.startDate = startDate;
+            this.endDate = endDate;
 
-	/**
-	 * Sets a new value for answer
-	 * @param answer - the new value
-	 */
-	public void setAnswer(String answer);
+            ResultSet keys = stmt.getGeneratedKeys();
+            keys.next();
+            this.questionID = keys.getInt(1);
 
-	/**
-	 * Sets a new Start Date
-	 * @param date - the new start date
-	 */
-	public void setStartDate(LocalDate date);
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(
+                    "Couldn't create a NPC question record for question with ID " + e);
+        }
+    }
 
-	/**
-	 * Sets a new End Date
-	 * @param date - the new end date
-	 */
-	public void setEndDate(LocalDate date);
+    private NPCQuestionRowDataGateway()
+    {
+    }
 
-	/**
-	 * Sends the most up to date values to the database
-	 * @throws DatabaseException - if it fails to write to the database
-	 */
-	public void updateGateway() throws DatabaseException;
+    /**
+     * Drop the table if it exists and re-create it empty
+     *
+     * @throws DatabaseException shouldn't
+     */
+    public static void createTable() throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DROP TABLE IF EXISTS NPCQuestions");
+            stmt.executeUpdate();
+            stmt.close();
 
-	/**
-	 * Delete this question from the database.
-	 * @throws DatabaseException If question does not exist in the database.
-	 */
-	public void delete() throws DatabaseException;
+            stmt = connection.prepareStatement(
+                    "Create TABLE NPCQuestions (questionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questionStatement VARCHAR(256), answer VARCHAR(80), startDate DATE, endDate DATE)");
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create the NPC Question table", e);
+        }
+    }
 
-	/**
-	 * Gets the questionID
-	 * @return the questionID from the table
-	 */
-	public int getQuestionID();
+    /**
+     * @return a random question from the data source
+     * @throws DatabaseException if we can't talk to the database
+     */
+    public static NPCQuestionRowDataGateway findRandomGateway()
+            throws DatabaseException
+    {
 
-	/**
-	 * @return the details of the question
-	 */
-	public QuestionDTO getQuestionInfo();
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT * FROM NPCQuestions ORDER BY RAND() LIMIT 1");
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            NPCQuestionRowDataGateway gateway = new NPCQuestionRowDataGateway();
+            gateway.questionID = result.getInt("questionID");
+            gateway.questionStatement = result.getString("questionStatement");
+            gateway.answer = result.getString("answer");
+            gateway.startDate = result.getDate("startDate").toLocalDate();
+            gateway.endDate = result.getDate("endDate").toLocalDate();
+            gateway.questionID = result.getInt("questionID");
+            return gateway;
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Couldn't find a a random NPC Question", e);
+        }
+    }
+
+    /**
+     * Deletes a question from the database table based off of ID.
+     *
+     * @throws DatabaseException There was not an ID matching a question in the database
+     */
+    public void delete() throws DatabaseException
+    {
+        this.connection = DatabaseManager.getSingleton().getConnection();
+
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DELETE FROM NPCQuestions WHERE questionID = ? LIMIT 1");
+            stmt.setInt(1, this.questionID);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(
+                    "There was no npc question with that id to delete", e);
+        }
+    }
+
+    public String getAnswer()
+    {
+        return answer;
+    }
+
+    /**
+     * Sets a new value for answer
+     *
+     * @param answer - the new value
+     */
+    public void setAnswer(String answer)
+    {
+        this.answer = answer;
+    }
+
+    public LocalDate getEndDate()
+    {
+        return endDate;
+    }
+
+    /**
+     * Sets a new End Date
+     *
+     * @param date - the new end date
+     */
+    public void setEndDate(LocalDate date)
+    {
+        this.endDate = date;
+    }
+
+    public int getQuestionID()
+    {
+        return this.questionID;
+    }
+
+    /**
+     * Returns the DTO of QuestionInfo
+     *
+     * @return the data transfer object
+     */
+    public QuestionDTO getQuestionInfo()
+    {
+        return new QuestionDTO(questionID, questionStatement, answer, startDate,
+                endDate);
+    }
+
+    public String getQuestionStatement()
+    {
+        return questionStatement;
+    }
+
+    public LocalDate getStartDate()
+    {
+        return startDate;
+    }
+
+    /**
+     * Sets a new Start Date
+     *
+     * @param date - the new start date
+     */
+    public void setStartDate(LocalDate date)
+    {
+        this.startDate = date;
+    }
+
+    public void resetData()
+    {
+    }
+
+    /**
+     * Sets a new value for question
+     *
+     * @param question - the new value
+     */
+    public void setQuestion(String question)
+    {
+        this.questionStatement = question;
+    }
+
+    /**
+     * Sends the most up to date values to the database
+     *
+     * @throws DatabaseException - if it fails to write to the database
+     */
+    public void updateGateway() throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        try
+        {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "UPDATE NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ? WHERE questionID=?");
+
+            stmt.setInt(5, this.questionID);
+            stmt.setString(1, this.questionStatement);
+            stmt.setString(2, this.answer);
+            stmt.setDate(3, java.sql.Date.valueOf(this.startDate));
+            stmt.setDate(4, java.sql.Date.valueOf(this.endDate));
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Couldn't update NPCQuestionsTable", e);
+        }
+    }
 
 }

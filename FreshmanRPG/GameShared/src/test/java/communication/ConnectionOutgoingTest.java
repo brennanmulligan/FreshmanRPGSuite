@@ -4,14 +4,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.sql.Connection;
-import java.sql.SQLException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import communication.packers.MessagePackerSet;
-import datasource.DatabaseException;
 import datasource.DatabaseManager;
 
 /**
@@ -21,6 +18,12 @@ import datasource.DatabaseManager;
  */
 public class ConnectionOutgoingTest
 {
+
+	@Before
+	public void setup()
+	{
+		DatabaseManager.resetSingleton();
+	}
 	/**
 	 * Check to make sure that different threads get different database connections.
 	 * @throws IOException If there is an error creating the runnable classes.

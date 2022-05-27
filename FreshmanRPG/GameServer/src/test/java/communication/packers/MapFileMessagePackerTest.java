@@ -3,8 +3,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.sql.SQLException;
-
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,29 +22,25 @@ import model.reports.PlayerConnectionReport;
  * @author Merlin
  *
  */
-public class MapFileMessagePackerTest
+public class MapFileMessagePackerTest extends ServerSideTest
 {
 
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 	}
 
 	/**
 	 * If we are notified about a player other than the one we are associated
 	 * with, we shouldn't pack a message
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ifThePlayerIsNotOnThisConnection() throws DatabaseException
+	public void ifThePlayerIsNotOnThisConnection()
 	{
 		PlayerManager.getSingleton().addPlayer(1);
 		PlayerManager.getSingleton().addPlayer(2);
@@ -67,11 +62,10 @@ public class MapFileMessagePackerTest
 	 * return null (no need to send this on)
 	 *
 	 * @throws DatabaseException shouldn't
-	 * @throws SQLException shouldn't
 	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
 	@Test
-	public void ifThePlayerIsOnThisConnection() throws DatabaseException, SQLException, IllegalQuestChangeException
+	public void ifThePlayerIsOnThisConnection() throws DatabaseException, IllegalQuestChangeException
 	{
 		OptionsManager.getSingleton().updateMapInformation("quad.tmx", "", 1);
 		PlayerManager.getSingleton().addPlayer(1, PlayerConnection.DEFAULT_PIN);

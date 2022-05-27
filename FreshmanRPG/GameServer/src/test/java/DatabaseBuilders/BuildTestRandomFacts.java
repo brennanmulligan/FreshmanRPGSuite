@@ -3,7 +3,7 @@ package DatabaseBuilders;
 import java.sql.SQLException;
 
 import datasource.DatabaseException;
-import datasource.RandomFactsTableDataGatewayRDS;
+import datasource.RandomFactsTableDataGateway;
 import model.OptionsManager;
 import datatypes.RandomFactsForTest;
 
@@ -27,7 +27,6 @@ public class BuildTestRandomFacts
 	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createRandomFactTable();
 	}
@@ -40,10 +39,10 @@ public class BuildTestRandomFacts
 	 */
 	public static void createRandomFactTable() throws DatabaseException
 	{
-		RandomFactsTableDataGatewayRDS.createTable();
+		RandomFactsTableDataGateway.createTable();
 		for (RandomFactsForTest fact : RandomFactsForTest.values())
 		{
-			RandomFactsTableDataGatewayRDS.createRow(fact.getFactText(), fact.getNpcID(), fact.getStartDate(),
+			RandomFactsTableDataGateway.createRow(fact.getFactText(), fact.getNpcID(), fact.getStartDate(),
 					fact.getEndDate());
 		}
 	}

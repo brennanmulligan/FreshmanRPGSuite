@@ -3,7 +3,6 @@ package datasource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
 import org.junit.Test;
 
 import datatypes.Position;
@@ -15,20 +14,20 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public abstract class PlayerConnectionRowDataGatewayTest extends DatabaseTest
+public class PlayerConnectionRowDataGatewayTest extends ServerSideTest
 {
 	protected PlayerConnectionRowDataGateway gateway;
 
 	/**
-	 * Make sure any static information is cleaned up between tests
+	 * Create a row data gateway for an existing row in the table
+	 *
+	 * @param playerID the player's unique ID
+	 * @return the gateway that we should be testing
+	 * @throws DatabaseException if the data source cannot find the player
 	 */
-	@After
-	public void cleanup()
+	PlayerConnectionRowDataGateway findRowDataGateway(int playerID) throws DatabaseException
 	{
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
+		return new PlayerConnectionRowDataGateway(playerID);
 	}
 
 	/**
@@ -118,13 +117,6 @@ public abstract class PlayerConnectionRowDataGatewayTest extends DatabaseTest
 		assertEquals(42, after.getPin());
 	}
 
-	/**
-	 * Create a row data gateway for an existing row in the table
-	 *
-	 * @param playerID the player's unique ID
-	 * @return the gateway that we should be testing
-	 * @throws DatabaseException if the data source cannot find the player
-	 */
-	abstract PlayerConnectionRowDataGateway findRowDataGateway(int playerID) throws DatabaseException;
+
 
 }

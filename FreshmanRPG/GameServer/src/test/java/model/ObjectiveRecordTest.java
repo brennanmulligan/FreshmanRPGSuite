@@ -1,10 +1,11 @@
-package datasource;
+package model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import dataENUM.ObjectiveCompletionType;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import criteria.CriteriaStringDTO;
@@ -17,7 +18,7 @@ import model.ObjectiveRecord;
  * @author merlin
  *
  */
-public class ObjectiveRecordTest
+public class ObjectiveRecordTest extends ServerSideTest
 {
 	/**
 	 * Just make sure it holds and returns everything

@@ -4,11 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import dataDTO.LevelManagerDTO;
-import datasource.DatabaseException;
 import datasource.LevelRecord;
 import datatypes.LevelsForTest;
 
@@ -16,25 +15,14 @@ import datatypes.LevelsForTest;
  * @author Merlin
  *
  */
-public class LevelManagerTest
+public class LevelManagerTest extends ServerSideTest
 {
-	/**
-	 * Reset the necessary singletons
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-	}
 
 	/**
 	 * Make sure the LevelManager is a singleton
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void isSingleton() throws DatabaseException
+	public void isSingleton()
 	{
 		LevelManagerDTO lm1 = LevelManagerDTO.getSingleton();
 		LevelManagerDTO lm2 = LevelManagerDTO.getSingleton();
@@ -48,11 +36,9 @@ public class LevelManagerTest
 
 	/**
 	 * Test the LevelManager's getLevelForPoints method
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void getsRightRange() throws DatabaseException
+	public void getsRightRange()
 	{
 		LevelRecord expected = new LevelRecord(LevelsForTest.TWO.getDescription(), LevelsForTest.TWO.getLevelUpPoints(),
 				LevelsForTest.TWO.getLevelUpMonth(), LevelsForTest.TWO.getLevelUpDayOfMonth());
@@ -62,11 +48,9 @@ public class LevelManagerTest
 	/**
 	 * Test getting the last level with sending in the level up points for level
 	 * three
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void getsLastLevel() throws DatabaseException
+	public void getsLastLevel()
 	{
 		LevelRecord expected = new LevelRecord(LevelsForTest.FOUR.getDescription(),
 				LevelsForTest.FOUR.getLevelUpPoints(), LevelsForTest.FOUR.getLevelUpMonth(),

@@ -2,6 +2,7 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.Position;
@@ -11,7 +12,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  * @author Merlin
  *
  */
-public class PlayerMovedReportTest
+public class PlayerMovedReportTest extends ServerSideTest
 {
 
 	/**

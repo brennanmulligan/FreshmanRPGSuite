@@ -3,7 +3,7 @@ package DatabaseBuilders;
 import java.sql.SQLException;
 
 import datasource.DatabaseException;
-import datasource.ServerRowDataGatewayRDS;
+import datasource.ServerRowDataGateway;
 import model.OptionsManager;
 import datatypes.ServersForTest;
 
@@ -24,7 +24,6 @@ public class BuildTestServers
 	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createLevelTable();
 	}
@@ -32,15 +31,13 @@ public class BuildTestServers
 	/**
 	 * Create a table of levels
 	 *
-	 * @throws SQLException
-	 * @throws DatabaseException
 	 */
-	private static void createLevelTable() throws SQLException, DatabaseException
+	private static void createLevelTable() throws DatabaseException
 	{
-		ServerRowDataGatewayRDS.createTable();
+		ServerRowDataGateway.createTable();
 		for (ServersForTest server : ServersForTest.values())
 		{
-			new ServerRowDataGatewayRDS(server.getMapName(), server.getHostName(), server.getPortNumber(), server.getMapTitle(), server.getTeleportPositionX(), server.getTeleportPositionY());
+			new ServerRowDataGateway(server.getMapName(), server.getHostName(), server.getPortNumber(), server.getMapTitle(), server.getTeleportPositionX(), server.getTeleportPositionY());
 		}
 	}
 }

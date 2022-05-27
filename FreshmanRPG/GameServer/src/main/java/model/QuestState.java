@@ -10,7 +10,6 @@ import dataDTO.VanityDTO;
 import dataENUM.QuestCompletionActionType;
 import datasource.DatabaseException;
 import datasource.VanityAwardsTableDataGateway;
-import datasource.VanityAwardsTableDataGatewayRDS;
 import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.reports.QuestStateChangeReport;
@@ -24,9 +23,9 @@ import model.reports.TeleportOnQuestCompletionReport;
  */
 public class QuestState
 {
-	private int questID;
+	private final int questID;
 	private QuestStateEnum questState;
-	private ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+	private final ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
 	private int playerID;
 	private boolean needingNotification;
 
@@ -138,13 +137,14 @@ public class QuestState
 			}
 		}
 
-		VanityAwardsTableDataGateway gateway = VanityAwardsTableDataGatewayRDS.getSingleton();
+		VanityAwardsTableDataGateway gateway =
+				VanityAwardsTableDataGateway.getSingleton();
 		ArrayList<VanityDTO> awardedVanities = gateway.getVanityAwardsForQuest(questID);
 
 		if (!awardedVanities.isEmpty())
 		{
 			Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
-			awardedVanities.forEach(x -> player.addItemToInventory(x));
+			awardedVanities.forEach(player::addItemToInventory);
 		}
 	}
 
@@ -271,7 +271,7 @@ public class QuestState
 			this.questState = state;
 			this.needingNotification = notify;
 
-			if (this.needingNotification == true)
+			if (this.needingNotification)
 			{
 				QuestRecord quest = QuestManager.getSingleton().getQuest(questID);
 				QualifiedObservableConnector.getSingleton().sendReport(new QuestStateChangeReport(playerID, questID,

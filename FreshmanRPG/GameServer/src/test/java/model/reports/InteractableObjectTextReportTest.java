@@ -2,10 +2,9 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
-import model.OptionsManager;
 import datatypes.PlayersForTest;
 
 /**
@@ -14,18 +13,8 @@ import datatypes.PlayersForTest;
  * Tests functionality of InteractableObjectTextReport
  *
  */
-public class InteractableObjectTextReportTest
+public class InteractableObjectTextReportTest extends ServerSideTest
 {
-
-	/**
-	 * Setup for testing InteractableObjectTextReport
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-	}
 
 	/**
 	 * Test the constructor works correctly.

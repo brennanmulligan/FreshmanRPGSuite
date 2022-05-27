@@ -1,35 +1,32 @@
 package DatabaseBuilders;
 
-import java.sql.SQLException;
-
 import datasource.DatabaseException;
-import datasource.FriendTableDataGatewayRDS;
-import datasource.TableDataGatewayManager;
-import model.OptionsManager;
+import datasource.FriendTableDataGateway;
 import datatypes.FriendEnum;
+import model.OptionsManager;
+
+import java.sql.SQLException;
 
 public class BuildFriends
 {
 
-	public static void main(String[] args) throws DatabaseException, SQLException
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-		createFriendTable();
-	}
+    /**
+     * Create a table of friends
+     */
+    private static void createFriendTable() throws DatabaseException
+    {
+        FriendTableDataGateway gateway =
+                FriendTableDataGateway.getSingleton();
+        FriendTableDataGateway.createTable();
+        for (FriendEnum friend : FriendEnum.values())
+        {
+            gateway.createRow(friend.getId(), friend.getFriendID(), friend.getStatus());
+        }
+    }
 
-	/**
-	 * Create a table of friends
-	 *
-	 */
-	private static void createFriendTable() throws DatabaseException
-	{
-		FriendTableDataGatewayRDS gateway =
-				(FriendTableDataGatewayRDS) TableDataGatewayManager.getSingleton().getTableGateway("Friend");
-		FriendTableDataGatewayRDS.createTable();
-		for (FriendEnum friend : FriendEnum.values())
-		{
-			gateway.createRow(friend.getId(), friend.getFriendID(), friend.getStatus());
-		}
-	}
+    public static void main(String[] args) throws DatabaseException, SQLException
+    {
+        OptionsManager.getSingleton().setUsingTestDB(true);
+        createFriendTable();
+    }
 }

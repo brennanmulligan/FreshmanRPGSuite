@@ -6,7 +6,9 @@ import criteria.InteractableItemActionParameter;
 import criteria.QuestListCompletionParameter;
 import dataDTO.InteractableItemDTO;
 import dataENUM.InteractableItemActionType;
-import datasource.*;
+import datasource.DatabaseException;
+import datasource.InteractableItemRowDataGateway;
+import datasource.InteractableItemTableDataGateway;
 import datatypes.Position;
 import model.reports.InteractableObjectBuffReport;
 import model.reports.InteractableObjectTextReport;
@@ -38,10 +40,7 @@ public class InteractObjectManager implements QualifiedObserver
     private InteractObjectManager()
     {
         gateway =
-                (InteractableItemTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway(
-                                "InteractableItem");
-        gateway.resetTableGateway();
+                InteractableItemTableDataGateway.getSingleton();
 
         QualifiedObservableConnector.getSingleton()
                 .registerObserver(this, KeyInputRecievedReport.class);
@@ -159,14 +158,7 @@ public class InteractObjectManager implements QualifiedObserver
         try
         {
             InteractableItemRowDataGateway rowGateway;
-            if (OptionsManager.getSingleton().isUsingMockDataSource())
-            {
-                rowGateway = new InteractableItemRowDataGatewayMock(itemId);
-            }
-            else
-            {
-                rowGateway = new InteractableItemRowDataGatewayRDS(itemId);
-            }
+            rowGateway = new InteractableItemRowDataGateway(itemId);
             InteractableItemActionType type = rowGateway.getActionType();
             InteractableItemActionParameter param = rowGateway.getActionParam();
             if (type != null)
@@ -231,7 +223,8 @@ public class InteractObjectManager implements QualifiedObserver
                                 QuestManager.getSingleton()
                                         .triggerQuest(playerId, questID);
                             }
-                            catch (IllegalQuestChangeException | IllegalObjectiveChangeException e)
+                            catch (IllegalQuestChangeException |
+                                   IllegalObjectiveChangeException e)
                             {
                                 return false;
                             }

@@ -1,5 +1,6 @@
 package model;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import model.reports.TerminalTextExitReport;
 import model.terminal.CommandTerminalTextExit;
@@ -12,14 +13,14 @@ import org.junit.Test;
  *
  * Authors: John G. , Ian L.
  */
-public class CommandTerminalTextExitTest
+public class CommandTerminalTextExitTest extends ServerSideTest
 {
 
     /**
      * Setup the model facade for mock testing
      */
     @Before
-    public void setup()
+    public void localSetup()
     {
         ModelFacade.resetSingleton();
         ModelFacade.getSingleton();

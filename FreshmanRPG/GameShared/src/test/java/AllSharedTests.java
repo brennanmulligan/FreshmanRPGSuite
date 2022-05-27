@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import communication.ConnectionIncomingTest;
-import communication.ConnectionListenerTest;
 import communication.ConnectionManagerTest;
 import communication.ConnectionOutgoingTest;
 import communication.StateAccumulatorTest;
@@ -38,7 +37,6 @@ import tmxfiles.TMXMapReaderTest;
 				// communication
 				ConnectionIncomingTest.class,
 				ConnectionOutgoingTest.class,
-				ConnectionListenerTest.class,
 				ConnectionManagerTest.class,
 				StateAccumulatorTest.class,
 
@@ -90,22 +88,12 @@ import tmxfiles.TMXMapReaderTest;
 
 				// datasource
 				DatabaseManagerTest.class,
-				// DatabaseTest.class,
 				LevelRecordTest.class,
-				PlayerConnectionRowDataGatewayMockTest.class,
-				PlayerConnectionRowDataGatewayRDSTest.class,
-				// PlayerConnectionRowDataGateway,
-				PlayerLoginRowDataGatewayMockTest.class,
-				PlayerLoginRowDataGatewayRDSTest.class,
-				// PlayerLoginDataBehaviorTest.class,
-				PlayerRowDataGatewayMockTest.class,
-				PlayerRowDataGatewayRDSTest.class,
-				// PlayerRowDataGatewayTest.class,
+				PlayerConnectionRowDataGatewayTest.class,
+				PlayerLoginRowDataGatewayTest.class,
+				PlayerRowDataGatewayTest.class,
 				PlayerScoreRecordTest.class,
-				// PlayersForTest
-				ServerRowDataGatewayMockTest.class,
-				ServerRowDataGatewayRDSTest.class,
-				// ServerRowDataGatewayTest.class,
+				ServerRowDataGatewayTest.class,
 				// ServersForTest
 
 				// datatypes
@@ -141,17 +129,14 @@ public class AllSharedTests
 		protected void before() throws Throwable
 		{
 			PlayerConnectionTest.defaultAllPins();
+			DatabaseManager.getSingleton().setTesting();
+			LoggerManager.createLogger("GameSharedTests");
 		}
-
-		;
 
 		@Override
 		protected void after()
 		{
-
 		}
-
-		;
 	};
 
 }

@@ -21,7 +21,7 @@ class FriendListBehavior extends FriendBehavior
     {
         StringBuilder friendString = new StringBuilder();
 
-        ArrayList<FriendDTO> friendDTO = null;
+        ArrayList<FriendDTO> friendDTO;
 
         FriendTableDataGateway gateway = getTheGateway();
 
@@ -37,7 +37,7 @@ class FriendListBehavior extends FriendBehavior
 
         friendString.append("> Friend Name - Status\n");
 
-        /**
+        /*
          * Builds the string list to return
          */
         for (FriendDTO relationship : friendDTO)
@@ -45,16 +45,15 @@ class FriendListBehavior extends FriendBehavior
             switch (relationship.getStatus())
             {
                 case ACCEPTED:
-                    friendString.append("> " + relationship.getFriendName() + " - " + relationship.getStatus().toString() + "\n");
-                    break;
-                case PENDING:
-                    friendString.append("> " + relationship.getFriendName() + " - " + relationship.getStatus().toString() + "\n");
-                    break;
                 case REQUESTED:
-                    friendString.append("> " + relationship.getFriendName() + " - " + relationship.getStatus().toString() + "\n");
+                case PENDING:
+                    friendString.append("> ").append(relationship.getFriendName())
+                            .append(" - ").append(relationship.getStatus().toString())
+                            .append("\n");
                     break;
                 default:
-                    friendString.append("> " + relationship.getFriendName() + " - " + "INVALID STATUS" + "\n");
+                    friendString.append("> ").append(relationship.getFriendName())
+                            .append(" - ").append("INVALID STATUS").append("\n");
             }
         }
 

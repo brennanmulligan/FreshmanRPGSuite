@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.PlayersForTest;
@@ -15,7 +16,7 @@ import datatypes.PlayersForTest;
  * @author Chris, Marty, and Evan
  *
  */
-public class TimeToLevelUpDeadlineTest
+public class TimeToLevelUpDeadlineTest extends ServerSideTest
 {
 
 	/**

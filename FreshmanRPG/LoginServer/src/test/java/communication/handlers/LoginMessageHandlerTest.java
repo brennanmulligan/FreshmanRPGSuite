@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public class LoginMessageHandlerTest
+public class LoginMessageHandlerTest extends ServerSideTest
 {
 
 	/**
@@ -30,7 +31,6 @@ public class LoginMessageHandlerTest
 	public void setup()
 	{
 		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		LoginPlayerManager.resetSingleton();
 	}
 
