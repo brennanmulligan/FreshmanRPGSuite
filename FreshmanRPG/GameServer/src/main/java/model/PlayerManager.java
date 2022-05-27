@@ -146,11 +146,9 @@ public class PlayerManager implements QualifiedObserver
 
 			QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
 			DoubloonPrizesTableDataGateway doubloonPrizesGateway =
-					(DoubloonPrizesTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-							"DoubloonPrizes");
+					DoubloonPrizesTableDataGateway.getSingleton();
 			FriendTableDataGateway friendTableDataGateway =
-					(FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-							"Friend");
+					FriendTableDataGateway.getSingleton();
 
 			QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
 			QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
@@ -221,7 +219,7 @@ public class PlayerManager implements QualifiedObserver
 	public ArrayList<PlayerScoreRecord> getTopTenPlayers() throws DatabaseException
 	{
 		PlayerTableDataGateway gateway =
-				(PlayerTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Player");
+				PlayerTableDataGateway.getSingleton();
 		return gateway.getTopTenList();
 	}
 
@@ -407,10 +405,6 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public ArrayList<VanityDTO> getVanityShopInventory() throws DatabaseException
 	{
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			return VanityShopTableDataGatewayMock.getSingleton().getVanityShopInventory();
-		}
-			return VanityShopTableDataGatewayRDS.getSingleton().getVanityShopInventory();
+		return VanityShopTableDataGateway.getSingleton().getVanityShopInventory();
 	}
 }

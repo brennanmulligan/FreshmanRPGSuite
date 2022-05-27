@@ -1,41 +1,51 @@
 package datasource;
 
-import java.sql.SQLException;
+import datatypes.PlayersForTest;
+import org.junit.Test;
 
-import org.junit.After;
-import org.junit.Before;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
- *
  */
-public abstract class VisitedMapsGatewayTest extends DatabaseTest
+public class VisitedMapsGatewayTest extends ServerSideTest
 {
-	protected VisitedMapsGateway gateway;
 
-	/**
-	 * @see datasource.DatabaseTest#setUp()
-	 */
-	@Before
-	public void setUp() throws DatabaseException
-	{
-		super.setUp();
-		gateway = getGateway();
-	}
+    /**
+     * test that we can add a map to a player
+     *
+     * @throws DatabaseException if error occurs during database access
+     */
+    @Test
+    public void testAddMapToPlayer() throws DatabaseException
+    {
+        @SuppressWarnings("unchecked") ArrayList<String> testList =
+                (ArrayList<String>) PlayersForTest.MERLIN.getMapsVisited().clone();
+        testList.add("Library");
 
-	/**
-	 * @see datasource.DatabaseTest#tearDown()
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
-	{
-		super.tearDown();
-	}
 
-	/**
-	 * @return the gateway
-	 */
-	public abstract VisitedMapsGateway getGateway();
+        VisitedMapsGateway gateway =
+                new VisitedMapsGateway(PlayersForTest.MERLIN.getPlayerID(), "Library");
 
+        assertEquals(testList, gateway.getMaps());
+
+    }
+
+    /**
+     * test that we can get the maps a player has visited
+     *
+     * @throws DatabaseException if error occurs during database access
+     */
+    @Test
+    public void testGetVisitedMaps() throws DatabaseException
+    {
+        ArrayList<String> testList = PlayersForTest.MERLIN.getMapsVisited();
+
+        VisitedMapsGateway gateway =
+                new VisitedMapsGateway(PlayersForTest.MERLIN.getPlayerID());
+        assertEquals(testList, gateway.getMaps());
+    }
 
 }

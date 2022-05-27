@@ -96,7 +96,8 @@ public enum QuestsForTest
 	ONRAMPING_QUEST(100, "Introductory Quest",
 			"Welcome!  For your first quest, you need to learn a little bit about this world.  Press Q to see what you need to do.  "
 					+ "Double clicking on a quest in the quest screen will show you its objectives.",
-			PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 11, QuestCompletionActionType.TELEPORT,
+			PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 11,
+			QuestCompletionActionType.TELEPORT,
 			new GameLocationDTO("quad.tmx", new Position(92, 7)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
@@ -154,16 +155,16 @@ public enum QuestsForTest
 			new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
 
 
-	private int questID;
-	private String questTitle;
-	private String questDescription;
-	private GameLocationDTO gameLocation;
-	private int experienceGained;
-	private int objectiveForFulfillment;
-	private QuestCompletionActionType completionActionType;
-	private QuestCompletionActionParameter completionActionParameter;
-	private Date startDate;
-	private Date endDate;
+	private final int questID;
+	private final String questTitle;
+	private final String questDescription;
+	private final GameLocationDTO gameLocation;
+	private final int experienceGained;
+	private final int objectiveForFulfillment;
+	private final QuestCompletionActionType completionActionType;
+	private final QuestCompletionActionParameter completionActionParameter;
+	private final Date startDate;
+	private final Date endDate;
 
 	/**
 	 * Constructor for Quests Enum

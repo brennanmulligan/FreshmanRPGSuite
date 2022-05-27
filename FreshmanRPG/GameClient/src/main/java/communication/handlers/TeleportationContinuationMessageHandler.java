@@ -31,7 +31,7 @@ public class TeleportationContinuationMessageHandler extends MessageHandler
 			TeleportationContinuationMessage rMsg = (TeleportationContinuationMessage) msg;
 			try
 			{
-				if (!OptionsManager.getSingleton().isUsingMockDataSource())
+				if (!OptionsManager.getSingleton().isTestMode())
 				{
 					getConnectionManager().moveToNewSocket(new Socket(rMsg.getHostName(), rMsg.getPortNumber()));
 					this.getStateAccumulator().queueMessage(new ConnectMessage(rMsg.getPlayerID(), rMsg.getPin()));

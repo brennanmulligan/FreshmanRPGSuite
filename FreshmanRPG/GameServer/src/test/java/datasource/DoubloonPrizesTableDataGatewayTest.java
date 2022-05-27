@@ -2,10 +2,8 @@ package datasource;
 
 import dataDTO.DoubloonPrizeDTO;
 import datatypes.DoubloonPrizesForTest;
-import org.junit.After;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -13,32 +11,24 @@ import static org.junit.Assert.*;
 /**
  * @author Mina Kindo, Christian Chroutamel
  */
-public abstract class DoubloonPrizesTableDataGatewayTest extends DatabaseTest
+public class DoubloonPrizesTableDataGatewayTest extends ServerSideTest
 {
 
     // gateway instance
     private DoubloonPrizesTableDataGateway gateway;
 
-    public abstract DoubloonPrizesTableDataGateway getGatewaySingleton()
-            throws DatabaseException;
+    public DoubloonPrizesTableDataGateway getGatewaySingleton()
+    {
+        return DoubloonPrizesTableDataGateway.getSingleton();
+    }
 
     @Test
-    public void isSingleton() throws DatabaseException
+    public void isSingleton()
     {
         DoubloonPrizesTableDataGateway obj1 = getGatewaySingleton();
         DoubloonPrizesTableDataGateway obj2 = getGatewaySingleton();
         assertSame(obj1, obj2);
         assertNotNull(obj2);
-    }
-
-    @After
-    public void tearDown() throws DatabaseException, SQLException
-    {
-        super.tearDown();
-        if (gateway != null)
-        {
-            gateway.resetTableGateway();
-        }
     }
 
     @Test

@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.PlayersForTest;
@@ -11,7 +12,7 @@ import datatypes.PlayersForTest;
  * @author Nathaniel, Kanza
  *
  */
-public class CommandReceiveTerminalTextTest
+public class CommandReceiveTerminalTextTest extends ServerSideTest
 
 {
 	/**

@@ -1,13 +1,13 @@
 package dataDTO;
 
-import datatypes.Position;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestMowreyInfoDTO
+public class TestMowreyInfoDTO extends ServerSideTest
 {
     @Test
     public void testMowreyInfoDTOConstructor()

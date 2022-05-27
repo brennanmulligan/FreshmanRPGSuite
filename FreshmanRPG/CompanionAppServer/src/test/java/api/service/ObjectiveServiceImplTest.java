@@ -2,7 +2,7 @@ package api.service;
 
 import api.model.ObjectiveRequest;
 import datasource.DatabaseException;
-import datasource.ObjectiveStateTableDataGatewayRDS;
+import datasource.ObjectiveStateTableDataGateway;
 import model.IllegalObjectiveChangeException;
 import model.IllegalQuestChangeException;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class ObjectiveServiceImplTest {
 
     @Mock
-    ObjectiveStateTableDataGatewayRDS objectiveStateTableDataGatewayRDS;
+    ObjectiveStateTableDataGateway objectiveStateTableDataGatewayRDS;
 
     @Test
     void completeObjective() throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException {

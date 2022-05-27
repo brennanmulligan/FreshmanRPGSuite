@@ -1,16 +1,19 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="GameShared - Test" type="GradleRunConfiguration" factoryName="Gradle" folderName="GameShared">
+    <log_file checked="false" alias="D:\Classes\FreshmanRPGSuite\FreshmanRPG\GameShared\GameSharedTests.log" path="$PROJECT_DIR$/GameShared/GameSharedTests.log" skipped="false" />
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$/GameShared" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="--tests &quot;AllSharedTests&quot;" />
+      <option name="scriptParameters" value="" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
         <list>
           <option value="test" />
+          <option value="--tests" />
+          <option value="&quot;AllSharedTests&quot;" />
         </list>
       </option>
       <option name="vmOptions" value="" />

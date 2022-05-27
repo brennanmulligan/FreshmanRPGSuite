@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.junit.After;
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datasource.DatabaseException;
@@ -21,28 +19,10 @@ import datasource.DatabaseException;
  * @author Merlin
  *
  */
-public class PlayerConnectionTest
+public class PlayerConnectionTest extends ServerSideTest
 {
 
 	private static PlayerConnection pc;
-
-	/**
-	 * make sure we are testing
-	 */
-	@Before
-	public void setup2()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-	}
-
-	/**
-	 * set the data back
-	 */
-	@After
-	public void cleanup()
-	{
-		pc.resetData();
-	}
 
 	/**
 	 * Generate default pins for all users
@@ -52,7 +32,6 @@ public class PlayerConnectionTest
 	 */
 	public static void defaultAllPins() throws DatabaseException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		for (int userID = 1; userID < 3; userID++)
 		{
 			pc = new PlayerConnection(userID);
@@ -65,11 +44,9 @@ public class PlayerConnectionTest
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws SQLException
-	 *             shouldn't
 	 */
 	@Test
-	public void storesMapName() throws DatabaseException, SQLException
+	public void storesMapName() throws DatabaseException
 	{
 		pc = new PlayerConnection(2);
 		pc.setMapName("thisMap.tmx");
@@ -82,11 +59,9 @@ public class PlayerConnectionTest
 	 *
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @throws SQLException
-	 *             shouldn't
 	 */
 	@Test
-	public void generatesAndStoresPin() throws DatabaseException, SQLException
+	public void generatesAndStoresPin() throws DatabaseException
 	{
 		pc = new PlayerConnection(2);
 		double pin = pc.generatePin();
@@ -113,24 +88,6 @@ public class PlayerConnectionTest
 		assertEquals(24, cal.get(Calendar.MINUTE));
 		assertEquals(23, cal.get(Calendar.SECOND));
 
-	}
-
-	/**
-	 * Make sure that when we delete someone's PIN, they can't get an expiration
-	 * time
-	 *
-	 * @throws DatabaseException
-	 *             shouldn't
-	 * @throws SQLException
-	 *             shouldn't
-	 */
-	@Test
-	public void testIsExpiredWithoutAPin() throws DatabaseException, SQLException
-	{
-		pc = new PlayerConnection(7);
-		pc.generatePin();
-		pc.deletePlayerPin();
-		assertTrue(pc.isExpired());
 	}
 
 	/**

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ import datatypes.PlayersForTest;
  * @author Andy Kim, Truc Chau, Jacob Knight, and Emmanuel Douge
  *
  */
-public class InteractObjectManagerTest
+public class InteractObjectManagerTest extends ServerSideTest
 {
 
 	/**
@@ -28,18 +29,15 @@ public class InteractObjectManagerTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QualifiedObservableConnector.resetSingleton();
 		InteractObjectManager.resetSingleton();
 	}
 
 	/**
 	 * Tests that getSingleton() returns the same InteractObjectManager object
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testSingleton() throws DatabaseException
+	public void testSingleton()
 	{
 		InteractObjectManager interactObject = InteractObjectManager.getSingleton();
 		InteractObjectManager interactObjectSecond = InteractObjectManager.getSingleton();
@@ -104,10 +102,6 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition01() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction width range is correct
-		 * Should return true (within range)
-		 */
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(0, 1);
 		player.setPlayerPosition(playerPosition);
@@ -123,10 +117,6 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition02() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction width range is correct
-		 * Should return true (within range)
-		 */
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(0, 2);
 		player.setPlayerPosition(playerPosition);
@@ -143,10 +133,6 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition03() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction width range is correct
-		 * Should return false (out of range)
-		 */
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(0, 3);
 		player.setPlayerPosition(playerPosition);
@@ -162,10 +148,7 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition10() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction height range is correct
-		 * Should return true (within range)
-		 */
+
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(1, 0);
 		player.setPlayerPosition(playerPosition);
@@ -181,10 +164,6 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition20() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction height range is correct
-		 * Should return true (within range)
-		 */
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(2, 0);
 		player.setPlayerPosition(playerPosition);
@@ -200,10 +179,6 @@ public class InteractObjectManagerTest
 	@Test
 	public void testPlayerPosition30() throws DatabaseException
 	{
-		/**
-		 * Tests that interaction height range is correct
-		 * Should return false (out of range)
-		 */
 		Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
 		Position playerPosition = new Position(3, 0);
 		player.setPlayerPosition(playerPosition);

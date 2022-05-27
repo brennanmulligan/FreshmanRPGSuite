@@ -3,6 +3,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 
 import communication.messages.ChatMessageToClient;
+import datasource.ServerSideTest;
 import model.reports.ChatMessageToClientReport;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import datatypes.Position;
  *
  *         Make sure that the ChatMessagePacker behaves properly.
  */
-public class ChatMessagePackerTest
+public class ChatMessagePackerTest extends ServerSideTest
 {
 
 	/**

@@ -97,7 +97,7 @@ public class ClientModelFacade
 		{
 			return singleton;
 		}
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
+		if (OptionsManager.getSingleton().isTestMode())
 		{
 			return getSingleton(true, true);
 		}

@@ -11,7 +11,15 @@ import java.util.Vector;
 public class InformationQueue
 {
 
-	private Vector<InfoPacket> infoPackets = new Vector<>();
+	private final Vector<InfoPacket> infoPackets = new Vector<>();
+
+	public void emptyQueue() throws InterruptedException
+	{
+		while(infoPackets.size()>0)
+		{
+			getInfoPacket();
+		}
+	}
 
 	/**
 	 * Put a message in the queue to the view.

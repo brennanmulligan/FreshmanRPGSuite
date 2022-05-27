@@ -31,7 +31,7 @@ public class PinFailedMessageHandler extends MessageHandler
 		{
 			try
 			{
-				if (!OptionsManager.getSingleton().isUsingMockDataSource())
+				if (!OptionsManager.getSingleton().isTestMode())
 				{
 					getConnectionManager().moveToNewSocket(new Socket("localhost", 1871));
 				}

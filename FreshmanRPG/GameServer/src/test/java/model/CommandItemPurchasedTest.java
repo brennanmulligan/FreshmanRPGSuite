@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,18 +13,18 @@ import model.reports.DoubloonChangeReport;
  * @author Andrew Stake
  *
  */
-public class CommandItemPurchasedTest
+public class CommandItemPurchasedTest extends ServerSideTest
 {
 	/**
 	 * Reset PlayerManager
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
 		PlayerManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
 
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 	}
 
 	/**

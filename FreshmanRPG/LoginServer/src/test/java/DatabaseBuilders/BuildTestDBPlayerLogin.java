@@ -1,8 +1,7 @@
 package DatabaseBuilders;
 
 import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayRDS;
-import datasource.PlayerLoginRowDataGatewayRDS;
+import datasource.PlayerLoginRowDataGateway;
 import model.OptionsManager;
 import datatypes.PlayersForTest;
 
@@ -22,7 +21,6 @@ public class BuildTestDBPlayerLogin
 	 */
 	public static void main(String[] args) throws DatabaseException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createPlayerLoginTable();
 
@@ -30,11 +28,11 @@ public class BuildTestDBPlayerLogin
 
 	private static void createPlayerLoginTable() throws DatabaseException
 	{
-		PlayerLoginRowDataGatewayRDS.createPlayerLoginTable();
+		PlayerLoginRowDataGateway.createPlayerLoginTable();
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
-			new PlayerLoginRowDataGatewayRDS(p.getPlayerID(), p.getPlayerName(), p.getPlayerPassword());
+			new PlayerLoginRowDataGateway(p.getPlayerID(), p.getPlayerName(), p.getPlayerPassword());
 		}
 
 	}

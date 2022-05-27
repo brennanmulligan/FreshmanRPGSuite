@@ -3,6 +3,7 @@ package model.reports;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.ObjectiveStateEnum;
@@ -15,7 +16,7 @@ import datatypes.ObjectivesForTest;
  * @author nk3668
  *
  */
-public class ObjectiveStateChangeReportTest
+public class ObjectiveStateChangeReportTest extends ServerSideTest
 {
 
 	/**

@@ -61,7 +61,7 @@ import model.reports.UpdatePlayerInformationReportTest;
 				SendTerminalTextMessageHandlerTest.class,
 				TeleportationInitiationHandlerTest.class,
 
-				// communication.packers
+//				// communication.packers
 				ObjectiveStateChangeMessagePackerTest.class,
 				ReceiveTerminalTextMessagePackerTest.class,
 				ChatMessagePackerTest.class,
@@ -71,7 +71,6 @@ import model.reports.UpdatePlayerInformationReportTest;
 				DoubloonsChangedMessagePackerTest.class,
 				MapFileMessagePackerTest.class,
 				MovementMessagePackerTest.class,
-				//PlayerAppearanceChangePackerTest.class,
 				PlayerJoinedMessagePackerTest.class,
 				QuestStateChangeMessagePackerTest.class,
 				TeleportationContinuationPackerTest.class,
@@ -79,67 +78,32 @@ import model.reports.UpdatePlayerInformationReportTest;
 				UpdatePlayerInformationMessagePackerTest.class,
 				TerminalTextExitPackerTest.class,
 
-				// dataDTO
+//				// dataDTO
 				TestMowreyInfoDTO.class,
 				TestPlayerDTO.class,
 
 				// dataSource
-				DefaultItemsTableDataGatewayMockTest.class,
-				DefaultItemsTableDataGatewayRDSTest.class,
-				//DefaultItemsTableDataGatewayTest.class
-				DoubloonPrizesTableDataGatewayMockTest.class,
-				DoubloonPrizesTableDataGatewayRDSTest.class,
-				//DoubloonPrizesTableDataGatewayTest.class,
-				FriendTableDataGatewayMockTest.class,
-				FriendTableDataGatewayRDSTest.class,
-				//FriendTableDataGatewayTest.class,
-				InteractableItemRowDataGatewayMockTest.class,
-				InteractableItemRowDataGatewayRDSTest.class,
-				//InteractableItemRowDataGatewayTest.class,
-				LevelTableDataGatewayMockTest.class,
-				LevelTableDataGatewayRDSTest.class,
-				// LevelTableDataGatewayTest.class,
-				NPCQuestionRowDataGatewayMockTest.class,
-				NPCQuestionRowDataGatewayRDSTest.class,
-				// NPCQuestionRowDataGatewayTest.class,
-				NPCRowDataGatewayMockTest.class,
-				NPCRowDataGatewayRDSTest.class,
-				// NPCRowDataGatewayTest.class,
+				DefaultItemsTableDataGatewayTest.class,
+				DoubloonPrizesTableDataGatewayTest.class,
+				FriendTableDataGatewayTest.class,
+				InteractableItemRowDataGatewayTest.class,
+				LevelTableDataGatewayTest.class,
+				NPCQuestionRowDataGatewayTest.class,
+				NPCRowDataGatewayTest.class,
 				ObjectiveRecordTest.class,
-				ObjectiveStateTableDataGatewayMockTest.class,
-				ObjectiveStateTableDataGatewayRDSTest.class,
-				// ObjectiveStateTableDataGatewayTest.class,
-				ObjectiveTableDataGatewayMockTest.class,
-				ObjectiveTableDataGatewayRDSTest.class,
-				// ObjectiveTableDataGateway.class
-				PlayerTableDataGatewayMockTest.class,
-				PlayerTableDataGatewayRDSTest.class,
-				// PlayerRowDataGatewayTest.class,
-				QuestRowDataGatewayMockTest.class,
-				QuestRowDataGatewayRDSTest.class,
-				// QuestRowDataGatewayTest.class,
-				QuestStateTableDataGatewayMockTest.class,
-				QuestStateTableDataGatewayRDSTest.class,
-				// QuestStateTableDataGatewayTest.class,
-				RandomFactsTableDataGatewayMockTest.class,
-				RandomFactsTableDataGatewayRDSTest.class,
-//		RandomFactsTableDataGatewayTest.class,
-				VanityAwardsTableDataGatewayMockTest.class,
-				VanityAwardsTableDataGatewayRDSTest.class,
-				//VanityAwardsTableDataGatewayTest.class
-				VanityInventoryTableDataGatewayMockTest.class,
-				VanityInventoryTableDataGatewayRDSTest.class,
-				//VanityInventoryTableDataGatewayTest.class
-				VanityItemsTableDataGatewayMockTest.class,
-				VanityItemsTableDataGatewayRDSTest.class,
-				//VanityItemsTableDataGatewayTest.class
-				VanityShopTableDataGatewayMockTest.class,
-				VanityShopTableDataGatewayRDSTest.class,
-				//VanityShopTableDataGatewayTest.class
-				VisitedMapsGatewayMockTest.class,
-				VisitedMapsGatewayRDSTest.class,
-
-				// model
+				ObjectiveStateTableDataGatewayTest.class,
+				ObjectiveTableDataGatewayTest.class,
+				PlayerRowDataGatewayTest.class,
+				QuestRowDataGatewayTest.class,
+				QuestStateTableDataGatewayTest.class,
+				RandomFactsTableDataGatewayTest.class,
+				VanityAwardsTableDataGatewayTest.class,
+				VanityInventoryTableDataGatewayTest.class,
+				VanityItemsTableDataGatewayTest.class,
+				VanityShopTableDataGatewayTest.class,
+				VisitedMapsGatewayTest.class,
+//
+//				// model
 				ObjectiveStateTest.class,
 				ChatManagerTest.class,
 				ChatMessageReceivedCommandTest.class,
@@ -209,6 +173,7 @@ public class AllServerTests
 		protected void before() throws Throwable
 		{
 			PlayerConnectionTest.defaultAllPins();
+			LoggerManager.createLogger("ServerTests");
 		}
 
 

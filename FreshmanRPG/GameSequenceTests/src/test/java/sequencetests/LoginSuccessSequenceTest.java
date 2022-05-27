@@ -2,15 +2,16 @@ package sequencetests;
 
 import communication.messages.*;
 import communication.packers.MapFileMessagePacker;
+import dataDTO.VanityDTO;
 import datasource.DatabaseException;
 import datasource.LevelRecord;
-import datasource.PlayerConnectionRowDataGatewayMock;
-import datatypes.LevelsForTest;
-import datatypes.PlayersForTest;
-import datatypes.ServersForTest;
+import datatypes.*;
 import model.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Defines the protocol for a successful login sequence
@@ -44,7 +45,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
                             new PlayerJoinedMessage(
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
-                                    PlayersForTest.MERLIN_OFFLINE.getVanityItems(),
+                                    addDefaultItemsToVanityItems(PlayersForTest.MERLIN_OFFLINE.getVanityItems()),
                                     PlayersForTest.MERLIN_OFFLINE.getPosition(),
                                     PlayersForTest.MERLIN_OFFLINE.getCrew(),
                                     PlayersForTest.MERLIN_OFFLINE.getMajor(),
@@ -54,11 +55,12 @@ public class LoginSuccessSequenceTest extends SequenceTest
                             new PlayerJoinedMessage(
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
-                                    PlayersForTest.MERLIN_OFFLINE.getVanityItems(),
+                                    addDefaultItemsToVanityItems(PlayersForTest.MERLIN_OFFLINE.getVanityItems()),
                                     PlayersForTest.MERLIN_OFFLINE.getPosition(),
                                     PlayersForTest.MERLIN_OFFLINE.getCrew(),
                                     PlayersForTest.MERLIN_OFFLINE.getMajor(),
-                                    PlayersForTest.MERLIN_OFFLINE.getSection()), true),
+                                    PlayersForTest.MERLIN_OFFLINE.getSection(),
+                                    PlayersForTest.MERLIN_OFFLINE.getOwnedItems()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new MapFileMessage(MapFileMessagePacker.DIRECTORY_PREFIX +
                                     ServersForTest.QUAD.getMapName()), true),
@@ -82,6 +84,24 @@ public class LoginSuccessSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
                                     DataGatheringUtilities.getDoubloonPrizeList()),
                             true)};
+
+    private List<VanityDTO> addDefaultItemsToVanityItems(List<VanityDTO> vanityItems)
+    {
+        ArrayList<VanityDTO> combined = new ArrayList<>(vanityItems);
+        for(DefaultItemsForTest item: DefaultItemsForTest.values())
+        {
+            if (item.getDefaultWearing() == 1)
+            {
+                int id = item.getDefaultID();
+                VanityForTest vanity = VanityForTest.values()[id-1];
+                VanityDTO x = new VanityDTO(vanity.getId(), vanity.getName(),
+                        vanity.getDescription(), vanity.getTextureName(),
+                        VanityType.fromInt(vanity.getVanityType()));
+                combined.add(x);
+            }
+        }
+        return combined;
+    }
 
 
     /**
@@ -107,16 +127,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
     @Override
     public void resetNecessarySingletons()
     {
-        try
-        {
-            PlayerManager.resetSingleton();
-            (new PlayerConnectionRowDataGatewayMock(
-                    PlayersForTest.MERLIN_OFFLINE.getPlayerID())).resetData();
-        }
-        catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
+        PlayerManager.resetSingleton();
     }
 
     /**

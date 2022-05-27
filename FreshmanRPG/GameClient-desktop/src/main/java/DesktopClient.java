@@ -37,7 +37,7 @@ public class DesktopClient
 
 		}
 		OptionsManager.getSingleton().setLoginHost(host);
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
+		OptionsManager.getSingleton().setTestMode(false);
 		LoggerManager.createLogger("Client");
 		new LwjglApplication(new GameLibGDX(), "Game", (int) DEFAULT_RES[0], (int) DEFAULT_RES[1]);
 	}

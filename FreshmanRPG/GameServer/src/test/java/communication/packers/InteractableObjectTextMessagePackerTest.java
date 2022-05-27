@@ -3,6 +3,7 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import communication.StateAccumulator;
@@ -15,7 +16,7 @@ import model.reports.InteractableObjectTextReport;
  *         InteractableObjectTextMessagePacker
  *
  */
-public class InteractableObjectTextMessagePackerTest
+public class InteractableObjectTextMessagePackerTest extends ServerSideTest
 {
 	/**
 	 * Tests that the message packer packs the correct report type

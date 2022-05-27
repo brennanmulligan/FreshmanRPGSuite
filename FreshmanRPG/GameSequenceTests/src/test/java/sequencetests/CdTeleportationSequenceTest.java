@@ -3,7 +3,6 @@ package sequencetests;
 import communication.messages.SendTerminalTextMessage;
 import communication.messages.TeleportationContinuationMessage;
 import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 import datatypes.ServersForTest;
 import model.*;
@@ -47,18 +46,9 @@ public class CdTeleportationSequenceTest extends SequenceTest
     @Override
     public void resetNecessarySingletons()
     {
-        try
-        {
-            PlayerManager.resetSingleton();
-            (new PlayerConnectionRowDataGatewayMock(
-                    PlayersForTest.MERLIN.getPlayerID())).resetData();
-            ClientPlayerManager.resetSingleton();
-            MapManager.resetSingleton();
-        }
-        catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
+        PlayerManager.resetSingleton();
+        ClientPlayerManager.resetSingleton();
+        MapManager.resetSingleton();
     }
 
     /**

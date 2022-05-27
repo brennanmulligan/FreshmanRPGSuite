@@ -1,7 +1,9 @@
 package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import datatypes.ServersForTest;
 import org.easymock.EasyMock;
@@ -25,7 +27,7 @@ import model.reports.PlayerMovedReport;
  * @author Merlin
  *
  */
-public class TeleportationInitiationHandlerTest
+public class TeleportationInitiationHandlerTest extends ServerSideTest
 {
 	/**
 	 * Reset the PlayerManager
@@ -33,8 +35,7 @@ public class TeleportationInitiationHandlerTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 	}
@@ -72,10 +73,14 @@ public class TeleportationInitiationHandlerTest
 		EasyMock.replay(obs);
 
 		handler.process(msg);
-		while (ModelFacade.getSingleton().hasCommandsPending())
+		int count = 0;
+		while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
 		{
 			Thread.sleep(100);
+			count++;
 		}
+		assertTrue("ModelFacade didn't process our command", count < 10);
+
 		// Reset the singleton and re-add the player to make sure that the
 		// player is refreshed from the DB
 		PlayerManager.resetSingleton();

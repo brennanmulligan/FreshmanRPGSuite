@@ -1,8 +1,8 @@
 package communication.packers;
 
 import communication.messages.TerminalTextExitMessage;
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
-import model.OptionsManager;
 import model.PlayerManager;
 import model.reports.TerminalTextExitReport;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  *
  * Authors: John G. , Ian L.
  */
-public class TerminalTextExitPackerTest
+public class TerminalTextExitPackerTest extends ServerSideTest
 {
 
     /**
@@ -24,7 +24,6 @@ public class TerminalTextExitPackerTest
     public void setup()
     {
         PlayerManager.resetSingleton();
-        OptionsManager.getSingleton().setUsingMocKDataSource(true);
     }
 
     /**

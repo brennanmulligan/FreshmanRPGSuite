@@ -15,7 +15,6 @@ public class BuildTestVanityShop
      */
     public static void main(String[] args) throws DatabaseException, SQLException
     {
-        OptionsManager.getSingleton().setUsingMocKDataSource(false);
         OptionsManager.getSingleton().setUsingTestDB(true);
         createVanityShopItemTable();
     }
@@ -27,8 +26,9 @@ public class BuildTestVanityShop
      */
     public static void createVanityShopItemTable() throws DatabaseException
     {
-        VanityShopTableDataGatewayRDS.createTable();
-        VanityShopTableDataGateway gateway = VanityShopTableDataGatewayRDS.getSingleton();
+        VanityShopTableDataGateway.createTable();
+        VanityShopTableDataGateway gateway =
+                VanityShopTableDataGateway.getSingleton();
         for (VanityShopItemsForTest v : VanityShopItemsForTest.values())
         {
             gateway.addItem(v.getVanityID(), v.getPrice());

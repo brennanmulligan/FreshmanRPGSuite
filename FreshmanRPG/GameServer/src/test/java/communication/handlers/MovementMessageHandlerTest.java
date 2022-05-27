@@ -1,7 +1,9 @@
 package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ import model.PlayerManager;
  * @author merlin
  *
  */
-public class MovementMessageHandlerTest
+public class MovementMessageHandlerTest extends ServerSideTest
 {
 
 	/**
@@ -29,7 +31,7 @@ public class MovementMessageHandlerTest
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 	}
 
 	/**
@@ -65,11 +67,13 @@ public class MovementMessageHandlerTest
 		MovementMessageHandler handler = new MovementMessageHandler();
 
 		handler.process(msg);
-		while (ModelFacade.getSingleton().hasCommandsPending())
+		int count = 0;
+		while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
 		{
 			Thread.sleep(100);
+			count++;
 		}
-
+		assertTrue("ModelFacade didn't process our command", count < 10);
 		assertEquals(newPosition, p.getPlayerPosition());
 	}
 }

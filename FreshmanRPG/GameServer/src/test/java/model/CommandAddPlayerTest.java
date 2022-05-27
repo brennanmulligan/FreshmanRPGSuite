@@ -3,11 +3,10 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 
 /**
@@ -15,25 +14,17 @@ import datatypes.PlayersForTest;
  * @author Merlin
  *
  */
-public class CommandAddPlayerTest
+public class CommandAddPlayerTest extends ServerSideTest
 {
 
 	/**
 	 *
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		try
-		{
-			(new PlayerConnectionRowDataGatewayMock(1)).resetData();
-		}
-		catch (DatabaseException e)
-		{
-			e.printStackTrace();
-		}
+
 	}
 
 	/**

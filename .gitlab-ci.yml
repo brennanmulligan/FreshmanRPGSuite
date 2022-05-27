@@ -11,6 +11,13 @@ before_script:
 
 run_pipeline:
     stage: run
+    artifacts:
+        when: always
+        reports:
+            junit: FreshmanRPG/*/build/test-results/test/**/TEST-*.xml
+        paths:
+            - FreshmanRPG/*/*.log
+            
     script:
         - ./setDatabase.sh $CI_PIPELINE_ID
         - ./runPipeline.sh 

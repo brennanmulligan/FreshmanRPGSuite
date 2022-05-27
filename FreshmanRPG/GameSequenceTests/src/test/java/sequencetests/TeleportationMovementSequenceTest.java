@@ -3,8 +3,6 @@ package sequencetests;
 import com.badlogic.gdx.utils.ObjectMap;
 import communication.messages.TeleportationContinuationMessage;
 import communication.messages.TeleportationInitiationMessage;
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 import datatypes.Position;
 import datatypes.ServersForTest;
@@ -52,18 +50,9 @@ public class TeleportationMovementSequenceTest extends SequenceTest
      */
     public void resetNecessarySingletons()
     {
-        try
-        {
-            PlayerManager.resetSingleton();
-            (new PlayerConnectionRowDataGatewayMock(
-                    PlayersForTest.MERLIN.getPlayerID())).resetData();
-            ClientPlayerManager.resetSingleton();
-            MapManager.resetSingleton();
-        }
-        catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
+        PlayerManager.resetSingleton();
+        ClientPlayerManager.resetSingleton();
+        MapManager.resetSingleton();
     }
 
     /**

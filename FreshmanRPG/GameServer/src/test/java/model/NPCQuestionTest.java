@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datasource.DatabaseException;
@@ -15,18 +15,8 @@ import datasource.DatabaseException;
  *
  * @author Steve
  */
-public class NPCQuestionTest
+public class NPCQuestionTest extends ServerSideTest
 {
-
-	/**
-	 *
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-	}
-
 	/**
 	 * Want to make sure that we get different questions back from the DB. Don't
 	 * care what they are

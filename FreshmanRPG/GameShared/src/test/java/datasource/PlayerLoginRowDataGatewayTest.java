@@ -1,26 +1,20 @@
 package datasource;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.security.SecureRandom;
+import java.util.Random;
 
-import java.sql.SQLException;
-
-import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import datatypes.PlayersForTest;
 
-/**
- * @author Carol
- *
- */
+import static org.junit.Assert.*;
 
 /**
  * @author Merlin Tests for all of the Player Login row data gateways
  */
-public abstract class PlayerLoginRowDataGatewayTest extends DatabaseTest
+public class PlayerLoginRowDataGatewayTest extends ServerSideTest
 {
+
 	/**
 	 * Create the row data gateway for a test based on existing data in the data
 	 * source
@@ -29,17 +23,10 @@ public abstract class PlayerLoginRowDataGatewayTest extends DatabaseTest
 	 * @return the gateway for that player's row in the data source
 	 * @throws DatabaseException if the gateway can't find the player
 	 */
-	abstract PlayerLoginRowDataGateway findRowDataGateway(String playerName) throws DatabaseException;
-
-	/**
-	 * Create the row data gateway for a test based on existing data in the data
-	 * source
-	 *
-	 * @param playerID the unique ID of the player we are looking for
-	 * @return the gateway for that player's row in the data source
-	 * @throws DatabaseException if the gateway can't find the player
-	 */
-	abstract PlayerLoginRowDataGateway findRowDataGateway(int playerID) throws DatabaseException;
+	PlayerLoginRowDataGateway findRowDataGateway(String playerName) throws DatabaseException
+	{
+		return new PlayerLoginRowDataGateway(playerName);
+	}
 
 	/**
 	 * Create a gateway that manages a new row being added to the data source
@@ -49,27 +36,62 @@ public abstract class PlayerLoginRowDataGatewayTest extends DatabaseTest
 	 * @return the gateway we will test
 	 * @throws DatabaseException if the gateway can't create the row
 	 */
-	abstract PlayerLoginRowDataGateway createRowDataGateway(int playerID, String playerName, String password)
-			throws DatabaseException;
+	PlayerLoginRowDataGateway createRowDataGateway(int playerID, String playerName,
+                                                   String password) throws DatabaseException
+	{
+		return new PlayerLoginRowDataGateway(playerID, playerName, password);
+	}
+
+	PlayerLoginRowDataGateway findRowDataGateway(int playerID) throws DatabaseException
+	{
+		return new PlayerLoginRowDataGateway(playerID);
+	}
+
+	/**
+	 * tests that a person is deleted by their id,
+	 * if person is searched again, expect to catch exception
+	 * @throws DatabaseException SHOULD THROW BECAUSE ROW IS DELETED
+	 */
+	@Test(expected = DatabaseException.class)
+	public void testDeleteRow() throws DatabaseException
+	{
+		PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway(20);
+		loginRowDataGateway.deleteRow();
+		new PlayerLoginRowDataGateway(20);
+	}
+
+	/**
+	 * Check that passwords are hashed appropriately.
+	 * @throws DatabaseException Probably not
+	 */
+	@Test()
+	public void testSetPassword() throws DatabaseException
+	{
+		PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway(20);
+		loginRowDataGateway.setPassword("test");
+		assertTrue(loginRowDataGateway.checkPassword("test"));
+	}
+
+	/**
+	 * Verify that login fails if the salt silently changes
+	 * @throws DatabaseException Probably not
+	 */
+	@Test()
+	public void testBadSalt() throws DatabaseException
+	{
+		byte[] wrongSalt = new byte[32];
+		Random rand = new SecureRandom();
+		rand.nextBytes(wrongSalt);
+
+		PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway(20);
+		loginRowDataGateway.setPassword("test");
+		loginRowDataGateway.setSalt(wrongSalt); // Change the salt after the password is set
+		assertFalse(loginRowDataGateway.checkPassword("test"));
+	}
 
 	protected PlayerLoginRowDataGateway gateway;
 
-	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException if we have trouble cleaning up the db connection
-	 * @throws DatabaseException if we have trouble cleaning up the db
-	 *             connection
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
-	{
-		super.tearDown();
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
-	}
+
 
 	/**
 	 * Make sure we can add a new user to the system
@@ -117,7 +139,7 @@ public abstract class PlayerLoginRowDataGatewayTest extends DatabaseTest
 		gateway = findRowDataGateway(PlayersForTest.MERLIN.getPlayerName());
 		assertEquals(2, gateway.getPlayerID());
 		assertEquals(PlayersForTest.MERLIN.getPlayerName(), gateway.getPlayerName());
-		assertEquals(true, gateway.checkPassword(PlayersForTest.MERLIN.getPlayerPassword()));
+		assertTrue(gateway.checkPassword(PlayersForTest.MERLIN.getPlayerPassword()));
 	}
 
 	/**
@@ -155,7 +177,8 @@ public abstract class PlayerLoginRowDataGatewayTest extends DatabaseTest
 		gateway = findRowDataGateway(PlayersForTest.MERLIN.getPlayerName());
 		gateway.setPassword("not secret");
 		gateway.persist();
-		PlayerLoginRowDataGateway after = findRowDataGateway(PlayersForTest.MERLIN.getPlayerName());
+		PlayerLoginRowDataGateway after =
+				findRowDataGateway(PlayersForTest.MERLIN.getPlayerName());
 		assertTrue(after.checkPassword("not secret"));
 	}
 }

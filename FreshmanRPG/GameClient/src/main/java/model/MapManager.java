@@ -50,7 +50,7 @@ public class MapManager
 	 */
 	private MapManager()
 	{
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
+		if (OptionsManager.getSingleton().isTestMode())
 		{
 			headless = true;
 		}

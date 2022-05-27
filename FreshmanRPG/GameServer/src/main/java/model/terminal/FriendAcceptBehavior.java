@@ -3,7 +3,6 @@ package model.terminal;
 import dataDTO.FriendDTO;
 import datasource.DatabaseException;
 import datasource.FriendTableDataGateway;
-import datasource.TableDataGatewayManager;
 import datatypes.FriendStatusEnum;
 import model.QualifiedObservableConnector;
 import model.reports.FriendConnectionReceivedReport;
@@ -34,13 +33,10 @@ class FriendAcceptBehavior extends FriendBehavior
                 result.append("> ").append(friend).append(" ")
                         .append(FriendStatusEnum.ACCEPTED).append("\n");
                 FriendTableDataGateway friendGateway =
-                        (FriendTableDataGateway) TableDataGatewayManager.getSingleton()
-                                .getTableGateway("Friend");
+                        FriendTableDataGateway.getSingleton();
                 QualifiedObservableConnector.getSingleton().sendReport(
                         new FriendConnectionReceivedReport(
-                                friendGateway
-                                        .accept(playerID, friend), playerID));
-
+                                friendGateway.accept(playerID, friend), playerID));
 
                 //send the report to the other player
                 FriendDTO objForReportOne =
@@ -57,7 +53,6 @@ class FriendAcceptBehavior extends FriendBehavior
                                 gateway.getSpecificNameFromId(playerID));
                 QualifiedObservableConnector.getSingleton()
                         .sendReport(new updateFriendListReport(objForReportTwo));
-
             }
             catch (DatabaseException e)
             {

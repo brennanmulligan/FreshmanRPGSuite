@@ -15,7 +15,6 @@ public class BuildTestVanityAwards
      */
     public static void main(String[] args) throws DatabaseException, SQLException
     {
-        OptionsManager.getSingleton().setUsingMocKDataSource(false);
         OptionsManager.getSingleton().setUsingTestDB(true);
         createVanityAwardsTable();
     }
@@ -27,8 +26,9 @@ public class BuildTestVanityAwards
      */
     private static void createVanityAwardsTable() throws DatabaseException
     {
-        VanityAwardsTableDataGatewayRDS.createTable();
-        VanityAwardsTableDataGateway gateway = VanityAwardsTableDataGatewayRDS.getSingleton();
+        VanityAwardsTableDataGateway.createTable();
+        VanityAwardsTableDataGateway gateway =
+                VanityAwardsTableDataGateway.getSingleton();
         for (VanityAwardsForTest v : VanityAwardsForTest.values())
         {
             gateway.addVanityAward(v.getQuestID(), v.getVanityID());

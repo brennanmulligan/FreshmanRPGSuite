@@ -3,14 +3,13 @@ package communication.packers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
 import communication.StateAccumulator;
 import communication.messages.QuestStateChangeMessage;
-import datasource.DatabaseException;
 import datatypes.QuestStateEnum;
-import model.OptionsManager;
 import model.QuestManager;
 import model.reports.QuestStateChangeReport;
 import datatypes.QuestsForTest;
@@ -23,17 +22,15 @@ import datatypes.QuestsForTest;
  * @author Olivia
  * @author LaVonne
  */
-public class QuestStateChangeMessagePackerTest
+public class QuestStateChangeMessagePackerTest extends ServerSideTest
 {
 	/**
 	 * reset the necessary singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QuestManager.resetSingleton();
-
 	}
 
 	/**
@@ -50,11 +47,9 @@ public class QuestStateChangeMessagePackerTest
 	/**
 	 * If we are notified about a player other than the one we are associated
 	 * with, we shouldn't pack a message
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void ifThePlayerIsNotOnThisConnection() throws DatabaseException
+	public void ifThePlayerIsNotOnThisConnection()
 	{
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(1);
@@ -72,11 +67,9 @@ public class QuestStateChangeMessagePackerTest
 	/**
 	 * If the msg is to the player we are packing, the message should contain
 	 * the details of the quest
-	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testPackedMessageIsBuiltCorrectly() throws DatabaseException
+	public void testPackedMessageIsBuiltCorrectly()
 	{
 		StateAccumulator stateAccumulator = new StateAccumulator(null);
 		stateAccumulator.setPlayerId(1);

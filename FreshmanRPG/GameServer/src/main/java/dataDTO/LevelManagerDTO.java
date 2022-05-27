@@ -1,7 +1,6 @@
 package dataDTO;
 
 import datasource.*;
-import model.OptionsManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +17,7 @@ public class LevelManagerDTO
     private LevelManagerDTO()
     {
         LevelTableDataGateway gateway =
-                (LevelTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Level");
+                LevelTableDataGateway.getSingleton();
         try
         {
             allLevels = gateway.getAllLevels();

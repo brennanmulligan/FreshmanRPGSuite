@@ -2,9 +2,6 @@ package datasource;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.SQLException;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +14,7 @@ import datatypes.ServersForTest;
  * @author Merlin
  *
  */
-public class ServerRowDataGatewayTest extends DatabaseTest
+public class ServerRowDataGatewayTest extends ServerSideTest
 {
 
 	protected ServerRowDataGateway gateway;
@@ -39,38 +36,20 @@ public class ServerRowDataGatewayTest extends DatabaseTest
 	 */
 	public ServerRowDataGateway createGateway(String mapName, String hostName, int port, String mapTitle, int teleportPositionX, int teleportPositionY) throws DatabaseException
 	{
-		return new ServerRowDataGatewayRDS(mapName, hostName, port, mapTitle, teleportPositionX, teleportPositionY);
+		return new ServerRowDataGateway(mapName, hostName, port, mapTitle, teleportPositionX, teleportPositionY);
 	}
 
 	/**
 	 * @throws DatabaseException
 	 *             shouldn't
-	 * @see datasource.DatabaseTest#setUp()
+	 * @see ServerSideTest#setUp()
 	 */
 	@Before
-	public void setUp() throws DatabaseException
+	public void localSetUp() throws DatabaseException
 	{
-		super.setUp();
 		OptionsManager.resetSingleton();
 	}
 
-	/**
-	 * Make sure any static information is cleaned up between tests
-	 *
-	 * @throws SQLException
-	 *             shouldn't
-	 * @throws DatabaseException
-	 *             shouldn't
-	 */
-	@After
-	public void tearDown() throws DatabaseException, SQLException
-	{
-		super.tearDown();
-		if (gateway != null)
-		{
-			gateway.resetData();
-		}
-	}
 
 	/**
 	 * Try to create a row for a map file that is already in the database
@@ -135,7 +114,7 @@ public class ServerRowDataGatewayTest extends DatabaseTest
 	 */
 	public ServerRowDataGateway findGateway(String mapName) throws DatabaseException
 	{
-		return ServerRowDataGatewayRDS.findServerInfoFromMapName(mapName);
+		return new ServerRowDataGateway(mapName);
 	}
 
 	/**

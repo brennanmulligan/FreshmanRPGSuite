@@ -2,11 +2,7 @@ package DatabaseBuilders;
 
 import java.sql.SQLException;
 
-import datasource.DatabaseException;
-import datasource.NPCRowDataGatewayRDS;
-import datasource.PlayerConnectionRowDataGatewayRDS;
-import datasource.PlayerLoginRowDataGatewayRDS;
-import datasource.PlayerRowDataGatewayRDS;
+import datasource.*;
 import model.OptionsManager;
 import datatypes.NPCsForTest;
 import datatypes.PlayersForTest;
@@ -27,7 +23,6 @@ public class BuildTestDBPlayers
 	 */
 	public static void main(String[] args) throws DatabaseException, SQLException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createPlayerTable();
 		createNpcTable();
@@ -35,35 +30,35 @@ public class BuildTestDBPlayers
 		createPlayerConnectionTable();
 	}
 
-	private static void createPlayerTable() throws SQLException, DatabaseException
+	private static void createPlayerTable() throws DatabaseException
 	{
-		PlayerRowDataGatewayRDS.createTable();
+		PlayerRowDataGateway.createTable();
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
-			new PlayerRowDataGatewayRDS(p.getAppearanceType(), p.getDoubloons(),
+			new PlayerRowDataGateway(p.getAppearanceType(), p.getDoubloons(),
 					p.getExperiencePoints(), p.getCrew(), p.getMajor(), p.getSection(), p.getBuffPool(), p.getOnline());
 		}
 
 	}
 
-	private static void createNpcTable() throws SQLException, DatabaseException
+	private static void createNpcTable() throws DatabaseException
 	{
-		NPCRowDataGatewayRDS.createTable();
+		NPCRowDataGateway.createTable();
 
 		for (NPCsForTest p : NPCsForTest.values())
 		{
-			new NPCRowDataGatewayRDS(p.getPlayerID(), p.getBehaviorClass(), p.getFilePath());
+			new NPCRowDataGateway(p.getPlayerID(), p.getBehaviorClass(), p.getFilePath());
 		}
 	}
 
 	private static void createPlayerLoginTable() throws DatabaseException
 	{
-		PlayerLoginRowDataGatewayRDS.createPlayerLoginTable();
+		PlayerLoginRowDataGateway.createPlayerLoginTable();
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
-			new PlayerLoginRowDataGatewayRDS(p.getPlayerID(), p.getPlayerName(), p.getPlayerPassword());
+			new PlayerLoginRowDataGateway(p.getPlayerID(), p.getPlayerName(), p.getPlayerPassword());
 		}
 
 	}
@@ -71,12 +66,12 @@ public class BuildTestDBPlayers
 	private static void createPlayerConnectionTable() throws DatabaseException
 	{
 		System.out.println("Building the PlayerConnection Table");
-		PlayerConnectionRowDataGatewayRDS.createPlayerConnectionTable();
+		PlayerConnectionRowDataGateway.createPlayerConnectionTable();
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
 			System.out.println(p.getPlayerID() + ": " + p.getMapName());
-			new PlayerConnectionRowDataGatewayRDS(p.getPlayerID(), p.getPin(), p.getMapName(), p.getPosition());
+			new PlayerConnectionRowDataGateway(p.getPlayerID(), p.getPin(), p.getMapName(), p.getPosition());
 		}
 
 	}

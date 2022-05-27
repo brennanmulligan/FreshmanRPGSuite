@@ -18,24 +18,14 @@ import nl.jqno.equalsverifier.EqualsVerifier;
  */
 public class DoubloonsChangeReportTest
 {
-	/**
-	 * reset the necessary singletons
-	 */
-	@Before
-	public void setUp()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		QuestManager.resetSingleton();
-	}
 
 	/**
 	 * Tests that we can create a DoubloonChangeReport and get its
 	 * doubloons and playerID
 	 *
-	 * @throws DatabaseException shouldn't
 	 */
 	@Test
-	public void testCreateReport() throws DatabaseException
+	public void testCreateReport()
 	{
 		Player john = PlayerManager.getSingleton().addPlayer(1);
 		DoubloonChangeReport report = new DoubloonChangeReport(john.getPlayerID(),

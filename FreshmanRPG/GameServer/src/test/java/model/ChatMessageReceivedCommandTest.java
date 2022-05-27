@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datatypes.ChatType;
@@ -11,7 +12,7 @@ import datatypes.Position;
  * @author Josh
  *
  */
-public class ChatMessageReceivedCommandTest
+public class ChatMessageReceivedCommandTest extends ServerSideTest
 {
 
 	/**

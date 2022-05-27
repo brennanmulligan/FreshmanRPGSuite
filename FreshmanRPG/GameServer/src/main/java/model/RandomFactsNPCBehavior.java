@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import dataDTO.RandomFactDTO;
 import datasource.DatabaseException;
 import datasource.RandomFactsTableDataGateway;
-import datasource.RandomFactsTableDataGatewayMock;
-import datasource.RandomFactsTableDataGatewayRDS;
 import datatypes.ChatType;
 
 /**
@@ -24,7 +22,6 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 
 	static final int CHAT_DELAY_SECONDS = 5;
 	private int chatDelayCounter = 0;
-	private RandomFactsTableDataGateway gateway;
 	private ArrayList<RandomFactDTO> facts;
 
 	/**
@@ -34,14 +31,8 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 	public RandomFactsNPCBehavior(int playerID)
 	{
 		super(playerID);
-		if (OptionsManager.getSingleton().isUsingMockDataSource())
-		{
-			gateway = RandomFactsTableDataGatewayMock.getSingleton();
-		}
-		else
-		{
-			gateway = RandomFactsTableDataGatewayRDS.getSingleton();
-		}
+		RandomFactsTableDataGateway gateway =
+				RandomFactsTableDataGateway.getSingleton();
 		try
 		{
 			facts = gateway.getAllFactsForNPC(playerID);
@@ -50,17 +41,6 @@ public class RandomFactsNPCBehavior extends NPCBehavior
 		{
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 *
-	 * @param playerID
-	 * @param noFilePath doesn't need a filepath as of now, necessary for mapping purposes.
-	 */
-	public RandomFactsNPCBehavior(int playerID, String noFilePath)
-	{
-		this(playerID);
-
 	}
 
 	@Override

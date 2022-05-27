@@ -1,7 +1,6 @@
 package model.terminal;
 
-import datasource.*;
-import model.OptionsManager;
+import datasource.FriendTableDataGateway;
 
 /**
  * Abstract class outlining the behavior of the different friend arguments
@@ -22,7 +21,7 @@ abstract class FriendBehavior
 
     FriendTableDataGateway getTheGateway()
     {
-        return (FriendTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway("Friend");
+        return FriendTableDataGateway.getSingleton();
 
     }
 }

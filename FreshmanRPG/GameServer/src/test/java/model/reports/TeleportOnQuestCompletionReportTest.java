@@ -2,6 +2,7 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import criteria.GameLocationDTO;
@@ -13,7 +14,7 @@ import datatypes.ObjectivesForTest;
  * @author Chris Hersh, Zach Thompson, Abdul
  *
  */
-public class TeleportOnQuestCompletionReportTest
+public class TeleportOnQuestCompletionReportTest extends ServerSideTest
 {
 
 	/**

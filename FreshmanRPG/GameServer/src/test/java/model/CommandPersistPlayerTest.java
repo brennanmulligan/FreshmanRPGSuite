@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +16,16 @@ import datatypes.Position;
  * @author Steve
  *
  */
-public class CommandPersistPlayerTest
+public class CommandPersistPlayerTest extends ServerSideTest
 {
 
 	/**
 	 * Reset singletons
 	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**

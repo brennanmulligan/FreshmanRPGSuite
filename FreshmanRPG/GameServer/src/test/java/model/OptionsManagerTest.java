@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 
+import datasource.ServerSideTest;
 import datatypes.ServersForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import datasource.DatabaseException;
  * @author Steve
  *
  */
-public class OptionsManagerTest
+public class OptionsManagerTest extends ServerSideTest
 {
 
 	/**
@@ -25,10 +26,8 @@ public class OptionsManagerTest
 	 * @throws DatabaseException shouldn't
 	 */
 	@Before
-	public void setup() throws DatabaseException
+	public void localSetup() throws DatabaseException
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		MapToServerMapping mapping = new MapToServerMapping(ServersForTest.FIRST_SERVER.getMapName());
 		mapping.setHostName("holder");
 		mapping.setMapName(ServersForTest.FIRST_SERVER.getMapName());
@@ -59,7 +58,7 @@ public class OptionsManagerTest
 	public void savesServerMapping() throws DatabaseException
 	{
 		OptionsManager manager = OptionsManager.getSingleton();
-		manager.setUsingMocKDataSource(true);
+		manager.setTestMode(true);
 		manager.updateMapInformation(ServersForTest.FIRST_SERVER.getMapName(), "ourhost.com", 1337);
 
 		MapToServerMapping actual = new MapToServerMapping(ServersForTest.FIRST_SERVER.getMapName());

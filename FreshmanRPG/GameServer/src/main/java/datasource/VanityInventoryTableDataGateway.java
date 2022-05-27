@@ -13,24 +13,23 @@ import java.util.Arrays;
 /**
  * The RDS implementation of the row data gateway
  */
-public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableDataGatewayInterface
+public class VanityInventoryTableDataGateway
 {
 
-    private static VanityInventoryTableDataGatewayInterface singleton;
+    private static VanityInventoryTableDataGateway singleton;
     private final DefaultItemsTableDataGateway defaultItemsTableDataGateway =
-            (DefaultItemsTableDataGateway) TableDataGatewayManager.getSingleton().getTableGateway(
-                    "DefaultItems");
+            DefaultItemsTableDataGateway.getSingleton();
 
     /**
      * Gets the instance of this gateway
      * @return the instance
      * @throws DatabaseException shouldn't
      */
-    public static synchronized VanityInventoryTableDataGatewayInterface getSingleton() throws DatabaseException
+    public static synchronized VanityInventoryTableDataGateway getSingleton() throws DatabaseException
     {
         if (singleton == null)
         {
-            singleton = new VanityInventoryTableDataGatewayRDS();
+            singleton = new VanityInventoryTableDataGateway();
         }
         return singleton;
     }
@@ -73,7 +72,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param playerID the ID of the player
      * @return the list of vanity items
      */
-    @Override
     public ArrayList<VanityDTO> getWearing(int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -126,7 +124,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param playerID the ID of the player
      * @return vanity DTOs of owned items
      */
-    @Override
     public ArrayList<VanityDTO> getAllOwnedItems(int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -161,7 +158,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param newInventory the list of items in their new inventory
      * @throws DatabaseException shouldnt
      */
-    @Override
     public void updateInventory(int playerID, ArrayList<VanityDTO> newInventory) throws DatabaseException
     {
         ArrayList<VanityDTO> owned = getAllOwnedItems(playerID);
@@ -183,7 +179,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param newWearing    the list of items they are wearing
      * @throws DatabaseException if the player doesn't own the item they are equipping
      */
-    @Override
     public void updateCurrentlyWearing(int playerID, ArrayList<VanityDTO> newWearing) throws DatabaseException
     {
         if (newWearing != null)
@@ -237,7 +232,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param vanityID the ID of the vanity they now own
      * @throws DatabaseException if the database couldn't update
      */
-    @Override
     public void addItemToInventory(int playerID, int vanityID) throws DatabaseException
     {
         addItemToInventory(playerID, vanityID, 0);
@@ -251,7 +245,6 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
      * @param isWearing 1 if the player is wearing the item, 0 if not
      * @throws DatabaseException if the database couldn't update
      */
-    @Override
     public void addItemToInventory(int playerID, int vanityID, int isWearing) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -271,16 +264,5 @@ public class VanityInventoryTableDataGatewayRDS implements VanityInventoryTableD
         {
             throw new DatabaseException("Couldn't add item to player inventory" + playerID, e);
         }
-    }
-
-    /**
-     * Resets the test data
-     *
-     * @throws DatabaseException if database problem happened
-     */
-    @Override
-    public void resetData() throws DatabaseException
-    {
-
     }
 }

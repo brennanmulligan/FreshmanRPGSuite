@@ -245,9 +245,8 @@ public class Player
 	 * Set experience points and generates ExperienceChangedReport
 	 *
 	 * @param expPoints Player's experience points
-	 * @throws DatabaseException shouldn't
 	 */
-	public void setExperiencePoints(int expPoints) throws DatabaseException
+	public void setExperiencePoints(int expPoints)
 	{
 		this.experiencePoints = expPoints;
 	}
@@ -516,7 +515,6 @@ public class Player
 		setCrew(crew);
 		setMajor(major);
 		setSection(section);
-		this.playerMapper.setPlayerToEdit(getPlayerInfo());
 		try
 		{
 			this.playerMapper.persist();
@@ -661,7 +659,6 @@ public class Player
 	 */
 	public void editPlayerAppearance(String appearanceType) throws DatabaseException, IllegalQuestChangeException
 	{
-		this.playerMapper.setPlayerToEdit(getPlayerInfo());
 		this.playerMapper.setPlayerAppearanceType(appearanceType);
 		this.playerMapper.persist();
 	}

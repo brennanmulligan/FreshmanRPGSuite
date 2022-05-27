@@ -3,6 +3,7 @@ package communication.handlers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import datatypes.QuestsForTest;
  * @author Ryan
  *
  */
-public class ObjectiveNotificationCompleteMessageHandlerTest
+public class ObjectiveNotificationCompleteMessageHandlerTest extends ServerSideTest
 {
 
 	/**
@@ -32,7 +33,7 @@ public class ObjectiveNotificationCompleteMessageHandlerTest
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 	}
 
 	/**
@@ -45,29 +46,4 @@ public class ObjectiveNotificationCompleteMessageHandlerTest
 
 		assertEquals(ObjectiveNotificationCompleteMessage.class, h.getMessageTypeWeHandle());
 	}
-
-	/**
-	 * Test that ObjectiveNotificationCompleteMessageHandler creates
-	 * CommandObjectiveNotificationComplete
-	 *
-	 * @throws InterruptedException awef
-	 */
-	@Test
-	public void testProcessCreatesCommandObjectiveNotificationComplete() throws InterruptedException
-	{
-		PlayerManager.getSingleton().addPlayer(1);
-		ObjectiveNotificationCompleteMessage msg = new ObjectiveNotificationCompleteMessage(
-				PlayersForTest.JOHN.getPlayerID(), QuestsForTest.ONE_BIG_QUEST.getQuestID(),
-				ObjectivesForTest.QUEST1_OBJECTIVE2.getObjectiveID());
-		ObjectiveNotificationCompleteMessageHandler handler = new ObjectiveNotificationCompleteMessageHandler();
-		handler.process(msg);
-
-		assertTrue(ModelFacade.getSingleton().hasCommandsPending());
-		while (ModelFacade.getSingleton().hasCommandsPending())
-		{
-			Thread.sleep(100);
-		}
-
-	}
-
 }

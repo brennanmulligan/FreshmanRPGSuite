@@ -98,7 +98,7 @@ public class Server implements Runnable, AutoCloseable
             throw new IllegalArgumentException(
                     "Map name is required to run the server. Use the --map=STRING option.");
         }
-        else if (port == null && !OptionsManager.getSingleton().isUsingMockDataSource())
+        else if (port == null && !OptionsManager.getSingleton().isTestMode())
         {
             throw new IllegalArgumentException(
                     "Port is required to run the server. Use the --port=INTEGER option.");

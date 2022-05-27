@@ -20,8 +20,7 @@ public class BuildQuestsAndObjectives
     private static void createObjectiveStateTable() throws DatabaseException
     {
         ObjectiveStateTableDataGateway gateway =
-                (ObjectiveStateTableDataGateway) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("ObjectiveState");
+                ObjectiveStateTableDataGateway.getSingleton();
         gateway.createTable();
         for (ObjectiveStatesForTest objective : ObjectiveStatesForTest.values())
         {
@@ -36,10 +35,10 @@ public class BuildQuestsAndObjectives
      */
     private static void createObjectiveTable() throws DatabaseException
     {
-        ObjectiveTableDataGatewayRDS.createTable();
+        ObjectiveTableDataGateway.createTable();
         for (ObjectivesForTest objective : ObjectivesForTest.values())
         {
-            ObjectiveTableDataGatewayRDS.createRow(objective.getObjectiveID(),
+            ObjectiveTableDataGateway.createRow(objective.getObjectiveID(),
                     objective.getObjectiveDescription(), objective.getQuestID(),
                     objective.getExperiencePointsGained(), objective.getCompletionType(),
                     objective.getCompletionCriteria());
@@ -48,9 +47,8 @@ public class BuildQuestsAndObjectives
 
     private static void createQuestStateTable() throws DatabaseException
     {
-        QuestStateTableDataGatewayRDS questStateGateway =
-                (QuestStateTableDataGatewayRDS) TableDataGatewayManager.getSingleton()
-                        .getTableGateway("QuestState");
+        QuestStateTableDataGateway questStateGateway =
+                QuestStateTableDataGateway.getSingleton();
         questStateGateway.createTable();
         for (QuestStatesForTest quest : QuestStatesForTest.values())
         {
@@ -64,11 +62,11 @@ public class BuildQuestsAndObjectives
      */
     private static void createQuestTable() throws DatabaseException
     {
-        QuestRowDataGatewayRDS.createTable();
+        QuestRowDataGateway.createTable();
         for (QuestsForTest quest : QuestsForTest.values())
         {
             System.out.print(quest.getQuestID() + " ");
-            new QuestRowDataGatewayRDS(quest.getQuestID(), quest.getQuestTitle(),
+            new QuestRowDataGateway(quest.getQuestID(), quest.getQuestTitle(),
                     quest.getQuestDescription(), quest.getMapName(), quest.getPosition(),
                     quest.getExperienceGained(), quest.getObjectiveForFulfillment(),
                     quest.getCompletionActionType(), quest.getCompletionActionParameter(),
@@ -84,7 +82,6 @@ public class BuildQuestsAndObjectives
      */
     public static void main(String[] args) throws DatabaseException, SQLException
     {
-        OptionsManager.getSingleton().setUsingMocKDataSource(true);
         OptionsManager.getSingleton().setUsingTestDB(true);
         System.out.println("creating objective table");
         createObjectiveTable();

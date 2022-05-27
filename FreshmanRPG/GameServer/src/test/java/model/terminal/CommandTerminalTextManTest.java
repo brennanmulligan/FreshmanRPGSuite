@@ -2,13 +2,14 @@ package model.terminal;
 
 import static org.junit.Assert.*;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Test;
 
 /**
  * @author Nathaniel and Nahesha
  */
-public class CommandTerminalTextManTest
+public class CommandTerminalTextManTest extends ServerSideTest
 {
 
 	/**

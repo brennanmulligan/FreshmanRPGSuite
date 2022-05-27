@@ -1,7 +1,7 @@
 package DatabaseBuilders;
 
 import datasource.DatabaseException;
-import datasource.InteractableItemRowDataGatewayRDS;
+import datasource.InteractableItemRowDataGateway;
 import model.OptionsManager;
 import datatypes.InteractableItemsForTest;
 
@@ -18,7 +18,6 @@ public class BuildTestInteractableItems
 	 */
 	public static void main(String[] args) throws DatabaseException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createItemTable();
 	}
@@ -29,10 +28,10 @@ public class BuildTestInteractableItems
 	 */
 	private static void createItemTable() throws DatabaseException
 	{
-		InteractableItemRowDataGatewayRDS.createTable();
+		InteractableItemRowDataGateway.createTable();
 		for (InteractableItemsForTest item : InteractableItemsForTest.values())
 		{
-			new InteractableItemRowDataGatewayRDS(item.getName(), item.getPosition(), item.getActionType(), item.getActionParam(), item.getMapName());
+			new InteractableItemRowDataGateway(item.getName(), item.getPosition(), item.getActionType(), item.getActionParam(), item.getMapName());
 		}
 	}
 

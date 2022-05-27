@@ -27,9 +27,6 @@ public class LoginServiceImpl implements LoginService{
 
     /**
      *
-     * @param username
-     * @param password
-     * @return
      * @throws DatabaseException if username of password is incorrect, this will be thrown
      */
     @Override
@@ -37,8 +34,8 @@ public class LoginServiceImpl implements LoginService{
         PlayerLoginRowDataGateway loginGateway;
         PlayerRowDataGateway playerGateway;
         try {
-            loginGateway = new PlayerLoginRowDataGatewayRDS(username);
-            playerGateway = new PlayerRowDataGatewayRDS(loginGateway.getPlayerID());
+            loginGateway = new PlayerLoginRowDataGateway(username);
+            playerGateway = new PlayerRowDataGateway(loginGateway.getPlayerID());
         }
         catch (DatabaseException e)
         {

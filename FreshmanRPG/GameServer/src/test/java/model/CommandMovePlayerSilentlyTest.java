@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import datasource.ServerSideTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import model.reports.PlayerMovedReport;
  * @author Merlin
  *
  */
-public class CommandMovePlayerSilentlyTest
+public class CommandMovePlayerSilentlyTest extends ServerSideTest
 {
 
 	/**
@@ -26,17 +27,13 @@ public class CommandMovePlayerSilentlyTest
 	{
 		PlayerManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
-
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**
 	 * Update a player's position from id
-	 *
-	 * @throws PlayerNotFoundException shouldn't
 	 */
 	@Test
-	public void testValidPlayer() throws PlayerNotFoundException
+	public void testValidPlayer()
 	{
 		Position startPosition = new Position(0, 0);
 		Position newPosition = new Position(10, 10);
@@ -74,11 +71,9 @@ public class CommandMovePlayerSilentlyTest
 
 	/**
 	 * Update a player's position from id
-	 *
-	 * @throws PlayerNotFoundException shouldn't
 	 */
 	@Test
-	public void testNoPlayer() throws PlayerNotFoundException
+	public void testNoPlayer()
 	{
 		Position newPosition = new Position(10, 10);
 

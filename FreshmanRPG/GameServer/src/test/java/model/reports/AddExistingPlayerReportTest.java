@@ -18,16 +18,6 @@ public class AddExistingPlayerReportTest
 {
 
 	/**
-	 *
-	 */
-	@Before
-	public void setup()
-	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
-		OptionsManager.getSingleton().setUsingTestDB(true);
-	}
-
-	/**
 	 * Test the report constructor and values.
 	 */
 	@Test

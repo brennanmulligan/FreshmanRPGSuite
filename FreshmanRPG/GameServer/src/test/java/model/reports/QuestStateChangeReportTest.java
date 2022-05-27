@@ -2,7 +2,7 @@ package model.reports;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import datasource.ServerSideTest;
 import org.junit.Test;
 
 import datasource.DatabaseException;
@@ -14,16 +14,9 @@ import datatypes.QuestsForTest;
  * @author Merlin
  *
  */
-public class QuestStateChangeReportTest
+public class QuestStateChangeReportTest extends ServerSideTest
 {
 
-	/**
-	 * reset the necessary singletons
-	 */
-	@Before
-	public void setUp()
-	{
-	}
 
 	/**
 	 * make sure it gets built correctly

@@ -3,7 +3,7 @@ package model;
 
 
 import datasource.DatabaseException;
-import datasource.NPCRowDataGatewayRDS;
+import datasource.NPCRowDataGateway;
 import datatypes.ChatType;
 import datatypes.Position;
 import model.reports.NPCChatReport;
@@ -60,14 +60,14 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     {
         super(playerId);
         sp = new SmartPath();
-        parsedDialogueXML = new ArrayList<List<String>>();
-        parsedRegularPaths = new ArrayList<NPCPath>();
-        parsedSmartPaths = new ArrayList<NPCPath>();
+        parsedDialogueXML = new ArrayList<>();
+        parsedRegularPaths = new ArrayList<>();
+        parsedSmartPaths = new ArrayList<>();
         currentTarget = "start"; // beginning level of dialogue tree
         try
         {
             //grab filepath from the NPC table, this is the XML containing the dialogue and path position information (see Wiki)
-            NPCRowDataGatewayRDS gateway = new NPCRowDataGatewayRDS(playerId);
+            NPCRowDataGateway gateway = new NPCRowDataGateway(playerId);
             filePath = gateway.getFilePath();
         }
         catch (DatabaseException e)
@@ -231,7 +231,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     /**
      * When this NPC receives a report, if it recognizes something
      * it will respond to the player from the dialogue tree
-     * @param incomingReport
      */
     @Override
     public void receiveReport(QualifiedObservableReport incomingReport)
@@ -297,7 +296,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
     /**
      * Fills out parsedDialogueXML with info from the XML at filePath
-     * @param filePath
      */
     private void parseDialogueXML(String filePath)
     {
@@ -338,7 +336,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                     // get text
                     String message = element.getTextContent();
 
-                    parsedDialogueXML.add(new ArrayList<String>(Arrays.asList(id, pattern, responses, nodeId, target, message)));
+                    parsedDialogueXML.add(new ArrayList<>(Arrays.asList(id, pattern, responses, nodeId, target, message)));
                 }
             }
         }
@@ -378,11 +376,11 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
                     if (type.equals(REGULAR_PATH_TYPE))
                     {
-                        addPathsToList(id, message, parsedRegularPaths);
+                        addPathsToList(message, parsedRegularPaths);
                     }
                     else if (type.equals(SMART_PATH_TYPE))
                     {
-                        addPathsToList(id, message, parsedSmartPaths);
+                        addPathsToList(message, parsedSmartPaths);
                     }
                 }
             }
@@ -394,18 +392,14 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     }
 
     /**
-     *
-     * @param id the NPC ID number of the roaming NPC
      * @param message the position content of the XML, either coordinate by coordinate, or a start and end position for A* smart pathing.
-     * @param list the ArrayList that contains the multiple paths for any given roaming NPC
-     * @return
+     * @param list    the ArrayList that contains the multiple paths for any given roaming NPC
      */
 
-    private List<NPCPath> addPathsToList(String id, String message, List<NPCPath> list)
+    private void addPathsToList(String message, List<NPCPath> list)
     {
-        NPCPath path = new NPCPath(id, message);
+        NPCPath path = new NPCPath(message);
         list.add(path);
-        return list;
     }
 
 }
@@ -420,13 +414,11 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 class NPCPath
 {
 
-    private int pathID;
     ArrayList<Position> path;
 
-    public NPCPath(String pathID, String sPath)
+    public NPCPath(String sPath)
     {
-        this.pathID = Integer.parseInt(pathID);
-        path = parsePath(sPath);
+       path = parsePath(sPath);
     }
 
     /**
@@ -440,11 +432,11 @@ class NPCPath
         sPath = sPath.replaceAll("\\n", "");
         String[] sPositions = sPath.split("\\s+");
         path = new ArrayList<>();
-        for (int i = 0; i < sPositions.length; i++)
+        for (String sPosition : sPositions)
         {
             Position pos = new Position(
-                    Integer.parseInt(sPositions[i].substring(0, sPositions[i].indexOf(",")))
-                    , Integer.parseInt(sPositions[i].substring(sPositions[i].indexOf(",") + 1)));
+                    Integer.parseInt(sPosition.substring(0, sPosition.indexOf(",")))
+                    , Integer.parseInt(sPosition.substring(sPosition.indexOf(",") + 1)));
             path.add(pos);
         }
         return path;

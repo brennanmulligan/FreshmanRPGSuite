@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,17 +24,12 @@ import datatypes.QuestsForTest;
  * @author Ryan
  *
  */
-public class QuestStateTest
+public class QuestStateTest extends ServerSideTest
 {
 
-	/**
-	 *
-	 */
 	@Before
-	public void setUp()
+	public void localSetUp()
 	{
-		OptionsManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		QuestManager.resetSingleton();
 		QualifiedObservableConnector.resetSingleton();
 	}

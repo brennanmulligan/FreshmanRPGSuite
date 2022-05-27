@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
@@ -17,18 +18,16 @@ import model.reports.ChatMessageReceivedReport;
  * @author merlin
  *
  */
-public class RandomFactsNPCBehaviorTest
+public class RandomFactsNPCBehaviorTest extends ServerSideTest
 {
-
 	private RandomFactsNPCBehavior behavior;
 
 	/**
 	 *
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 		behavior = new RandomFactsNPCBehavior(PlayersForTest.BIG_RED.getPlayerID());
 		PlayerManager.getSingleton().addNpc(new NPC(PlayersForTest.BIG_RED.getPlayerID()));
 		PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.BIG_RED.getPlayerID()).

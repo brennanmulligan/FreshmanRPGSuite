@@ -3,8 +3,6 @@ package sequencetests;
 import communication.messages.OtherPlayerMovedMessage;
 import communication.messages.PlayerMovedMessage;
 import communication.messages.QuestStateChangeMessage;
-import datasource.DatabaseException;
-import datasource.PlayerConnectionRowDataGatewayMock;
 import datatypes.PlayersForTest;
 import datatypes.QuestStateEnum;
 import datatypes.QuestsForTest;
@@ -54,14 +52,6 @@ public class FinishingQuestTeleportsSequenceTest extends SequenceTest
     {
         PlayerManager.resetSingleton();
         QuestManager.resetSingleton();
-        try
-        {
-            (new PlayerConnectionRowDataGatewayMock(2)).resetData();
-        }
-        catch (DatabaseException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     /**

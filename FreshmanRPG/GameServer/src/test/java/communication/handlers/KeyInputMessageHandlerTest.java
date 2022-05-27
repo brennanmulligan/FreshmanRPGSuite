@@ -2,6 +2,7 @@ package communication.handlers;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import datatypes.PlayersForTest;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import model.ModelFacade;
  * @author Ian Keefer & TJ Renninger
  *
  */
-public class KeyInputMessageHandlerTest
+public class KeyInputMessageHandlerTest extends ServerSideTest
 {
 
 	/**

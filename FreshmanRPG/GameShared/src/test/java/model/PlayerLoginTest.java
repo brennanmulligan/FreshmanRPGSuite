@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.assertEquals;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +19,12 @@ public class PlayerLoginTest
 {
 
 	/**
-	 * @see datasource.DatabaseTest#setUp()
+	 * @see ServerSideTest#setUp()
 	 */
 	@Before
 	public void setUp()
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
+		OptionsManager.getSingleton().setTestMode(true);
 	}
 
 	/**

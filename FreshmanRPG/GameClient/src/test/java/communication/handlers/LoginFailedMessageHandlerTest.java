@@ -29,7 +29,7 @@ public class LoginFailedMessageHandlerTest
     public void setUp()
     {
         ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
+        ClientModelFacade.getSingleton(true, true);
     }
 
     /**

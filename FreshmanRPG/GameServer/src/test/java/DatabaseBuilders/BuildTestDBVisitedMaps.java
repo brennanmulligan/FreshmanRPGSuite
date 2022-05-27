@@ -1,7 +1,7 @@
 package DatabaseBuilders;
 
 import datasource.DatabaseException;
-import datasource.VisitedMapsGatewayRDS;
+import datasource.VisitedMapsGateway;
 import model.OptionsManager;
 import datatypes.PlayersForTest;
 
@@ -17,14 +17,13 @@ public class BuildTestDBVisitedMaps
 	 */
 	public static void main(String[] args) throws DatabaseException
 	{
-		OptionsManager.getSingleton().setUsingMocKDataSource(false);
 		OptionsManager.getSingleton().setUsingTestDB(true);
 		createVisitedMapsTable();
 	}
 
 	private static void createVisitedMapsTable() throws DatabaseException
 	{
-		VisitedMapsGatewayRDS.createTable();
+		VisitedMapsGateway.createTable();
 
 		for (PlayersForTest p : PlayersForTest.values())
 		{
@@ -32,7 +31,7 @@ public class BuildTestDBVisitedMaps
 			for (String mapTitle : p.getMapsVisited())
 			{
 				System.out.println("mapTitle:" + mapTitle);
-				new VisitedMapsGatewayRDS(p.getPlayerID(), mapTitle);
+				new VisitedMapsGateway(p.getPlayerID(), mapTitle);
 			}
 		}
 

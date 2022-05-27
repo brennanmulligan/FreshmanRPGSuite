@@ -3,10 +3,10 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import datasource.ServerSideTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import datasource.DatabaseException;
 import datatypes.ObjectiveStatesForTest;
 import datatypes.PlayersForTest;
 
@@ -14,16 +14,15 @@ import datatypes.PlayersForTest;
  * @author Ryan
  *
  */
-public class CommandObjectiveNotificationCompleteTest
+public class CommandObjectiveNotificationCompleteTest extends ServerSideTest
 {
 	/**
 	 *
 	 */
 	@Before
-	public void setup()
+	public void localSetup()
 	{
 		PlayerManager.resetSingleton();
-		OptionsManager.getSingleton().setUsingMocKDataSource(true);
 	}
 
 	/**
@@ -39,11 +38,8 @@ public class CommandObjectiveNotificationCompleteTest
 		assertEquals(3, cmd.getObjectiveID());
 	}
 
-	/**
-	 * @throws DatabaseException shouldn't
-	 */
 	@Test
-	public void testExecute() throws DatabaseException
+	public void testExecute()
 	{
 		int playerID = PlayersForTest.MERLIN.getPlayerID();
 		int questID = 4;
