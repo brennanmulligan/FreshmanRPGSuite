@@ -1058,7 +1058,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void triggersOnPlayerMovement()
     {
-        OptionsManager.getSingleton().setMapName(ServersForTest.QUAD.getMapName());
+        OptionsManager.getSingleton().setMapFileTitle(ServersForTest.QUAD.getMapName());
         Player p = playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());
         p.setPlayerPosition(QuestsForTest.ONE_BIG_QUEST.getPosition());
         assertEquals(QuestStateEnum.TRIGGERED, QuestManager.getSingleton()

@@ -35,9 +35,8 @@ public class MapFileMessagePacker extends MessagePacker
 				// send this server's map file back to the client when they
 				// connect to the server
 				OptionsManager optionsManager = OptionsManager.getSingleton();
-				String mapName = optionsManager.getMapName();
-				MapFileMessage msg = new MapFileMessage(DIRECTORY_PREFIX + mapName);
-				return msg;
+				String mapName = optionsManager.getMapFileTitle();
+				return new MapFileMessage(DIRECTORY_PREFIX + mapName);
 			}
 		}
 		catch (IOException e)

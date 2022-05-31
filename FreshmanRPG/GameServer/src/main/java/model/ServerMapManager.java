@@ -23,7 +23,6 @@ import java.net.URL;
 public class ServerMapManager
 {
 	private static ServerMapManager singleton;
-	private boolean[][] collisionMap;
 
 
 	private static final String COLLISION_LAYER = "Collision";
@@ -34,8 +33,7 @@ public class ServerMapManager
 	 */
 	private ServerMapManager()
 	{
-		String mapFile = "../../../maps/"+OptionsManager.getSingleton().getMapName();
-		loadMapData(mapFile);
+
 	}
 
 	/**
@@ -64,7 +62,7 @@ public class ServerMapManager
 	 * @param mapFile name of map file
 	 * @return absolute path
 	 */
-	public String findMapFileAbsolutePath(String mapFile)
+	private String findMapFileAbsolutePath(String mapFile)
 	{
 		String mapFilePath = "";
 		URI path;
@@ -94,33 +92,24 @@ public class ServerMapManager
 		return mapFilePath;
 	}
 
-	/**
-	 * Loads map collision data
-	 * @param fileTitle title of map file
-	 */
-	public void loadMapData(String fileTitle)
-	{
-		String mapFilePath = findMapFileAbsolutePath(fileTitle);
-		loadMapDimensions(mapFilePath);
-		parseCollisionMapFromTMX(mapFilePath);
-	}
 
 	/**
-	 * Load map dimensions from file
-	 * @param fileTitle title of map file
+	 * Parses a TMX file for it's collision layer and returns the collisionMap
+	 * @param mapFilePath path to map file
 	 */
-	private void loadMapDimensions(String fileTitle)
+	private boolean[][] parseCollisionMapFromTMX(String mapFilePath)
 	{
+		boolean[][] collisionMap;
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-
 
 		DocumentBuilder docBuilder;
 		try
 		{
 			docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File(fileTitle));
+			Document doc = docBuilder.parse(new File(mapFilePath));
 			doc.getDocumentElement().normalize();
+
 			NodeList list = doc.getElementsByTagName("map");
 			Element element = (Element) list.item(0);
 			String widthAsString = element.getAttribute("width");
@@ -131,35 +120,11 @@ public class ServerMapManager
 			int mapHeight = Integer.parseInt(heightAsString);
 			collisionMap = new boolean[mapHeight][mapWidth];
 
-
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Parses a TMX file for it's collision layer and returns the collisionMap
-	 * @param mapFilePath path to map file
-	 */
-	private void parseCollisionMapFromTMX(String mapFilePath)
-	{
-		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-
-
-		DocumentBuilder docBuilder;
-		try
-		{
-			docBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-			docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File(mapFilePath));
-			doc.getDocumentElement().normalize();
-			NodeList list = doc.getElementsByTagName("layer");
+			list = doc.getElementsByTagName("layer");
 
 			int temp = 0;
 			Node node = list.item(temp);
-			Element element = (Element) node;
+			element = (Element) node;
 			while (!element.getAttribute("name").equals(COLLISION_LAYER))
 			{
 				temp++;
@@ -169,20 +134,22 @@ public class ServerMapManager
 
 			if (temp < list.getLength())
 			{
-				loadCollisionMapFromElement(element);
+				loadCollisionMapFromElement(element, collisionMap);
 			}
+			return collisionMap;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
 	 * Loads collision map from an element assumed to hold collision data
 	 * @param element assumed to hold collision data
 	 */
-	private void loadCollisionMapFromElement(Element element)
+	private void loadCollisionMapFromElement(Element element, boolean[][] collisionMap)
 	{
 		String message = element.getTextContent();
 		message = message.trim();
@@ -268,8 +235,12 @@ public class ServerMapManager
 	 * Gets collision map
 	 * @return collisionMap
 	 */
-	public boolean[][] getCollisionMap()
+	public boolean[][] getCollisionMap(String mapFileTitle)
 	{
-		return collisionMap;
+
+		String mapFile = "../../../maps/"+mapFileTitle;
+		String mapFilePath = findMapFileAbsolutePath(mapFile);
+		//loadMapDimensions(mapFilePath);
+		return parseCollisionMapFromTMX(mapFilePath);
 	}
 }

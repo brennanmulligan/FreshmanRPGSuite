@@ -75,7 +75,7 @@ public class TerminalTextSequenceTest extends SequenceTest
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
 
-        OptionsManager.getSingleton().setMapName("sortingRoom.tmx");
+        OptionsManager.getSingleton().setMapFileTitle("sortingRoom.tmx");
         PlayerManager.getSingleton().loadNpcs(false);
     }
 

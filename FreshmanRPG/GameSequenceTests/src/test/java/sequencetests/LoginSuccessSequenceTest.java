@@ -3,14 +3,12 @@ package sequencetests;
 import communication.messages.*;
 import communication.packers.MapFileMessagePacker;
 import dataDTO.VanityDTO;
-import datasource.DatabaseException;
 import datasource.LevelRecord;
 import datatypes.*;
 import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -137,7 +135,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
     public void setUpMachines()
     {
         OptionsManager.getSingleton()
-                .setMapName(PlayersForTest.MERLIN_OFFLINE.getMapName());
+                .setMapFileTitle(PlayersForTest.MERLIN_OFFLINE.getMapName());
         PlayerManager.resetSingleton();
         QuestManager.resetSingleton();
     }

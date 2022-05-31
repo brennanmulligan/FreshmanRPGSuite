@@ -30,7 +30,7 @@ public final class MapToServerMapping
      *
      * @param mapName the map name (the name of the .tmx file)
      */
-    public void setMapName(String mapName)
+    public void setMapFileTitle(String mapName)
     {
         dataGateway.setMapName(mapName);
     }

@@ -552,7 +552,7 @@ public class QuestManager implements QualifiedObserver
             try
             {
                 triggerQuestsForPosition(myReport.getPosition(),
-                        OptionsManager.getSingleton().getMapName(),
+                        OptionsManager.getSingleton().getMapFileTitle(),
                         myReport.getPlayerID());
             }
             catch (DatabaseException | IllegalObjectiveChangeException |

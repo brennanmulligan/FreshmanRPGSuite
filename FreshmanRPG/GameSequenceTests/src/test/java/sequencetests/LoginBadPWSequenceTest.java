@@ -49,6 +49,6 @@ public class LoginBadPWSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
     }
 }

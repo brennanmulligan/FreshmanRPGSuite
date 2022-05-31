@@ -16,7 +16,7 @@ public class SmartPath
 
     public SmartPath()
     {
-        collisionMap = ServerMapManager.getSingleton().getCollisionMap();
+        collisionMap = ServerMapManager.getSingleton().getCollisionMap(OptionsManager.getSingleton().getMapFileTitle());
     }
 
     /**
@@ -38,7 +38,7 @@ public class SmartPath
          * current square. We put the lowest f(n) in the beginning of our priority queue and end with the highest
          * f(n).
          */
-        PriorityQueue<AStarPosition> openPathSteps = new PriorityQueue<AStarPosition>(700,
+        PriorityQueue<AStarPosition> openPathSteps = new PriorityQueue<>(700,
                 new AStarPositionComparator());
         AStarPosition originalSquare = new AStarPosition(source, source, destination, false, null);
         originalSquare.setVisited(true);
@@ -142,10 +142,7 @@ public class SmartPath
     {
         if(pos.getRow() < collisionMap.length && pos.getRow() >= 0)
         {
-            if(pos.getColumn() < collisionMap[0].length && pos.getColumn() >= 0)
-            {
-                return true;
-            }
+            return pos.getColumn() < collisionMap[0].length && pos.getColumn() >= 0;
         }
 
         return false;

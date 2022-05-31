@@ -30,7 +30,7 @@ public class OptionsManagerTest extends ServerSideTest
 	{
 		MapToServerMapping mapping = new MapToServerMapping(ServersForTest.FIRST_SERVER.getMapName());
 		mapping.setHostName("holder");
-		mapping.setMapName(ServersForTest.FIRST_SERVER.getMapName());
+		mapping.setMapFileTitle(ServersForTest.FIRST_SERVER.getMapName());
 		mapping.setPortNumber(0);
 		mapping.persist();
 	}
@@ -78,7 +78,7 @@ public class OptionsManagerTest extends ServerSideTest
 		OptionsManager manager = OptionsManager.getSingleton();
 		manager.updateMapInformation(ServersForTest.FIRST_SERVER.getMapName(), "ourhost.com", 1337);
 
-		assertEquals(ServersForTest.FIRST_SERVER.getMapName(), manager.getMapName());
+		assertEquals(ServersForTest.FIRST_SERVER.getMapName(), manager.getMapFileTitle());
 		assertEquals("ourhost.com", manager.getHostName());
 		assertEquals(1337, manager.getPortNumber());
 	}

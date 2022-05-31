@@ -93,7 +93,7 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
         MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName());
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
-        OptionsManager.getSingleton().setMapName("recCenter.tmx");
+        OptionsManager.getSingleton().setMapFileTitle("recCenter.tmx");
         PlayerManager.getSingleton().loadNpcs(true);
         ArrayList<NPC> npcs = PlayerManager.getSingleton().getNpcs();
         for (NPC npc : npcs)

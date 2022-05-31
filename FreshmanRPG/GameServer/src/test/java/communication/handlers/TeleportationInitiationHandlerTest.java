@@ -35,7 +35,7 @@ public class TeleportationInitiationHandlerTest extends ServerSideTest
 	@Before
 	public void reset()
 	{
-		OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+		OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
 		PlayerManager.resetSingleton();
 		ModelFacade.resetSingleton();
 	}
