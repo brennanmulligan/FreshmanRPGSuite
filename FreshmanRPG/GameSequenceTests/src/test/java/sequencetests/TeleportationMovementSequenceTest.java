@@ -61,7 +61,7 @@ public class TeleportationMovementSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
         PlayerManager.resetSingleton();
         PlayerManager.getSingleton()
                 .addPlayerSilently(PlayersForTest.MERLIN.getPlayerID());

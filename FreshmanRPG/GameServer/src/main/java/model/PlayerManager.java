@@ -233,7 +233,7 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public void loadNpcs(boolean quietMode) throws DatabaseException
 	{
-		ArrayList<NPCMapper> pendingNPCs = NPCMapper.findNPCsOnMap(OptionsManager.getSingleton().getMapName());
+		ArrayList<NPCMapper> pendingNPCs = NPCMapper.findNPCsOnMap(OptionsManager.getSingleton().getMapFileTitle());
 		for (NPCMapper m : pendingNPCs)
 		{
 			NPC nextNPC = (NPC) m.getPlayer();

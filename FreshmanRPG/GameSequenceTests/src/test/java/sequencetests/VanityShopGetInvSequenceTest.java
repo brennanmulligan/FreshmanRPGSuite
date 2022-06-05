@@ -46,7 +46,7 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
     @Override
     public void setUpMachines() throws DatabaseException
     {
-        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
         PlayerManager.resetSingleton();
         PlayerManager.getSingleton()
                 .addPlayerSilently(PlayersForTest.MERLIN.getPlayerID());

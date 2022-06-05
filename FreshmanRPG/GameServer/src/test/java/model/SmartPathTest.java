@@ -33,7 +33,7 @@ public class SmartPathTest extends ServerSideTest
         npc.setMapName("quad.tmx");
         PlayerManager.getSingleton().addNpc(npc);
 
-        OptionsManager.getSingleton().setMapName("quad.tmx");
+        OptionsManager.getSingleton().setMapFileTitle("quad.tmx");
         QualifiedObservableConnector.resetSingleton();
         ChatManager.resetSingleton();
     }

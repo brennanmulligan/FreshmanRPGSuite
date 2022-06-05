@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 import datasource.DatabaseException;
 
-import javax.swing.text.html.Option;
-
 /**
  * Contain information about this server's mapping so it can be used easily in
  * the system
@@ -19,7 +17,7 @@ public class OptionsManager
 
 	private static OptionsManager singleton;
 	private boolean testMode;
-	private String mapName;
+	private String mapFileTitle;
 	private String hostName;
 	private int portNumber;
 	private String loginHost;
@@ -140,18 +138,18 @@ public class OptionsManager
 	 *
 	 * @return Our current map name
 	 */
-	public String getMapName()
+	public String getMapFileTitle()
 	{
-		return mapName;
+		return mapFileTitle;
 	}
 
 	/**
-	 * @param mapName
+	 * @param mapFileTitle
 	 *            the name of the map file this server should manage
 	 */
-	public void setMapName(String mapName)
+	public void setMapFileTitle(String mapFileTitle)
 	{
-		this.mapName = mapName;
+		this.mapFileTitle = mapFileTitle;
 	}
 
 	/**
@@ -216,7 +214,7 @@ public class OptionsManager
 
 	/**
 	 *
-	 * @param mapName
+	 * @param mapFileTitle
 	 *            The new map name
 	 * @param hostName
 	 *            The hostname of the server
@@ -225,25 +223,25 @@ public class OptionsManager
 	 * @throws DatabaseException
 	 *             When the DB operation fails
 	 */
-	public synchronized void updateMapInformation(String mapName, String hostName, int port) throws DatabaseException
+	public synchronized void updateMapInformation(String mapFileTitle, String hostName, int port) throws DatabaseException
 	{
 		MapToServerMapping mapping;
-		this.mapName = mapName;
+		this.mapFileTitle = mapFileTitle;
 		this.hostName = hostName;
 		this.portNumber = port;
 
-		mapping = new MapToServerMapping(mapName);
+		mapping = new MapToServerMapping(mapFileTitle);
 		if (!hostName.equals("localhost"))
 		{
 			mapping.setHostName(hostName);
-			mapping.setMapName(mapName);
+			mapping.setMapFileTitle(mapFileTitle);
 			mapping.setPortNumber(port);
 			mapping.persist();
 		}
 		else
 		{
 			mapping.setHostName("localhost");
-			mapping.setMapName(mapName);
+			mapping.setMapFileTitle(mapFileTitle);
 			mapping.setPortNumber(port);
 		}
 

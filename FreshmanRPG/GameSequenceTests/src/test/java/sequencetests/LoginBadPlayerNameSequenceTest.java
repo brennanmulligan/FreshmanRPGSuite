@@ -3,7 +3,6 @@ package sequencetests;
 
 import communication.messages.LoginFailedMessage;
 import communication.messages.LoginMessage;
-import datasource.DatabaseException;
 import datatypes.PlayersForTest;
 import model.*;
 
@@ -50,6 +49,6 @@ public class LoginBadPlayerNameSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        OptionsManager.getSingleton().setMapName(PlayersForTest.MERLIN.getMapName());
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
     }
 }
