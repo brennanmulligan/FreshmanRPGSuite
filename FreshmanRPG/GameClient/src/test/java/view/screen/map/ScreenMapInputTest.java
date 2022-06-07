@@ -61,7 +61,7 @@ public class ScreenMapInputTest
 
 		MapManager.resetSingleton();
 		MapManager.getSingleton().setHeadless(true);
-		MapManager.getSingleton().changeToNewFile("quad.tmx");
+		MapManager.getSingleton().changeToNewFile("quad.tmx", "ScreenMapInputTest" );
 
 		// move player south
 		input.keyDown(Keys.DOWN);

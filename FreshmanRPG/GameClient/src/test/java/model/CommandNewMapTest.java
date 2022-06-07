@@ -53,7 +53,7 @@ public class CommandNewMapTest
 			fail("Could not create this client's player from login");
 		}
 
-		CommandNewMap cmd = new CommandNewMap("testMaps/simple.tmx");
+		CommandNewMap cmd = new CommandNewMap("simple.tmx", "JUST FOR TESTS");
 		cmd.execute();
 
 		EasyMock.verify(obs);

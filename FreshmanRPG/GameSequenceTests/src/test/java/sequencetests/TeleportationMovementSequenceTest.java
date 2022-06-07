@@ -69,7 +69,8 @@ public class TeleportationMovementSequenceTest extends SequenceTest
         // client
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MERLIN);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName(),
+                "DUMMY");
         buildTeleportPositionsInMap();
     }
 

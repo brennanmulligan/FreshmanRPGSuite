@@ -3,9 +3,6 @@ package communication.handlers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-
 import datatypes.PlayersForTest;
 import model.*;
 import org.junit.Before;
@@ -56,7 +53,8 @@ public class OtherPlayerMovedMessageHandlerTest
 	@Test
 	public void engineNotified() throws InterruptedException
 	{
-		MapManager.getSingleton().changeToNewFile("testmaps/simple.tmx");
+		MapManager.getSingleton().changeToNewFile("simple.tmx", "TestEngineNotified in " +
+				"Other PlayerMovedMessageHandler" );
 		ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
 		ClientModelTestUtilities.setUpOtherPlayerForTest(PlayersForTest.MERLIN);
 

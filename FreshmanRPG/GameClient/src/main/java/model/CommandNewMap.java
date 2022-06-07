@@ -1,9 +1,7 @@
 package model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Timer;
 
 import java.io.File;
 
@@ -14,14 +12,16 @@ import java.io.File;
 public class CommandNewMap extends Command
 {
 
+	private final String fileContents;
 	private String fileTitle;
 
 	/**
-	 * @param title
-	 *            the title of the tmx file containing the new map
+	 * @param title        the title of the tmx file containing the new map
+	 * @param fileContents
 	 */
-	public CommandNewMap(String title)
+	public CommandNewMap(String title, String fileContents)
 	{
+		this.fileContents = fileContents;
 		this.fileTitle = title;
 	}
 
@@ -37,7 +37,7 @@ public class CommandNewMap extends Command
 			SoundManager.startMapSound();
 		}
 
-		MapManager.getSingleton().changeToNewFile(fileTitle);
+		MapManager.getSingleton().changeToNewFile(fileTitle, fileContents );
 		ClientPlayerManager.getSingleton().removeOtherPlayers();
 		return true;
 	}

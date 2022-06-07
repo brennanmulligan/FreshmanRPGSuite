@@ -52,7 +52,7 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
     public void setUpMachines()
     {
         MapManager.getSingleton()
-                .changeToNewFile(InteractableItemsForTest.CHEST.getMapName());
+                .changeToNewFile(InteractableItemsForTest.CHEST.getMapName(), "CHEST");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MERLIN);
 
         PlayerManager playerManager = PlayerManager.getSingleton();

@@ -71,7 +71,8 @@ public class TerminalTextSequenceTest extends SequenceTest
     {
 
 
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName(),
+                "OMG!!");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
 

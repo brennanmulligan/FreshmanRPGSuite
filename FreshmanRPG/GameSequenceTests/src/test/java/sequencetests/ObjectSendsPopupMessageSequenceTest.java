@@ -58,7 +58,8 @@ public class ObjectSendsPopupMessageSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.JAWN.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.JAWN.getMapName(),
+                "JAWNMAP");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JAWN);
         // set up players through player manager
         PlayerManager pm = PlayerManager.getSingleton();

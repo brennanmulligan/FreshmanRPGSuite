@@ -42,7 +42,8 @@ public class ObjectiveNotificationCompleteSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName(),
+                "MERLINE");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MERLIN);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
     }

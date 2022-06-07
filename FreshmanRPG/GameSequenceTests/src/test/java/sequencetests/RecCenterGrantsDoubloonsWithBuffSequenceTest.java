@@ -90,7 +90,8 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
     @Override
     public void setUpMachines() throws DatabaseException
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName(),
+                "JEFFSTUFF");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
         OptionsManager.getSingleton().setMapFileTitle("recCenter.tmx");

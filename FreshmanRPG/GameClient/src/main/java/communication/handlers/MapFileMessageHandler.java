@@ -44,20 +44,23 @@ public class MapFileMessageHandler extends MessageHandler
 		{
 			URL decodedPath = path.toURL();
 			MapFileMessage mapFileMessage = (MapFileMessage) msg;
+			String mapFileTitle = "maps/" + mapFileMessage.getMapFileName();
 			String mapFile;
 			String hostName = OptionsManager.getSingleton().getLoginHost();
 			if (hostName.equals("localhost"))
 			{
-				mapFile = (new URL(decodedPath, "../../" + mapFileMessage.getMapFileName()))
+				mapFile = (new URL(decodedPath,
+						"../../" + mapFileTitle))
 						.toURI().getSchemeSpecificPart();
 			}
 			else
 			{
-				mapFile = (new URL(decodedPath, mapFileMessage.getMapFileName())).toURI()
+				mapFile = (new URL(decodedPath, mapFileTitle)).toURI()
 						.getSchemeSpecificPart();
 			}
 
-			ClientModelFacade.getSingleton().queueCommand(new CommandNewMap(mapFile));
+			ClientModelFacade.getSingleton().queueCommand(new CommandNewMap(mapFile,
+					mapFileMessage.getFileContents() ));
 		}
 		catch (MalformedURLException | URISyntaxException e)
 		{

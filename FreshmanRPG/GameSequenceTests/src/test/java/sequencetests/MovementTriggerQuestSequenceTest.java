@@ -59,7 +59,7 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName(),"ALL" );
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
     }

@@ -49,7 +49,8 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.JEFF.getMapName(),
+                "NOTHING" );
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
 
         // set up players through player manager
