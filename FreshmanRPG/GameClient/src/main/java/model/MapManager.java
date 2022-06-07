@@ -1,7 +1,9 @@
 package model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Iterator;
-import java.util.Observable;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -78,14 +80,26 @@ public class MapManager
 	}
 
 	/**
-	 * @param fileTitle
-	 *            the title of the file we should switch to
+	 * @param fileTitle    the title of the file we should switch to
+	 * @param fileContents
 	 */
-	public void changeToNewFile(String fileTitle)
+	public void changeToNewFile(String fileTitle, String fileContents)
 	{
+		String localFileTitle = "maps/current.tmx";
+		try
+		{
+			FileWriter f = new FileWriter(new File(localFileTitle));
+			f.write(fileContents);
+			f.close();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+
 		if (!headless)
 		{
-			setMap(new TmxMapLoader().load(fileTitle));
+			setMap(new TmxMapLoader().load(localFileTitle));
 		}
 		else
 		{

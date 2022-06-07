@@ -62,7 +62,7 @@ public class CheatCodeForBuffSequenceTest extends SequenceTest
     {
         PlayersForTest jawn = PlayersForTest.JAWN;
         ClientPlayerManager.resetSingleton();
-        MapManager.getSingleton().changeToNewFile(jawn.getMapName());
+        MapManager.getSingleton().changeToNewFile(jawn.getMapName(), "STUFF");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(jawn);
         ClientPlayerManager.getSingleton().getPlayerFromID(jawn.getPlayerID())
                 .setPosition(jawn.getPosition());

@@ -59,7 +59,8 @@ public class MovementBasicSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName(),
+        "MORESTUFF");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
     }

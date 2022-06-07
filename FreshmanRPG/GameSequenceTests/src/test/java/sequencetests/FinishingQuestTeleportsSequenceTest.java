@@ -60,7 +60,8 @@ public class FinishingQuestTeleportsSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MATT.getMapName(),
+                "STUFFF");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MATT);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
     }

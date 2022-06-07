@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Observable;
-
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +62,7 @@ public class MapManagerTest
 
 		MapManager map = MapManager.getSingleton();
 
-		map.changeToNewFile("testmaps/simple.tmx");
+		map.changeToNewFile("simple.tmx", "updates on new map in MapManagerTest");
 		EasyMock.verify(obs);
 	}
 

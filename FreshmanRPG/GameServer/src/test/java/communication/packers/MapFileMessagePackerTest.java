@@ -79,7 +79,7 @@ public class MapFileMessagePackerTest extends ServerSideTest
 				playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
 				playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
 		MapFileMessage msg = (MapFileMessage) packer.pack(report);
-		assertEquals(MapFileMessagePacker.DIRECTORY_PREFIX + "quad.tmx", msg.getMapFileName());
+		assertEquals( "quad.tmx", msg.getMapFileName());
 		OptionsManager.resetSingleton();
 	}
 

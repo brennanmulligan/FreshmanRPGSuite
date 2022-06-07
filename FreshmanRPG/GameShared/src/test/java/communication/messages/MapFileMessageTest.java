@@ -1,8 +1,8 @@
 package communication.messages;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests a file message which is designed to carry a tmx file
@@ -23,6 +23,7 @@ public class MapFileMessageTest
 		MapFileMessage msg = new MapFileMessage("quad.tmx");
 		assertEquals("quad.tmx", msg.toString());
 		assertEquals("quad.tmx", msg.getMapFileName());
+		assertTrue(msg.getFileContents().length() > 0);
 	}
 
 }

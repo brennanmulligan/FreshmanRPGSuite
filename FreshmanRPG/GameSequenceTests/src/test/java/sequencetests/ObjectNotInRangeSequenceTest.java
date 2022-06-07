@@ -51,7 +51,8 @@ public class ObjectNotInRangeSequenceTest extends SequenceTest
     @Override
     public void setUpMachines()
     {
-        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName());
+        MapManager.getSingleton().changeToNewFile(PlayersForTest.MERLIN.getMapName(),
+                "FILLER");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.MERLIN);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 

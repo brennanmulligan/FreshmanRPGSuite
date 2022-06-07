@@ -15,10 +15,7 @@ import model.reports.PlayerConnectionReport;
  */
 public class MapFileMessagePacker extends MessagePacker
 {
-	/**
-	 * The prefix for where maps are stored on the client
-	 */
-	public static String DIRECTORY_PREFIX = "maps/";
+
 
 	/**
 	 * @see communication.packers.MessagePacker#pack(model.QualifiedObservableReport)
@@ -36,7 +33,7 @@ public class MapFileMessagePacker extends MessagePacker
 				// connect to the server
 				OptionsManager optionsManager = OptionsManager.getSingleton();
 				String mapName = optionsManager.getMapFileTitle();
-				return new MapFileMessage(DIRECTORY_PREFIX + mapName);
+				return new MapFileMessage(mapName);
 			}
 		}
 		catch (IOException e)
