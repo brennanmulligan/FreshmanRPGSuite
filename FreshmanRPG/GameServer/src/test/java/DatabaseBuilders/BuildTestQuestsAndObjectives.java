@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Merlin
  */
-public class BuildQuestsAndObjectives
+public class BuildTestQuestsAndObjectives
 {
 
     private static void createObjectiveStateTable() throws DatabaseException

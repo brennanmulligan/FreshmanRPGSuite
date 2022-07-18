@@ -2,6 +2,7 @@ package model;
 
 import datatypes.ChatType;
 import datatypes.Position;
+import model.reports.ChatMessageReceivedReport;
 import model.reports.ChatMessageToClientReport;
 import model.reports.NPCChatReport;
 
@@ -113,6 +114,9 @@ public class ChatManager
 			//So player messages show up before NPC responses
 			sendChatToClients(senderID, receiverID, chatText, location, type);
 			sendChatToNPCs(senderID, receiverID, chatText, location, type);
+			QualifiedObservableConnector.getSingleton().sendReport(new ChatMessageReceivedReport(senderID,
+					receiverID, chatText, location,
+				type));
 		}
 	}
 }

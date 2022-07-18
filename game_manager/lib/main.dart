@@ -64,7 +64,7 @@ Future<void> initialize({
   /// refresh.
   ///
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: '.env_flutter');
   container.read(NetworkProvider.networkController.notifier).setBaseURL();
   container.refresh(NetworkProvider.serviceClient);
 }

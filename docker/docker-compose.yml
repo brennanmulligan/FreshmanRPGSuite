@@ -1,19 +1,20 @@
 ---
-version: "3.5"
+version: "3.9"
 services:
     frpg_mysql:
         container_name: frpg_mysql
         hostname: frpgmysql
-        image: mysql:8.0
         restart: always
         build:
             context: ./database
+        cap_add:
+            - SYS_NICE
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         volumes:
             - frpgDB:/var/lib/mysql
         ports:
-            - "127.0.0.1:3308:3306"
+            - "3308:3306"
         networks:
             - frpg_database
         healthcheck:
@@ -22,16 +23,236 @@ services:
             timeout: 5s
             retries: 5
             start_period: 15s
-#    frpg_login_server:
-#        container_name: frpg_login_server
-#        image: openjdk:11
-#        restart: always
-#        build:
-#            context: ./login_server
-#        volumes:
-#            - ../FreshmanRPG:/repo/frpg:consistent
-#        ports:
-#            - "1871:1871"
+    frpg_restful_server:
+        container_name: frpg_restful_server
+        restart: always
+        build:
+            context: ./restful_server
+        environment:
+            DOCKER_FRPG: "yes"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "8082:8080"
+    frpg_login_server:
+        container_name: frpg_login_server
+        restart: always
+        build:
+            context: ./login_server
+        environment:
+            DOCKER_FRPG: "yes"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1871:1871"
+    frpg_game_server_rec_center:
+        container_name: frpg_game_server_rec_center
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "recCenter.tmx"
+            FRPG_PORT: "1873"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1873:1873"
+    frpg_game_server_library:
+        container_name: frpg_game_server_library
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "library.tmx"
+            FRPG_PORT: "1874"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1874:1874"
+    frpg_game_server_sorting_room:
+        container_name: frpg_game_server_sorting_room
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "sortingRoom.tmx"
+            FRPG_PORT: "1875"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1875:1875"
+    frpg_game_server_wellington_room:
+        container_name: frpg_game_server_wellington_room
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "wellingtonRoom.tmx"
+            FRPG_PORT: "1876"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1876:1876"
+    frpg_game_server_mct1:
+        container_name: frpg_game_server_mct1
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "mct1.tmx"
+            FRPG_PORT: "1877"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1877:1877"
+    frpg_game_server_ducktopia:
+        container_name: frpg_game_server_ducktopia
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "Ducktopia.tmx"
+            FRPG_PORT: "1879"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1879:1879"
+    frpg_game_server_cub:
+        container_name: frpg_game_server_cub
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "cub.tmx"
+            FRPG_PORT: "1880"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1880:1880"
+    frpg_game_server_mowrey:
+        container_name: frpg_game_server_mowrey
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "mowrey.tmx"
+            FRPG_PORT: "1881"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1881:1881"
+    frpg_game_server_outside_mowrey:
+        container_name: frpg_game_server_outside_mowrey
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "outsideOfMowrey.tmx"
+            FRPG_PORT: "1882"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1882:1882"
+    frpg_game_server_quad:
+        container_name: frpg_game_server_quad
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "quad.tmx"
+            FRPG_PORT: "1883"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1883:1883"
+    frpg_game_server_dhc1:
+        container_name: frpg_game_server_dhc1
+        restart: always
+        build:
+            context: ./game_server
+        environment:
+            DOCKER_FRPG: "yes"
+            FRPG_MAP: "dhc1.tmx"
+            FRPG_PORT: "1884"
+        networks:
+            - frpg_database
+        depends_on:
+            frpg_mysql:
+                condition: service_healthy
+        volumes:
+            - ../FreshmanRPG:/repo/frpg:consistent
+        ports:
+            - "1884:1884"
 
 volumes:
     frpgDB:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="15" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="15" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <properties>
   <property name="3 24" value="quad.tmx 52 52"/>
   <property name="4 24" value="quad.tmx 52 52"/>
@@ -83,7 +83,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="3" name="foreground" width="15" height="15">
+ <layer id="3" name="morebackground" width="15" height="15">
   <data encoding="csv">
 0,0,0,0,1831,1832,0,0,0,1831,1832,0,0,0,0,
 0,0,0,0,1847,1848,0,0,0,1847,1848,0,0,0,0,

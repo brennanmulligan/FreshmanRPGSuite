@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
+import datasource.ContentLoader;
 import datatypes.ChatType;
 import datatypes.Position;
 
@@ -85,7 +86,8 @@ public class CommandChatMessageReceivedFromServer extends Command
 	@Override
 	boolean execute()
 	{
-		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/message_notification.mp3"))), 1);
+//		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/message_notification.mp3"))), 1);
+		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("message_notification.mp3"))), 1);
 
 		ClientChatManager.getSingleton().sendChatToUI(senderID, receiverID, chatText, location, type);
 		return true;

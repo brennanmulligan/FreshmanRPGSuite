@@ -13,7 +13,7 @@ import datatypes.NPCQuestionsForTest;
  * @author Merlin
  *
  */
-public class BuildTestQuestions
+public class BuildTestQuizbotQuestions
 {
 
 	/**

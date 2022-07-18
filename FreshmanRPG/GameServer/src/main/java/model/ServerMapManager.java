@@ -81,7 +81,8 @@ public class ServerMapManager
 		{
 			URL decodedPath = path.toURL();
 
-			mapFilePath = (new URL(decodedPath, "../../maps/" + mapFile))
+			mapFilePath = new URL(decodedPath, OptionsManager.getSingleton()
+					.resolveFullMapPath(mapFile))
 					.toURI().getSchemeSpecificPart();
 		}
 		catch (MalformedURLException | URISyntaxException e)
@@ -237,10 +238,6 @@ public class ServerMapManager
 	 */
 	public boolean[][] getCollisionMap(String mapFileTitle)
 	{
-
-		String mapFile = "../../../maps/"+mapFileTitle;
-		String mapFilePath = findMapFileAbsolutePath(mapFile);
-		//loadMapDimensions(mapFilePath);
-		return parseCollisionMapFromTMX(mapFilePath);
+		return parseCollisionMapFromTMX(OptionsManager.getSingleton().resolveFullMapPath(mapFileTitle));
 	}
 }

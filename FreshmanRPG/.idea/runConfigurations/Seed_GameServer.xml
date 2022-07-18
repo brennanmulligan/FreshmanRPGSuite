@@ -10,10 +10,10 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="DBBuildQuestsAndObjectives" />
           <option value="DBBuildTestDBPlayers" />
           <option value="DBBuildTestLevels" />
-          <option value="DBBuildTestQuestions" />
+          <option value="DBBuildTestQuizbotQuestions" />
+          <option value="DBBuildTestQuestsAndObjectives" />
           <option value="DBBuildTestInteractableItems" />
           <option value="DBBuildTestVanityItems" />
         </list>

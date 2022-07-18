@@ -1,5 +1,7 @@
 package communication.messages;
 
+import model.OptionsManager;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,6 +14,12 @@ import static org.junit.Assert.*;
  */
 public class MapFileMessageTest
 {
+	@BeforeClass
+	public static void setup()
+	{
+		OptionsManager.getSingleton().setTestMode(true);
+	}
+
 	/**
 	 * Make sure its toString is correct
 	 *

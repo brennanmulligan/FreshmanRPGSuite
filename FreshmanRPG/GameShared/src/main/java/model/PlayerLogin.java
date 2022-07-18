@@ -43,12 +43,9 @@ public class PlayerLogin
      */
     protected PlayerLogin(String playerName, String password) throws DatabaseException
     {
-        PlayerRowDataGateway playerGateway;
         try
         {
             this.loginGateway = new PlayerLoginRowDataGateway(playerName);
-            playerGateway =
-                    new PlayerRowDataGateway(loginGateway.getPlayerID());
         }
         catch (DatabaseException e)
         {
@@ -61,11 +58,11 @@ public class PlayerLogin
         }
 
 
-        if (playerGateway.getOnline())
-        {
-
-            throw new DatabaseException("Player is already online.");
-        }
+//        if (playerGateway.getOnline())
+//        {
+//
+//            throw new DatabaseException("Player is already online.");
+//        }
 
     }
 

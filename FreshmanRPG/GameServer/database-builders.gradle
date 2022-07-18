@@ -1,9 +1,18 @@
 // Gradle equivalent to GameServer.seed - start
-task DBBuildQuestsAndObjectives(type: JavaExec) {
+task DBBuildTestQuestsAndObjectives(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildQuestsAndObjectives'
+    main = 'DatabaseBuilders.BuildTestQuestsAndObjectives'
 }
 
+task DBBuildProductionQuestsAndObjectives(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildProductionQuestsAndObjectives'
+}
+
+task DBBuildProductionInteractableItems(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.BuildProductionInteractableItems'
+}
 task DBBuildTestDBPlayers(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'DatabaseBuilders.BuildTestDBPlayers'
@@ -14,9 +23,9 @@ task DBBuildTestLevels(type: JavaExec) {
     main = 'DatabaseBuilders.BuildTestLevels'
 }
 
-task DBBuildTestQuestions(type: JavaExec) {
+task DBBuildTestQuizbotQuestions(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestQuestions'
+    main = 'DatabaseBuilders.BuildTestQuizbotQuestions'
 }
 
 task DBBuildTestInteractableItems(type: JavaExec) {
@@ -41,9 +50,9 @@ task DBBuildTestDBVisitedMaps(type: JavaExec) {
     main = 'DatabaseBuilders.BuildTestDBVisitedMaps'
 }
 
-task DBBuildFriends(type: JavaExec) {
+task DBBuildTestFriends(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildFriends'
+    main = 'DatabaseBuilders.BuildTestFriends'
 }
 
 task DBBuildTestInfoNPC(type: JavaExec) {

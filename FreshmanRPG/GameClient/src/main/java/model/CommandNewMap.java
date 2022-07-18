@@ -2,6 +2,7 @@ package model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import datasource.ContentLoader;
 
 import java.io.File;
 
@@ -33,7 +34,8 @@ public class CommandNewMap extends Command
 	{
 		if(fileTitle.contains("Ducktopia"))
 		{
-			SoundManager.setMapSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/quack.mp3"))));
+//			SoundManager.setMapSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/quack.mp3"))));
+			SoundManager.setMapSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("quack.mp3"))));
 			SoundManager.startMapSound();
 		}
 

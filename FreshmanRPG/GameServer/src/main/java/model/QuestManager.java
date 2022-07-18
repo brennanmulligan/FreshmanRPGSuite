@@ -5,7 +5,11 @@ import criteria.CriteriaStringDTO;
 import criteria.NPCResponseDTO;
 import criteria.ObjectiveCompletionCriteria;
 import dataENUM.ObjectiveCompletionType;
-import datasource.*;
+import datasource.DatabaseException;
+import datasource.FriendTableDataGateway;
+import datasource.ObjectiveTableDataGateway;
+import datasource.QuestRowDataGateway;
+import datatypes.ChatType;
 import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
@@ -658,7 +662,8 @@ public class QuestManager implements QualifiedObserver
      * @param q              quest to get objective for
      * @throws PlayerNotFoundException if the player in the report is not logged in
      */
-    private void checkAllChatObjectivesForCompletion(int reportPlayerID, QuestState q)
+    private void checkAllChatObjectivesForCompletion(int reportPlayerID,
+                                                     ChatType type, QuestState q)
             throws PlayerNotFoundException
     {
         PlayerManager PM = PlayerManager.getSingleton();
@@ -671,7 +676,7 @@ public class QuestManager implements QualifiedObserver
                 CriteriaStringDTO castCrit = (CriteriaStringDTO) criteria;
                 Player npc = PM.getPlayerFromID(
                         PM.getPlayerIDFromPlayerName(castCrit.getString()));
-                if (PM.getPlayerFromID(reportPlayerID)
+                if ((type != ChatType.Local) || PM.getPlayerFromID(reportPlayerID)
                         .canReceiveLocalMessage(npc.getPlayerPosition()))
                 {
                     try
@@ -867,7 +872,8 @@ public class QuestManager implements QualifiedObserver
             {
                 for (QuestState q : questStateList)
                 {
-                    checkAllChatObjectivesForCompletion(reportPlayerID, q);
+                    checkAllChatObjectivesForCompletion(reportPlayerID,
+                            myReport.getType(), q);
                 }
             }
         }

@@ -1,7 +1,11 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
+
+mainClassName = "edu.ship.shipsim.areaserver.Server"
 
 group 'edu.ship.cs'
 version '1.0-SNAPSHOT'
@@ -40,8 +44,10 @@ checkstyle {
     maxWarnings = 0
 }
 
-task shadowJar {
-
+shadowJar {
+    dependsOn(test)
+    archiveFileName = 'GameServer.jar'
+    destinationDirectory = new File(project.projectDir, "build")
 }
 
 apply from: 'database-builders.gradle'

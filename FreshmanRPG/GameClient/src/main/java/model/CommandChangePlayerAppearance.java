@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
 import dataDTO.VanityDTO;
+import datasource.ContentLoader;
 
 import java.io.File;
 import java.util.List;
@@ -37,7 +38,8 @@ public class CommandChangePlayerAppearance extends Command
 	@Override
 	boolean execute()
 	{
-		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/zipper.mp3"))), 2);
+//		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/zipper.mp3"))), 2);
+		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("zipper.mp3"))), 2);
 
 		ClientPlayer player = ClientPlayerManager.getSingleton().getPlayerFromID(playerID);
 		player.setVanityReport(vanities);

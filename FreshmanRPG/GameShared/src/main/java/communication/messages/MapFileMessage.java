@@ -1,7 +1,8 @@
 package communication.messages;
 
+import model.OptionsManager;
+
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,8 +18,8 @@ public class MapFileMessage implements Message, Serializable
      *
      */
     private static final long serialVersionUID = 1L;
-    private String mapFileName;
-    private String fileContents;
+    private final String mapFileName;
+    private final String fileContents;
 
     /**
      * @param fileTitle the name of the file we want to send
@@ -28,7 +29,8 @@ public class MapFileMessage implements Message, Serializable
     {
         this.mapFileName = fileTitle;
         StringBuffer x = new StringBuffer();
-        Scanner file = new Scanner(new File("../GameServer/maps/" + fileTitle));
+        Scanner file = new Scanner(
+                new File(OptionsManager.getSingleton().resolveFullMapPath(fileTitle)));
         while (file.hasNext())
         {
             x.append(file.nextLine());

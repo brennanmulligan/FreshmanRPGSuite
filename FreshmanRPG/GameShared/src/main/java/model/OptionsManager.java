@@ -3,6 +3,7 @@ package model;
 import java.io.*;
 import java.util.Scanner;
 
+import datasource.ContentLoader;
 import datasource.DatabaseException;
 
 /**
@@ -22,9 +23,18 @@ public class OptionsManager
 	private int portNumber;
 	private String loginHost;
 	private boolean usingTestDB = true;
+	private boolean usingClient = false;
 
 	private String dbIdentifier;
 	private String dbPathName = "../GameShared/config.txt";
+	private String fullyQualifiedMapPath;
+
+	private String productionHostName = "rpgserv.engr.ship.edu";
+
+	private final boolean runningInCI;
+	private final boolean runningInDocker;
+	private final boolean runningInIntelliJ;
+
 	/**
 	 * I'm a singleton
 	 *
@@ -32,6 +42,10 @@ public class OptionsManager
 	private OptionsManager()
 	{
 		hostName = "";
+
+		runningInCI = (System.getenv("GITLAB_CI") != null);
+		runningInDocker = (System.getenv("DOCKER_FRPG") != null);
+		runningInIntelliJ = (System.getenv("INTELLIJ_MODE") != null);
 	}
 
 	/**
@@ -83,6 +97,8 @@ public class OptionsManager
 		}
 		return dbIdentifier;
 	}
+
+
 
 	public boolean isTestMode()
 	{
@@ -143,6 +159,10 @@ public class OptionsManager
 		return mapFileTitle;
 	}
 
+	public String getFullyQualifiedMapPath()
+	{
+		return fullyQualifiedMapPath;
+	}
 	/**
 	 * @param mapFileTitle
 	 *            the name of the map file this server should manage
@@ -150,6 +170,7 @@ public class OptionsManager
 	public void setMapFileTitle(String mapFileTitle)
 	{
 		this.mapFileTitle = mapFileTitle;
+		this.fullyQualifiedMapPath = resolveFullMapPath(mapFileTitle);
 	}
 
 	/**
@@ -170,11 +191,27 @@ public class OptionsManager
 	}
 
 	/**
+	 * @return whether the game is being run in client mode
+	 */
+	public boolean isUsingClient()
+	{
+		return usingClient;
+	}
+
+	/**
+	 * @param usingClient whether the game is being run in client mode
+	 */
+	public void setUsingClient(boolean usingClient)
+	{
+		this.usingClient = usingClient;
+	}
+
+	/**
 	 * @return true if this code is running in Gitlab's CI
 	 */
 	public boolean isRunningInCI()
 	{
-		return System.getenv("GITLAB_CI") != null;
+		return this.runningInCI;
 	}
 
 	/**
@@ -182,9 +219,13 @@ public class OptionsManager
 	 */
 	public boolean isRunningInDocker()
 	{
-		return System.getenv("DOCKER_FRPG") != null;
+		return this.runningInDocker;
 	}
 
+	public boolean isRunningInIntelliJ()
+	{
+		return this.runningInIntelliJ;
+	}
 
 	public synchronized void setUsingTestDB(boolean usingTestDB)
 	{
@@ -226,9 +267,10 @@ public class OptionsManager
 	public synchronized void updateMapInformation(String mapFileTitle, String hostName, int port) throws DatabaseException
 	{
 		MapToServerMapping mapping;
-		this.mapFileTitle = mapFileTitle;
 		this.hostName = hostName;
 		this.portNumber = port;
+
+		setMapFileTitle(mapFileTitle);
 
 		mapping = new MapToServerMapping(mapFileTitle);
 		if (!hostName.equals("localhost"))
@@ -245,5 +287,18 @@ public class OptionsManager
 			mapping.setPortNumber(port);
 		}
 
+	}
+
+	public String resolveFullMapPath(String mapFileTitle)
+	{
+		return ContentLoader.getMapFile(mapFileTitle).getPath();
+	}
+
+	/**
+	 * @return a hostname for the production server
+	 */
+	public String getProductionHostName()
+	{
+		return productionHostName;
 	}
 }
