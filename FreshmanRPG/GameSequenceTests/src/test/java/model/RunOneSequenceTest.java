@@ -37,7 +37,8 @@ public class RunOneSequenceTest
 			DatabaseException, ModelFacadeException
 	{
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-		Class<LoginSuccessSequenceTest> testClass = LoginSuccessSequenceTest.class;
+		OptionsManager.getSingleton().setTestMode(true);
+		Class<RecCenterGrantsDoubloonsWithBuffSequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
 		RunAllSequenceTests testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new RunAllSequenceTests("My Single Sequence Test", testClass);

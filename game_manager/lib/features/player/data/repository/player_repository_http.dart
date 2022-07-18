@@ -1,3 +1,5 @@
+
+import 'package:flutter/foundation.dart';
 import 'package:frpg_networking_api/networking/failure/implementations/http_failure.dart';
 import 'package:frpg_networking_api/networking/result/result.dart';
 import 'package:game_manager/features/player/data/data.dart';
@@ -22,8 +24,10 @@ class PlayerRepositoryHTTP extends PlayerRepository {
     try {
       final response =
           await createPlayerDatasource.createPlayer(request: request);
+      debugPrint(response.toString());
       return Result.data(data: response);
     } catch (exception, stackTrace) {
+      debugPrint(exception.toString() + " " + stackTrace.toString());
       return Result.failure(
         failure: HTTPFailure(message: '$exception : $stackTrace'),
       );

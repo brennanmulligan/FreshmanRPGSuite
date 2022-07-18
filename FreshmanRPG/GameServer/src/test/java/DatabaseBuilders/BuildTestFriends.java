@@ -7,7 +7,7 @@ import model.OptionsManager;
 
 import java.sql.SQLException;
 
-public class BuildFriends
+public class BuildTestFriends
 {
 
     /**

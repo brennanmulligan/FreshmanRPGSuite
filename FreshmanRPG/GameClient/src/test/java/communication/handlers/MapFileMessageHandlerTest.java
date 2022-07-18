@@ -60,7 +60,8 @@ public class MapFileMessageHandlerTest
 	@Test
 	public void tellsEngine() throws IOException, InterruptedException
 	{
-		MapFileMessage msg = new MapFileMessage("mct1.tmx");
+		MapFileMessage msg =
+				new MapFileMessage("mct1.tmx");
 		MapFileMessageHandler handler = new MapFileMessageHandler();
 		handler.process(msg);
 		assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

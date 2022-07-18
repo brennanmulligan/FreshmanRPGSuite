@@ -236,6 +236,7 @@ public class PlayerManager implements QualifiedObserver
 		ArrayList<NPCMapper> pendingNPCs = NPCMapper.findNPCsOnMap(OptionsManager.getSingleton().getMapFileTitle());
 		for (NPCMapper m : pendingNPCs)
 		{
+			LoggerManager.getSingleton().getLogger().info("Adding NPC: " + m.getPlayer().getPlayerName());
 			NPC nextNPC = (NPC) m.getPlayer();
 			players.put(nextNPC.getPlayerID(), nextNPC);
 			if (!quietMode)

@@ -218,7 +218,7 @@ public class ObjectiveStateTableDataGateway
             int count = stmt.executeUpdate();
             if (count == 0)
             {
-                this.createRow(playerID, questID, objectiveID, newState, true);
+                this.createRow(playerID, questID, objectiveID, newState, needingNotification);
             }
         }
         catch (SQLException e)

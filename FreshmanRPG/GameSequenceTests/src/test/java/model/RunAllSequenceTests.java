@@ -94,8 +94,6 @@ public class RunAllSequenceTests
                         {"ObjectSendsPopupMessageSequenceTest",
                                 ObjectSendsPopupMessageSequenceTest.class},
 
-                        {"RecCenterGrantsDoubloonsWithBuffSequenceTest",
-                                RecCenterGrantsDoubloonsWithBuffSequenceTest.class},
                         {"TeleportationMovementSequenceTest",
                                 TeleportationMovementSequenceTest.class},
                         // Terminal Text Sequence Test

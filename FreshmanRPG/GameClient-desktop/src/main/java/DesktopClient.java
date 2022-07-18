@@ -6,8 +6,6 @@ import datasource.LoggerManager;
 import model.OptionsManager;
 import runners.GameLibGDX;
 
-import java.util.logging.Logger;
-
 /**
  *
  * @author Merlin
@@ -22,7 +20,7 @@ public class DesktopClient
 	 */
 	public static void main(String[] args)
 	{
-		String host = "clipper.cs.ship.edu";
+		String host = OptionsManager.getSingleton().getProductionHostName();
 		for (String arg : args)
 		{
 			String[] splitArg = arg.split("=");
@@ -34,8 +32,14 @@ public class DesktopClient
 			{
 				host = "localhost";
 			}
-
 		}
+
+		if (!OptionsManager.getSingleton().isRunningInIntelliJ())
+		{
+			OptionsManager.getSingleton().setUsingClient(true);
+			ClientContentLoader.execute();
+		}
+
 		OptionsManager.getSingleton().setLoginHost(host);
 		OptionsManager.getSingleton().setTestMode(false);
 		LoggerManager.createLogger("Client");

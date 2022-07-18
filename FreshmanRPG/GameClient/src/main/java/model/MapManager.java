@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
+import datasource.ContentLoader;
 import datatypes.Position;
 import model.reports.NewMapReport;
 
@@ -85,12 +86,11 @@ public class MapManager
 	 */
 	public void changeToNewFile(String fileTitle, String fileContents)
 	{
-		String localFileTitle = "maps/current.tmx";
-		try
+		File mapFile = ContentLoader.getMapFile("current.tmx");
+
+		try (FileWriter f = new FileWriter(mapFile))
 		{
-			FileWriter f = new FileWriter(new File(localFileTitle));
 			f.write(fileContents);
-			f.close();
 		}
 		catch (IOException e)
 		{
@@ -99,7 +99,7 @@ public class MapManager
 
 		if (!headless)
 		{
-			setMap(new TmxMapLoader().load(localFileTitle));
+			setMap(new TmxMapLoader().load(mapFile.getPath()));
 		}
 		else
 		{

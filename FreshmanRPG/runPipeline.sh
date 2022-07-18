@@ -2,7 +2,8 @@
 
 function seedServer() {
     cd GameServer > /dev/null || exit
-    ./../gradlew DBBuildQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuestions DBBuildTestInteractableItems DBBuildTestVanityItems || exit
+    ./../gradlew DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems ||
+    exit
     cd - > /dev/null || exit
 }
 
@@ -20,7 +21,7 @@ function seedShared() {
 
 function seedServer2() {
     cd GameServer > /dev/null || exit
-    ./../gradlew DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop || exit
+    ./../gradlew DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop || exit
     cd - > /dev/null || exit
 }
 

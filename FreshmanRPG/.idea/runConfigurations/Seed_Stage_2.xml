@@ -13,11 +13,11 @@
           <option value="DBBuildTestDoubloonPrizes" />
           <option value="DBBuildTestRandomFacts" />
           <option value="DBBuildTestDBVisitedMaps" />
-          <option value="DBBuildFriends" />
           <option value="DBBuildTestVanityInventory" />
           <option value="DBBuildTestDefaultItems" />
           <option value="DBBuildTestVanityAwards" />
           <option value="DBBuildTestVanityShop" />
+          <option value="DBBuildTestFriends" />
         </list>
       </option>
       <option name="vmOptions" />

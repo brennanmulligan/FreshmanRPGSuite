@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
+import datasource.ContentLoader;
 import model.reports.QuestNotificationCompleteReport;
 
 import java.io.File;
@@ -35,7 +36,8 @@ public class CommandQuestNotificationComplete extends Command
 	@Override
 	boolean execute()
 	{
-		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/notification_quest_complete.mp3"))), 8);
+//		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/notification_quest_complete.mp3"))), 8);
+		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("notification_quest_complete.mp3"))), 8);
 
 		QuestNotificationCompleteReport report = new QuestNotificationCompleteReport(
 				playerID, questID);

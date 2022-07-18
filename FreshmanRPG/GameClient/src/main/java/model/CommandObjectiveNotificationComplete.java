@@ -2,6 +2,7 @@ package model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import datasource.ContentLoader;
 import model.reports.ObjectiveNotificationCompleteReport;
 
 import java.io.File;
@@ -34,7 +35,8 @@ public class CommandObjectiveNotificationComplete extends Command
 	@Override
 	boolean execute()
 	{
-		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/notification_objective_complete.mp3"))), 2);
+//		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/notification_objective_complete.mp3"))), 2);
+		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("notification_objective_complete.mp3"))), 2);
 
 		ObjectiveNotificationCompleteReport report = new ObjectiveNotificationCompleteReport(playerID, questID, objectiveID);
 		QualifiedObservableConnector.getSingleton().sendReport(report);

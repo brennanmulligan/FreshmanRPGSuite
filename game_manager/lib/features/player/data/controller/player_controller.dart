@@ -50,7 +50,7 @@ class PlayerController extends StateNotifier<PlayerState> {
         responseType: PlayerResponseType.networkFailure,
       ),
     );
-
+  debugPrint(createPlayerResponse.responseType.toString());
     state = state.copyWith(
       //providedInvalidInfo: createPlayerResponse.responseType == -1,
       showResponse: true,

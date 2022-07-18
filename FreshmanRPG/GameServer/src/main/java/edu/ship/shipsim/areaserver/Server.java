@@ -90,7 +90,7 @@ public class Server implements Runnable, AutoCloseable
             }
             else if (splitArg[0].equals("--production"))
             {
-                OptionsManager.getSingleton().setUsingTestDB(true);
+                OptionsManager.getSingleton().setUsingTestDB(false);
             }
         }
         if (map == null)
@@ -156,14 +156,15 @@ public class Server implements Runnable, AutoCloseable
             String hostName;
             if (!runningLocal)
             {
-                hostName = InetAddress.getLocalHost().getHostName();
-
+                hostName = OptionsManager.getSingleton().getProductionHostName();
             }
             else
             {
                 hostName = "localhost";
             }
             om.updateMapInformation(mapName, hostName, port);
+            LoggerManager.getSingleton().getLogger().info("My map name is " +
+                    OptionsManager.getSingleton().getMapFileTitle());
             PlayerManager.getSingleton().loadNpcs(false);
             InteractObjectManager.getSingleton();
             servSock =

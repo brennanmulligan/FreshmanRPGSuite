@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
+import datasource.ContentLoader;
 import datatypes.Position;
 
 import java.io.File;
@@ -64,9 +65,9 @@ public class CommandClientMovePlayer extends Command
 
 				if (!OptionsManager.getSingleton().isTestMode())
 				{
-					File soundFile = new File("../GameClient/assets/teleport.mp3");
-					FileHandle fileHandle =
-							new FileHandle(soundFile);
+//					File soundFile = new File("../GameClient/assets/teleport.mp3");
+					File soundFile = ContentLoader.getAssetFile("teleport.mp3");
+					FileHandle fileHandle = new FileHandle(soundFile);
 					SoundManager.addSound(Gdx.audio.newSound(fileHandle), 3);
 
 					SoundManager.stopLoopingSounds();

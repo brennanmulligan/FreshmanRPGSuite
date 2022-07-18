@@ -6,9 +6,9 @@ FLUSH PRIVILEGES;
 GRANT ALL ON frpg.* TO 'frpg'@'%';
 FLUSH PRIVILEGES;
 
-UPDATE mysql.user SET Host=' ' WHERE user = 'frpg';
+# UPDATE mysql.user SET Host=' ' WHERE user = 'frpg';
 
-CREATE TABLE frpg.Objectives
+CREATE TABLE IF NOT EXISTS frpg.Objectives
 (
     objectiveID            INT NOT NULL,
     objectiveDescription   VARCHAR(200),
@@ -19,7 +19,7 @@ CREATE TABLE frpg.Objectives
     PRIMARY KEY (questID, objectiveID)
 );
 
-CREATE TABLE frpg.Quests
+CREATE TABLE IF NOT EXISTS frpg.Quests
 (
     questID                   INT NOT NULL AUTO_INCREMENT,
     questTitle                VARCHAR(40) UNIQUE,
@@ -36,7 +36,7 @@ CREATE TABLE frpg.Quests
     PRIMARY KEY (questID)
 );
 
-CREATE TABLE frpg.QuestStates
+CREATE TABLE IF NOT EXISTS frpg.QuestStates
 (
     playerID            INT     NOT NULL,
     questID             INT     NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE frpg.QuestStates
     needingNotification BOOLEAN NOT NULL
 );
 
-CREATE TABLE frpg.ObjectiveStates
+CREATE TABLE IF NOT EXISTS frpg.ObjectiveStates
 (
     objectiveID         INT NOT NULL,
     questID             INT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE frpg.ObjectiveStates
     needingNotification BOOLEAN
 );
 
-CREATE TABLE frpg.Players
+CREATE TABLE IF NOT EXISTS frpg.Players
 (
     playerID         INT     NOT NULL AUTO_INCREMENT,
     appearanceType   VARCHAR(255),
@@ -67,7 +67,7 @@ CREATE TABLE frpg.Players
     PRIMARY KEY (playerID)
 );
 
-CREATE TABLE frpg.NPCs
+CREATE TABLE IF NOT EXISTS frpg.NPCs
 (
     playerID      INT NOT NULL,
     behaviorClass VARCHAR(80),
@@ -76,7 +76,7 @@ CREATE TABLE frpg.NPCs
     FOREIGN KEY (playerID) REFERENCES Players (playerID) ON DELETE CASCADE
 );
 
-CREATE TABLE frpg.PlayerLogins
+CREATE TABLE IF NOT EXISTS frpg.PlayerLogins
 (
     playerID   int         NOT NULL,
     playerName VARCHAR(30) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE frpg.PlayerLogins
     FOREIGN KEY (playerID) REFERENCES Players (playerID) ON DELETE CASCADE
 );
 
-CREATE TABLE frpg.PlayerConnection
+CREATE TABLE IF NOT EXISTS frpg.PlayerConnection
 (
     playerID   INT       NOT NULL,
     Pin        DOUBLE    NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE frpg.PlayerConnection
     FOREIGN KEY (playerID) REFERENCES Players (playerID) ON DELETE CASCADE
 );
 
-CREATE TABLE frpg.Levels
+CREATE TABLE IF NOT EXISTS frpg.Levels
 (
     levelDescription  VARCHAR(30) NOT NULL,
     levelUpPoints     INT         NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE frpg.Levels
     levelUpDayOfMonth INT         NOT NULL
 );
 
-CREATE TABLE frpg.NPCQuestions
+CREATE TABLE IF NOT EXISTS frpg.NPCQuestions
 (
     questionID        INT NOT NULL AUTO_INCREMENT,
     questionStatement VARCHAR(256),
@@ -116,7 +116,7 @@ CREATE TABLE frpg.NPCQuestions
     PRIMARY KEY (questionID)
 );
 
-CREATE TABLE frpg.InteractableItems
+CREATE TABLE IF NOT EXISTS frpg.InteractableItems
 (
     itemID      INT         NOT NULL AUTO_INCREMENT,
     name        VARCHAR(30) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE frpg.InteractableItems
     PRIMARY KEY (itemID)
 );
 
-CREATE TABLE frpg.VanityItems
+CREATE TABLE IF NOT EXISTS frpg.VanityItems
 (
     vanityID    INT NOT NULL AUTO_INCREMENT,
     name        VARCHAR(255),
@@ -138,7 +138,7 @@ CREATE TABLE frpg.VanityItems
     PRIMARY KEY (vanityID)
 );
 
-CREATE TABLE frpg.Server
+CREATE TABLE IF NOT EXISTS frpg.Server
 (
     serverID          INT NOT NULL AUTO_INCREMENT,
     hostName          varchar(80),
@@ -150,24 +150,28 @@ CREATE TABLE frpg.Server
     PRIMARY KEY (serverID)
 );
 
-CREATE TABLE frpg.PlayerLogins
-(
-    playerID   int         NOT NULL,
-    playerName VARCHAR(30) NOT NULL,
-    password   BLOB        NOT NULL,
-    salt       BLOB        NOT NULL,
-    PRIMARY KEY (playerID),
-    FOREIGN KEY (playerID) REFERENCES Players (playerID) ON DELETE CASCADE
-);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (1, 'host1.com', 1871, 'map1.tmx', 'Map1', 10, 10);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (2, 'host2.com', 1872, 'map2.tmx', 'Map2', 10, 10);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (3, 'localhost', 1873, 'recCenter.tmx', 'Rec Center', 4, 20);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (4, 'localhost', 1874, 'library.tmx', 'Library', 48, 22);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (5, 'localhost', 1875, 'sortingRoom.tmx', 'SortingRoom', 7, 12);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (6, 'localhost', 1876, 'wellingtonRoom.tmx', 'WellingtonRoom', 6, 89);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (7, 'localhost', 1877, 'mct1.tmx', 'MCT1', 33, 55);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (8, 'localhost', 1879, 'Ducktopia.tmx', 'Ducktopia', 28, 56);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (9, 'localhost', 1880, 'cub.tmx', 'Cub', 59, 94);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (10, 'localhost', 1881, 'mowrey.tmx', 'Mowrey', 29, 36);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (11, 'localhost', 1882, 'outsideOfMowrey.tmx', 'OutsideMowrey', 2, 94);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (12, 'localhost', 1883, 'quad.tmx', 'Quad', 52, 52);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (13, 'localhost', 1884, 'dhc1.tmx', 'DHC1', 44, 49);
 
-CREATE TABLE frpg.DoubloonPrizes
+CREATE TABLE IF NOT EXISTS frpg.DoubloonPrizes
 (
     name        VARCHAR(30)  NOT NULL,
     cost        INT          NOT NULL,
     description VARCHAR(200) NOT NULL
 );
 
-CREATE TABLE frpg.RandomFacts
+CREATE TABLE IF NOT EXISTS frpg.RandomFacts
 (
     factID    INT         NOT NULL AUTO_INCREMENT,
     factText  VARCHAR(80) NOT NULL,
@@ -177,7 +181,7 @@ CREATE TABLE frpg.RandomFacts
     PRIMARY KEY (factID)
 );
 
-CREATE TABLE frpg.VisitedMaps
+CREATE TABLE IF NOT EXISTS frpg.VisitedMaps
 (
     playerID INT NOT NULL,
     mapID    INT NOT NULL,
@@ -185,14 +189,14 @@ CREATE TABLE frpg.VisitedMaps
     FOREIGN KEY (mapID) REFERENCES Server (serverID) ON DELETE CASCADE
 );
 
-CREATE TABLE frpg.Friends
+CREATE TABLE IF NOT EXISTS frpg.Friends
 (
     playerID int         NOT NULL,
     FRIENDID int         NOT NULL,
     status   varchar(10) NOT NULL
 );
 
-CREATE TABLE frpg.VanityInventory
+CREATE TABLE IF NOT EXISTS frpg.VanityInventory
 (
     playerID  INT NOT NULL,
     vanityID  INT NOT NULL,
@@ -202,14 +206,14 @@ CREATE TABLE frpg.VanityInventory
     CONSTRAINT PK_playerID_vanityID PRIMARY KEY (playerID, vanityID)
 );
 
-CREATE TABLE frpg.DefaultItems
+CREATE TABLE IF NOT EXISTS frpg.DefaultItems
 (
     defaultID      INT NOT NULL UNIQUE,
     defaultWearing INT,
     FOREIGN KEY (defaultID) REFERENCES VanityItems (vanityID) ON DELETE CASCADE
 );
 
-CREATE TABLE frpg.VanityAwards
+CREATE TABLE IF NOT EXISTS frpg.VanityAwards
 (
     questID INT NOT NULL,
     awardID INT NOT NULL,
@@ -218,7 +222,7 @@ CREATE TABLE frpg.VanityAwards
     CONSTRAINT PK_questID_awardID PRIMARY KEY (questID, awardID)
 );
 
-CREATE TABLE frpg.VanityShop
+CREATE TABLE IF NOT EXISTS frpg.VanityShop
 (
     vanityID INT NOT NULL UNIQUE,
     price    INT NOT NULL,

@@ -5,6 +5,7 @@ import api.model.ObjectiveRequest;
 import api.model.PlayerTokenManager;
 import datasource.DatabaseException;
 import datasource.ObjectiveStateTableDataGateway;
+import datasource.PlayerRowDataGateway;
 import datatypes.ObjectiveStateEnum;
 import model.*;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,13 @@ public class ObjectiveServiceImpl implements ObjectiveService
     }
 
     @Override
-    public int completeObjective(ObjectiveRequest request)
+    public int completeObjective(ObjectiveRequest request) throws DatabaseException
     {
-        PlayerTokenManager ptm = PlayerTokenManager.getInstance();
-        int playerID = ptm.getPlayer(request.getPlayerID()).getPlayerID();
+//        PlayerRowDataGateway playerGateway = new PlayerRowDataGateway(request.getPlayerID());
+//        Player player = PlayerManager.getSingleton().addPlayer(playerGateway.getPlayerID());
+//        PlayerTokenManager ptm = PlayerTokenManager.getInstance();
+//        ptm.addPlayer(player);
+        int playerID = request.getPlayerID();
         int questID = request.getQuestID();
         int objectiveID = request.getObjectiveID();
         try

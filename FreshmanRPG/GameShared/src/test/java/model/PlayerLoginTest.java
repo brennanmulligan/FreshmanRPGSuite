@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import datasource.ServerSideTest;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import datasource.DatabaseException;
@@ -88,8 +89,10 @@ public class PlayerLoginTest
 	 *
 	 */
 	@Test(expected = DatabaseException.class)
+	@Ignore("We have temporarily disabled blocking multiple logins")
 	public void duplicateLogin() throws DatabaseException
 	{
+		// FIXME: Properly handle multiple logins
 		//Merlin is marked as online in the enum already
 		//Attempting to login again as MERLIN should throw our database exception
 		PlayerLogin player1 = new PlayerLogin(PlayersForTest.MERLIN.getPlayerName(), PlayersForTest.MERLIN.getPlayerPassword());

@@ -54,10 +54,18 @@ public class DatabaseManager
                             "?autoReconnect=true&characterEncoding=latin1",
                     "swe420_" + dbIdentifier, "Password_" + dbIdentifier);
         }
+        else if (OptionsManager.getSingleton().isRunningInDocker())
+        {
+            Connection connection = openConnectionTo(
+                    "jdbc:mysql://frpgmysql:3306/frpg?autoReconnect=true",
+                    "frpg", "Database_Password");
+
+            System.out.println("Connected");
+
+            return connection;
+        }
         else
         {
-            System.out.println("Opening test database");
-
             Connection connection = openConnectionTo(
                     "jdbc:mysql://127.0.0.1:3308/frpg?autoReconnect=true",
                     "frpg", "Database_Password");

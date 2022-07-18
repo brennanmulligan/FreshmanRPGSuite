@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
+import datasource.ContentLoader;
 
 import java.io.File;
 
@@ -13,7 +14,8 @@ import java.io.File;
 public class SoundManager
 {
     // Add looping sounds such as walking as global variables so they can be accessed later.
-    static Sound walking = Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/steps.mp3")));
+//    static Sound walking = Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/steps.mp3")));
+    static Sound walking = Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("steps.mp3")));
     static Sound mapSound = null;
 
     /**
