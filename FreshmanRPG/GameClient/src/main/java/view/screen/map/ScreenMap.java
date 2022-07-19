@@ -80,31 +80,25 @@ public class ScreenMap extends ScreenBasic
 	// is complete
 	IntArray characterDequeue;
 
-	private ClientNotificationManager clientNotificationManager;
+
 	private OrthographicCamera camera;
 	private final float unitScale;
-	private ScreenMapInput mapInput;
+	private final ScreenMapInput mapInput;
 	private ScreenMapKeyInputSentProcessor keyInputProcessor;
-	// GUIs that get displayed on the map
-	private QuestUI qaScreen;
-	private PopUpChatUI popUpChatUI;
-	private TerminalUI terminalUI;
+
 	private MenuUI menuArea;
-	private HighScoreUI highScoreUI;
-	private ShopUI shopUI;
-	private FriendsUI friendsUI;
-	private CoordinatesUI coordinatesUI;
+	private PopUpChatUI popUpChatUI;
 	private ClosetUI closetUI;
+	private ShopUI shopUI;
 	private ClothingShopUI clothingShopUI;
 
-
-	private ArrayList<OverlayingScreen> overlayingScreens;
+	private final ArrayList<OverlayingScreen> overlayingScreens;
 
 	// tile size that we will be moving in according to the collision masking
 	// tileset
-	private Vector2 tileSize;
-	private Vector2 mapPixelSize;
-	private Vector2 mapSize;
+	private final Vector2 tileSize;
+	private final Vector2 mapPixelSize;
+	private final Vector2 mapSize;
 
 	private int[] bgLayers, fgLayers;
 	private Color clearColor;
@@ -587,26 +581,27 @@ public class ScreenMap extends ScreenBasic
 		}
 		SkinPicker.getSkinPicker().setCrew(crewName);
 
-		clientNotificationManager = ClientNotificationManager.getInstance();
-
-		qaScreen = new QuestUI();
-		terminalUI = new TerminalUI();
-		popUpChatUI = new PopUpChatUI();
-		highScoreUI = new HighScoreUI();
-		shopUI = new ShopUI();
+		ClientNotificationManager clientNotificationManager = ClientNotificationManager.getInstance();
 		menuArea = new MenuUI();
-		friendsUI = new FriendsUI();
-		coordinatesUI = new CoordinatesUI();
+
+		QuestUI qaScreen = new QuestUI();
+		TerminalUI terminalUI = new TerminalUI();
+		popUpChatUI = new PopUpChatUI();
+		HighScoreUI highScoreUI = new HighScoreUI();
+		FriendsUI friendsUI = new FriendsUI();
+		CoordinatesUI coordinatesUI = new CoordinatesUI();
 		closetUI = new ClosetUI();
+		shopUI = new ShopUI();
 		clothingShopUI = new ClothingShopUI();
 
 		menuArea.addOverlayingScreenToggle(popUpChatUI, "Chat");
 		menuArea.addOverlayingScreenToggle(friendsUI, "Friends");
 		menuArea.addOverlayingScreenToggle(terminalUI, "Terminal");
-		menuArea.addOverlayingScreenToggle(shopUI, "Shop");
-		menuArea.addOverlayingScreenToggle(qaScreen, null);
-		menuArea.addOverlayingScreenToggle(highScoreUI, null);
-		menuArea.addQuestDropdown("list", questDropDownChangeListener(), closeListener());
+		menuArea.addOverlayingScreenToggle(qaScreen, "Quest");
+		menuArea.addOverlayingScreenToggle(highScoreUI, "High Scores");
+		menuArea.addOverlayingScreenToggle(closetUI, null);
+		menuArea.addOverlayingScreenToggle(clothingShopUI, null);
+		menuArea.addOverlayingScreenToggle(shopUI, null);
 		menuArea.addDropdownClothing("list", clothingDropDownChangeListener(), closeListener());
 
 		overlayingScreens.add(coordinatesUI);
@@ -643,41 +638,6 @@ public class ScreenMap extends ScreenBasic
 	/**
 	 * @return the click Listener with the required behavior
 	 */
-	private ChangeListener questDropDownChangeListener()
-	{
-		return new ChangeListener()
-		{
-			@Override
-			public void changed(ChangeEvent event, Actor actor)
-			{
-				String buttonText = menuArea.getQuestSelectBox().getSelected();
-
-				switch (buttonText)
-				{
-					case "Quests":
-						boolean questsToggled = qaScreen.isVisible();
-						closeAllOverlayingScreens();
-						if (!questsToggled)
-						{
-							qaScreen.toggleVisibility();
-						}
-						break;
-					case "Highscore":
-						boolean highScoreToggled = highScoreUI.isVisible();
-						closeAllOverlayingScreens();
-						if (!highScoreToggled)
-						{
-							highScoreUI.toggleVisibility();
-						}
-						break;
-				}
-			}
-		};
-	}
-
-	/**
-	 * @return the click Listener with the required behavior
-	 */
 	private ChangeListener clothingDropDownChangeListener()
 	{
 		return new ChangeListener()
@@ -689,7 +649,7 @@ public class ScreenMap extends ScreenBasic
 
 				switch (buttonText)
 				{
-					case "Closet":
+					case MenuUI.CLOSET_BUTTON_TEXT:
 						boolean closetToggled = closetUI.isVisible();
 						closeAllOverlayingScreens();
 						if (!closetToggled)
@@ -697,12 +657,20 @@ public class ScreenMap extends ScreenBasic
 							closetUI.toggleVisibility();
 						}
 						break;
-					case "Shop":
-						boolean shopToggled = clothingShopUI.isVisible();
+					case MenuUI.IN_GAME_SHOP_BUTTON_TEXT:
+						boolean inGameShopToggled = clothingShopUI.isVisible();
 						closeAllOverlayingScreens();
-						if (!shopToggled)
+						if (!inGameShopToggled)
 						{
 							clothingShopUI.toggleVisibility();
+						}
+						break;
+					case MenuUI.REAL_LIFE_SHOP_BUTTON_TEXT:
+						boolean realLifeShopToggled = clothingShopUI.isVisible();
+						closeAllOverlayingScreens();
+						if (!realLifeShopToggled)
+						{
+							shopUI.toggleVisibility();
 						}
 						break;
 				}
