@@ -195,12 +195,15 @@ public class ScreenMap extends ScreenBasic
 				Position pos = this.characterQueue.remove(id);
 				float[] where = this.positionToScale(pos);
 				PlayerSprite sprite = this.characters.get(id);
-				sprite.setPosition(where[0], where[1]);
-				if (sprite == this.mySprite)
+				if (sprite != null)
 				{
-					worldCamera.position.set(where[0], where[1], 0);
+					sprite.setPosition(where[0], where[1]);
+					if (sprite == this.mySprite)
+					{
+						worldCamera.position.set(where[0], where[1], 0);
+					}
+					sprite.addActors(worldStage);
 				}
-				sprite.addActors(worldStage);
 			}
 
 			this.characterQueue.clear();
