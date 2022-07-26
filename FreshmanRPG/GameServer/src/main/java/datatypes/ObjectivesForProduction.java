@@ -67,17 +67,6 @@ public enum ObjectivesForProduction
 	ONRAMPING_INTERACTABLE(9, "Press 'E' to interact with the fireplace", QuestsForTest.ONRAMPING_QUEST.getQuestID(), 2,
 			ObjectiveCompletionType.INTERACT, new CriteriaIntegerDTO(InteractableItemsForTest.FIREPLACE.getItemID())),
 
-	/**
-	 *
-	 */
-	ONRAMPING_OPEN_CLOSET(10,"Press 'I' to open your closet to change clothing", QuestsForTest.ONRAMPING_QUEST.getQuestID(), 2,
-			ObjectiveCompletionType.KEYSTROKE, new CriteriaStringDTO("i")),
-
-	/**
-	 *
-	 */
-	ONRAMPING_PRESS_U(11, "Press 'U' to view the shop", QuestsForTest.ONRAMPING_QUEST.getQuestID(), 2,
-			ObjectiveCompletionType.KEYSTROKE, new CriteriaStringDTO("u")),
 
 	/**
 	 * Find Tea Recipe and Ingredients Objectives
