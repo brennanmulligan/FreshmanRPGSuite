@@ -85,7 +85,10 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
 		{
 			return other.resultText == null;
 		}
-		else return resultText.equals(other.resultText);
+		else
+		{
+			return resultText.equals(other.resultText);
+		}
 	}
 
 	@Override
