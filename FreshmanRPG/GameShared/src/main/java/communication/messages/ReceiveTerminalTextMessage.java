@@ -13,9 +13,9 @@ import dataDTO.PlayerMapLocationDTO;
  */
 public class ReceiveTerminalTextMessage implements Message, Serializable
 {
-	private String resultText;
+	private final String resultText;
 	private static final long serialVersionUID = 1L;
-	private int requestingPlayerID;
+	private final int requestingPlayerID;
 
 	/**
 	 * Constructor
@@ -83,16 +83,17 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
 		}
 		if (resultText == null)
 		{
-			if (other.resultText != null)
-			{
-				return false;
-			}
+			return other.resultText == null;
 		}
-		else if (!resultText.equals(other.resultText))
-		{
-			return false;
-		}
-		return true;
+		else return resultText.equals(other.resultText);
 	}
 
+	@Override
+	public String toString()
+	{
+		return "ReceiveTerminalTextMessage{" +
+				"resultText='" + resultText + '\'' +
+				", requestingPlayerID=" + requestingPlayerID +
+				'}';
+	}
 }
