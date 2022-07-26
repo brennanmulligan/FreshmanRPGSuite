@@ -19,7 +19,7 @@ public enum ObjectivesForProduction
 	 *
 	 */
 	ONRAMPING_CHAT_WITH_SORTING_HAT(1, "Use the chat window to say something to the Red Hat", QuestsForTest.ONRAMPING_QUEST.getQuestID(),
-			2, ObjectiveCompletionType.CHAT, new CriteriaStringDTO("Sorting Red Hat")),
+			2, ObjectiveCompletionType.CHAT, new CriteriaStringDTO("Sorting Big Red")),
 	/**
 	 *
 	 */
