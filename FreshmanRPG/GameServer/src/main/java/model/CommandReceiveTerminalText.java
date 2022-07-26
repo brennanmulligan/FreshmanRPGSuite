@@ -49,13 +49,13 @@ public class CommandReceiveTerminalText extends Command
 		if (cmd == null)
 		{
 			result = commandArgs[0] + ": command not found";
+			report = new ReceiveTerminalTextReport(playerID, result,
+					commandName);
+			QualifiedObservableConnector.getSingleton().sendReport(report);
 		}
 		else
 		{
 			result = cmd.execute(playerID, arg);
-		}
-		if (result.length()>0)
-		{
 			report = new ReceiveTerminalTextReport(playerID, result,
 					cmd.getTerminalIdentifier());
 			QualifiedObservableConnector.getSingleton().sendReport(report);
