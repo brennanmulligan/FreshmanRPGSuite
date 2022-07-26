@@ -639,7 +639,11 @@ public class QuestManager implements QualifiedObserver
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
     {
-        getObjectiveStateByID(playerID, questID, objectiveID).turnOffNotification();
+        ObjectiveState x = getObjectiveStateByID(playerID, questID, objectiveID);
+        if (x != null)
+        {
+            x.turnOffNotification();
+        }
     }
 
     /**
@@ -996,9 +1000,11 @@ public class QuestManager implements QualifiedObserver
         try
         {
             ObjectiveRecord ar = getObjective(questId, objectiveId);
+            ObjectiveState objectiveStateByID =
+                    singleton.getObjectiveStateByID(playerId, questId, objectiveId);
             if (ar.getCompletionType() == ObjectiveCompletionType.KEYSTROKE &&
-                    singleton.getObjectiveStateByID(playerId, questId, objectiveId)
-                            .getState() == ObjectiveStateEnum.TRIGGERED)
+                    (objectiveStateByID != null) &&
+                    (objectiveStateByID.getState() == ObjectiveStateEnum.TRIGGERED))
             {
                 CriteriaStringDTO cs = (CriteriaStringDTO) ar.getCompletionCriteria();
                 if (cs.getString().equalsIgnoreCase(input))
@@ -1198,7 +1204,10 @@ public class QuestManager implements QualifiedObserver
     {
 
         ArrayList<QuestState> questStateList = questStates.get(playerID);
-
+        if (questStateList == null)
+        {
+            return null;
+        }
         for (QuestState q : questStateList)
         {
 
