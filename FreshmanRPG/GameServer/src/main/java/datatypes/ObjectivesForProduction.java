@@ -135,7 +135,8 @@ public enum ObjectivesForProduction
 	/**
 	 *
 	 */
-	TALK_WITH_REAL_TUTOR(2, "Go To Room MCT 164 and talk to the real tutor during their availability hours!", QuestsForTest.MEET_REAL_LIFE_TUTOR_QUEST.getQuestID(), 5,
+	TALK_WITH_REAL_TUTOR(1, "Go To Room MCT 164 and talk to the real tutor during their" +
+			" availability hours!", QuestsForTest.MEET_REAL_LIFE_TUTOR_QUEST.getQuestID(), 5,
 			ObjectiveCompletionType.REAL_LIFE, new CriteriaStringDTO("Met With Tutor")),
 
 	/**
