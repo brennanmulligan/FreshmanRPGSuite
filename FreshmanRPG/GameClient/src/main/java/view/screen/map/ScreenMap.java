@@ -140,6 +140,7 @@ public class ScreenMap extends ScreenBasic
 		clearColor = new Color(0.7f, 0.7f, 1.0f, 1);
 
 		multiplexer = new InputMultiplexer();
+	//	resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	/**
@@ -305,6 +306,7 @@ public class ScreenMap extends ScreenBasic
 	@Override
 	public void resize(int width, int height)
 	{
+
 		stage.getViewport().update(width, height, false);
 		worldStage.getViewport().update(width, height, true);
 
@@ -426,8 +428,10 @@ public class ScreenMap extends ScreenBasic
 
 		worldStage = new Stage();
 		blurBatch = new SpriteBatch();
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
 
-		stage = new Stage(new ExtendViewport(DEFAULT_RES[0], DEFAULT_RES[1]));
+		stage = new Stage(new ExtendViewport(width, height));
 		stage.getRoot().addCaptureListener(new ClickListener()
 		{
 			@Override
@@ -592,7 +596,7 @@ public class ScreenMap extends ScreenBasic
 		popUpChatUI = new PopUpChatUI();
 		HighScoreUI highScoreUI = new HighScoreUI();
 		FriendsUI friendsUI = new FriendsUI();
-		CoordinatesUI coordinatesUI = new CoordinatesUI();
+//		CoordinatesUI coordinatesUI = new CoordinatesUI();
 		closetUI = new ClosetUI();
 		shopUI = new ShopUI();
 		clothingShopUI = new ClothingShopUI();
@@ -607,7 +611,7 @@ public class ScreenMap extends ScreenBasic
 		menuArea.addOverlayingScreenToggle(shopUI, null);
 		menuArea.addDropdownClothing("list", clothingDropDownChangeListener(), closeListener());
 
-		overlayingScreens.add(coordinatesUI);
+//		overlayingScreens.add(coordinatesUI);
 		overlayingScreens.add(qaScreen);
 		overlayingScreens.add(highScoreUI);
 		overlayingScreens.add(terminalUI);
@@ -618,7 +622,7 @@ public class ScreenMap extends ScreenBasic
 		overlayingScreens.add(clothingShopUI);
 		overlayingScreens.add(clientNotificationManager.getAlertContainer());
 
-		stage.addActor(coordinatesUI);
+//		stage.addActor(coordinatesUI);
 		stage.addActor(qaScreen);
 		stage.addActor(highScoreUI);
 		stage.addActor(popUpChatUI);
