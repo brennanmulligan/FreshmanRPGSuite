@@ -112,6 +112,8 @@ public enum QuestStatesForTest
 	NEWBIE_ONRAMPING(PlayersForTest.NEWBIE.getPlayerID(), QuestsForTest.ONRAMPING_QUEST.getQuestID(),
 			QuestStateEnum.TRIGGERED, true),
 
+	MERLIN_EXPLORING(PlayersForTest.MERLIN.getPlayerID(),
+			QuestsForTest.EXPLORATION_QUEST.getQuestID(),QuestStateEnum.TRIGGERED, false),
 	/**
 	 *
 	 */

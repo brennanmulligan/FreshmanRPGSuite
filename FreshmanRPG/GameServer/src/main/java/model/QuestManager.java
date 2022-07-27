@@ -558,6 +558,9 @@ public class QuestManager implements QualifiedObserver
                 triggerQuestsForPosition(myReport.getPosition(),
                         OptionsManager.getSingleton().getMapFileTitle(),
                         myReport.getPlayerID());
+                completeObjectivesForPosition(myReport.getPosition(),
+                        OptionsManager.getSingleton().getMapFileTitle(),
+                        myReport.getPlayerID());
             }
             catch (DatabaseException | IllegalObjectiveChangeException |
                    IllegalQuestChangeException e)
@@ -954,25 +957,32 @@ public class QuestManager implements QualifiedObserver
         {
             triggerQuestsForPosition(position, mapName, playerID);
 
-            ArrayList<ObjectiveRecord> objectives =
-                    getObjectivesByPosition(position, mapName);
-            for (ObjectiveRecord a : objectives)
-            {
-                ObjectiveState objectiveStateByID =
-                        getObjectiveStateByID(playerID, a.getQuestID(),
-                                a.getObjectiveID());
-                if (objectiveStateByID != null &&
-                        objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
-                {
-                    this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
-                }
-            }
+            completeObjectivesForPosition(position, mapName, playerID);
 
         }
         catch (DatabaseException | IllegalObjectiveChangeException |
                IllegalQuestChangeException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void completeObjectivesForPosition(Position position, String mapName, int playerID)
+            throws DatabaseException, IllegalObjectiveChangeException,
+            IllegalQuestChangeException
+    {
+        ArrayList<ObjectiveRecord> objectives =
+                getObjectivesByPosition(position, mapName);
+        for (ObjectiveRecord a : objectives)
+        {
+            ObjectiveState objectiveStateByID =
+                    getObjectiveStateByID(playerID, a.getQuestID(),
+                            a.getObjectiveID());
+            if (objectiveStateByID != null &&
+                    objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
+            {
+                this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
+            }
         }
     }
 
