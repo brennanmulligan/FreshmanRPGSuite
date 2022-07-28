@@ -5,10 +5,7 @@ import criteria.CriteriaStringDTO;
 import criteria.NPCResponseDTO;
 import criteria.ObjectiveCompletionCriteria;
 import dataENUM.ObjectiveCompletionType;
-import datasource.DatabaseException;
-import datasource.FriendTableDataGateway;
-import datasource.ObjectiveTableDataGateway;
-import datasource.QuestRowDataGateway;
+import datasource.*;
 import datatypes.ChatType;
 import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
@@ -1025,6 +1022,8 @@ public class QuestManager implements QualifiedObserver
         }
         catch (Exception e)
         {
+            LoggerManager.getSingleton().getLogger().finest("Exception getting " +
+                    "objective " + objectiveId + "for quest " + questId);
             e.printStackTrace();
         }
     }
