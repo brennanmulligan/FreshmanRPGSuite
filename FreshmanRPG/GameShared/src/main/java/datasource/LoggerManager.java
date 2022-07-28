@@ -67,6 +67,6 @@ public class LoggerManager
         //Assigning handlers to LOGGER object
         logger.addHandler(fileHandler);
         logger.setLevel(Level.FINEST);
-        logger.fine("Started logging");
+        logger.info("Started logging");
     }
 }
