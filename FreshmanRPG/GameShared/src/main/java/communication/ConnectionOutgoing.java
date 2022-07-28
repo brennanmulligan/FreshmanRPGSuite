@@ -83,8 +83,6 @@ public class ConnectionOutgoing implements Runnable
                         }
                         catch (SocketException e)
                         {
-                            System.out.println("Write failed.  Player: " +
-                                    stateAccumulator.getPlayerID());
                             cleanUpAndExit();
                             done = true;
                         }
