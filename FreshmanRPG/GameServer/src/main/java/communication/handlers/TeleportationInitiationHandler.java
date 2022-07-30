@@ -2,7 +2,8 @@ package communication.handlers;
 
 import communication.messages.Message;
 import communication.messages.TeleportationInitiationMessage;
-import model.CommandMovePlayerSilentlyAndPersist;
+import datasource.LoggerManager;
+import model.CommandMovePlayerToAnotherMapAndPersist;
 import model.ModelFacade;
 
 /**
@@ -24,8 +25,10 @@ public class TeleportationInitiationHandler extends MessageHandler
 	public void process(Message msg)
 	{
 		TeleportationInitiationMessage currentMsg = (TeleportationInitiationMessage) msg;
-
-		CommandMovePlayerSilentlyAndPersist command = new CommandMovePlayerSilentlyAndPersist(
+		LoggerManager.getSingleton().getLogger().info("Received Teleportation " +
+				"initiation from player " + currentMsg.getPlayerId());
+		CommandMovePlayerToAnotherMapAndPersist
+				command = new CommandMovePlayerToAnotherMapAndPersist(
 				currentMsg.getPlayerId(),
 				currentMsg.getMapName(),
 				currentMsg.getPosition()

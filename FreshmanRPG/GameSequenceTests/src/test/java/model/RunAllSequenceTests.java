@@ -310,7 +310,7 @@ public class RunAllSequenceTests
             if (!secondPendingMsgs.isEmpty())
             {
                 return "Testing " + serverType.name() +
-                        ": Second accumulator had messages pending";
+                        ": Second accumulator had messages pending: " + secondPendingMsgs.get(0).toString();
             }
         }
         ArrayList<Message> pendingMsgs = stateAccumulator.getPendingMsgs();

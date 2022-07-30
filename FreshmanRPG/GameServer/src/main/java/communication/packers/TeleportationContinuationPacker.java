@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import communication.messages.Message;
 import communication.messages.TeleportationContinuationMessage;
 import datasource.DatabaseException;
+import datasource.LoggerManager;
 import model.MapToServerMapping;
 import model.PlayerManager;
 import model.QualifiedObservableReport;
@@ -30,6 +31,9 @@ public class TeleportationContinuationPacker extends MessagePacker
 				MapToServerMapping mapping = new MapToServerMapping(report.getMap());
 
 				int newPin = PlayerManager.getSingleton().getNewPinFor(report.getPlayerID());
+				LoggerManager.getSingleton().getLogger().info("Sending teleportation " +
+						"continuation msg to " + report.getPlayerID() + " sending them " +
+						"to " + report.getMap());
 				return new TeleportationContinuationMessage(report.getMap(), mapping.getHostName(),
 						mapping.getPortNumber(), report.getPlayerID(),
 						newPin);

@@ -3,7 +3,7 @@ package model.terminal;
 
 import datasource.DatabaseException;
 import datatypes.Position;
-import model.CommandMovePlayerSilentlyAndPersist;
+import model.CommandMovePlayerToAnotherMapAndPersist;
 import model.ServerMapManager;
 import model.ModelFacade;
 import model.Player;
@@ -43,7 +43,8 @@ public class CommandTerminalTextCd extends TerminalCommand
 			{
 				Position position = ServerMapManager.getSingleton().getDefaultPositionForMap(destination);
 
-				CommandMovePlayerSilentlyAndPersist command = new CommandMovePlayerSilentlyAndPersist(playerID, mapName, position);
+				CommandMovePlayerToAnotherMapAndPersist
+                        command = new CommandMovePlayerToAnotherMapAndPersist(playerID, mapName, position);
 				ModelFacade.getSingleton().queueCommand(command);
 			}
 		}

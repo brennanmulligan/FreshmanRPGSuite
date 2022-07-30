@@ -11,7 +11,6 @@ import org.junit.runners.Suite;
 import communication.handlers.ObjectiveNotificationCompleteMessageHandlerTest;
 import communication.handlers.ChatMessageToServerHandlerTest;
 import communication.handlers.ConnectMessageHandlerTest;
-import communication.handlers.DisconnectMessageHandlerTest;
 import communication.handlers.HighScoreRequestMessageHandlerTest;
 import communication.handlers.KeyInputMessageHandlerTest;
 import communication.handlers.MovementMessageHandlerTest;
@@ -54,7 +53,6 @@ import model.reports.UpdatePlayerInformationReportTest;
 				ObjectiveNotificationCompleteMessageHandlerTest.class,
 				ChatMessageToServerHandlerTest.class,
 				ConnectMessageHandlerTest.class,
-				DisconnectMessageHandlerTest.class,
 				HighScoreRequestMessageHandlerTest.class,
 				KeyInputMessageHandlerTest.class,
 				MovementMessageHandlerTest.class,
@@ -111,7 +109,7 @@ import model.reports.UpdatePlayerInformationReportTest;
 				CommandAddPlayerTest.class,
 				CommandObjectiveNotificationCompleteTest.class,
 				CommandKeyInputMessageReceivedTest.class,
-				CommandMovePlayerSilentlyAndPersistTest.class,
+				CommandMovePlayerToAnotherMapAndPersistTest.class,
 				CommandMovePlayerSilentlyTest.class,
 				CommandMovePlayerTest.class,
 				CommandPersistPlayerTest.class,
