@@ -615,7 +615,7 @@ public class QuestManager implements QualifiedObserver
         Date now = Calendar.getInstance().getTime();
         QuestRecord q = getQuest(questID);
 
-        if ((qs != null) && (qs.getStateValue() != QuestStateEnum.TRIGGERED))
+        if ((qs != null) && (qs.getStateValue() == QuestStateEnum.AVAILABLE))
         {
             if (now.after(q.getStartDate()) && now.before(q.getEndDate()))
             {
