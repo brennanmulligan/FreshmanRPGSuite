@@ -53,7 +53,7 @@ public class CommandReceiveTerminalText extends Command
 		else
 		{
 			result = cmd.execute(playerID, arg);
-			if (result.length() > 0)
+			if (result != null && result.length() > 0)
 			{
 				report = new ReceiveTerminalTextReport(playerID, result,
 						cmd.getTerminalIdentifier());
