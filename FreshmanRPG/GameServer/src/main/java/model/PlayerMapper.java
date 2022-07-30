@@ -292,16 +292,16 @@ public class PlayerMapper
         playerConnectionGateway.storePosition(player.getPlayerPosition());
 
         ArrayList<QuestState> questList =
-                QuestManager.getSingleton().getQuestList(player.getPlayerID());
+                (ArrayList<QuestState>) QuestManager.getSingleton().getQuestList(player.getPlayerID()).clone();
         if (questList != null)
         {
-            for (QuestState quest : questList)
+            for (QuestState questState : questList)
             {
-                questStateGateway.updateState(player.getPlayerID(), quest.getID(),
-                        quest.getStateValue(), quest.isNeedingNotification());
-                for (ObjectiveState a : quest.getObjectiveList())
+                questStateGateway.updateState(player.getPlayerID(), questState.getID(),
+                        questState.getStateValue(), questState.isNeedingNotification());
+                for (ObjectiveState a : questState.getObjectiveList())
                 {
-                    objectiveStateGateway.updateState(player.getPlayerID(), quest.getID(),
+                    objectiveStateGateway.updateState(player.getPlayerID(), questState.getID(),
                             a.getID(), a.getState(), a.isNeedingNotification());
                 }
             }
