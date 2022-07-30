@@ -586,6 +586,7 @@ public class QuestManager implements QualifiedObserver
             handleReceiveTerminalTextReport(report);
 
         }
+
     }
 
     /**
@@ -666,8 +667,8 @@ public class QuestManager implements QualifiedObserver
      * @param q              quest to get objective for
      * @throws PlayerNotFoundException if the player in the report is not logged in
      */
-    private void checkAllChatObjectivesForCompletion(int reportPlayerID,
-                                                     ChatType type, QuestState q)
+    private void checkAllChatObjectivesForCompletion(int reportPlayerID, ChatType type,
+                                                     QuestState q)
             throws PlayerNotFoundException
     {
         PlayerManager PM = PlayerManager.getSingleton();
@@ -739,6 +740,25 @@ public class QuestManager implements QualifiedObserver
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void completeObjectivesForPosition(Position position, String mapName,
+                                               int playerID)
+            throws DatabaseException, IllegalObjectiveChangeException,
+            IllegalQuestChangeException
+    {
+        ArrayList<ObjectiveRecord> objectives =
+                getObjectivesByPosition(position, mapName);
+        for (ObjectiveRecord a : objectives)
+        {
+            ObjectiveState objectiveStateByID =
+                    getObjectiveStateByID(playerID, a.getQuestID(), a.getObjectiveID());
+            if (objectiveStateByID != null &&
+                    objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
+            {
+                this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
             }
         }
     }
@@ -964,25 +984,6 @@ public class QuestManager implements QualifiedObserver
         }
     }
 
-    private void completeObjectivesForPosition(Position position, String mapName, int playerID)
-            throws DatabaseException, IllegalObjectiveChangeException,
-            IllegalQuestChangeException
-    {
-        ArrayList<ObjectiveRecord> objectives =
-                getObjectivesByPosition(position, mapName);
-        for (ObjectiveRecord a : objectives)
-        {
-            ObjectiveState objectiveStateByID =
-                    getObjectiveStateByID(playerID, a.getQuestID(),
-                            a.getObjectiveID());
-            if (objectiveStateByID != null &&
-                    objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
-            {
-                this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
-            }
-        }
-    }
-
     private void triggerQuestsForPosition(Position position, String mapName, int playerID)
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
@@ -1022,8 +1023,9 @@ public class QuestManager implements QualifiedObserver
         }
         catch (Exception e)
         {
-            LoggerManager.getSingleton().getLogger().info("Exception getting " +
-                    "objective " + objectiveId + "for quest " + questId);
+            LoggerManager.getSingleton().getLogger()
+                    .info("Exception getting " + "objective " + objectiveId +
+                            "for quest " + questId);
             e.printStackTrace();
         }
     }
