@@ -1,25 +1,26 @@
 package model;
 
 import datasource.DatabaseException;
+import datasource.LoggerManager;
 import datatypes.Position;
 import model.reports.PlayerReadyToTeleportReport;
 
 /**
  * Moves the player without generating a message, and then saves them to the database.
  */
-public class CommandMovePlayerSilentlyAndPersist extends Command
+public class CommandMovePlayerToAnotherMapAndPersist extends Command
 {
 
-	private int playerId;
-	private String map;
-	private Position position;
+	private final int playerId;
+	private final String map;
+	private final Position position;
 
 	/**
 	 * @param playerId The player id that should be moved and then saved.
 	 * @param map The map that they are moved to.
 	 * @param position The position that they are moved to.
 	 */
-	public CommandMovePlayerSilentlyAndPersist(int playerId, String map, Position position)
+	public CommandMovePlayerToAnotherMapAndPersist(int playerId, String map, Position position)
 	{
 		this.playerId = playerId;
 		this.map = map;
@@ -42,11 +43,14 @@ public class CommandMovePlayerSilentlyAndPersist extends Command
 				boolean result = playerManager.persistPlayer(playerId);
 				PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(playerId, map);
 				QualifiedObservableConnector.getSingleton().sendReport(report);
+
 				return result;
 
 			}
 			catch (DatabaseException | IllegalQuestChangeException e)
 			{
+				LoggerManager.getSingleton().getLogger().info("Exception in moving the " +
+					"player");
 			}
 		}
 

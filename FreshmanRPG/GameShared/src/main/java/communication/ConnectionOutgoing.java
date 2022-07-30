@@ -117,7 +117,6 @@ public class ConnectionOutgoing implements Runnable
      */
     private void cleanUpAndExit()
     {
-        // TODO need to unobserve all of the things from the message packers
 
     }
 

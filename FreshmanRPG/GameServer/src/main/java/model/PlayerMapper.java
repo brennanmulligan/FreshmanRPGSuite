@@ -87,7 +87,6 @@ public class PlayerMapper
                         int experiencePoints, Crew crew, Major major, int section,
                         String name, String password) throws DatabaseException
     {
-        //TODO: The defaults need to be configured properly
         int pin = 1111;
         String mapName = "sortingRoom.tmx";
         objectiveStateGateway = ObjectiveStateTableDataGateway.getSingleton();
@@ -292,16 +291,17 @@ public class PlayerMapper
         playerConnectionGateway.storePosition(player.getPlayerPosition());
 
         ArrayList<QuestState> questList =
-                QuestManager.getSingleton().getQuestList(player.getPlayerID());
+               QuestManager.getSingleton().getQuestList(player.getPlayerID());
         if (questList != null)
         {
-            for (QuestState quest : questList)
+            questList = (ArrayList<QuestState>) questList.clone();
+            for (QuestState questState : questList)
             {
-                questStateGateway.updateState(player.getPlayerID(), quest.getID(),
-                        quest.getStateValue(), quest.isNeedingNotification());
-                for (ObjectiveState a : quest.getObjectiveList())
+                questStateGateway.updateState(player.getPlayerID(), questState.getID(),
+                        questState.getStateValue(), questState.isNeedingNotification());
+                for (ObjectiveState a : questState.getObjectiveList())
                 {
-                    objectiveStateGateway.updateState(player.getPlayerID(), quest.getID(),
+                    objectiveStateGateway.updateState(player.getPlayerID(), questState.getID(),
                             a.getID(), a.getState(), a.isNeedingNotification());
                 }
             }
