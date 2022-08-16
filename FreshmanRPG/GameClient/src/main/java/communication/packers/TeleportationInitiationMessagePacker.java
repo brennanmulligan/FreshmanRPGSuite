@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import communication.messages.Message;
 import communication.messages.TeleportationInitiationMessage;
+import datasource.LoggerManager;
 import model.QualifiedObservableReport;
 import model.reports.ChangeMapReport;
 
@@ -28,12 +29,10 @@ public class TeleportationInitiationMessagePacker extends MessagePacker
 					"TeleportationInitiationMessagePacker cannot pack messages of type "
 							+ object.getClass());
 		}
-
 		ChangeMapReport report = (ChangeMapReport) object;
-		TeleportationInitiationMessage msg = new TeleportationInitiationMessage(report.getPlayerID(),
-				report.getMapName(), report.getPosition());
 
-		return msg;
+		return new TeleportationInitiationMessage(report.getPlayerID(),
+				report.getMapName(), report.getPosition());
 	}
 
 	/**

@@ -4,6 +4,7 @@ import communication.messages.Message;
 import communication.messages.ServerPlayerOwnedItemsRequestMessage;
 import communication.messages.ServerPlayerOwnedItemsResponseMessage;
 import dataDTO.VanityDTO;
+import model.Player;
 import model.PlayerManager;
 
 import java.util.ArrayList;
@@ -17,9 +18,14 @@ public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
         ServerPlayerOwnedItemsRequestMessage actualMsg = (ServerPlayerOwnedItemsRequestMessage) msg;
         try
         {
-            ArrayList<VanityDTO> ownedItems = PlayerManager.getSingleton().getPlayerFromID(actualMsg.getPlayerID()).getAllOwnedItems();
+            Player player =
+                    PlayerManager.getSingleton().getPlayerFromID(actualMsg.getPlayerID());
+            if (player == null)
+            {
+                return;
+            }
+            ArrayList<VanityDTO> ownedItems = player.getAllOwnedItems();
             ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems);
-            System.out.println("\n---Msg to send---\n" + msgToSend);
             this.getStateAccumulator().queueMessage(msgToSend);
         }
         catch (Exception e)

@@ -83,8 +83,6 @@ public class ConnectionOutgoing implements Runnable
                         }
                         catch (SocketException e)
                         {
-                            System.out.println("Write failed.  Player: " +
-                                    stateAccumulator.getPlayerID());
                             cleanUpAndExit();
                             done = true;
                         }
@@ -119,7 +117,6 @@ public class ConnectionOutgoing implements Runnable
      */
     private void cleanUpAndExit()
     {
-        // TODO need to unobserve all of the things from the message packers
 
     }
 

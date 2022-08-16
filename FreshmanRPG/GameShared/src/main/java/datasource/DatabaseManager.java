@@ -37,6 +37,28 @@ public class DatabaseManager
         connections = new HashMap<>();
     }
 
+    public void touchConnection()
+    {
+        long id;
+        if (testing)
+        {
+            id = TESTING_ID;
+        }
+        else
+        {
+            id = Thread.currentThread().getId();
+        }
+        Connection connection = connections.get(id);
+        try
+        {
+            connection.prepareStatement("SELECT now() as time;").execute();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
     private Connection openConnection() throws DatabaseException
     {
         if (OptionsManager.getSingleton().isRunningInCI())

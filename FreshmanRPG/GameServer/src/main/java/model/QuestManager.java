@@ -5,10 +5,7 @@ import criteria.CriteriaStringDTO;
 import criteria.NPCResponseDTO;
 import criteria.ObjectiveCompletionCriteria;
 import dataENUM.ObjectiveCompletionType;
-import datasource.DatabaseException;
-import datasource.FriendTableDataGateway;
-import datasource.ObjectiveTableDataGateway;
-import datasource.QuestRowDataGateway;
+import datasource.*;
 import datatypes.ChatType;
 import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
@@ -558,6 +555,9 @@ public class QuestManager implements QualifiedObserver
                 triggerQuestsForPosition(myReport.getPosition(),
                         OptionsManager.getSingleton().getMapFileTitle(),
                         myReport.getPlayerID());
+                completeObjectivesForPosition(myReport.getPosition(),
+                        OptionsManager.getSingleton().getMapFileTitle(),
+                        myReport.getPlayerID());
             }
             catch (DatabaseException | IllegalObjectiveChangeException |
                    IllegalQuestChangeException e)
@@ -586,6 +586,7 @@ public class QuestManager implements QualifiedObserver
             handleReceiveTerminalTextReport(report);
 
         }
+
     }
 
     /**
@@ -615,7 +616,7 @@ public class QuestManager implements QualifiedObserver
         Date now = Calendar.getInstance().getTime();
         QuestRecord q = getQuest(questID);
 
-        if ((qs != null) && (qs.getStateValue() != QuestStateEnum.TRIGGERED))
+        if ((qs != null) && (qs.getStateValue() == QuestStateEnum.AVAILABLE))
         {
             if (now.after(q.getStartDate()) && now.before(q.getEndDate()))
             {
@@ -639,7 +640,11 @@ public class QuestManager implements QualifiedObserver
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
     {
-        getObjectiveStateByID(playerID, questID, objectiveID).turnOffNotification();
+        ObjectiveState x = getObjectiveStateByID(playerID, questID, objectiveID);
+        if (x != null)
+        {
+            x.turnOffNotification();
+        }
     }
 
     /**
@@ -662,8 +667,8 @@ public class QuestManager implements QualifiedObserver
      * @param q              quest to get objective for
      * @throws PlayerNotFoundException if the player in the report is not logged in
      */
-    private void checkAllChatObjectivesForCompletion(int reportPlayerID,
-                                                     ChatType type, QuestState q)
+    private void checkAllChatObjectivesForCompletion(int reportPlayerID, ChatType type,
+                                                     QuestState q)
             throws PlayerNotFoundException
     {
         PlayerManager PM = PlayerManager.getSingleton();
@@ -735,6 +740,25 @@ public class QuestManager implements QualifiedObserver
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void completeObjectivesForPosition(Position position, String mapName,
+                                               int playerID)
+            throws DatabaseException, IllegalObjectiveChangeException,
+            IllegalQuestChangeException
+    {
+        ArrayList<ObjectiveRecord> objectives =
+                getObjectivesByPosition(position, mapName);
+        for (ObjectiveRecord a : objectives)
+        {
+            ObjectiveState objectiveStateByID =
+                    getObjectiveStateByID(playerID, a.getQuestID(), a.getObjectiveID());
+            if (objectiveStateByID != null &&
+                    objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
+            {
+                this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
             }
         }
     }
@@ -950,19 +974,7 @@ public class QuestManager implements QualifiedObserver
         {
             triggerQuestsForPosition(position, mapName, playerID);
 
-            ArrayList<ObjectiveRecord> objectives =
-                    getObjectivesByPosition(position, mapName);
-            for (ObjectiveRecord a : objectives)
-            {
-                ObjectiveState objectiveStateByID =
-                        getObjectiveStateByID(playerID, a.getQuestID(),
-                                a.getObjectiveID());
-                if (objectiveStateByID != null &&
-                        objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
-                {
-                    this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
-                }
-            }
+            completeObjectivesForPosition(position, mapName, playerID);
 
         }
         catch (DatabaseException | IllegalObjectiveChangeException |
@@ -996,9 +1008,11 @@ public class QuestManager implements QualifiedObserver
         try
         {
             ObjectiveRecord ar = getObjective(questId, objectiveId);
+            ObjectiveState objectiveStateByID =
+                    singleton.getObjectiveStateByID(playerId, questId, objectiveId);
             if (ar.getCompletionType() == ObjectiveCompletionType.KEYSTROKE &&
-                    singleton.getObjectiveStateByID(playerId, questId, objectiveId)
-                            .getState() == ObjectiveStateEnum.TRIGGERED)
+                    (objectiveStateByID != null) &&
+                    (objectiveStateByID.getState() == ObjectiveStateEnum.TRIGGERED))
             {
                 CriteriaStringDTO cs = (CriteriaStringDTO) ar.getCompletionCriteria();
                 if (cs.getString().equalsIgnoreCase(input))
@@ -1009,6 +1023,9 @@ public class QuestManager implements QualifiedObserver
         }
         catch (Exception e)
         {
+            LoggerManager.getSingleton().getLogger()
+                    .info("Exception getting " + "objective " + objectiveId +
+                            "for quest " + questId);
             e.printStackTrace();
         }
     }
@@ -1198,7 +1215,10 @@ public class QuestManager implements QualifiedObserver
     {
 
         ArrayList<QuestState> questStateList = questStates.get(playerID);
-
+        if (questStateList == null)
+        {
+            return null;
+        }
         for (QuestState q : questStateList)
         {
 

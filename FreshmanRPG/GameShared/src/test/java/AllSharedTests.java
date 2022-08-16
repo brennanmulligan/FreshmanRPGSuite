@@ -53,7 +53,6 @@ import tmxfiles.TMXMapReaderTest;
 				BuffMessageTest.class,
 				ChatMessageToClientTest.class,
 				ConnectionMessageTest.class,
-				DisconnectionMessageTest.class,
 				ExperienceChangedMessageTest.class,
 				InitializeThisClientsPlayerMessageTest.class,
 				KeyInputMessageTest.class,

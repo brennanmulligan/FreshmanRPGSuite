@@ -242,14 +242,16 @@ public class QuestState
 	 */
 	protected void trigger() throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
 	{
-		changeState(QuestStateEnum.TRIGGERED, true);
-		for (ObjectiveState state : objectiveList)
-		{
-			if (state.getState() == ObjectiveStateEnum.HIDDEN)
+
+			changeState(QuestStateEnum.TRIGGERED, true);
+			for (ObjectiveState state : objectiveList)
 			{
-				state.trigger();
+				if (state.getState() == ObjectiveStateEnum.HIDDEN)
+				{
+					state.trigger();
+				}
 			}
-		}
+
 	}
 
 	/**

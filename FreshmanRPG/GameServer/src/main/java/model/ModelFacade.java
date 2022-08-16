@@ -1,6 +1,10 @@
 package model;
 
+import datasource.DatabaseException;
+import datasource.DatabaseManager;
+
 import java.io.IOException;
+import java.util.Date;
 import java.util.Timer;
 
 /**
@@ -13,6 +17,7 @@ public class ModelFacade
 {
 
     private static ModelFacade singleton;
+    private int dbTouchCounter = 0;
 
     /**
      * @return the only one of these there is
@@ -80,8 +85,24 @@ public class ModelFacade
         @Override
         public void run()
         {
+            dbTouchCounter++;
+            if (dbTouchCounter >= 10000)
+            {
+                try
+                {
+                    System.out.println("Touching DB");
+                    dbTouchCounter = 0;
+                    DatabaseManager.getSingleton().touchConnection();
+                }
+                catch (DatabaseException e)
+                {
+                    e.printStackTrace();
+                    System.exit(-42);
+                }
+            }
             synchronized (commandQueue)
             {
+
                 while (commandQueue.getQueueSize() > 0)
                 {
                     Command cmd;
@@ -94,7 +115,7 @@ public class ModelFacade
                             commandsPending = false;
                         }
                     }
-                    catch (InterruptedException | IOException e)
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                     }

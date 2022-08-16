@@ -34,14 +34,14 @@ import view.screen.notification.AlertContainer;
 public class MenuUI extends Group implements QualifiedObserver
 {
 	private final float HEIGHT = 30f;
-	private Skin skin;
-	private Skin unreadSkin = new Skin(Gdx.files.internal("ui-data/ui/screenskins/ui-yellow.json"));
-	private ArrayList<OverlayingScreen> overlayingScreens;
-	private Table tabs;
-	private final String QUEST_BUTTON_TEXT = "Quests";
-	private final String HIGHSCORE_BUTTON_TEXT = "Highscore";
-	private final String CLOSET_BUTTON_TEXT = "Closet";
-	private final String SHOPS_BUTTON_TEXT = "Shop";
+	private final Skin skin;
+	private final Skin unreadSkin = new Skin(Gdx.files.internal("ui-data/ui/screenskins" +
+			"/ui-yellow.json"));
+	private final ArrayList<OverlayingScreen> overlayingScreens;
+	private final Table tabs;
+	public static final String CLOSET_BUTTON_TEXT = "Closet";
+	public static final String IN_GAME_SHOP_BUTTON_TEXT = "In Game Shop";
+	public static final String REAL_LIFE_SHOP_BUTTON_TEXT = "Real Life Game Shop";
 
 	private SelectBox<String> questSelectBox;
 	private SelectBox<String> clothingSelectBox;
@@ -162,26 +162,6 @@ public class MenuUI extends Group implements QualifiedObserver
 	}
 
 	/**
-	 * Adds the quest dropdown menu to the UI
-	 * @param text - the the label of the dropdown menu
-	 * @param listener - The listener listening to the dropdown menu
-	 * @param clickListener - the click listener that will close the windows. 
-	 */
-	public void addQuestDropdown(String text, ChangeListener listener, ClickListener clickListener)
-	{
-		questSelectBox = new SelectBox<>(skin);
-		questSelectBox.setColor(Color.GRAY);
-		questSelectBox.setItems(
-				QUEST_BUTTON_TEXT,
-				HIGHSCORE_BUTTON_TEXT);
-
-		questSelectBox.addListener(listener);
-		questSelectBox.addListener(clickListener);
-
-		tabs.add(questSelectBox);
-	}
-
-	/**
 	 * Adds the clothing dropdown menu to the UI
 	 * @param text - the the label of the dropdown menu
 	 * @param listener - The listener listening to the dropdown menu
@@ -189,11 +169,12 @@ public class MenuUI extends Group implements QualifiedObserver
 	 */
 	public void addDropdownClothing(String text, ChangeListener listener, ClickListener clickListener)
 	{
-		clothingSelectBox=new SelectBox<String>(skin);
+		clothingSelectBox=new SelectBox<>(skin);
 		clothingSelectBox.setColor(Color.GRAY);
 		clothingSelectBox.setItems(
 				CLOSET_BUTTON_TEXT,
-				SHOPS_BUTTON_TEXT);
+				IN_GAME_SHOP_BUTTON_TEXT,
+				REAL_LIFE_SHOP_BUTTON_TEXT);
 
 		clothingSelectBox.addListener(listener);
 		clothingSelectBox.addListener(clickListener);
@@ -284,7 +265,7 @@ public class MenuUI extends Group implements QualifiedObserver
 						}
 					}
 				}
-				if (!friendsScreen.isVisible())
+				if (friendsScreen != null && !friendsScreen.isVisible())
 				{
 					updateFriendButton(true);
 				}

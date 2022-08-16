@@ -202,6 +202,7 @@ public class PlayerManager implements QualifiedObserver
 	 */
 	public int getPlayerIDFromPlayerName(String playerName) throws PlayerNotFoundException
 	{
+		System.out.println();
 		for (Player p : players.values())
 		{
 			if (p.getPlayerName().equalsIgnoreCase(playerName))
@@ -209,7 +210,7 @@ public class PlayerManager implements QualifiedObserver
 				return p.getPlayerID();
 			}
 		}
-		throw new PlayerNotFoundException();
+		throw new PlayerNotFoundException("Failed searching for player named " + playerName);
 	}
 
 	/**

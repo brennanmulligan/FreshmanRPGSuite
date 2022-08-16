@@ -19,7 +19,7 @@ import model.reports.PlayerReadyToTeleportReport;
  * @author Merlin
  *
  */
-public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
+public class CommandMovePlayerToAnotherMapAndPersistTest extends ServerSideTest
 {
 
 	/**
@@ -47,7 +47,8 @@ public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 
 		assertEquals(startPosition, p.getPlayerPosition());
 
-		CommandMovePlayerSilentlyAndPersist cmd = new CommandMovePlayerSilentlyAndPersist(1, "newMap", newPosition);
+		CommandMovePlayerToAnotherMapAndPersist
+                cmd = new CommandMovePlayerToAnotherMapAndPersist(1, "newMap", newPosition);
 		cmd.execute();
 
 		assertEquals(newPosition, p.getPlayerPosition());
@@ -66,7 +67,8 @@ public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerMovedReport.class);
 		EasyMock.replay(obs);
 
-		CommandMovePlayerSilentlyAndPersist cmd = new CommandMovePlayerSilentlyAndPersist(1, "newMap",
+		CommandMovePlayerToAnotherMapAndPersist
+                cmd = new CommandMovePlayerToAnotherMapAndPersist(1, "newMap",
 				new Position(4, 3));
 		cmd.execute();
 
@@ -82,7 +84,8 @@ public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 	{
 		Position newPosition = new Position(10, 10);
 
-		CommandMovePlayerSilentlyAndPersist cmd = new CommandMovePlayerSilentlyAndPersist(-1, "a map", newPosition);
+		CommandMovePlayerToAnotherMapAndPersist
+                cmd = new CommandMovePlayerToAnotherMapAndPersist(-1, "a map", newPosition);
 		assertFalse(cmd.execute());
 	}
 
@@ -96,7 +99,8 @@ public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 		player.setPlayerPositionWithoutNotifying(new Position(101, 101));
 		player.setAppearanceType("appearance");
 
-		CommandMovePlayerSilentlyAndPersist cmd = new CommandMovePlayerSilentlyAndPersist(player.getPlayerID(), "a map",
+		CommandMovePlayerToAnotherMapAndPersist
+                cmd = new CommandMovePlayerToAnotherMapAndPersist(player.getPlayerID(), "a map",
 				new Position(101, 101));
 		cmd.execute();
 
@@ -115,7 +119,8 @@ public class CommandMovePlayerSilentlyAndPersistTest extends ServerSideTest
 	{
 		int id = PlayersForTest.MERLIN.getPlayerID();
 		PlayerManager.getSingleton().addPlayer(id);
-		CommandMovePlayerSilentlyAndPersist command = new CommandMovePlayerSilentlyAndPersist(id, "test map",
+		CommandMovePlayerToAnotherMapAndPersist
+                command = new CommandMovePlayerToAnotherMapAndPersist(id, "test map",
 				new Position(3, 5));
 		PlayerReadyToTeleportReport expected = new PlayerReadyToTeleportReport(id, "test map");
 		QualifiedObserver observer = EasyMock.createMock(QualifiedObserver.class);

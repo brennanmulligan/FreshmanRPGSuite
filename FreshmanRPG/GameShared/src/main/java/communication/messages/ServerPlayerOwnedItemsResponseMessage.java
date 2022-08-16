@@ -18,10 +18,7 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
      */
     public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems)
     {
-        System.out.println("step 5");
-        System.out.println("\nItems from constructor ServerPlayerOwnedItemsResponseMessage");
-        serverOwnedItems.forEach(System.out::println);
-        this.serverOwnedItems = new ArrayList<>(serverOwnedItems);
+         this.serverOwnedItems = new ArrayList<>(serverOwnedItems);
     }
 
     /**
