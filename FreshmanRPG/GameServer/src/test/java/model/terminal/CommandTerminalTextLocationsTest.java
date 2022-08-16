@@ -11,7 +11,7 @@ import datatypes.PlayersForTest;
  * @author Nathaniel and Ben
  *
  */
-public class CommandTerminalTextLSTest extends ServerSideTest
+public class CommandTerminalTextLocationsTest extends ServerSideTest
 {
 
 	/**
@@ -42,7 +42,8 @@ public class CommandTerminalTextLSTest extends ServerSideTest
 	@Test
 	public void testMapTeleportList()
 	{
-		CommandTerminalTextLS ls = (CommandTerminalTextLS) TerminalManager.getSingleton().getTerminalCommandObject("ls");
+		CommandTerminalTextLocations
+				ls = (CommandTerminalTextLocations) TerminalManager.getSingleton().getTerminalCommandObject("ls");
 		String expected = "Rec Center, Quad";
 		String actual = ls.execute(PlayersForTest.MERLIN.getPlayerID(), new String[]{""});
 		assertEquals(expected, actual);
