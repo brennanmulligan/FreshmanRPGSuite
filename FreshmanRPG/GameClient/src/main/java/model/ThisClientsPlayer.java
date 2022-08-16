@@ -12,17 +12,7 @@ import datasource.LevelRecord;
 import datatypes.ObjectiveStateEnum;
 import datatypes.Position;
 import datatypes.QuestStateEnum;
-import model.reports.ObjectiveNeedingNotificationReport;
-import model.reports.ObjectiveStateChangeReportInClient;
-import model.reports.BuffPoolChangedReport;
-import model.reports.ClientTimeToLevelUpDeadlineReport;
-import model.reports.CurrentFriendListReport;
-import model.reports.ExperiencePointsChangeReport;
-import model.reports.DoubloonChangeReport;
-import model.reports.QuestNeedingNotificationReport;
-import model.reports.QuestStateChangeReport;
-import model.reports.QuestStateReport;
-import model.reports.UpdateFriendsListReport;
+import model.reports.*;
 
 /**
  * The player who is playing the game
@@ -36,6 +26,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 	ArrayList<FriendDTO> friendList = new ArrayList<>();
 
 	private int experiencePoints;
+
 	private LevelRecord record;
 	private int doubloons;
 	private Timer levelUpTimer = null;
@@ -128,6 +119,18 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 		super.move(pos, true);
 	}
 
+	/**
+	 * @param thePosition is the position of the hotspot Creates a ChangeMapReport with
+	 *                    the Map and location the player will teleport to.
+	 */
+	public void teleport(Position thePosition)
+	{
+		if (!MapManager.getSingleton().getRecentlyChanged())
+		{
+			TeleportHotSpot hotSpot = MapManager.getSingleton().getTeleportHotSpot(thePosition);
+			QualifiedObservableConnector.getSingleton()
+					.sendReport(new ChangeMapReport(id, hotSpot.getTeleportPosition(), hotSpot.getMapName()));
+		}}
 	/**
 	 * Returns the list of quests contained by the local player.
 	 *

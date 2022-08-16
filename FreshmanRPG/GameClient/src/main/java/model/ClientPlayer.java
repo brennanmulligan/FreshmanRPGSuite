@@ -126,7 +126,7 @@ public class ClientPlayer
 
     /**
      * Checks if the item is already owned, if not then add
-     * @param item
+     * @param item The vanity item we are interested in
      */
     public void addItemToInventory(VanityDTO item)
     {
@@ -182,16 +182,7 @@ public class ClientPlayer
         return this.position;
     }
 
-    /**
-     * @param thePosition is the position of the hotspot Creates a ChangeMapReport with
-     *                    the Map and location the player will teleport to.
-     */
-    public void teleport(Position thePosition)
-    {
-        TeleportHotSpot hotSpot = MapManager.getSingleton().getTeleportHotSpot(thePosition);
-        QualifiedObservableConnector.getSingleton()
-                .sendReport(new ChangeMapReport(id, hotSpot.getTeleportPosition(), hotSpot.getMapName()));
-    }
+
 
     /**
      * @return the crew this player belongs to
