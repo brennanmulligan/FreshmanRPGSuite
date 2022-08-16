@@ -2,21 +2,17 @@ package model.terminal;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
-
 import datasource.ServerSideTest;
 import org.junit.Test;
 
-import dataDTO.LevelManagerDTO;
-import datasource.DatabaseException;
 import datatypes.PlayersForTest;
 
 /**
- * Test class for CommandTerminalTextFinger
+ * Test class for CommandTerminalTextWhoIs
  * @author as3871
  *
  */
-public class CommandTerminalTextFingerTest extends ServerSideTest
+public class CommandTerminalTextWhoIsTest extends ServerSideTest
 {
 
 	/**
@@ -47,7 +43,7 @@ public class CommandTerminalTextFingerTest extends ServerSideTest
 	@Test
 	public void testThatAnOnlinePlayerCanFingerAnotherNotOnSameMap()
 	{
-		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
+		CommandTerminalTextWhoIs fingerCommand = new CommandTerminalTextWhoIs();
 		String actual = fingerCommand.execute(PlayersForTest.NICK.getPlayerID(), new String[]{"Merlin"});
 		assertTrue(PlayersForTest.MERLIN.getOnline());
 		assertNotEquals(PlayersForTest.MERLIN.getMapName(), PlayersForTest.NICK.getMapName());
@@ -69,7 +65,7 @@ public class CommandTerminalTextFingerTest extends ServerSideTest
 	@Test
 	public void testThatAnOnlinePlayerCanFingerAnOfflinePlayer()
 	{
-		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
+		CommandTerminalTextWhoIs fingerCommand = new CommandTerminalTextWhoIs();
 		assertFalse(PlayersForTest.MARTY.getOnline());
 		String actual = fingerCommand.execute(PlayersForTest.ANDY.getPlayerID(), new String[]{"Marty"});
 		assertNotEquals(PlayersForTest.MARTY.getMapName(), PlayersForTest.ANDY.getMapName());
@@ -93,7 +89,7 @@ public class CommandTerminalTextFingerTest extends ServerSideTest
 	@Test
 	public void testThatAnOnlinePlayerCanFingerAnotherOnSameMap()
 	{
-		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
+		CommandTerminalTextWhoIs fingerCommand = new CommandTerminalTextWhoIs();
 		assertTrue(PlayersForTest.MERLIN.getOnline());
 		assertTrue(PlayersForTest.GA.getOnline());
 		String actual = fingerCommand.execute(PlayersForTest.ANDY.getPlayerID(), new String[]{"GA"});
@@ -117,7 +113,7 @@ public class CommandTerminalTextFingerTest extends ServerSideTest
 	@Test
 	public void testGetPlayerNotFound()
 	{
-		CommandTerminalTextFinger fingerCommand = new CommandTerminalTextFinger();
+		CommandTerminalTextWhoIs fingerCommand = new CommandTerminalTextWhoIs();
 		String playerName = "IAmNotARealPlayer";
 		String actual = fingerCommand.execute(PlayersForTest.JOHN.getPlayerID(), new String[]{playerName});
 		String expected = "Player " + playerName + " not found.";
