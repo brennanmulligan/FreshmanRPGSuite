@@ -77,7 +77,6 @@ public class TerminalTextSequenceTest extends SequenceTest
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
 
         OptionsManager.getSingleton().setMapFileTitle("sortingRoom.tmx");
-        PlayerManager.getSingleton().loadNpcs(false);
     }
 
 }

@@ -234,6 +234,13 @@ public enum ObjectiveStatesForTest
 	 *
 	 */
 	NEWBIE_ONRAMPING_Q(PlayersForTest.NEWBIE.getPlayerID(), ObjectivesForTest.ONRAMPING_PRESS_Q.getQuestID(), ObjectivesForTest.ONRAMPING_PRESS_Q.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+	NEWBIE_ONRAMPING_I(PlayersForTest.NEWBIE.getPlayerID(),
+			ObjectivesForTest.ONRAMPING_OPEN_CLOSET.getQuestID(),
+			ObjectivesForTest.ONRAMPING_OPEN_CLOSET.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+	NEWBIE_ONRAMPING_U(PlayersForTest.NEWBIE.getPlayerID(),
+			ObjectivesForTest.ONRAMPING_PRESS_U.getQuestID(),
+			ObjectivesForTest.ONRAMPING_PRESS_U.getObjectiveID(),
+			ObjectiveStateEnum.TRIGGERED, false),
 
 	/**
 	 *
@@ -268,7 +275,11 @@ public enum ObjectiveStatesForTest
 	/**
 	 *
 	 */
-	NEWBIE_ONRAMPING_XP_BUFF(PlayersForTest.NEWBIE.getPlayerID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getQuestID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false);
+	NEWBIE_ONRAMPING_XP_BUFF(PlayersForTest.NEWBIE.getPlayerID(),
+			ObjectivesForTest.ONRAMPING_XP_BUFF.getQuestID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+	MERLIN_FIND_THE_LIBRARY(PlayersForTest.MERLIN.getPlayerID(),
+			ObjectivesForTest.EXPLORING_FIND_LIBRARY.getQuestID(),
+			ObjectivesForTest.EXPLORING_FIND_LIBRARY.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false);
 
 
 	private int objectiveID;

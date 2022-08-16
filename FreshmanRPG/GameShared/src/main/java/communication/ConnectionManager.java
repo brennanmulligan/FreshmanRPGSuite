@@ -80,6 +80,7 @@ public class ConnectionManager implements QualifiedObserver
             cl.setDisconnectionAction(() ->
             {
                 disconnect();
+                ConnectionManagerList.getSingleton().remove(this);
                 QualifiedObservableConnector.getSingleton()
                         .sendReport(new PlayerDisconnectedReport(
                                 stateAccumulator.getPlayerID()));
@@ -99,6 +100,11 @@ public class ConnectionManager implements QualifiedObserver
     {
     }
 
+    public void disconnectFromPackers()
+    {
+        this.messagePackerSet.destroyAllObservables(this.stateAccumulator);
+    }
+
     /**
      * Used by the client change which server we are connected to
      *
@@ -107,7 +113,6 @@ public class ConnectionManager implements QualifiedObserver
      */
     public void moveToNewSocket(Socket sock) throws IOException
     {
-
         disconnect();
         this.socket = sock;
 
@@ -119,31 +124,6 @@ public class ConnectionManager implements QualifiedObserver
         incoming = new ConnectionIncoming(sock, handlerSet);
         incomingThread = new Thread(incoming);
         incomingThread.start();
-    }
-
-    /**
-     * Used by the client change which server we are connected to
-     *
-     * @param sock     the new socket
-     * @param playerID the playerID we were given to connect
-     * @param pin      the pin we were given to connect
-     * @throws IOException shouldn't
-     */
-    public void moveToNewSocket(Socket sock, int playerID, double pin) throws IOException
-    {
-        disconnect();
-        this.socket = sock;
-
-        outgoing = new ConnectionOutgoing(sock, this.stateAccumulator, messagePackerSet);
-        outgoingThread = new Thread(outgoing);
-
-        outgoingThread.start();
-        stateAccumulator.queueMessage(new ConnectMessage(playerID, pin));
-
-        incoming = new ConnectionIncoming(sock, handlerSet);
-        incomingThread = new Thread(incoming);
-        incomingThread.start();
-
     }
 
     /**
@@ -170,7 +150,6 @@ public class ConnectionManager implements QualifiedObserver
         }
         incomingThread.interrupt();
         outgoingThread.interrupt();
-
     }
 
     /**
@@ -215,5 +194,6 @@ public class ConnectionManager implements QualifiedObserver
                 e.printStackTrace();
             }
         }
+
     }
 }

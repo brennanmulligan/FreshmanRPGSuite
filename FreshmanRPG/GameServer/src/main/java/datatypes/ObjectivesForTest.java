@@ -271,7 +271,8 @@ public enum ObjectivesForTest
 	 *
 	 */
 	EXPLORING_FIND_LIBRARY(2, "Find the Library", QuestsForTest.EXPLORATION_QUEST.getQuestID(), 2,
-			ObjectiveCompletionType.MOVEMENT, new GameLocationDTO("library.tmx", new Position(48, 24))),
+			ObjectiveCompletionType.MOVEMENT, new GameLocationDTO("library.tmx",
+			new Position(24, 48))),
 	/**
 	 *
 	 */

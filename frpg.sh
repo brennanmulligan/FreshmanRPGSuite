@@ -55,6 +55,8 @@ create_clients() {
     ./../gradlew shadowJar
     rm "src/main/resources/resources.zip" || exit
 
+    scp -pC "$basedir/FreshmanRPG/GameClient-desktop/build/GameClient-linux.jar" "rpgadmin@rpgserv.engr.ship.edu:/var/www/html/static/GameClient-linux.jar"
+
     cd "$cwd" || exit
 }
 

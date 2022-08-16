@@ -38,7 +38,7 @@ public class RunOneSequenceTest
 	{
 		OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
 		OptionsManager.getSingleton().setTestMode(true);
-		Class<RecCenterGrantsDoubloonsWithBuffSequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
+		Class<TeleportationMovementSequenceTest> testClass = TeleportationMovementSequenceTest.class;
 		RunAllSequenceTests testToRun;
 		SequenceTest sequence = testClass.getConstructor().newInstance();
 		testToRun = new RunAllSequenceTests("My Single Sequence Test", testClass);
