@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -47,6 +49,7 @@ public class MapManager
 	private static final String COLLISION_LAYER = "Collision";
 	private static final String REGION_LAYER = "Regions";
 
+	private boolean recentlyChanged = true;
 
 	/**
 	 * Make the default constructor private
@@ -82,7 +85,7 @@ public class MapManager
 
 	/**
 	 * @param fileTitle    the title of the file we should switch to
-	 * @param fileContents
+	 * @param fileContents The contents of the tmx file we are loading
 	 */
 	public void changeToNewFile(String fileTitle, String fileContents)
 	{
@@ -105,9 +108,40 @@ public class MapManager
 		{
 			this.noCollisionLayer = true;
 		}
+		if (OptionsManager.getSingleton().isTestMode())
+		{
+			recentlyChanged = false;
+		} else {
+			System.out.println("Setting the timer");
+			recentlyChanged = true;
+			// This will set recentlyChanged to false 6 seconds from now
+			setTimerToMeasureRecently();
+		}
 		QualifiedObservableConnector.getSingleton().sendReport(new NewMapReport(tiledMap));
 	}
 
+	/**
+	 * The server needs our old connection to time out in order to clean everything up.
+	 * Therefore, when we arrive at a new map, we need to not teleport for 6 seconds.
+	 * That is why we keep track of "recentlyChanged".
+	 */
+	private void setTimerToMeasureRecently()
+	{
+		TimerTask task = new TimerTask() {
+			public void run() {
+				recentlyChanged = false;
+			}
+		};
+		Timer timer = new Timer("Timer");
+
+		long delay = 6000L;
+		timer.schedule(task, delay);
+	}
+
+	public boolean getRecentlyChanged()
+	{
+		return recentlyChanged;
+	}
 	/**
 	 * gets the map layer from the tiled map
 	 *
