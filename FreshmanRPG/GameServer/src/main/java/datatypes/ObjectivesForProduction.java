@@ -60,9 +60,9 @@ public enum ObjectivesForProduction
     /**
      *
      */
-    ONRAMPING_TERMINAL_MAN(7, "Type 'man' in the terminal",
+    ONRAMPING_TERMINAL_HELP(7, "Type 'help' in the terminal",
             QuestsForTest.ONRAMPING_QUEST.getQuestID(), 2,
-            ObjectiveCompletionType.TERMINAL, new CriteriaStringDTO("man")),
+            ObjectiveCompletionType.TERMINAL, new CriteriaStringDTO("help")),
 
     /****************************************************/
 

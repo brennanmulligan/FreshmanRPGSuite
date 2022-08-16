@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Nathaniel and Nahesha
  */
-public class CommandTerminalTextManTest extends ServerSideTest
+public class CommandTerminalTextHelpTest extends ServerSideTest
 {
 
 	/**
@@ -18,7 +18,8 @@ public class CommandTerminalTextManTest extends ServerSideTest
 	@Test
 	public void testExecuteFindsCommand()
 	{
-		CommandTerminalTextMan ttm = (CommandTerminalTextMan) TerminalManager.getSingleton().getTerminalCommandObject("man");
+		CommandTerminalTextHelp
+				ttm = (CommandTerminalTextHelp) TerminalManager.getSingleton().getTerminalCommandObject("man");
 		CommandTerminalTextWho ttw = (CommandTerminalTextWho) TerminalManager.getSingleton().getTerminalCommandObject("who");
 		String found = "Name: who \n Description: " + ttw.getDescription();
 		assertEquals(found, ttm.execute(PlayersForTest.DATBOI.getPlayerID(), new String[]{"who"}));
@@ -30,7 +31,8 @@ public class CommandTerminalTextManTest extends ServerSideTest
 	@Test
 	public void testExecuteDoesNotFindCommand()
 	{
-		CommandTerminalTextMan ttm = (CommandTerminalTextMan) TerminalManager.getSingleton().getTerminalCommandObject("man");
+		CommandTerminalTextHelp
+				ttm = (CommandTerminalTextHelp) TerminalManager.getSingleton().getTerminalCommandObject("man");
 		String notFound = "No manual entry for NonExistent.";
 		assertEquals(notFound, ttm.execute(PlayersForTest.FRANK.getPlayerID(), new String[]{"NonExistent"}));
 	}
@@ -41,7 +43,8 @@ public class CommandTerminalTextManTest extends ServerSideTest
 	@Test
 	public void testExectuteManWithEmptyParam()
 	{
-		CommandTerminalTextMan ttm = (CommandTerminalTextMan) TerminalManager.getSingleton().getTerminalCommandObject("man");
+		CommandTerminalTextHelp
+				ttm = (CommandTerminalTextHelp) TerminalManager.getSingleton().getTerminalCommandObject("man");
 
 		// Using this string builder to mock what the functionality would look like 
 		StringBuilder sb = new StringBuilder();

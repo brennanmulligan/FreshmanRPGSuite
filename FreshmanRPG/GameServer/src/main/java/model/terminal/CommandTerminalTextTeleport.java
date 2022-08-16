@@ -15,7 +15,7 @@ import model.PlayerMapper;
  * @author np5756
  *
  */
-public class CommandTerminalTextCd extends TerminalCommand
+public class CommandTerminalTextTeleport extends TerminalCommand
 {
 
 	/**
@@ -73,7 +73,7 @@ public class CommandTerminalTextCd extends TerminalCommand
 	@Override
 	public String getTerminalIdentifier()
 	{
-		return "cd";
+		return "teleport";
 	}
 
 	/**
