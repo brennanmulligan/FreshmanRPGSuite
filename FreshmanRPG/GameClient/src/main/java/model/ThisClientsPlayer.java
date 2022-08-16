@@ -130,7 +130,9 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 			TeleportHotSpot hotSpot = MapManager.getSingleton().getTeleportHotSpot(thePosition);
 			QualifiedObservableConnector.getSingleton()
 					.sendReport(new ChangeMapReport(id, hotSpot.getTeleportPosition(), hotSpot.getMapName()));
-		}}
+		}
+	}
+
 	/**
 	 * Returns the list of quests contained by the local player.
 	 *
