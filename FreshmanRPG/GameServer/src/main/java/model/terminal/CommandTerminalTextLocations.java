@@ -10,14 +10,13 @@ import model.PlayerMapper;
  * @author Nathaniel, Ben and Allen
  *
  */
-public class CommandTerminalTextLS extends TerminalCommand
+public class CommandTerminalTextLocations extends TerminalCommand
 {
 
-	private final String terminalIdentifier = "ls";
+	private final String terminalIdentifier = "locations";
 	private final String description = "Lists maps the player has visited.";
 
 	/**
-	 * @see model.terminal.TerminalCommand#execute(int, java.lang.String)
 	 */
 	@Override
 	public String execute(int playerID, String[] arg)

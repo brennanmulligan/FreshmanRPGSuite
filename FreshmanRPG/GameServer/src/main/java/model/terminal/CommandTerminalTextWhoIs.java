@@ -14,9 +14,9 @@ import model.PlayerMapper;
  * @author Nahesha Paulection
  *
  */
-public class CommandTerminalTextFinger extends TerminalCommand
+public class CommandTerminalTextWhoIs extends TerminalCommand
 {
-	private final String terminalIdentifier = "finger";
+	private final String terminalIdentifier = "whois";
 	private final String description = "Find the profile for another player.";
 
 	/**

@@ -12,13 +12,14 @@ import model.*;
  *
  * @author bl5922
  */
-public class CdTeleportationSequenceTest extends SequenceTest
+public class TerminalTeleportationSequenceTest extends SequenceTest
 {
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(),
-                            "cd " + ServersForTest.FIRST_SERVER.getMapTitle()), true),
+                            "teleport " + ServersForTest.FIRST_SERVER.getMapTitle()),
+                    true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new TeleportationContinuationMessage(
                                     ServersForTest.FIRST_SERVER.getMapName(),
@@ -30,12 +31,13 @@ public class CdTeleportationSequenceTest extends SequenceTest
     /**
      *
      */
-    public CdTeleportationSequenceTest()
+    public TerminalTeleportationSequenceTest()
     {
         serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
-        interactions.add(new Interaction(new CommandSendTerminalText("cd Firstserver"),
+        interactions.add(new Interaction(new CommandSendTerminalText("teleport " +
+                "Firstserver"),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
                 sequence));
     }

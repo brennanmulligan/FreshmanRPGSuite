@@ -11,7 +11,6 @@ import java.util.Collection;
 
 import datasource.DatabaseManager;
 import datasource.LoggerManager;
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,8 +65,8 @@ public class RunAllSequenceTests
     {
         return Arrays.asList(new Object[][]
                 {
-                        {"CdTeleportationSequenceTest",
-                                CdTeleportationSequenceTest.class},
+                        {"TerminalTeleportationSequenceTest",
+                                TerminalTeleportationSequenceTest.class},
                         {"CheatCodeForBuffSequenceTest",
                                 CheatCodeForBuffSequenceTest.class},
                         {"FinishingQuestTeleportsSequenceTest",
