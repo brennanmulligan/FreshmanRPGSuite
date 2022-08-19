@@ -173,12 +173,8 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 				systemChatTable.addChatResponse(new ChatTextDetails(r.toString(), r.getType()));
 			}
 		}
-		boolean scrollToBottom = !(listPane.getScrollPercentY() <= 0.9f);
-		if (scrollToBottom)
-		{
-			listPane.layout();
-			listPane.setScrollPercentY(1f);
-		}
+		listPane.layout();
+		listPane.setScrollPercentY(1f);
 	}
 
 	/**
@@ -304,9 +300,10 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
 			}
 		});
 
-		//TODO
 		grid.row();
 		listPane = new ScrollPane(activeView.getChatHistory(), skin);
+		listPane.setForceScroll(false, true);
+		listPane.setFadeScrollBars(false);
 		grid.add(listPane).expandX().fillX().height(300f).width(567.5f);
 		grid.row();
 		grid.add(entryField).expandX().fillX().height(32f);

@@ -36,7 +36,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
     List<NPCPath> parsedRegularPaths;
     List<NPCPath> parsedSmartPaths;
     private String currentTarget;
-    static final int CHAT_DELAY_SECONDS = 20;
+    static final int CHAT_DELAY_SECONDS = 25;
     protected int chatDelayCounter = 0;
     private int pathStep = 0;
     private String filePath;
@@ -49,7 +49,6 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
     static final String REGULAR_PATH_TYPE = "regular";
     static final String SMART_PATH_TYPE = "smart";
-    static final int CHAT_EXPIRE_DELAY_SECONDS = 25;
 
     /**
      *
@@ -247,7 +246,8 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                     //Reset the chat counter, whenever it successfully speaks to a player
                     chatDelayCounter = 1;
                     //Make the players message something we can read easier
-                    String input = report.getChatText().toLowerCase().replaceAll(" ", "");
+                    String input = report.getChatText().toLowerCase().replaceAll("  ",
+                            " ");
                     for (ResponseNode node : parsedDialogueXML)
                     {
                         //Gets the important info from the parsedDialogueXML
@@ -256,12 +256,10 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                         String nodeGroup = node.getNodeGroup();
                         String target = node.getTargetGroup();
                         String message = node.getMessage();
-                        message = message.replaceAll("[ ]{2,}", "");
+                        message = message.replaceAll("[ ]{2,}", " ");
                         message = message.replaceAll("\\n", "");
-    System.out.println("Comparing Groups: " + nodeGroup + " " + currentTarget);
                         if (nodeGroup.equals(currentTarget))
                         {
-                            System.out.println("Comparing strings " + input + " " + pattern);
                             //If the players message matches a pattern were looking for send them the appropriate message
                             if (Pattern.matches(pattern, input) || (Pattern.matches(pattern, "")))
                             {
