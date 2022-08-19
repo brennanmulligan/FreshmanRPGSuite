@@ -679,24 +679,34 @@ public class QuestManager implements QualifiedObserver
             if (criteria.getClass().equals(CriteriaStringDTO.class))
             {
                 CriteriaStringDTO castCrit = (CriteriaStringDTO) criteria;
-                Player npc = PM.getPlayerFromID(
-                        PM.getPlayerIDFromPlayerName(castCrit.getString()));
-                if ((type != ChatType.Local) || PM.getPlayerFromID(reportPlayerID)
-                        .canReceiveLocalMessage(npc.getPlayerPosition()))
+                try
                 {
-                    try
+                    Player npc = PM.getPlayerFromID(
+                            PM.getPlayerIDFromPlayerName(castCrit.getString()));
+                    if ((npc != null) && (type != ChatType.Local) || PM.getPlayerFromID(reportPlayerID)
+                            .canReceiveLocalMessage(npc.getPlayerPosition()))
                     {
-                        QuestManager.getSingleton()
-                                .completeObjective(reportPlayerID, q.getID(),
-                                        a.getObjectiveID());
+                        try
+                        {
+                            QuestManager.getSingleton()
+                                    .completeObjective(reportPlayerID, q.getID(),
+                                            a.getObjectiveID());
 
-                    }
-                    catch (DatabaseException | IllegalObjectiveChangeException |
-                           IllegalQuestChangeException e)
-                    {
-                        e.printStackTrace();
+                        }
+                        catch (DatabaseException | IllegalObjectiveChangeException |
+                               IllegalQuestChangeException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                catch (PlayerNotFoundException e)
+                {
+                    // the player that would match this criteria isn't on this server
+                    // so there's no way this objective would complete
+                }
+
+
             }
         }
     }

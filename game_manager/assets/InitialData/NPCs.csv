@@ -10,3 +10,5 @@ playerID,behaviorClass,filePath
 31,model.NPCBehaviorRPS,
 32,model.RoamingInfoNPCBehavior,Assets/MowreyInfoXML.xml
 33,model.RoamingInfoNPCBehavior,Assets/Npc_info.xml
+34,model.RoamingInfoNPCBehavior,Assets/Cella.xml
+35,model.RandomFactsNPCBehavior,
