@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -33,7 +32,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 {
     private static final int END_POSITION_LOCATION = 1;
     private static final int START_POSITION_LOCATION = 0;
-    List<List<String>> parsedDialogueXML;
+    List<ResponseNode> parsedDialogueXML;
     List<NPCPath> parsedRegularPaths;
     List<NPCPath> parsedSmartPaths;
     private String currentTarget;
@@ -249,20 +248,20 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                     chatDelayCounter = 1;
                     //Make the players message something we can read easier
                     String input = report.getChatText().toLowerCase().replaceAll(" ", "");
-                    for (List<String> node : parsedDialogueXML)
+                    for (ResponseNode node : parsedDialogueXML)
                     {
                         //Gets the important info from the parsedDialogueXML
-                        String id = node.get(0);
-                        String pattern = node.get(1);
-                        String responses = node.get(2);
-                        String nodeId = node.get(3);
-                        String target = node.get(4);
-                        String message = node.get(5);
+                        String id = node.getId();
+                        String pattern = node.getPattern();
+                        String nodeGroup = node.getNodeGroup();
+                        String target = node.getTargetGroup();
+                        String message = node.getMessage();
                         message = message.replaceAll("[ ]{2,}", "");
                         message = message.replaceAll("\\n", "");
-
-                        if (nodeId.equals(currentTarget))
+    System.out.println("Comparing Groups: " + nodeGroup + " " + currentTarget);
+                        if (nodeGroup.equals(currentTarget))
                         {
+                            System.out.println("Comparing strings " + input + " " + pattern);
                             //If the players message matches a pattern were looking for send them the appropriate message
                             if (Pattern.matches(pattern, input) || (Pattern.matches(pattern, "")))
                             {
@@ -329,14 +328,12 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                     // get the values
                     String id = element.getAttribute("id");
                     String pattern = element.getAttribute("pattern");
-                    String responses = element.getAttribute("response-ids");
                     String nodeId = element.getAttribute("node-id");
                     String target = element.getAttribute("target-node");
-
                     // get text
                     String message = element.getTextContent();
-
-                    parsedDialogueXML.add(new ArrayList<>(Arrays.asList(id, pattern, responses, nodeId, target, message)));
+                    parsedDialogueXML.add(new ResponseNode(id, pattern, nodeId, target,
+                            message));
                 }
             }
         }
@@ -404,6 +401,51 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
 
 }
 
+class ResponseNode
+{
+
+    private final String id;
+    private final String pattern;
+    private final String nodeGroup;
+    private final String targetGroup;
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    private final String message;
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public String getPattern()
+    {
+        return pattern;
+    }
+
+    public String getNodeGroup()
+    {
+        return nodeGroup;
+    }
+
+    public String getTargetGroup()
+    {
+        return targetGroup;
+    }
+
+    public ResponseNode(String id, String pattern, String nodeGroup, String targetGroup,
+                        String message)
+    {
+        this.id = id;
+        this.pattern = pattern;
+        this.nodeGroup = nodeGroup;
+        this.targetGroup = targetGroup;
+        this.message = message;
+    }
+}
 /**
  * @author Ryan C and John L
  *
