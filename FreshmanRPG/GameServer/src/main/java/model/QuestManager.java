@@ -699,7 +699,8 @@ public class QuestManager implements QualifiedObserver
                             e.printStackTrace();
                         }
                     }
-                } catch (PlayerNotFoundException e)
+                }
+                catch (PlayerNotFoundException e)
                 {
                     // the player that would match this criteria isn't on this server
                     // so there's no way this objective would complete
