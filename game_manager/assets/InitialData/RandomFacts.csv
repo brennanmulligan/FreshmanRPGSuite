@@ -1,37 +1,37 @@
 ﻿factID,factText,npcID,startDate,endDate
-1,Glad to have you on campus!,24,2/11/2014,2/11/9999
-2,This game is REALLY fun!,25,2/11/2014,2/11/9999
-3,Go Red Raiders!,24,2/11/2014,2/11/9999
-4,We definitely need more facts!,25,2/11/2014,2/11/9999
-5,Merlin is a great wizard - you should search for her,25,2/11/2014,2/11/9999
-6,Have you ever heard of the rubber duck debugging method?,26,5/2/2020,5/2/9999
-7,Did you know a rubber duck is only 20 doubloons in the shop,26,5/2/2020,5/2/9999
-8,Stuck on a problem? Talk it out with a trusty rubber ducky!!,26,5/2/2020,5/2/9999
-9,Welcome to the Shippensburg University campus.,27,5/2/2020,5/2/9999
-10,Make sure to logout when you are done working.,28,5/2/2020,5/2/9999
-11,You should go check out MCT!,27,5/2/2020,5/2/9999
-12,If you walk down Shippen hall is where you'll be.,27,5/2/2020,5/2/9999
-13,If you walk down the right path you'll find Franklin Science center.,27,5/2/2020,5/2/9999
-14,"The library and the cub are towards the top right of this area, go explore!!",27,5/2/2020,5/2/9999
-15,"There's another teleporter somewhere around here, go explore!!",27,5/2/2020,5/2/9999
-16,Have any questions?,28,5/2/2020,5/2/9999
-17,Hello there! Hope you're having a good semester!,33,5/2/2020,5/2/9999
-18,I'm the president and very cool.,33,5/2/2020,5/2/9999
-18,"Ship was founded in 1871 as a ""normal school"" which means it was a school for teaching people to be teachers",33,5/2/2020,5/2/9999
-18,"In 1982, when the governor signed Senate Bill 506, we became Shippensburg University.",33,5/2/2020,5/2/9999
-18,"In 1926, we became the first normal school in PA to be chartered as a state teachers college.",33,5/2/2020,5/2/9999
-18,We became the first teachers college in PA to be accredited by the Middle States Commission on Higher Education.,33,5/2/2020,5/2/9999
-18,"Our students come from across the Commonwealth, 20 states, and 15 countries.",33,5/2/2020,5/2/9999
-18,"Ship awards $79,000,000 annually in grants, scholarships, student employment, and loans",33,5/2/2020,5/2/9999
-18,Our campus covers 210 acres,33,5/2/2020,5/2/9999
-18,"Over 2,000 employers a year come looking to hire our students.",33,5/2/2020,5/2/9999
-18,Ada Lovelace ( 1815 - 1852 ) is credited with being the first computer scientist because she was able to see that Charles Babbage's plans for a computing machine could be used for more than basic math calculations.,35,5/2/2020,5/2/9999
-18,"I attended The George Washington University in Washington, DC for all three degrees.",35,5/2/2020,5/2/9999
-18,"The word cookies comes from koekje, a Dutch word meaning ‘little cakes.’ The first cookies were made with scraps of pie crust or drops of extra cake batter.",35,5/2/2020,5/2/9999
-18,"Cheesecakes date back to Roman times, when mild, milky cheeses got a jolt of sweetness from honey.",35,5/2/2020,5/2/9999
-18,"The oldest knitted artifacts are socks from Egypt, dating from the 11th century. They are a very fine gauge, done with complex colorwork and some have a short row heel, which necessitates the purl stitch. These complexities suggest that knitting is even older than the archeological record can prove.",35,5/2/2020,5/2/9999
-18,A person burns 55 calories by knitting for half an hour.,35,5/2/2020,5/2/9999
-18,I've been playing tabletop role playing games with the same group of friends since 2000.,35,5/2/2020,5/2/9999
-18,I didn't learn to code until I was a freshman in college.,35,5/2/2020,5/2/9999
-18,"At one time, I was going to be an International Business major.",35,5/2/2020,5/2/9999
-18,"I think the funniest animal is a tarsier. It's somewhere between a lemur and a monkey. Seriously, they're hilarious. Go look them up.",35,5/2/2020,5/2/9999
+1,Glad to have you on campus!,24,2014-02-11,9999-02-11
+2,This game is REALLY fun!,25,2014-02-11,9999-02-11
+3,Go Red Raiders!,24,2014-02-11,9999-02-11
+4,We definitely need more facts!,25,2014-02-11,9999-02-11
+5,Merlin is a great wizard - you should search for her,25,2014-02-11,9999-02-11
+6,Have you ever heard of the rubber duck debugging method?,26,2020-05-02,9999-05-02
+7,Did you know a rubber duck is only 20 doubloons in the shop,26,2020-05-02,9999-05-02
+8,Stuck on a problem? Talk it out with a trusty rubber ducky!!,26,2020-05-02,9999-05-02
+9,Welcome to the Shippensburg University campus.,27,2020-05-02,9999-05-02
+10,Make sure to logout when you are done working.,28,2020-05-02,9999-05-02
+11,You should go check out MCT!,27,2020-05-02,9999-05-02
+12,If you walk down Shippen hall is where you'll be.,27,2020-05-02,9999-05-02
+13,If you walk down the right path you'll find Franklin Science center.,27,2020-05-02,9999-05-02
+14,"The library and the cub are towards the top right of this area, go explore!!",27,2020-05-02,9999-05-02
+15,"There's another teleporter somewhere around here, go explore!!",27,2020-05-02,9999-05-02
+16,Have any questions?,28,2020-05-02,9999-05-02
+17,Hello there! Hope you're having a good semester!,33,2020-05-02,9999-05-02
+18,I'm the president and very cool.,33,2020-05-02,9999-05-02
+19,"Ship was founded in 1871 as a ""normal school"" which means it was a school for teaching people to be teachers",33,2020-05-02,9999-05-02
+20,"In 1982, when the governor signed Senate Bill 506, we became Shippensburg University.",33,2020-05-02,9999-05-02
+21,"In 1926, we became the first normal school in PA to be chartered as a state teachers college.",33,2020-05-02,9999-05-02
+22,We became the first teachers college in PA to be accredited by the Middle States Commission on Higher Education.,33,2020-05-02,9999-05-02
+23,"Our students come from across the Commonwealth, 20 states, and 15 countries.",33,2020-05-02,9999-05-02
+24,"Ship awards $79,000,000 annually in grants, scholarships, student employment, and loans",33,2020-05-02,9999-05-02
+25,Our campus covers 210 acres,33,2020-05-02,9999-05-02
+26,"Over 2,000 employers a year come looking to hire our students.",33,2020-05-02,9999-05-02
+27,Ada Lovelace ( 1815 - 1852 ) is credited with being the first computer scientist because she was able to see that Charles Babbage's plans for a computing machine could be used for more than basic math calculations.,35,2020-05-02,9999-05-02
+28,"I attended The George Washington University in Washington, DC for all three degrees.",35,2020-05-02,9999-05-02
+29,"The word cookies comes from koekje, a Dutch word meaning ‘little cakes.’ The first cookies were made with scraps of pie crust or drops of extra cake batter.",35,2020-05-02,9999-05-02
+30,"Cheesecakes date back to Roman times, when mild, milky cheeses got a jolt of sweetness from honey.",35,2020-05-02,9999-05-02
+31,"The oldest knitted artifacts are socks from Egypt, dating from the 11th century. They are a very fine gauge, done with complex colorwork and some have a short row heel, which necessitates the purl stitch. These complexities suggest that knitting is even older than the archeological record can prove.",35,2020-05-02,9999-05-02
+32,A person burns 55 calories by knitting for half an hour.,35,2020-05-02,9999-05-02
+33,I've been playing tabletop role playing games with the same group of friends since 2000.,35,2020-05-02,9999-05-02
+34,I didn't learn to code until I was a freshman in college.,35,2020-05-02,9999-05-02
+35,"At one time, I was going to be an International Business major.",35,2020-05-02,9999-05-02
+36,"I think the funniest animal is a tarsier. It's somewhere between a lemur and a monkey. Seriously, they're hilarious. Go look them up.",35,2020-05-02,9999-05-02
