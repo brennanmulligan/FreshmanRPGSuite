@@ -16,15 +16,16 @@ public enum Crew
 	/**
 	 *
 	 */
-	NULL_POINTER("Null Pointer", "null_pointer_exception"),
+	FORTY_PERCENT("Forty Percent", "null_pointer_exception"),
 
 	/**
 	 *
 	 */
-	OUT_OF_BOUNDS("Out Of Bounds", "out_of_bounds");
+	OUT_OF_BOUNDS("Out Of Bounds", "out_of_bounds"),
+	NPCS("NPCs", "out_of_bounds");
 
-	private String crewName;
-	private String appearanceType;
+	private final String crewName;
+	private final String appearanceType;
 
 	Crew(String crewName, String appearanceType)
 	{

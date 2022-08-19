@@ -1,9 +1,6 @@
 package datatypes;
 
 import dataDTO.VanityDTO;
-import datasource.DatabaseException;
-
-import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,7 +16,9 @@ public enum PlayersForTest
 	 * John must be player 1 for the current quest state report tests to pass
 	 */
 
-	JOHN(1, "John", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 42, 45, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1, 4, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad", "Mowrey"))),
+	JOHN(1, "John", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 42,
+			45, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 1, 4, false,
+			new ArrayList<>(Arrays.asList("Rec Center", "Quad", "Mowrey"))),
 
 	/**
 	 * Merlin must be player 2 for the player mapper tests to pass. That number maps
@@ -70,7 +69,7 @@ public enum PlayersForTest
 	 *
 	 */
 
-	ANDY(9, "Andy", "off_by_one", 3, 10, "pw", "wellingtonRoom.tmx", 1111, null, 0, 33, Crew.NULL_POINTER, Major.ELECTRICAL_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+	ANDY(9, "Andy", "off_by_one", 3, 10, "pw", "wellingtonRoom.tmx", 1111, null, 0, 33, Crew.FORTY_PERCENT, Major.ELECTRICAL_ENGINEERING, 1, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
@@ -129,16 +128,16 @@ public enum PlayersForTest
 	/**
 	 *
 	 */
-	HERSH(19, "Hersh", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+	HERSH(19, "Hersh", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.FORTY_PERCENT, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */
-	JEFF(20, "Jeff", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 50, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+	JEFF(20, "Jeff", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.FORTY_PERCENT, Major.SOFTWARE_ENGINEERING, 2, 50, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
 	/**
 	 *
 	 */
-	JAWN(21, "Jawn", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+	JAWN(21, "Jawn", "null_pointer_exception", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.FORTY_PERCENT, Major.SOFTWARE_ENGINEERING, 2, 0, true, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 	/**
 	 *
 	 */

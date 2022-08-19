@@ -68,7 +68,7 @@ public class CommandObjectiveStateChangeTest
 
 		Position pos = new Position(1, 2);
 		ClientPlayerManager pm = ClientPlayerManager.getSingleton();
-		pm.initializePlayer(playerID, "Player 1", pm.getThisClientsPlayer().getVanities(), pos, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 1);
+		pm.initializePlayer(playerID, "Player 1", pm.getThisClientsPlayer().getVanities(), pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 1);
 
 		pm.initiateLogin("john", "pw");
 		pm.finishLogin(playerID);

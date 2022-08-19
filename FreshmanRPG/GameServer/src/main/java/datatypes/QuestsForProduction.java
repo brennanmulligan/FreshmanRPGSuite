@@ -85,7 +85,22 @@ public enum QuestsForProduction
             new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 2,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+
+    SCAVENGER_HUNT(108, "Scavenger Hunt",
+            "Find All The Things On Campus!",
+            PlayerTableDataGateway.INITIAL_GAME_LOCATION, 30, 20,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+
+    EVENTS(108, "Event Hunt",
+            "Go To All The Things On Campus!",
+            PlayerTableDataGateway.INITIAL_GAME_LOCATION, 30, 3,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
+
 
 
     private final int questID;

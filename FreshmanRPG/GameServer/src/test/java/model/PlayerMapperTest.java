@@ -180,7 +180,7 @@ public class PlayerMapperTest extends ServerSideTest
         p.setDoubloons(666);
         p.setMapName("sillyMap");
         p.setExperiencePoints(424);
-        p.setCrew(Crew.NULL_POINTER);
+        p.setCrew(Crew.FORTY_PERCENT);
         p.setSection(1);
         p.setBuffPool(44);
         p.setPlayerOnline(true);
@@ -288,7 +288,7 @@ public class PlayerMapperTest extends ServerSideTest
                 DefaultItemsTableDataGateway.getSingleton();
         return new PlayerDTO(-1, "the player name", "the player password",
                 "the appearance type", 12,
-                new Position(2, 4), "sortingRoom.tmx", 34, Crew.NULL_POINTER,
+                new Position(2, 4), "sortingRoom.tmx", 34, Crew.FORTY_PERCENT,
                 Major.COMPUTER_ENGINEERING, 1, new ArrayList<>(),
                 gateway.getDefaultItems());
     }
