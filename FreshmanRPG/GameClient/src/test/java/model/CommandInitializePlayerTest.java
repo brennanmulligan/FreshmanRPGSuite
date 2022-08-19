@@ -50,7 +50,7 @@ public class CommandInitializePlayerTest
 		List<VanityDTO> vanityDTOS = new ArrayList<>();
 		vanityDTOS.add(vanityDTO);
 		CommandInitializePlayer cmd = new CommandInitializePlayer(4, "Henry",
-				vanityDTOS, pos, Crew.NULL_POINTER, Major.COMPUTER_SCIENCE, 10);
+				vanityDTOS, pos, Crew.FORTY_PERCENT, Major.COMPUTER_SCIENCE, 10);
 		ClientPlayerManager pm = ClientPlayerManager.getSingleton();
 		assertNull(pm.getPlayerFromID(4));
 		assertTrue(cmd.execute());
@@ -59,7 +59,7 @@ public class CommandInitializePlayerTest
 		assertEquals("Henry", p.getName());
 		assertEquals(pos, p.getPosition());
 		assertEquals(vanityDTOS, p.getVanities());
-		assertEquals(Crew.NULL_POINTER, p.getCrew());
+		assertEquals(Crew.FORTY_PERCENT, p.getCrew());
 		assertEquals(Major.COMPUTER_SCIENCE, p.getMajor());
 		assertEquals(10, p.getSection());
 	}
@@ -82,14 +82,14 @@ public class CommandInitializePlayerTest
 		assertNotNull(pm.getPlayerFromID(4));
 
 		CommandInitializePlayer cmd = new CommandInitializePlayer(4, "Henry",
-				vanityDTOS, pos, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 10);
+				vanityDTOS, pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 10);
 		assertTrue(cmd.execute());
 		p = pm.getPlayerFromID(4);
 		assertEquals(4, p.getID());
 		assertEquals("Henry", p.getName());
 		assertEquals(pos, p.getPosition());
 		assertEquals(vanityDTOS, p.getVanities());
-		assertEquals(Crew.NULL_POINTER, p.getCrew());
+		assertEquals(Crew.FORTY_PERCENT, p.getCrew());
 		assertEquals(Major.COMPUTER_ENGINEERING, p.getMajor());
 		assertEquals(10, p.getSection());
 	}
