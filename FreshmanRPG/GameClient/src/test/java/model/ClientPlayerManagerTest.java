@@ -177,13 +177,13 @@ public class ClientPlayerManagerTest
 		VanityDTO vanityDTO = new VanityDTO();
 		vanityDTOS.add(vanityDTO);
 		PlayerConnectedToAreaServerReport report = new PlayerConnectedToAreaServerReport(
-				1, "Player 1", pos, Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, false, vanityDTOS);
+				1, "Player 1", pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, false, vanityDTOS);
 		QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerConnectedToAreaServerReport.class);
 		obs.receiveReport(EasyMock.eq(report));
 		EasyMock.replay(obs);
 
 		pm.initializePlayer(1, "Player 1", vanityDTOS, pos,
-				Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 10);
+				Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 10);
 
 		EasyMock.verify(obs);
 	}

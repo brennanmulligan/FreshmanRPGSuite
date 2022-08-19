@@ -53,12 +53,12 @@ public class ClientPlayerTest
 
 		p.setName("name");
 		p.setVanityReport(vanityDTOS);
-		p.setCrew(Crew.NULL_POINTER);
+		p.setCrew(Crew.FORTY_PERCENT);
 		p.setMajor(Major.ELECTRICAL_ENGINEERING);
 
 		assertEquals("name", p.getName());
 		assertEquals(vanityDTOS, p.getVanities());
-		assertEquals(Crew.NULL_POINTER, p.getCrew());
+		assertEquals(Crew.FORTY_PERCENT, p.getCrew());
 		assertEquals(Major.ELECTRICAL_ENGINEERING, p.getMajor());
 	}
 

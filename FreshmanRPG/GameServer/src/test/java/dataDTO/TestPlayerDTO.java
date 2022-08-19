@@ -22,7 +22,7 @@ public class TestPlayerDTO extends ServerSideTest
 	@Test
 	public void testPlayerDTOConstructorForGameManager()
 	{
-		PlayerDTO playerDTO = new PlayerDTO(1, "Password", Crew.NULL_POINTER, Major.SOFTWARE_ENGINEERING, 1, "Name");
+		PlayerDTO playerDTO = new PlayerDTO(1, "Password", Crew.FORTY_PERCENT, Major.SOFTWARE_ENGINEERING, 1, "Name");
 		assertEquals("Ninja", playerDTO.getAppearanceType());
 		assertEquals(0, playerDTO.getDoubloons());
 		assertEquals(new Position(0, 0), playerDTO.getPosition());
