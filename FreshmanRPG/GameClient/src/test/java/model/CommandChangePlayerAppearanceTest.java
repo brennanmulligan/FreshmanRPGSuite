@@ -42,7 +42,7 @@ public class CommandChangePlayerAppearanceTest
 		VanityDTO vanityDTO = new VanityDTO();
 		vanityDTOS.add(vanityDTO);
 		manager.initializePlayer(playerId, "Robert", vanityDTOS, new Position(1,1),
-				Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 3);
+				Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 3);
         final VanityDTO newHat = new VanityDTO(1,"", "", "",VanityType.HAT);
         final VanityDTO newBody = new VanityDTO(2, "", "", "", VanityType.BODY);
 		List<VanityDTO> vanityDTOS2 = new ArrayList<>();
