@@ -159,7 +159,8 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
     debugPrint('Theirs lon:$longitude lat:$latitude');
     debugPrint('Ours lon:$currentLong lat:$currentLat');
 
-    const tolerance = 0.01;
+    const tolerance = 0.02;  // units are kilometers, so this is about 60 feet
+      // Since phones can be off by 30 feet, that's close enough
 
     const R = 6371;
 
