@@ -9,6 +9,12 @@ task DBBuildProductionQuestsAndObjectives(type: JavaExec) {
     main = 'DatabaseBuilders.BuildProductionQuestsAndObjectives'
 }
 
+task DBAddProductionObjectives(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'DatabaseBuilders.AddProductionObjectives'
+}
+
+
 task DBBuildProductionInteractableItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'DatabaseBuilders.BuildProductionInteractableItems'
