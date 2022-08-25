@@ -27,10 +27,11 @@ class ObjectiveCard extends HookConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Expanded(
+              flex:2,
               child: Text(
                 info.description,
+                softWrap: true,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
