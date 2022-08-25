@@ -23,7 +23,12 @@ public enum QuestsForTest
 {
 
 
-	ONE_BIG_QUEST(1, "t0", "Quest 1", new GameLocationDTO("quad.tmx", new Position(92, 7)), 5, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+	ONE_BIG_QUEST(1, "t0", "Quest 1",
+			new GameLocationDTO(PlayerTableDataGateway.INITIAL_GAME_LOCATION.getMapName(),
+			PlayerTableDataGateway.INITIAL_GAME_LOCATION.getPosition()), 5, 2,
+			QuestCompletionActionType.TELEPORT,
+			new GameLocationDTO(
+					"quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 	/**
 	 *
 	 */
