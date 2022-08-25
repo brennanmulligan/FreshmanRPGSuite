@@ -94,7 +94,7 @@ public enum QuestsForProduction
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
 
-    EVENTS(108, "Event Hunt",
+    EVENTS(109, "Event Hunt",
             "Go To All The Things On Campus!",
             PlayerTableDataGateway.INITIAL_GAME_LOCATION, 30, 3,
             QuestCompletionActionType.NO_ACTION, null,
