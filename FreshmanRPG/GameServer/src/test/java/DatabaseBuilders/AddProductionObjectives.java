@@ -1,7 +1,6 @@
 package DatabaseBuilders;
 
 import criteria.CriteriaStringDTO;
-import criteria.ObjectiveCompletionCriteria;
 import dataENUM.ObjectiveCompletionType;
 import datasource.DatabaseException;
 import datasource.ObjectiveTableDataGateway;
@@ -22,6 +21,24 @@ import java.util.Scanner;
  */
 public class AddProductionObjectives
 {
+    private static void addObjectivesFromFile(String fileTitle)
+            throws FileNotFoundException, DatabaseException
+    {
+        Scanner file = new Scanner(new File(fileTitle));
+
+        while (file.hasNext())
+        {
+            String line = file.nextLine();
+            String[] parts = line.split(",");
+            ObjectiveTableDataGateway.createRow(Integer.parseInt(parts[4]),
+                    "Find The real life " + parts[0] +
+                            " and scan the QR Code with the game's app",
+                    Integer.parseInt(parts[3]), 3, ObjectiveCompletionType.REAL_LIFE,
+                    new CriteriaStringDTO("Unused"));
+        }
+        file.close();
+    }
+
     /**
      * Create a table of objectives
      */
@@ -60,23 +77,13 @@ public class AddProductionObjectives
      * @throws DatabaseException shouldn't
      * @throws SQLException      shouldn't
      */
-    public static void main(String[] args) throws DatabaseException, SQLException, FileNotFoundException {
+    public static void main(String[] args)
+            throws DatabaseException, SQLException, FileNotFoundException
+    {
         OptionsManager.getSingleton().setUsingTestDB(false);
         System.out.println("adding objectives");
         addObjectivesFromFile("ObjectivesToAdd.csv");
- //       System.out.println("triggering the objectives");
-//        createQuestTable();
-    }
-
-    private static void addObjectivesFromFile(String fileTitle) throws FileNotFoundException, DatabaseException {
-        Scanner file = new Scanner(new File(fileTitle));
-
-        while (file.hasNext()) {
-            String line = file.nextLine();
-            String[] parts = line.split(",");
-            ObjectiveTableDataGateway.createRow(Integer.parseInt(parts[4]),"Find The real life " + parts[0] + " and scan the QR Code with the game's app",
-                    Integer.parseInt(parts[3]),3, ObjectiveCompletionType.REAL_LIFE, new CriteriaStringDTO("Unused"));
-        }
-        file.close();
+        //       System.out.println("triggering the objectives");
+        //        createQuestTable();
     }
 }
