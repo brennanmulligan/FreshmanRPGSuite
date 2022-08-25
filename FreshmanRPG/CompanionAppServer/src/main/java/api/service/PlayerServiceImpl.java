@@ -7,6 +7,7 @@ import dataDTO.PlayerDTO;
 import datasource.*;
 import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
+import datatypes.QuestsForProduction;
 import model.ObjectiveRecord;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ import java.util.ArrayList;
 @Service
 public class PlayerServiceImpl implements PlayerService
 {
+    private static final QuestsForProduction[] questsToTrigger =
+            {QuestsForProduction.ONRAMPING_QUEST,
+            QuestsForProduction.SCAVENGER_HUNT,QuestsForProduction.EVENTS};
     private final GameManagerPlayerManager playerManager;
 
     public PlayerServiceImpl(GameManagerPlayerManager playerManager) {
@@ -33,39 +37,43 @@ public class PlayerServiceImpl implements PlayerService
         GameManagerPlayerManager manager;
         int playerID;
 
-//        CommandAddPlayerInManager command = new CommandAddPlayerInManager(player.getName(), player.getPassword(), player.getCrew(),player.getMajor(),player.getSection());
         try {
-            //Add Player
-//            PlayerRowDataGateway playerGateway =
-//                    new PlayerRowDataGatewayRDS(player.getName(),
-//                            player.getPassword(),
-//                    player.getCrew(), player.getMajor(), player.getSection())
             manager = GameManagerPlayerManager.getInstance();
             PlayerDTO createdPlayer = manager.addPlayer(player.getName(), player.getPassword(),
                     player.getCrew(), player.getMajor(), player.getSection());
             playerID = createdPlayer.getPlayerID();
-
-            //Add Starter Quest
-            QuestStateTableDataGateway questStateTableDataGatewayRDS =
-                    QuestStateTableDataGateway.getSingleton();
-            questStateTableDataGatewayRDS.updateState(playerID, 100, QuestStateEnum.TRIGGERED, true);
-
-            //Add Starter Objectives
-            ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
-                    ObjectiveStateTableDataGateway.getSingleton();
-            ObjectiveTableDataGateway objectiveTableDataGateway =
-                    ObjectiveTableDataGateway.getSingleton();
-            ArrayList<ObjectiveRecord> objectiveList = objectiveTableDataGateway.getObjectivesForQuest(100);
-            for (ObjectiveRecord objective : objectiveList)
-            {
-                objectiveStateTableDataGateway.updateState(playerID, 100, objective.getObjectiveID(), ObjectiveStateEnum.TRIGGERED,
-                        false);
-            }
+            triggerInitialQuests(playerID);
         } catch (DatabaseException e) {
             e.printStackTrace();
 //            return 1;
         }
 
         return 0;
+    }
+
+    private void triggerInitialQuests(int playerID) throws DatabaseException
+    {
+        QuestStateTableDataGateway questStateTableDataGatewayRDS =
+                QuestStateTableDataGateway.getSingleton();
+        ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
+                ObjectiveStateTableDataGateway.getSingleton();
+        ObjectiveTableDataGateway objectiveTableDataGateway =
+                ObjectiveTableDataGateway.getSingleton();
+
+        for (QuestsForProduction q:questsToTrigger)
+        {
+            questStateTableDataGatewayRDS.updateState(playerID, q.getQuestID(),
+                    QuestStateEnum.TRIGGERED, true);
+
+            //Add relevant Objectives
+            ArrayList<ObjectiveRecord> objectiveList =
+                    objectiveTableDataGateway.getObjectivesForQuest(q.getQuestID());
+            for (ObjectiveRecord objective : objectiveList)
+            {
+                objectiveStateTableDataGateway.updateState(playerID, q.getQuestID(),
+                        objective.getObjectiveID(), ObjectiveStateEnum.TRIGGERED,
+                        false);
+            }
+        }
     }
 }

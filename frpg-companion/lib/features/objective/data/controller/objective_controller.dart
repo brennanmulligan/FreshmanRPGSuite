@@ -150,38 +150,42 @@ class ObjectiveController extends StateNotifier<ObjectiveState> {
     required num currentLat,
   }) async {
     List<String> data = qrData.split('_');
-    final useableData = data.length == 4 ? data : ['-1', '-1', '-1', '-1'];
+    final useableData = data.length == 5 ? data : ['-1', '-1', '-1', '-1', '0'];
     num questID = int.parse(useableData[0]);
     num objectiveID = int.parse(useableData[1]);
     num latitude = double.parse(useableData[2]);
     num longitude = double.parse(useableData[3]);
+    num checkLocation = int.parse(useableData[4]);
 
     debugPrint('Theirs lon:$longitude lat:$latitude');
     debugPrint('Ours lon:$currentLong lat:$currentLat');
+    debugPrint('checkLocation:$checkLocation');
+    const tolerance = 0.02; // units are kilometers, so this is about 60 feet
+    // Since phones can be off by 30 feet, that's close enough
+    var d = 0.0;
+    if (checkLocation==1) {
 
-    const tolerance = 0.02;  // units are kilometers, so this is about 60 feet
-      // Since phones can be off by 30 feet, that's close enough
+      const R = 6371;
 
-    const R = 6371;
+      final dLat = (latitude - currentLat) * (pi / 180.0);
+      final dLon = (longitude - currentLong) * (pi / 180.0);
 
-    final dLat = (latitude - currentLat) * (pi / 180.0);
-    final dLon = (longitude - currentLong) * (pi / 180.0);
+      final a = (sin(dLat / 2) * sin(dLat / 2)) +
+          (cos((currentLat) * (pi / 180.0)) * cos((latitude) * (pi / 180.0))) *
+              (sin(dLon / 2) * sin(dLon / 2));
 
-    final a = (sin(dLat / 2) * sin(dLat / 2)) +
-        (cos((currentLat) * (pi / 180.0)) * cos((latitude) * (pi / 180.0))) *
-            (sin(dLon / 2) * sin(dLon / 2));
+      final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+      d = R * c;
 
-    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    final d = R * c;
+      final latDiff =
+      num.parse((currentLat.abs() - latitude.abs()).abs().toStringAsFixed(4));
+      var lonDiff = num.parse(
+          (currentLong.abs() - longitude.abs()).abs().toStringAsFixed(4));
 
-    final latDiff =
-        num.parse((currentLat.abs() - latitude.abs()).abs().toStringAsFixed(4));
-    var lonDiff = num.parse(
-        (currentLong.abs() - longitude.abs()).abs().toStringAsFixed(4));
-
-    debugPrint('$lonDiff $latDiff D -> $d');
-
+      debugPrint('$lonDiff $latDiff D -> $d');
+    }
     if (d > tolerance) {
+      debugPrint("Failed location test");
       const failure = CompleteObjectiveResponse(
         responseType: ObjectiveResponseType.outOfRange,
       );

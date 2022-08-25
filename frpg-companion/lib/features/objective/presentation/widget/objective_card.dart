@@ -48,7 +48,7 @@ class ObjectiveCard extends HookConsumerWidget {
 
                 if (kDebugMode) {
                   await notifier.getDataFromCode(
-                    qrData: '03_03_40.0622508_-77.5260629',
+                    qrData: '03_03_40.0622508_-77.5260629_0',
                     info: info,
                     currentLat: 40.0622508,
                     currentLong: -77.5260629,
