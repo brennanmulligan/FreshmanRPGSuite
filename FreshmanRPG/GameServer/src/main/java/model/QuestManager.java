@@ -1099,34 +1099,28 @@ public class QuestManager implements QualifiedObserver
 
         ArrayList<ObjectiveRecord> objectivesForCompletion = new ArrayList<>();
 
-        for (QuestState q : questStates)
-        {
-            objectivesForCompletion.addAll(
-                    getObjectivesByTerminal(q.getID(), q.getPlayerID()));
-        }
+        if(questStates != null) {
+            for (QuestState q : questStates) {
+                objectivesForCompletion.addAll(
+                        getObjectivesByTerminal(q.getID(), q.getPlayerID()));
+            }
 
-        try
-        {
-            if (objectivesForCompletion.size() != 0)
-            {
-                for (ObjectiveRecord a : objectivesForCompletion)
-                {
-                    CriteriaStringDTO criteria =
-                            (CriteriaStringDTO) a.getCompletionCriteria();
+            try {
+                if (objectivesForCompletion.size() != 0) {
+                    for (ObjectiveRecord a : objectivesForCompletion) {
+                        CriteriaStringDTO criteria =
+                                (CriteriaStringDTO) a.getCompletionCriteria();
 
-                    if (criteria.getString().equals(myReport.getCommand()))
-                    {
-                        singleton.completeObjective(myReport.getPlayerID(),
-                                a.getQuestID(), a.getObjectiveID());
+                        if (criteria.getString().equals(myReport.getCommand())) {
+                            singleton.completeObjective(myReport.getPlayerID(),
+                                    a.getQuestID(), a.getObjectiveID());
+                        }
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     /**
