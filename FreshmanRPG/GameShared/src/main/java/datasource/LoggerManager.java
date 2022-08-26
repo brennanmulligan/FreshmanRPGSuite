@@ -1,11 +1,8 @@
 package datasource;
 
-import model.OptionsManager;
-
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.logging.*;
 
 public class LoggerManager
 {
@@ -50,23 +47,42 @@ public class LoggerManager
 
     private void setFile(String title)
     {
-        System.setProperty("java.util.logging.SimpleFormatter.format",
-                "[%1$tF %1$tT] [%4$-7s] %5$s %n");
+//        System.setProperty("java.util.logging.SimpleFormatter.format",
+//                "[%1$tF %1$tT] [%4$-7s] %5$s %n");
         logger = Logger.getLogger(title);
-        FileHandler fileHandler = null;
         try
         {
-            fileHandler = new FileHandler(title + ".log");
-            fileHandler.setLevel(Level.ALL);
+            FileHandler fileHandler = createFileHandler(title);
+            //Assigning handlers to LOGGER object
+            logger.addHandler(fileHandler);
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-
-        //Assigning handlers to LOGGER object
-        logger.addHandler(fileHandler);
-        logger.setLevel(Level.FINEST);
         logger.info("Started logging");
+    }
+
+    private static FileHandler createFileHandler(String title) throws IOException
+    {
+        FileHandler fileHandler;
+        fileHandler = new FileHandler(title + ".log");
+        fileHandler.setLevel(Level.INFO);
+
+        fileHandler.setFormatter(new SimpleFormatter()
+        {
+            private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %n";
+
+            @Override
+            public synchronized String format(LogRecord lr)
+            {
+                return String.format(format,
+                        new Date(lr.getMillis()),
+                        lr.getLevel().getLocalizedName(),
+                        lr.getMessage()
+                );
+            }
+        });
+        return fileHandler;
     }
 }
