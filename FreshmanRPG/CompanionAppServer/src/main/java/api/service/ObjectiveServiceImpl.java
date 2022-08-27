@@ -35,7 +35,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
     }
 
     @Override
-    public int completeObjective(ObjectiveRequest request) throws DatabaseException
+    public int completeObjective(ObjectiveRequest request)
     {
 //        PlayerRowDataGateway playerGateway = new PlayerRowDataGateway(request.getPlayerID());
 //        Player player = PlayerManager.getSingleton().addPlayer(playerGateway.getPlayerID());
@@ -46,8 +46,9 @@ public class ObjectiveServiceImpl implements ObjectiveService
         int objectiveID = request.getObjectiveID();
         try
         {
+            PlayerManager.getSingleton().addPlayerSilently(playerID);
             QuestManager.getSingleton().completeObjective(playerID, questID, objectiveID);
-            PlayerManager.getSingleton().getPlayerFromID(playerID).persist();
+            PlayerManager.getSingleton().removePlayerSilently(playerID);
             return 0;
         }
         catch (Exception e)

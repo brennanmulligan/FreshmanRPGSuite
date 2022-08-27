@@ -23,6 +23,7 @@ public enum QuestStatesForTest
 	 *
 	 */
 	PLAYER1_QUEST3(1, 3, QuestStateEnum.AVAILABLE, true),
+	PLAYER1_QUEST102(1, 102, QuestStateEnum.TRIGGERED, false),
 	/**
 	 *
 	 */
@@ -130,10 +131,10 @@ public enum QuestStatesForTest
 
 //	TEST_TRIGGER_QUEST(1, 106, QuestStateEnum.AVAILABLE, true);
 
-	private int playerID;
-	private int questID;
-	private QuestStateEnum questState;
-	private boolean needingNotification;
+	private final int playerID;
+	private final int questID;
+	private final QuestStateEnum questState;
+	private final boolean needingNotification;
 
 	/**
 	 * Constructor for Quest State Enum

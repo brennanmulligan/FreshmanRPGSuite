@@ -208,9 +208,8 @@ public class Player
 	 *
 	 * @throws DatabaseException if the data source fails to complete the
 	 *         persistance
-	 * @throws IllegalQuestChangeException shouldn't
 	 */
-	public void persist() throws DatabaseException, IllegalQuestChangeException
+	public void persist() throws DatabaseException
 	{
 		playerMapper.persist();
 	}
@@ -515,15 +514,7 @@ public class Player
 		setCrew(crew);
 		setMajor(major);
 		setSection(section);
-		try
-		{
-			this.playerMapper.persist();
-		}
-		catch (IllegalQuestChangeException e)
-		{
-			//This should never happen here - we aren't change any quest states
-		}
-
+		this.playerMapper.persist();
 	}
 
 	/**
@@ -655,9 +646,8 @@ public class Player
 	 *
 	 * @param appearanceType - The appearance to change to.
 	 * @throws DatabaseException a database exception
-	 * @throws IllegalQuestChangeException in case of an illegal quest change
 	 */
-	public void editPlayerAppearance(String appearanceType) throws DatabaseException, IllegalQuestChangeException
+	public void editPlayerAppearance(String appearanceType) throws DatabaseException
 	{
 		this.playerMapper.setPlayerAppearanceType(appearanceType);
 		this.playerMapper.persist();

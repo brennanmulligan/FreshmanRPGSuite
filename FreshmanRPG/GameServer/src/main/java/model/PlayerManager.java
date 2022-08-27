@@ -271,9 +271,8 @@ public class PlayerManager implements QualifiedObserver
 	 * @param playerID The player id of the player to persist
 	 * @return Success status of persistence
 	 * @throws DatabaseException IF we have trouble persisting to the data source
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
-	public boolean persistPlayer(int playerID) throws DatabaseException, IllegalQuestChangeException
+	public boolean persistPlayer(int playerID) throws DatabaseException
 	{
 
 		Player player = this.getPlayerFromID(playerID);
@@ -291,9 +290,20 @@ public class PlayerManager implements QualifiedObserver
 	 *
 	 * @param playerID the ID of the player we should remove
 	 * @throws DatabaseException if we can't persist the player to the data source
-	 * @throws IllegalQuestChangeException the state changed illegally
 	 */
-	public void removePlayer(int playerID) throws IllegalQuestChangeException, DatabaseException
+	public void removePlayer(int playerID) throws  DatabaseException
+	{
+		removePlayerSilently(playerID);
+		Player p = PlayerManager.getSingleton().getPlayerFromID(playerID);
+		if (p != null)
+		{
+			// send the disconnect message to clients
+			PlayerLeaveReport report = new PlayerLeaveReport(playerID);
+			QualifiedObservableConnector.getSingleton().sendReport(report);
+		}
+	}
+
+	public void removePlayerSilently(int playerID) throws DatabaseException
 	{
 		Player p = PlayerManager.getSingleton().getPlayerFromID(playerID);
 
@@ -302,13 +312,8 @@ public class PlayerManager implements QualifiedObserver
 			p.setPlayerOnline(false);
 			persistPlayer(playerID);
 			this.players.remove(playerID);
-
-			// send the disconnect message to clients
-			PlayerLeaveReport report = new PlayerLeaveReport(playerID);
-			QualifiedObservableConnector.getSingleton().sendReport(report);
 		}
 	}
-
 	/**
 	 * Stop all of the npcs. This is necessary when the PlayerManager is reset so
 	 * that the npcs do not have runaway timers that may be re-created.
@@ -360,7 +365,7 @@ public class PlayerManager implements QualifiedObserver
 			{
 				removePlayer(detailedReport.getPlayerID());
 			}
-			catch (DatabaseException|IllegalQuestChangeException e)
+			catch (DatabaseException e)
 			{
 				e.printStackTrace();
 			}
