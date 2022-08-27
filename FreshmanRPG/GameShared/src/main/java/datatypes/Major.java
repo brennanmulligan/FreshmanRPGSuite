@@ -47,6 +47,7 @@ public enum Major
 	 *
 	 */
 	CS_AND_E_GENERAL("CS&E Gen"),
+	HUMAN_COMMUNICATIONS("Human Communications"),
 	/**
 	 *
 	 */
