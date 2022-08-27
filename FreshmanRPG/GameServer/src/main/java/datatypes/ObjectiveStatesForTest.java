@@ -43,6 +43,11 @@ public enum ObjectiveStatesForTest
 	/**
 	 *
 	 */
+	PLAYER1_QUEST102_ADV2(1, 102, 2, ObjectiveStateEnum.TRIGGERED, false),
+
+	/**
+	 *
+	 */
 	PLAYER1_QUEST105_ADV1(1, 105, 1, ObjectiveStateEnum.HIDDEN, false),
 	/**
 	 *
@@ -282,11 +287,11 @@ public enum ObjectiveStatesForTest
 			ObjectivesForTest.EXPLORING_FIND_LIBRARY.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false);
 
 
-	private int objectiveID;
-	private int questID;
-	private int playerID;
-	private ObjectiveStateEnum state;
-	private boolean needsNotification;
+	private final int objectiveID;
+	private final int questID;
+	private final int playerID;
+	private final ObjectiveStateEnum state;
+	private final boolean needsNotification;
 
 	/**
 	 * Constructor for Objectives Enum

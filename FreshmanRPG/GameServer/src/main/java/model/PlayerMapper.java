@@ -256,9 +256,8 @@ public class PlayerMapper
      * Persist the current state of the player into the data source
      *
      * @throws DatabaseException           if we can't complete the write
-     * @throws IllegalQuestChangeException shouldn't
      */
-    protected void persist() throws DatabaseException, IllegalQuestChangeException
+    protected void persist() throws DatabaseException
     {
 
         playerGateway.setAppearanceType(player.getAppearanceType());
@@ -294,6 +293,7 @@ public class PlayerMapper
                QuestManager.getSingleton().getQuestList(player.getPlayerID());
         if (questList != null)
         {
+            //noinspection unchecked
             questList = (ArrayList<QuestState>) questList.clone();
             for (QuestState questState : questList)
             {
