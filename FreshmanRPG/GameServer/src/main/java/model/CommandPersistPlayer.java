@@ -10,7 +10,7 @@ import datasource.DatabaseException;
  */
 public class CommandPersistPlayer extends Command
 {
-	private int playerID;
+	private final int playerID;
 
 	/**
 	 *
@@ -31,7 +31,7 @@ public class CommandPersistPlayer extends Command
 		{
 			return PlayerManager.getSingleton().persistPlayer(playerID);
 		}
-		catch (DatabaseException | IllegalQuestChangeException e)
+		catch (DatabaseException e)
 		{
 			return false;
 		}

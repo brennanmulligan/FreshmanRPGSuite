@@ -47,7 +47,7 @@ public class CommandMovePlayerToAnotherMapAndPersist extends Command
 				return result;
 
 			}
-			catch (DatabaseException | IllegalQuestChangeException e)
+			catch (DatabaseException e)
 			{
 				LoggerManager.getSingleton().getLogger().info("Exception in moving the " +
 					"player");
