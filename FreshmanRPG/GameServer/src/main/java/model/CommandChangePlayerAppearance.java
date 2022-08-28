@@ -33,7 +33,10 @@ public class CommandChangePlayerAppearance extends Command
 	boolean execute()
 	{
 		Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
-		player.setVanityItems(newWearing);
+		if (player != null)
+		{
+			player.setVanityItems(newWearing);
+		}
 		return true;
 	}
 
