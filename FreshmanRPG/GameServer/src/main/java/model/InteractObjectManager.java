@@ -85,7 +85,12 @@ public class InteractObjectManager implements QualifiedObserver
     {
         // Gets player position from id
         Player playerObject = PlayerManager.getSingleton().getPlayerFromID(playerId);
+        if (playerObject == null)
+        {
+            return -1;
+        }
         Position playerPosition = playerObject.getPlayerPosition();
+
         int x = playerPosition.getRow();
         int y = playerPosition.getColumn();
 

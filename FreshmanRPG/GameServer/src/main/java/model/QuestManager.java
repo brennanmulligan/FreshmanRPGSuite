@@ -108,14 +108,16 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Get the objective state from the id's and set the objective state to complete
+     * Get the objective state from the id's and set the objective state to
+     * complete
      * if it is pending
      *
      * @param playerID    the id of the player
      * @param questID     the id of the quest
      * @param objectiveID the id of the objective
      * @throws DatabaseException               shouldn't
-     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
      * @throws IllegalQuestChangeException     thrown if illegal state change
      */
     public void completeObjective(int playerID, int questID, int objectiveID)
@@ -211,7 +213,8 @@ public class QuestManager implements QualifiedObserver
      *
      * @param questID        the quest we are looking for
      * @param reportPlayerId the player we are looking for
-     * @return a list of objectives that are related to friends and are active for this
+     * @return a list of objectives that are related to friends and are
+     * active for this
      * player
      */
     public ArrayList<ObjectiveRecord> getObjectivesByFriend(int questID,
@@ -250,7 +253,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Returns a list of ObjectiveRecord objects based on completion at specified
+     * Returns a list of ObjectiveRecord objects based on completion at
+     * specified
      * map and position
      *
      * @param pos     - the position of the objective
@@ -262,7 +266,8 @@ public class QuestManager implements QualifiedObserver
                                                               String mapName)
             throws DatabaseException
     {
-        return objectiveGateway.findObjectivesCompletedForMapLocation(mapName, pos);
+        return objectiveGateway.findObjectivesCompletedForMapLocation(mapName
+                , pos);
     }
 
     /**
@@ -284,7 +289,8 @@ public class QuestManager implements QualifiedObserver
                                 AR.getObjectiveID());
                 if (objectiveState != null)
                 {
-                    ObjectiveStateEnum currentObjectivesState = objectiveState.getState();
+                    ObjectiveStateEnum currentObjectivesState =
+                            objectiveState.getState();
                     if (ObjectiveStateEnum.TRIGGERED == currentObjectivesState)
                     {
                         if (AR.getCompletionType() == ObjectiveCompletionType.TERMINAL)
@@ -326,7 +332,8 @@ public class QuestManager implements QualifiedObserver
                                 AR.getObjectiveID());
                 if (objectiveState != null)
                 {
-                    ObjectiveStateEnum currentObjectivesState = objectiveState.getState();
+                    ObjectiveStateEnum currentObjectivesState =
+                            objectiveState.getState();
                     if (ObjectiveStateEnum.TRIGGERED == currentObjectivesState)
                     {
                         if (AR.getCompletionType() == chatCompletionType)
@@ -366,7 +373,8 @@ public class QuestManager implements QualifiedObserver
                                 AR.getObjectiveID());
                 if (objectiveState != null)
                 {
-                    ObjectiveStateEnum currentObjectivesState = objectiveState.getState();
+                    ObjectiveStateEnum currentObjectivesState =
+                            objectiveState.getState();
                     if (ObjectiveStateEnum.TRIGGERED == currentObjectivesState)
                     {
                         if (AR.getCompletionType() == ObjectiveCompletionType.CHAT)
@@ -386,7 +394,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Gets a specific quest from the database. Creates a Quest and passes it on the
+     * Gets a specific quest from the database. Creates a Quest and passes it
+     * on the
      * player mapper?
      *
      * @param questID the quest to retrieve
@@ -399,14 +408,17 @@ public class QuestManager implements QualifiedObserver
         QuestRowDataGateway questGateway;
         questGateway = new QuestRowDataGateway(questID);
 
-        return new QuestRecord(questGateway.getQuestID(), questGateway.getQuestTitle(),
-                questGateway.getQuestDescription(), questGateway.getTriggerMapName(),
+        return new QuestRecord(questGateway.getQuestID(),
+                questGateway.getQuestTitle(),
+                questGateway.getQuestDescription(),
+                questGateway.getTriggerMapName(),
                 questGateway.getTriggerPosition(),
                 objectiveGateway.getObjectivesForQuest(questID),
                 questGateway.getExperiencePointsGained(),
                 questGateway.getObjectivesForFulfillment(),
                 questGateway.getCompletionActionType(),
-                questGateway.getCompletionActionParameter(), questGateway.getStartDate(),
+                questGateway.getCompletionActionParameter(),
+                questGateway.getStartDate(),
                 questGateway.getEndDate());
     }
 
@@ -478,7 +490,8 @@ public class QuestManager implements QualifiedObserver
         catch (DatabaseException | IllegalObjectiveChangeException |
                IllegalQuestChangeException e)
         {
-            System.out.println("player does not exist or could not find friends");
+            System.out.println("player does not exist or could not find " +
+                    "friends");
             e.printStackTrace();
         }
 
@@ -514,7 +527,8 @@ public class QuestManager implements QualifiedObserver
         catch (DatabaseException | IllegalObjectiveChangeException |
                IllegalQuestChangeException e)
         {
-            System.out.println("player does not exist or could not find friends");
+            System.out.println("player does not exist or could not find " +
+                    "friends");
             e.printStackTrace();
         }
     }
@@ -529,63 +543,74 @@ public class QuestManager implements QualifiedObserver
         {
             handlePlayerMovement(report);
         }
-        else if (report.getClass() == PlayerLeaveReport.class)
-        {
-            PlayerLeaveReport myReport = (PlayerLeaveReport) report;
-            removeQuestStatesForPlayer(myReport.getPlayerID());
-        }
-        else if (report.getClass() == KeyInputRecievedReport.class)
-        {
-            handlePlayerInput(report);
-        }
-        else if (report.getClass() == ChatMessageReceivedReport.class)
-        {
-            handlePlayerChatCriteriaCompletion(report);
-            handlePlayerChatReceivedCriteriaCompletion(report);
-        }
-        else if (report.getClass() == DoubloonChangeReport.class)
-        {
-            handleDoubloonsChanged(report);
-        }
-        else if (report.getClass() == PlayerConnectionReport.class)
-        {
-            PlayerConnectionReport myReport = (PlayerConnectionReport) report;
-            try
+        else
+            if (report.getClass() == PlayerLeaveReport.class)
             {
-                triggerQuestsForPosition(myReport.getPosition(),
-                        OptionsManager.getSingleton().getMapFileTitle(),
-                        myReport.getPlayerID());
-                completeObjectivesForPosition(myReport.getPosition(),
-                        OptionsManager.getSingleton().getMapFileTitle(),
-                        myReport.getPlayerID());
+                PlayerLeaveReport myReport = (PlayerLeaveReport) report;
+                removeQuestStatesForPlayer(myReport.getPlayerID());
             }
-            catch (DatabaseException | IllegalObjectiveChangeException |
-                   IllegalQuestChangeException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        else if (report.getClass() == InteractableObjectBuffReport.class)
-        {
-            handleInteractableObjectBuffReport(report);
+            else
+                if (report.getClass() == KeyInputRecievedReport.class)
+                {
+                    handlePlayerInput(report);
+                }
+                else
+                    if (report.getClass() == ChatMessageReceivedReport.class)
+                    {
+                        handlePlayerChatCriteriaCompletion(report);
+                        handlePlayerChatReceivedCriteriaCompletion(report);
+                    }
+                    else
+                        if (report.getClass() == DoubloonChangeReport.class)
+                        {
+                            handleDoubloonsChanged(report);
+                        }
+                        else
+                            if (report.getClass() == PlayerConnectionReport.class)
+                            {
+                                PlayerConnectionReport myReport =
+                                        (PlayerConnectionReport) report;
+                                try
+                                {
+                                    triggerQuestsForPosition(myReport.getPosition(),
+                                            OptionsManager.getSingleton().getMapFileTitle(),
+                                            myReport.getPlayerID());
+                                    completeObjectivesForPosition(myReport.getPosition(),
+                                            OptionsManager.getSingleton().getMapFileTitle(),
+                                            myReport.getPlayerID());
+                                }
+                                catch (DatabaseException |
+                                       IllegalObjectiveChangeException |
+                                       IllegalQuestChangeException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                            }
+                            else
+                                if (report.getClass() == InteractableObjectBuffReport.class)
+                                {
+                                    handleInteractableObjectBuffReport(report);
 
-        }
-        else if (report.getClass() == InteractableObjectTextReport.class)
-        {
-            handleInteractableObjectTextReport(report);
+                                }
+                                else
+                                    if (report.getClass() == InteractableObjectTextReport.class)
+                                    {
+                                        handleInteractableObjectTextReport(report);
 
-        }
-        else if (report.getClass() == FriendConnectionReceivedReport.class)
-        {
+                                    }
+                                    else
+                                        if (report.getClass() == FriendConnectionReceivedReport.class)
+                                        {
 
-            handleFriends(report);
+                                            handleFriends(report);
 
-        }
-        else if (report.getClass() == ReceiveTerminalTextReport.class)
-        {
-            handleReceiveTerminalTextReport(report);
+                                        }
+                                        else
+                                            if (report.getClass() == ReceiveTerminalTextReport.class)
+                                            {
+                                                handleReceiveTerminalTextReport(report);
 
-        }
+                                            }
 
     }
 
@@ -604,7 +629,8 @@ public class QuestManager implements QualifiedObserver
      *
      * @param playerID the player
      * @param questID  the quest to be triggered
-     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
      * @throws IllegalQuestChangeException     thrown if illegal state change
      * @throws DatabaseException               shouldn't
      */
@@ -633,14 +659,16 @@ public class QuestManager implements QualifiedObserver
      * @param questID     the id of the quest
      * @param objectiveID the id of the objective
      * @throws DatabaseException               shouldn't
-     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
      * @throws IllegalQuestChangeException     thrown if illegal state change
      */
     public void turnOffNotification(int playerID, int questID, int objectiveID)
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
     {
-        ObjectiveState x = getObjectiveStateByID(playerID, questID, objectiveID);
+        ObjectiveState x = getObjectiveStateByID(playerID, questID,
+                objectiveID);
         if (x != null)
         {
             x.turnOffNotification();
@@ -648,7 +676,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Called when the user no longer needs to be notified about the current state
+     * Called when the user no longer needs to be notified about the current
+     * state
      * of a quest
      *
      * @param playerID the player
@@ -665,14 +694,17 @@ public class QuestManager implements QualifiedObserver
      *
      * @param reportPlayerID player who sent chat message
      * @param q              quest to get objective for
-     * @throws PlayerNotFoundException if the player in the report is not logged in
+     * @throws PlayerNotFoundException if the player in the report is not
+     *                                 logged in
      */
-    private void checkAllChatObjectivesForCompletion(int reportPlayerID, ChatType type,
+    private void checkAllChatObjectivesForCompletion(int reportPlayerID,
+                                                     ChatType type,
                                                      QuestState q)
             throws PlayerNotFoundException
     {
         PlayerManager PM = PlayerManager.getSingleton();
-        for (ObjectiveRecord a : getPendingChatObjectives(q.getID(), reportPlayerID,
+        for (ObjectiveRecord a : getPendingChatObjectives(q.getID(),
+                reportPlayerID,
                 ObjectiveCompletionType.CHAT))
         {
             ObjectiveCompletionCriteria criteria = a.getCompletionCriteria();
@@ -689,11 +721,13 @@ public class QuestManager implements QualifiedObserver
                         try
                         {
                             QuestManager.getSingleton()
-                                    .completeObjective(reportPlayerID, q.getID(),
+                                    .completeObjective(reportPlayerID,
+                                            q.getID(),
                                             a.getObjectiveID());
 
                         }
-                        catch (DatabaseException | IllegalObjectiveChangeException |
+                        catch (DatabaseException |
+                               IllegalObjectiveChangeException |
                                IllegalQuestChangeException e)
                         {
                             e.printStackTrace();
@@ -702,7 +736,8 @@ public class QuestManager implements QualifiedObserver
                 }
                 catch (PlayerNotFoundException e)
                 {
-                    // the player that would match this criteria isn't on this server
+                    // the player that would match this criteria isn't on
+                    // this server
                     // so there's no way this objective would complete
                 }
 
@@ -712,7 +747,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Checks if the received chat report meets the criteria to complete the quest
+     * Checks if the received chat report meets the criteria to complete the
+     * quest
      */
     private void checkAllChatReceivedObjectivesForCompletion(int reportPlayerID,
                                                              int reportNPCID,
@@ -721,7 +757,8 @@ public class QuestManager implements QualifiedObserver
             throws PlayerNotFoundException
     {
         PlayerManager PM = PlayerManager.getSingleton();
-        for (ObjectiveRecord a : getPendingChatObjectives(q.getID(), reportPlayerID,
+        for (ObjectiveRecord a : getPendingChatObjectives(q.getID(),
+                reportPlayerID,
                 ObjectiveCompletionType.CHAT_RECEIVED))
         {
             ObjectiveCompletionCriteria criteria = a.getCompletionCriteria();
@@ -739,11 +776,13 @@ public class QuestManager implements QualifiedObserver
                         try
                         {
                             QuestManager.getSingleton()
-                                    .completeObjective(reportPlayerID, q.getID(),
+                                    .completeObjective(reportPlayerID,
+                                            q.getID(),
                                             a.getObjectiveID());
 
                         }
-                        catch (DatabaseException | IllegalObjectiveChangeException |
+                        catch (DatabaseException |
+                               IllegalObjectiveChangeException |
                                IllegalQuestChangeException e)
                         {
                             e.printStackTrace();
@@ -754,7 +793,8 @@ public class QuestManager implements QualifiedObserver
         }
     }
 
-    private void completeObjectivesForPosition(Position position, String mapName,
+    private void completeObjectivesForPosition(Position position,
+                                               String mapName,
                                                int playerID)
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
@@ -764,11 +804,13 @@ public class QuestManager implements QualifiedObserver
         for (ObjectiveRecord a : objectives)
         {
             ObjectiveState objectiveStateByID =
-                    getObjectiveStateByID(playerID, a.getQuestID(), a.getObjectiveID());
+                    getObjectiveStateByID(playerID, a.getQuestID(),
+                            a.getObjectiveID());
             if (objectiveStateByID != null &&
                     objectiveStateByID.getState() != ObjectiveStateEnum.COMPLETED)
             {
-                this.completeObjective(playerID, a.getQuestID(), a.getObjectiveID());
+                this.completeObjective(playerID, a.getQuestID(),
+                        a.getObjectiveID());
             }
         }
     }
@@ -810,7 +852,8 @@ public class QuestManager implements QualifiedObserver
 
     private void handleInteractableObjectBuffReport(QualifiedObservableReport report)
     {
-        InteractableObjectBuffReport myReport = (InteractableObjectBuffReport) report;
+        InteractableObjectBuffReport myReport =
+                (InteractableObjectBuffReport) report;
         PlayerManager.getSingleton();
 
         ArrayList<QuestState> questStates =
@@ -821,7 +864,8 @@ public class QuestManager implements QualifiedObserver
         for (QuestState q : questStates)
         {
             objectivesForCompletion.addAll(
-                    getObjectivesByInteractableObject(q.getID(), q.getPlayerID()));
+                    getObjectivesByInteractableObject(q.getID(),
+                            q.getPlayerID()));
         }
 
         try
@@ -850,7 +894,8 @@ public class QuestManager implements QualifiedObserver
 
     private void handleInteractableObjectTextReport(QualifiedObservableReport report)
     {
-        InteractableObjectTextReport myReport = (InteractableObjectTextReport) report;
+        InteractableObjectTextReport myReport =
+                (InteractableObjectTextReport) report;
         PlayerManager.getSingleton();
 
         ArrayList<QuestState> questStates =
@@ -861,7 +906,8 @@ public class QuestManager implements QualifiedObserver
         for (QuestState q : questStates)
         {
             objectivesForCompletion.addAll(
-                    getObjectivesByInteractableObject(q.getID(), q.getPlayerID()));
+                    getObjectivesByInteractableObject(q.getID(),
+                            q.getPlayerID()));
         }
 
         try
@@ -889,7 +935,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Will listen for SendChatMessageReports and check to see if they help complete
+     * Will listen for SendChatMessageReports and check to see if they help
+     * complete
      * any of the current objective that a player is doing Objective must be off
      * ObjectiveCompletion type chat and the players must be within a certain
      * distance of each other
@@ -900,7 +947,8 @@ public class QuestManager implements QualifiedObserver
         try
         {
             int reportPlayerID = myReport.getSenderID();
-            ArrayList<QuestState> questStateList = singleton.getQuestList(reportPlayerID);
+            ArrayList<QuestState> questStateList =
+                    singleton.getQuestList(reportPlayerID);
 
             if (questStateList != null)
             {
@@ -919,7 +967,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Check all chat reports that are received from an NPC and passes along the report
+     * Check all chat reports that are received from an NPC and passes along
+     * the report
      *
      * @param report a ChatMessageReceivedReport
      */
@@ -951,7 +1000,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Iterates through all quests and objectives and validates if it's the correct
+     * Iterates through all quests and objectives and validates if it's the
+     * correct
      * criteria for keyboard input.
      *
      * @param report a KeyInputRecievedReport
@@ -994,7 +1044,8 @@ public class QuestManager implements QualifiedObserver
         }
     }
 
-    private void triggerQuestsForPosition(Position position, String mapName, int playerID)
+    private void triggerQuestsForPosition(Position position, String mapName,
+                                          int playerID)
             throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
     {
@@ -1013,18 +1064,21 @@ public class QuestManager implements QualifiedObserver
      * Validates if an input string matches the criteria string.
      */
     private void validateInputCriteriaForObjectives(String input, int playerId,
-                                                    int questId, int objectiveId)
+                                                    int questId,
+                                                    int objectiveId)
     {
         try
         {
             ObjectiveRecord ar = getObjective(questId, objectiveId);
             ObjectiveState objectiveStateByID =
-                    singleton.getObjectiveStateByID(playerId, questId, objectiveId);
+                    singleton.getObjectiveStateByID(playerId, questId,
+                            objectiveId);
             if (ar.getCompletionType() == ObjectiveCompletionType.KEYSTROKE &&
                     (objectiveStateByID != null) &&
                     (objectiveStateByID.getState() == ObjectiveStateEnum.TRIGGERED))
             {
-                CriteriaStringDTO cs = (CriteriaStringDTO) ar.getCompletionCriteria();
+                CriteriaStringDTO cs =
+                        (CriteriaStringDTO) ar.getCompletionCriteria();
                 if (cs.getString().equalsIgnoreCase(input))
                 {
                     singleton.completeObjective(playerId, questId, objectiveId);
@@ -1086,7 +1140,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Will listen for ReceiveTerminalTextReport and check to see if they help complete
+     * Will listen for ReceiveTerminalTextReport and check to see if they
+     * help complete
      * any of the current objective that a player is doing Objective must be of
      * ObjectiveCompletion type terminal
      */
@@ -1099,34 +1154,36 @@ public class QuestManager implements QualifiedObserver
 
         ArrayList<ObjectiveRecord> objectivesForCompletion = new ArrayList<>();
 
-        for (QuestState q : questStates)
+        if (questStates != null)
         {
-            objectivesForCompletion.addAll(
-                    getObjectivesByTerminal(q.getID(), q.getPlayerID()));
-        }
-
-        try
-        {
-            if (objectivesForCompletion.size() != 0)
+            for (QuestState q : questStates)
             {
-                for (ObjectiveRecord a : objectivesForCompletion)
-                {
-                    CriteriaStringDTO criteria =
-                            (CriteriaStringDTO) a.getCompletionCriteria();
+                objectivesForCompletion.addAll(
+                        getObjectivesByTerminal(q.getID(), q.getPlayerID()));
+            }
 
-                    if (criteria.getString().equals(myReport.getCommand()))
+            try
+            {
+                if (objectivesForCompletion.size() != 0)
+                {
+                    for (ObjectiveRecord a : objectivesForCompletion)
                     {
-                        singleton.completeObjective(myReport.getPlayerID(),
-                                a.getQuestID(), a.getObjectiveID());
+                        CriteriaStringDTO criteria =
+                                (CriteriaStringDTO) a.getCompletionCriteria();
+
+                        if (criteria.getString().equals(myReport.getCommand()))
+                        {
+                            singleton.completeObjective(myReport.getPlayerID(),
+                                    a.getQuestID(), a.getObjectiveID());
+                        }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     /**
@@ -1170,7 +1227,8 @@ public class QuestManager implements QualifiedObserver
             if (startDate != null && now.after(startDate))
             {
                 qState =
-                        new QuestState(playerID, questID, QuestStateEnum.AVAILABLE, true);
+                        new QuestState(playerID, questID,
+                                QuestStateEnum.AVAILABLE, true);
                 try
                 {
                     quest = getQuest(questID);
@@ -1213,7 +1271,8 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * Use the id's of the player quest and objective to find a specified objective
+     * Use the id's of the player quest and objective to find a specified
+     * objective
      * state
      *
      * @param playerID    the id of the player
@@ -1221,7 +1280,8 @@ public class QuestManager implements QualifiedObserver
      * @param objectiveID the id of the objective
      * @return the state of the objectivenew Grego
      */
-    ObjectiveState getObjectiveStateByID(int playerID, int questID, int objectiveID)
+    ObjectiveState getObjectiveStateByID(int playerID, int questID,
+                                         int objectiveID)
     {
 
         ArrayList<QuestState> questStateList = questStates.get(playerID);
