@@ -11,7 +11,7 @@ import datasource.DatabaseException;
 public class CommandRemovePlayer extends Command
 {
 
-	private int playerID;
+	private final int playerID;
 
 	/**
 	 *
@@ -34,7 +34,7 @@ public class CommandRemovePlayer extends Command
 		{
 			PlayerManager.getSingleton().removePlayer(playerID);
 		}
-		catch (DatabaseException | IllegalQuestChangeException e)
+		catch (DatabaseException e)
 		{
 			//Couldn't disconnect/remove player
 			e.printStackTrace();

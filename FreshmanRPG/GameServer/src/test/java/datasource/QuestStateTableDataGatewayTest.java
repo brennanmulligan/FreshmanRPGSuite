@@ -53,7 +53,7 @@ public class QuestStateTableDataGatewayTest extends ServerSideTest
                 QuestStateEnum.TRIGGERED, true);
         ArrayList<QuestStateRecordDTO> actual =
                 gateway.getQuestStates(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID());
-        assertEquals(9, actual.size());
+        assertEquals(10, actual.size());
         assertTrue(actual.contains(
                 new QuestStateRecordDTO(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
                         4, QuestStateEnum.TRIGGERED, true)));
@@ -102,7 +102,7 @@ public class QuestStateTableDataGatewayTest extends ServerSideTest
     {
         setup();
         ArrayList<QuestStateRecordDTO> records = gateway.getQuestStates(1);
-        assertEquals(8, records.size());
+        assertEquals(9, records.size());
         // the records could be in any order
         for (int i = 0; i < 5; i++)
         {
