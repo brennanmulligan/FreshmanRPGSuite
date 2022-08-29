@@ -4,8 +4,8 @@ import api.datasource.ExternalObjectiveManager;
 import api.model.ObjectiveRequest;
 import api.model.PlayerTokenManager;
 import datasource.DatabaseException;
+import datasource.LoggerManager;
 import datasource.ObjectiveStateTableDataGateway;
-import datasource.PlayerRowDataGateway;
 import datatypes.ObjectiveStateEnum;
 import model.*;
 import org.springframework.stereotype.Service;
@@ -37,22 +37,28 @@ public class ObjectiveServiceImpl implements ObjectiveService
     @Override
     public int completeObjective(ObjectiveRequest request)
     {
-//        PlayerRowDataGateway playerGateway = new PlayerRowDataGateway(request.getPlayerID());
-//        Player player = PlayerManager.getSingleton().addPlayer(playerGateway.getPlayerID());
-//        PlayerTokenManager ptm = PlayerTokenManager.getInstance();
-//        ptm.addPlayer(player);
-        int playerID = request.getPlayerID();
+        //        PlayerRowDataGateway playerGateway = new PlayerRowDataGateway(request.getPlayerID());
+        //        Player player = PlayerManager.getSingleton().addPlayer(playerGateway.getPlayerID());
+        //        PlayerTokenManager ptm = PlayerTokenManager.getInstance();
+        //        ptm.addPlayer(player);
+        PlayerTokenManager ptm = PlayerTokenManager.getInstance();
+        int playerID = ptm.getPlayer(request.getPlayerID()).getPlayerID();
         int questID = request.getQuestID();
         int objectiveID = request.getObjectiveID();
+        LoggerManager.getSingleton().getLogger()
+                .info("Trying to complete objective " + questID + ":" + objectiveID +
+                        ": playerID = " + playerID);
         try
         {
-            PlayerManager.getSingleton().addPlayerSilently(playerID);
+            // PlayerManager.getSingleton().addPlayerSilently(playerID);
             QuestManager.getSingleton().completeObjective(playerID, questID, objectiveID);
             PlayerManager.getSingleton().removePlayerSilently(playerID);
             return 0;
         }
         catch (Exception e)
         {
+            LoggerManager.getSingleton().getLogger().info("Exception Completing " +
+                    "Objective " + e.getMessage());
             return 1;
         }
     }
@@ -82,7 +88,8 @@ public class ObjectiveServiceImpl implements ObjectiveService
             objectives.forEach(objective ->
                     externalObjectives.addAll(finalRecords.stream().filter(
                             r -> r.getObjectiveID() == objective.getID()
-                                    && objective.getState() == ObjectiveStateEnum.TRIGGERED
+                                    &&
+                                    objective.getState() == ObjectiveStateEnum.TRIGGERED
                     ).collect(Collectors.toList())));
         });
         return new ArrayList<>(new HashSet<>(externalObjectives));
