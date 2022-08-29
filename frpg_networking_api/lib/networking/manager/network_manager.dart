@@ -32,15 +32,24 @@ class NetworkManager extends StateNotifier<NetworkManagerState> {
           state ?? const NetworkManagerState(),
         );
 
+
+
   ///
   /// Set base url for Service client.
   ///
   void setBaseURL() {
+    //region Copied from lib/src/foundation/constants.dart
+    bool isReleaseMode = dotenv.get('dart.vm.product') == 'true';
+    bool isProfileMode = dotenv.get('dart.vm.profile') == 'true';
+    bool isDebugMode = !isReleaseMode && !isProfileMode;
+    bool isWeb = identical(0, 0.0);
+    //endregion
+
     String baseURL;
     debugPrint('--- BEGIN base URL Dump ---');
-    if (kDebugMode) {
+    if (isDebugMode) {
       debugPrint('Mode: debug');
-      if (kIsWeb) {
+      if (isWeb) {
         baseURL = dotenv.get('API_DEBUG_IOS');
       } else {
         if (Platform.isAndroid) {
@@ -49,7 +58,7 @@ class NetworkManager extends StateNotifier<NetworkManagerState> {
           baseURL = dotenv.get('API_DEBUG_IOS');
         }
       }
-    } else if (kProfileMode) {
+    } else if (isProfileMode) {
       debugPrint('Mode: profile');
       baseURL = dotenv.get('API_PROFILE');
     } else {

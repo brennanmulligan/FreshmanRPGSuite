@@ -31,6 +31,7 @@ public class LoginServiceImpl implements LoginService{
      */
     @Override
     public int loginWithCredentials(String username, String password) throws DatabaseException {
+        LoggerManager.getSingleton().getLogger().info("Trying to log in " + username);
         PlayerLoginRowDataGateway loginGateway;
         PlayerRowDataGateway playerGateway;
         try {
@@ -50,6 +51,7 @@ public class LoginServiceImpl implements LoginService{
         Player player = PlayerManager.getSingleton().addPlayer(playerGateway.getPlayerID());
         PlayerTokenManager ptm = PlayerTokenManager.getInstance();
 
+        LoggerManager.getSingleton().getLogger().info("Login was successful for " + username);
         return ptm.addPlayer(player);
     }
 }

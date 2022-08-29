@@ -1,6 +1,7 @@
 package model;
 
 import datasource.DatabaseException;
+import datasource.LoggerManager;
 import datatypes.ObjectiveStateEnum;
 import datatypes.QuestStateEnum;
 import model.reports.ObjectiveStateChangeReport;
@@ -8,249 +9,248 @@ import model.reports.ObjectiveStateChangeReport;
 /**
  * Stores the states of all the objectives for an individual player on the
  * server
- *
+ * <p>
  * Visibility within this class is VERY important!  Only the model should be able to
  * create these objects and call methods that change their state.  However, model.reports
  * needs access to the data stored in the object, so the getters need to be public.
  *
  * @author Ryan
- *
  */
 public class ObjectiveState
 {
 
-	private int objectiveID;
+    private final int objectiveID;
 
-	private ObjectiveStateEnum objectiveState;
+    private ObjectiveStateEnum objectiveState;
 
-	private QuestState parentQuestState;
+    private QuestState parentQuestState;
 
-	private boolean needingNotification;
+    private boolean needingNotification;
 
-	/**
-	 * Constructor for the instance variables.
-	 *
-	 * @param id : id of objective
-	 * @param state : state of objective
-	 * @param needingNotification true if the player has not been notified that
-	 *            we entered this state
-	 */
-	protected ObjectiveState(int id, ObjectiveStateEnum state, boolean needingNotification)
-	{
-		this.objectiveID = id;
-		this.objectiveState = state;
-		this.needingNotification = needingNotification;
-	}
+    /**
+     * Constructor for the instance variables.
+     *
+     * @param id                  : id of objective
+     * @param state               : state of objective
+     * @param needingNotification true if the player has not been notified that
+     *                            we entered this state
+     */
+    protected ObjectiveState(int id, ObjectiveStateEnum state,
+                             boolean needingNotification)
+    {
+        this.objectiveID = id;
+        this.objectiveState = state;
+        this.needingNotification = needingNotification;
+    }
 
-	/**
-	 * returns the id of the current objective
-	 *
-	 * @return the id
-	 */
-	public int getID()
-	{
-		return objectiveID;
-	}
-
-	/**
-	 * returns the state of the current objective.
-	 *
-	 * @return the state
-	 */
-	public ObjectiveStateEnum getState()
-	{
-		return objectiveState;
-	}
-
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + objectiveID;
-		result = prime * result + ((objectiveState == null) ? 0 : objectiveState.hashCode());
-		result = prime * result + (needingNotification ? 1231 : 1237);
-		result = prime * result + ((parentQuestState == null) ? 0 : parentQuestState.hashCode());
-		return result;
-	}
-
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        ObjectiveState other = (ObjectiveState) obj;
+        if (objectiveID != other.objectiveID)
+        {
+            return false;
+        }
+        if (objectiveState != other.objectiveState)
+        {
+            return false;
+        }
+        if (needingNotification != other.needingNotification)
+        {
+            return false;
+        }
+        if (parentQuestState == null)
+        {
+			return other.parentQuestState == null;
+        }
+        else
 		{
-			return true;
-		}
-		if (obj == null)
-		{
-			return false;
-		}
-		if (getClass() != obj.getClass())
-		{
-			return false;
-		}
-		ObjectiveState other = (ObjectiveState) obj;
-		if (objectiveID != other.objectiveID)
-		{
-			return false;
-		}
-		if (objectiveState != other.objectiveState)
-		{
-			return false;
-		}
-		if (needingNotification != other.needingNotification)
-		{
-			return false;
-		}
-		if (parentQuestState == null)
-		{
-			if (other.parentQuestState != null)
-			{
-				return false;
-			}
-		}
-		else if (!parentQuestState.equals(other.parentQuestState))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Changes the state of an objective from hidden to pending.
-	 *
-	 * @throws IllegalObjectiveChangeException thrown if changing to a wrong
-	 *             state
-	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException thrown if error occurred during quest
-	 *             state change
-	 */
-	protected void trigger() throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
-	{
-
-		changeState(ObjectiveStateEnum.TRIGGERED, false);
-	}
-
-	/**
-	 * Change the state of the objective from pending to complete. The objective
-	 * is complete, but we need to tell the player
-	 *
-	 * @throws DatabaseException if the datasource fails
-	 * @throws IllegalObjectiveChangeException thrown if changing to a wrong
-	 *             state
-	 * @throws IllegalQuestChangeException thrown if illegal state change
-	 */
-	protected void complete() throws DatabaseException, IllegalObjectiveChangeException, IllegalQuestChangeException
-	{
-
-		changeState(ObjectiveStateEnum.COMPLETED, true);
-
-		if (parentQuestState.getStateValue() != QuestStateEnum.EXPIRED)
-		{
-
-			PlayerManager.getSingleton().getPlayerFromID(this.parentQuestState.getPlayerID())
-					.addExperiencePoints(QuestManager.getSingleton()
-							.getObjective(this.parentQuestState.getID(), objectiveID).getExperiencePointsGained());
-
-		}
-
-		this.parentQuestState.checkForFulfillmentOrFinished();
-
-
-	}
-
-	/**
-	 * Tell this objective which quest state it is contained within
-	 *
-	 * @param questState the parent state
-	 */
-	public void setParentQuest(QuestState questState)
-	{
-		parentQuestState = questState;
-	}
-
-	/**
-	 * Does the player need to be notified about the state of this objective?
-	 *
-	 * @return true if notification is required
-	 */
-	public boolean isNeedingNotification()
-	{
-		return needingNotification;
-	}
-
-	/**
-	 * Changes the current states state to the given state and tells it if it
-	 * needs to notify the user.
-	 *
-	 * @param state state to change to
-	 * @param needingNotification whether to notify or not
-	 * @throws IllegalObjectiveChangeException thrown if changing to a wrong
-	 *             state
-	 * @throws DatabaseException shouldn't
-	 * @throws IllegalQuestChangeException thrown if queststatechange error
-	 *             occurs
-	 */
-	protected void changeState(ObjectiveStateEnum state, boolean needingNotification)
-			throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
-	{
-		if (this.parentQuestState.getStateValue() == QuestStateEnum.EXPIRED)
-		{
-			if (!objectiveIsExpiredOrCompleted())
-			{
-				this.objectiveState = ObjectiveStateEnum.EXPIRED;
-			}
-
-		}
-		else if ((this.objectiveState.equals(ObjectiveStateEnum.HIDDEN) && state.equals(ObjectiveStateEnum.TRIGGERED))
-				|| (this.objectiveState.equals(ObjectiveStateEnum.TRIGGERED)
-				&& state.equals(ObjectiveStateEnum.COMPLETED)))
-		{
-			this.objectiveState = state;
-			this.needingNotification = needingNotification;
-
-			if (needingNotification == true)
-			{
-				ObjectiveRecord objective = QuestManager.getSingleton().getObjective(parentQuestState.getID(),
-						objectiveID);
-				String witness = null;
-				if (objective.isRealLifeObjective())
-				{
-					witness = objective.getCompletionCriteria().toString();
-				}
-				QualifiedObservableConnector.getSingleton().sendReport(
-						new ObjectiveStateChangeReport(parentQuestState.getPlayerID(), parentQuestState.getID(),
-								objectiveID, objective.getObjectiveDescription(), objectiveState,
-								objective.isRealLifeObjective(), witness));
-			}
-		}
-		else
-		{
-			throw new IllegalObjectiveChangeException(this.objectiveState, state);
+			return parentQuestState.equals(other.parentQuestState);
 		}
 	}
 
-	private boolean objectiveIsExpiredOrCompleted()
-	{
-		if (this.objectiveState == ObjectiveStateEnum.COMPLETED || this.objectiveState == ObjectiveStateEnum.EXPIRED)
-		{
-			return true;
-		}
-		return false;
+    /**
+     * returns the id of the current objective
+     *
+     * @return the id
+     */
+    public int getID()
+    {
+        return objectiveID;
+    }
+
+    /**
+     * returns the state of the current objective.
+     *
+     * @return the state
+     */
+    public ObjectiveStateEnum getState()
+    {
+        return objectiveState;
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + objectiveID;
+        result = prime * result +
+                ((objectiveState == null) ? 0 : objectiveState.hashCode());
+        result = prime * result + (needingNotification ? 1231 : 1237);
+        result = prime * result +
+                ((parentQuestState == null) ? 0 : parentQuestState.hashCode());
+        return result;
+    }
+
+    /**
+     * Does the player need to be notified about the state of this objective?
+     *
+     * @return true if notification is required
+     */
+    public boolean isNeedingNotification()
+    {
+        return needingNotification;
+    }
+
+    /**
+     * Tell this objective which quest state it is contained within
+     *
+     * @param questState the parent state
+     */
+    public void setParentQuest(QuestState questState)
+    {
+        parentQuestState = questState;
+    }
+
+    private boolean objectiveIsExpiredOrCompleted()
+    {
+		return this.objectiveState == ObjectiveStateEnum.COMPLETED ||
+				this.objectiveState == ObjectiveStateEnum.EXPIRED;
 	}
 
-	/**
-	 * Set needing notification to false
-	 */
-	protected void turnOffNotification()
-	{
-		this.needingNotification = false;
-	}
+    /**
+     * Changes the state of an objective from hidden to pending.
+     *
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
+     * @throws DatabaseException               shouldn't
+     * @throws IllegalQuestChangeException     thrown if error occurred during quest
+     *                                         state change
+     */
+    protected void trigger() throws IllegalObjectiveChangeException, DatabaseException,
+            IllegalQuestChangeException
+    {
+
+        changeState(ObjectiveStateEnum.TRIGGERED, false);
+    }
+
+    /**
+     * Change the state of the objective from pending to complete. The objective
+     * is complete, but we need to tell the player
+     *
+     * @throws DatabaseException               if the datasource fails
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
+     * @throws IllegalQuestChangeException     thrown if illegal state change
+     */
+    protected void complete() throws DatabaseException, IllegalObjectiveChangeException,
+            IllegalQuestChangeException
+    {
+
+        changeState(ObjectiveStateEnum.COMPLETED, true);
+
+        if (parentQuestState.getStateValue() != QuestStateEnum.EXPIRED)
+        {
+
+            PlayerManager.getSingleton()
+                    .getPlayerFromID(this.parentQuestState.getPlayerID())
+                    .addExperiencePoints(QuestManager.getSingleton()
+                            .getObjective(this.parentQuestState.getID(), objectiveID)
+                            .getExperiencePointsGained());
+
+        }
+
+        this.parentQuestState.checkForFulfillmentOrFinished();
+
+
+    }
+
+    /**
+     * Changes the current states state to the given state and tells it if it
+     * needs to notify the user.
+     *
+     * @param state               state to change to
+     * @param needingNotification whether to notify or not
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
+     * @throws DatabaseException               shouldn't
+     */
+    protected void changeState(ObjectiveStateEnum state, boolean needingNotification)
+            throws IllegalObjectiveChangeException, DatabaseException
+    {
+        if (this.parentQuestState.getStateValue() == QuestStateEnum.EXPIRED)
+        {
+            if (!objectiveIsExpiredOrCompleted())
+            {
+                this.objectiveState = ObjectiveStateEnum.EXPIRED;
+            }
+
+        }
+        else if ((this.objectiveState.equals(ObjectiveStateEnum.HIDDEN) &&
+                state.equals(ObjectiveStateEnum.TRIGGERED)) ||
+                (this.objectiveState.equals(ObjectiveStateEnum.TRIGGERED) &&
+                        state.equals(ObjectiveStateEnum.COMPLETED)))
+        {
+            this.objectiveState = state;
+            this.needingNotification = needingNotification;
+
+            if (needingNotification)
+            {
+                ObjectiveRecord objective = QuestManager.getSingleton()
+                        .getObjective(parentQuestState.getID(), objectiveID);
+                String witness = null;
+                if (objective.isRealLifeObjective())
+                {
+                    witness = objective.getCompletionCriteria().toString();
+                }
+                QualifiedObservableConnector.getSingleton().sendReport(
+                        new ObjectiveStateChangeReport(parentQuestState.getPlayerID(),
+                                parentQuestState.getID(), objectiveID,
+                                objective.getObjectiveDescription(), objectiveState,
+                                objective.isRealLifeObjective(), witness));
+            }
+        }
+        else
+        {
+            throw new IllegalObjectiveChangeException(this.objectiveState, state);
+        }
+    }
+
+    /**
+     * Set needing notification to false
+     */
+    protected void turnOffNotification()
+    {
+        this.needingNotification = false;
+    }
 
 }
