@@ -1,15 +1,15 @@
 package api.service;
 
-import datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 
 /**
  * Login Service interface
  *
  * @author Jun
  */
-public interface LoginService {
+public interface LoginService
+{
     /**
-     *
      * @param username
      * @param password
      * @return

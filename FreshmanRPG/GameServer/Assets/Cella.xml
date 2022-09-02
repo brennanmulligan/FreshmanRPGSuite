@@ -1,90 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <NPCInfo>
     <DialogueTree>
-        <Dialogue id="0" pattern=""  node-id="start" target-node="base">
-            <message>Hi!  Would you like to hear more about me,
-                my office hours, my UNIV101?</message>
+        <Dialogue id="0" pattern="" node-id="start" target-node="base">
+            <message>Hi! Would you like to hear more about me,
+                my office hours, my UNIV101?
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*you.*"  node-id="base" target-node="me">
+        <Dialogue id="0" pattern=".*you.*" node-id="base" target-node="me">
             <message>I can tell you about my family, my dog, or my hobbies</message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*hours.*"  node-id="base" target-node="start">
-            <message>I can't remember my office hours right now.  I'm sure
-                they're in the syllabus!</message>
+        <Dialogue id="0" pattern=".*hours.*" node-id="base" target-node="start">
+            <message>I can't remember my office hours right now. I'm sure
+                they're in the syllabus!
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*univ101.*"  node-id="base" target-node="UNIV101">
+        <Dialogue id="0" pattern=".*univ101.*" node-id="base" target-node="UNIV101">
             <message>For UNIV101, I can tell you about my goals for you, our
-                peer anchors, or PERMA</message>
+                peer anchors, or PERMA
+            </message>
         </Dialogue>
 
-        <Dialogue id="0" pattern=".*family.*"  node-id="me" target-node="me">
+        <Dialogue id="0" pattern=".*family.*" node-id="me" target-node="me">
             <message>I have a wonderful husband, a son, and a daughter</message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*dog.*"  node-id="me" target-node="me">
+        <Dialogue id="0" pattern=".*dog.*" node-id="me" target-node="me">
             <message>My very friendly dog's name is Jasper
             </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*hobbies.*"  node-id="me" target-node="me">
-            <message>Hmmm...  I need to think about what my hobbies are!</message>
+        <Dialogue id="0" pattern=".*hobbies.*" node-id="me" target-node="me">
+            <message>Hmmm... I need to think about what my hobbies are!</message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*start over.*"  node-id="me" target-node="base">
+        <Dialogue id="0" pattern=".*start over.*" node-id="me" target-node="base">
             <message>Would you like to hear about my family, my office hours, or
-            UNIV101?</message>
+                UNIV101?
+            </message>
         </Dialogue>
 
-        <Dialogue id="0" pattern=".*goals.*"  node-id="UNIV101" target-node="UNIV101">
-            <message>Hmmm...  I need to think about what my goals for you are!</message>
+        <Dialogue id="0" pattern=".*goals.*" node-id="UNIV101" target-node="UNIV101">
+            <message>Hmmm... I need to think about what my goals for you are!</message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*anchors.*"  node-id="UNIV101" target-node="UNIV101">
+        <Dialogue id="0" pattern=".*anchors.*" node-id="UNIV101" target-node="UNIV101">
             <message>Our peer anchors are: K'Nya Holmes, kh5843@ship.edu for
                 the 10:00 section and Kaiden Stimpson, ks7721@ship.edu for the
-                2:00 section.</message>
+                2:00 section.
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*start over.*"  node-id="UNIV101" target-node="base">
+        <Dialogue id="0" pattern=".*start over.*" node-id="UNIV101" target-node="base">
             <message>Would you like to hear about my family, my office hours, or
-                UNIV101?</message>
+                UNIV101?
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*perma.*"  node-id="UNIV101" target-node="PERMA">
-            <message>PERMA is a theory of wellbeing.  It stands for Positive Emotion,
-                Engagement, Relationships, Meaning, and Accomplishments.  I can tell
-                you more about any of those if you like.</message>
+        <Dialogue id="0" pattern=".*perma.*" node-id="UNIV101" target-node="PERMA">
+            <message>PERMA is a theory of wellbeing. It stands for Positive Emotion,
+                Engagement, Relationships, Meaning, and Accomplishments. I can tell
+                you more about any of those if you like.
+            </message>
         </Dialogue>
 
-        <Dialogue id="0" pattern=".*positive emotion.*"  node-id="PERMA"
+        <Dialogue id="0" pattern=".*positive emotion.*" node-id="PERMA"
                   target-node="PERMA">
-            <message>Positive emotion is more than happiness.  It includes
+            <message>Positive emotion is more than happiness. It includes
                 things like hope, interest, joy, love, compassion, pride,
-                amusement, and gratitude.  And they don't just happen to you!  You can
-                actually learn to cultivate these emotions.</message>
+                amusement, and gratitude. And they don't just happen to you! You can
+                actually learn to cultivate these emotions.
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*engagement.*"  node-id="PERMA"
+        <Dialogue id="0" pattern=".*engagement.*" node-id="PERMA"
                   target-node="PERMA">
-        <message>Engagement similar to the concept of "flow" where you are completely
-            absorbed in an activity.
-        </message>
+            <message>Engagement similar to the concept of "flow" where you are completely
+                absorbed in an activity.
+            </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*relationships.*"  node-id="PERMA"
+        <Dialogue id="0" pattern=".*relationships.*" node-id="PERMA"
                   target-node="PERMA">
             <message>Relationships includes all the interactions you have with
                 friends, family, colleagues, and your community.
             </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*meaning.*"  node-id="PERMA"
+        <Dialogue id="0" pattern=".*meaning.*" node-id="PERMA"
                   target-node="PERMA">
             <message>Meaning is the idea that the things you are doing have sense of
                 value and worth.
             </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*accomplishments.*"  node-id="PERMA"
+        <Dialogue id="0" pattern=".*accomplishments.*" node-id="PERMA"
                   target-node="PERMA">
             <message>When PERMA talks about accomplishments, it doesn't mean things
-                other people acknowledge as success.  It means working towards and
+                other people acknowledge as success. It means working towards and
                 reaching goals that are important to you.
             </message>
         </Dialogue>
-        <Dialogue id="0" pattern=".*start over.*"  node-id="PERMA" target-node="base">
+        <Dialogue id="0" pattern=".*start over.*" node-id="PERMA" target-node="base">
             <message>Would you like to hear about my family, my office hours, or
-                UNIV101?</message>
+                UNIV101?
+            </message>
         </Dialogue>
     </DialogueTree>
 </NPCInfo>

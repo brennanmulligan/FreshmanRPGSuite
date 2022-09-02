@@ -2,13 +2,15 @@ package api.service;
 
 import api.model.GameManagerPlayer;
 import api.model.GameManagerPlayerManager;
-import dataDTO.PlayerDTO;
-
-import datasource.*;
-import datatypes.ObjectiveStateEnum;
-import datatypes.QuestStateEnum;
-import datatypes.QuestsForProduction;
-import model.ObjectiveRecord;
+import edu.ship.engr.shipsim.datatypes.QuestsForProduction;
+import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datasource.QuestStateTableDataGateway;
+import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
+import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
+import edu.ship.engr.shipsim.model.ObjectiveRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,10 +21,11 @@ public class PlayerServiceImpl implements PlayerService
 {
     private static final QuestsForProduction[] questsToTrigger =
             {QuestsForProduction.ONRAMPING_QUEST,
-            QuestsForProduction.SCAVENGER_HUNT,QuestsForProduction.EVENTS};
+                    QuestsForProduction.SCAVENGER_HUNT, QuestsForProduction.EVENTS};
     private final GameManagerPlayerManager playerManager;
 
-    public PlayerServiceImpl(GameManagerPlayerManager playerManager) {
+    public PlayerServiceImpl(GameManagerPlayerManager playerManager)
+    {
         this.playerManager = playerManager;
     }
 
@@ -37,13 +40,16 @@ public class PlayerServiceImpl implements PlayerService
         GameManagerPlayerManager manager;
         int playerID;
 
-        try {
+        try
+        {
             manager = GameManagerPlayerManager.getInstance();
             PlayerDTO createdPlayer = manager.addPlayer(player.getName(), player.getPassword(),
                     player.getCrew(), player.getMajor(), player.getSection());
             playerID = createdPlayer.getPlayerID();
             triggerInitialQuests(playerID);
-        } catch (DatabaseException e) {
+        }
+        catch (DatabaseException e)
+        {
             e.printStackTrace();
 //            return 1;
         }
@@ -60,7 +66,7 @@ public class PlayerServiceImpl implements PlayerService
         ObjectiveTableDataGateway objectiveTableDataGateway =
                 ObjectiveTableDataGateway.getSingleton();
 
-        for (QuestsForProduction q:questsToTrigger)
+        for (QuestsForProduction q : questsToTrigger)
         {
             questStateTableDataGatewayRDS.updateState(playerID, q.getQuestID(),
                     QuestStateEnum.TRIGGERED, true);
