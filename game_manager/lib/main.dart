@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:game_manager/features/dashboard/presentaion/dashboard_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
-import 'features/network/network_provider.dart';
-import 'features/player/presentation/create_player_view.dart';
-
-import 'features/network/network_provider.dart';
-
-import 'features/network/network_provider.dart';
-
 import 'features/network/network_provider.dart';
 
 ///
@@ -64,7 +56,7 @@ Future<void> initialize({
   /// refresh.
   ///
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env_flutter');
+  await dotenv.load(fileName: '.env');
   container.read(NetworkProvider.networkController.notifier).setBaseURL();
   container.refresh(NetworkProvider.serviceClient);
 }
