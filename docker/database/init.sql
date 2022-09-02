@@ -150,19 +150,32 @@ CREATE TABLE IF NOT EXISTS frpg.Server
     PRIMARY KEY (serverID)
 );
 
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (1, 'host1.com', 1871, 'map1.tmx', 'Map1', 10, 10);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (2, 'host2.com', 1872, 'map2.tmx', 'Map2', 10, 10);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (3, 'localhost', 1873, 'recCenter.tmx', 'Rec Center', 4, 20);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (4, 'localhost', 1874, 'library.tmx', 'Library', 48, 22);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (5, 'localhost', 1875, 'sortingRoom.tmx', 'SortingRoom', 7, 12);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (6, 'localhost', 1876, 'wellingtonRoom.tmx', 'WellingtonRoom', 6, 89);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (7, 'localhost', 1877, 'mct1.tmx', 'MCT1', 33, 55);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (8, 'localhost', 1879, 'Ducktopia.tmx', 'Ducktopia', 28, 56);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (9, 'localhost', 1880, 'cub.tmx', 'Cub', 59, 94);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (10, 'localhost', 1881, 'mowrey.tmx', 'Mowrey', 29, 36);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (11, 'localhost', 1882, 'outsideOfMowrey.tmx', 'OutsideMowrey', 2, 94);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (12, 'localhost', 1883, 'quad.tmx', 'Quad', 52, 52);
-INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY) VALUES (13, 'localhost', 1884, 'dhc1.tmx', 'DHC1', 44, 49);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (1, 'host1.com', 1871, 'map1.tmx', 'Map1', 10, 10);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (2, 'host2.com', 1872, 'map2.tmx', 'Map2', 10, 10);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (3, 'localhost', 1873, 'recCenter.tmx', 'Rec Center', 4, 20);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (4, 'localhost', 1874, 'library.tmx', 'Library', 48, 22);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (5, 'localhost', 1875, 'sortingRoom.tmx', 'SortingRoom', 7, 12);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (6, 'localhost', 1876, 'wellingtonRoom.tmx', 'WellingtonRoom', 6, 89);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (7, 'localhost', 1877, 'mct1.tmx', 'MCT1', 33, 55);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (8, 'localhost', 1879, 'Ducktopia.tmx', 'Ducktopia', 28, 56);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (9, 'localhost', 1880, 'cub.tmx', 'Cub', 59, 94);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (10, 'localhost', 1881, 'mowrey.tmx', 'Mowrey', 29, 36);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (11, 'localhost', 1882, 'outsideOfMowrey.tmx', 'OutsideMowrey', 2, 94);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (12, 'localhost', 1883, 'quad.tmx', 'Quad', 52, 52);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (13, 'localhost', 1884, 'dhc1.tmx', 'DHC1', 44, 49);
 
 CREATE TABLE IF NOT EXISTS frpg.DoubloonPrizes
 (

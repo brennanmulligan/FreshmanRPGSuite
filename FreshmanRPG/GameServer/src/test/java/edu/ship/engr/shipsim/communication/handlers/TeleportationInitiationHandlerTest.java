@@ -1,0 +1,88 @@
+package edu.ship.engr.shipsim.communication.handlers;
+
+import edu.ship.engr.shipsim.communication.StateAccumulator;
+import edu.ship.engr.shipsim.communication.messages.TeleportationInitiationMessage;
+import edu.ship.engr.shipsim.datasource.ServerSideTest;
+import edu.ship.engr.shipsim.datatypes.PlayersForTest;
+import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.datatypes.ServersForTest;
+import edu.ship.engr.shipsim.model.*;
+import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
+import org.easymock.EasyMock;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * Test the handler for GetServerInfoMessages
+ *
+ * @author Merlin
+ */
+public class TeleportationInitiationHandlerTest extends ServerSideTest
+{
+    /**
+     * Reset the PlayerManager
+     */
+    @Before
+    public void reset()
+    {
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
+        PlayerManager.resetSingleton();
+        ModelFacade.resetSingleton();
+    }
+
+    /**
+     * It should correctly report the type of messages it handles
+     */
+    @Test
+    public void messageTypeCorrect()
+    {
+        TeleportationInitiationHandler handler = new TeleportationInitiationHandler();
+        assertEquals(TeleportationInitiationMessage.class, handler.getMessageTypeWeHandle());
+    }
+
+    /**
+     * Make sure that the appropriate reponse message gets queued into the
+     * accumulator
+     *
+     * @throws InterruptedException shouldn't
+     */
+    @Test
+    public void generatesCorrectResponse() throws InterruptedException
+    {
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        TeleportationInitiationHandler handler = new TeleportationInitiationHandler();
+        StateAccumulator accum = new StateAccumulator(null);
+        accum.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
+        handler.setAccumulator(accum);
+        TeleportationInitiationMessage msg = new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(),
+                ServersForTest.FIRST_SERVER.getMapName(), new Position(5, 6));
+        // set up an observer who would be notified if the movement wasn't
+        // handled silently
+        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
+        QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerMovedReport.class);
+        EasyMock.replay(obs);
+
+        handler.process(msg);
+        int count = 0;
+        while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
+        {
+            Thread.sleep(100);
+            count++;
+        }
+        assertTrue("ModelFacade didn't process our command", count < 10);
+
+        // Reset the singleton and re-add the player to make sure that the
+        // player is refreshed from the DB
+        PlayerManager.resetSingleton();
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        // make sure we moved the player without notifying observers
+        Player p = PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID());
+        assertEquals(new Position(5, 6), p.getPlayerPosition());
+        EasyMock.verify(obs);
+    }
+
+}

@@ -12,7 +12,7 @@
         <list>
           <option value="test" />
           <option value="--tests" />
-          <option value="&quot;AllLoginServerTests&quot;" />
+          <option value="&quot;edu.ship.engr.shipsim.AllLoginServerTests&quot;" />
         </list>
       </option>
       <option name="vmOptions" value="" />

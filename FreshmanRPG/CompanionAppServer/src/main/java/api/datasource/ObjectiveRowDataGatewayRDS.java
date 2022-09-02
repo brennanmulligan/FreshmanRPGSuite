@@ -1,10 +1,11 @@
 package api.datasource;
 
-import criteria.ObjectiveCompletionCriteria;
-import dataENUM.ObjectiveCompletionType;
-import datasource.DatabaseException;
-import datasource.DatabaseManager;
-import datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.criteria.ObjectiveCompletionCriteria;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DatabaseManager;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datasource.PlayerRowDataGateway;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -245,7 +246,7 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
     }
 
     /**
-     * @see datasource.PlayerRowDataGateway#persist()
+     * @see PlayerRowDataGateway#persist()
      */
     @Override
     public void persist() throws DatabaseException
