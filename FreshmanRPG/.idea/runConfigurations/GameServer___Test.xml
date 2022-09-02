@@ -12,7 +12,7 @@
         <list>
           <option value=":GameServer:test" />
           <option value="--tests" />
-          <option value="&quot;AllServerTests&quot;" />
+          <option value="&quot;edu.ship.engr.shipsim.AllServerTests&quot;" />
         </list>
       </option>
       <option name="vmOptions" value="" />

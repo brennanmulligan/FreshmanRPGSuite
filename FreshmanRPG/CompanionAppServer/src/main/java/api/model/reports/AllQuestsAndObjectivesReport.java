@@ -1,16 +1,15 @@
 package api.model.reports;
 
-import java.util.ArrayList;
+import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.QuestRecord;
 
-import model.QualifiedObservableReport;
-import model.QuestRecord;
+import java.util.ArrayList;
 
 /**
  * A report containing a list of quests and objective. Assumes that the sender puts all of
  * the quests and objectives into the list
  *
  * @author Darnell Martin & Darin Alleman
- *
  */
 public class AllQuestsAndObjectivesReport implements QualifiedObservableReport
 {
@@ -50,7 +49,10 @@ public class AllQuestsAndObjectivesReport implements QualifiedObservableReport
         {
             return other.list == null;
         }
-        else return list.equals(other.list);
+        else
+        {
+            return list.equals(other.list);
+        }
     }
 
     private final ArrayList<QuestRecord> list;

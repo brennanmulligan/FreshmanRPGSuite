@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation project (':GameShared')
-    testImplementation project (path: ':GameShared', configuration: 'testArtifacts')
+    implementation project(':GameShared')
+    testImplementation project(path: ':GameShared', configuration: 'testArtifacts')
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     testImplementation group: 'org.easymock', name: 'easymock', version: '3.1'

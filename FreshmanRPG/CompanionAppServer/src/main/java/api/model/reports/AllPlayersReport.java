@@ -1,16 +1,15 @@
 package api.model.reports;
 
-import java.util.ArrayList;
+import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
+import edu.ship.engr.shipsim.model.QualifiedObservableReport;
 
-import dataDTO.PlayerDTO;
-import model.QualifiedObservableReport;
+import java.util.ArrayList;
 
 /**
  * A report containing a list of players. Assumes that the sender puts all of
  * the players into the list
  *
  * @author Merlin
- *
  */
 public class AllPlayersReport implements QualifiedObservableReport
 {
@@ -68,6 +67,9 @@ public class AllPlayersReport implements QualifiedObservableReport
         {
             return other.list == null;
         }
-        else return list.equals(other.list);
+        else
+        {
+            return list.equals(other.list);
+        }
     }
 }

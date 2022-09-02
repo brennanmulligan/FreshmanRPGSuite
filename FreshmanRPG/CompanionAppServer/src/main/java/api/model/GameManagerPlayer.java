@@ -19,14 +19,14 @@ public class GameManagerPlayer
     /**
      * Create and initialize a Player
      *
-     * @param name - name
+     * @param name     - name
      * @param password - password
-     * @param crew - crew
-     * @param major - major
-     * @param section - section
+     * @param crew     - crew
+     * @param major    - major
+     * @param section  - section
      */
     public GameManagerPlayer(String name, String password, int crew, int major,
-                            int section)
+                             int section)
     {
         this.name = name;
         this.password = password;
@@ -86,20 +86,29 @@ public class GameManagerPlayer
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GameManagerPlayer)) return false;
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof GameManagerPlayer))
+        {
+            return false;
+        }
         GameManagerPlayer player = (GameManagerPlayer) o;
         return getCrew() == player.getCrew() && getMajor() == player.getMajor() && getSection() == player.getSection() && Objects.equals(getName(), player.getName()) && Objects.equals(getPassword(), player.getPassword());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getName(), getPassword(), getCrew(), getMajor(), getSection());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Player{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -109,7 +118,8 @@ public class GameManagerPlayer
                 '}';
     }
 
-    public String toJSON() throws JsonProcessingException {
+    public String toJSON() throws JsonProcessingException
+    {
         return new ObjectMapper().writeValueAsString(this);
     }
 }

@@ -1,16 +1,19 @@
 package api.datasource;
 
+import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DatabaseManager;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datasource.QuestRowDataGateway;
+import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.model.QuestRecord;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import dataENUM.QuestCompletionActionType;
-import datasource.*;
-import datatypes.Position;
-import model.QuestRecord;
 
 /**
  * Encapsulates access to the RDS Quest table.
@@ -58,7 +61,7 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
         final Connection connection = DatabaseManager.getSingleton().getConnection();
         try
         {
-            final PreparedStatement stmt =connection.prepareStatement(
+            final PreparedStatement stmt = connection.prepareStatement(
                     "SELECT * From Quests");
             final ResultSet rs = stmt.executeQuery();
 

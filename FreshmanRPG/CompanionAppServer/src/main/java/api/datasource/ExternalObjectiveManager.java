@@ -1,8 +1,8 @@
 package api.datasource;
 
-import datasource.DatabaseException;
-import datasource.ObjectiveTableDataGateway;
-import model.ObjectiveRecord;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.model.ObjectiveRecord;
 
 import java.util.ArrayList;
 import java.util.List;

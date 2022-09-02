@@ -8,10 +8,15 @@
             <message>What would you like to know about the learning center?</message>
         </Dialogue>
         <Dialogue id="1" pattern=".*hours.*" node-id="learningcenter" target-node="learningcenter">
-            <message>You can schedule an appointment with the learning center, from ship.edu under the Learning Center page.</message>
+            <message>You can schedule an appointment with the learning center, from ship.edu under the Learning Center
+                page.
+            </message>
         </Dialogue>
         <Dialogue id="2" pattern=".*what.*" node-id="learningcenter" target-node="learningcenter">
-            <message>The Learning Center is the university's primary academic resource center and is free to all Ship students. Our goal at the Learning Center is to help students develop skills and strategies that will enable them to become independent, active learners.</message>
+            <message>The Learning Center is the university's primary academic resource center and is free to all Ship
+                students. Our goal at the Learning Center is to help students develop skills and strategies that will
+                enable them to become independent, active learners.
+            </message>
         </Dialogue>
         <Dialogue id="3" pattern=".*else.*" node-id="learningcenter" target-node="base">
             <message>Okay what would you like to know about?</message>
