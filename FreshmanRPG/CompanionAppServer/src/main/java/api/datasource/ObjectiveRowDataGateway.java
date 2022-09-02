@@ -1,8 +1,8 @@
 package api.datasource;
 
-import criteria.ObjectiveCompletionCriteria;
-import dataENUM.ObjectiveCompletionType;
-import datasource.DatabaseException;
+import edu.ship.engr.shipsim.criteria.ObjectiveCompletionCriteria;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 
 /**
  * An interface for the a row data gateway for objectives
@@ -23,18 +23,21 @@ public interface ObjectiveRowDataGateway
 
     /**
      * Set objective ID
+     *
      * @param id to be set
      */
     void setObjectiveID(int id);
 
     /**
      * Get the objective description
+     *
      * @return a description of the objective
      */
     String getObjectiveDescription();
 
     /**
      * Set the objective description
+     *
      * @param description to be set
      */
     void setObjectiveDescription(String description);
@@ -104,6 +107,7 @@ public interface ObjectiveRowDataGateway
 
     /**
      * Persist stored data
+     *
      * @throws DatabaseException - if it couldn't update
      */
     void persist() throws DatabaseException;

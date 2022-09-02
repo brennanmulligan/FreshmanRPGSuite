@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation project (':GameClient')
-    implementation project (':GameShared')
+    implementation project(':GameClient')
+    implementation project(':GameShared')
 
     implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.0.1'
     implementation 'com.badlogicgames.gdx:gdx-platform:1.0.1:natives-desktop'

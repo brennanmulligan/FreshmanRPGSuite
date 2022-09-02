@@ -1,9 +1,9 @@
 package api.datasource;
 
-import java.util.ArrayList;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.model.QuestRecord;
 
-import datasource.DatabaseException;
-import model.QuestRecord;
+import java.util.ArrayList;
 
 /**
  * Encapsulates access to the Quest database table.
