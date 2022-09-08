@@ -50,9 +50,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
                         ": playerID = " + playerID);
         try
         {
-            // PlayerManager.getSingleton().addPlayerSilently(playerID);
             QuestManager.getSingleton().completeObjective(playerID, questID, objectiveID);
-            PlayerManager.getSingleton().removePlayerSilently(playerID);
             return 0;
         }
         catch (Exception e)
