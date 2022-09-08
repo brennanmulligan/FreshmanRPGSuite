@@ -51,6 +51,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
         try
         {
             QuestManager.getSingleton().completeObjective(playerID, questID, objectiveID);
+            PlayerManager.getSingleton().persistPlayer(playerID);
             return 0;
         }
         catch (Exception e)
