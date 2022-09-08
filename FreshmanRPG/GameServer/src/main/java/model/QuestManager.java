@@ -127,7 +127,9 @@ public class QuestManager implements QualifiedObserver
         ObjectiveState objectiveStateByID =
                 getObjectiveStateByID(playerID, questID, objectiveID);
 
-
+        LoggerManager.getSingleton().getLogger().info("Trying to complete quest "
+                +questID + ":" +objectiveID + " for player " + playerID +". It's state is " +
+                objectiveStateByID.getState().toString());
         if (objectiveStateByID != null)
         {
 
