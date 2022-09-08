@@ -181,9 +181,14 @@ public class ObjectiveState
         if (parentQuestState.getStateValue() != QuestStateEnum.EXPIRED)
         {
 
-            PlayerManager.getSingleton()
-                    .getPlayerFromID(this.parentQuestState.getPlayerID())
-                    .addExperiencePoints(QuestManager.getSingleton()
+            Player playerFromID = PlayerManager.getSingleton()
+                    .getPlayerFromID(this.parentQuestState.getPlayerID());
+            if(playerFromID == null)
+            {
+                LoggerManager.getSingleton().getLogger()
+                        .info("Player is null: " + this.parentQuestState.getPlayerID());
+            }
+            playerFromID.addExperiencePoints(QuestManager.getSingleton()
                             .getObjective(this.parentQuestState.getID(), objectiveID)
                             .getExperiencePointsGained());
 
