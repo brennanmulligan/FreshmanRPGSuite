@@ -58,7 +58,7 @@ public class ObjectiveServiceImpl implements ObjectiveService
         catch (Exception e)
         {
             LoggerManager.getSingleton().getLogger().info("Exception Completing " +
-                    "Objective " + e.getMessage());
+                    "Objective," + e.getClass() + " " + e.getMessage());
             return 1;
         }
     }
