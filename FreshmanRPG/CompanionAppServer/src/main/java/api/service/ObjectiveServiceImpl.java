@@ -58,8 +58,10 @@ public class ObjectiveServiceImpl implements ObjectiveService
         {
             LoggerManager.getSingleton().getLogger().info("Exception Completing " +
                     "Objective," + e.getClass() );
-            for (StackTraceElement x: e.getStackTrace())
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            for (int i=0;i<5;i++)
             {
+                StackTraceElement x = stackTrace[i];
                 LoggerManager.getSingleton().getLogger().info(x.toString());
             }
             return 1;
