@@ -1,16 +1,17 @@
 package edu.ship.engr.shipsim.dataDTO;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * @author Andrew M, Christian C
  * This is the test class for the DoubloonPrizeDTO
  */
-public class TestDoubloonPrizeDTO extends ServerSideTest
+@GameTest("GameServer")
+public class TestDoubloonPrizeDTO
 {
 
     /**
@@ -19,7 +20,6 @@ public class TestDoubloonPrizeDTO extends ServerSideTest
     @Test
     public void testConstructor()
     {
-
         DoubloonPrizeDTO doubloonDTO = new DoubloonPrizeDTO("test Prize", 500, "test Description");
 
         assertEquals("test Prize", doubloonDTO.getName());

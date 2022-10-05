@@ -2,35 +2,27 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.PlayerJoinedMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.reports.AddExistingPlayerReport;
 import edu.ship.engr.shipsim.model.reports.PlayerConnectionReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Merlin
  */
-public class PlayerJoinedMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class PlayerJoinedMessagePackerTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * Checks that existing players are notified when a player is added
      */

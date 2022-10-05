@@ -1,34 +1,38 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.model.reports.PlayerFinishedInitializingReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the RedHatBehavior
  *
  * @author Brad Olah
  */
-public class RedHatBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class RedHatBehaviorTest
 {
     private RedHatBehavior behavior;
 
     /**
      * @throws DatabaseException shouldn't Set up the behavior for each test
      */
-    @Before
+    @BeforeEach
     public void localSetUp() throws DatabaseException
     {
-        PlayerManager.resetSingleton();
         behavior = new RedHatBehavior(PlayersForTest.RED_HAT.getPlayerID());
-        QualifiedObservableConnector.resetSingleton();
-        ChatManager.resetSingleton();
     }
 
     /**

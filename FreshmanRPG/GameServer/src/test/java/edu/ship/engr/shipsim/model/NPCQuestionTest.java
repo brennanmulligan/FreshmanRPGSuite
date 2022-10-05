@@ -1,20 +1,21 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test the NPCQuestion
  *
  * @author Steve
  */
-public class NPCQuestionTest extends ServerSideTest
+@GameTest("GameServer")
+public class NPCQuestionTest
 {
     /**
      * Want to make sure that we get different questions back from the DB. Don't

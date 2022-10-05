@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="GameShared - Test" type="GradleRunConfiguration" factoryName="Gradle" folderName="GameShared">
-    <log_file checked="false" alias="D:\Classes\FreshmanRPGSuite\FreshmanRPG\GameShared\GameSharedTests.log" path="$PROJECT_DIR$/GameShared/GameSharedTests.log" skipped="false" />
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$/GameShared" />

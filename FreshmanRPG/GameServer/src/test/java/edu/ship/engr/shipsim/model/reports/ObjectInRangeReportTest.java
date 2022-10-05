@@ -1,14 +1,15 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test that the InteractionDeniedReport works correctly
  */
-public class ObjectInRangeReportTest extends ServerSideTest
+@GameTest("GameServer")
+public class ObjectInRangeReportTest
 {
 
     /**

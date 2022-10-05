@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.tmxfiles;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Merlin
  */
+@GameTest("GameShared")
 public class TMXMapReaderTest
 {
 

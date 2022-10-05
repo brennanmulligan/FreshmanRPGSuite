@@ -1,23 +1,25 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author am3243
  */
-public class KPManagerTest
+@GameTest("GameClient")
+public class DoubloonManagerTest
 {
 
     /**
      * Always start with a new singleton
      */
-    @Before
+    @BeforeEach
     public void reset()
     {
         DoubloonManager.resetSingleton();

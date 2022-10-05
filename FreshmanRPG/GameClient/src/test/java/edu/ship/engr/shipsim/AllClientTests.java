@@ -9,8 +9,8 @@ import edu.ship.engr.shipsim.view.player.PlayerSpriteTest;
 import edu.ship.engr.shipsim.view.screen.ScreenListenerTest;
 import edu.ship.engr.shipsim.view.screen.map.ScreenMapInputTest;
 import edu.ship.engr.shipsim.view.screen.popup.ObjectiveCompleteBehaviorTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * All of the tests for the client code. Notice that the packages, and classes
@@ -20,8 +20,8 @@ import org.junit.runners.Suite;
  *
  * @author Merlin
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
+@Suite
+@SelectClasses(
         {
                 // edu.ship.engr.shipsim.communication.handlers
                 BuffMessageHandlerTest.class,

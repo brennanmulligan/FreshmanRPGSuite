@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the functionality associated with the PINs that the login server gives
@@ -15,9 +15,9 @@ import static org.junit.Assert.*;
  *
  * @author Merlin
  */
-public class PlayerConnectionTest extends ServerSideTest
+@GameTest("GameShared")
+public class PlayerConnectionTest
 {
-
     private static PlayerConnection pc;
 
     /**

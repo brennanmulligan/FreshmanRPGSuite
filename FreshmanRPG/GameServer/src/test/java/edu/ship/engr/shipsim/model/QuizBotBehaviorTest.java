@@ -1,21 +1,28 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.NPCChatReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Frank & Dave & Nick
  * <p>
  * Make sure that the QuizBotBehavior acts as expected
  */
-public class QuizBotBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class QuizBotBehaviorTest
 {
     private QuizBotBehavior behavior;
     private NPCQuestion question;
@@ -25,7 +32,7 @@ public class QuizBotBehaviorTest extends ServerSideTest
      * @throws DatabaseException shouldn't Set up the behavior and a question
      *                           for each test
      */
-    @Before
+    @BeforeEach
     public void localSetUp() throws DatabaseException
     {
         behavior = new QuizBotBehavior(PlayersForTest.QUIZBOT.getPlayerID());
@@ -34,9 +41,6 @@ public class QuizBotBehaviorTest extends ServerSideTest
 
         // Loads Quizbot into PlayerManager
         PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
-
-        QualifiedObservableConnector.resetSingleton();
-        ChatManager.resetSingleton();
     }
 
     /**

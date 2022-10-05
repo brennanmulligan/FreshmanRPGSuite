@@ -3,22 +3,33 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.QuestStateRecordDTO;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestStatesForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
  */
-public class QuestStateTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class QuestStateTableDataGatewayTest
 {
 
     protected QuestStateTableDataGateway gateway;
+
+    /**
+     * make sure the data is initialized
+     */
+    @BeforeEach
+    public void setup()
+    {
+        gateway = findGateway();
+    }
 
     /**
      * @throws DatabaseException shouldn't
@@ -63,15 +74,16 @@ public class QuestStateTableDataGatewayTest extends ServerSideTest
     /**
      * The combination of player ID and quest ID should be unique in the table.
      * If we try to add a duplicate, we should get a database exception
-     *
-     * @throws DatabaseException should!
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotInsertDuplicateData() throws DatabaseException
+    @Test
+    public void cannotInsertDuplicateData()
     {
-        gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
-                QuestStatesForTest.PLAYER1_QUEST1.getQuestID(), QuestStateEnum.TRIGGERED,
-                true);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
+                    QuestStatesForTest.PLAYER1_QUEST1.getQuestID(), QuestStateEnum.TRIGGERED,
+                    true);
+        });
     }
 
     /**
@@ -111,8 +123,8 @@ public class QuestStateTableDataGatewayTest extends ServerSideTest
             if (record.getQuestID() == QuestStatesForTest.PLAYER1_QUEST2.getQuestID())
             {
                 QuestStatesForTest expected = QuestStatesForTest.PLAYER1_QUEST2;
-                assertEquals("Invalid state for quest id " + record.getQuestID(),
-                        expected.getState(), record.getState());
+                assertEquals(expected.getState(),
+                        record.getState(), "Invalid state for quest id " + record.getQuestID());
             }
         }
     }
@@ -127,15 +139,6 @@ public class QuestStateTableDataGatewayTest extends ServerSideTest
     {
         ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(10);
         assertEquals(0, actual.size());
-    }
-
-    /**
-     * make sure the data is initialized
-     */
-    @Before
-    public void setup()
-    {
-        gateway = findGateway();
     }
 
     /**

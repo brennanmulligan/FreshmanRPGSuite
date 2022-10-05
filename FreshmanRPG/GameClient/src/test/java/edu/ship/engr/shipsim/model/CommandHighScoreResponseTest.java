@@ -2,16 +2,20 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.model.reports.HighScoreResponseReport;
-import org.easymock.EasyMock;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * @author nk3668
  */
+@GameTest("GameClient")
+@ResetQualifiedObservableConnector
 public class CommandHighScoreResponseTest
 {
 
@@ -38,6 +42,13 @@ public class CommandHighScoreResponseTest
     @Test
     public void testExecute()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a HighScoreResponseReport is sent
+        connector.registerObserver(observer, HighScoreResponseReport.class);
+
         ArrayList<PlayerScoreRecord> list = new ArrayList<>();
         list.add(new PlayerScoreRecord("Ethan", 0));
         list.add(new PlayerScoreRecord("Weaver", 3));
@@ -45,17 +56,17 @@ public class CommandHighScoreResponseTest
         list.add(new PlayerScoreRecord("Merlin", 9001));
         list.add(new PlayerScoreRecord("Nate", 984257));
 
+        // set up command for later
         CommandHighScoreResponse res = new CommandHighScoreResponse(list);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, HighScoreResponseReport.class);
-        HighScoreResponseReport report = new HighScoreResponseReport(list);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // set up report for verification
+        HighScoreResponseReport expectedReport = new HighScoreResponseReport(list);
 
+        // execute the command
         res.execute();
 
-        EasyMock.verify(obs);
+        // since CommandHighScoreResponse sends a report, verify that the observer is notified for it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
 }

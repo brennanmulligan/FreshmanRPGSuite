@@ -1,16 +1,18 @@
 package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Merlin
  */
+@GameTest("GameShared")
 public class PlayerScoreRecordTest
 {
 

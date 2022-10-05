@@ -2,17 +2,18 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for all of our gateways
  *
  * @author Merlin
  */
-public class PlayerConnectionRowDataGatewayTest extends ServerSideTest
+@GameTest("GameShared")
+public class PlayerConnectionRowDataGatewayTest
 {
     protected PlayerConnectionRowDataGateway gateway;
 
@@ -53,13 +54,14 @@ public class PlayerConnectionRowDataGatewayTest extends ServerSideTest
     /**
      * make sure we get an exception if we try to retrieve a player that isn't
      * there
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
+    @Test
     public void exceptionOnNoRow() throws DatabaseException
     {
-        gateway = findRowDataGateway(PlayersForTest.values().length + 3);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findRowDataGateway(PlayersForTest.values().length + 3);
+        });
     }
 
     /**

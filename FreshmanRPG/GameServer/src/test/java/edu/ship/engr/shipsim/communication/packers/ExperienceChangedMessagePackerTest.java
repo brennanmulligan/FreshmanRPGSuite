@@ -4,34 +4,34 @@ import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.ExperienceChangedMessage;
 import edu.ship.engr.shipsim.dataDTO.LevelManagerDTO;
 import edu.ship.engr.shipsim.datasource.LevelRecord;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QuestManager;
 import edu.ship.engr.shipsim.model.reports.ExperienceChangedReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Ryan
  * <p>
  * Make sure that the ExperienceChangedMessagePacker behaves properly.
  */
-public class ExperienceChangedMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class ExperienceChangedMessagePackerTest
 {
     private StateAccumulator stateAccumulator;
 
     /**
      * reset the necessary singletons
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
-        QuestManager.resetSingleton();
-
         PlayerManager playerManager = PlayerManager.getSingleton();
         playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
         playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());

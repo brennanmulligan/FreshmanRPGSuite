@@ -1,19 +1,20 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ServersForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the OptionsManager
  *
  * @author Steve
  */
-public class OptionsManagerTest extends ServerSideTest
+@GameTest("GameServer")
+public class OptionsManagerTest
 {
 
     /**
@@ -21,7 +22,7 @@ public class OptionsManagerTest extends ServerSideTest
      *
      * @throws DatabaseException shouldn't
      */
-    @Before
+    @BeforeEach
     public void localSetup() throws DatabaseException
     {
         MapToServerMapping mapping = new MapToServerMapping(ServersForTest.FIRST_SERVER.getMapName());

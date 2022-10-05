@@ -3,32 +3,34 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.OtherPlayerMovedMessage;
 import edu.ship.engr.shipsim.communication.messages.PlayerMovedMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Andrew
  * @author Steve
  * @author Matt
  */
-public class MovementMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class MovementMessagePackerTest
 {
     private StateAccumulator stateAccumulator;
 
     /**
      * reset the necessary singletons
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
-        PlayerManager.resetSingleton();
         PlayerManager.getSingleton().addPlayer(1);
         stateAccumulator = new StateAccumulator(null);
         stateAccumulator.setPlayerId(1);

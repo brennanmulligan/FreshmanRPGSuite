@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
 public class CommandPrintObjectivesTest
 {
 

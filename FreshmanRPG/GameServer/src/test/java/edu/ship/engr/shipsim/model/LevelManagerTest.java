@@ -2,16 +2,17 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.LevelManagerDTO;
 import edu.ship.engr.shipsim.datasource.LevelRecord;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.LevelsForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Merlin
  */
-public class LevelManagerTest extends ServerSideTest
+@GameTest("GameServer")
+public class LevelManagerTest
 {
 
     /**

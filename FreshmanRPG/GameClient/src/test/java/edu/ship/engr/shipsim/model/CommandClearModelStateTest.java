@@ -1,28 +1,29 @@
 package edu.ship.engr.shipsim.model;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test that the CommandClearModelState clears the players and map properly
  *
  * @author Steve
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
 public class CommandClearModelStateTest
 {
     /**
      * Reset the MapManager after we're done.
      */
-    @After
-    @Before
-    public void cleanup()
+    @BeforeEach
+    public void setup()
     {
         MapManager.resetSingleton();
-        ClientPlayerManager.resetSingleton();
     }
 
     /**

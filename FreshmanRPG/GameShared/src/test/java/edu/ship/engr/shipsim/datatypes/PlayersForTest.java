@@ -76,7 +76,8 @@ public enum PlayersForTest
      *
      */
 
-    DAVE(10, "Dave", "out_of_bounds", 4, 13, "pw", null, 1111, null, 0, 12, Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
+    DAVE(10, "Dave", "out_of_bounds", 4, 13, "pw", ServersForTest.CUB.getMapName(), 1111, null, 0, 12,
+            Crew.OUT_OF_BOUNDS, Major.ELECTRICAL_ENGINEERING, 2, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
     /**
      *
@@ -198,22 +199,22 @@ public enum PlayersForTest
     PRESIDENT_NPC(33, "President", "Magi", 89, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey")));
 
 
-    private int playerID;
-    private String appearanceType;
-    private int row;
-    private int col;
-    private String playerName;
-    private String password;
-    private String mapName;
-    private int pin;
-    private String changedOn;
-    private int doubloons;
-    private Crew crew;
-    private Major major;
-    private int section;
-    private int buffPool;
-    private boolean online;
-    private ArrayList<String> mapsVisited;
+    private final int playerID;
+    private final String appearanceType;
+    private final int row;
+    private final int col;
+    private final String playerName;
+    private final String password;
+    private final String mapName;
+    private final int pin;
+    private final String changedOn;
+    private final int doubloons;
+    private final Crew crew;
+    private final Major major;
+    private final int section;
+    private final int buffPool;
+    private final boolean online;
+    private final ArrayList<String> mapsVisited;
 
     /**
      * @return the pin for the current connection
@@ -315,15 +316,6 @@ public enum PlayersForTest
     }
 
     /**
-     * @param pos - the new position
-     */
-    public void setPosition(Position pos)
-    {
-        row = pos.getRow();
-        col = pos.getColumn();
-    }
-
-    /**
      * get this player's current doubloons
      *
      * @return this player's doubloons
@@ -386,36 +378,6 @@ public enum PlayersForTest
     }
 
     /**
-     * add a map to the player
-     *
-     * @param mapName name of the map
-     */
-    public void addMapVisited(String mapName)
-    {
-        mapsVisited.add(mapName);
-    }
-
-    /**
-     * remove a map from the visited list
-     *
-     * @param mapName the map to be removed
-     */
-    public void removeMapVisited(String mapName)
-    {
-        mapsVisited.remove(mapName);
-    }
-
-    /**
-     * Sets buffPool
-     *
-     * @param buffPool the new buff
-     */
-    public void setBuffPool(int buffPool)
-    {
-        this.buffPool = buffPool;
-    }
-
-    /**
      * get the online status
      *
      * @return online
@@ -423,16 +385,6 @@ public enum PlayersForTest
     public boolean getOnline()
     {
         return this.online;
-    }
-
-    /**
-     * set the online status
-     *
-     * @param online true if the player is currently playing
-     */
-    public void setOnline(boolean online)
-    {
-        this.online = online;
     }
 
     /**

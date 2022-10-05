@@ -271,7 +271,7 @@ public class ClientPlayerManager
         for (java.util.Map.Entry<Integer, ClientPlayer> x : playerList.entrySet())
         {
 
-            if (x.getValue().getID() != thisClientsPlayer.id)
+            if (x.getValue().getID() != thisClientsPlayer.getID())
             {
                 playersToRemove.add(x.getValue().getID());
             }

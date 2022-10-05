@@ -3,18 +3,20 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
  */
-public class PlayerTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class PlayerTableDataGatewayTest
 {
 
     protected PlayerTableDataGateway gateway;

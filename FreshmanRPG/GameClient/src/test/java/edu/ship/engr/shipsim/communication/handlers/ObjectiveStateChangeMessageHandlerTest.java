@@ -6,37 +6,22 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.ClientModelTestUtilities;
 import edu.ship.engr.shipsim.model.CommandObjectiveStateChange;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests functionality of the ObjectiveStateChangeMessageHandler
  *
  * @author Ryan
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class ObjectiveStateChangeMessageHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -70,7 +55,6 @@ public class ObjectiveStateChangeMessageHandlerTest
         assertEquals(ObjectiveStateEnum.TRIGGERED, cmd.getObjectiveState());
         assertTrue(cmd.isRealLifeObjective());
         assertEquals("Grammy", cmd.getWitnessTitle());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 
 }

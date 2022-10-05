@@ -1,28 +1,21 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStatesForTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Ryan
  */
-public class CommandObjectiveNotificationCompleteTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class CommandObjectiveNotificationCompleteTest
 {
-    /**
-     *
-     */
-    @Before
-    public void localSetup()
-    {
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * Test getters and init
      */

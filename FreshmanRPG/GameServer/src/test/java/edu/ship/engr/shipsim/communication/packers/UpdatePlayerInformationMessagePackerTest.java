@@ -4,18 +4,19 @@ import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.InitializeThisClientsPlayerMessage;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QuestManager;
 import edu.ship.engr.shipsim.model.reports.UpdatePlayerInformationReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Andrew
@@ -24,7 +25,10 @@ import static org.junit.Assert.*;
  * @author Olivia
  * @author LaVonne
  */
-public class UpdatePlayerInformationMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQuestManager
+public class UpdatePlayerInformationMessagePackerTest
 {
     private StateAccumulator stateAccumulator;
 
@@ -32,12 +36,9 @@ public class UpdatePlayerInformationMessagePackerTest extends ServerSideTest
      * reset the necessary singletons and set up an accumulator that is
      * communicating with Merlin
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
-        PlayerManager.resetSingleton();
-        QuestManager.resetSingleton();
-
         PlayerManager playerManager = PlayerManager.getSingleton();
         playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
         playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());

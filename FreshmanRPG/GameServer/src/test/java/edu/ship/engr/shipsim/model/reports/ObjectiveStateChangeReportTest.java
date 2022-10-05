@@ -1,20 +1,21 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the report of a change state
  *
  * @author nk3668
  */
-public class ObjectiveStateChangeReportTest extends ServerSideTest
+@GameTest("GameServer")
+public class ObjectiveStateChangeReportTest
 {
 
     /**

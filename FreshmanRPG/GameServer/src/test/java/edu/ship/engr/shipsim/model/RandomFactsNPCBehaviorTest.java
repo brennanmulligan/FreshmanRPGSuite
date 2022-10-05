@@ -1,29 +1,29 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.dataDTO.RandomFactDTO;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.reports.ChatMessageReceivedReport;
-import org.easymock.Capture;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * @author merlin
  */
-public class RandomFactsNPCBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class RandomFactsNPCBehaviorTest
 {
     private RandomFactsNPCBehavior behavior;
 
     /**
      *
      */
-    @Before
+    @BeforeEach
     public void localSetup()
     {
         behavior = new RandomFactsNPCBehavior(PlayersForTest.BIG_RED.getPlayerID());
@@ -38,31 +38,20 @@ public class RandomFactsNPCBehaviorTest extends ServerSideTest
     @Test
     public void canSpoutAFactEveryFiveSeconds()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ArrayList<Capture<ChatMessageReceivedReport>> messages = new ArrayList<>();
-        for (int i = 0; i < 100; i++)
-        {
-            messages.add(new Capture<>());
-            obs.receiveReport(EasyMock.and(EasyMock.capture(messages.get(i)), EasyMock.isA(ChatMessageReceivedReport.class)));
-        }
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
 
         for (int i = 0; i < RandomFactsNPCBehavior.CHAT_DELAY_SECONDS * 100; i++)
         {
             behavior.doTimedEvent();
         }
 
-        EasyMock.verify(obs);
-        ArrayList<String> texts = new ArrayList<>();
-        for (Capture<ChatMessageReceivedReport> report : messages)
-        {
-            texts.add(report.getValue().getChatText());
-        }
-        for (RandomFactDTO x : behavior.getFacts())
-        {
-            assertTrue(texts.contains(x.getFactText()));
-        }
+        // since the above loop ends up sending 100 reports, make sure the observer was notified for all of them
+        verify(observer, times(100)).receiveReport(any(ChatMessageToClientReport.class));
     }
 
 }

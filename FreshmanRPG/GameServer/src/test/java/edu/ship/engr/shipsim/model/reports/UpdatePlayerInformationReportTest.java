@@ -3,35 +3,27 @@ package edu.ship.engr.shipsim.model.reports;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.*;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.QuestManager;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test the CurrentQuestStateReport
  *
  * @author Ryan, LaVonne, Olivia
  */
-public class UpdatePlayerInformationReportTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class UpdatePlayerInformationReportTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-    }
-
     /**
      * Tests that we can combine a quest description and state
      *

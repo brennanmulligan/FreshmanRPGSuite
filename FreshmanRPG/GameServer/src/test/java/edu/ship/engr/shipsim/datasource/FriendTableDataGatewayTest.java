@@ -2,17 +2,19 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
  * @author Christian C, Andrew M
  */
-public class FriendTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class FriendTableDataGatewayTest
 {
 
     // gateway instance
@@ -33,13 +35,16 @@ public class FriendTableDataGatewayTest extends ServerSideTest
         assertNotNull(obj2);
     }
 
-    @Test(expected = Exception.class)
-    public void testAcceptException() throws DatabaseException
+    @Test
+    public void testAcceptException()
     {
-        FriendTableDataGateway gateway = getGatewaySingleton();
-        ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
-        assertEquals(friendListFromGateway.size(), 3);
-        gateway.accept(1, "fffffffffff");
+        assertThrows(DatabaseException.class, () ->
+        {
+            FriendTableDataGateway gateway = getGatewaySingleton();
+            ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
+            assertEquals(friendListFromGateway.size(), 3);
+            gateway.accept(1, "fffffffffff");
+        });
 
     }
 
@@ -93,14 +98,17 @@ public class FriendTableDataGatewayTest extends ServerSideTest
                 FriendStatusEnum.ACCEPTED); //Pending
     }
 
-    @Test(expected = Exception.class)
-    public void testAddException() throws DatabaseException
+    @Test
+    public void testAddException()
     {
-        FriendTableDataGateway gateway = getGatewaySingleton();
-        ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
-        assertEquals(friendListFromGateway.size(), 3);
-        gateway.add(1, "fffffffffffffffffffffff",
-                FriendStatusEnum.PENDING); //add a friend that doesn't exist
+        assertThrows(DatabaseException.class, () ->
+        {
+            FriendTableDataGateway gateway = getGatewaySingleton();
+            ArrayList<FriendDTO> friendListFromGateway = gateway.getAllFriends(1);
+            assertEquals(friendListFromGateway.size(), 3);
+            gateway.add(1, "fffffffffffffffffffffff",
+                    FriendStatusEnum.PENDING); //add a friend that doesn't exist
+        });
     }
 
     /**

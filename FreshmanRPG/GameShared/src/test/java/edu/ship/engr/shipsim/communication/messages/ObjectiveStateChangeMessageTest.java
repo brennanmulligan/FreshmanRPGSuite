@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ryan
  */
+@GameTest("GameShared")
 public class ObjectiveStateChangeMessageTest
 {
 

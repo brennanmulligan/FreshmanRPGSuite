@@ -1,16 +1,17 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Adam Pine, Jacob Knight
  * Tests functionality of InteractableObjectBuffReport
  */
-public class InteractableObjectBuffReportTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractableObjectBuffReportTest
 {
 
     /**

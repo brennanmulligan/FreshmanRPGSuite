@@ -3,19 +3,32 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityType;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the VanityItemsTableDataGateway
  */
-public class VanityItemsTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class VanityItemsTableDataGatewayTest
 {
     protected VanityItemsTableDataGateway gateway;
+
+    /**
+     * Get the right gateway and set up the gateway
+     *
+     * @throws DatabaseException shouldnt
+     */
+    @BeforeEach
+    public void setup() throws DatabaseException
+    {
+        gateway = findGateway();
+    }
 
     /**
      * Test to make sure we can add a vanity item
@@ -89,17 +102,6 @@ public class VanityItemsTableDataGatewayTest extends ServerSideTest
         VanityItemsTableDataGateway b = findGateway();
         assertEquals(a, b);
         assertNotNull(a);
-    }
-
-    /**
-     * Get the right gateway and set up the gateway
-     *
-     * @throws DatabaseException shouldnt
-     */
-    @Before
-    public void setup() throws DatabaseException
-    {
-        gateway = findGateway();
     }
 
     VanityItemsTableDataGateway findGateway() throws DatabaseException

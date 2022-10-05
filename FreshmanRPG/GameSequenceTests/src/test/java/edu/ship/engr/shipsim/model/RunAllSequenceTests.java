@@ -9,20 +9,17 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DatabaseManager;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.sequencetests.*;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Can simulate the behavior of a series of messages and test to ensure that
@@ -32,133 +29,53 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Merlin
  */
-@RunWith(Parameterized.class)
+@GameTest("GameSequenceTests")
 public class RunAllSequenceTests
 {
     /**
      * the message returned by the test if everything passes
      */
     public static final String SUCCESS_MSG = "Success!!";
-    private SequenceTest testcase;
     private StateAccumulator stateAccumulator;
     private MessageHandlerSet messageHandlerSet;
     private StateAccumulator secondStateAccumulator;
 
-    private final Class<?> testClass;
-
-    @BeforeClass
-    public static void hardReset() throws DatabaseException
-    {
-        LoggerManager.createLogger("SequenceTests");
-        OptionsManager.getSingleton().setUsingTestDB(true);
-        OptionsManager.getSingleton().setTestMode(true);
-        DatabaseManager.getSingleton().setTesting();
-    }
-
-
-    /**
-     * @return the list of sequence tests
-     */
-    @Parameters(name = "{index}: {0}")
-    public static Collection<Object[]> data()
-    {
-        return Arrays.asList(new Object[][]
-                {
-                        {"TerminalTeleportationSequenceTest",
-                                TerminalTeleportationSequenceTest.class},
-                        {"CheatCodeForBuffSequenceTest",
-                                CheatCodeForBuffSequenceTest.class},
-                        {"FinishingQuestTeleportsSequenceTest",
-                                FinishingQuestTeleportsSequenceTest.class},
-                        {"LoginBadPlayerNameSequenceTest",
-                                LoginBadPlayerNameSequenceTest.class},
-                        {"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
-                        {"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
-                        {"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
-                        {"MovementTriggerQuestSequenceTest",
-                                MovementTriggerQuestSequenceTest.class},
-                        {"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
-                        {"ObjectiveCompletionItemInteractSequenceTest",
-                                ObjectiveCompletionItemInteractSequenceTest.class},
-                        {"ObjectiveNotificationCompleteSequenceTest",
-                                ObjectiveNotificationCompleteSequenceTest.class},
-                        {"ObjectNotInRangeSequenceTest",
-                                ObjectNotInRangeSequenceTest.class},
-                        {"RecCenterGrantsDoubloonsWithBuffSequenceTest",
-                                RecCenterGrantsDoubloonsWithBuffSequenceTest.class},
-                        {"TriggerBuffMessageSequenceTest",
-                                TriggerBuffMessageSequenceTest.class},
-                        {"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
-                        {"ObjectSendsPopupMessageSequenceTest",
-                                ObjectSendsPopupMessageSequenceTest.class},
-
-                        {"TeleportationMovementSequenceTest",
-                                TeleportationMovementSequenceTest.class},
-                        // Terminal Text Sequence Test
-                        // Trigger BuffMessage Sequence Test
-                        {"VanityShopGetInvSequenceTest",
-                                VanityShopGetInvSequenceTest.class},});
-    }
-
-    /**
-     * @param test the description of the message protocol for a given situation
-     */
-    public void setUpTheTest(SequenceTest test)
-    {
-        this.testcase = test;
-        try
-        {
-            hardReset();
-        }
-        catch (DatabaseException e)
-        {
-            throw new RuntimeException(e);
-        }
-        resetCommonSingletons();
-
-    }
-
-    private void resetCommonSingletons()
+    void resetCommonSingletons()
     {
         QualifiedObservableConnector.resetSingleton();
         ModelFacade.resetSingleton();
+        ClientModelFacade.resetSingleton();
         ClientModelFacade.getSingleton(true, true);
-
     }
 
-    /**
-     * @param input    the string that the test should be named
-     * @param expected the class of the sequence test we should run
-     */
-    public RunAllSequenceTests(String input, Class<?> expected)
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("dataSource")
+    public void runTest(String className, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, DatabaseException, ModelFacadeException, CommunicationException, IOException
     {
-        this.testClass = expected;
-    }
+        SequenceTest sequenceTest = (SequenceTest) clazz.getConstructor().newInstance();
+        List<Interaction> interactions = sequenceTest.getInteractions();
 
-    @Test
-    public void singleSequenceTest()
-            throws InstantiationException, IllegalAccessException, IOException,
-            CommunicationException, DatabaseException, NoSuchMethodException,
-            InvocationTargetException, ModelFacadeException
-    {
-
-        testcase = (SequenceTest) testClass.getConstructor().newInstance();
-        ArrayList<Interaction> interactions = testcase.getInteractions();
-        for (ServerType serverToTest : ServerType.values())
+        for (ServerType server : ServerType.values())
         {
-            // Use this line instead of the loop if you want to debug on one server
-            //            			ServerType serverToTest = ServerType.AREA_SERVER;
-            if (testcase.getServerList().contains(serverToTest))
+            if (sequenceTest.getServerList().contains(server))
             {
                 resetCommonSingletons();
-                testcase.resetNecessarySingletons();
-                testcase.setUpMachines();
+                sequenceTest.resetNecessarySingletons();
+                sequenceTest.setUpMachines();
+
                 for (Interaction interaction : interactions)
                 {
-                    String result = run(serverToTest, interaction, true);
-                    assertEquals(SUCCESS_MSG, result);
+                    String result = run(server, interaction, true);
+                    if (!SUCCESS_MSG.equals(result))
+                    {
+                        LoggerManager.getSingleton().getLogger().severe(className + " failed: " + result);
+
+                        fail(className + " was not successful");
+                    }
                 }
+
                 ClientModelFacade.killThreads();
+
                 try
                 {
                     DatabaseManager.getSingleton().rollBackAllConnections();
@@ -169,7 +86,33 @@ public class RunAllSequenceTests
                 }
             }
         }
+    }
 
+    private static Object[][] dataSource()
+    {
+        return new Object[][]{
+                {"TerminalTeleportationSequenceTest", TerminalTeleportationSequenceTest.class},
+                {"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
+                {"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
+                {"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
+                {"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
+                {"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
+                {"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
+                {"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
+                {"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
+                {"ObjectiveCompletionItemInteractSequenceTest", ObjectiveCompletionItemInteractSequenceTest.class},
+                {"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
+                {"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
+                {"RecCenterGrantsDoubloonsWithBuffSequenceTest", RecCenterGrantsDoubloonsWithBuffSequenceTest.class},
+                {"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
+                {"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
+                {"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
+
+                {"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
+                // Terminal Text Sequence Test
+                // Trigger BuffMessage Sequence Test
+                {"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class}
+        };
     }
 
     /**
@@ -232,7 +175,7 @@ public class RunAllSequenceTests
                 messageHandlerSet.process(message);
                 if (sType == ServerType.AREA_SERVER)
                 {
-                    waitForCommandComplete();
+                    ModelFacadeTestHelper.waitForFacadeToProcess(10, "SequenceTests");
                 }
 
             }
@@ -320,25 +263,5 @@ public class RunAllSequenceTests
         return null;
     }
 
-    private void waitForCommandComplete() throws ModelFacadeException
-    {
-        int count = 0;
-        while (count < 5 && ModelFacade.getSingleton().hasCommandsPending())
-        {
-            try
-            {
-                //noinspection BusyWait
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            count++;
-        }
-        if (count == 5)
-        {
-            throw new ModelFacadeException("ModelFacade didn't process a command");
-        }
-    }
+
 }

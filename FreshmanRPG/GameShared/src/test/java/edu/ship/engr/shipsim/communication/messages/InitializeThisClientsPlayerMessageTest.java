@@ -8,18 +8,20 @@ import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the InitializeThisClientsPlayerMessage class
  *
  * @author Olivia, LaVonne
  */
+@GameTest("GameShared")
 public class InitializeThisClientsPlayerMessageTest
 {
     /**

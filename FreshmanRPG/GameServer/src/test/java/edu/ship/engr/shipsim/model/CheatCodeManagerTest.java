@@ -1,21 +1,22 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.MockCheatCodeBehavior;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for the Server's CheatCodeManager
  *
  * @author merlin
  */
-public class CheatCodeManagerTest extends ServerSideTest
+@GameTest("GameServer")
+public class CheatCodeManagerTest
 {
 
     private CheatCodeManager mgr;
@@ -23,10 +24,9 @@ public class CheatCodeManagerTest extends ServerSideTest
     /**
      * Start fresh for each test
      */
-    @Before
+    @BeforeEach
     public void reset()
     {
-        OptionsManager.getSingleton().setTestMode(true);
         mgr = new CheatCodeManager();
     }
 

@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import java.util.Random;
+
 /**
  * The list of crews. Each player must belong to one crew
  *
@@ -65,4 +67,11 @@ public enum Crew
         return appearanceType;
     }
 
+    /**
+     * @return a random element in this enum
+     */
+    public static Crew getRandomCrew()
+    {
+        return values()[new Random().nextInt(values().length)];
+    }
 }

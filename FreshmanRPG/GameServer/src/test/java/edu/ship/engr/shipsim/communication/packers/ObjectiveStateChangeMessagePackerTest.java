@@ -2,32 +2,23 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.ObjectiveStateChangeMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
-import edu.ship.engr.shipsim.model.QuestManager;
 import edu.ship.engr.shipsim.model.reports.ObjectiveStateChangeReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ryan
  */
-public class ObjectiveStateChangeMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class ObjectiveStateChangeMessagePackerTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-    }
-
     /**
      * Test that we pack a Objective State Change Report
      */

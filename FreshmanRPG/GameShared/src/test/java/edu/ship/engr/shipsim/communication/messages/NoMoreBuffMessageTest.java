@@ -1,12 +1,14 @@
 package edu.ship.engr.shipsim.communication.messages;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for testing NoMoreBuffMessage
  */
+@GameTest("GameShared")
 public class NoMoreBuffMessageTest
 {
     /**

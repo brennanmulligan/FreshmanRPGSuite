@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.communication;
 
+import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.QualifiedObservableReport;
@@ -20,7 +21,7 @@ public class StateAccumulator implements QualifiedObserver
     /**
      * need this to be visible to the tests
      */
-    protected ArrayList<Message> pendingMsgs;
+    protected final ArrayList<Message> pendingMsgs;
     private MessagePackerSet packerSet;
     private int playerID;
 
@@ -32,11 +33,11 @@ public class StateAccumulator implements QualifiedObserver
     {
         pendingMsgs = new ArrayList<>();
         this.packerSet = messagePackerSet;
+
         if (packerSet != null)
         {
             packerSet.hookUpObservationFor(this);
         }
-
     }
 
     /**
@@ -47,8 +48,10 @@ public class StateAccumulator implements QualifiedObserver
      */
     public synchronized ArrayList<Message> getPendingMsgs()
     {
-        ArrayList<Message> temp = pendingMsgs;
-        pendingMsgs = new ArrayList<>();
+        ArrayList<Message> temp = Lists.newArrayList(pendingMsgs);
+
+        purgePendingMessages();
+
         return temp;
     }
 
@@ -66,10 +69,7 @@ public class StateAccumulator implements QualifiedObserver
                 msgs = packerSet.pack(arg1);
                 if (msgs != null)
                 {
-                    for (Message msg : msgs)
-                    {
-                        pendingMsgs.add(msg);
-                    }
+                    pendingMsgs.addAll(msgs);
                 }
             }
         }
@@ -95,9 +95,11 @@ public class StateAccumulator implements QualifiedObserver
     /**
      * @param i the playerID of the player associated with this accumulator
      */
-    public void setPlayerId(int i)
+    public StateAccumulator setPlayerId(int i)
     {
         this.playerID = i;
+
+        return this;
     }
 
     /**
@@ -131,7 +133,10 @@ public class StateAccumulator implements QualifiedObserver
      */
     public void purgePendingMessages()
     {
-        pendingMsgs = new ArrayList<>();
+        synchronized (pendingMsgs)
+        {
+            pendingMsgs.clear();
+        }
     }
 
 }

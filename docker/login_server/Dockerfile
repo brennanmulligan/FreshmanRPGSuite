@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM openjdk:11.0.11
 
 COPY entrypoint.sh /login-server-entrypoint.sh
 

@@ -1,32 +1,23 @@
 package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.TerminalTextExitMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.reports.TerminalTextExitReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests to ensure a TerminaTextExitPacker can process an ExitReport and send a TerminalTextExitReport
  * <p>
  * Authors: John G. , Ian L.
  */
-public class TerminalTextExitPackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class TerminalTextExitPackerTest
 {
-
-    /**
-     * Setup the mock datasource before each run
-     */
-    @Before
-    public void setup()
-    {
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * Make sure that the exit report is properly processed into a message.
      */

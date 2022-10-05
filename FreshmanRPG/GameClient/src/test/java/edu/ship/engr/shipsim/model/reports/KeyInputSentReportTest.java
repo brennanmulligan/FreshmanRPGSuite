@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests user key input report
  *
  * @author Ian Keefer & TJ Renninger
  */
+@GameTest("GameClient")
 public class KeyInputSentReportTest
 {
 

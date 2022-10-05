@@ -39,7 +39,7 @@ public class ProgressBar
      * <p>
      * This variable exists to prevent {@link ProgressBar#update()} from being called more than {@link ProgressBar#total} times
      */
-    private boolean allowedPrinting = true;
+    private boolean allowedPrinting = false;
 
     public ProgressBar(int total)
     {
