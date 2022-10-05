@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.communication.messages;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Junit tests for BuffMessage
  *
  * @author TrucChau
  */
+@GameTest("GameShared")
 public class BuffMessageTest
 {
 

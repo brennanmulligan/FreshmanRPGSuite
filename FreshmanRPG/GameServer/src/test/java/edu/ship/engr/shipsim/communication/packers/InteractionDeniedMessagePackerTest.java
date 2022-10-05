@@ -2,19 +2,20 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.InteractionDeniedMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.reports.InteractionDeniedReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author ag0612
  * @author jk1964
  * Tests the functionality of the ObjectInRangeMessagePacker
  */
-public class InteractionDeniedMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractionDeniedMessagePackerTest
 {
 
     /**

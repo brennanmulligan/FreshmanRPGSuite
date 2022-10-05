@@ -1,20 +1,27 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.reports.ChatMessageReceivedReport;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.model.reports.NPCChatReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.mockito.Mockito.*;
 
 /**
  * @author merlin
  */
-public class TutorBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class TutorBehaviorTest
 {
     private TutorBehavior behavior;
 
@@ -22,13 +29,10 @@ public class TutorBehaviorTest extends ServerSideTest
      * @throws DatabaseException shouldn't
      *                           Set up the behavior for each test
      */
-    @Before
+    @BeforeEach
     public void localSetUp() throws DatabaseException
     {
-        PlayerManager.resetSingleton();
         behavior = new TutorBehavior(PlayersForTest.TUTOR.getPlayerID());
-        QualifiedObservableConnector.resetSingleton();
-        ChatManager.resetSingleton();
     }
 
     /**
@@ -37,22 +41,25 @@ public class TutorBehaviorTest extends ServerSideTest
     @Test
     public void testTutorRespondsToPlayer()
     {
-        Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.NICK.getPlayerID());
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
+
+        // add a player and a tutor to the player manager
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.NICK.getPlayerID());
         PlayerManager.getSingleton().addPlayer(PlayersForTest.TUTOR.getPlayerID());
 
-        PlayerManager.getSingleton().addPlayer(1);
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatMessageToClientReport.class);
-        obs.receiveReport(EasyMock.anyObject(ChatMessageToClientReport.class));
-        EasyMock.replay(obs);
+        // setup the report to send
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPlayerPosition(), ChatType.Local);
 
-        NPCChatReport
-                report = new NPCChatReport(p.getPlayerID(), 0, "Hello, tutor",
-                PlayersForTest.NICK.getPosition(), ChatType.Local);
+        // tell the npc to receive the report
         behavior.receiveReport(report);
 
-        EasyMock.verify(obs);
+        // since the tutor responded to the player's chat, verify that a ChatMessageToClientReport was sent by the npc
+        verify(observer, times(1)).receiveReport(any(ChatMessageToClientReport.class));
     }
 
     /**
@@ -61,18 +68,24 @@ public class TutorBehaviorTest extends ServerSideTest
     @Test
     public void testTutorDoesntRespondToPlayer()
     {
-        Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.NICK.getPlayerID());
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
+
+        // add a player and a tutor to the player manager
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.NICK.getPlayerID());
         PlayerManager.getSingleton().addPlayer(PlayersForTest.TUTOR.getPlayerID());
 
-        PlayerManager.getSingleton().addPlayer(1);
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-        EasyMock.replay(obs);
+        // set up the report to send
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPlayerPosition(), ChatType.Zone);
 
-        NPCChatReport report = new NPCChatReport(p.getPlayerID(), 0, "Hello, tutor",
-                PlayersForTest.NICK.getPosition(), ChatType.Zone);
+        // tell the npc to receive the report
         behavior.receiveReport(report);
 
-        EasyMock.verify(obs);
+        // since the tutor didn't respond to the player's chat, verify that a ChatMessageToClientReport wasn't sent by the npc
+        verify(observer, never()).receiveReport(any(ChatMessageToClientReport.class));
     }
 }

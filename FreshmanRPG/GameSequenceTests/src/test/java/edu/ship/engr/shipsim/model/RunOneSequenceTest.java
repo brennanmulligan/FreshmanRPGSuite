@@ -2,7 +2,9 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.sequencetests.TeleportationMovementSequenceTest;
+import edu.ship.engr.shipsim.sequencetests.TerminalTextSequenceTest;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,9 +14,9 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Merlin
  */
+@GameTest("GameSequenceTests")
 public class RunOneSequenceTest
 {
-
     /**
      * @throws InstantiationException    shouldn't
      * @throws IllegalAccessException    shouldn't
@@ -26,23 +28,16 @@ public class RunOneSequenceTest
      * @throws CommunicationException    shouldn't
      * @throws DatabaseException         shouldn't
      */
-
-    public static void main(String[] args)
+    @Test
+    public void runSingleTest()
             throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException,
             NoSuchMethodException, SecurityException, IOException, CommunicationException,
             DatabaseException, ModelFacadeException
     {
-        OptionsManager.getSingleton().setDbFilePath("GameShared/config.txt");
-        OptionsManager.getSingleton().setTestMode(true);
-        Class<TeleportationMovementSequenceTest> testClass = TeleportationMovementSequenceTest.class;
-        RunAllSequenceTests testToRun;
-        SequenceTest sequence = testClass.getConstructor().newInstance();
-        testToRun = new RunAllSequenceTests("My Single Sequence Test", testClass);
+        Class<? extends SequenceTest> testClass = TerminalTextSequenceTest.class;
 
-        testToRun.setUpTheTest(sequence);
-        testToRun.singleSequenceTest();
-        System.out.println("Single Sequence Tests Complete");
+        RunAllSequenceTests runner = new RunAllSequenceTests();
+        runner.runTest("My Single Sequence Test", testClass);
     }
-
 }

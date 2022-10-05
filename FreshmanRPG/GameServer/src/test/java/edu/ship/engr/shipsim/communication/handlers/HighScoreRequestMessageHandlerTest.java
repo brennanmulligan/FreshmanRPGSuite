@@ -5,34 +5,28 @@ import edu.ship.engr.shipsim.communication.messages.HighScoreRequestMessage;
 import edu.ship.engr.shipsim.communication.messages.HighScoreResponseMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Make sure the right response gets queued back to the player
  *
  * @author Merlin
  */
-public class HighScoreRequestMessageHandlerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade
+@ResetPlayerManager
+public class HighScoreRequestMessageHandlerTest
 {
-    /**
-     * Reset the PlayerManager
-     */
-    @Before
-    public void reset()
-    {
-        PlayerManager.resetSingleton();
-        ModelFacade.resetSingleton();
-    }
-
     /**
      * It should correctly report the type of messages it handles
      */

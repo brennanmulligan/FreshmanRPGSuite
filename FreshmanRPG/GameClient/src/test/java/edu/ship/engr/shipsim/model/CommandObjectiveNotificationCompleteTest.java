@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the CommandObjectiveNotificationComplete class
  *
  * @author Ryan
  */
+@GameTest("GameClient")
 public class CommandObjectiveNotificationCompleteTest
 {
 

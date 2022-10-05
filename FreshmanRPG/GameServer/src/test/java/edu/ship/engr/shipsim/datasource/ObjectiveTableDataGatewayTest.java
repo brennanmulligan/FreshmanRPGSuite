@@ -5,18 +5,20 @@ import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.model.ObjectiveRecord;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * An abstract class that tests the table data gateways into the Objective table
  *
  * @author merlin
  */
-public class ObjectiveTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class ObjectiveTableDataGatewayTest
 {
 
     /**

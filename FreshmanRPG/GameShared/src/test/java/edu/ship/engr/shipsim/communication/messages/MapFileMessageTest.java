@@ -1,20 +1,22 @@
 package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests a file message which is designed to carry a tmx file
  *
  * @author merlin
  */
+@GameTest("GameShared")
 public class MapFileMessageTest
 {
-    @BeforeClass
+    @BeforeAll
     public static void setup()
     {
         OptionsManager.getSingleton().setTestMode(true);

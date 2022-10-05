@@ -1,15 +1,17 @@
 package edu.ship.engr.shipsim.dataDTO;
 
 import edu.ship.engr.shipsim.datatypes.VanityType;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the basic VanityDTO class and its functionality
  *
  * @author Jake, Aaron, Kytal
  */
+@GameTest("GameShared")
 public class VanityDTOTest
 {
 

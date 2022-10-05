@@ -1,17 +1,18 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test that a player Id can be found by name
  */
-public class FindPlayerByIDByPlayerNameTest extends ServerSideTest
+@GameTest("GameShared")
+public class FindPlayerByIDByPlayerNameTest
 {
-
     /**
      * Test that the correct Id is returned when searching by player name
      *
@@ -26,13 +27,14 @@ public class FindPlayerByIDByPlayerNameTest extends ServerSideTest
 
     /**
      * Test that an exception is thrown when no player found
-     *
-     * @throws DatabaseException Shouldn't
      */
-    @Test(expected = DatabaseException.class)
-    public void testExceptionThrownWhenPlayerNotFound() throws DatabaseException
+    @Test
+    public void testExceptionThrownWhenPlayerNotFound()
     {
-        assertEquals(21, FindPlayerIDFromPlayerName.getPlayerID("BillyBob"));
+        assertThrows(DatabaseException.class, () ->
+        {
+            assertEquals(21, FindPlayerIDFromPlayerName.getPlayerID("BillyBob"));
+        });
     }
 
 }

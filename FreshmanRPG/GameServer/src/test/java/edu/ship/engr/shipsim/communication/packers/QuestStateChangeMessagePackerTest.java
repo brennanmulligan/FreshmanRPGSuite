@@ -2,16 +2,15 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.QuestStateChangeMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
-import edu.ship.engr.shipsim.model.QuestManager;
 import edu.ship.engr.shipsim.model.reports.QuestStateChangeReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Andrew
@@ -20,17 +19,10 @@ import static org.junit.Assert.assertNull;
  * @author Olivia
  * @author LaVonne
  */
-public class QuestStateChangeMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class QuestStateChangeMessagePackerTest
 {
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-    }
-
     /**
      * Test that we pack a PlayerMovedReport
      */

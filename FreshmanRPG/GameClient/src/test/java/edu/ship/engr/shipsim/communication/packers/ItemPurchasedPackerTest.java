@@ -2,10 +2,12 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.ItemPurchasedMessage;
 import edu.ship.engr.shipsim.model.reports.ItemPurchasedReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@GameTest("GameClient")
 public class ItemPurchasedPackerTest
 {
 

@@ -6,23 +6,30 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DefaultItemsTableDataGateway;
 import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.*;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the PlayerMapper class
  *
  * @author Merlin
  */
-public class PlayerMapperTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class PlayerMapperTest
 {
-
+    @BeforeEach
+    public void localSetUp()
+    {
+        ObjectiveStateTableDataGateway.getSingleton();
+    }
 
     /**
      * Check to make sure that a newly-created mapper has the correct values.
@@ -87,9 +94,9 @@ public class PlayerMapperTest extends ServerSideTest
                                 new ObjectiveState(as.getObjectiveID(), as.getState(),
                                         as.isNeedingNotification());
                         expected.setParentQuest(playerQuestState);
-                        assertTrue("questID " + qs.getQuestID() + " objectiveID " +
-                                as.getObjectiveID() + " state "
-                                + as.getState(), objectiveList.contains(expected));
+                        assertTrue(objectiveList.contains(expected), "questID " + qs.getQuestID() + " objectiveID " +
+                                                        as.getObjectiveID() + " state "
+                                                        + as.getState());
                     }
                 }
             }
@@ -99,13 +106,14 @@ public class PlayerMapperTest extends ServerSideTest
     /**
      * An exception should be thrown if we are trying to create a mapper for a
      * player that doesn't exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void cantFindNonExisting() throws DatabaseException
+    @Test
+    public void cantFindNonExisting()
     {
-        new PlayerMapper(PlayersForTest.values().length + 10);
+        assertThrows(DatabaseException.class, () ->
+        {
+            new PlayerMapper(PlayersForTest.values().length + 10);
+        });
     }
 
     /**
@@ -151,14 +159,6 @@ public class PlayerMapperTest extends ServerSideTest
         }
 
         assertTrue(allFound);
-    }
-
-    @Before
-    public void localSetUp()
-    {
-        ObjectiveStateTableDataGateway objStateGateway =
-                ObjectiveStateTableDataGateway.getSingleton();
-        QuestManager.resetSingleton();
     }
 
     /**
@@ -216,18 +216,19 @@ public class PlayerMapperTest extends ServerSideTest
     /**
      * Should be able to coordinate the removal of a player from the data source
      * layer.
-     *
-     * @throws DatabaseException - should
      */
-    @Test(expected = DatabaseException.class)
-    public void removeTest() throws DatabaseException
+    @Test
+    public void removeTest()
     {
-        PlayersForTest player = PlayersForTest.LOSER;
-        PlayerMapper mapper = new PlayerMapper(player.getPlayerID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            PlayersForTest player = PlayersForTest.LOSER;
+            PlayerMapper mapper = new PlayerMapper(player.getPlayerID());
 
-        mapper.remove();
+            mapper.remove();
 
-        new PlayerMapper(player.getPlayerID());
+            new PlayerMapper(player.getPlayerID());
+        });
     }
 
     /**

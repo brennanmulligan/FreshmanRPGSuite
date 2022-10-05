@@ -2,18 +2,20 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.LevelsForTest;
 import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * An abstract class that tests the table data gateways into the Level table
  *
  * @author merlin
  */
-public class LevelTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class LevelTableDataGatewayTest
 {
 
     /**

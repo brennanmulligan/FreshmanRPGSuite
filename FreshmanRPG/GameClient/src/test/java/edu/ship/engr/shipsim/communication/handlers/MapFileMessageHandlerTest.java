@@ -3,39 +3,22 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.MapFileMessage;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandNewMap;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class MapFileMessageHandlerTest
 {
-
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * reset the singletons and tell the model we are running headless
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -63,7 +46,6 @@ public class MapFileMessageHandlerTest
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
         CommandNewMap cmd = (CommandNewMap) ClientModelFacade.getSingleton().getNextCommand();
         assertTrue(cmd.getFileTitle().contains("mct1.tmx"));
-        ClientModelFacade.getSingleton().emptyQueue();
 
     }
 }

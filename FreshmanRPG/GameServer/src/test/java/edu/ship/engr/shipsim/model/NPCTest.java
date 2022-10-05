@@ -1,17 +1,18 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Npc Class
  *
  * @author Steve
  */
-public class NPCTest extends ServerSideTest
+@GameTest("GameServer")
+public class NPCTest
 {
     /**
      * Test that the npc hits the behavior like it should

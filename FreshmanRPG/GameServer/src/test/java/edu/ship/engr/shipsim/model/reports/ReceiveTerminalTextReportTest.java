@@ -1,28 +1,19 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.QuestManager;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Denny Fleagle, Chris Roadcap
  */
-public class ReceiveTerminalTextReportTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class ReceiveTerminalTextReportTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-    }
-
     /**
      * Test the creation of report
      */

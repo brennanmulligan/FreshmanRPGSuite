@@ -1,13 +1,14 @@
 package edu.ship.engr.shipsim.dataDTO;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestMowreyInfoDTO extends ServerSideTest
+@GameTest("GameServer")
+public class TestMowreyInfoDTO
 {
     @Test
     public void testMowreyInfoDTOConstructor()

@@ -1,35 +1,28 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
-import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.MockCheatCodeBehavior;
 import edu.ship.engr.shipsim.model.reports.ChatMessageReceivedReport;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Dave
  * <p>
  * Make sure the ChatManager behaves properly.
  */
-public class ChatManagerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class ChatManagerTest
 {
-    /**
-     * Start fresh for each test
-     */
-    @Before
-    public void reset()
-    {
-        ChatManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Make sure that ChatManger behaves as a singleton
      */
@@ -51,18 +44,17 @@ public class ChatManagerTest extends ServerSideTest
     @Test
     public void testNotifiesObserversOnDirectSend()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ChatMessageToClientReport report = new ChatMessageToClientReport(42, 0, "message",
-                new Position(1, 1),
-                ChatType.Local);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatMessageToClientReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        ChatManager.getSingleton().sendChatToClients(42, 0, "message", new Position(1, 1), ChatType.Local);
+        // register the observer to be notified when a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
 
-        EasyMock.verify(obs);
+        // send the report to the client
+        ChatManager.getSingleton().sendChatToClients(42, 0, "message", mock(Position.class), ChatType.Local);
+
+        // verify that the observer received a report
+        verify(observer, times(1)).receiveReport(any(ChatMessageToClientReport.class));
     }
 
     /**
@@ -72,19 +64,20 @@ public class ChatManagerTest extends ServerSideTest
     @Test
     public void handlesCheatCodes()
     {
-        // set up a mock object to listen so we can check that it doesn't receive
-        // anything
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ChatMessageReceivedReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        PlayersForTest merlin = PlayersForTest.MERLIN;
+        // register the observer to be notified if a Chat MessageReceivedReport
+        connector.registerObserver(observer, ChatMessageReceivedReport.class);
+
+        // send the chat message, which is actually a cheat code
         MockCheatCodeBehavior.gaveCheat = false;
-        ChatManager.getSingleton().processChatMessage(merlin.getPlayerID(), 0, MockCheatCodeBehavior.CHAT_TEXT,
-                merlin.getPosition(), ChatType.Local);
-
+        ChatManager.getSingleton().processChatMessage(42, 0, MockCheatCodeBehavior.CHAT_TEXT, mock(Position.class), ChatType.Local);
         assertTrue(MockCheatCodeBehavior.gaveCheat);
-        EasyMock.verify(obs);
+
+        // since the message was a cheat code, a ChatMessageToClientReport shouldn't have been sent
+        verify(observer, never()).receiveReport(any(ChatMessageToClientReport.class));
     }
 
     /**
@@ -94,25 +87,18 @@ public class ChatManagerTest extends ServerSideTest
     @Test
     public void sendTheChatIfItIsntACheatCode()
     {
-        PlayersForTest merlin = PlayersForTest.MERLIN;
-        // set up a mock object to listen so we can check that it doesn't receive
-        // anything
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatMessageToClientReport.class);
-        ChatMessageToClientReport report = new ChatMessageToClientReport(merlin.getPlayerID()
-                , 0, "message", merlin.getPosition(),
-                ChatType.Local);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
 
-        MockCheatCodeBehavior.gaveCheat = false;
-        ChatManager.getSingleton().processChatMessage(merlin.getPlayerID(), 0, "message",
-                merlin.getPosition(), ChatType.Local);
+        // send a chat message, which isn't a cheat code
+        ChatManager.getSingleton().processChatMessage(42, 0, "message", mock(Position.class), ChatType.Local);
 
-        assertTrue(MockCheatCodeBehavior.gaveCheat);
-        EasyMock.verify(obs);
+        // verify that the observer received a ChatMessageToClientReport, since the chat wasn't a cheat code
+        verify(observer, times(1)).receiveReport(any(ChatMessageToClientReport.class));
     }
 
 }

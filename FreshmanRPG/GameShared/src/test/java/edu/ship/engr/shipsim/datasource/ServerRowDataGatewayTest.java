@@ -2,19 +2,20 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.ServersForTest;
 import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests the behaviors associated with Server data sources
  *
  * @author Merlin
  */
-public class ServerRowDataGatewayTest extends ServerSideTest
+@GameTest("GameShared")
+public class ServerRowDataGatewayTest
 {
-
     protected ServerRowDataGateway gateway;
 
     /**
@@ -33,27 +34,17 @@ public class ServerRowDataGatewayTest extends ServerSideTest
     }
 
     /**
-     * @throws DatabaseException shouldn't
-     * @see ServerSideTest#setUp()
-     */
-    @Before
-    public void localSetUp() throws DatabaseException
-    {
-        OptionsManager.resetSingleton();
-    }
-
-
-    /**
      * Try to create a row for a map file that is already in the database
-     *
-     * @throws DatabaseException shouldn't
      */
-    @Test(expected = DatabaseException.class)
-    public void createExisting() throws DatabaseException
+    @Test
+    public void createExisting()
     {
-        gateway = createGateway(ServersForTest.FIRST_SERVER.getMapName(), "noHostName", 1000,
-                ServersForTest.FIRST_SERVER.getMapTitle(), ServersForTest.FIRST_SERVER.getTeleportPositionX(),
-                ServersForTest.FIRST_SERVER.getTeleportPositionY());
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = createGateway(ServersForTest.FIRST_SERVER.getMapName(), "noHostName", 1000,
+                    ServersForTest.FIRST_SERVER.getMapTitle(), ServersForTest.FIRST_SERVER.getTeleportPositionX(),
+                    ServersForTest.FIRST_SERVER.getTeleportPositionY());
+        });
     }
 
     /**
@@ -121,13 +112,14 @@ public class ServerRowDataGatewayTest extends ServerSideTest
     /**
      * If we ask for a gateway for a row that isn't in the database, we should get
      * an exception
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findGateway("noFile");
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findGateway("noFile");
+        });
     }
 
     /**

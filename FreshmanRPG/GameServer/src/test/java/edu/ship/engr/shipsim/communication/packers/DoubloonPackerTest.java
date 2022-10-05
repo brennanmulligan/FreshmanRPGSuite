@@ -1,22 +1,24 @@
 package edu.ship.engr.shipsim.communication.packers;
 
+import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.DoubloonPrizeMessage;
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
+import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.DoubloonPrizeReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Andrew M, Christian C
  * <p>
  * This is the test class for the doubloon packer
  */
-
-public class DoubloonPackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class DoubloonPackerTest
 {
 
     /**
@@ -26,7 +28,6 @@ public class DoubloonPackerTest extends ServerSideTest
     public void testPacker()
     {
         ArrayList<DoubloonPrizeDTO> list = new ArrayList<>();
-        DoubloonPrizeMessage messages;
 
         //make DTOs
         DoubloonPrizeDTO dto = new DoubloonPrizeDTO("Test", 100, "Test Description");
@@ -35,15 +36,15 @@ public class DoubloonPackerTest extends ServerSideTest
         list.add(dto);
         list.add(dto2);
         //Make report and packer
-        DoubloonPrizeReport report = new DoubloonPrizeReport(1, list);
+        DoubloonPrizeReport report = new DoubloonPrizeReport(PlayersForTest.MERLIN.getPlayerID(), list);
         DoubloonPacker packer = new DoubloonPacker();
-        messages = packer.pack(report);
+        StateAccumulator accum = new StateAccumulator(null).setPlayerId(PlayersForTest.MERLIN.getPlayerID());
+        packer.setAccumulator(accum);
+        DoubloonPrizeMessage messages = packer.pack(report);
 
         assertEquals(list.get(0).getName(), messages.getName(0));
         assertEquals(list.get(0).getCost(), messages.getPrice(0));
         assertEquals(list.get(0).getDescription(), messages.getDescription(0));
-
-
     }
 
 }

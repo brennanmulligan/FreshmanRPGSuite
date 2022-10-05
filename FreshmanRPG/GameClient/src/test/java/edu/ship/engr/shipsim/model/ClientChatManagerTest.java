@@ -4,31 +4,35 @@ import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.ChatReceivedReport;
 import edu.ship.engr.shipsim.model.reports.ChatSentReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the functionality of the ChatManager
  *
  * @author Steve
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
+@ResetQualifiedObservableConnector
 public class ClientChatManagerTest
 {
     /**
      * Always start with a new singleton
      */
-    @Before
+    @BeforeEach
     public void reset()
     {
-        ClientPlayerManager.resetSingleton();
         ClientChatManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
     }
 
 
@@ -50,16 +54,21 @@ public class ClientChatManagerTest
     @Test
     public void notifiesOnAreaChatReceived()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ChatReceivedReport report = new ChatReceivedReport(42, 0, "message", ChatType.Zone);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatReceivedReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if a ChatReceivedReport is sent
+        connector.registerObserver(observer, ChatReceivedReport.class);
+
+        // set up the report for the verification later
+        ChatReceivedReport expectedReport = new ChatReceivedReport(42, 0, "message", ChatType.Zone);
+
+        // send the chat message, which should send a ChatReceivedReport
         ClientChatManager.getSingleton().sendChatToUI(42, 0, "message", new Position(0, 0), ChatType.Zone);
 
-        EasyMock.verify(obs);
+        // since the ClientChatManager sent a report, verify that the observer was notified about it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -71,20 +80,25 @@ public class ClientChatManagerTest
     @Test
     public void notifiesOnLocalChatReceived() throws AlreadyBoundException, NotBoundException
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatReceivedReport is sent
+        connector.registerObserver(observer, ChatReceivedReport.class);
+
         ClientPlayerManager.getSingleton().initiateLogin("X", "X");
         ClientPlayer p = ClientPlayerManager.getSingleton().finishLogin(1);
         p.setPosition(new Position(5, 5));
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ChatReceivedReport report = new ChatReceivedReport(1, 0, "message", ChatType.Local);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatReceivedReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // set up the report for the verification later
+        ChatReceivedReport expectedReport = new ChatReceivedReport(1, 0, "message", ChatType.Local);
 
+        // send the chat message, which should send a ChatReceivedReport
         ClientChatManager.getSingleton().sendChatToUI(1, 0, "message", new Position(0, 0), ChatType.Local);
 
-        EasyMock.verify(obs);
+        // since the ClientChatManager sent a report, verify that the observer was notified about it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -140,20 +154,25 @@ public class ClientChatManagerTest
     @Test
     public void notifiesOnSendChatToServer() throws AlreadyBoundException, NotBoundException
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatSentReport is sent
+        connector.registerObserver(observer, ChatSentReport.class);
+
         ClientPlayerManager.getSingleton().initiateLogin("X", "X");
         ClientPlayer p = ClientPlayerManager.getSingleton().finishLogin(1);
         p.setPosition(new Position(5, 5));
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ChatSentReport report = new ChatSentReport(1, 0, "message", p.getPosition(), ChatType.Local);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatSentReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // set up the report for the verification later
+        ChatSentReport expectedReport = new ChatSentReport(1, 0, "message", p.getPosition(), ChatType.Local);
 
-        ClientChatManager.getSingleton().sendChatToServer("message", ChatType.Local, report.getReceiverID());
+        // send the chat message, which should send a ChatReceivedReport
+        ClientChatManager.getSingleton().sendChatToServer("message", ChatType.Local, expectedReport.getReceiverID());
 
-        EasyMock.verify(obs);
+        // since the ClientChatManager sent a report, verify that the observer was notified about it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -163,21 +182,25 @@ public class ClientChatManagerTest
     @Test
     public void sendChatToFriend() throws AlreadyBoundException, NotBoundException
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChatReceivedReport is sent
+        connector.registerObserver(observer, ChatReceivedReport.class);
+
         ClientPlayerManager.getSingleton().initiateLogin("X", "X");
         ClientPlayer p = ClientPlayerManager.getSingleton().finishLogin(1);
         p.setPosition(new Position(5, 5));
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ChatReceivedReport report = new ChatReceivedReport(1, 2, "message", ChatType.Private);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ChatReceivedReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // set up the report for the verification later
+        ChatReceivedReport expectedReport = new ChatReceivedReport(1, 2, "message", ChatType.Private);
 
-        ClientChatManager.getSingleton().sendChatToUI(report.getSenderID(), report.getReceiverID(), "message", p.getPosition(), ChatType.Private);
+        // send the chat message, which should send a ChatReceivedReport
+        ClientChatManager.getSingleton().sendChatToUI(expectedReport.getSenderID(), expectedReport.getReceiverID(), "message", p.getPosition(), ChatType.Private);
 
-        EasyMock.verify(obs);
-
+        // since the ClientChatManager sent a report, verify that the observer was notified about it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
 }

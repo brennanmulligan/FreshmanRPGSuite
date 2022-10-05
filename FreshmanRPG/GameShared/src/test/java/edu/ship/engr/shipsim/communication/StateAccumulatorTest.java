@@ -3,18 +3,20 @@ package edu.ship.engr.shipsim.communication;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
-import org.easymock.EasyMock;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for StateAccumulators
  *
  * @author merlin
  */
+@GameTest("GameShared")
 public class StateAccumulatorTest
 {
 
@@ -25,12 +27,10 @@ public class StateAccumulatorTest
     @Test
     public void initializes()
     {
-        MessagePackerSet packerSet = EasyMock.createMock(MessagePackerSet.class);
-        packerSet.hookUpObservationFor(EasyMock.isA(StateAccumulator.class));
-        EasyMock.replay(packerSet);
+        MessagePackerSet set = Mockito.mock(MessagePackerSet.class);
+        set.hookUpObservationFor(Mockito.isA(StateAccumulator.class));
 
-        new StateAccumulator(packerSet);
-        EasyMock.verify(packerSet);
+        new StateAccumulator(set);
     }
 
     /**
@@ -40,21 +40,16 @@ public class StateAccumulatorTest
     @Test
     public void emptiesOnQuery()
     {
-        MessagePackerSet packerSet = EasyMock.createMock(MessagePackerSet.class);
-        packerSet.hookUpObservationFor(EasyMock.isA(StateAccumulator.class));
-        Message msg = EasyMock.createMock(Message.class);
-        EasyMock.replay(msg);
-        EasyMock.replay(packerSet);
+        MessagePackerSet packerSet = Mockito.mock(MessagePackerSet.class);
+        packerSet.hookUpObservationFor(Mockito.isA(StateAccumulator.class));
+        Message msg = Mockito.mock(Message.class);
 
         StateAccumulator accum = new StateAccumulator(packerSet);
-        ArrayList<Message> mockMessages = new ArrayList<>();
-        mockMessages.add(msg);
-        accum.pendingMsgs = mockMessages;
+        accum.queueMessage(msg);
+
         ArrayList<Message> returnedMessages = accum.getPendingMsgs();
         assertEquals(1, returnedMessages.size());
         assertEquals(0, accum.pendingMsgs.size());
-        EasyMock.verify(packerSet);
-        EasyMock.verify(msg);
     }
 
     /**
@@ -79,7 +74,7 @@ public class StateAccumulatorTest
     public void canDirectlyQueueMsgs()
     {
         StateAccumulator accum = new StateAccumulator(null);
-        Message m = EasyMock.createMock(Message.class);
+        Message m = Mockito.mock(Message.class);
         accum.queueMessage(m);
         assertEquals(1, accum.pendingMsgs.size());
         assertEquals(m, accum.pendingMsgs.get(0));

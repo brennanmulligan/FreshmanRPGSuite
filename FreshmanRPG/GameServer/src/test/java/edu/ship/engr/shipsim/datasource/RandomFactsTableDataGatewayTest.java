@@ -3,20 +3,28 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.RandomFactDTO;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.RandomFactsForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author merlin
  */
-public class RandomFactsTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class RandomFactsTableDataGatewayTest
 {
 
     private RandomFactsTableDataGateway gateway;
+
+    @BeforeEach
+    public void localSetUp()
+    {
+        gateway = getGateway();
+    }
 
     /**
      * Make sure we can get all of the facts for a particular NPC
@@ -58,12 +66,6 @@ public class RandomFactsTableDataGatewayTest extends ServerSideTest
         RandomFactsTableDataGateway x = getGateway();
         assertNotNull(x);
         assertSame(x, getGateway());
-    }
-
-    @Before
-    public void localSetUp()
-    {
-        gateway = getGateway();
     }
 
 }

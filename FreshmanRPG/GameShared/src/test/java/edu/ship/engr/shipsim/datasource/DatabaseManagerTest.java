@@ -1,36 +1,17 @@
 package edu.ship.engr.shipsim.datasource;
 
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * Test the behavior of the database manager.
  */
+@GameTest("GameShared")
 public class DatabaseManagerTest
 {
-
-    /**
-     * @throws DatabaseException shouldn't
-     */
-    @BeforeClass
-    public static void hardReset() throws DatabaseException
-    {
-        OptionsManager.getSingleton().setUsingTestDB(true);
-        OptionsManager.getSingleton().setTestMode(true);
-        DatabaseManager.getSingleton().setTesting();
-    }
-
-    @After
-    public void tearDown() throws DatabaseException
-    {
-        DatabaseManager.resetSingleton();
-    }
-
     /**
      * Tests if the singleton is the same
      */
@@ -42,6 +23,7 @@ public class DatabaseManagerTest
 
         assertSame(dm, dm1);
         DatabaseManager.resetSingleton();
+        DatabaseManager.getSingleton().setTesting();
         assertNotSame(dm, DatabaseManager.getSingleton());
     }
 

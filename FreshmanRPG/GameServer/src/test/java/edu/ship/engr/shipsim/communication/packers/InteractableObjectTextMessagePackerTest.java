@@ -2,18 +2,19 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.DisplayTextMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectTextReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Stephen Clabaugh, Jacob Knight Tests the functionality of
  * InteractableObjectTextMessagePacker
  */
-public class InteractableObjectTextMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractableObjectTextMessagePackerTest
 {
     /**
      * Tests that the message packer packs the correct report type

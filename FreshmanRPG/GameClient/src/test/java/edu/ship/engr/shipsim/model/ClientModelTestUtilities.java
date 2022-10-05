@@ -6,7 +6,7 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Utilities that tests can use to set up state in the model or retrieve

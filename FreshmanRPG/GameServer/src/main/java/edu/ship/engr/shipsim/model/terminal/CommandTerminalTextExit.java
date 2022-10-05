@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model.terminal;
 
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.CommandRemovePlayer;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.QualifiedObservableConnector;

@@ -1,15 +1,17 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test the Position class
  *
  * @author merlin
  */
+@GameTest("GameShared")
 public class PositionTest
 {
 

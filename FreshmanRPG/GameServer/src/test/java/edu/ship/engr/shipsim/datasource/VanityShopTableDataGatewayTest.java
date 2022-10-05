@@ -4,24 +4,25 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityShopItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityType;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the VanityShop
  *
  * @author Aaron, Jake
  */
-public class VanityShopTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class VanityShopTableDataGatewayTest
 {
     protected VanityShopTableDataGateway gateway;
 
-    @Before
+    @BeforeEach
     public void setup() throws DatabaseException
     {
         gateway = findGateway();
@@ -37,35 +38,50 @@ public class VanityShopTableDataGatewayTest extends ServerSideTest
                 gateway.getVanityShopInventory().size());
     }
 
-    @Test(expected = DatabaseException.class)
-    public void testCantAddDup() throws DatabaseException
+    @Test
+    public void testCantAddDup()
     {
-        gateway.addItem(VanityShopItemsForTest.values()[0].getVanityID(),
-                VanityShopItemsForTest.values()[0].getPrice());
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addItem(VanityShopItemsForTest.values()[0].getVanityID(),
+                    VanityShopItemsForTest.values()[0].getPrice());
+        });
     }
 
-    @Test(expected = DatabaseException.class)
-    public void testCantAddInvalidPrice() throws DatabaseException
+    @Test
+    public void testCantAddInvalidPrice()
     {
-        gateway.addItem(VanityItemsForTest.LIGHT_BLUE_EYES.getId(), -1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addItem(VanityItemsForTest.LIGHT_BLUE_EYES.getId(), -1);
+        });
     }
 
-    @Test(expected = DatabaseException.class)
-    public void testCantAddInvalidVanity() throws DatabaseException
+    @Test
+    public void testCantAddInvalidVanity()
     {
-        gateway.addItem(-100, 5);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addItem(-100, 5);
+        });
     }
 
-    @Test(expected = DatabaseException.class)
-    public void testCantUpdateInvalidItem() throws DatabaseException
+    @Test
+    public void testCantUpdateInvalidItem()
     {
-        gateway.addItem(-10, 10);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addItem(-10, 10);
+        });
     }
 
-    @Test(expected = DatabaseException.class)
-    public void testCantUpdateInvalidPrice() throws DatabaseException
+    @Test
+    public void testCantUpdateInvalidPrice()
     {
-        gateway.addItem(VanityShopItemsForTest.values()[0].getVanityID(), -10);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addItem(VanityShopItemsForTest.values()[0].getVanityID(), -10);
+        });
     }
 
     /**

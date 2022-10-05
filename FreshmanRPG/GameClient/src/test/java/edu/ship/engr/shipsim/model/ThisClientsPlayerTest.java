@@ -9,35 +9,29 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.reports.*;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests behaviors that are unique to the player playing on this client
  *
  * @author merlin
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
+@ResetQualifiedObservableConnector
 public class ThisClientsPlayerTest
 {
-
-    /**
-     * Reset the singletons
-     */
-    @Before
-    public void setup()
-    {
-        ClientPlayerManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Make sure that observers get an appropriate notification when the current
      * player moves
@@ -45,19 +39,22 @@ public class ThisClientsPlayerTest
     @Test
     public void notifiesOnMove()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ClientPlayerMovedReport.class);
-        ClientPlayerMovedReport report = new ClientPlayerMovedReport(1,
-                new Position(3, 4), true);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if a ClientPlayerMovedReport is sent
+        connector.registerObserver(observer, ClientPlayerMovedReport.class);
+
+        // set up the report for verification
+        ClientPlayerMovedReport expectedReport = new ClientPlayerMovedReport(1, new Position(3, 4), true);
+
+        // setup the player and move them
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
         cp.move(new Position(3, 4));
 
-        EasyMock.verify(obs);
-
+        // since cp.move sends a ClientPlayerMovedReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -66,23 +63,27 @@ public class ThisClientsPlayerTest
     @Test
     public void notifiesOnQuestRequest()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a QuestStateReport is sent
+        connector.registerObserver(observer, QuestStateReport.class);
+
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
         ClientPlayerQuestStateDTO q = ClientPlayerQuestTest.createOneQuestWithTwoObjectives();
         cp.addQuest(q);
         ArrayList<ClientPlayerQuestStateDTO> expected = new ArrayList<>();
         expected.add(q);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                QuestStateReport.class);
-        QuestStateReport report = new QuestStateReport(expected);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // set up a report for verification
+        QuestStateReport expectedReport = new QuestStateReport(expected);
 
+        // send the report
         cp.sendCurrentQuestStateReport();
 
-        EasyMock.verify(obs);
-
+        // since cp.sendCurrentQuestStateReport sends a QuestStateReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -167,6 +168,13 @@ public class ThisClientsPlayerTest
     @Test
     public void testSendObjectivesNeedingNotificationReport()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ObjectiveNeedingNotificationReport is sent
+        connector.registerObserver(observer, ObjectiveNeedingNotificationReport.class);
+
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
         ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
@@ -179,18 +187,14 @@ public class ThisClientsPlayerTest
         ArrayList<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
         questList.add(q);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                ObjectiveNeedingNotificationReport.class);
-        ObjectiveNeedingNotificationReport report = new ObjectiveNeedingNotificationReport(
+        ObjectiveNeedingNotificationReport expectedReport = new ObjectiveNeedingNotificationReport(
                 cp.getID(), q.getQuestID(), objective.getObjectiveID(),
                 objective.getObjectiveDescription(), objective.getObjectiveState(), true, "Mom");
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
 
         cp.overwriteQuestList(questList);
 
-        EasyMock.verify(obs);
+        // since cp.overwriteQuestList sends a ObjectiveNeedingNotificationReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(expectedReport);
     }
 
     /**
@@ -200,6 +204,13 @@ public class ThisClientsPlayerTest
     @Test
     public void testQuestNeedingNotificationReport()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a QuestNeedingNotificationReport is sent
+        connector.registerObserver(observer, QuestNeedingNotificationReport.class);
+
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
         ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
@@ -212,17 +223,13 @@ public class ThisClientsPlayerTest
         ArrayList<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
         questList.add(q);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                QuestNeedingNotificationReport.class);
-        QuestNeedingNotificationReport report = new QuestNeedingNotificationReport(
+        QuestNeedingNotificationReport expectedReport = new QuestNeedingNotificationReport(
                 cp.getID(), q.getQuestID(), q.getQuestDescription(), q.getQuestState());
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
 
         cp.overwriteQuestList(questList);
 
-        EasyMock.verify(obs);
+        // since cp.overwriteQuestList sends a QuestNeedingNotificationReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -233,21 +240,23 @@ public class ThisClientsPlayerTest
     @Test
     public void testSendExperiencePointsChangeReport()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ExperiencePointsChangeReport is sent
+        connector.registerObserver(observer, ExperiencePointsChangeReport.class);
+
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
         int exp = 10;
         LevelRecord rec = new LevelRecord("Felyne Explorer", 10, 10, 7);
         cp.setLevelInfo(rec, 10);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ExperiencePointsChangeReport.class);
-        ExperiencePointsChangeReport report = new ExperiencePointsChangeReport(exp, rec);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        ExperiencePointsChangeReport expectedReport = new ExperiencePointsChangeReport(exp, rec);
 
-        cp.sendExperiencePointsChangeReport();
-
-        EasyMock.verify(obs);
+        // since cp.setLevelInfo sends an ExperiencePointsChangeReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(expectedReport);
     }
 
     /**
@@ -263,27 +272,27 @@ public class ThisClientsPlayerTest
         assertEquals(10, cp.getDoubloons());
     }
 
-    /**
-     *
-     */
     @Test
     public void testSendDoubloonChangeReport()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a DoubloonChangeReport is sent
+        connector.registerObserver(observer, DoubloonChangeReport.class);
+
         ThisClientsPlayer cp = setUpThisClientsPlayer(PlayersForTest.JOHN);
 
         int exp = 10;
         cp.setDoubloons(10);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                DoubloonChangeReport.class);
-        DoubloonChangeReport report = new DoubloonChangeReport(exp);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        DoubloonChangeReport expectedReport = new DoubloonChangeReport(exp);
 
         cp.sendDoubloonChangeReport();
 
-        EasyMock.verify(obs);
+        // since cp.sendDoubloonChangeReport sends a DoubloonChangeReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
 }

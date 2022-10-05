@@ -2,9 +2,10 @@ package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.datasource.LevelRecord;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests that the ExperienceChangeMessage class functionality
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertEquals;
  * @author Olivia
  * @author LaVonne
  */
+@GameTest("GameShared")
 public class ExperienceChangedMessageTest
 {
 
