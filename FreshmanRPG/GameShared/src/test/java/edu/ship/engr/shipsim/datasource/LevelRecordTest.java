@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.datasource;
 
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for LevelRecord
  *
  * @author Merlin
  */
+@GameTest("GameShared")
 public class LevelRecordTest
 {
 

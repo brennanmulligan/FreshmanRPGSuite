@@ -3,31 +3,24 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.MapFileMessage;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.reports.PlayerConnectionReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Merlin
  */
-public class MapFileMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class MapFileMessagePackerTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        PlayerManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * If we are notified about a player other than the one we are associated
      * with, we shouldn't pack a message

@@ -2,16 +2,18 @@ package edu.ship.engr.shipsim.dataDTO;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the basic ClientPlayerObjective class and its functionality.
  *
  * @author Nathaniel
  */
+@GameTest("GameShared")
 public class ClientPlayerObjectiveTest
 {
     /**

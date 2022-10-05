@@ -4,23 +4,24 @@ import edu.ship.engr.shipsim.criteria.CriteriaStringDTO;
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * This class holds the tests for the Quest class
  *
  * @author Scott Lantz, LaVonne Diller
  */
-public class QuestTest extends ServerSideTest
+@GameTest("GameServer")
+public class QuestTest
 {
 
     /**

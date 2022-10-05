@@ -1,17 +1,19 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Kevin Marek, Andrew Stake
  */
+@GameTest("GameClient")
 public class CommandItemPurchasedTest
 {
 

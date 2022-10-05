@@ -1079,8 +1079,8 @@ public class QuestManager implements QualifiedObserver
         catch (Exception e)
         {
             LoggerManager.getSingleton().getLogger()
-                    .info("Exception getting " + "objective " + objectiveId +
-                            "for quest " + questId);
+                    .info("Exception getting objective " + objectiveId +
+                            " for quest " + questId);
             e.printStackTrace();
         }
     }

@@ -1,36 +1,32 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.*;
 import edu.ship.engr.shipsim.model.reports.ObjectiveStateChangeReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.apache.commons.compress.utils.Lists;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for ObjectiveState
  *
  * @author Ryan
  */
-public class ObjectiveStateTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+@ResetQualifiedObservableConnector
+public class ObjectiveStateTest
 {
-
     private QuestState questState = null;
-
-    /**
-     *
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
 
     /**
      * Test to ensure the creation of an objective is correct
@@ -71,27 +67,25 @@ public class ObjectiveStateTest extends ServerSideTest
 
     /**
      * Test trigger when the objective's state is not initially hidden
-     *
-     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
-     * @throws DatabaseException               shouldn't
-     * @throws IllegalQuestChangeException     thrown if changing to a wrong state
      */
-    @Test(expected = IllegalObjectiveChangeException.class)
+    @Test
     public void testTriggerNonHiddenObjective()
-            throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
     {
-        ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
+        assertThrows(IllegalObjectiveChangeException.class, () ->
+        {
+            ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
 
-        questState = new QuestState(19, 6, QuestStateEnum.TRIGGERED, false);
+            questState = new QuestState(19, 6, QuestStateEnum.TRIGGERED, false);
 
-        ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
-        objectiveList.add(objective);
-        questState.addObjectives(objectiveList);
+            ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
+            objectiveList.add(objective);
+            questState.addObjectives(objectiveList);
 
-        objective.changeState(ObjectiveStateEnum.TRIGGERED, false);
-        assertEquals(ObjectiveStateEnum.TRIGGERED, objective.getState());
-        objective.trigger();
-        assertEquals(ObjectiveStateEnum.TRIGGERED, objective.getState());
+            objective.changeState(ObjectiveStateEnum.TRIGGERED, false);
+            assertEquals(ObjectiveStateEnum.TRIGGERED, objective.getState());
+            objective.trigger();
+            assertEquals(ObjectiveStateEnum.TRIGGERED, objective.getState());
+        });
     }
 
     /**
@@ -255,31 +249,35 @@ public class ObjectiveStateTest extends ServerSideTest
     public void receiveReportChangeState()
             throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ArrayList<ObjectiveState> al = new ArrayList<>();
-        ObjectiveState state = new ObjectiveState(ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getObjectiveID(),
-                ObjectiveStateEnum.TRIGGERED, ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.isNeedingNotification());
-        al.add(state);
-        QuestState qState = new QuestState(1, QuestStatesForTest.PLAYER1_QUEST2.getQuestID(),
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ObjectiveStateChangeReport is sent
+        connector.registerObserver(observer, ObjectiveStateChangeReport.class);
+
+        List<ObjectiveState> objectiveStates = Lists.newArrayList();
+        ObjectiveState objectiveState = new ObjectiveState(ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.isNeedingNotification());
+        objectiveStates.add(objectiveState);
+
+        QuestState questState = new QuestState(1, QuestStatesForTest.PLAYER1_QUEST2.getQuestID(),
                 QuestStatesForTest.PLAYER1_QUEST2.getState(),
                 QuestStatesForTest.PLAYER1_QUEST2.isNeedingNotification());
+        questState.addObjectives(objectiveStates);
 
-        qState.addObjectives(al);
-        ObjectiveStateChangeReport report = new ObjectiveStateChangeReport(
+        // change the state of the objective, which should send out a report
+        objectiveState.changeState(ObjectiveStateEnum.COMPLETED, true);
+
+        // the report we expect the observer to be notified with
+        ObjectiveStateChangeReport expectedReport = new ObjectiveStateChangeReport(
                 ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getPlayerID(),
                 ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getQuestID(),
                 ObjectiveStatesForTest.PLAYER1_QUEST2_ADV2.getObjectiveID(),
                 ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(), ObjectiveStateEnum.COMPLETED, false,
                 null);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ObjectiveStateChangeReport.class);
 
-        obs.receiveReport(EasyMock.eq(report));
-
-        EasyMock.replay(obs);
-
-        state.changeState(ObjectiveStateEnum.COMPLETED, true);
-
-        EasyMock.verify(obs);
+        // since the objective state was changed, the observer should receive the above report
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**

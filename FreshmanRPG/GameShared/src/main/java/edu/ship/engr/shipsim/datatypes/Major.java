@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import java.util.Random;
+
 /**
  * @author Emily Maust
  * @author Matthew Croft
@@ -82,6 +84,14 @@ public enum Major
     public String getMajorName()
     {
         return majorName;
+    }
+
+    /**
+     * @return a random element in this enum
+     */
+    public static Major getRandomMajor()
+    {
+        return values()[new Random().nextInt(values().length)];
     }
 
 }

@@ -1,7 +1,8 @@
 package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.model.TypeDetector;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * This class verifies all of the classes in its package have the structure
@@ -21,6 +22,7 @@ import static org.junit.Assert.fail;
  *
  * @author Merlin
  */
+@GameTest("GameShared")
 public class MessageStructureVerifier extends TypeDetector
 {
 

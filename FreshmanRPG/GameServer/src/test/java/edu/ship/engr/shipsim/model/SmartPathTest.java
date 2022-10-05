@@ -1,15 +1,22 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SmartPathTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class SmartPathTest
 {
     boolean t = true;
     boolean f = false;
@@ -25,7 +32,7 @@ public class SmartPathTest extends ServerSideTest
                     , {f, f, f, f, f, f, f, f}
             };
 
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
         NPC npc = new NPC(33);
@@ -33,8 +40,6 @@ public class SmartPathTest extends ServerSideTest
         PlayerManager.getSingleton().addNpc(npc);
 
         OptionsManager.getSingleton().setMapFileTitle("quad.tmx");
-        QualifiedObservableConnector.resetSingleton();
-        ChatManager.resetSingleton();
     }
 
     @Test

@@ -1,60 +1,49 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.model.reports.PlayerDisconnectedFromAreaServerReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.mockito.Mockito.*;
 
 /**
  * @author nhydock
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
+@ResetQualifiedObservableConnector
 public class CommandRemovePlayerTest
 {
-
-
-    /**
-     * Setup the model facade for mock testing
-     */
-    @Before
-    public void setup()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Test executing a remove player command
      */
     @Test
     public void testExecution()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        obs.receiveReport(EasyMock.isA(PlayerDisconnectedFromAreaServerReport.class));
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                PlayerDisconnectedFromAreaServerReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a PlayerDisconnectedFromAreaServerReport is sent
+        connector.registerObserver(observer, PlayerDisconnectedFromAreaServerReport.class);
 
         // setup the player
         ClientPlayerManager pm = ClientPlayerManager.getSingleton();
         pm.initiateLogin("john", "pw");
-        try
+
+        assertDoesNotThrow(() ->
         {
             pm.finishLogin(1);
-        }
-        catch (AlreadyBoundException | NotBoundException e)
-        {
-            e.printStackTrace();
-            fail("Could not create this client's player from login");
-        }
+        }, "Could not create this client's player from login");
 
+        // set up the remove command and execute it
         CommandRemovePlayer cmd = new CommandRemovePlayer(1);
         cmd.execute();
 
-        EasyMock.verify(obs);
+        // since the remove command sends a PlayerDisconnectedFromAreaServerReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(any(PlayerDisconnectedFromAreaServerReport.class));
     }
 }

@@ -1,27 +1,29 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Merlin
  */
-public class PlayerManagerTest extends ServerSideTest
+@GameTest("LoginServer")
+@ResetQualifiedObservableConnector
+public class PlayerManagerTest
 {
 
     /**
      * reset the necessary singletons
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
         LoginPlayerManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
     }
 
     /**
@@ -57,14 +59,15 @@ public class PlayerManagerTest extends ServerSideTest
 
     /**
      * When a login fails, the PlayerManager should throw an exception
-     *
-     * @throws LoginFailedException should
      */
-    @Test(expected = LoginFailedException.class)
-    public void notifiesOnFailedLogin() throws LoginFailedException
+    @Test
+    public void notifiesOnFailedLogin()
     {
-        LoginPlayerManager pm = LoginPlayerManager.getSingleton();
-        pm.login(PlayersForTest.MERLIN.getPlayerName(), PlayersForTest.MERLIN.getPlayerPassword() + "Z");
+        assertThrows(LoginFailedException.class, () ->
+        {
+            LoginPlayerManager pm = LoginPlayerManager.getSingleton();
+            pm.login(PlayersForTest.MERLIN.getPlayerName(), PlayersForTest.MERLIN.getPlayerPassword() + "Z");
+        });
     }
 
 }

@@ -2,7 +2,6 @@ package edu.ship.engr.shipsim;
 
 import edu.ship.engr.shipsim.communication.ConnectionIncomingTest;
 import edu.ship.engr.shipsim.communication.ConnectionManagerTest;
-import edu.ship.engr.shipsim.communication.ConnectionOutgoingTest;
 import edu.ship.engr.shipsim.communication.StateAccumulatorTest;
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSetTest;
 import edu.ship.engr.shipsim.communication.messages.*;
@@ -14,10 +13,8 @@ import edu.ship.engr.shipsim.datatypes.PositionTest;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.terminal.TerminalManagerTest;
 import edu.ship.engr.shipsim.tmxfiles.TMXMapReaderTest;
-import org.junit.ClassRule;
-import org.junit.rules.ExternalResource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * All of the tests for the shared code. Notice that the packages, and classes
@@ -27,12 +24,11 @@ import org.junit.runners.Suite;
  *
  * @author Merlin
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
+@Suite
+@SelectClasses(
         {
                 // edu.ship.engr.shipsim.communication
                 ConnectionIncomingTest.class,
-                ConnectionOutgoingTest.class,
                 ConnectionManagerTest.class,
                 StateAccumulatorTest.class,
 
@@ -112,26 +108,4 @@ import org.junit.runners.Suite;
                 TMXMapReaderTest.class,})
 public class AllSharedTests
 {
-
-    /**
-     * Make sure we default all of the PINs at the beginning of running the
-     * tests so that none will be expired
-     */
-    @ClassRule
-    public static ExternalResource testRule = new ExternalResource()
-    {
-        @Override
-        protected void before() throws Throwable
-        {
-            PlayerConnectionTest.defaultAllPins();
-            DatabaseManager.getSingleton().setTesting();
-            LoggerManager.createLogger("GameSharedTests");
-        }
-
-        @Override
-        protected void after()
-        {
-        }
-    };
-
 }

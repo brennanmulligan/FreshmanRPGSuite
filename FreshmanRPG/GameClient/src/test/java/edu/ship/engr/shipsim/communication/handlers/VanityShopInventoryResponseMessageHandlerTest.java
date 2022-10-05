@@ -5,30 +5,23 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandVanityShopInventoryResponse;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for the Vanity Shop Inventory Response Message Handler
  *
  * @author Aaron, Jake
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class VanityShopInventoryResponseMessageHandlerTest
 {
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void reset()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-    }
-
     /**
      * Test to make sure we handle the right message
      */
@@ -58,6 +51,5 @@ public class VanityShopInventoryResponseMessageHandlerTest
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
         CommandVanityShopInventoryResponse cmd = (CommandVanityShopInventoryResponse) ClientModelFacade.getSingleton().getNextCommand();
         assertEquals(inventory, cmd.getInventory());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 }

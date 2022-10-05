@@ -1,19 +1,20 @@
 package edu.ship.engr.shipsim.dataDTO;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test that the player DTO constructors set the defaults correctly.
  *
  * @author Ben Uleau and Christopher Boyer
  */
-public class TestPlayerDTO extends ServerSideTest
+@GameTest("GameServer")
+public class TestPlayerDTO
 {
 
     /**

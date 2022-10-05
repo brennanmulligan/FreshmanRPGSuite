@@ -6,28 +6,22 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.NewMapReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
+@ResetQualifiedObservableConnector
 public class MapManagerTest
 {
-    /**
-     * reset the singleton
-     */
-    @Before
-    public void setup()
-    {
-        QualifiedObservableConnector.resetSingleton();
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-    }
-
     /**
      * make sure it is a good singleton
      */
@@ -47,16 +41,21 @@ public class MapManagerTest
     @Test
     public void updatesOnNewMap()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
-        cm.registerObserver(obs, NewMapReport.class);
-        obs.receiveReport(EasyMock.isA(NewMapReport.class));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a NewMapReport is sent
+        connector.registerObserver(observer, NewMapReport.class);
 
         MapManager map = MapManager.getSingleton();
-
         map.changeToNewFile("simple.tmx", "updates on new map in MapManagerTest");
-        EasyMock.verify(obs);
+
+        // set up the report for verification
+        NewMapReport expectedReport = new NewMapReport(map.getTiledMap());
+
+        // since changeToNewFile sends a NewMapReport, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -66,22 +65,17 @@ public class MapManagerTest
     @Test
     public void canMockTiledMapAndGetALayer()
     {
-        TiledMap tiledMap = EasyMock.createMock(TiledMap.class);
-        MapLayers mapLayers = EasyMock.createMock(MapLayers.class);
-        EasyMock.expect(tiledMap.getLayers()).andReturn(mapLayers);
-        MapLayer mapLayer = EasyMock.createMock(MapLayer.class);
-        EasyMock.expect(mapLayers.get("Foreground")).andReturn(mapLayer);
-        EasyMock.replay(tiledMap);
-        EasyMock.replay(mapLayers);
-        EasyMock.replay(mapLayer);
+        TiledMap tiledMap = mock(TiledMap.class);
+        MapLayers mapLayers = mock(MapLayers.class);
+        MapLayer mapLayer = mock(MapLayer.class);
+
+        when(tiledMap.getLayers()).thenReturn(mapLayers);
+
+        when(mapLayers.get("Foreground")).thenReturn(mapLayer);
 
         MapManager.getSingleton().setMap(tiledMap);
         MapLayer layer = MapManager.getSingleton().getMapLayer("Foreground");
         assertEquals(mapLayer, layer);
-
-        EasyMock.verify(tiledMap);
-        EasyMock.verify(mapLayers);
-        EasyMock.verify(mapLayer);
     }
 
     /**

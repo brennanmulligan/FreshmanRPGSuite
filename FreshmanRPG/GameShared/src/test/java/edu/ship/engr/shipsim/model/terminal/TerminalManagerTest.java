@@ -1,17 +1,19 @@
 package edu.ship.engr.shipsim.model.terminal;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Chris Roadcap
  * @author Denny Fleagle
  */
+@GameTest("GameShared")
 public class TerminalManagerTest
 {
     TerminalManager manager;
@@ -19,7 +21,7 @@ public class TerminalManagerTest
     /**
      * Get the instance of terminal manager
      */
-    @Before
+    @BeforeEach
     public void getSingleton()
     {
         manager = TerminalManager.getSingleton();
@@ -28,7 +30,7 @@ public class TerminalManagerTest
     /**
      * Reset the instance of terminal manager
      */
-    @After
+    @AfterEach
     public void resetSingleton()
     {
         manager.resetSingleton();

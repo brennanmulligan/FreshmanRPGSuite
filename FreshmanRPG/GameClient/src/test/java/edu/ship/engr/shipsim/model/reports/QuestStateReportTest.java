@@ -2,17 +2,19 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test the QuestStateReport
  *
  * @author Merlin
  */
+@GameTest("GameClient")
 public class QuestStateReportTest
 {
 

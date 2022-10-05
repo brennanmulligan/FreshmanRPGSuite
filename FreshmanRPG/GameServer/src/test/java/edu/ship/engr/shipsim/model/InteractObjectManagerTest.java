@@ -1,33 +1,28 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.InteractableItemsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetInteractObjectManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test for InteractObjectManager
  *
  * @author Andy Kim, Truc Chau, Jacob Knight, and Emmanuel Douge
  */
-public class InteractObjectManagerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetInteractObjectManager
+@ResetQualifiedObservableConnector
+public class InteractObjectManagerTest
 {
-
-    /**
-     * Reset singleton before test
-     */
-    @Before
-    public void reset()
-    {
-        QualifiedObservableConnector.resetSingleton();
-        InteractObjectManager.resetSingleton();
-    }
-
     /**
      * Tests that getSingleton() returns the same InteractObjectManager object
      */
@@ -92,102 +87,27 @@ public class InteractObjectManagerTest extends ServerSideTest
 
     }
 
-    /**
-     * Tests the collision between player at position (0,1) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition01() throws DatabaseException
+    @ParameterizedTest
+    @MethodSource("testPlayerPositionSource")
+    public void testPlayerPosition(Position position, boolean expected) throws DatabaseException
     {
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(0, 1);
-        player.setPlayerPosition(playerPosition);
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        player.setPlayerPosition(position);
 
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertTrue(result >= 0);
+        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MERLIN.getPlayerID());
+        assertEquals(expected, result >= 0);
     }
 
-    /**
-     * Tests the collision between player at position(0,2) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition02() throws DatabaseException
+    private static Object[][] testPlayerPositionSource()
     {
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(0, 2);
-        player.setPlayerPosition(playerPosition);
-
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertTrue(result >= 0);
-    }
-
-
-    /**
-     * Tests the collision between player at position(0,3) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition03() throws DatabaseException
-    {
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(0, 3);
-        player.setPlayerPosition(playerPosition);
-
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertFalse(result >= 0);
-    }
-
-    /**
-     * Tests the collision between player at position(1,0) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition10() throws DatabaseException
-    {
-
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(1, 0);
-        player.setPlayerPosition(playerPosition);
-
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertTrue(result >= 0);
-    }
-
-    /**
-     * Tests the collision between player at position(2,0) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition20() throws DatabaseException
-    {
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(2, 0);
-        player.setPlayerPosition(playerPosition);
-
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertTrue(result >= 0);
-    }
-
-    /**
-     * Tests the collision between player at position(3,0) and other objects on the same map
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void testPlayerPosition30() throws DatabaseException
-    {
-        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
-        Position playerPosition = new Position(3, 0);
-        player.setPlayerPosition(playerPosition);
-
-        int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
-        assertFalse(result >= 0);
+        return new Object[][] {
+                {new Position(0, 1), true},
+                {new Position(0, 2), true},
+                {new Position(0, 3), false},
+                {new Position(1, 0), true},
+                {new Position(2, 0), true},
+                {new Position(3, 0), false}
+        };
     }
 
     /**
@@ -205,5 +125,4 @@ public class InteractObjectManagerTest extends ServerSideTest
 
         assertEquals(player.getBuffPool(), 50);
     }
-
 }

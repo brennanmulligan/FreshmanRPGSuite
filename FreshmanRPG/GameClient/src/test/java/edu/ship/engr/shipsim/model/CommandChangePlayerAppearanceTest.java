@@ -5,29 +5,23 @@ import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.VanityType;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the functionality of CommandChangePlayerAppearance.
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
 public class CommandChangePlayerAppearanceTest
 {
-
-    /**
-     * Setup for testing.
-     */
-    @Before
-    public void setUp()
-    {
-        ClientPlayerManager.resetSingleton();
-    }
 
     /**
      * When this command is executed, the client player's appearance should be updated.

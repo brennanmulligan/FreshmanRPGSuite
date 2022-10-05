@@ -17,12 +17,11 @@ import java.util.Objects;
  */
 public class ClientPlayer
 {
-
-    protected final int id;
-    protected String name;
-    protected Position position;
-    protected List<VanityDTO> vanities;
-    protected List<VanityDTO> ownedItems;
+    private final int id;
+    private String name;
+    private Position position;
+    private List<VanityDTO> vanities;
+    private List<VanityDTO> ownedItems;
     private Crew crew;
     private Major major;
     private int section;
@@ -112,14 +111,22 @@ public class ClientPlayer
      */
     public void setVanityNoReport(List<VanityDTO> vanities)
     {
-        this.vanities = vanities;
+        setVanities(vanities, false);
     }
 
     public void setVanityReport(List<VanityDTO> vanities)
     {
+        setVanities(vanities, true);
+    }
+
+    private void setVanities(List<VanityDTO> vanities, boolean sendReport)
+    {
         this.vanities = vanities;
-        QualifiedObservableConnector.getSingleton()
-                .sendReport(new ChangePlayerAppearanceReport(this.id, vanities));
+
+        if (sendReport)
+        {
+            QualifiedObservableConnector.getSingleton().sendReport(new ChangePlayerAppearanceReport(this.id, vanities));
+        }
     }
 
     /**

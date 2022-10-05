@@ -1,42 +1,38 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.model.reports.NewMapReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
+@ResetQualifiedObservableConnector
 public class CommandNewMapTest
 {
 
     /**
-     *
-     */
-    @Before
-    public void setup()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
-    /**
-     *
+     * TODO: Add documentation
      */
     @Test
     public void testExecution()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        obs.receiveReport(EasyMock.isA(NewMapReport.class));
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                NewMapReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a NewMapReport is sent
+        connector.registerObserver(observer, NewMapReport.class);
 
         // setup the player
         ClientPlayerManager pm = ClientPlayerManager.getSingleton();
@@ -54,6 +50,9 @@ public class CommandNewMapTest
         CommandNewMap cmd = new CommandNewMap("simple.tmx", "JUST FOR TESTS");
         cmd.execute();
 
-        EasyMock.verify(obs);
+        MapManager mapManager = MapManager.getSingleton();
+        NewMapReport expectedReport = new NewMapReport(mapManager.getTiledMap());
+
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 }

@@ -4,18 +4,19 @@ import edu.ship.engr.shipsim.communication.messages.ObjectiveStateChangeMessage;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datatypes.*;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author sl6469
  */
-
+@GameTest("GameClient")
 public class CommandObjectiveStateChangeTest
 {
 

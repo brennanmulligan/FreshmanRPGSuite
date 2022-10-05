@@ -127,7 +127,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
         {
             TeleportHotSpot hotSpot = MapManager.getSingleton().getTeleportHotSpot(thePosition);
             QualifiedObservableConnector.getSingleton()
-                    .sendReport(new ChangeMapReport(id, hotSpot.getTeleportPosition(), hotSpot.getMapName()));
+                    .sendReport(new ChangeMapReport(getID(), hotSpot.getTeleportPosition(), hotSpot.getMapName()));
         }
     }
 

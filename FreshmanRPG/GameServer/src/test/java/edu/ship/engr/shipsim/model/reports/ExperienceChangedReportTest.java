@@ -2,15 +2,14 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.LevelManagerDTO;
 import edu.ship.engr.shipsim.datasource.LevelRecord;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QuestManager;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests the ExperienceChangedReport class functionality
@@ -18,17 +17,10 @@ import static org.junit.Assert.assertEquals;
  * @author Olivia
  * @author LaVonne
  */
-public class ExperienceChangedReportTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class ExperienceChangedReportTest
 {
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-    }
-
     /**
      * Tests that we can create a ExperienceChangedReport and get its experience
      * points and playerID

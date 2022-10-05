@@ -2,19 +2,20 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.NPCsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests required of all player gateways
  *
  * @author Merlin
  */
-public class NPCRowDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class NPCRowDataGatewayTest
 {
 
     protected NPCRowDataGateway gateway;
@@ -22,13 +23,14 @@ public class NPCRowDataGatewayTest extends ServerSideTest
     /**
      * make sure we get the right exception if we try to find someone who
      * doesn't exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findGateway(11111);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findGateway(11111);
+        });
     }
 
     /**
@@ -93,16 +95,16 @@ public class NPCRowDataGatewayTest extends ServerSideTest
 
     /**
      * Test that an exception is thrown
-     *
-     * @throws DatabaseException Should
      */
-    @Test(expected = DatabaseException.class)
-    public void testDuplicateNotAdded() throws DatabaseException
+    @Test
+    public void testDuplicateNotAdded()
     {
-        NPCsForTest testPlayer = NPCsForTest.NPC1;
+        assertThrows(DatabaseException.class, () ->
+        {
+            NPCsForTest testPlayer = NPCsForTest.NPC1;
 
-        new NPCRowDataGateway(testPlayer.getPlayerID(), testPlayer.getBehaviorClass(),
-                "");
+            new NPCRowDataGateway(testPlayer.getPlayerID(), testPlayer.getBehaviorClass(), "");
+        });
     }
 
     /**

@@ -1,26 +1,33 @@
 package edu.ship.engr.shipsim.datasource;
 
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@GameTest(value = "GameShared", createLogger = false)
 public class LoggerManagerTest
 {
 
-    @Before
+    @BeforeEach
     public void reinit()
     {
         LoggerManager.resetSingleton();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void cantCreateTwo()
     {
-        LoggerManager x = LoggerManager.createLogger("first");
-        x = LoggerManager.createLogger("second");
+        assertThrows(IllegalStateException.class, () ->
+        {
+            LoggerManager x = LoggerManager.createLogger("first");
+            x = LoggerManager.createLogger("second");
+        });
     }
 
     @Test
@@ -33,9 +40,12 @@ public class LoggerManagerTest
         System.out.println(in);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void haveToCreateIt()
     {
-        LoggerManager x = LoggerManager.getSingleton();
+        assertThrows(IllegalStateException.class, () ->
+        {
+            LoggerManager x = LoggerManager.getSingleton();
+        });
     }
 }

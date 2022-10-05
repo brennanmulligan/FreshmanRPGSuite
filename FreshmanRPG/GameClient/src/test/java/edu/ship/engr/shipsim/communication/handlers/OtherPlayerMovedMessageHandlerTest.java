@@ -3,37 +3,26 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.OtherPlayerMovedMessage;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.model.ClientModelFacade;
+import edu.ship.engr.shipsim.model.ClientModelTestUtilities;
+import edu.ship.engr.shipsim.model.CommandClientMovePlayer;
+import edu.ship.engr.shipsim.model.MapManager;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Andrew
  * <p>
  * Test to see if MovementMessagHandler properly works.
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class OtherPlayerMovedMessageHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * reset the singletons and tell the model we are running headless
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -68,7 +57,6 @@ public class OtherPlayerMovedMessageHandlerTest
         assertEquals(p, cmd.getPosition());
         assertFalse(cmd.isTeleporting());
         assertEquals(PlayersForTest.MATT.getPlayerID(), cmd.getPlayerID());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 
 }

@@ -4,17 +4,19 @@ import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
 import edu.ship.engr.shipsim.model.QualifiedObservableReport;
 import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
 import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport2;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test the non-abstract stuff in ScreenListener
  *
  * @author Merlin
  */
+@GameTest("GameClient")
 public class ScreenListenerTest
 {
     /**

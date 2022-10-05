@@ -1,57 +1,59 @@
 package edu.ship.engr.shipsim.model.cheatCodeBehaviors;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
+import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
 import edu.ship.engr.shipsim.model.QualifiedObserver;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectBuffReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the cheat code behavior that gives a player more buff
  *
  * @author merlin
  */
-public class BuffBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class BuffBehaviorTest
 {
-
-    /**
-     * We need to be in test mode and reset some singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QualifiedObservableConnector.resetSingleton();
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * The player should get the buff if they have typed in the correct chat message
      */
     @Test
     public void testGivesOnCorrectMessage()
     {
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).setBuffPool(0);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        // set up an observer to check for the report
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, InteractableObjectBuffReport.class);
-        obs.receiveReport(
-                new InteractableObjectBuffReport(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.BUFF_VALUE));
-        EasyMock.replay(obs);
+        // register the observer to be notified if an InteractableObjectBuffReport is sent
+        connector.registerObserver(observer, InteractableObjectBuffReport.class);
 
+        // add a player to the manager and set its buff pool to 0
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        player.setBuffPool(0);
+
+        // set up the behavior and give it a cheat
+        // that can send out an InteractableObjectBuffReport
         BuffBehavior behavior = new BuffBehavior();
         behavior.giveCheat(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.text);
-        assertEquals(BuffBehavior.BUFF_VALUE,
-                PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).getBuffPool());
 
-        EasyMock.verify(obs);
+        // verify that the player was given the buff
+        assertEquals(BuffBehavior.BUFF_VALUE, player.getBuffPool());
+
+        // set up the report to expect
+        InteractableObjectBuffReport expectedReport = new InteractableObjectBuffReport(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.BUFF_VALUE);
+
+        // verify that the observer received an InteractableObjectBuffReport
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -60,21 +62,31 @@ public class BuffBehaviorTest extends ServerSideTest
     @Test
     public void testAddBuffOnCorrectMessage()
     {
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).setBuffPool(3);
-        // set up an observer to check for the report
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, InteractableObjectBuffReport.class);
-        obs.receiveReport(
-                new InteractableObjectBuffReport(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.BUFF_VALUE - 3));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if an InteractableObjectBuffReport is sent
+        connector.registerObserver(observer, InteractableObjectBuffReport.class);
+
+        // add a player to the manager and set its buff pool to 0
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        player.setBuffPool(3);
+
+        // set up the report to expect
+        // since the player's buff pool is 3, the amount added would be the base value - 3
+        InteractableObjectBuffReport expectedReport = new InteractableObjectBuffReport(player.getPlayerID(), BuffBehavior.BUFF_VALUE - 3);
+
+        // set up the behavior and give it a cheat
+        // that can send out an InteractableObjectBuffReport
         BuffBehavior behavior = new BuffBehavior();
-        behavior.giveCheat(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.text);
-        assertEquals(BuffBehavior.BUFF_VALUE,
-                PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).getBuffPool());
+        behavior.giveCheat(player.getPlayerID(), BuffBehavior.text);
 
-        EasyMock.verify(obs);
+        // verify that the player is maxed at the buff value
+        assertEquals(BuffBehavior.BUFF_VALUE, player.getBuffPool());
+
+        // verify that the observer received an InteractableObjectBuffReport
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -84,19 +96,27 @@ public class BuffBehaviorTest extends ServerSideTest
     @Test
     public void testDontOverMaxBuffOnCorrectMessage()
     {
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID())
-                .setBuffPool(BuffBehavior.BUFF_VALUE + 3);
-        // set up an observer to check for the report
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, InteractableObjectBuffReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if an InteractableObjectBuffReport is sent
+        connector.registerObserver(observer, InteractableObjectBuffReport.class);
+
+        // add a player to the manager and set its buff pool to 0
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        player.setBuffPool(BuffBehavior.BUFF_VALUE + 3);
+
+        // set up the behavior and give it a cheat
+        // that can send out an InteractableObjectBuffReport
         BuffBehavior behavior = new BuffBehavior();
-        behavior.giveCheat(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.text);
-        assertEquals(BuffBehavior.BUFF_VALUE + 3,
-                PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).getBuffPool());
-        EasyMock.verify(obs);
+        behavior.giveCheat(player.getPlayerID(), BuffBehavior.text);
+
+        // verify that the player is still at their original buff value
+        assertEquals(BuffBehavior.BUFF_VALUE + 3, player.getBuffPool());
+
+        // verify that the observer never received an InteractableObjectBuffReport
+        verify(observer, never()).receiveReport(any(InteractableObjectBuffReport.class));
     }
 
     /**
@@ -105,19 +125,26 @@ public class BuffBehaviorTest extends ServerSideTest
     @Test
     public void testDoesntGiveBuffOnIncorrectMessage()
     {
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).setBuffPool(3);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        // set up an observer to check for the report
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, InteractableObjectBuffReport.class);
-        EasyMock.replay(obs);
+        // register the observer to be notified if an InteractableObjectBuffReport is sent
+        connector.registerObserver(observer, InteractableObjectBuffReport.class);
 
+        // add a player to the manager and set its buff pool to 0
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        player.setBuffPool(3);
+
+        // set up the behavior and give it a cheat
+        // that can send out an InteractableObjectBuffReport
         BuffBehavior behavior = new BuffBehavior();
-        behavior.giveCheat(PlayersForTest.MERLIN.getPlayerID(), BuffBehavior.text + "z");
-        assertEquals(3,
-                PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID()).getBuffPool());
+        behavior.giveCheat(player.getPlayerID(), BuffBehavior.text + "z");
 
-        EasyMock.verify(obs);
+        // verify that the player is maxed at the buff value
+        assertEquals(3, player.getBuffPool());
+
+        // verify that the observer never received an InteractableObjectBuffReport
+        verify(observer, never()).receiveReport(any(InteractableObjectBuffReport.class));
     }
 }

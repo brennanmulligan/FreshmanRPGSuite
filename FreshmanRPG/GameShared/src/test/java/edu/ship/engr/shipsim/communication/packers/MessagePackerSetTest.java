@@ -3,40 +3,29 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
 import edu.ship.engr.shipsim.model.QualifiedObservableReport;
 import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
 import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport2;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import java.net.ServerSocket;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests for the generic MessageProcessor
  *
  * @author merlin
  */
-public class MessagePackerSetTest extends ServerSideTest
+@GameTest("GameShared")
+@ResetQualifiedObservableConnector
+public class MessagePackerSetTest
 {
-
-    private ServerSocket servSock;
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Detects and registers all message packers in the same package the
      * MessagePackerSet is in. In this case, it should detect the packers that pack
@@ -76,9 +65,7 @@ public class MessagePackerSetTest extends ServerSideTest
     public void noSuchHandler() throws CommunicationException
     {
         MessagePackerSet set = new MessagePackerSet();
-
-        QualifiedObservableReport report = EasyMock.createMock(QualifiedObservableReport.class);
-
+        QualifiedObservableReport report = Mockito.mock(QualifiedObservableReport.class);
 
         ArrayList<Message> msgs = set.pack(report);
         assertEquals(0, msgs.size());
@@ -97,9 +84,8 @@ public class MessagePackerSetTest extends ServerSideTest
 
         // Set up observable and observer that are interested in the report our
         // mock packer is packing
-        StateAccumulator observer = EasyMock.createMock(StateAccumulator.class);
-        observer.receiveReport(EasyMock.isA(TestReport1.class));
-        EasyMock.replay(observer);
+        StateAccumulator observer = Mockito.mock(StateAccumulator.class);
+        observer.receiveReport(Mockito.isA(TestReport1.class));
 
         // register the packer, hook up the observers, then our notify should
         // give the update our observer is expecting
@@ -107,8 +93,6 @@ public class MessagePackerSetTest extends ServerSideTest
         set.hookUpObservationFor(observer);
         assertEquals(observer, packer.getAccumulator());
         QualifiedObservableConnector.getSingleton().sendReport(new TestReport1());
-
-        EasyMock.verify(observer);
     }
 
     /**
@@ -120,7 +104,7 @@ public class MessagePackerSetTest extends ServerSideTest
     {
         MessagePackerSet set = new MessagePackerSet();
         QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
-        StateAccumulator observer = EasyMock.createMock(StateAccumulator.class);
+        StateAccumulator observer = Mockito.mock(StateAccumulator.class);
         connector.registerObserver(observer, TestReport1.class);
         assertEquals(2, set.getCount());
         set.destroyAllObservables(observer);
@@ -146,7 +130,7 @@ public class MessagePackerSetTest extends ServerSideTest
         @Override
         public Message pack(QualifiedObservableReport object)
         {
-            return EasyMock.createMock(Message.class);
+            return Mockito.mock(Message.class);
         }
 
         /**

@@ -1,32 +1,28 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.datatypes.ServersForTest;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
 import edu.ship.engr.shipsim.model.reports.PlayerReadyToTeleportReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Merlin
  */
-public class CommandMovePlayerToAnotherMapAndPersistTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class CommandMovePlayerToAnotherMapAndPersistTest
 {
-
-    /**
-     * Reset PlayerManager
-     */
-    @Before
-    public void localSetup()
-    {
-        PlayerManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Update a player's position from id
      */
@@ -57,17 +53,19 @@ public class CommandMovePlayerToAnotherMapAndPersistTest extends ServerSideTest
     @Test
     public void doesntNotifyObservers()
     {
-        PlayerManager.getSingleton().addPlayer(1);
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerMovedReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        CommandMovePlayerToAnotherMapAndPersist
-                cmd = new CommandMovePlayerToAnotherMapAndPersist(1, "newMap",
-                new Position(4, 3));
+        // register the observer to be notified if a PlayerMovedReport is sent
+        connector.registerObserver(observer, PlayerMovedReport.class);
+
+        PlayerManager.getSingleton().addPlayer(1);
+
+        CommandMovePlayerToAnotherMapAndPersist cmd = new CommandMovePlayerToAnotherMapAndPersist(1, "newMap", new Position(4, 3));
         cmd.execute();
 
-        EasyMock.verify(obs);
+        verify(observer, never()).receiveReport(any(PlayerMovedReport.class));
     }
 
     /**
@@ -94,7 +92,8 @@ public class CommandMovePlayerToAnotherMapAndPersistTest extends ServerSideTest
         player.setAppearanceType("appearance");
 
         CommandMovePlayerToAnotherMapAndPersist
-                cmd = new CommandMovePlayerToAnotherMapAndPersist(player.getPlayerID(), "a map",
+                cmd = new CommandMovePlayerToAnotherMapAndPersist(player.getPlayerID(),
+                ServersForTest.CUB.getMapName(),
                 new Position(101, 101));
         cmd.execute();
 
@@ -111,19 +110,19 @@ public class CommandMovePlayerToAnotherMapAndPersistTest extends ServerSideTest
     @Test
     public void testSendsPlayerPersistedReport()
     {
-        int id = PlayersForTest.MERLIN.getPlayerID();
-        PlayerManager.getSingleton().addPlayer(id);
-        CommandMovePlayerToAnotherMapAndPersist
-                command = new CommandMovePlayerToAnotherMapAndPersist(id, "test map",
-                new Position(3, 5));
-        PlayerReadyToTeleportReport expected = new PlayerReadyToTeleportReport(id, "test map");
-        QualifiedObserver observer = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(observer, PlayerReadyToTeleportReport.class);
-        observer.receiveReport(expected);
-        EasyMock.replay(observer);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        assertTrue(command.execute());
-        EasyMock.verify(observer);
+        // register the observer to be notified if a PlayerReadyToTeleportReport is sent
+        connector.registerObserver(observer, PlayerReadyToTeleportReport.class);
+
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        CommandMovePlayerToAnotherMapAndPersist command = new CommandMovePlayerToAnotherMapAndPersist(PlayersForTest.MERLIN.getPlayerID(), "test map", new Position(3, 5));
+        command.execute();
+
+        verify(observer, times(1)).receiveReport(any(PlayerReadyToTeleportReport.class));
     }
 
 }

@@ -4,26 +4,29 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Josh
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
 public class CommandClientMovePlayerTest
 {
     /**
      * Create the passability map to simulate a map being loaded in.
      */
-    @Before
+    @BeforeEach
     public void setup()
     {
         boolean[][] passability =
@@ -32,17 +35,8 @@ public class CommandClientMovePlayerTest
                         {true, false, true},
                         {true, true, true}};
 
-        MapManager.getSingleton().setPassability(passability);
-    }
-
-    /**
-     * Reset the MapManager after we're done.
-     */
-    @After
-    public void cleanup()
-    {
         MapManager.resetSingleton();
-        ClientPlayerManager.resetSingleton();
+        MapManager.getSingleton().setPassability(passability);
     }
 
     /**

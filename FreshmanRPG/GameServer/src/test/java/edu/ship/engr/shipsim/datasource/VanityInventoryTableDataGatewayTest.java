@@ -2,19 +2,32 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.*;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the VanityTableDataGateway
  */
-public class VanityInventoryTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class VanityInventoryTableDataGatewayTest
 {
     protected VanityInventoryTableDataGateway gateway;
+
+    /**
+     * Get the right gateway and set up the gateway
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @BeforeEach
+    public void setup() throws DatabaseException
+    {
+        gateway = findGateway();
+    }
 
     /**
      * Test to make sure we can add an item to a player's inventory
@@ -164,17 +177,18 @@ public class VanityInventoryTableDataGatewayTest extends ServerSideTest
 
     /**
      * Test to make sure we can't add duplicate items to inventory
-     *
-     * @throws DatabaseException when a duplicate item is added
      */
-    @Test(expected = DatabaseException.class)
-    public void cantAddDuplicate() throws DatabaseException
+    @Test
+    public void cantAddDuplicate()
     {
-        ArrayList<VanityDTO> actualItems =
-                gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
-        VanityDTO item = actualItems.get(0);
-        assertTrue(actualItems.contains(item));
-        gateway.addItemToInventory(PlayersForTest.JOHN.getPlayerID(), item.getID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            ArrayList<VanityDTO> actualItems =
+                    gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
+            VanityDTO item = actualItems.get(0);
+            assertTrue(actualItems.contains(item));
+            gateway.addItemToInventory(PlayersForTest.JOHN.getPlayerID(), item.getID());
+        });
     }
 
     /**
@@ -257,36 +271,26 @@ public class VanityInventoryTableDataGatewayTest extends ServerSideTest
     }
 
     /**
-     * Get the right gateway and set up the gateway
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Before
-    public void setup() throws DatabaseException
-    {
-        gateway = findGateway();
-    }
-
-    /**
      * Test to make sure they can't put on something they don't own
-     *
-     * @throws DatabaseException when they try to put on something they don't own
      */
-    @Test(expected = DatabaseException.class)
-    public void wearButDoesNotOwn() throws DatabaseException
+    @Test
+    public void wearButDoesNotOwn()
     {
-        ArrayList<VanityDTO> actualItems =
-                gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
-        VanityDTO item = new VanityDTO(VanityItemsForTest.TUTOR_SHIRT.getId(),
-                VanityItemsForTest.TUTOR_SHIRT.getName(),
-                VanityItemsForTest.TUTOR_SHIRT.getDescription(),
-                VanityItemsForTest.TUTOR_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.TUTOR_SHIRT.getVanityType()),
-                VanityItemsForTest.TUTOR_SHIRT.getPrice());
-        assertFalse(actualItems.contains(item));
-        ArrayList<VanityDTO> newWearing = new ArrayList<>();
-        newWearing.add(item);
-        gateway.updateCurrentlyWearing(PlayersForTest.JOHN.getPlayerID(), newWearing);
+        assertThrows(DatabaseException.class, () ->
+        {
+            ArrayList<VanityDTO> actualItems =
+                    gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
+            VanityDTO item = new VanityDTO(VanityItemsForTest.TUTOR_SHIRT.getId(),
+                    VanityItemsForTest.TUTOR_SHIRT.getName(),
+                    VanityItemsForTest.TUTOR_SHIRT.getDescription(),
+                    VanityItemsForTest.TUTOR_SHIRT.getTextureName(),
+                    VanityType.fromInt(VanityItemsForTest.TUTOR_SHIRT.getVanityType()),
+                    VanityItemsForTest.TUTOR_SHIRT.getPrice());
+            assertFalse(actualItems.contains(item));
+            ArrayList<VanityDTO> newWearing = new ArrayList<>();
+            newWearing.add(item);
+            gateway.updateCurrentlyWearing(PlayersForTest.JOHN.getPlayerID(), newWearing);
+        });
     }
 
     VanityInventoryTableDataGateway findGateway() throws DatabaseException

@@ -1,30 +1,19 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ServersForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Merlin
  */
-public class MapToServerMappingTest extends ServerSideTest
+@GameTest("GameShared")
+public class MapToServerMappingTest
 {
-
     private MapToServerMapping map;
-
-    /**
-     * Initialize the necessary singletons
-     */
-    @Before
-    public void setup()
-    {
-        OptionsManager.resetSingleton();
-        OptionsManager.getSingleton().setTestMode(true);
-    }
 
     /**
      * Can retrieve one

@@ -4,14 +4,14 @@ import edu.ship.engr.shipsim.communication.handlers.LoginMessageHandlerTest;
 import edu.ship.engr.shipsim.model.PlayerLoginTest;
 import edu.ship.engr.shipsim.model.PlayerManagerTest;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReportTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Merlin
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
+@Suite
+@SelectClasses(
         {
                 // edu.ship.engr.shipsim.communication.handlers
                 LoginMessageHandlerTest.class,

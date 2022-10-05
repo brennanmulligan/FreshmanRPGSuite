@@ -3,18 +3,19 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests required of all player gateways
  *
  * @author Merlin
  */
-public class PlayerRowDataGatewayTest extends ServerSideTest
+@GameTest("GameShared")
+public class PlayerRowDataGatewayTest
 {
-
     protected PlayerRowDataGateway gateway;
 
     /**
@@ -94,30 +95,32 @@ public class PlayerRowDataGatewayTest extends ServerSideTest
     /**
      * make sure we get the right exception if we try to find someone who
      * doesn't exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findGateway(11111);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findGateway(11111);
+        });
     }
 
     /**
      * Should remove a row from the data source.
-     *
-     * @throws DatabaseException - should
      */
-    @Test(expected = DatabaseException.class)
-    public void removeTest() throws DatabaseException
+    @Test
+    public void removeTest()
     {
-        PlayersForTest player = PlayersForTest.MATT;
-        PlayerRowDataGateway gateway = findGateway(player.getPlayerID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            PlayersForTest player = PlayersForTest.MATT;
+            PlayerRowDataGateway gateway = findGateway(player.getPlayerID());
 
-        gateway.delete();
+            gateway.delete();
 
-        // should throw an exception because player now removed
-        findGateway(player.getPlayerID());
+            // should throw an exception because player now removed
+            findGateway(player.getPlayerID());
+        });
     }
 
 

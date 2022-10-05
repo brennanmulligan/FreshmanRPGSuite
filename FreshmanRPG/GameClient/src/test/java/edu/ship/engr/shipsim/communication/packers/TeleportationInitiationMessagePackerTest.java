@@ -3,14 +3,16 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.messages.TeleportationInitiationMessage;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.ChangeMapReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Matt
  * Make sure that the TeleportationInitiationMessagePacker behaves properly.
  */
+@GameTest("GameClient")
 public class TeleportationInitiationMessagePackerTest
 {
 

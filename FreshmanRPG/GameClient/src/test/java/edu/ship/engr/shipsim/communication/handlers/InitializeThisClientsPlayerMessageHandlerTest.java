@@ -10,38 +10,22 @@ import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Frank Schmidt
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class InitializeThisClientsPlayerMessageHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -56,12 +40,9 @@ public class InitializeThisClientsPlayerMessageHandlerTest
      * We should add a command to the ModelFacade command queue
      *
      * @throws InterruptedException  shouldn't
-     * @throws NotBoundException     shouldn't
-     * @throws AlreadyBoundException shouldn't
      */
     @Test
-    public void test() throws InterruptedException, AlreadyBoundException,
-            NotBoundException
+    public void test() throws InterruptedException
     {
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JOHN);
         InitializeThisClientsPlayerMessageHandler handler = new InitializeThisClientsPlayerMessageHandler();
@@ -115,7 +96,6 @@ public class InitializeThisClientsPlayerMessageHandlerTest
                 fail("Unexpected command in facade queue " + cmd);
             }
         }
-        facade.emptyQueue();
     }
 
 }

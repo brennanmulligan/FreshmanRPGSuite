@@ -1,25 +1,18 @@
 package edu.ship.engr.shipsim.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Matt and Andy
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
 public class CommandLoginFailedTest
 {
-
-    /**
-     * reset the player to make sure the login in cleat
-     */
-    @Before
-    public void setup()
-    {
-        ClientPlayerManager.resetSingleton();
-    }
-
     /**
      * We just need to tell the player to initiate this
      */

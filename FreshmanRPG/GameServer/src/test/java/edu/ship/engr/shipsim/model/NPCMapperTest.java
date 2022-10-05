@@ -3,17 +3,19 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.NPCsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test NPC Mappers
  *
  * @author Merlin
  */
+@GameTest("GameServer")
 public class NPCMapperTest extends PlayerMapperTest
 {
     /**

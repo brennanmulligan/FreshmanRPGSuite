@@ -2,15 +2,17 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.AreaCollisionMessage;
 import edu.ship.engr.shipsim.model.reports.AreaCollisionReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Dave
  * <p>
  * Make sure that the ChatMessagePacker behaves properly.
  */
+@GameTest("GameClient")
 public class AreaCollisionMessagePackerTest
 {
 

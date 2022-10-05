@@ -1,14 +1,22 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Array;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
 public class NewMapReportTest
 {
 
@@ -18,6 +26,11 @@ public class NewMapReportTest
     @Test
     public void creation()
     {
+        TiledMap mockedMap = mock(TiledMap.class);
+        NewMapReport newMapReport = new NewMapReport(mockedMap);
+
+        assertEquals(mockedMap, newMapReport.getTiledMap());
+        assertEquals(Objects.hash(mockedMap), newMapReport.hashCode());
     }
 
     /**

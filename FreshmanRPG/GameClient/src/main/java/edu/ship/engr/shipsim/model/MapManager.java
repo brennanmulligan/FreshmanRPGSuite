@@ -260,6 +260,14 @@ public class MapManager
     }
 
     /**
+     * @return the tiledMap object
+     */
+    public TiledMap getTiledMap()
+    {
+        return tiledMap;
+    }
+
+    /**
      * setting the Tiled map that is managed by this
      *
      * @param tiledMap TiledMap map

@@ -8,10 +8,8 @@ import edu.ship.engr.shipsim.datasource.*;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.BuffBehaviorTest;
 import edu.ship.engr.shipsim.model.reports.*;
-import org.junit.ClassRule;
-import org.junit.rules.ExternalResource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * All of the tests for the area servers code. Notice that the packages, and
@@ -22,8 +20,8 @@ import org.junit.runners.Suite;
  *
  * @author Merlin
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
+@Suite
+@SelectClasses(
         {
                 // communication.handlers
                 ObjectiveNotificationCompleteMessageHandlerTest.class,
@@ -136,26 +134,4 @@ import org.junit.runners.Suite;
 
 public class AllServerTests
 {
-    /**
-     * Make sure we default all of the PINs at the beginning of running the
-     * tests so that none will be expired
-     */
-    @ClassRule
-    public static ExternalResource testRule = new ExternalResource()
-    {
-        @Override
-        protected void before() throws Throwable
-        {
-            PlayerConnectionTest.defaultAllPins();
-            LoggerManager.createLogger("ServerTests");
-        }
-
-
-        @Override
-        protected void after()
-        {
-
-        }
-
-    };
 }

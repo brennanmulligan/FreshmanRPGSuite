@@ -1,16 +1,17 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Josh
  */
-public class ChatMessageReceivedCommandTest extends ServerSideTest
+@GameTest("GameServer")
+public class ChatMessageReceivedCommandTest
 {
 
     /**

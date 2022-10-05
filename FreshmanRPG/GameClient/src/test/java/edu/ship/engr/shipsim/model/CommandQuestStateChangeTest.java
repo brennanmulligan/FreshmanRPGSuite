@@ -2,16 +2,18 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.communication.messages.QuestStateChangeMessage;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Ryan
  */
+@GameTest("GameClient")
 public class CommandQuestStateChangeTest
 {
 

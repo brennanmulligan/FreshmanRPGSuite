@@ -2,18 +2,20 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.QuestionDTO;
 import edu.ship.engr.shipsim.datatypes.NPCQuestionsForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests required of all player gateways
  *
  * @author Merlin
  */
-public class NPCQuestionRowDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class NPCQuestionRowDataGatewayTest
 {
 
     protected NPCQuestionRowDataGateway gateway;
@@ -40,48 +42,49 @@ public class NPCQuestionRowDataGatewayTest extends ServerSideTest
 
     /**
      * Tests to see if we can delete a question from the database after creating one
-     *
-     * @throws DatabaseException Will be thrown when looking for a deleted question
      */
-    @Test(expected = DatabaseException.class)
-    public void deleteCreatedQuestion() throws DatabaseException
+    @Test
+    public void deleteCreatedQuestion()
     {
-        NPCQuestionRowDataGateway gateway = null;
-
-        try
+        assertThrows(DatabaseException.class, () ->
         {
-            gateway = new NPCQuestionRowDataGateway("hello?", "world.",
-                    LocalDate.of(2012, 2, 14), LocalDate.of(2018, 12, 15));
-        }
-        catch (DatabaseException e)
-        {
+            NPCQuestionRowDataGateway gateway = null;
 
-            fail("Creating a question failed when it shouldn't");
-        }
+            try
+            {
+                gateway = new NPCQuestionRowDataGateway("hello?", "world.",
+                        LocalDate.of(2012, 2, 14), LocalDate.of(2018, 12, 15));
+            }
+            catch (DatabaseException e)
+            {
+                fail("Creating a question failed when it shouldn't");
+            }
 
-        gateway.delete();
-        findGateway(gateway.getQuestionID());
+            gateway.delete();
+            findGateway(gateway.getQuestionID());
+        });
     }
 
     /**
      * Tests to see if we can delete a question from the database
-     *
-     * @throws DatabaseException will be thrown when looking for a deleted question
      */
-    @Test(expected = DatabaseException.class)
-    public void deleteQuestion() throws DatabaseException
+    @Test
+    public void deleteQuestion()
     {
-        try
+        assertThrows(DatabaseException.class, () ->
         {
-            gateway = findGateway(NPCQuestionsForTest.ONE.getQuestionID());
-        }
-        catch (DatabaseException e)
-        {
-            fail("An exception was thrown before the delete operation could be tested.");
-        }
+            try
+            {
+                gateway = findGateway(NPCQuestionsForTest.ONE.getQuestionID());
+            }
+            catch (DatabaseException e)
+            {
+                fail("An exception was thrown before the delete operation could be tested.");
+            }
 
-        gateway.delete();
-        findGateway(NPCQuestionsForTest.ONE.getQuestionID());
+            gateway.delete();
+            findGateway(NPCQuestionsForTest.ONE.getQuestionID());
+        });
     }
 
     /**
@@ -131,13 +134,14 @@ public class NPCQuestionRowDataGatewayTest extends ServerSideTest
     /**
      * make sure we get the right exception if we try to find someone who doesn't
      * exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findGateway(11111);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findGateway(11111);
+        });
     }
 
     /**

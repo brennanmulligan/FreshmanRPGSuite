@@ -1,48 +1,44 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.TerminalTextExitReport;
 import edu.ship.engr.shipsim.model.terminal.CommandTerminalTextExit;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import org.junit.jupiter.api.Test;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Test to ensure our command sends the ExitReport upon execution
  * <p>
  * Authors: John G. , Ian L.
  */
-public class CommandTerminalTextExitTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade
+public class CommandTerminalTextExitTest
 {
-
-    /**
-     * Setup the model facade for mock testing
-     */
-    @Before
-    public void localSetup()
-    {
-        ModelFacade.resetSingleton();
-        ModelFacade.getSingleton();
-    }
-
-
     /**
      * Test executing a remove player command
      */
     @Test
-    public void testExecution()
+    public void testExecution() throws ModelFacadeException
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        obs.receiveReport(EasyMock.isA(TerminalTextExitReport.class));
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                TerminalTextExitReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a TerminalTextExitReport is sent
+        connector.registerObserver(observer, TerminalTextExitReport.class);
+
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 
         CommandTerminalTextExit cmd = new CommandTerminalTextExit();
         cmd.execute(PlayersForTest.MERLIN.getPlayerID(), null);
 
-        EasyMock.verify(obs);
+        ModelFacadeTestHelper.waitForFacadeToProcess();
+
+        verify(observer, times(1)).receiveReport(any(TerminalTextExitReport.class));
     }
 
 

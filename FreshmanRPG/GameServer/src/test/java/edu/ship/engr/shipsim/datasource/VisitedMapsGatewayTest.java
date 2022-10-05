@@ -1,16 +1,18 @@
 package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
  */
-public class VisitedMapsGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class VisitedMapsGatewayTest
 {
 
     /**

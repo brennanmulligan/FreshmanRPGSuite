@@ -1,27 +1,29 @@
 package edu.ship.engr.shipsim.model;
 
+import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.ChangePlayerAppearanceReport;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.easymock.EasyMock;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the player class
  *
  * @author merlin
  */
+@GameTest("GameClient")
 public class ClientPlayerTest
 {
 
@@ -57,37 +59,52 @@ public class ClientPlayerTest
         assertEquals(Major.ELECTRICAL_ENGINEERING, p.getMajor());
     }
 
-    /**
-     * Make sure that we generate a report when changing the appearance should cause a report
-     * and that we don't when we shouldn't
-     */
     @Test
-    public void testAppearanceReportIsGenerated()
+    public void testSetVanityReport()
     {
-        VanityDTO vanityDTO = new VanityDTO();
-        List<VanityDTO> vanityDTOS = new ArrayList<>();
-        vanityDTOS.add(vanityDTO);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        obs.receiveReport(new ChangePlayerAppearanceReport(4, vanityDTOS));
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ChangePlayerAppearanceReport.class);
-        EasyMock.replay(obs);
+        // register the observer to be notified if a ChangePlayerAppearanceReport is sent
+        connector.registerObserver(observer, ChangePlayerAppearanceReport.class);
 
-        ClientPlayer p = new ClientPlayer(4);
-        p.setVanityReport(vanityDTOS);
-        EasyMock.verify(obs);
+        // create empty list because we need one
+        List<VanityDTO> vanities = Lists.newArrayList();
 
-        obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, ChangePlayerAppearanceReport.class);
-        EasyMock.replay(obs);
+        // create a player and call setVanityReport. This should send out a ChangePlayerAppearanceReport
+        ClientPlayer player = new ClientPlayer(4);
+        player.setVanityReport(vanities);
 
-        VanityDTO vanityDTO2 = new VanityDTO(0, "Hat", "", "", VanityType.BODY);
-        List<VanityDTO> vanityDTOS2 = new ArrayList<>();
-        vanityDTOS.add(vanityDTO);
+        // set up report for verification
+        ChangePlayerAppearanceReport expectedReport = new ChangePlayerAppearanceReport(player.getID(), vanities);
 
-        p = new ClientPlayer(4);
-        p.setVanityNoReport(vanityDTOS2);
-        EasyMock.verify(obs);
+        // since setVanityReport sends a report, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
+    }
+
+    @Test
+    public void testSetVanityNoReport()
+    {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a ChangePlayerAppearanceReport is sent
+        connector.registerObserver(observer, ChangePlayerAppearanceReport.class);
+
+        // create empty list because we need one
+        List<VanityDTO> vanities = Lists.newArrayList();
+
+        // create a player and call setVanityReport. This should not send out a ChangePlayerAppearanceReport
+        ClientPlayer player = new ClientPlayer(4);
+        player.setVanityNoReport(vanities);
+
+        // set up report for verification
+        ChangePlayerAppearanceReport expectedReport = new ChangePlayerAppearanceReport(player.getID(), vanities);
+
+        // since setVanityNoReport doesn't send a report, verify that the observer wasn't notified of it
+        verify(observer, never()).receiveReport(eq(expectedReport));
     }
 
     /**

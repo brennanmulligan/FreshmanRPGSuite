@@ -1,17 +1,18 @@
 package edu.ship.engr.shipsim.model.terminal;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for CommandTerminalTextWhoIs
  *
  * @author as3871
  */
-public class CommandTerminalTextWhoIsTest extends ServerSideTest
+@GameTest("GameServer")
+public class CommandTerminalTextWhoIsTest
 {
 
     /**
