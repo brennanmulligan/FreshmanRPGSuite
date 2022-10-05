@@ -2,19 +2,20 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.BuffMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectBuffReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the packer for Buff messages
  *
  * @author Elisabeth Ostrow, Stephen Clabaugh
  */
-public class InteractableObjectBuffMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractableObjectBuffMessagePackerTest
 {
 
     /**

@@ -1,7 +1,8 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
  *
  * @author Kevin Marek
  */
+@GameTest("GameClient")
 public class PDFPrizeWriterTest
 {
 

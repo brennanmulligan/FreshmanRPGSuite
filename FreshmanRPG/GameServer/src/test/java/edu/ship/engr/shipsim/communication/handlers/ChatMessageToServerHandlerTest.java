@@ -1,33 +1,23 @@
 package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToServer;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import edu.ship.engr.shipsim.model.ModelFacade;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testing the ChatMessageHandler
  *
  * @author Josh
  */
-
-public class ChatMessageToServerHandlerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade
+@ResetQualifiedObservableConnector
+public class ChatMessageToServerHandlerTest
 {
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void reset()
-    {
-        ModelFacade.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Tests that getTypeWeHandle method returns correct type.
      */

@@ -1,26 +1,18 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Merlin
  */
-public class CommandRemovePlayerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class CommandRemovePlayerTest
 {
-
-    /**
-     *
-     */
-    @Before
-    public void localSetup()
-    {
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * If we remove a player, the player manager and quest manager should forget
      * about it

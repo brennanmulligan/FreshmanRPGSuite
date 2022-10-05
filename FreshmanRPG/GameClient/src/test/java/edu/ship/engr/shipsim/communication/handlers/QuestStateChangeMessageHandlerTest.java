@@ -4,35 +4,20 @@ import edu.ship.engr.shipsim.communication.messages.QuestStateChangeMessage;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandQuestStateChange;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Ryan
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
 public class QuestStateChangeMessageHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Test the type of Message that we expect
      */

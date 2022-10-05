@@ -5,16 +5,19 @@ import edu.ship.engr.shipsim.criteria.InteractableItemActionParameter;
 import edu.ship.engr.shipsim.dataENUM.InteractableItemActionType;
 import edu.ship.engr.shipsim.datatypes.InteractableItemsForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for InteractableItemGateway
  *
  * @author Jake Moore, Elisabeth Ostrow
  */
-public class InteractableItemRowDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractableItemRowDataGatewayTest
 {
     // gateway instance
     private InteractableItemRowDataGateway gateway;
@@ -112,13 +115,14 @@ public class InteractableItemRowDataGatewayTest extends ServerSideTest
 
     /**
      * Tests exception thrown if id given does not correspond with an existing row
-     *
-     * @throws DatabaseException - if error
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        this.gateway = this.findGateway(11111);
+        assertThrows(DatabaseException.class, () ->
+        {
+            this.gateway = this.findGateway(11111);
+        });
     }
 
     /**
@@ -141,31 +145,31 @@ public class InteractableItemRowDataGatewayTest extends ServerSideTest
     /**
      * Tests remove correctly deletes a gateway and then tries to retrieve it
      * unsuccessfully
-     *
-     * @throws DatabaseException should throw when it tries to get gateway for row
-     *                           that is deleted
      */
-    @Test(expected = DatabaseException.class)
-    public void removeTest() throws DatabaseException
+    @Test
+    public void removeTest()
     {
-        InteractableItemsForTest item = InteractableItemsForTest.BOOK;
-        InteractableItemRowDataGateway gateway = this.findGateway(item.getItemID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            InteractableItemsForTest item = InteractableItemsForTest.BOOK;
+            InteractableItemRowDataGateway gateway = this.findGateway(item.getItemID());
 
-        gateway.delete();
+            gateway.delete();
 
-        this.findGateway(item.getItemID());
+            this.findGateway(item.getItemID());
+        });
     }
 
-    /**
-     * @throws DatabaseException if an error happened
-     */
-    @Test(expected = DatabaseException.class)
-    public void testDeletesCorrectItem() throws DatabaseException
+    @Test
+    public void testDeletesCorrectItem()
     {
-        InteractableItemRowDataGateway firstItem =
-                this.findGateway(InteractableItemsForTest.BOOK.getItemID());
-        firstItem.delete();
-        this.findGateway(InteractableItemsForTest.BOOK.getItemID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            InteractableItemRowDataGateway firstItem =
+                    this.findGateway(InteractableItemsForTest.BOOK.getItemID());
+            firstItem.delete();
+            this.findGateway(InteractableItemsForTest.BOOK.getItemID());
+        });
     }
 
     // finder

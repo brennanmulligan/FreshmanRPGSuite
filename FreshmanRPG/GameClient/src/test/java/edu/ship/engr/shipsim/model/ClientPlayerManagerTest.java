@@ -6,16 +6,21 @@ import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.LoginInitiatedReport;
 import edu.ship.engr.shipsim.model.reports.PlayerConnectedToAreaServerReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.apache.commons.compress.utils.Lists;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests the player manager to make sure it maintains the list of players
@@ -23,18 +28,11 @@ import static org.junit.Assert.*;
  *
  * @author merlin
  */
+@GameTest("GameClient")
+@ResetClientPlayerManager
+@ResetQualifiedObservableConnector
 public class ClientPlayerManagerTest
 {
-
-    /**
-     * Always start with a new singleton
-     */
-    @Before
-    public void reset()
-    {
-        ClientPlayerManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
 
     /**
      * There should be only one player
@@ -51,36 +49,34 @@ public class ClientPlayerManagerTest
     /**
      * Make sure we can add players and retrieve them by their player names
      */
-//	@Test
-//	public void canAddAndRetrievePlayers()
-//	{
-//		Position pos = new Position(1, 2);
-//		ClientPlayerManager pm = ClientPlayerManager.getSingleton();
-//		pm.initializePlayer(1, "Player 1", "Player 1 Body", "Player 1 Hat", pos,
-//				Crew.NULL_POINTER, Major.COMPUTER_ENGINEERING, 10);
-//		ClientPlayer player = pm.getPlayerFromID(1);
-//		assertEquals("Player 1", player.getName() );
-//		assertEquals("Player 1 Hat", player.getHatID());
-//		assertEquals("Player 1 Body", player.getBodyID());
-//		assertEquals(pos, player.getPosition());
-//		assertEquals(Crew.NULL_POINTER, player.getCrew());
-//		assertEquals(Major.COMPUTER_ENGINEERING, player.getMajor());
-//		assertEquals(10, player.getSection());
-//
-//
-//		//triangulate
-//		pm.initializePlayer(2, "Player 2", "Player 2 Body", "Player 2 Hat",
-//				new Position(2,3), Crew.OFF_BY_ONE, Major.COMPUTER_SCIENCE, 11);
-//		player = pm.getPlayerFromID(2);
-//		assertEquals("Player 2", player.getName() );
-//		assertEquals("Player 2 Hat", player.getHatID());
-//		assertEquals("Player 2 Body", player.getBodyID());
-//		assertEquals(new Position(2,3), player.getPosition());
-//		assertEquals(Crew.OFF_BY_ONE, player.getCrew());;
-//		assertEquals(Major.COMPUTER_SCIENCE, player.getMajor());
-//		assertEquals(11, player.getSection());
-//
-//	}
+    @RepeatedTest(10)
+    public void testInitializePlayers(RepetitionInfo info)
+    {
+        ClientPlayerManager manager = ClientPlayerManager.getSingleton();
+
+        // setup data for initialization and assertion
+        int playerId = info.getCurrentRepetition(); // uses the current test iteration as the player id
+        String playerName = "Awesome Player";
+        ArrayList<VanityDTO> vanities = Lists.newArrayList();
+        Position position = mock(Position.class);
+        Crew randomCrew = Crew.getRandomCrew();
+        Major randomMajor = Major.getRandomMajor();
+
+        // initialize the player in the manager
+        manager.initializePlayer(playerId, playerName, vanities, position, randomCrew, randomMajor, playerId);
+
+        // grab the player from the manager
+        ClientPlayer player = manager.getPlayerFromID(playerId);
+
+        // verify that the data is still the same
+        assertEquals(playerId, player.getID());
+        assertEquals(playerName, player.getName());
+        assertEquals(vanities, player.getVanities());
+        assertEquals(position, player.getPosition());
+        assertEquals(randomCrew, player.getCrew());
+        assertEquals(randomMajor, player.getMajor());
+        assertEquals(playerId, player.getSection());
+    }
 
     /**
      * Just make sure he remembers when a login is started
@@ -101,16 +97,21 @@ public class ClientPlayerManagerTest
     @Test
     public void notifiesOnLoginInitiation()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        LoginInitiatedReport report = new LoginInitiatedReport("Fred", "daddy");
-        QualifiedObservableConnector.getSingleton().registerObserver(obs,
-                LoginInitiatedReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if a LoginInitiatedReport is sent
+        connector.registerObserver(observer, LoginInitiatedReport.class);
+
+        // set up exception for later
+        LoginInitiatedReport expectedReport = new LoginInitiatedReport("Fred", "daddy");
+
+        // initialize a player login, which should send out a LoginInitiatedReport
         ClientPlayerManager.getSingleton().initiateLogin("Fred", "daddy");
 
-        EasyMock.verify(obs);
+        // since the ClientPlayerManager sent out a report, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -123,37 +124,23 @@ public class ClientPlayerManagerTest
         ClientPlayerManager pm = ClientPlayerManager.getSingleton();
 
         // test setting player without having tried logging in
-        try
+        assertThrows(NotBoundException.class, () ->
         {
             pm.finishLogin(1);
-        }
-        catch (AlreadyBoundException | NotBoundException e)
-        {
-            assertTrue(e instanceof NotBoundException);
-        }
+        }, "Player was already bound to player manager");
 
-        // test setting the player while trying to log in
-        try
+        assertDoesNotThrow(() ->
         {
             pm.initiateLogin("bilbo", "baggins");
             pm.finishLogin(1);
-        }
-        catch (AlreadyBoundException | NotBoundException e)
-        {
-            fail("Login should have been processed, and setting should work");
-        }
+        }, "Login should have been processed, and setting should work");
 
         // player shouldn't be able to be set after having logged in without
         // first logging out
-        try
+        assertThrows(AlreadyBoundException.class, () ->
         {
             pm.finishLogin(2);
-            fail("Login should have already occured and it should not allow a new player to be set");
-        }
-        catch (AlreadyBoundException | NotBoundException e)
-        {
-            assertTrue(e instanceof AlreadyBoundException);
-        }
+        }, "Player is already logged in.");
     }
 
     /**
@@ -162,21 +149,26 @@ public class ClientPlayerManagerTest
     @Test
     public void testInitializePlayerFiresReport()
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a PlayerConnectedToAreaServerReport is sent
+        connector.registerObserver(observer, PlayerConnectedToAreaServerReport.class);
+
         ClientPlayerManager pm = ClientPlayerManager.getSingleton();
         Position pos = new Position(1, 2);
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
         List<VanityDTO> vanityDTOS = new ArrayList<>();
         VanityDTO vanityDTO = new VanityDTO();
         vanityDTOS.add(vanityDTO);
-        PlayerConnectedToAreaServerReport report = new PlayerConnectedToAreaServerReport(
-                1, "Player 1", pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, false, vanityDTOS);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerConnectedToAreaServerReport.class);
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
 
-        pm.initializePlayer(1, "Player 1", vanityDTOS, pos,
-                Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 10);
+        // set up exception for later
+        PlayerConnectedToAreaServerReport expectedReport = new PlayerConnectedToAreaServerReport(1, "Player 1", pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, false, vanityDTOS);
 
-        EasyMock.verify(obs);
+        // initialize a player login, which should send out a PlayerConnectedToAreaServerReport
+        pm.initializePlayer(1, "Player 1", vanityDTOS, pos, Crew.FORTY_PERCENT, Major.COMPUTER_ENGINEERING, 10);
+
+        // since the ClientPlayerManager sent out a report, verify that the observer was notified of it
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 }

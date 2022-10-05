@@ -1,15 +1,16 @@
 package edu.ship.engr.shipsim.model.terminal;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Nathaniel and Ben
  */
-public class CommandTerminalTextLocationsTest extends ServerSideTest
+@GameTest("GameServer")
+public class CommandTerminalTextLocationsTest
 {
 
     /**

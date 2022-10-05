@@ -2,18 +2,19 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.FriendTableDataGateway;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * @author Joshua Wood , Evan Reese
  * Making sure that Friend Received Report is working correctly
  */
-public class FriendConnectionReceivedReportTest extends ServerSideTest
+@GameTest("GameServer")
+public class FriendConnectionReceivedReportTest
 {
     /**
      * Make sure the equals contract is obeyed

@@ -3,59 +3,67 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.DefaultItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the DefaultItemsTableDataGateway
  */
-public class DefaultItemsTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class DefaultItemsTableDataGatewayTest
 {
     protected DefaultItemsTableDataGateway gateway;
 
     /**
      * Tests to make sure we cannot add a duplicate default item
-     *
-     * @throws DatabaseException when duplicate item is added
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotAddDuplicateItem() throws DatabaseException
+    @Test
+    public void cannotAddDuplicateItem()
     {
-        ArrayList<Integer> itemsFromGateway =
-                getIDsFromVanityDTO(gateway.getDefaultItems());
-        gateway.addDefaultItem(itemsFromGateway.get(0));
+        assertThrows(DatabaseException.class, () ->
+        {
+            ArrayList<Integer> itemsFromGateway =
+                    getIDsFromVanityDTO(gateway.getDefaultItems());
+            gateway.addDefaultItem(itemsFromGateway.get(0));
+        });
     }
 
     /**
      * Tests to make sure we cannot add an invalid default item
-     *
-     * @throws DatabaseException when invalid item is added
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotAddInvalidVanityItem() throws DatabaseException
+    @Test
+    public void cannotAddInvalidVanityItem()
     {
-        gateway.addDefaultItem(-1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addDefaultItem(-1);
+        });
     }
 
     /**
      * Tests to make sure we cannot remove an invalid default item
-     *
-     * @throws DatabaseException when removing invalid item
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotRemoveInvalidItem() throws DatabaseException
+    @Test
+    public void cannotRemoveInvalidItem()
     {
-        gateway.removeDefaultItem(-1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.removeDefaultItem(-1);
+        });
     }
 
-    @Test(expected = DatabaseException.class)
-    public void cannotSetInvalidDefault() throws DatabaseException
+    @Test
+    public void cannotSetInvalidDefault()
     {
-        gateway.setDefaultWearing(-1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.setDefaultWearing(-1);
+        });
     }
 
     @Test
@@ -88,7 +96,7 @@ public class DefaultItemsTableDataGatewayTest extends ServerSideTest
      *
      * @throws DatabaseException shouldnt
      */
-    @Before
+    @BeforeEach
     public void setup() throws DatabaseException
     {
         gateway = findGateway();

@@ -8,22 +8,24 @@ import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.ClientModelTestUtilities;
 import edu.ship.engr.shipsim.model.ClientPlayerManager;
 import edu.ship.engr.shipsim.model.MapManager;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author nhydock
  */
+@GameTest("GameClient")
 public class ScreenMapInputTest
 {
 
     /**
      * Reset the player manager before starting testing
      */
-    @Before
+    @BeforeEach
     public void setup()
     {
         ClientPlayerManager.resetSingleton();
@@ -43,7 +45,7 @@ public class ScreenMapInputTest
      *                              interrupts
      */
     @Test
-    @Ignore
+    @Disabled
     public void testMovementCommandIssuing() throws InterruptedException
     {
         InputProcessor input = new ScreenMapInput();

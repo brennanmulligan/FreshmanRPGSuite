@@ -1,29 +1,20 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Merlin
  */
-public class CommandAddPlayerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+public class CommandAddPlayerTest
 {
-
-    /**
-     *
-     */
-    @Before
-    public void localSetup()
-    {
-        PlayerManager.resetSingleton();
-
-    }
-
     /**
      * If we add a player, the playermanager should know about it
      *

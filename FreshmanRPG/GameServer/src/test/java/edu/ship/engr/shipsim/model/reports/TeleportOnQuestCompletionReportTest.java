@@ -1,18 +1,19 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test to make sure the TeleportOnQuestFinishReport works
  *
  * @author Chris Hersh, Zach Thompson, Abdul
  */
-public class TeleportOnQuestCompletionReportTest extends ServerSideTest
+@GameTest("GameServer")
+public class TeleportOnQuestCompletionReportTest
 {
 
     /**

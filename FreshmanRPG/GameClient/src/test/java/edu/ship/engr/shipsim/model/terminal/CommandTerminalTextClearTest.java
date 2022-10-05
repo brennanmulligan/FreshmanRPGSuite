@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model.terminal;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Nathaniel and Nahesha
  */
+@GameTest("GameClient")
 public class CommandTerminalTextClearTest
 {
 

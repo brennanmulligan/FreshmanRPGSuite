@@ -4,34 +4,19 @@ import edu.ship.engr.shipsim.communication.messages.LoginFailedMessage;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.Command;
 import edu.ship.engr.shipsim.model.CommandLoginFailed;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Matt and Andy
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class LoginFailedMessageHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * We should add a command to the ModelFacade command queue
      *
@@ -46,7 +31,6 @@ public class LoginFailedMessageHandlerTest
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
         Command cmd = ClientModelFacade.getSingleton().getNextCommand();
         assertEquals(cmd.getClass(), CommandLoginFailed.class);
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 
     /**

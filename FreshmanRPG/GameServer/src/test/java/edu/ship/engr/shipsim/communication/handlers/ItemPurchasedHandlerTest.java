@@ -1,32 +1,22 @@
 package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.messages.ItemPurchasedMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
-import edu.ship.engr.shipsim.model.ModelFacade;
-import edu.ship.engr.shipsim.model.Player;
-import edu.ship.engr.shipsim.model.PlayerManager;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.model.*;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Josh Wood
  */
-public class ItemPurchasedHandlerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade(waitUntilEmpty = true)
+@ResetPlayerManager
+public class ItemPurchasedHandlerTest
 {
-
-    /**
-     * Reset the PlayerManager
-     */
-    @Before
-    public void reset()
-    {
-        PlayerManager.resetSingleton();
-        ModelFacade.resetSingleton();
-    }
-
     /**
      * Testing getTypeWeHandled method returns the correct type
      * .
@@ -42,9 +32,11 @@ public class ItemPurchasedHandlerTest extends ServerSideTest
 
     /**
      * checking and seeing if points have been spent by a player or not
+     *
+     * @throws ModelFacadeException Shouldn't
      */
     @Test
-    public void doubloonsSpent() throws InterruptedException
+    public void doubloonsSpent() throws ModelFacadeException
     {
         int playerID = 7;
         int price = 2;
@@ -60,15 +52,9 @@ public class ItemPurchasedHandlerTest extends ServerSideTest
         ItemPurchasedHandler handler = new ItemPurchasedHandler();
 
         handler.process(msg);
-        int count = 0;
-        while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
-        {
-            Thread.sleep(100);
-            count++;
-        }
-        assertTrue("ModelFacade didn't process our command", count < 10);
+
+        ModelFacadeTestHelper.waitForFacadeToProcess();
+
         assertEquals(startingScore - price, p.getQuizScore());
-
-
     }
 }

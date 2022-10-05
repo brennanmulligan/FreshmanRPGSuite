@@ -3,35 +3,19 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.BuffMessage;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandDisplayText;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Emmanuel Douge, Elisabeth Ostrow
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
 public class BuffMessageHandlerTest
 {
-
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setup()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -52,15 +36,17 @@ public class BuffMessageHandlerTest
     @Test
     public void test() throws InterruptedException
     {
+        ClientModelFacade modelFacade = ClientModelFacade.getSingleton();
         BuffMessageHandler display = new BuffMessageHandler();
         BuffMessage text = new BuffMessage(1, 10);
+
         display.process(text);
-        assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
 
-        CommandDisplayText cmd = (CommandDisplayText) ClientModelFacade.getSingleton().getNextCommand();
+        assertEquals(1, modelFacade.getCommandQueueLength());
+
+        CommandDisplayText cmd = (CommandDisplayText) modelFacade.getNextCommand();
+
         assertEquals("You have received 10 Rec Center Bonus Points.", cmd.getText());
-        ClientModelFacade.getSingleton().emptyQueue();
-
     }
 
 }

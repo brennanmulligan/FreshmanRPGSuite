@@ -1,17 +1,19 @@
 package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Merlin Tests for all of the Player Login row data gateways
  */
-public class PlayerLoginRowDataGatewayTest extends ServerSideTest
+@GameTest("GameShared")
+public class PlayerLoginRowDataGatewayTest
 {
 
     /**
@@ -49,15 +51,16 @@ public class PlayerLoginRowDataGatewayTest extends ServerSideTest
     /**
      * tests that a person is deleted by their id,
      * if person is searched again, expect to catch exception
-     *
-     * @throws DatabaseException SHOULD THROW BECAUSE ROW IS DELETED
      */
-    @Test(expected = DatabaseException.class)
-    public void testDeleteRow() throws DatabaseException
+    @Test
+    public void testDeleteRow()
     {
-        PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway(20);
-        loginRowDataGateway.deleteRow();
-        new PlayerLoginRowDataGateway(20);
+        assertThrows(DatabaseException.class, () ->
+        {
+            PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway(20);
+            loginRowDataGateway.deleteRow();
+            new PlayerLoginRowDataGateway(20);
+        });
     }
 
     /**
@@ -117,16 +120,17 @@ public class PlayerLoginRowDataGatewayTest extends ServerSideTest
 
     /**
      * Try to create a row for a map file that is already in the database
-     *
-     * @throws DatabaseException shouldn't
      */
-    @Test(expected = DatabaseException.class)
-    public void createExisting() throws DatabaseException
+    @Test
+    public void createExisting()
     {
-        gateway = createRowDataGateway(
-                PlayersForTest.MERLIN.getPlayerID(),
-                PlayersForTest.MERLIN.getPlayerName(),
-                PlayersForTest.MERLIN.getPlayerPassword());
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = createRowDataGateway(
+                    PlayersForTest.MERLIN.getPlayerID(),
+                    PlayersForTest.MERLIN.getPlayerName(),
+                    PlayersForTest.MERLIN.getPlayerPassword());
+        });
     }
 
     /**
@@ -160,13 +164,14 @@ public class PlayerLoginRowDataGatewayTest extends ServerSideTest
     /**
      * make sure we get the right exception if we try to find someone who
      * doesn't exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findRowDataGateway("no one");
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findRowDataGateway("no one");
+        });
     }
 
     /**

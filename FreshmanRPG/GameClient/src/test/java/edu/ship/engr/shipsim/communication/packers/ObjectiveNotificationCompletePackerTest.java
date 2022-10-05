@@ -1,15 +1,17 @@
 package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.model.reports.ObjectiveNotificationCompleteReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for ObjectiveNotificationCompletePacker
  *
  * @author Ryan
  */
+@GameTest("GameClient")
 public class ObjectiveNotificationCompletePackerTest
 {
 

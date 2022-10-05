@@ -2,18 +2,19 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.ReceiveTerminalTextMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.ReceiveTerminalTextReport;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Denny Fleagle
  * @author Chris Roadcap
  */
-public class ReceiveTerminalTextMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class ReceiveTerminalTextMessagePackerTest
 {
     /**
      * Test the packing ability

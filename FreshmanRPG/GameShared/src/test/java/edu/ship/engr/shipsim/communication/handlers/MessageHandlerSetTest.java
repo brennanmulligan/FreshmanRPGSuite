@@ -5,19 +5,21 @@ import edu.ship.engr.shipsim.communication.ConnectionManager;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.StubMessage1;
 import edu.ship.engr.shipsim.communication.messages.StubMessage2;
-import org.easymock.EasyMock;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Collection;
-import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for the generic MessageProcessor
  *
  * @author merlin
  */
+@GameTest("GameShared")
 public class MessageHandlerSetTest
 {
 
@@ -41,18 +43,17 @@ public class MessageHandlerSetTest
     /**
      * If there isn't any handler for the type of message, an exception should
      * be thrown
-     *
-     * @throws CommunicationException should
      */
-    @Test(expected = CommunicationException.class)
-    public void noSuchHandler() throws CommunicationException
+    @Test
+    public void noSuchHandler()
     {
-        MessageHandlerSet proc = new MessageHandlerSet(null);
-        Message msg = EasyMock.createMock(Message.class);
-        EasyMock.replay(msg);
+        assertThrows(CommunicationException.class, () ->
+        {
+            MessageHandlerSet proc = new MessageHandlerSet(null);
+            Message msg = Mockito.mock(Message.class);
 
-        proc.process(msg);
-
+            proc.process(msg);
+        });
     }
 
     /**
@@ -62,15 +63,13 @@ public class MessageHandlerSetTest
     @Test
     public void accumulatorIsBroadcast()
     {
-        ConnectionManager cm = EasyMock.createMock(ConnectionManager.class);
+        ConnectionManager cm = Mockito.mock(ConnectionManager.class);
         MessageHandlerSet proc = new MessageHandlerSet(null);
         proc.setConnectionManager(cm);
 
         Collection<MessageHandler> handlers = proc.getHandlers();
-        Iterator<MessageHandler> i = handlers.iterator();
-        while (i.hasNext())
+        for (MessageHandler h : handlers)
         {
-            MessageHandler h = i.next();
             assertEquals(cm, h.getConnectionManager());
         }
     }

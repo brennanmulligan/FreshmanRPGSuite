@@ -1,23 +1,26 @@
 package edu.ship.engr.shipsim.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Merlin
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
 public class ModelFacadeTest
 {
 
     /**
      * reset the necessary singletons
      */
-    @Before
+    @BeforeEach
     public void setup()
     {
-        ClientModelFacade.resetSingleton();
         MapManager.resetSingleton();
     }
 

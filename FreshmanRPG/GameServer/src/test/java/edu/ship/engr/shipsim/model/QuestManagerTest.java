@@ -3,27 +3,28 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.FriendTableDataGateway;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.*;
 import edu.ship.engr.shipsim.model.reports.*;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test for the quest manager getting quests and objectives from database
  *
  * @author lavonnediller
  */
-public class QuestManagerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQuestManager
+@ResetInteractObjectManager
+@ResetQualifiedObservableConnector
+public class QuestManagerTest
 {
-
-    private PlayerManager playerManager;
-
     /**
      * When a player moves to the right place, should complete objective
      */
@@ -38,7 +39,7 @@ public class QuestManagerTest extends ServerSideTest
         GameLocationDTO location =
                 (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
         Position pos = location.getPosition();
-        Player paul = playerManager.addPlayer(8);
+        Player paul = PlayerManager.getSingleton().addPlayer(8);
         paul.setPlayerPosition(pos);
         paul.setPlayerPosition(new Position(0, 0));
         paul.setPlayerPosition(pos);
@@ -76,7 +77,7 @@ public class QuestManagerTest extends ServerSideTest
         GameLocationDTO location =
                 (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
         Position pos = location.getPosition();
-        Player paul = playerManager.addPlayer(8);
+        Player paul = PlayerManager.getSingleton().addPlayer(8);
         paul.setPlayerPosition(pos);
         assertEquals(ObjectiveStateEnum.COMPLETED,
                 QuestManager.getSingleton()
@@ -102,20 +103,6 @@ public class QuestManagerTest extends ServerSideTest
                 QuestManager.getSingleton().getObjectivesByPosition(pos, mapName);
         assertEquals(ObjectivesForTest.QUEST2_OBJECTIVE2.getObjectiveDescription(),
                 list.get(0).getObjectiveDescription());
-    }
-
-    /**
-     * Set up Options Manager, run in TestMode
-     */
-    @Before
-    public void localSetUp()
-    {
-        QualifiedObservableConnector.resetSingleton();
-        PlayerManager.resetSingleton();
-        playerManager = PlayerManager.getSingleton();
-        QuestManager.resetSingleton();
-        QuestManager.getSingleton();
-        InteractObjectManager.resetSingleton();
     }
 
     /**
@@ -164,7 +151,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void simulateCompletingAQuest()
     {
-        Player hersh = playerManager.addPlayer(PlayersForTest.HERSH.getPlayerID());
+        Player hersh = PlayerManager.getSingleton().addPlayer(PlayersForTest.HERSH.getPlayerID());
 
         // completing the first objective will fulfill the quest
         GameLocationDTO completionCriteria =
@@ -214,7 +201,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void testAddQuests()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
         QuestState quest = new QuestState(1, 1, QuestStateEnum.AVAILABLE, false);
         QuestManager.getSingleton().addQuestState(p.getPlayerID(), quest);
 
@@ -238,7 +225,7 @@ public class QuestManagerTest extends ServerSideTest
         int questID = 3;
         int objectiveID = 1;
 
-        Player p = playerManager.addPlayer(playerID);
+        Player p = PlayerManager.getSingleton().addPlayer(playerID);
         QuestState qs =
                 QuestManager.getSingleton().getQuestStateByID(p.getPlayerID(), questID);
         ObjectiveState as = QuestManager.getSingleton()
@@ -261,9 +248,9 @@ public class QuestManagerTest extends ServerSideTest
     public void testCompleteObjectiveByChatting()
     {
         int playerToTest = PlayersForTest.MARTY.getPlayerID();
-        Player playerOne = playerManager.addPlayer(playerToTest);
+        Player playerOne = PlayerManager.getSingleton().addPlayer(playerToTest);
 
-        Player toTalkTo = playerManager.addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
+        Player toTalkTo = PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
         Position playerOnePosition =
                 new Position(toTalkTo.getPlayerPosition().getRow() + 1,
                         toTalkTo.getPlayerPosition().getColumn() + 1);
@@ -286,7 +273,7 @@ public class QuestManagerTest extends ServerSideTest
         int playerToTest = PlayersForTest.JEFF.getPlayerID();
         int questID = ObjectivesForTest.RESPONSE_FROM_MOWREY_NPC.getQuestID();
         int objectiveID = ObjectivesForTest.RESPONSE_FROM_MOWREY_NPC.getObjectiveID();
-        Player playerOne = playerManager.addPlayer(playerToTest);
+        Player playerOne = PlayerManager.getSingleton().addPlayer(playerToTest);
 
         // Sets the quest state
         QuestState qs =
@@ -306,7 +293,7 @@ public class QuestManagerTest extends ServerSideTest
         // Verified that the objective state is still set to triggered
         assertEquals(ObjectiveStateEnum.TRIGGERED, objectiveStateByID.getState());
 
-        Player toTalkTo = playerManager.addPlayer(
+        Player toTalkTo = PlayerManager.getSingleton().addPlayer(
                 PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
         playerOne.setMapName("mowrey.tmx");
         Position playerOnePosition =
@@ -343,7 +330,7 @@ public class QuestManagerTest extends ServerSideTest
     {
         int playerID = PlayersForTest.JOSH.getPlayerID();
         int questID = 4;
-        Player p = playerManager.addPlayer(playerID);
+        Player p = PlayerManager.getSingleton().addPlayer(playerID);
         int initialExp = p.getExperiencePoints();
 
         ObjectiveState as = new ObjectiveState(2, ObjectiveStateEnum.TRIGGERED, false);
@@ -373,7 +360,7 @@ public class QuestManagerTest extends ServerSideTest
         int questID = ObjectivesForTest.ONRAMPING_PRESS_Q.getQuestID();
         int objectiveID = ObjectivesForTest.ONRAMPING_PRESS_Q.getObjectiveID();
 
-        Player p = playerManager.addPlayer(playerID);
+        Player p = PlayerManager.getSingleton().addPlayer(playerID);
         QuestState qs =
                 QuestManager.getSingleton().getQuestStateByID(p.getPlayerID(), questID);
         qs.setPlayerID(playerID);
@@ -397,36 +384,38 @@ public class QuestManagerTest extends ServerSideTest
      *
      * @throws IllegalQuestChangeException thrown if illegal state change
      * @throws DatabaseException           the state changed illegally
+     *
+     * @author Derek Williams
      */
     @Test
     public void testFinishQuest() throws IllegalQuestChangeException, DatabaseException
     {
-        int playerID = 2;
-        int questID = 4;
-        Player p = playerManager.addPlayer(playerID);
-        QuestState qs = QuestManager.getSingleton().getQuestStateByID(playerID, questID);
-        qs.setPlayerID(playerID);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        GameLocationDTO gl =
-                (GameLocationDTO) QuestsForTest.THE_LITTLE_QUEST.getCompletionActionParameter();
-        MapToServerMapping mapping = new MapToServerMapping(gl.getMapName());
+        // register the observer to be notified if a TeleportOnQuestCompletionReport is sent
+        connector.registerObserver(observer, TeleportOnQuestCompletionReport.class);
 
-        TeleportOnQuestCompletionReport report =
-                new TeleportOnQuestCompletionReport(playerID, questID, gl,
-                        mapping.getHostName(), mapping.getPortNumber());
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
+        // retrieve objects from database
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        QuestRecord quest = QuestManager.getSingleton().getQuest(QuestsForTest.THE_LITTLE_QUEST.getQuestID());
 
-        QualifiedObservableConnector.getSingleton()
-                .registerObserver(obs, TeleportOnQuestCompletionReport.class);
+        // setup the expected TeleportationOnQuestCompletionReport
+        GameLocationDTO gameLocation = (GameLocationDTO) QuestsForTest.THE_LITTLE_QUEST.getCompletionActionParameter();
+        MapToServerMapping mapping = new MapToServerMapping(gameLocation.getMapName());
+        TeleportOnQuestCompletionReport expectedReport = new TeleportOnQuestCompletionReport(player.getPlayerID(), quest.getQuestID(), gameLocation, mapping.getHostName(), mapping.getPortNumber());
 
-        obs.receiveReport(EasyMock.eq(report));
-        EasyMock.replay(obs);
+        // setup the quest state to be completed
+        QuestState questState = QuestManager.getSingleton().getQuestStateByID(player.getPlayerID(), quest.getQuestID());
+        questState.setPlayerID(player.getPlayerID());
 
-        QuestManager.getSingleton().completeQuest(p.getPlayerID(), qs.getID());
+        // complete the quest for the player, which should send out a TeleportationOnQuestCompletionReport
+        // at the end of "The Little Quest", the player is teleported
+        QuestManager.getSingleton().completeQuest(player.getPlayerID(), questState.getID());
 
-        assertEquals(QuestStateEnum.COMPLETED, qs.getStateValue());
-
-        EasyMock.verify(obs);
+        // since the player completed the question, verify that the observer was notified with a TeleportationOnQuestCompletionReport
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -444,7 +433,7 @@ public class QuestManagerTest extends ServerSideTest
     {
         int playerID = PlayersForTest.JOSH.getPlayerID();
         int questID = 3;
-        Player p = playerManager.addPlayer(playerID);
+        Player p = PlayerManager.getSingleton().addPlayer(playerID);
         int initialExp = p.getExperiencePoints();
         assertEquals(initialExp, PlayersForTest.JOSH.getExperiencePoints());
         int expGain =
@@ -462,7 +451,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void testGetQuestStateByIDWhenQuestStateIsAvilable()
     {
-        playerManager.addPlayer(19);
+        PlayerManager.getSingleton().addPlayer(19);
         QuestState questState = QuestManager.getSingleton().getQuestStateByID(19, 7);
         assertEquals(7, questState.getID());
         assertEquals(QuestStateEnum.EXPIRED, questState.getStateValue());
@@ -474,7 +463,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void testGetQuestStateByIDWhenQuestStateIsCompleted()
     {
-        playerManager.addPlayer(19);
+        PlayerManager.getSingleton().addPlayer(19);
         QuestState questState = QuestManager.getSingleton().getQuestStateByID(19, 9);
         assertEquals(9, questState.getID());
         assertEquals(QuestStateEnum.COMPLETED, questState.getStateValue());
@@ -486,7 +475,7 @@ public class QuestManagerTest extends ServerSideTest
     @Test
     public void testGetQuestStateByIDWhenQuestStateIsExpired()
     {
-        playerManager.addPlayer(19);
+        PlayerManager.getSingleton().addPlayer(19);
         QuestState questState = QuestManager.getSingleton().getQuestStateByID(19, 8);
         assertEquals(8, questState.getID());
         assertEquals(QuestStateEnum.EXPIRED, questState.getStateValue());
@@ -696,7 +685,7 @@ public class QuestManagerTest extends ServerSideTest
         int questID = 10;
         int objectiveID = 1;
 
-        Player p = playerManager.addPlayer(playerID);
+        Player p = PlayerManager.getSingleton().addPlayer(playerID);
 
         QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
@@ -736,8 +725,8 @@ public class QuestManagerTest extends ServerSideTest
         int playerIDD = PlayersForTest.JOHN.getPlayerID();
         int questID = ObjectivesForTest.QUEST_14_OBJECTIVE_1.getQuestID();
         int objectiveID = ObjectivesForTest.QUEST_14_OBJECTIVE_1.getObjectiveID();
-        Player merlin = playerManager.addPlayer(playerID);
-        Player john = playerManager.addPlayer(playerIDD);
+        Player merlin = PlayerManager.getSingleton().addPlayer(playerID);
+        Player john = PlayerManager.getSingleton().addPlayer(playerIDD);
 
         // Sets the quest state
         QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
@@ -807,7 +796,7 @@ public class QuestManagerTest extends ServerSideTest
         int playerID = PlayersForTest.NICK.getPlayerID();
         int questID = ObjectivesForTest.QUEST12_OBJECTIVE_1.getQuestID();
         int objectiveID = ObjectivesForTest.QUEST12_OBJECTIVE_1.getObjectiveID();
-        Player nick = playerManager.addPlayer(playerID);
+        Player nick = PlayerManager.getSingleton().addPlayer(playerID);
 
         // Sets the quest state
         QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
@@ -850,9 +839,9 @@ public class QuestManagerTest extends ServerSideTest
         int playerIDT = PlayersForTest.JOSH.getPlayerID();
         int questID = ObjectivesForTest.QUEST_15_OBJECTIVE_1.getQuestID();
         int objectiveID = ObjectivesForTest.QUEST_15_OBJECTIVE_1.getObjectiveID();
-        Player merlin = playerManager.addPlayer(playerID);
-        Player john = playerManager.addPlayer(playerIDD);
-        Player josh = playerManager.addPlayer(playerIDT);
+        Player merlin = PlayerManager.getSingleton().addPlayer(playerID);
+        Player john = PlayerManager.getSingleton().addPlayer(playerIDD);
+        Player josh = PlayerManager.getSingleton().addPlayer(playerIDT);
         // Sets the quest state
         QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
@@ -909,7 +898,7 @@ public class QuestManagerTest extends ServerSideTest
         int questID = ObjectivesForTest.ONRAMPING_TERMINAL_MAN.getQuestID();
         int objectiveID = ObjectivesForTest.ONRAMPING_TERMINAL_MAN.getObjectiveID();
 
-        playerManager.addPlayer(playerID);
+        PlayerManager.getSingleton().addPlayer(playerID);
 
         QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
@@ -970,9 +959,9 @@ public class QuestManagerTest extends ServerSideTest
     public void testNotCompleteObjectiveByChattingOutsideOfRange()
     {
         int playerToTest = PlayersForTest.MARTY.getPlayerID();
-        Player playerOne = playerManager.addPlayer(playerToTest);
+        Player playerOne = PlayerManager.getSingleton().addPlayer(playerToTest);
 
-        Player toTalkTo = playerManager.addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
+        Player toTalkTo = PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
         Position playerOnePosition =
                 new Position(toTalkTo.getPlayerPosition().getRow() + 6,
                         toTalkTo.getPlayerPosition().getColumn() + 6);
@@ -997,7 +986,7 @@ public class QuestManagerTest extends ServerSideTest
     {
         Position pos1 = new Position(1, 1);
         Position pos2 = QuestsForTest.THE_LITTLE_QUEST.getPosition();
-        Player p = playerManager.addPlayer(4);
+        Player p = PlayerManager.getSingleton().addPlayer(4);
         p.setMapName(QuestsForTest.THE_LITTLE_QUEST.getMapName());
         p.setPlayerPosition(pos1);
         QuestManager one = QuestManager.getSingleton();
@@ -1027,7 +1016,7 @@ public class QuestManagerTest extends ServerSideTest
             throws IllegalObjectiveChangeException, IllegalQuestChangeException,
             DatabaseException
     {
-        Player p = playerManager.addPlayer(7);
+        Player p = PlayerManager.getSingleton().addPlayer(7);
         assertEquals(QuestStateEnum.AVAILABLE, QuestManager.getSingleton()
                 .getQuestStateByID(p.getPlayerID(),
                         QuestStatesForTest.PLAYER7_QUEST2.getQuestID()).getStateValue());
@@ -1041,15 +1030,16 @@ public class QuestManagerTest extends ServerSideTest
 
     /**
      * A Database Exception should be thrown if a quest id does not exist
-     *
-     * @throws DatabaseException throw an exception if the quest id isn't found
      */
     @SuppressWarnings("unused")
-    @Test(expected = DatabaseException.class)
-    public void testQuestDoesNotExits() throws DatabaseException
+    @Test
+    public void testQuestDoesNotExits()
     {
-        QuestManager qm = QuestManager.getSingleton();
-        QuestRecord quest1 = qm.getQuest(1000);
+        assertThrows(DatabaseException.class, () ->
+        {
+            QuestManager qm = QuestManager.getSingleton();
+            QuestRecord quest1 = qm.getQuest(1000);
+        });
     }
 
     /**
@@ -1059,7 +1049,7 @@ public class QuestManagerTest extends ServerSideTest
     public void triggersOnPlayerMovement()
     {
         OptionsManager.getSingleton().setMapFileTitle(ServersForTest.QUAD.getMapName());
-        Player p = playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
         p.setPlayerPosition(QuestsForTest.ONE_BIG_QUEST.getPosition());
         assertEquals(QuestStateEnum.TRIGGERED, QuestManager.getSingleton()
                 .getQuestStateByID(p.getPlayerID(),

@@ -1,43 +1,40 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.reports.ChatMessageReceivedReport;
+import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.model.reports.NPCChatReport;
-import org.easymock.Capture;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Joshua Ktyal
  * <p>
  * Make sure that the RoamingInfoNPCBehavior acts as expected
  */
-public class RoamingInfoNPCBehaviorTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetChatManager
+@ResetQualifiedObservableConnector
+public class RoamingInfoNPCBehaviorTest
 {
 
     private RoamingInfoNPCBehavior behavior;
     private Player player;
 
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
-        behavior =
-                new RoamingInfoNPCBehavior(
-                        PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
-
-        player =
-                PlayerManager.getSingleton().addPlayer(PlayersForTest.JOHN.getPlayerID());
-        PlayerManager.getSingleton()
-                .addPlayer(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
-        QualifiedObservableConnector.resetSingleton();
-        ChatManager.resetSingleton();
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MOWREY_FRONTDESK_NPC.getMapName());
+        behavior = new RoamingInfoNPCBehavior(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
+        player = PlayerManager.getSingleton().addPlayer(PlayersForTest.JOHN.getPlayerID());
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
     }
 
     /**
@@ -47,26 +44,20 @@ public class RoamingInfoNPCBehaviorTest extends ServerSideTest
     @Test
     public void testGetAResponse()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        ArrayList<Capture<ChatMessageReceivedReport>> messages = new ArrayList<>();
-        messages.add(new Capture<>());
-        obs.receiveReport(EasyMock.and(EasyMock.capture(messages.get(0)),
-                EasyMock.isA(ChatMessageReceivedReport.class)));
-        QualifiedObservableConnector.getSingleton()
-                .registerObserver(obs, ChatMessageReceivedReport.class);
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
+        // register the observer to be notified if a ChatMessageToClientReport is sent
+        connector.registerObserver(observer, ChatMessageToClientReport.class);
 
-        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Heiddy ho, " +
-                "neighborino", player.getPlayerPosition(), ChatType.Local);
+        // setup a report to send to the npc
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Heiddy ho, neighborino", player.getPlayerPosition(), ChatType.Local);
 
+        // tell the npc to receive the report
         behavior.receiveReport(report);
 
-        EasyMock.verify(obs);
-        ArrayList<String> texts = new ArrayList<>();
-
-        texts.add(messages.get(0).getValue().getChatText());
-        assertEquals(texts.get(0),
-                "Hi welcome to Mowrey! What would you like to know more about?");
+        // since the NPC sent a chat, verify that the observer received a ChatMessageToClientReport
+        verify(observer, times(1)).receiveReport(any(ChatMessageToClientReport.class));
     }
 }

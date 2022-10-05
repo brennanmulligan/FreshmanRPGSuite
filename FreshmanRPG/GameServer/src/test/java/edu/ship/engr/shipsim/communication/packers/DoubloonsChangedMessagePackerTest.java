@@ -2,34 +2,32 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.DoubloonsChangedMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QuestManager;
 import edu.ship.engr.shipsim.model.reports.DoubloonChangeReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Matthew Croft
  */
-public class DoubloonsChangedMessagePackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+public class DoubloonsChangedMessagePackerTest
 {
     private StateAccumulator stateAccumulator;
 
     /**
      * reset the necessary singletons
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
-        OptionsManager.getSingleton().setTestMode(true);
-        QuestManager.resetSingleton();
-
         PlayerManager playerManager = PlayerManager.getSingleton();
         playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
         playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());

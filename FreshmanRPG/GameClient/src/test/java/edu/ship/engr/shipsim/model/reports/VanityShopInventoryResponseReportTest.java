@@ -2,18 +2,20 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for VanityShopItemResponseReport
  *
  * @author Aaron, Jake
  */
+@GameTest("GameClient")
 public class VanityShopInventoryResponseReportTest
 {
     /**

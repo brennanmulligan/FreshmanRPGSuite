@@ -1,37 +1,30 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.AddExistingPlayerReport;
 import edu.ship.engr.shipsim.model.reports.PlayerConnectionReport;
 import edu.ship.engr.shipsim.model.reports.PlayerDisconnectedReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Merlin
  */
-public class PlayerManagerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class PlayerManagerTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        QualifiedObservableConnector.resetSingleton();
-        PlayerManager.resetSingleton();
-    }
-
     /**
      * Make sure PlayerManager is a resetable singleton
      */
@@ -64,13 +57,17 @@ public class PlayerManagerTest extends ServerSideTest
     @Test
     public void notifiesOnAddPlayer()
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerConnectionReport.class);
-        obs.receiveReport(EasyMock.isA(PlayerConnectionReport.class));
-        EasyMock.replay(obs);
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a PlayerConnectionReport is sent
+        connector.registerObserver(observer, PlayerConnectionReport.class);
 
         PlayerManager.getSingleton().addPlayer(2);
-        EasyMock.verify(obs);
+
+        // since a player was added, the observer should be notified with a PlayerConnectionReport
+        verify(observer, times(1)).receiveReport(any(PlayerConnectionReport.class));
     }
 
     /**
@@ -78,21 +75,29 @@ public class PlayerManagerTest extends ServerSideTest
      * players in the system
      */
     @Test
-    public void notifiesAboutExistingPlayersOnAddPlayer()
+    public void notifiesAboutExistingPlayersOnAddPlayer() throws DatabaseException, IllegalQuestChangeException
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register the observer to be notified if a AddExistingPlayerReport is sent
+        connector.registerObserver(observer, AddExistingPlayerReport.class);
+
+        // add a player that will get notified by the next player that joins
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, AddExistingPlayerReport.class);
-        AddExistingPlayerReport expected = new AddExistingPlayerReport(PlayersForTest.MATT.getPlayerID(),
+        // add a second player, which will notify the other players about their existence
+        // the pin is included to mimic a real login, and 1111 is the magic code which always works
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID(), 1111);
+
+        AddExistingPlayerReport expectedReport = new AddExistingPlayerReport(PlayersForTest.MATT.getPlayerID(),
                 PlayersForTest.MERLIN.getPlayerID(), PlayersForTest.MERLIN.getPlayerName(),
                 PlayersForTest.MERLIN.getAppearanceType(), PlayersForTest.MERLIN.getPosition(),
                 PlayersForTest.MERLIN.getCrew(), PlayersForTest.MERLIN.getMajor(), PlayersForTest.MERLIN.getSection(), new ArrayList<>());
 
-        obs.receiveReport(expected);
-        EasyMock.replay(obs);
-
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MATT.getPlayerID());
+        // since a second player joined, the observer should receive an AddExistingPlayerReport
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -140,13 +145,14 @@ public class PlayerManagerTest extends ServerSideTest
     /**
      * Make sure the correct exception is thrown if we search for a player whose
      * name we don't know
-     *
-     * @throws PlayerNotFoundException should
      */
-    @Test(expected = PlayerNotFoundException.class)
-    public void playerNameNotFound() throws PlayerNotFoundException
+    @Test
+    public void playerNameNotFound()
     {
-        PlayerManager.getSingleton().getPlayerIDFromPlayerName("henry");
+        assertThrows(PlayerNotFoundException.class, () ->
+        {
+            PlayerManager.getSingleton().getPlayerIDFromPlayerName("henry");
+        });
     }
 
     /**

@@ -3,55 +3,80 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityAwardsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the VanityAwardsTableDataGateway
  */
-public class VanityAwardsTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class VanityAwardsTableDataGatewayTest
 {
     protected VanityAwardsTableDataGateway gateway;
 
     /**
+     * Get the right gateway and set up the gateway
+     *
+     * @throws DatabaseException shouldnt
+     */
+    @BeforeEach
+    public void setup() throws DatabaseException
+    {
+        gateway = findGateway();
+    }
+
+    /**
      * Tests to make sure we cannot add a duplicate vanity award
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotAddDuplicateItem() throws DatabaseException
+    @Test
+    public void cannotAddDuplicateItem()
     {
-        ArrayList<VanityDTO> awardsFromGateway = gateway.getVanityAwardsForQuest(4);
-        gateway.addVanityAward(4, awardsFromGateway.get(0).getID());
+        assertThrows(DatabaseException.class, () ->
+        {
+            ArrayList<VanityDTO> awardsFromGateway = gateway.getVanityAwardsForQuest(4);
+            gateway.addVanityAward(4, awardsFromGateway.get(0).getID());
+        });
     }
 
     /**
      * Tests to make sure we cannot add an invalid vanity award
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotAddInvalidVanityAward() throws DatabaseException
+    @Test
+    public void cannotAddInvalidVanityAward()
     {
-        gateway.addVanityAward(1, -1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addVanityAward(1, -1);
+        });
     }
 
     /**
      * Tests to make sure we cannot add a vanity award to an invalid quest id
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotAddVanityAwardForInvalidQuest() throws DatabaseException
+    @Test
+    public void cannotAddVanityAwardForInvalidQuest()
     {
-        gateway.addVanityAward(-1, 1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.addVanityAward(-1, 1);
+        });
     }
 
     /**
      * Tests to make sure we cannot remove an invalid vanity award
      */
-    @Test(expected = DatabaseException.class)
-    public void cannotRemoveInvalidAward() throws DatabaseException
+    @Test
+    public void cannotRemoveInvalidAward()
     {
-        gateway.removeVanityAward(1, -1);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway.removeVanityAward(1, -1);
+        });
     }
 
     /**
@@ -66,17 +91,6 @@ public class VanityAwardsTableDataGatewayTest extends ServerSideTest
         VanityAwardsTableDataGateway b = findGateway();
         assertEquals(a, b);
         assertNotNull(a);
-    }
-
-    /**
-     * Get the right gateway and set up the gateway
-     *
-     * @throws DatabaseException shouldnt
-     */
-    @Before
-    public void setup() throws DatabaseException
-    {
-        gateway = findGateway();
     }
 
     /**
@@ -200,7 +214,7 @@ public class VanityAwardsTableDataGatewayTest extends ServerSideTest
         return awardsFromGatewayIDs;
     }
 
-    VanityAwardsTableDataGateway findGateway() throws DatabaseException
+    VanityAwardsTableDataGateway findGateway()
     {
         return VanityAwardsTableDataGateway.getSingleton();
     }

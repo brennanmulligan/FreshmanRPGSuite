@@ -1,35 +1,33 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.model.reports.QuestStateChangeReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
+import org.apache.commons.compress.utils.Lists;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test for the QuestState Class
  *
  * @author Ryan
  */
-public class QuestStateTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetQuestManager
+@ResetQualifiedObservableConnector
+public class QuestStateTest
 {
-
-    @Before
-    public void localSetUp()
-    {
-        QuestManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
-    }
-
     /**
      * Test creating a very simple quest, and retreiving its information
      */
@@ -82,18 +80,15 @@ public class QuestStateTest extends ServerSideTest
 
     /**
      * Test to make sure you can't trigger finished quests
-     *
-     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
-     * @throws IllegalQuestChangeException     thrown if illegal state change
-     * @throws DatabaseException               shouldn't
      */
-    @Test(expected = IllegalQuestChangeException.class)
+    @Test
     public void testTriggerFinishedQuest()
-            throws IllegalQuestChangeException, DatabaseException, IllegalObjectiveChangeException
     {
-        QuestState quest = new QuestState(2, 1, QuestStateEnum.COMPLETED, false);
-        quest.trigger();
-
+        assertThrows(IllegalQuestChangeException.class, () ->
+        {
+            QuestState quest = new QuestState(2, 1, QuestStateEnum.COMPLETED, false);
+            quest.trigger();
+        });
     }
 
     /**
@@ -141,43 +136,45 @@ public class QuestStateTest extends ServerSideTest
     @Test
     public void testFulfilling() throws DatabaseException, IllegalQuestChangeException
     {
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        PlayerManager.getSingleton().addPlayer(2);
-        int origExperiencePoints = PlayerManager.getSingleton().getPlayerFromID(2).getExperiencePoints();
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, QuestStateChangeReport.class);
-        QuestStateChangeReport rpt = new QuestStateChangeReport(2, QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(),
+        // register the observer to be notified if a QuestStateChangeReport is sent
+        connector.registerObserver(observer, QuestStateChangeReport.class);
+
+        // retrieve objects from database
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        int originalExperiencePoints = player.getExperiencePoints();
+
+        // build the quest state for later
+        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false);
+
+        List<ObjectiveState> objectiveStates = Lists.newArrayList();
+        objectiveStates.add(new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true));
+        objectiveStates.add(new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, false));
+        objectiveStates.add(new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false));
+        objectiveStates.add(new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false));
+        objectiveStates.add(new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false));
+        questState.addObjectives(objectiveStates);
+
+        // checks for all completed objectives in the quest
+        // adds experience points if the quest is complete
+        questState.checkForFulfillmentOrFinished();
+
+        // build the expected report
+        QuestStateChangeReport expectedReport = new QuestStateChangeReport(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(),
                 QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestTitle(),
                 QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestDescription(), QuestStateEnum.FULFILLED);
-        obs.receiveReport(rpt);
-        EasyMock.replay(obs);
 
+        // since the quest became fulfilled, the observer should be notified by the above report
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
 
-        QuestState qs = new QuestState(2, QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED,
-                false);
-        ArrayList<ObjectiveState> adList = new ArrayList<>();
-
-        PlayerManager.getSingleton().addPlayer(2);
-
-        ObjectiveState as = new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true);
-        adList.add(as);
-        as = new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, false);
-
-        adList.add(as);
-        as = new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false);
-        adList.add(as);
-        as = new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false);
-        adList.add(as);
-        as = new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false);
-        adList.add(as);
-
-        qs.addObjectives(adList);
-        qs.checkForFulfillmentOrFinished();
-        assertEquals(origExperiencePoints + QuestsForTest.ONE_SAME_LOCATION_QUEST.getExperienceGained(),
-                PlayerManager.getSingleton().getPlayerFromID(2).getExperiencePoints());
-        assertEquals(QuestStateEnum.FULFILLED, qs.getStateValue());
-        assertTrue(qs.isNeedingNotification());
-        EasyMock.verify(obs);
+        // check that the experience points and quest state have been changed
+        assertEquals(originalExperiencePoints + QuestsForTest.ONE_SAME_LOCATION_QUEST.getExperienceGained(), player.getExperiencePoints());
+        assertEquals(QuestStateEnum.FULFILLED, questState.getStateValue());
+        assertTrue(questState.isNeedingNotification());
     }
 
     /**
@@ -190,28 +187,40 @@ public class QuestStateTest extends ServerSideTest
     @Test
     public void testFulfillingRepeatedly() throws DatabaseException, IllegalQuestChangeException
     {
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, QuestStateChangeReport.class);
-        EasyMock.replay(obs);
-        QuestState qs = new QuestState(1, 3, QuestStateEnum.FULFILLED, false);
-        ArrayList<ObjectiveState> adList = new ArrayList<>();
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        ObjectiveState as = new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, false);
-        adList.add(as);
-        as = new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, true);
-        adList.add(as);
-        as = new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false);
-        adList.add(as);
-        as = new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false);
-        adList.add(as);
-        as = new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false);
-        adList.add(as);
+        // register the observer to be notified if a QuestStateChangeReport is sent
+        connector.registerObserver(observer, QuestStateChangeReport.class);
 
-        qs.addObjectives(adList);
-        qs.checkForFulfillmentOrFinished();
-        assertEquals(QuestStateEnum.FULFILLED, qs.getStateValue());
-        assertFalse(qs.isNeedingNotification());
-        EasyMock.verify(obs);
+        // retrieve objects from database
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        int originalExperiencePoints = player.getExperiencePoints();
+
+        // build the quest state for later
+        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.FULFILLED, false);
+
+        List<ObjectiveState> objectiveStates = Lists.newArrayList();
+        objectiveStates.add(new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true));
+        objectiveStates.add(new ObjectiveState(2, ObjectiveStateEnum.COMPLETED, false));
+        objectiveStates.add(new ObjectiveState(3, ObjectiveStateEnum.COMPLETED, false));
+        objectiveStates.add(new ObjectiveState(4, ObjectiveStateEnum.TRIGGERED, false));
+        objectiveStates.add(new ObjectiveState(5, ObjectiveStateEnum.COMPLETED, false));
+        questState.addObjectives(objectiveStates);
+
+        // checks for all completed objectives in the quest
+        // adds experience points if the quest will become complete
+        questState.checkForFulfillmentOrFinished();
+
+        // since the quest was already fulfilled, the observer should not be notified by a QuestStateChangeReport
+        verify(observer, never()).receiveReport(any(QuestStateChangeReport.class));
+
+        // check that the experience points and quest state have been changed
+        assertEquals(originalExperiencePoints, player.getExperiencePoints());
+        assertEquals(QuestStateEnum.FULFILLED, questState.getStateValue());
+        assertFalse(questState.isNeedingNotification());
     }
 
     /**

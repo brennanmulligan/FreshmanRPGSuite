@@ -3,34 +3,25 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.TeleportationContinuationMessage;
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
-import edu.ship.engr.shipsim.model.ModelFacade;
-import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.reports.TeleportOnQuestCompletionReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * makes sure TeleportOnQuestCompletionPacker works well
  *
  * @author Abdul, Chris Hersh, Zach Thompson
  */
-public class TeleportOnQuestCompletionPackerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade
+@ResetPlayerManager
+public class TeleportOnQuestCompletionPackerTest
 {
-
-    /**
-     * reset the necessary singletons
-     */
-    @Before
-    public void localSetUp()
-    {
-        PlayerManager.resetSingleton();
-        ModelFacade.resetSingleton();
-    }
-
     /**
      * Test that we pack a PlayerMovedReport
      */

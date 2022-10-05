@@ -4,36 +4,20 @@ import edu.ship.engr.shipsim.communication.messages.DoubloonsChangedMessage;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandDoubloonsChanged;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Matthew Croft
  * @author Emily Maust
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class DoubloonsChangedMessageHandlerTest
 {
-
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void reset()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, true);
-    }
-
     /**
      * Tests that getTypeWeHandle method returns correct type.
      */
@@ -61,6 +45,5 @@ public class DoubloonsChangedMessageHandlerTest
         CommandDoubloonsChanged cmd = (CommandDoubloonsChanged) ClientModelFacade.getSingleton().getNextCommand();
         assertEquals(PlayersForTest.JOHN.getPlayerID(), cmd.getPlayerID());
         assertEquals(oldScore + 5, cmd.getDoubloons());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 }

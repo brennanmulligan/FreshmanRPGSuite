@@ -6,39 +6,23 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.ClientModelTestUtilities;
 import edu.ship.engr.shipsim.model.CommandOverwriteExperience;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Ryan
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class ExperienceChangedMessageHandlerTest
 {
-
-    @BeforeClass
-    public static void hardReset()
+    @BeforeEach
+    public void setup()
     {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     *
-     * @throws NotBoundException     shouldn't
-     * @throws AlreadyBoundException shouldn't
-     */
-    @Before
-    public void reset() throws AlreadyBoundException, NotBoundException
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JOHN);
     }
 
@@ -74,6 +58,5 @@ public class ExperienceChangedMessageHandlerTest
         assertEquals(PlayersForTest.JOHN.getExperiencePoints() + 2,
                 x.getExperiencePoints());
         assertEquals(record, x.getLevelRecord());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 }

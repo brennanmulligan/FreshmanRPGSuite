@@ -2,35 +2,101 @@ package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.TeleportationInitiationMessage;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.ServersForTest;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Test the handler for GetServerInfoMessages
  *
  * @author Merlin
  */
-public class TeleportationInitiationHandlerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetModelFacade(waitUntilEmpty = true)
+@ResetPlayerManager
+public class TeleportationInitiationHandlerTest
 {
     /**
-     * Reset the PlayerManager
+     * In the game, teleportation is another method of player movement
+     *
+     * <p>
+     * <p>
+     * Normally when a player moves, a {@link PlayerMovedReport report} is sent
+     * which notifies other players that there was movement.
+     *
+     * <p>
+     * <p>
+     * But when a player is teleported to a new map, a report should not be sent.
+     *
+     * <p>
+     * <p>
+     * Since the other players shouldn't see the player move, there is no need to notify
+     * them of the change.
+     *
+     * <p>
+     * <p>
+     * This test verifies that a PlayerMovedReport isn't sent after teleportation
+     *
+     * @throws ModelFacadeException shouldn't
      */
-    @Before
-    public void reset()
+    @Test
+    public void generatesCorrectResponse() throws ModelFacadeException
     {
-        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
+        Position playerPos = mock(Position.class);
+
+        // player is initially in the quad map
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        // setup accumulator and handler for message processing later on
+        StateAccumulator accum = new StateAccumulator(null).setPlayerId(
+                PlayersForTest.MERLIN.getPlayerID());
+        TeleportationInitiationHandler handler =
+                new TeleportationInitiationHandler().setAccumulator(accum);
+
+        // teleport message will move player from quad -> first server
+        TeleportationInitiationMessage msg =
+                new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(),
+                        ServersForTest.FIRST_SERVER.getMapName(), playerPos);
+
+        // mock the connector and observer
+        QualifiedObservableConnector connector =
+                spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+
+        // register observer to be notified if the move wasn't handled silently
+        connector.registerObserver(observer, PlayerMovedReport.class);
+
+        handler.process(msg);
+
+        ModelFacadeTestHelper.waitForFacadeToProcess();
+
+        // reset the singleton to clear the player
+        // this is in preparation to verify the information in the database
         PlayerManager.resetSingleton();
-        ModelFacade.resetSingleton();
+
+        // add the player to the manager again
+        // this ensures that the player is refreshed from the database
+        PlayerManager playerManager = spy(PlayerManager.getSingleton());
+        playerManager.addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        // make sure we moved the player without notifying observers
+        Player p = playerManager.getPlayerFromID(PlayersForTest.MERLIN.getPlayerID());
+        assertEquals(playerPos, p.getPlayerPosition());
+
+        // since the player was teleported, move reports shouldn't be sent/received
+        verify(connector, never()).sendReport(any(PlayerMovedReport.class));
+        verify(observer, never()).receiveReport(any(PlayerMovedReport.class));
     }
 
     /**
@@ -40,49 +106,16 @@ public class TeleportationInitiationHandlerTest extends ServerSideTest
     public void messageTypeCorrect()
     {
         TeleportationInitiationHandler handler = new TeleportationInitiationHandler();
-        assertEquals(TeleportationInitiationMessage.class, handler.getMessageTypeWeHandle());
+        assertEquals(TeleportationInitiationMessage.class,
+                handler.getMessageTypeWeHandle());
     }
 
     /**
-     * Make sure that the appropriate reponse message gets queued into the
-     * accumulator
-     *
-     * @throws InterruptedException shouldn't
+     * Reset the PlayerManager
      */
-    @Test
-    public void generatesCorrectResponse() throws InterruptedException
+    @BeforeEach
+    public void reset()
     {
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        TeleportationInitiationHandler handler = new TeleportationInitiationHandler();
-        StateAccumulator accum = new StateAccumulator(null);
-        accum.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
-        handler.setAccumulator(accum);
-        TeleportationInitiationMessage msg = new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(),
-                ServersForTest.FIRST_SERVER.getMapName(), new Position(5, 6));
-        // set up an observer who would be notified if the movement wasn't
-        // handled silently
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(obs, PlayerMovedReport.class);
-        EasyMock.replay(obs);
-
-        handler.process(msg);
-        int count = 0;
-        while (count < 10 && ModelFacade.getSingleton().hasCommandsPending())
-        {
-            Thread.sleep(100);
-            count++;
-        }
-        assertTrue("ModelFacade didn't process our command", count < 10);
-
-        // Reset the singleton and re-add the player to make sure that the
-        // player is refreshed from the DB
-        PlayerManager.resetSingleton();
-        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-
-        // make sure we moved the player without notifying observers
-        Player p = PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.MERLIN.getPlayerID());
-        assertEquals(new Position(5, 6), p.getPlayerPosition());
-        EasyMock.verify(obs);
+        OptionsManager.getSingleton().setMapFileTitle(PlayersForTest.MERLIN.getMapName());
     }
-
 }

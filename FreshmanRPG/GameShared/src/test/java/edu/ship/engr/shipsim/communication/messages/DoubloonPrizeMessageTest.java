@@ -1,15 +1,17 @@
 package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/*
- * @Author: Christian C, Andrew M
+/**
+ * @author Christian C, Andrew M
  */
+@GameTest("GameShared")
 public class DoubloonPrizeMessageTest
 {
 

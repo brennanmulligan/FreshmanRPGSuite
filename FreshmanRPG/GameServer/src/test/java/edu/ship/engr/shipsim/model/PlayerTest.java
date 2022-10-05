@@ -2,38 +2,39 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.LevelManagerDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.ExperienceChangedReport;
-import org.easymock.EasyMock;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test the Player class
  *
  * @author Merlin
  */
-public class PlayerTest extends ServerSideTest
+@GameTest("GameServer")
+@ResetPlayerManager
+@ResetQualifiedObservableConnector
+public class PlayerTest
 {
-
-    private PlayerManager playerManager;
-
     /**
      * Make sure we can retrieve a player's appearanceType
      */
     @Test
     public void canGetAppearanceType()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
         assertEquals(PlayersForTest.JOHN.getAppearanceType(), p.getAppearanceType());
     }
 
@@ -43,7 +44,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void canGetPlayerMajor()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
         assertEquals(Major.COMPUTER_ENGINEERING, p.getMajor());
     }
 
@@ -53,7 +54,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void canGetPlayerName()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
         assertEquals("John", p.getPlayerName());
     }
 
@@ -63,7 +64,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void canGetSectionNumber()
     {
-        Player p = playerManager.addPlayer(20);
+        Player p = PlayerManager.getSingleton().addPlayer(20);
         assertEquals(PlayersForTest.JEFF.getSection(), p.getSection());
     }
 
@@ -78,20 +79,7 @@ public class PlayerTest extends ServerSideTest
     {
         PlayerConnection playerPin = new PlayerConnection(1);
         playerPin.generateTestPin();
-        playerManager.addPlayer(1, PlayerConnection.DEFAULT_PIN);
-    }
-
-    /**
-     * make sure the necessary singletons are reset
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Before
-    public void localSetUp() throws DatabaseException
-    {
-        QualifiedObservableConnector.resetSingleton();
-        PlayerManager.resetSingleton();
-        playerManager = PlayerManager.getSingleton();
+        PlayerManager.getSingleton().addPlayer(1, PlayerConnection.DEFAULT_PIN);
     }
 
     /**
@@ -100,7 +88,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void setSetSectionNumber()
     {
-        Player p = playerManager.addPlayer(20);
+        Player p = PlayerManager.getSingleton().addPlayer(20);
         p.setSection(2);
         assertEquals(2, p.getSection());
     }
@@ -112,20 +100,25 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void testAddExpPointsCreatesReport()
     {
-        Player p = playerManager.addPlayer(PlayersForTest.JOHN.getPlayerID());
+        // mock the connector and observer
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
 
-        QualifiedObserver obs = EasyMock.createMock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton()
-                .registerObserver(obs, ExperienceChangedReport.class);
-        int updatedPoints = p.getExperiencePoints() + 15;
-        ExperienceChangedReport expectedReport =
-                new ExperienceChangedReport(p.getPlayerID(), updatedPoints,
-                        LevelManagerDTO.getSingleton().getLevelForPoints(updatedPoints));
-        obs.receiveReport(expectedReport);
-        EasyMock.replay(obs);
+        // register the observer to be notified if a ExperienceChangedReport is sent
+        connector.registerObserver(observer, ExperienceChangedReport.class);
 
-        p.addExperiencePoints(15);
-        EasyMock.verify(obs);
+        // add john to the player manager and capture the player object
+        Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
+
+        int pointsToAdd = 15;
+
+        int updatedPoints = player.getExperiencePoints() + pointsToAdd;
+        ExperienceChangedReport expectedReport = new ExperienceChangedReport(player.getPlayerID(), updatedPoints, LevelManagerDTO.getSingleton().getLevelForPoints(updatedPoints));
+
+        player.addExperiencePoints(pointsToAdd);
+
+        // since the player was given experience points, the observer should be notified with the above report
+        verify(observer, times(1)).receiveReport(eq(expectedReport));
     }
 
     /**
@@ -237,7 +230,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void testPlayerExpPoints()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
 
         p.setExperiencePoints(34);
         assertEquals(34, p.getExperiencePoints());
@@ -252,7 +245,7 @@ public class PlayerTest extends ServerSideTest
     @Test
     public void testPlayerPosition()
     {
-        Player p = playerManager.addPlayer(1);
+        Player p = PlayerManager.getSingleton().addPlayer(1);
         Position pos = new Position(3, 3);
         p.setPlayerPosition(pos);
         assertEquals(pos, p.getPlayerPosition());

@@ -14,6 +14,7 @@ import edu.ship.engr.shipsim.model.reports.TeleportOnQuestCompletionReport;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Stores the states of all the quests for an individual player on the server
@@ -52,7 +53,7 @@ public class QuestState
      *
      * @param objectiveList a list containing multiple objectives for a quest
      */
-    protected void addObjectives(ArrayList<ObjectiveState> objectiveList)
+    protected void addObjectives(List<ObjectiveState> objectiveList)
     {
         for (ObjectiveState objective : objectiveList)
         {

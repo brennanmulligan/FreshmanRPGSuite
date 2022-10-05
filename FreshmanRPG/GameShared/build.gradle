@@ -11,12 +11,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
-    testImplementation group: 'org.easymock', name: 'easymock', version: '3.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.8.1'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-suite', version: '1.8.1'
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.+'
     testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.5'
 
     implementation group: 'org.reflections', name: 'reflections', version: '0.9.12'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.16'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.11.0'
     compile group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
@@ -39,8 +43,8 @@ checkstyle {
     maxWarnings = 0
 }
 
-task shadowJar {
-
+test {
+    useJUnitPlatform()
 }
 
 apply from: 'database-builders.gradle'

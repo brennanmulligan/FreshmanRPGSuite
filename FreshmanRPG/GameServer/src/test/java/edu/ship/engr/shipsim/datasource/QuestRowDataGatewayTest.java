@@ -4,23 +4,35 @@ import edu.ship.engr.shipsim.criteria.QuestCompletionActionParameter;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests required of all player gateways
  *
  * @author Merlin
  */
-public class QuestRowDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class QuestRowDataGatewayTest
 {
 
     protected QuestRowDataGateway gateway;
+
+    /**
+     * Makes sure to reset the gateway
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @BeforeEach
+    public void localSetup() throws DatabaseException
+    {
+        gateway = this.findGateway(1);
+    }
 
     /**
      * @throws DatabaseException - if it fails
@@ -124,31 +136,32 @@ public class QuestRowDataGatewayTest extends ServerSideTest
 
     /**
      * Tests deleting a quest
-     *
-     * @throws DatabaseException should when it tries to find the quest again
-     * @throws SQLException      shouldn't
      */
-    @Test(expected = DatabaseException.class)
-    public void deleteQuest() throws DatabaseException, SQLException
+    @Test
+    public void deleteQuest()
     {
-        int questId = QuestsForTest.EXPLORATION_QUEST.getQuestID();
-        QuestRowDataGateway questGateway = findGateway(questId);
-        // Should have found the quest and deleted it
-        questGateway.remove();
-        // Should return false since the quest doesn't exist anymore
-        findGateway(questId);
+        assertThrows(DatabaseException.class, () ->
+        {
+            int questId = QuestsForTest.EXPLORATION_QUEST.getQuestID();
+            QuestRowDataGateway questGateway = findGateway(questId);
+            // Should have found the quest and deleted it
+            questGateway.remove();
+            // Should return false since the quest doesn't exist anymore
+            findGateway(questId);
+        });
     }
 
     /**
      * make sure we get the right exception if we try to find a quest who doesn't
      * exist
-     *
-     * @throws DatabaseException should
      */
-    @Test(expected = DatabaseException.class)
-    public void findNotExisting() throws DatabaseException
+    @Test
+    public void findNotExisting()
     {
-        gateway = findGateway(11111);
+        assertThrows(DatabaseException.class, () ->
+        {
+            gateway = findGateway(11111);
+        });
     }
 
     /**
@@ -174,17 +187,6 @@ public class QuestRowDataGatewayTest extends ServerSideTest
         assertEquals(quest.getQuestTitle(), gateway.getQuestTitle());
         assertEquals(quest.getStartDate(), gateway.getStartDate());
         assertEquals(quest.getEndDate(), gateway.getEndDate());
-    }
-
-    /**
-     * Makes sure to reset the gateway
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Before
-    public void localSetup() throws DatabaseException
-    {
-        gateway = this.findGateway(1);
     }
 
 

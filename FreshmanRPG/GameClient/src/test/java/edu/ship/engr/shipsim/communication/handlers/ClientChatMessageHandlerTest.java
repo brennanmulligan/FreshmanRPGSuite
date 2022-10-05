@@ -5,35 +5,19 @@ import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
 import edu.ship.engr.shipsim.model.CommandChatMessageReceivedFromServer;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Frank Schmidt
  */
+@GameTest("GameClient")
+@ResetClientModelFacade(shouldClearQueue = true)
 public class ClientChatMessageHandlerTest
 {
-
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Reset the ModelFacade
-     */
-    @Before
-    public void setUp()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-    }
-
     /**
      * Test the type of Message that we expect
      */
@@ -65,6 +49,5 @@ public class ClientChatMessageHandlerTest
         assertEquals("message", cmd.getChatText());
         assertEquals(new Position(1, 1), cmd.getLocation());
         assertEquals(ChatType.Local, cmd.getType());
-        ClientModelFacade.getSingleton().emptyQueue();
     }
 }

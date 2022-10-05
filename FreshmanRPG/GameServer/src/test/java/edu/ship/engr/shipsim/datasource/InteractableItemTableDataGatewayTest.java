@@ -2,16 +2,18 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.InteractableItemDTO;
 import edu.ship.engr.shipsim.datatypes.InteractableItemsForTest;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Jake Moore (I think)
  */
-public class InteractableItemTableDataGatewayTest extends ServerSideTest
+@GameTest("GameServer")
+public class InteractableItemTableDataGatewayTest
 {
 
     // gateway instance

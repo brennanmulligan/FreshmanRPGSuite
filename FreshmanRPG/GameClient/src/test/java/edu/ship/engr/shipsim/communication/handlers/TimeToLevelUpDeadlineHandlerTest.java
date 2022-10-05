@@ -1,35 +1,19 @@
 package edu.ship.engr.shipsim.communication.handlers;
 
-import edu.ship.engr.shipsim.model.ClientModelFacade;
-import edu.ship.engr.shipsim.model.OptionsManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
  * @author Evan
  */
+@GameTest("GameClient")
+@ResetClientModelFacade
 public class TimeToLevelUpDeadlineHandlerTest
 {
-    @BeforeClass
-    public static void hardReset()
-    {
-        OptionsManager.getSingleton().setTestMode(true);
-    }
-
-    /**
-     * Resets singleton
-     */
-    @Before
-    public void reset()
-    {
-        ClientModelFacade.resetSingleton();
-        ClientModelFacade.getSingleton(true, false);
-    }
-
     /**
      * Test the type of Message that we expect
      */

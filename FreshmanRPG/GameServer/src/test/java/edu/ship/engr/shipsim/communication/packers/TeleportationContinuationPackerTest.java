@@ -3,26 +3,27 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.TeleportationContinuationMessage;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ServerSideTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.MapToServerMapping;
 import edu.ship.engr.shipsim.model.reports.PlayerReadyToTeleportReport;
-import org.junit.Before;
-import org.junit.Test;
+import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Tests the behavior of TeleportationInitiationPacker.
  */
-public class TeleportationContinuationPackerTest extends ServerSideTest
+@GameTest("GameServer")
+public class TeleportationContinuationPackerTest
 {
 
     /**
      * Set up the state accumulator and enable testing mode.
      */
-    @Before
+    @BeforeEach
     public void localSetUp()
     {
         StateAccumulator stateAccumulator = new StateAccumulator(null);
