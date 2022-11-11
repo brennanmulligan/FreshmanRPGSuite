@@ -31,6 +31,6 @@ public class LoginSuccessfulReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(LoginSuccessfulReport.class).verify();
+        EqualsVerifier.forClass(LoginSuccessfulReport.class).withIgnoredFields("pin").verify();
     }
 }

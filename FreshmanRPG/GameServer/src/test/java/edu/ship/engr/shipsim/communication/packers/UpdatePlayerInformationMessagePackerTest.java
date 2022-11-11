@@ -14,7 +14,7 @@ import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,8 +88,8 @@ public class UpdatePlayerInformationMessagePackerTest
         packer.setAccumulator(stateAccumulator);
 
         InitializeThisClientsPlayerMessage message = (InitializeThisClientsPlayerMessage) packer.pack(report);
-        ArrayList<ClientPlayerQuestStateDTO> expected = report.getClientPlayerQuestList();
-        ArrayList<ClientPlayerQuestStateDTO> actual = message.getClientPlayerQuestList();
+        List<ClientPlayerQuestStateDTO> expected = report.getClientPlayerQuestList();
+        List<ClientPlayerQuestStateDTO> actual = message.getClientPlayerQuestList();
         assertEquals(expected.size(), actual.size());
         for (ClientPlayerQuestStateDTO a : actual)
         {

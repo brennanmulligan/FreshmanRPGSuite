@@ -1,25 +1,30 @@
 package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
-import edu.ship.engr.shipsim.communication.messages.LoginFailedMessage;
 import edu.ship.engr.shipsim.communication.messages.LoginMessage;
-import edu.ship.engr.shipsim.communication.messages.LoginSuccessfulMessage;
-import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
 import edu.ship.engr.shipsim.model.OptionsManager;
+import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.reports.LoginFailedReport;
+import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Merlin
  */
 @GameTest("LoginServer")
+@ResetQualifiedObservableConnector
 public class LoginMessageHandlerTest
 {
 
@@ -47,41 +52,31 @@ public class LoginMessageHandlerTest
         assertEquals(1, LoginPlayerManager.getSingleton().getNumberOfPlayers());
     }
 
-    /**
-     * Make sure that the login message handler queues the appropriate response
-     * for successful login
-     */
     @Test
-    public void queuesResonse()
+    public void testSendsSuccessReport()
     {
         LoginMessageHandler handler = new LoginMessageHandler();
-        StateAccumulator accum = new StateAccumulator(null);
-        handler.setAccumulator(accum);
-        handler.process(
-                new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()));
 
-        ArrayList<Message> x = accum.getPendingMsgs();
-        LoginSuccessfulMessage response = (LoginSuccessfulMessage) x.get(0);
-        assertEquals(PlayersForTest.MERLIN_OFFLINE.getPlayerID(), response.getPlayerID());
-        assertEquals("localhost", response.getHostName());
-        assertEquals(1883, response.getPortNumber());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+        QualifiedObservableConnector.getSingleton().registerObserver(observer, LoginSuccessfulReport.class);
+
+        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword());
+        handler.process(loginMessage);
+
+        verify(observer, times(1)).receiveReport(any(LoginSuccessfulReport.class));
     }
 
-    /**
-     * Make sure that the login message handler queues the appropriate response
-     * for successful login
-     */
     @Test
-    public void queuesResonseFailure()
+    public void testSendsFailureReport()
     {
         LoginMessageHandler handler = new LoginMessageHandler();
-        StateAccumulator accum = new StateAccumulator(null);
-        handler.setAccumulator(accum);
-        handler.process(new LoginMessage(PlayersForTest.MERLIN.getPlayerName(),
-                PlayersForTest.MERLIN.getPlayerPassword() + 'Z'));
 
-        ArrayList<Message> x = accum.getPendingMsgs();
-        assertEquals(LoginFailedMessage.class, x.get(0).getClass());
+        QualifiedObserver observer = mock(QualifiedObserver.class);
+        QualifiedObservableConnector.getSingleton().registerObserver(observer, LoginFailedReport.class);
 
+        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword() + "Z");
+        handler.process(loginMessage);
+
+        verify(observer, times(1)).receiveReport(any(LoginFailedReport.class));
     }
 }

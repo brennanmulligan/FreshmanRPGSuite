@@ -60,7 +60,11 @@ public enum ServersForTest
     /**
      *
      */
-    DHC1("dhc1.tmx", "localhost", 1884, "DHC1", 44, 49);
+    DHC1("dhc1.tmx", "localhost", 1884, "DHC1", 44, 49),
+    /**
+     *
+     */
+    RESTFUL_SERVER("RestfulMap.tmx", "localhost", 1890, "RestfulMap", 50, 50);
 
 
     private String mapName;

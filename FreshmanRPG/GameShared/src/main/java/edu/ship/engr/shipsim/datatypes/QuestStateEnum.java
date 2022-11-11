@@ -12,7 +12,7 @@ public enum QuestStateEnum
     /**
      * The player can know that there is a quest, but knows nothing about it
      */
-    AVAILABLE("can be triggered"),
+    AVAILABLE("can be triggered"), // TODO: Maybe rename to HIDDEN
     /**
      * The player can see the description of the quest and the objectives within
      * it

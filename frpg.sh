@@ -21,11 +21,9 @@ up() {
 
     HOST=$(hostname)
     if [[ "$HOST" == "rpgserv" ]] ; then
-        cd "$basedir/FreshmanRPG/GameServer" &>/dev/null
+        cd "$basedir/FreshmanRPG/GameServer" &>/dev/null || exit
         ./../gradlew build -x test
-        cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null
-        ./../gradlew build -x test
-        cd "$basedir/FreshmanRPG/CompanionAppServer" &>/dev/null
+        cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null || exit
         ./../gradlew build -x test
 
         docker compose -f "$basedir/docker/docker-compose.yml" up -d
@@ -42,6 +40,11 @@ down() {
     else
         docker compose -f "$basedir/docker/docker-compose.yml" down
     fi
+}
+
+restart() {
+    down
+    up
 }
 
 create_clients() {
@@ -101,6 +104,9 @@ case "$1" in
     ;;
     "d" | "down")
         down "${@:2}"
+    ;;
+    "restart")
+        restart
     ;;
     "clients")
         create_clients
