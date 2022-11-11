@@ -29,6 +29,11 @@ public enum ServerType
     AREA_SERVER(true),
 
     /**
+     * A Restful Server
+     */
+    RESTFUL_SERVER(false),
+
+    /**
      * the standalone management app
      */
     MANAGER(false);

@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A basic screen that displays the quests and objective states.
@@ -34,7 +35,7 @@ public class QuestUI extends OverlayingScreen implements QualifiedObserver
     private LegendTable legendTable;
     private Table subContainer;
     private TextButton printButton;
-    private ArrayList<ClientPlayerQuestStateDTO> questList;
+    private List<ClientPlayerQuestStateDTO> questList;
 
     /**
      * Basic constructor. will call show() to initialize all the data in the tables.

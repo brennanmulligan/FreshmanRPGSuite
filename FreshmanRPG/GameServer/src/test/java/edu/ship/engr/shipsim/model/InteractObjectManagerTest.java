@@ -9,7 +9,10 @@ import edu.ship.engr.shipsim.testing.annotations.ResetInteractObjectManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,7 +91,7 @@ public class InteractObjectManagerTest
     }
 
     @ParameterizedTest
-    @MethodSource("testPlayerPositionSource")
+    @MethodSource
     public void testPlayerPosition(Position position, boolean expected) throws DatabaseException
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
@@ -98,16 +101,16 @@ public class InteractObjectManagerTest
         assertEquals(expected, result >= 0);
     }
 
-    private static Object[][] testPlayerPositionSource()
+    private static Stream<Arguments> testPlayerPosition()
     {
-        return new Object[][] {
-                {new Position(0, 1), true},
-                {new Position(0, 2), true},
-                {new Position(0, 3), false},
-                {new Position(1, 0), true},
-                {new Position(2, 0), true},
-                {new Position(3, 0), false}
-        };
+        return Stream.of(
+                Arguments.of(new Position(0, 1), true),
+                Arguments.of(new Position(0, 2), true),
+                Arguments.of(new Position(0, 3), false),
+                Arguments.of(new Position(1, 0), true),
+                Arguments.of(new Position(2, 0), true),
+                Arguments.of(new Position(3, 0), false)
+        );
     }
 
     /**

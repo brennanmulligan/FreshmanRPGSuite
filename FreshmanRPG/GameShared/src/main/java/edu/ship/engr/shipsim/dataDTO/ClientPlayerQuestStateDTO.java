@@ -1,10 +1,16 @@
 package edu.ship.engr.shipsim.dataDTO;
 
+import com.google.common.collect.Maps;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Player has a quest that will contain a description id, state, and list of
@@ -24,7 +30,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
     private String questDescription;
     private Date expireDate;
     private QuestStateEnum state;
-    private ArrayList<ClientPlayerObjectiveStateDTO> objectives = new ArrayList<>();
+    private List<ClientPlayerObjectiveStateDTO> objectives = new ArrayList<>();
     private int experiencePointsGained;
     private int objectivesToFulfillment;
     private boolean needingNotification;
@@ -132,7 +138,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      *
      * @return objectives
      */
-    public ArrayList<ClientPlayerObjectiveStateDTO> getObjectiveList()
+    public List<ClientPlayerObjectiveStateDTO> getObjectiveList()
     {
         return objectives;
     }
@@ -233,7 +239,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      *
      * @param objectiveList ClientPlayerObjective ArrayList
      */
-    public void setObjectives(ArrayList<ClientPlayerObjectiveStateDTO> objectiveList)
+    public void setObjectives(List<ClientPlayerObjectiveStateDTO> objectiveList)
     {
         this.objectives = objectiveList;
     }
@@ -254,6 +260,25 @@ public class ClientPlayerQuestStateDTO implements Serializable
     public Date getExpireDate()
     {
         return expireDate;
+    }
+
+    public Map<String, Object> toMap()
+    {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        map.put("questID", getQuestID());
+        map.put("questTitle", getQuestTitle());
+        map.put("questDescription", getQuestDescription());
+        map.put("expireDate", dateFormat.format(getExpireDate()));
+        map.put("state", getQuestState());
+        map.put("experiencePointsGained", getExperiencePointsGained());
+        map.put("objectivesToFulfillment", getObjectivesToFulfillment());
+        map.put("needingNotification", isNeedingNotification());
+        map.put("objectives", getObjectiveList().stream().map(ClientPlayerObjectiveStateDTO::toMap).collect(Collectors.toList()));
+
+        return map;
     }
 
 }

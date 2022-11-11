@@ -8,6 +8,9 @@ import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.InteractObjectManager;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.PlayerManager;
+import edu.ship.engr.shipsim.restfulcommunication.RestfulServer;
+import org.springframework.boot.Banner;
+import org.springframework.boot.SpringApplication;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -25,6 +28,7 @@ public class Server implements Runnable, AutoCloseable
     private final String mapName;
     private final boolean runningLocal;
     private final String dbIdentifier;
+    private final boolean restfulServer;
     private ServerSocket servSock;
 
     /**
@@ -35,23 +39,25 @@ public class Server implements Runnable, AutoCloseable
      */
     public Server(String map, int port)
     {
-        this(map, port, false, null);
+        this(map, port, false, null, false);
     }
 
     /**
      * Create a new Server listening on a given port
      *
-     * @param map          The map that this server will serve
+     * @param mapName      The map that this server will serve
      * @param port         The port to listen on
      * @param runningLocal true if we are running with a host name of localhost
-     * @param dbNumber     if we are running local, this will be the number of the test db we should use
+     * @param dbIdentifier if we are running local, this will be the number of the test db we should use
+     * @param restfulServer whether or not this server should be instanced as a restful area server
      */
-    public Server(String map, int port, boolean runningLocal, String dbNumber)
+    public Server(String mapName, int port, boolean runningLocal, String dbIdentifier, boolean restfulServer)
     {
+        this.mapName = mapName;
         this.port = port;
-        this.mapName = map;
         this.runningLocal = runningLocal;
-        this.dbIdentifier = dbNumber;
+        this.dbIdentifier = dbIdentifier;
+        this.restfulServer = restfulServer;
     }
 
     /**
@@ -61,12 +67,14 @@ public class Server implements Runnable, AutoCloseable
      * @throws IllegalArgumentException Thrown when the port is not given as an argument to the
      *                                  execution
      */
-    public static void main(String[] args) throws IllegalArgumentException
+    public static void main(String[] args) throws Exception
     {
         String map = null;
         Integer port = null;
         boolean runningLocal = false;
         String dbIdentifier = null;
+        boolean restfulServer = false;
+
         for (String arg : args)
         {
             String[] splitArg = arg.split("=");
@@ -91,6 +99,12 @@ public class Server implements Runnable, AutoCloseable
             {
                 OptionsManager.getSingleton().setUsingTestDB(false);
             }
+            else if (splitArg[0].equals("--restfulServer"))
+            {
+                restfulServer = true;
+                map = "RestfulMap.tmx";
+                port = 1890;
+            }
         }
         if (map == null)
         {
@@ -102,20 +116,12 @@ public class Server implements Runnable, AutoCloseable
             throw new IllegalArgumentException(
                     "Port is required to run the server. Use the --port=INTEGER option.");
         }
-        Server S;
-        if (!runningLocal)
+
+        //noinspection ConstantConditions
+        try (Server server = new Server(map, port, runningLocal, dbIdentifier, restfulServer))
         {
-            // supress teh warning because port can't be null
-            //noinspection ConstantConditions
-            S = new Server(map, port);
+            server.run();
         }
-        else
-        {
-            // supress teh warning because port can't be null
-            //noinspection ConstantConditions
-            S = new Server(map, port, runningLocal, dbIdentifier);
-        }
-        S.run();
     }
 
     @Override
@@ -166,8 +172,15 @@ public class Server implements Runnable, AutoCloseable
                     OptionsManager.getSingleton().getMapFileTitle());
             PlayerManager.getSingleton().loadNpcs(false);
             InteractObjectManager.getSingleton();
-            servSock =
-                    new ServerSocket(OptionsManager.getSingleton().getPortNumber(), 10);
+            servSock = new ServerSocket(OptionsManager.getSingleton().getPortNumber(), 10);
+
+            if (restfulServer)
+            {
+                SpringApplication application = new SpringApplication(RestfulServer.class);
+                application.setBannerMode(Banner.Mode.OFF);
+                application.run();
+            }
+
             //noinspection InfiniteLoopStatement
             while (true)
             {
