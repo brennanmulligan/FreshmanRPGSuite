@@ -6,6 +6,7 @@ import edu.ship.engr.shipsim.datasource.LevelRecord;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Merlin
@@ -19,7 +20,7 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
      */
     private static final long serialVersionUID = 1L;
 
-    private ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList;
+    private List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
     private ArrayList<FriendDTO> friends;
     private int experiencePts;
     private LevelRecord level;
@@ -28,12 +29,12 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 
     /**
      * @param clientPlayerQuestList players quest list
+     * @param friends               of this player
      * @param experiencePts         player's experience points
-     * @param level                 LevelRecord
      * @param doubloons             for this player
-     * @param playerID              of this player
+     * @param level                 LevelRecord
      */
-    public InitializeThisClientsPlayerMessage(ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
+    public InitializeThisClientsPlayerMessage(List<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
                                               int doubloons, LevelRecord level)
     {
         this.friends = friends;
@@ -48,7 +49,7 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
      *
      * @return quest list
      */
-    public ArrayList<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
+    public List<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
     {
         return clientPlayerQuestList;
     }

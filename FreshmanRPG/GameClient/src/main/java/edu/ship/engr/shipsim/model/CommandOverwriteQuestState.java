@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.communication.messages.InitializeThisClientsPlayerM
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datasource.LevelRecord;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Command to overwrite ThisClientsPlayers quest list
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CommandOverwriteQuestState extends Command
 {
 
-    private ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList;
+    private List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
     private LevelRecord record;
     private int expPoints;
 
@@ -42,7 +42,7 @@ public class CommandOverwriteQuestState extends Command
     /**
      * @return the clientPlayerQuestList
      */
-    public ArrayList<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
+    public List<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
     {
         return clientPlayerQuestList;
     }

@@ -1,9 +1,11 @@
 package edu.ship.engr.shipsim.dataDTO;
 
+import com.google.common.collect.Maps;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Stores the objective for the GameClient which encapsulates the ObjectiveState
@@ -226,4 +228,19 @@ public class ClientPlayerObjectiveStateDTO implements Serializable
         return questState;
     }
 
+    public Map<String, Object> toMap()
+    {
+        Map<String, Object> map = Maps.newLinkedHashMap();
+
+        map.put("objectiveID", getObjectiveID());
+        map.put("objectiveXP", getObjectiveXP());
+        map.put("objectiveDescription", getObjectiveDescription());
+        map.put("objectiveState", getObjectiveState());
+        map.put("needingNotification", isNeedingNotification());
+        map.put("realLifeObjective", isRealLifeObjective());
+        map.put("witnessTitle", getWitnessTitle());
+        map.put("questState", getQuestState());
+
+        return map;
+    }
 }

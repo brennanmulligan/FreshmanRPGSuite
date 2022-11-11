@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreenTable;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author TJ Renninger and Ian Keefer
@@ -22,7 +22,7 @@ public class QuestTable extends OverlayingScreenTable
      * @param questList  The list of quest that the player has
      * @param scrollable Whether or not the the overlaying screen table is scrollable
      */
-    public QuestTable(ArrayList<ClientPlayerQuestStateDTO> questList, boolean scrollable)
+    public QuestTable(List<ClientPlayerQuestStateDTO> questList, boolean scrollable)
     {
         super(scrollable);    //Null is passed in because the widget has not been created yet.
         updateQuests(questList);
@@ -86,7 +86,7 @@ public class QuestTable extends OverlayingScreenTable
      *
      * @param questList The list of quest that the player has
      */
-    public void updateQuests(ArrayList<ClientPlayerQuestStateDTO> questList)
+    public void updateQuests(List<ClientPlayerQuestStateDTO> questList)
     {
         container.clear();
         for (ClientPlayerQuestStateDTO cpq : questList)

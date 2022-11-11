@@ -11,6 +11,7 @@ import edu.ship.engr.shipsim.model.reports.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +22,7 @@ import java.util.TimerTask;
  */
 public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 {
-    ArrayList<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
+    List<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
     ArrayList<FriendDTO> friendList = new ArrayList<>();
 
     private int experiencePoints;
@@ -136,7 +137,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
      *
      * @return the quest list
      */
-    public ArrayList<ClientPlayerQuestStateDTO> getQuests()
+    public List<ClientPlayerQuestStateDTO> getQuests()
     {
         return questList;
     }
@@ -156,7 +157,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
      *
      * @param qList current quest list
      */
-    public void overwriteQuestList(ArrayList<ClientPlayerQuestStateDTO> qList)
+    public void overwriteQuestList(List<ClientPlayerQuestStateDTO> qList)
     {
         questList.clear();
         questList = qList;

@@ -53,7 +53,7 @@ public class TeleportationInitiationHandlerTest
     @Test
     public void generatesCorrectResponse() throws ModelFacadeException
     {
-        Position playerPos = mock(Position.class);
+        Position playerPos = new Position(5, 6);
 
         // player is initially in the quad map
         PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
@@ -70,8 +70,7 @@ public class TeleportationInitiationHandlerTest
                         ServersForTest.FIRST_SERVER.getMapName(), playerPos);
 
         // mock the connector and observer
-        QualifiedObservableConnector connector =
-                spy(QualifiedObservableConnector.getSingleton());
+        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
         QualifiedObserver observer = mock(QualifiedObserver.class);
 
         // register observer to be notified if the move wasn't handled silently

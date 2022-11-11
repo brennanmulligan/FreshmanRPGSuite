@@ -4,6 +4,8 @@ import edu.ship.engr.shipsim.criteria.CriteriaIntegerDTO;
 import edu.ship.engr.shipsim.criteria.CriteriaStringDTO;
 import edu.ship.engr.shipsim.criteria.NPCResponseDTO;
 import edu.ship.engr.shipsim.criteria.ObjectiveCompletionCriteria;
+import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
+import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.datasource.*;
 import edu.ship.engr.shipsim.datatypes.ChatType;
@@ -11,11 +13,14 @@ import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.reports.*;
+import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Retrieves the list of quest and objectives from the database and sends them
@@ -1301,5 +1306,59 @@ public class QuestManager implements QualifiedObserver
         }
 
         return null;
+    }
+
+    @NotNull
+    private List<ClientPlayerObjectiveStateDTO> getObjectives(@NotNull QuestRecord questRecord, @NotNull QuestState questState)
+    {
+        List<ClientPlayerObjectiveStateDTO> objectives = Lists.newArrayList();
+
+        for (ObjectiveState objectiveState : questState.getObjectiveList())
+        {
+            ObjectiveRecord objective = questRecord.getObjectiveID(objectiveState.getID());
+
+            ClientPlayerObjectiveStateDTO dto = new ClientPlayerObjectiveStateDTO(objectiveState.getID(),
+                    objective.getObjectiveDescription(),
+                    objective.getExperiencePointsGained(),
+                    objectiveState.getState(),
+                    objectiveState.isNeedingNotification(),
+                    objective.isRealLifeObjective(),
+                    objective.getCompletionCriteria().toString(),
+                    questState.getStateValue());
+
+            objectives.add(dto);
+        }
+
+        return objectives;
+    }
+
+    @NotNull
+    public List<ClientPlayerQuestStateDTO> getQuests(Player player) throws DatabaseException
+    {
+        List<ClientPlayerQuestStateDTO> quests = Lists.newArrayList();
+
+        List<QuestState> questList = getQuestList(player.getPlayerID());
+        if (questList != null)
+        {
+            for (QuestState questState : questList)
+            {
+                QuestRecord record = getQuest(questState.getID());
+
+                ClientPlayerQuestStateDTO dto = new ClientPlayerQuestStateDTO(record.getQuestID(),
+                        record.getTitle(),
+                        record.getDescription(),
+                        questState.getStateValue(),
+                        record.getExperiencePointsGained(),
+                        record.getObjectivesForFulfillment(),
+                        questState.isNeedingNotification(),
+                        record.getEndDate());
+
+                dto.setObjectives(getObjectives(record, questState));
+
+                quests.add(dto);
+            }
+        }
+
+        return quests;
     }
 }

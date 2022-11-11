@@ -1,6 +1,5 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.dataDTO.LevelManagerDTO;
@@ -10,6 +9,7 @@ import edu.ship.engr.shipsim.datasource.LevelRecord;
 import edu.ship.engr.shipsim.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Report that combines Quest descriptions and Quest states
@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class UpdatePlayerInformationReport implements QualifiedObservableReport
 {
 
-    private final ArrayList<ClientPlayerQuestStateDTO> clientPlayerQuestList =
-            new ArrayList<>();
+    private final List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
     private final ArrayList<FriendDTO> friendList;
     private final int experiencePoints;
     private final int doubloons;
@@ -36,7 +35,7 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
      */
     public UpdatePlayerInformationReport(Player player) throws DatabaseException
     {
-        combineQuest(QuestManager.getSingleton().getQuestList(player.getPlayerID()));
+        this.clientPlayerQuestList = QuestManager.getSingleton().getQuests(player);
         this.friendList = getFriendList(player.getPlayerID());
         this.experiencePoints = player.getExperiencePoints();
         this.doubloons = player.getDoubloons();
@@ -49,7 +48,7 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
      *
      * @return clientPlayerQuestList
      */
-    public ArrayList<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
+    public List<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
     {
         return clientPlayerQuestList;
     }
@@ -98,59 +97,6 @@ public class UpdatePlayerInformationReport implements QualifiedObservableReport
     public int getPlayerID()
     {
         return playerID;
-    }
-
-    private ArrayList<ClientPlayerObjectiveStateDTO> combineObjective(QuestRecord quest,
-                                                                      QuestState qs)
-    {
-        ArrayList<ClientPlayerObjectiveStateDTO> ca = new ArrayList<>();
-        for (ObjectiveState a : qs.getObjectiveList())
-        {
-            int objectiveID = a.getID();
-            ObjectiveRecord objective = quest.getObjectiveID(objectiveID);
-            ca.add(new ClientPlayerObjectiveStateDTO(a.getID(),
-                    objective.getObjectiveDescription(),
-                    objective.getExperiencePointsGained(), a.getState(),
-                    a.isNeedingNotification(),
-                    objective.isRealLifeObjective(),
-                    objective.getCompletionCriteria().toString(), qs.getStateValue()));
-        }
-
-        return ca;
-    }
-
-    /**
-     * Combines a quest description and state and adds them to
-     * clientPlayerQuestList
-     *
-     * @throws DatabaseException if we can't connect to or read from the db
-     */
-    private void combineQuest(ArrayList<QuestState> questStateList)
-            throws DatabaseException
-    {
-        if (questStateList != null)
-        {
-            for (QuestState qs : questStateList)
-            {
-                // if (qs.getStateValue() != QuestStateEnum.AVAILABLE
-                // && qs.getStateValue() != QuestStateEnum.HIDDEN)
-                // {
-                int questID = qs.getID();
-                QuestRecord quest = QuestManager.getSingleton().getQuest(questID);
-
-                ClientPlayerQuestStateDTO clientQuest =
-                        new ClientPlayerQuestStateDTO(quest.getQuestID(),
-                                quest.getTitle(),
-                                quest.getDescription(), qs.getStateValue(),
-                                quest.getExperiencePointsGained(),
-                                quest.getObjectivesForFulfillment(),
-                                qs.isNeedingNotification(), quest.getEndDate());
-                clientQuest.setObjectives(combineObjective(quest, qs));
-
-                clientPlayerQuestList.add(clientQuest);
-            }
-            // }
-        }
     }
 
     private ArrayList<FriendDTO> getFriendList(int playerID) throws DatabaseException

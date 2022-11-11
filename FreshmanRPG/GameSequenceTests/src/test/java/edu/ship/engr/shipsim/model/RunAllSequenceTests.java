@@ -8,16 +8,21 @@ import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DatabaseManager;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
-import edu.ship.engr.shipsim.sequencetests.*;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import org.apache.commons.compress.utils.Lists;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -49,7 +54,7 @@ public class RunAllSequenceTests
     }
 
     @ParameterizedTest(name = "{0}")
-    @MethodSource("dataSource")
+    @MethodSource
     public void runTest(String className, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, DatabaseException, ModelFacadeException, CommunicationException, IOException
     {
         SequenceTest sequenceTest = (SequenceTest) clazz.getConstructor().newInstance();
@@ -88,31 +93,19 @@ public class RunAllSequenceTests
         }
     }
 
-    private static Object[][] dataSource()
+    private static Stream<Arguments> runTest()
     {
-        return new Object[][]{
-                {"TerminalTeleportationSequenceTest", TerminalTeleportationSequenceTest.class},
-                {"CheatCodeForBuffSequenceTest", CheatCodeForBuffSequenceTest.class},
-                {"FinishingQuestTeleportsSequenceTest", FinishingQuestTeleportsSequenceTest.class},
-                {"LoginBadPlayerNameSequenceTest", LoginBadPlayerNameSequenceTest.class},
-                {"LoginBadPWSequenceTest", LoginBadPWSequenceTest.class},
-                {"LoginSuccessSequenceTest", LoginSuccessSequenceTest.class},
-                {"MovementBasicSequenceTest", MovementBasicSequenceTest.class},
-                {"MovementTriggerQuestSequenceTest", MovementTriggerQuestSequenceTest.class},
-                {"NoMultipleBuffSequenceTest", NoMultipleBuffSequenceTest.class},
-                {"ObjectiveCompletionItemInteractSequenceTest", ObjectiveCompletionItemInteractSequenceTest.class},
-                {"ObjectiveNotificationCompleteSequenceTest", ObjectiveNotificationCompleteSequenceTest.class},
-                {"ObjectNotInRangeSequenceTest", ObjectNotInRangeSequenceTest.class},
-                {"RecCenterGrantsDoubloonsWithBuffSequenceTest", RecCenterGrantsDoubloonsWithBuffSequenceTest.class},
-                {"TriggerBuffMessageSequenceTest", TriggerBuffMessageSequenceTest.class},
-                {"TerminalTextSequenceTest", TerminalTextSequenceTest.class},
-                {"ObjectSendsPopupMessageSequenceTest", ObjectSendsPopupMessageSequenceTest.class},
+        List<Arguments> arguments = Lists.newArrayList();
 
-                {"TeleportationMovementSequenceTest", TeleportationMovementSequenceTest.class},
-                // Terminal Text Sequence Test
-                // Trigger BuffMessage Sequence Test
-                {"VanityShopGetInvSequenceTest", VanityShopGetInvSequenceTest.class}
-        };
+        Reflections commandClasses = new Reflections("edu.ship.engr.shipsim.sequencetests", SubTypesScanner.class);
+        Set<Class<? extends SequenceTest>> cmds = commandClasses.getSubTypesOf(SequenceTest.class);
+
+        for (Class<? extends SequenceTest> cmd : cmds)
+        {
+            arguments.add(Arguments.of(cmd.getSimpleName(), cmd));
+        }
+
+        return arguments.stream();
     }
 
     /**
