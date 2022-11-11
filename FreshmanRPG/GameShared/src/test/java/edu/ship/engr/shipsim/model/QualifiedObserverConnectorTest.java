@@ -142,6 +142,41 @@ public class QualifiedObserverConnectorTest
         connector.unregisterObserver(mockObserver, TestReport.class);
     }
 
+    @Test
+    public void testWaitForReport() throws InterruptedException
+    {
+        TestReport report = new TestReport();
+
+        TestReport response = QualifiedObservableConnector.processAction(() ->
+        {
+            QualifiedObservableConnector.getSingleton().sendReport(report);
+        }, 1000, TestReport.class);
+
+        assertEquals(report, response);
+    }
+
+    @Test
+    public void testWaitForReportSleep() throws InterruptedException
+    {
+        TestReport report = new TestReport();
+
+        TestReport response = QualifiedObservableConnector.processAction(() ->
+        {
+            try
+            {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
+
+            QualifiedObservableConnector.getSingleton().sendReport(report);
+        }, 1000, TestReport.class);
+
+        assertEquals(report, response);
+    }
+
     private static class TestReport implements QualifiedObservableReport
     {
 

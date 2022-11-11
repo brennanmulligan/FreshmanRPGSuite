@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreenTable;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author TJ Renninger and Ian Keefer
@@ -34,7 +34,7 @@ public class ObjectiveTable extends OverlayingScreenTable
      * @param expire        The expiration date of the quest
      * @param objectiveList The list of objectives the quest has
      */
-    public void updateObjectives(String questDesc, String expire, ArrayList<ClientPlayerObjectiveStateDTO> objectiveList)
+    public void updateObjectives(String questDesc, String expire, List<ClientPlayerObjectiveStateDTO> objectiveList)
     {
         container.clear();
         Label l = new Label(questDesc + "\nExpires: " + expire + "\n\nObjective:\n", SkinPicker.getSkinPicker().getCrewSkin());

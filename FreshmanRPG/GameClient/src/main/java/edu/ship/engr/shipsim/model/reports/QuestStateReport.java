@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.model.reports;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.model.QualifiedObservableReport;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The report that handles sending a QuestStateReport
@@ -13,14 +13,14 @@ import java.util.ArrayList;
 public class QuestStateReport implements QualifiedObservableReport
 {
 
-    private ArrayList<ClientPlayerQuestStateDTO> data;
+    private List<ClientPlayerQuestStateDTO> data;
 
     /**
      * Creates a QuestStateReport
      *
      * @param data ClientPlayerQuest list to send
      */
-    public QuestStateReport(ArrayList<ClientPlayerQuestStateDTO> data)
+    public QuestStateReport(List<ClientPlayerQuestStateDTO> data)
     {
         this.data = data;
     }
@@ -30,7 +30,7 @@ public class QuestStateReport implements QualifiedObservableReport
      *
      * @return data
      */
-    public ArrayList<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
+    public List<ClientPlayerQuestStateDTO> getClientPlayerQuestList()
     {
         return data;
     }

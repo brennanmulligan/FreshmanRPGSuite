@@ -11,7 +11,7 @@ import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -70,7 +70,7 @@ public class UpdatePlayerInformationReportTest
         int i = 1;
         for (ClientPlayerQuestStateDTO q : report.getClientPlayerQuestList())
         {
-            ArrayList<ClientPlayerObjectiveStateDTO> objectiveList = q.getObjectiveList();
+            List<ClientPlayerObjectiveStateDTO> objectiveList = q.getObjectiveList();
 
             if (i == 1)
             {
