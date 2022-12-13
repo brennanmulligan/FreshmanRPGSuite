@@ -28,21 +28,20 @@ public class NPCRowDataGateway
     {
         this.playerID = playerID;
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM NPCs WHERE playerID = ?"))
         {
-            PreparedStatement stmt =
-                    connection.prepareStatement("SELECT * FROM NPCs WHERE playerID = ?");
             stmt.setInt(1, playerID);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            this.behaviorClass = result.getString("behaviorClass");
-            this.filePath = result.getString("filePath");
 
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                this.behaviorClass = result.getString("behaviorClass");
+                this.filePath = result.getString("filePath");
+            }
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Couldn't find an NPC with playerID " + playerID,
-                    e);
+            throw new DatabaseException("Couldn't find an NPC with playerID " + playerID, e);
         }
     }
 
@@ -58,10 +57,9 @@ public class NPCRowDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO NPCs SET playerID = ?, behaviorClass = ?, filePath = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO NPCs SET playerID = ?, behaviorClass = ?, filePath = ?");
             stmt.setInt(1, playerID);
             stmt.setString(2, behaviorClass);
             stmt.setString(3, filePath);
@@ -84,26 +82,31 @@ public class NPCRowDataGateway
      */
     public static void createTable() throws DatabaseException
     {
-        String sql = "Create TABLE NPCs (" + "playerID INT NOT NULL," +
+        String dropSql = "DROP TABLE IF EXISTS NPCs";
+        String createSql = "Create TABLE NPCs (" + "playerID INT NOT NULL," +
                 "behaviorClass VARCHAR(80)," + "filePath VARCHAR(80)," +
                 "PRIMARY KEY (playerID)," +
                 "FOREIGN KEY (playerID) REFERENCES Players(playerID) " +
                 "ON DELETE CASCADE)";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            PreparedStatement stmt =
-                    connection.prepareStatement("DROP TABLE IF EXISTS NPCs");
-            stmt.executeUpdate();
-            stmt.close();
 
-            stmt = connection.prepareStatement(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
+        {
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the NPC table", e);
+            throw new DatabaseException("Unable to drop NPCs table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create NPCs table", e);
         }
     }
 
@@ -121,17 +124,20 @@ public class NPCRowDataGateway
         ArrayList<NPCRowDataGateway> gateways = new ArrayList<>();
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM PlayerConnection INNER JOIN NPCs ON NPCs.playerID = PlayerConnection.playerID"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM PlayerConnection INNER JOIN NPCs ON NPCs.playerID = PlayerConnection.playerID");
-            ResultSet result = stmt.executeQuery();
-            while (result.next())
+            // put map name setter here
+
+            try (ResultSet result = stmt.executeQuery())
             {
-                if (result.getString("mapName").equals(mapName))
+                while (result.next())
                 {
-                    gateways.add(
-                            new NPCRowDataGateway(result.getInt("NPCs.playerID")));
+                    // FIXME: Do map checking in the query...
+                    if (result.getString("mapName").equals(mapName))
+                    {
+                        gateways.add(new NPCRowDataGateway(result.getInt("NPCs.playerID")));
+                    }
                 }
             }
         }

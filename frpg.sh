@@ -14,10 +14,19 @@ setup() {
     echo "echo \"alias $NAME='. $basedir/$self_name'\" >> ~/.bashrc"
 }
 
+run_compose() {
+    HOST=$(hostname)
+    if [[ "$HOST" == "rpgserv" ]] ; then
+        docker compose -f "$basedir/docker/prod-docker-compose.yml" "${@:1}"
+    else
+        docker compose -f "$basedir/docker/dev-docker-compose.yml" "${@:1}"
+    fi
+}
+
 up() {
     cwd=$(pwd)
 
-    docker compose -f "$basedir/docker/docker-compose.yml" build &>/dev/null
+    run_compose build &>/dev/null
 
     HOST=$(hostname)
     if [[ "$HOST" == "rpgserv" ]] ; then
@@ -25,20 +34,18 @@ up() {
         ./../gradlew build -x test
         cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null || exit
         ./../gradlew build -x test
-
-        docker compose -f "$basedir/docker/docker-compose.yml" up -d
-    else
-        docker compose -f "$basedir/docker/docker-compose.yml" up -d frpg_mysql
     fi
+
+    run_compose up -d
 
     cd "$cwd" || exit
 }
 
 down() {
     if [[ -n "$1" ]]; then
-        docker compose -f "$basedir/docker/docker-compose.yml" rm -s -v "$1"
+        run_compose rm -s -v "$1"
     else
-        docker compose -f "$basedir/docker/docker-compose.yml" down
+        run_compose down
     fi
 }
 
@@ -97,7 +104,7 @@ case "$1" in
         cd "$basedir" || exit
     ;;
     "c" | "compose")
-        docker compose -f "$basedir/docker/docker-compose.yml" "${@:2}"
+        run_compose "${@:2}"
     ;;
     "u" | "up")
         up

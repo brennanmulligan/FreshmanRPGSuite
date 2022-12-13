@@ -3,12 +3,14 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * The RDS implementation of the row data gateway
@@ -43,7 +45,7 @@ public class VanityInventoryTableDataGateway
     public static void createTable() throws DatabaseException
     {
         String dropSql = "DROP TABLE IF EXISTS VanityInventory";
-        String vanityInventorySql = "CREATE TABLE VanityInventory ("
+        String createSql = "CREATE TABLE VanityInventory ("
                 + "playerID INT NOT NULL, " +
                 "vanityID INT NOT NULL," +
                 "isWearing INT NOT NULL," +
@@ -53,19 +55,22 @@ public class VanityInventoryTableDataGateway
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
-
-            stmt = connection.prepareStatement(vanityInventorySql);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the vanity inventory table", e);
+            throw new DatabaseException("Unable to drop VanityInventory table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create VanityInventory table", e);
         }
     }
 
@@ -77,22 +82,25 @@ public class VanityInventoryTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> results = new ArrayList<>();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM VanityInventory INNER JOIN VanityItems on VanityInventory.vanityID = VanityItems.vanityID WHERE playerID = ? AND isWearing = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityInventory INNER JOIN VanityItems on VanityInventory.vanityID = VanityItems.vanityID WHERE playerID = ? AND isWearing = ?");
             stmt.setInt(1, playerID);
             stmt.setInt(2, 1);
-            ResultSet result = stmt.executeQuery();
 
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                VanityDTO item = new VanityDTO(result.getInt("vanityID"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("textureName"),
-                        VanityType.fromInt(result.getInt("type")));
-                results.add(item);
+                while (result.next())
+                {
+                    VanityDTO item = new VanityDTO(result.getInt("vanityID"),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getString("textureName"),
+                            VanityType.fromInt(result.getInt("type")));
+                    results.add(item);
+                }
             }
+
         }
         catch (SQLException e)
         {
@@ -129,20 +137,27 @@ public class VanityInventoryTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> results = new ArrayList<>();
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM (SELECT vanityID FROM VanityInventory WHERE playerID = ? UNION SELECT defaultID FROM DefaultItems) t1 INNER JOIN VanityItems on t1.vanityID = VanityItems.vanityID");
-            stmt.setInt(1, playerID);
-            ResultSet result = stmt.executeQuery();
 
-            while (result.next())
+        String sql = "" +
+                "SELECT * FROM (" +
+                "    SELECT vanityID FROM VanityInventory WHERE playerID = ? UNION SELECT defaultID FROM DefaultItems" +
+                ") t1 INNER JOIN VanityItems on t1.vanityID = VanityItems.vanityID";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
+        {
+            stmt.setInt(1, playerID);
+
+            try (ResultSet result = stmt.executeQuery())
             {
-                VanityDTO item = new VanityDTO(result.getInt("vanityID"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("textureName"),
-                        VanityType.fromInt(result.getInt("type")));
-                results.add(item);
+                while (result.next())
+                {
+                    VanityDTO item = new VanityDTO(result.getInt("vanityID"),
+                            result.getString("name"),
+                            result.getString("description"),
+                            result.getString("textureName"),
+                            VanityType.fromInt(result.getInt("type")));
+                    results.add(item);
+                }
             }
         }
         catch (SQLException e)
@@ -200,28 +215,39 @@ public class VanityInventoryTableDataGateway
                             item.getID() + " because they don't own it.");
                 }
             }
-            try
+
+            // Take all of their clothes off :)
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 0 WHERE playerID = ?"))
             {
-                PreparedStatement stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 0 WHERE playerID = ?");
                 stmt.setInt(1, playerID);
-                stmt.executeUpdate();
-                for (int id : itemsIDs)
-                {
-                    stmt = connection.prepareStatement("UPDATE VanityInventory SET isWearing = 1 WHERE playerID = ? AND vanityID = ?");
-                    stmt.setInt(1, playerID);
-                    stmt.setInt(2, id);
-                    int updated = stmt.executeUpdate();
-                    if (updated == 0)
-                    {
-                        addItemToInventory(playerID, id, 1);
-                    }
-                }
-                stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS(SELECT * FROM DefaultItems WHERE vanityID = DefaultItems.defaultID) AND isWearing = 0;");
                 stmt.executeUpdate();
             }
             catch (SQLException e)
             {
-                throw new DatabaseException("Couldn't update what the player is wearing", e);
+                throw new DatabaseException("Unable to remove player's vanity", e);
+            }
+
+            // Put new clothes back on :(
+            String array = itemsIDs.stream().map(String::valueOf).collect(Collectors.joining(", "));
+            String updateSql = String.format("UPDATE VanityInventory SET isWearing = 1 WHERE playerID = ? AND vanityID IN (%s)", array);
+            try (PreparedStatement stmt = connection.prepareStatement(updateSql))
+            {
+                stmt.setInt(1, playerID);
+
+                stmt.executeUpdate();
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Unable to add player's vanity", e);
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS(SELECT * FROM DefaultItems WHERE vanityID = DefaultItems.defaultID) AND isWearing = 0;"))
+            {
+                stmt.executeUpdate();
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Unable to remove default vanity items", e);
             }
         }
     }
@@ -249,9 +275,8 @@ public class VanityInventoryTableDataGateway
     public void addItemToInventory(int playerID, int vanityID, int isWearing) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityInventory SET playerID = ?, vanityID = ?, isWearing = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityInventory SET playerID = ?, vanityID = ?, isWearing = ?");
             stmt.setInt(1, playerID);
             stmt.setInt(2, vanityID);
             stmt.setInt(3, isWearing);
