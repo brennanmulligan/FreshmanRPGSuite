@@ -47,19 +47,26 @@ public class RandomFactsTableDataGateway
     public static void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+
+        String dropSql = "DROP TABLE IF EXISTS RandomFacts";
+        String createSql = "Create TABLE RandomFacts (factID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, factText VARCHAR(80) NOT NULL, npcID INT NOT NULL, startDate DATE, endDate DATE)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS RandomFacts");
-            stmt.executeUpdate();
-            stmt.close();
-            stmt = connection.prepareStatement(
-                    "Create TABLE RandomFacts (factID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, factText VARCHAR(80) NOT NULL, npcID INT NOT NULL, startDate DATE, endDate DATE)");
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the RandomFacts table", e);
+            throw new DatabaseException("Unable to drop RandomFacts table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create RandomFacts table", e);
         }
     }
 
@@ -73,10 +80,9 @@ public class RandomFactsTableDataGateway
     public static void createRow(String factText, int npcID, LocalDate startDate, LocalDate endDate) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO RandomFacts SET factText = ?, npcID = ?, startDate = ?, endDate = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO RandomFacts SET factText = ?, npcID = ?, startDate = ?, endDate = ?");
             stmt.setString(1, factText);
             stmt.setInt(2, npcID);
             stmt.setDate(3, java.sql.Date.valueOf(startDate));
@@ -93,10 +99,9 @@ public class RandomFactsTableDataGateway
     public ArrayList<RandomFactDTO> getAllFactsForNPC(int npcID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RandomFacts");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RandomFacts");
-            ResultSet result = stmt.executeQuery();
 
             ArrayList<RandomFactDTO> results = new ArrayList<>();
             while (result.next())

@@ -40,7 +40,10 @@ public class ServerRowDataGateway
      */
     public static void createTable() throws DatabaseException
     {
-        String sql = "Create TABLE Server ("
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        String dropSql = "DROP TABLE IF EXISTS Server";
+        String createSql = "Create TABLE Server ("
                 + "serverID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "
                 + "hostName varchar(80),"
                 + "portNumber INT,"
@@ -49,20 +52,22 @@ public class ServerRowDataGateway
                 + "teleportPositionX INT DEFAULT 0, "
                 + "teleportPositionY INT DEFAULT 0)";
 
-        Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS VisitedMaps, Server");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = connection.prepareStatement(sql);
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the Server table", e);
+            throw new DatabaseException("Unable to drop Server table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create Server table", e);
         }
     }
 
@@ -97,10 +102,9 @@ public class ServerRowDataGateway
                               int teleportPositionY) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Server SET hostName = ?, portNumber = ?, mapName = ?, mapTitle = ?, teleportPositionX = ?, teleportPositionY = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Server SET hostName = ?, portNumber = ?, mapName = ?, mapTitle = ?, teleportPositionX = ?, teleportPositionY = ?");
             stmt.setString(1, hostName);
             stmt.setInt(2, portNumber);
             stmt.setString(3, mapName);
@@ -126,20 +130,21 @@ public class ServerRowDataGateway
         this.mapName = mapName;
         originalMapName = mapName;
         connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Server WHERE mapName = ?"))
         {
-            PreparedStatement stmt =
-                    connection.prepareStatement("SELECT * FROM Server WHERE mapName = ?");
             stmt.setString(1, mapName);
-            ResultSet result = stmt.executeQuery();
-            result.next();
 
-            this.setHostName(result.getString("hostName"));
-            this.setMapTitle(result.getString("mapTitle"));
-            this.setPortNumber(result.getInt("portNumber"));
-            this.setTeleportPositionX(result.getInt("teleportPositionX"));
-            this.setTeleportPositionY(result.getInt("teleportPositionY"));
-            mapID = result.getInt("serverID");
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+
+                this.setHostName(result.getString("hostName"));
+                this.setMapTitle(result.getString("mapTitle"));
+                this.setPortNumber(result.getInt("portNumber"));
+                this.setTeleportPositionX(result.getInt("teleportPositionX"));
+                this.setTeleportPositionY(result.getInt("teleportPositionY"));
+                mapID = result.getInt("serverID");
+            }
         }
         catch (SQLException e)
         {
@@ -159,22 +164,22 @@ public class ServerRowDataGateway
 
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        String SQL =
-                "SELECT mapName, teleportPositionX, teleportPositionY FROM Server WHERE mapTitle = ?";
-        PreparedStatement stmt;
+        String SQL = "SELECT mapName, teleportPositionX, teleportPositionY FROM Server WHERE mapTitle = ?";
         ServerRowDataGateway serverGateway = new ServerRowDataGateway();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(SQL))
         {
-            stmt = connection.prepareStatement(SQL);
             stmt.setString(1, mapTitle);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next())
+
+            try (ResultSet rs = stmt.executeQuery())
             {
-                serverGateway = new ServerRowDataGateway();
-                serverGateway.setMapName(rs.getString("mapName"));
-                serverGateway.setTeleportPositionX(rs.getInt("teleportPositionX"));
-                serverGateway.setTeleportPositionY(rs.getInt("teleportPositionY"));
+                while (rs.next())
+                {
+                    serverGateway = new ServerRowDataGateway();
+                    serverGateway.setMapName(rs.getString("mapName"));
+                    serverGateway.setTeleportPositionX(rs.getInt("teleportPositionX"));
+                    serverGateway.setTeleportPositionY(rs.getInt("teleportPositionY"));
+                }
             }
         }
         catch (SQLException e)
@@ -281,11 +286,8 @@ public class ServerRowDataGateway
         this.connection = DatabaseManager.getSingleton().getConnection();
         if (!originalMapName.equals(mapName))
         {
-            PreparedStatement stmt;
-            try
+            try (PreparedStatement stmt = connection.prepareStatement("DELETE from Server WHERE mapName = ?");)
             {
-                stmt = connection.prepareStatement(
-                        "DELETE from Server WHERE mapName = ?");
                 stmt.setString(1, originalMapName);
                 stmt.executeUpdate();
             }
@@ -299,30 +301,34 @@ public class ServerRowDataGateway
             insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX,
                     teleportPositionY);
         }
-        try
+
+        // FIXME: Find a better way to do this
+        if (OptionsManager.getSingleton().getHostName().equals("localhost"))
         {
-            if (OptionsManager.getSingleton().getHostName().equals("localhost"))
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE Server SET portNumber = ? WHERE mapName = ?"))
             {
-                PreparedStatement stmt = connection.prepareStatement(
-                        "UPDATE Server SET portNumber = ? WHERE mapName = ?");
                 stmt.setInt(1, portNumber);
                 stmt.setString(2, mapName);
                 stmt.executeUpdate();
             }
-            else
+            catch (SQLException e)
             {
-                PreparedStatement stmt = connection.prepareStatement(
-                        "UPDATE Server SET portNumber = ?, hostName = ? WHERE mapName = ?");
-                stmt.setString(2, hostName);
+                throw new DatabaseException("Couldn't find a record in Server for a map named " + mapName, e);
+            }
+        }
+        else
+        {
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE Server SET portNumber = ?, hostName = ? WHERE mapName = ?"))
+            {
                 stmt.setInt(1, portNumber);
+                stmt.setString(2, hostName);
                 stmt.setString(3, mapName);
                 stmt.executeUpdate();
             }
-        }
-        catch (SQLException e)
-        {
-            throw new DatabaseException(
-                    "Couldn't find a record in Server for a map named " + mapName, e);
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Couldn't find a record in Server for a map named " + mapName, e);
+            }
         }
     }
 

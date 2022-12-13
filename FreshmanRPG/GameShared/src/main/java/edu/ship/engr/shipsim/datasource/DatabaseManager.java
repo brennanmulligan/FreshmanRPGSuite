@@ -1,9 +1,12 @@
 package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.model.OptionsManager;
+import org.intellij.lang.annotations.Language;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -48,10 +51,11 @@ public class DatabaseManager
         {
             id = Thread.currentThread().getId();
         }
+
         Connection connection = connections.get(id);
-        try
+        try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
         {
-            connection.prepareStatement("SELECT now() as time;").execute();
+            pstm.execute();
         }
         catch (SQLException e)
         {
@@ -208,10 +212,16 @@ public class DatabaseManager
     {
         if (!c.isClosed())
         {
-            Statement stmt = c.createStatement();
-            stmt.execute("ROLLBACK");
-            c.commit();//
-            startTransaction(c);
+            try (Statement statement = c.createStatement())
+            {
+                statement.execute("ROLLBACK");
+                c.commit();
+                startTransaction(c);
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -313,4 +323,37 @@ public class DatabaseManager
         closeConnection(Thread.currentThread().getId());
     }
 
+    public int executeUpdate(@Language("MySQL") String query, Object... params) throws DatabaseException
+    {
+        try (PreparedStatement pstm = getConnection().prepareStatement(query))
+        {
+            for (int i = 0; i < params.length; i++)
+            {
+                pstm.setObject(i + 1, params[i]);
+            }
+
+            return pstm.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("executeUpdate Failed: ", e);
+        }
+    }
+
+    public ResultSet executeQuery(@Language("MySQL") String query, Object... params) throws DatabaseException
+    {
+        try (PreparedStatement pstm = getConnection().prepareStatement(query))
+        {
+            for (int i = 0; i < params.length; i++)
+            {
+                pstm.setObject(i + 1, params[i]);
+            }
+
+            return pstm.executeQuery();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("executeQuery Failed: ", e);
+        }
+    }
 }

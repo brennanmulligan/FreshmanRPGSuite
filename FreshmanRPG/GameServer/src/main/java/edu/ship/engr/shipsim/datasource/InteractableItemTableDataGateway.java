@@ -54,12 +54,9 @@ public class InteractableItemTableDataGateway
 
         String query = "SELECT * FROM InteractableItems";
 
-        try
+        try (PreparedStatement stmt = this.connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery())
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-
-            ResultSet rs = stmt.executeQuery();
-
             ArrayList<InteractableItemDTO> result = new ArrayList<>();
             while (rs.next())
             {
@@ -94,31 +91,30 @@ public class InteractableItemTableDataGateway
 
         String query = "SELECT * FROM InteractableItems WHERE mapName = ?";
 
-        try
+        try (PreparedStatement stmt = this.connection.prepareStatement(query))
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-
             stmt.setString(1, mapName);
 
-            ResultSet rs = stmt.executeQuery();
-
-            ArrayList<InteractableItemDTO> result = new ArrayList<>();
-            while (rs.next())
+            try (ResultSet rs = stmt.executeQuery())
             {
-                InteractableItemDTO item =
-                        new InteractableItemDTO(rs.getInt("itemID"), rs.getString("name"),
-                                new Position(rs.getInt("xPosition"),
-                                        rs.getInt("yPosition")),
-                                InteractableItemActionType.findById(
-                                        rs.getInt("actionType")),
-                                this.getParam(rs.getObject("actionParam"),
-                                        InteractableItemActionType.findById(rs
-                                                .getInt("actionType"))),
-                                rs.getString("mapName"));
-                result.add(item);
-            }
+                ArrayList<InteractableItemDTO> result = new ArrayList<>();
+                while (rs.next())
+                {
+                    InteractableItemDTO item =
+                            new InteractableItemDTO(rs.getInt("itemID"), rs.getString("name"),
+                                    new Position(rs.getInt("xPosition"),
+                                            rs.getInt("yPosition")),
+                                    InteractableItemActionType.findById(
+                                            rs.getInt("actionType")),
+                                    this.getParam(rs.getObject("actionParam"),
+                                            InteractableItemActionType.findById(rs
+                                                    .getInt("actionType"))),
+                                    rs.getString("mapName"));
+                    result.add(item);
+                }
 
-            return result;
+                return result;
+            }
         }
         catch (SQLException e)
         {
@@ -135,8 +131,13 @@ public class InteractableItemTableDataGateway
             Class<? extends InteractableItemActionParameter> actionParameterType =
                     actionType.getActionParam();
             ByteArrayInputStream stream = new ByteArrayInputStream((byte[]) blob);
-            Object x = new ObjectInputStream(stream).readObject();
-            return actionParameterType.cast(x);
+
+            try (ObjectInputStream ois = new ObjectInputStream(stream))
+            {
+                Object x = ois.readObject();
+
+                return actionParameterType.cast(x);
+            }
         }
         catch (ClassNotFoundException | IOException e)
         {

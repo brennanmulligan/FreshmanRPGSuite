@@ -3,8 +3,14 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
+import org.apache.commons.compress.utils.Lists;
+import org.intellij.lang.annotations.Language;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class FriendTableDataGateway
@@ -36,21 +42,30 @@ public class FriendTableDataGateway
      */
     public static void createTable() throws DatabaseException
     {
-        Connection connect = DatabaseManager.getSingleton().getConnection();
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        @Language("MySQL")
+        String dropSql = "DROP TABLE IF EXISTS Friends;";
+
+        @Language("MySQL")
+        String createSql = "CREATE TABLE Friends(playerID int NOT NULL, FRIENDID int NOT NULL, status varchar(10) NOT NULL);";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt =
-                    connect.prepareStatement("DROP TABLE IF EXISTS Friends;");
-            stmt.executeUpdate();
-            stmt.close();
-            stmt = connect.prepareStatement(
-                    "CREATE TABLE Friends(playerID int NOT NULL," +
-                            "FRIENDID int NOT NULL, status varchar(10) NOT NULL);");
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create table");
+            throw new DatabaseException("Unable to drop Friends table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create Friends table", e);
         }
     }
 
@@ -73,6 +88,8 @@ public class FriendTableDataGateway
     {
 
         Connection connect = DatabaseManager.getSingleton().getConnection();
+
+        // FIXME: Hybrid Coupling... Eww
         int friendId = -1;
         try
         {
@@ -93,13 +110,14 @@ public class FriendTableDataGateway
             }
             else
             {
-                PreparedStatement stmt = connect.prepareStatement(
-                        "UPDATE Friends SET status = 'ACCEPTED' WHERE playerID = ? AND FRIENDID = ?;");
-                stmt.setInt(1, friendId);
-                stmt.setInt(2, playerID);
-                stmt.executeUpdate();
+                try (PreparedStatement stmt = connect.prepareStatement("UPDATE Friends SET status = 'ACCEPTED' WHERE playerID = ? AND FRIENDID = ?;"))
+                {
+                    stmt.setInt(1, friendId);
+                    stmt.setInt(2, playerID);
+                    stmt.executeUpdate();
 
-                return friendId;
+                    return friendId;
+                }
             }
         }
         catch (SQLException e)
@@ -117,6 +135,7 @@ public class FriendTableDataGateway
             throws DatabaseException
     {
 
+        // FIXME: Hybrid Coupling... Eww
         int friendID = -1;
         for (PlayerDTO playerDTO : allPlayer)
         {
@@ -152,10 +171,8 @@ public class FriendTableDataGateway
                 "INSERT INTO Friends " + "SET playerID = ?, FRIENDID = ?, STATUS = ?";
         this.connect = DatabaseManager.getSingleton().getConnection();
 
-        PreparedStatement stmt;
-        try
+        try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
         {
-            stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, id);
             stmt.setInt(2, friendID);
             stmt.setString(3, status.toString());
@@ -173,88 +190,99 @@ public class FriendTableDataGateway
         this.connect = DatabaseManager.getSingleton().getConnection();
         int playerId, friendId;
         FriendStatusEnum status;
-        ArrayList<FriendDTO> results;
+        ArrayList<FriendDTO> results = Lists.newArrayList();
 
-        try
+        // FIXME: Extract into two separate methods... A 12 complexity is way too high for this. Try to abstract
+
+        // Search by playerID
+        try (PreparedStatement stmt = connect.prepareStatement(
+                "SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status" +
+                        " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND P.playerID = ?"))
         {
-            PreparedStatement stmt = connect.prepareStatement(
-                    "SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status" +
-                            " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND P.playerID = ?;");
             stmt.setInt(1, id);
 
-            ResultSet result = stmt.executeQuery();
-
-            results = new ArrayList<>();
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                playerId = result.getInt("PLAYERID");
-                friendId = result.getInt("FRIENDID");
-                if (result.getString("status").equals("ACCEPTED"))
+                while (result.next())
                 {
-                    status = FriendStatusEnum.ACCEPTED;
-                }
-                else
-                {
-                    status = FriendStatusEnum.PENDING;
-                }
+                    playerId = result.getInt("PLAYERID");
+                    friendId = result.getInt("FRIENDID");
+                    if (result.getString("status").equals("ACCEPTED"))
+                    {
+                        status = FriendStatusEnum.ACCEPTED;
+                    }
+                    else
+                    {
+                        status = FriendStatusEnum.PENDING;
+                    }
 
-                getNameFromId(playerId, friendId);
+                    getNameFromId(playerId, friendId);
 
-                FriendDTO friend =
-                        new FriendDTO(playerId, friendId, status, playerName, friendName);
-                results.add(friend);
+                    FriendDTO friend =
+                            new FriendDTO(playerId, friendId, status, playerName, friendName);
+                    results.add(friend);
+                }
             }
-
-            //Get the records where the id passed in is the friend
-            stmt = connect.prepareStatement(
-                    "SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status" +
-                            " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND F.FRIENDID = ?;");
-            stmt.setInt(1, id);
-
-            result = stmt.executeQuery();
-
-            while (result.next())
-            {
-                playerId = result.getInt("FRIENDID");
-                friendId = result.getInt("PLAYERID");
-                if (result.getString("status").equals("PENDING"))
-                {
-                    status = FriendStatusEnum.REQUESTED;
-                }
-                else
-                {
-                    status = FriendStatusEnum.ACCEPTED;
-                }
-                getNameFromId(playerId, friendId);
-                FriendDTO friend =
-                        new FriendDTO(playerId, friendId, status, playerName, friendName);
-                results.add(friend);
-            }
-
-            return results;
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
-            throw new DatabaseException("Unable to find player");
+            throw new DatabaseException("Unable to file player", e);
         }
+
+        // Search by friendID
+        try (
+            //Get the records where the id passed in is the friend
+            PreparedStatement stmt = connect.prepareStatement(
+                    "SELECT F.playerID as PLAYERID, F.FRIENDID as FRIENDID, F.status as status" +
+                            " FROM  Friends as F, Players as P WHERE F.playerID = P.playerID AND F.FRIENDID = ?;"))
+        {
+            stmt.setInt(1, id);
+
+            try (ResultSet result = stmt.executeQuery())
+            {
+                while (result.next())
+                {
+                    playerId = result.getInt("FRIENDID");
+                    friendId = result.getInt("PLAYERID");
+                    if (result.getString("status").equals("PENDING"))
+                    {
+                        status = FriendStatusEnum.REQUESTED;
+                    }
+                    else
+                    {
+                        status = FriendStatusEnum.ACCEPTED;
+                    }
+                    getNameFromId(playerId, friendId);
+                    FriendDTO friend = new FriendDTO(playerId, friendId, status, playerName, friendName);
+                    results.add(friend);
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to find player", e);
+        }
+
+        return results;
     }
 
     public int getFriendCounter(int id) throws DatabaseException
     {
         this.connect = DatabaseManager.getSingleton().getConnection();
         int friendCount = 0;
-        try
+
+        try (PreparedStatement stmt = connect.prepareStatement(
+                "SELECT COUNT(*) AS total FROM Friends WHERE status = 'ACCEPTED' AND (friendId = ? OR playerId = ?);"))
         {
-            PreparedStatement stmt = connect.prepareStatement(
-                    "SELECT COUNT(*) AS total FROM Friends WHERE status = 'ACCEPTED' AND (friendId = ? OR playerId = ?);");
             stmt.setInt(1, id);
             stmt.setInt(2, id);
 
-            ResultSet result = stmt.executeQuery();
-            if (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                friendCount = result.getInt("total");
+                if (result.next())
+                {
+                    friendCount = result.getInt("total");
+                }
             }
             return friendCount;
         }

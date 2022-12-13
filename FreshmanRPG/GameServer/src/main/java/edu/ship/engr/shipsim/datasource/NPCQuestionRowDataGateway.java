@@ -2,7 +2,11 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.QuestionDTO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
@@ -29,18 +33,21 @@ public class NPCQuestionRowDataGateway
     public NPCQuestionRowDataGateway(int questionID) throws DatabaseException
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
-        try
+
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM NPCQuestions WHERE questionID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM NPCQuestions WHERE questionID = ?");
             stmt.setInt(1, questionID);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            this.questionStatement = result.getString("questionStatement");
-            this.answer = result.getString("answer");
-            this.startDate = result.getDate("startDate").toLocalDate();
-            this.endDate = result.getDate("endDate").toLocalDate();
-            this.questionID = result.getInt("questionID");
+
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+
+                this.questionStatement = result.getString("questionStatement");
+                this.answer = result.getString("answer");
+                this.startDate = result.getDate("startDate").toLocalDate();
+                this.endDate = result.getDate("endDate").toLocalDate();
+                this.questionID = result.getInt("questionID");
+            }
         }
         catch (SQLException e)
         {
@@ -64,15 +71,10 @@ public class NPCQuestionRowDataGateway
                                      LocalDate endDate) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ?",
+                Statement.RETURN_GENERATED_KEYS))
         {
-
-            PreparedStatement stmt =
-                    connection.prepareStatement(
-                            "Insert INTO NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ?",
-                            Statement.RETURN_GENERATED_KEYS
-                    );
-
             stmt.setString(1, questionStatement);
             stmt.setString(2, answer);
             stmt.setDate(3, java.sql.Date.valueOf(startDate));
@@ -100,9 +102,11 @@ public class NPCQuestionRowDataGateway
             this.startDate = startDate;
             this.endDate = endDate;
 
-            ResultSet keys = stmt.getGeneratedKeys();
-            keys.next();
-            this.questionID = keys.getInt(1);
+            try (ResultSet keys = stmt.getGeneratedKeys())
+            {
+                keys.next();
+                this.questionID = keys.getInt(1);
+            }
 
         }
         catch (SQLException e)
@@ -124,20 +128,24 @@ public class NPCQuestionRowDataGateway
     public static void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS NPCQuestions");
-            stmt.executeUpdate();
-            stmt.close();
 
-            stmt = connection.prepareStatement(
-                    "Create TABLE NPCQuestions (questionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questionStatement VARCHAR(256), answer VARCHAR(80), startDate DATE, endDate DATE)");
-            stmt.executeUpdate();
+        try (PreparedStatement pstm = connection.prepareStatement("DROP TABLE IF EXISTS NPCQuestions"))
+        {
+            pstm.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the NPC Question table", e);
+            throw new DatabaseException("Unable to delete NPC Question table", e);
+        }
+
+        try (PreparedStatement pstm = connection.prepareStatement(
+                "Create TABLE NPCQuestions (questionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questionStatement VARCHAR(256), answer VARCHAR(80), startDate DATE, endDate DATE)"))
+        {
+            pstm.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create NPC Question table", e);
         }
     }
 
@@ -150,11 +158,9 @@ public class NPCQuestionRowDataGateway
     {
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM NPCQuestions ORDER BY RAND() LIMIT 1");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM NPCQuestions ORDER BY RAND() LIMIT 1");
-            ResultSet result = stmt.executeQuery();
             result.next();
             NPCQuestionRowDataGateway gateway = new NPCQuestionRowDataGateway();
             gateway.questionID = result.getInt("questionID");
@@ -180,10 +186,8 @@ public class NPCQuestionRowDataGateway
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM NPCQuestions WHERE questionID = ? LIMIT 1"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM NPCQuestions WHERE questionID = ? LIMIT 1");
             stmt.setInt(1, this.questionID);
             stmt.executeUpdate();
         }
@@ -283,11 +287,9 @@ public class NPCQuestionRowDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ? WHERE questionID=?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE NPCQuestions SET questionStatement = ?, answer = ?, startDate = ?, endDate = ? WHERE questionID=?");
-
             stmt.setInt(5, this.questionID);
             stmt.setString(1, this.questionStatement);
             stmt.setString(2, this.answer);
