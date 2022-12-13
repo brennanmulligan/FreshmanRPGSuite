@@ -45,10 +45,8 @@ public class VisitedMapsGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
         String insertSql = "INSERT INTO VisitedMaps SET playerID = ?, mapID = ?";
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(insertSql))
         {
-
-            PreparedStatement stmt = connection.prepareStatement(insertSql);
             stmt.setInt(1, playerID);
             stmt.setInt(2, mapID);
             stmt.executeUpdate();
@@ -75,15 +73,18 @@ public class VisitedMapsGateway
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to delete VisitedMaps table", e);
+        }
 
-            stmt = connection.prepareStatement(createSql);
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
             stmt.execute();
-            stmt.close();
         }
         catch (SQLException e)
         {
@@ -122,16 +123,20 @@ public class VisitedMapsGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
         String sql =
                 "SELECT Server.mapTitle FROM Server INNER JOIN VisitedMaps ON Server.serverID = VisitedMaps.mapID " +
-                        "WHERE playerID = " + playerID;
+                        "WHERE playerID = ?";
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
+            stmt.setInt(1, playerID);
+
             ArrayList<String> temp = new ArrayList<>();
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next())
+
+            try (ResultSet rs = stmt.executeQuery())
             {
-                temp.add(rs.getString("mapTitle"));
+                while (rs.next())
+                {
+                    temp.add(rs.getString("mapTitle"));
+                }
             }
             mapsVisited = temp;
         }

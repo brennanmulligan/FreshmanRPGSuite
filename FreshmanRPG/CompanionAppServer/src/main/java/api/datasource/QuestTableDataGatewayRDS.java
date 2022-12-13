@@ -57,14 +57,12 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
     @Override
     public ArrayList<QuestRecord> getAllQuests() throws DatabaseException
     {
-        final ArrayList<QuestRecord> quests = new ArrayList<>();
-        final Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            final PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * From Quests");
-            final ResultSet rs = stmt.executeQuery();
+        ArrayList<QuestRecord> quests = new ArrayList<>();
+        Connection connection = DatabaseManager.getSingleton().getConnection();
 
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * From Quests");
+             ResultSet rs = stmt.executeQuery())
+        {
             while (rs.next())
             {
                 quests.add(buildQuestRecord(rs));
@@ -81,8 +79,8 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
     private QuestRecord buildQuestRecord(ResultSet rs) throws SQLException, DatabaseException
     {
         QuestCompletionActionType qcat = QuestCompletionActionType.findByID(rs.getInt("completionActionType"));
-        final Date startDate = rs.getDate("startDate");
-        final Date endDate = rs.getDate("endDate");
+        Date startDate = rs.getDate("startDate");
+        Date endDate = rs.getDate("endDate");
 
         return new QuestRecord(
                 rs.getInt("questID"),

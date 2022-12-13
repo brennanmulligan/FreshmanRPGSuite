@@ -52,10 +52,9 @@ public class QuestStateTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         checkForDuplicateEntry(playerID, questID);
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO QuestStates SET playerID = ?, questID = ?, questState = ?, needingNotification = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO QuestStates SET playerID = ?, questID = ?, questState = ?, needingNotification = ?");
             stmt.setInt(1, playerID);
             stmt.setInt(2, questID);
             stmt.setInt(3, state.getID());
@@ -79,20 +78,24 @@ public class QuestStateTableDataGateway
     public void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS QuestStates");
-            stmt.executeUpdate();
-            stmt.close();
 
-            stmt = connection.prepareStatement(
-                    "Create TABLE QuestStates (playerID INT NOT NULL, questID INT NOT NULL , questState INT NOT NULL, needingNotification BOOLEAN NOT NULL)");
+        try (PreparedStatement stmt = connection.prepareStatement("DROP TABLE IF EXISTS QuestStates"))
+        {
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the QuestStates table", e);
+            throw new DatabaseException("Unable to drop QuestStates table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Create TABLE QuestStates (playerID INT NOT NULL, questID INT NOT NULL , questState INT NOT NULL, needingNotification BOOLEAN NOT NULL)"))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create QuestStates table", e);
         }
     }
 
@@ -100,24 +103,24 @@ public class QuestStateTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM QuestStates WHERE playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM QuestStates WHERE playerID = ?");
             stmt.setInt(1, playerID);
-            ResultSet result = stmt.executeQuery();
 
-            ArrayList<QuestStateRecordDTO> results = new ArrayList<>();
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                QuestStateRecordDTO rec =
-                        new QuestStateRecordDTO(result.getInt("playerID"),
-                                result.getInt("questID"),
-                                convertToState(result.getInt("QuestState")),
-                                result.getBoolean("needingNotification"));
-                results.add(rec);
+                ArrayList<QuestStateRecordDTO> results = new ArrayList<>();
+                while (result.next())
+                {
+                    QuestStateRecordDTO rec =
+                            new QuestStateRecordDTO(result.getInt("playerID"),
+                                    result.getInt("questID"),
+                                    convertToState(result.getInt("QuestState")),
+                                    result.getBoolean("needingNotification"));
+                    results.add(rec);
+                }
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {
@@ -137,12 +140,9 @@ public class QuestStateTableDataGateway
     {
         ArrayList<QuestStateRecordDTO> listOfQuestStates = new ArrayList<>();
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("select * from QuestStates");
+             ResultSet rs = stmt.executeQuery())
         {
-            PreparedStatement stmt =
-                    connection.prepareStatement("select * from QuestStates");
-            ResultSet rs = stmt.executeQuery();
-
             HashMap<Integer, QuestStateEnum> recordMap = new HashMap<>();
             for (QuestStateEnum value : QuestStateEnum.values())
             {
@@ -173,12 +173,10 @@ public class QuestStateTableDataGateway
                             boolean needingNotification)
             throws DatabaseException
     {
-
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE QuestStates SET questState = ?, needingNotification = ? WHERE  playerID = ? and questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE QuestStates SET questState = ?, needingNotification = ? WHERE  playerID = ? and questID = ?");
             stmt.setInt(1, newState.getID());
             stmt.setBoolean(2, needingNotification);
             stmt.setInt(3, playerID);
@@ -202,20 +200,22 @@ public class QuestStateTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM QuestStates WHERE playerID = ? and questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM QuestStates WHERE playerID = ? and questID = ?");
             stmt.setInt(1, playerID);
             stmt.setInt(2, questID);
-            ResultSet result = stmt.executeQuery();
 
-            if (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                throw new DatabaseException(
-                        "Duplicate quest state for player ID " + playerID +
-                                " and quest id " + questID);
+                if (result.next())
+                {
+                    throw new DatabaseException(
+                            "Duplicate quest state for player ID " + playerID +
+                                    " and quest id " + questID);
+                }
             }
+
         }
         catch (SQLException e)
         {

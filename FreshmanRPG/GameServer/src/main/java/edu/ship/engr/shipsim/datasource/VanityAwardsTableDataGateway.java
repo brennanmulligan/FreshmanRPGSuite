@@ -36,29 +36,32 @@ public class VanityAwardsTableDataGateway
      */
     public static void createTable() throws DatabaseException
     {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
         String dropSql = "DROP TABLE IF EXISTS VanityAwards";
-        String vanityAwardsCreationSql = "CREATE TABLE VanityAwards(" +
+        String createSql = "CREATE TABLE VanityAwards(" +
                 "questID INT NOT NULL," +
                 "awardID INT NOT NULL," +
                 "FOREIGN KEY (questID) REFERENCES Quests(questID) ON DELETE CASCADE," +
                 "FOREIGN KEY (awardID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE," +
                 "CONSTRAINT PK_questID_awardID PRIMARY KEY (questID, awardID));";
 
-        Connection connection = DatabaseManager.getSingleton().getConnection();
-
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
-
-            stmt = connection.prepareStatement(vanityAwardsCreationSql);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Could not create the Vanity awards table", e);
+            throw new DatabaseException("Unable to drop VanityAwards table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create VanityAwards table", e);
         }
     }
 
@@ -74,11 +77,9 @@ public class VanityAwardsTableDataGateway
         ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
         VanityItemsTableDataGateway vanityItemsGateway =
                 VanityItemsTableDataGateway.getSingleton();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards");
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("awardID")));
@@ -103,15 +104,16 @@ public class VanityAwardsTableDataGateway
         ArrayList<VanityDTO> VanityAwards = new ArrayList<>();
         VanityItemsTableDataGateway vanityItemsGateway =
                 VanityItemsTableDataGateway.getSingleton();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards WHERE questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityAwards WHERE questID = ?");
             stmt.setInt(1, questID);
-            ResultSet result = stmt.executeQuery();
 
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("awardID")));
+                while (result.next())
+                {
+                    VanityAwards.add(vanityItemsGateway.getVanityItemByID(result.getInt("awardID")));
+                }
             }
         }
         catch (SQLException e)
@@ -131,9 +133,8 @@ public class VanityAwardsTableDataGateway
     public void addVanityAward(int questID, int awardID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityAwards SET questID = ?, awardID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityAwards SET questID = ?, awardID = ?");
             stmt.setInt(1, questID);
             stmt.setInt(2, awardID);
             int updated = stmt.executeUpdate();
@@ -157,9 +158,8 @@ public class VanityAwardsTableDataGateway
     public void removeVanityAward(int questID, int awardID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityAwards WHERE questID = ? AND awardID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityAwards WHERE questID = ? AND awardID = ? ");
             stmt.setInt(1, questID);
             stmt.setInt(2, awardID);
             int updated = stmt.executeUpdate();

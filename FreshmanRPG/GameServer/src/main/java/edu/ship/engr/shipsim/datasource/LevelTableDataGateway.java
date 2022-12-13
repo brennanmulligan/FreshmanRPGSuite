@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.datasource;
 
+import org.intellij.lang.annotations.Language;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,19 +33,29 @@ public class LevelTableDataGateway
     public static void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+
+        @Language("MySQL")
+        String dropSql = "DROP TABLE IF EXISTS Levels";
+
+        @Language("MySQL")
+        String createSql = "Create TABLE Levels (levelDescription VARCHAR(30) NOT NULL, levelUpPoints INT NOT NULL, levelUpMonth INT NOT NULL, levelUpDayOfMonth INT NOT NULL)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt =
-                    connection.prepareStatement("DROP TABLE IF EXISTS Levels");
-            stmt.executeUpdate();
-            stmt.close();
-            stmt = connection.prepareStatement(
-                    "Create TABLE Levels (levelDescription VARCHAR(30) NOT NULL, levelUpPoints INT NOT NULL, levelUpMonth INT NOT NULL, levelUpDayOfMonth INT NOT NULL)");
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the Level table", e);
+            throw new DatabaseException("Unable to drop Levels table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create Levels table", e);
         }
     }
 
@@ -73,16 +85,14 @@ public class LevelTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Levels SET levelDescription = ?, levelUpPoints = ?, levelUpMonth = ?, levelUpDayOfMonth = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Levels SET levelDescription = ?, levelUpPoints = ?, levelUpMonth = ?, levelUpDayOfMonth = ?");
             stmt.setString(1, description);
             stmt.setInt(2, levelUpPoints);
             stmt.setInt(3, levelUpMonth);
             stmt.setInt(4, levelUpDayOfMonth);
             stmt.executeUpdate();
-
         }
         catch (SQLException e)
         {
@@ -95,11 +105,9 @@ public class LevelTableDataGateway
     public ArrayList<LevelRecord> getAllLevels() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Levels");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Levels");
-            ResultSet result = stmt.executeQuery();
-
             ArrayList<LevelRecord> results = new ArrayList<>();
             while (result.next())
             {

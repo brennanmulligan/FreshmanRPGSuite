@@ -24,26 +24,29 @@ public class DefaultItemsTableDataGateway
     public static void createTable() throws DatabaseException
     {
         String dropSql = "DROP TABLE IF EXISTS DefaultItems";
-        String defaultItemsCreationSql =
+        String createSql =
                 "CREATE TABLE DefaultItems(" + "defaultID INT NOT NULL UNIQUE," +
                         "defaultWearing INT, " +
                         "FOREIGN KEY (defaultID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE );";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
             stmt.execute();
-            stmt.close();
-
-            stmt = connection.prepareStatement(defaultItemsCreationSql);
-            stmt.execute();
-            stmt.close();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Could not create the Default items table", e);
+            throw new DatabaseException("Unable to drop DefaultItems table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.execute();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create DefaultItems table", e);
         }
     }
 
@@ -79,10 +82,9 @@ public class DefaultItemsTableDataGateway
     public void addDefaultItem(int defaultID, int defaultWearing) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "INSERT INTO DefaultItems SET defaultID = ?, defaultWearing = 0"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "INSERT INTO DefaultItems SET defaultID = ?, defaultWearing = 0");
             stmt.setInt(1, defaultID);
             int updated = stmt.executeUpdate();
             if (updated != 1)
@@ -137,18 +139,14 @@ public class DefaultItemsTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> defaultItems = new ArrayList<>();
-        VanityItemsTableDataGateway vanityItemsGateway =
-                VanityItemsTableDataGateway.getSingleton();
-        try
-        {
-            PreparedStatement stmt =
-                    connection.prepareStatement("SELECT * FROM DefaultItems");
-            ResultSet result = stmt.executeQuery();
+        VanityItemsTableDataGateway vanityItemsGateway = VanityItemsTableDataGateway.getSingleton();
 
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM DefaultItems");
+             ResultSet result = stmt.executeQuery())
+        {
             while (result.next())
             {
-                defaultItems.add(
-                        vanityItemsGateway.getVanityItemByID(result.getInt("defaultID")));
+                defaultItems.add(vanityItemsGateway.getVanityItemByID(result.getInt("defaultID")));
             }
         }
         catch (SQLException e)
@@ -167,24 +165,21 @@ public class DefaultItemsTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> defaultItems = new ArrayList<>();
-        VanityItemsTableDataGateway vanityItemsGateway =
-                VanityItemsTableDataGateway.getSingleton();
-        try
-        {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM DefaultItems WHERE defaultWearing = 1");
-            ResultSet result = stmt.executeQuery();
+        VanityItemsTableDataGateway vanityItemsGateway = VanityItemsTableDataGateway.getSingleton();
 
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM DefaultItems WHERE defaultWearing = 1");
+             ResultSet result = stmt.executeQuery())
+        {
             while (result.next())
             {
-                defaultItems.add(
-                        vanityItemsGateway.getVanityItemByID(result.getInt("defaultID")));
+                defaultItems.add(vanityItemsGateway.getVanityItemByID(result.getInt("defaultID")));
             }
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
+
         return defaultItems;
     }
 
@@ -217,17 +212,21 @@ public class DefaultItemsTableDataGateway
 
 
             Connection connection = DatabaseManager.getSingleton().getConnection();
-            try
+            if (toBeRemoved != null)
             {
-                if (toBeRemoved != null)
+                try (PreparedStatement rmvStmt = connection.prepareStatement("UPDATE DefaultItems SET defaultWearing = 0 WHERE defaultID = ?"))
                 {
-                    PreparedStatement rmvStmt = connection.prepareStatement(
-                            "UPDATE DefaultItems SET defaultWearing = 0 WHERE defaultID = ?");
                     rmvStmt.setInt(1, toBeRemoved.getID());
                     rmvStmt.executeUpdate();
                 }
-                PreparedStatement addStmt = connection.prepareStatement(
-                        "UPDATE DefaultItems SET defaultWearing = 1 WHERE defaultID = ?");
+                catch (SQLException e)
+                {
+                    throw new DatabaseException("Could not update default wearing", e);
+                }
+            }
+
+            try (PreparedStatement addStmt = connection.prepareStatement("UPDATE DefaultItems SET defaultWearing = 1 WHERE defaultID = ?"))
+            {
                 addStmt.setInt(1, toBeAdded.getID());
                 int updated = addStmt.executeUpdate();
                 if (updated != 1)
@@ -256,10 +255,8 @@ public class DefaultItemsTableDataGateway
     public void removeDefaultItem(int defaultID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM DefaultItems WHERE defaultID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE FROM DefaultItems WHERE defaultID = ?");
             stmt.setInt(1, defaultID);
             int updated = stmt.executeUpdate();
             if (updated != 1)

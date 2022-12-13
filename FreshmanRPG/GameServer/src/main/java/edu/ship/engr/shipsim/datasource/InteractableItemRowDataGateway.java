@@ -8,7 +8,11 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Row Data Gateway for Interactable Item
@@ -71,40 +75,39 @@ public class InteractableItemRowDataGateway
      */
     public static void createTable() throws DatabaseException
     {
-        String drop = "DROP TABLE IF EXISTS InteractableItems";
-        String create = "CREATE TABLE InteractableItems (" +
+        String dropSql = "DROP TABLE IF EXISTS InteractableItems";
+        String createSql = "CREATE TABLE InteractableItems (" +
                 "itemID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "name VARCHAR(30) NOT NULL, " + "xPosition INT NOT NULL, "
-                + "yPosition INT NOT NULL, " + "actionType INT NOT NULL, " +
-                "actionParam BLOB NOT NULL, " + "mapName VARCHAR(30) NOT NULL)";
+                "name VARCHAR(30) NOT NULL, xPosition INT NOT NULL, " +
+                "yPosition INT NOT NULL, actionType INT NOT NULL, " +
+                "actionParam BLOB NOT NULL, mapName VARCHAR(30) NOT NULL)";
 
-        Connection conn = DatabaseManager.getSingleton().getConnection();
+        Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            // drop table
-            PreparedStatement stmt;
-            stmt = conn.prepareStatement(drop);
-            stmt.execute();
-            stmt.close();
-
-            // create table
-            stmt = conn.prepareStatement(create);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create InteractableItem table", e);
+            throw new DatabaseException("Unable to drop InteractableItems table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create InteractableItems table", e);
         }
     }
 
     public void delete() throws DatabaseException
     {
         String query = "DELETE FROM InteractableItems WHERE itemID = ?";
-        try
+        try (PreparedStatement stmt = this.connection.prepareStatement(query))
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
             stmt.setInt(1, this.itemID);
             stmt.execute();
         }
@@ -187,10 +190,8 @@ public class InteractableItemRowDataGateway
                 "SET name = ?, xPosition = ?, yPosition = ?, actionType = ?, actionParam = ?, mapName = ? " +
                 "WHERE itemID = ?";
 
-        try
+        try (PreparedStatement stmt = this.connection.prepareStatement(query))
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-
             stmt.setString(1, this.name);
             stmt.setInt(2, this.position.getRow());
             stmt.setInt(3, this.position.getColumn());
@@ -218,11 +219,8 @@ public class InteractableItemRowDataGateway
     {
         String query = "INSERT INTO InteractableItems " +
                 "SET name = ?, xPosition = ?, yPosition = ?, actionType = ?, actionParam = ?, mapName = ?";
-        try
+        try (PreparedStatement stmt = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query,
-                    Statement.RETURN_GENERATED_KEYS);
-
             stmt.setString(1, name);
             stmt.setInt(2, pos.getRow());
             stmt.setInt(3, pos.getColumn());
@@ -231,10 +229,13 @@ public class InteractableItemRowDataGateway
             stmt.setString(6, mapName);
 
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next())
+
+            try (ResultSet rs = stmt.getGeneratedKeys())
             {
-                this.itemID = rs.getInt(1);
+                if (rs.next())
+                {
+                    this.itemID = rs.getInt(1);
+                }
             }
         }
         catch (SQLException e)
@@ -250,21 +251,25 @@ public class InteractableItemRowDataGateway
      */
     private void findById(int itemID) throws DatabaseException
     {
-        String query = "SELECT * FROM InteractableItems WHERE itemID = " + itemID;
-        try
+        String query = "SELECT * FROM InteractableItems WHERE itemID = ?";
+        try (PreparedStatement stmt = this.connection.prepareStatement(query))
         {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            this.name = rs.getString("name");
-            int x = rs.getInt("xPosition");
-            int y = rs.getInt("yPosition");
-            this.position = new Position(x, y);
-            this.actionType =
-                    InteractableItemActionType.findById(rs.getInt("actionType"));
-            this.actionParam =
-                    this.getParam(rs.getObject("actionParam"), this.actionType);
-            this.mapName = rs.getString("mapName");
+            stmt.setInt(1, itemID);
+
+            try (ResultSet rs = stmt.executeQuery())
+            {
+                rs.next();
+
+                this.name = rs.getString("name");
+                int x = rs.getInt("xPosition");
+                int y = rs.getInt("yPosition");
+                this.position = new Position(x, y);
+                this.actionType =
+                        InteractableItemActionType.findById(rs.getInt("actionType"));
+                this.actionParam =
+                        this.getParam(rs.getObject("actionParam"), this.actionType);
+                this.mapName = rs.getString("mapName");
+            }
         }
         catch (SQLException e)
         {
@@ -284,8 +289,12 @@ public class InteractableItemRowDataGateway
             Class<? extends InteractableItemActionParameter> actionParameterType =
                     actionType.getActionParam();
             ByteArrayInputStream stream = new ByteArrayInputStream((byte[]) blob);
-            Object x = new ObjectInputStream(stream).readObject();
-            return actionParameterType.cast(x);
+            try (ObjectInputStream ois = new ObjectInputStream(stream))
+            {
+                Object x = ois.readObject();
+
+                return actionParameterType.cast(x);
+            }
         }
         catch (ClassNotFoundException | IOException e)
         {
