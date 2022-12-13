@@ -39,8 +39,8 @@ public class VanityItemsTableDataGateway
      */
     public static void createTable() throws DatabaseException
     {
-        String dropSql = "DROP TABLE IF EXISTS VanityItems, DefaultItems, VanityAwards, VanityShop";
-        String vanityItemCreationSql = "CREATE TABLE VanityItems(" +
+        String dropSql = "DROP TABLE IF EXISTS DefaultItems, VanityAwards, VanityShop, VanityItems";
+        String createSql = "CREATE TABLE VanityItems(" +
                 "vanityID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(255), " +
                 "description VARCHAR(255), " +
@@ -49,19 +49,22 @@ public class VanityItemsTableDataGateway
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
-
-            stmt = connection.prepareStatement(vanityItemCreationSql);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Could not create the Vanity item table", e);
+            throw new DatabaseException("Unable to drop VanityItems table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create VanityItems table", e);
         }
     }
 
@@ -75,18 +78,19 @@ public class VanityItemsTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         VanityDTO item;
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE vanityID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE vanityID = ?");
             stmt.setInt(1, id);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            item = new VanityDTO(result.getInt("vanityID"),
-                    result.getString("name"),
-                    result.getString("description"),
-                    result.getString("textureName"),
-                    VanityType.fromInt(result.getInt("type")));
 
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                item = new VanityDTO(result.getInt("vanityID"),
+                        result.getString("name"),
+                        result.getString("description"),
+                        result.getString("textureName"),
+                        VanityType.fromInt(result.getInt("type")));
+            }
         }
         catch (SQLException e)
         {
@@ -102,11 +106,9 @@ public class VanityItemsTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> vanityItems = new ArrayList<>();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems");
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 VanityDTO item = new VanityDTO(result.getInt("vanityID"),
@@ -134,13 +136,15 @@ public class VanityItemsTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         VanityType type = null;
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE vanityID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE vanityID = ?");
             stmt.setInt(1, id);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            type = VanityType.fromInt(result.getInt("type"));
+
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                type = VanityType.fromInt(result.getInt("type"));
+            }
         }
         catch (SQLException e)
         {
@@ -161,9 +165,8 @@ public class VanityItemsTableDataGateway
     public void updateVanityItem(int id, String name, String description, String textureName, VanityType vanityType) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityItems SET name = ?, description = ?, textureName = ?, type = ? WHERE vanityID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("UPDATE VanityItems SET name = ?, description = ?, textureName = ?, type = ? WHERE vanityID = ?");
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);
@@ -187,9 +190,8 @@ public class VanityItemsTableDataGateway
     public void addVanityItem(String name, String description, String textureName, VanityType vanityType) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityItems SET name = ?, description = ?, textureName = ?, type = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityItems SET name = ?, description = ?, textureName = ?, type = ?");
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);

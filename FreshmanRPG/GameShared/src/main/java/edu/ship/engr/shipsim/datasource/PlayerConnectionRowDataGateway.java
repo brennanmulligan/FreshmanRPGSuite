@@ -2,7 +2,11 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.datatypes.Position;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * AN RDS Implementation of PlayerConnectionRowDataGateway
@@ -36,25 +40,34 @@ public class PlayerConnectionRowDataGateway
                 + "playerRow int(11) DEFAULT NULL, "
                 + "playerCol int(11) DEFAULT NULL)";
 
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            Connection connection = DatabaseManager.getSingleton().getConnection();
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
-            // There used to be a view named like this table, so make sure it isn't there, too
-            stmt = connection.prepareStatement("Drop View IF EXISTS PlayerConnection");
-            stmt.execute();
-            stmt.close();
-            stmt = connection.prepareStatement(createConnectionTableSql);
             stmt.executeUpdate();
-            stmt.close();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the PlayerConnection Table", e);
+            throw new DatabaseException("Unable to drop PlayerConnection table", e);
         }
 
+        try (PreparedStatement stmt = connection.prepareStatement("Drop View IF EXISTS PlayerConnection"))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to drop PlayerConnection view", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createConnectionTableSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create PlayerConnection table", e);
+        }
     }
 
     /**
@@ -68,12 +81,11 @@ public class PlayerConnectionRowDataGateway
     public PlayerConnectionRowDataGateway(int playerID, int pin, String mapName, Position position) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO PlayerConnection SET PlayerID = ?,Pin = ?, mapName = ?," +
+                        "playerRow = ?, playerCol = ?",
+                Statement.RETURN_GENERATED_KEYS))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO PlayerConnection SET PlayerID = ?,Pin = ?, mapName = " +
-                            "?, playerRow = ?, playerCol = ?",
-                    Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, playerID);
             stmt.setInt(2, pin);
             stmt.setString(3, mapName);
@@ -97,15 +109,18 @@ public class PlayerConnectionRowDataGateway
 
     private void fetchChangedOn() throws DatabaseException
     {
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        String sql = "SELECT changed_on FROM PlayerConnection WHERE playerID = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
-            Connection connection = DatabaseManager.getSingleton().getConnection();
-            String sql = "SELECT changed_on FROM PlayerConnection WHERE playerID = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, playerID);
-            ResultSet resultSet = stmt.executeQuery();
-            resultSet.next();
-            changedOn = resultSet.getString("changed_on");
+
+            try (ResultSet resultSet = stmt.executeQuery())
+            {
+                resultSet.next();
+                changedOn = resultSet.getString("changed_on");
+            }
 
         }
         catch (SQLException e)
@@ -123,21 +138,20 @@ public class PlayerConnectionRowDataGateway
     public PlayerConnectionRowDataGateway(int playerID) throws DatabaseException
     {
         this.playerID = playerID;
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM PlayerConnection WHERE playerID = ?"))
         {
-            Connection connection = DatabaseManager.getSingleton().getConnection();
-            String sql = "SELECT * FROM PlayerConnection WHERE playerID = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, playerID);
-            ResultSet resultSet = stmt.executeQuery();
-            resultSet.next();
-            pin = resultSet.getInt("Pin");
-            changedOn = resultSet.getString("changed_on");
-            mapName = resultSet.getString("mapName");
-            position = new Position(resultSet.getInt("playerRow"), resultSet.getInt(
-                    "playerCol"));
 
-
+            try (ResultSet resultSet = stmt.executeQuery())
+            {
+                resultSet.next();
+                pin = resultSet.getInt("Pin");
+                changedOn = resultSet.getString("changed_on");
+                mapName = resultSet.getString("mapName");
+                position = new Position(resultSet.getInt("playerRow"), resultSet.getInt(
+                        "playerCol"));
+            }
         }
         catch (SQLException e)
         {
@@ -150,10 +164,8 @@ public class PlayerConnectionRowDataGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
         String sql = "DELETE from PlayerConnection WHERE playerID = ?";
-        PreparedStatement stmt;
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
-            stmt = connection.prepareStatement(sql);
             stmt.setInt(1, playerID);
             stmt.executeUpdate();
         }
@@ -182,35 +194,27 @@ public class PlayerConnectionRowDataGateway
     public void setChangedOn(String newTime) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        String sql = "UPDATE PlayerConnection SET changed_on = ? WHERE playerID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
-            String sql;
-            PreparedStatement stmt;
-
-            sql = "UPDATE PlayerConnection SET changed_On=? WHERE playerID = ?";
-            stmt = connection.prepareStatement(sql);
             stmt.setString(1, newTime);
             stmt.setInt(2, playerID);
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to update PlayerConnection column changed_On for player id # " + playerID, e);
+            throw new DatabaseException("Unable to update PlayerConnection column changed_on for player id # " + playerID, e);
         }
         this.changedOn = newTime;
     }
 
     public void storeMapName(String mapFileTitle) throws DatabaseException
     {
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        String sql = "UPDATE PlayerConnection SET mapName=? WHERE playerID = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
-            Connection connection = DatabaseManager.getSingleton().getConnection();
-
-            String sql;
-            PreparedStatement stmt;
-
-            sql = "UPDATE PlayerConnection SET mapName=? WHERE playerID = ?";
-            stmt = connection.prepareStatement(sql);
             stmt.setString(1, mapFileTitle);
             stmt.setInt(2, playerID);
             stmt.executeUpdate();
@@ -226,13 +230,9 @@ public class PlayerConnectionRowDataGateway
     {
         this.pin = pin;
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        String sql = "UPDATE PlayerConnection SET Pin= ? where playerID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
-            String sql;
-            PreparedStatement stmt;
-
-            sql = "UPDATE PlayerConnection SET Pin= ? where playerID = ?";
-            stmt = connection.prepareStatement(sql);
             stmt.setInt(2, playerID);
             stmt.setInt(1, pin);
             stmt.executeUpdate();
@@ -252,14 +252,10 @@ public class PlayerConnectionRowDataGateway
     {
         this.position = position;
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            String sql;
-            PreparedStatement stmt;
+        String sql = "UPDATE PlayerConnection SET playerRow = ?, playerCol = ? where playerID = ?";
 
-            sql = "UPDATE PlayerConnection SET playerRow = ?, playerCol = ? where " +
-                    "playerID = ?";
-            stmt = connection.prepareStatement(sql);
+        try (PreparedStatement stmt = connection.prepareStatement(sql))
+        {
             stmt.setInt(3, playerID);
             stmt.setInt(1, position.getRow());
             stmt.setInt(2, position.getColumn());

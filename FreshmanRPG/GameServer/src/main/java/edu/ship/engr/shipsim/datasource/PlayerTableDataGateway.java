@@ -50,14 +50,11 @@ public class PlayerTableDataGateway
     {
         ArrayList<PlayerScoreRecord> resultList = new ArrayList<>();
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT experiencePoints, playerName, crew, section FROM " +
+                        "Players NATURAL JOIN PlayerLogins ORDER BY Players.experiencePoints DESC");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT experiencePoints, playerName, crew, section FROM "
-                            +
-                            "Players NATURAL JOIN PlayerLogins ORDER BY Players.experiencePoints DESC");
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 int crewID = result.getInt("crew");
@@ -80,12 +77,10 @@ public class PlayerTableDataGateway
     {
         ArrayList<PlayerScoreRecord> resultList = new ArrayList<>();
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT experiencePoints, playerName, crew, section FROM Players, PlayerLogins where Players.playerID = PlayerLogins.playerID ORDER BY experiencePoints desc limit 10");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT experiencePoints, playerName, crew, section FROM Players, PlayerLogins where Players.playerID = PlayerLogins.playerID ORDER BY experiencePoints desc limit 10");
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 int crewID = result.getInt("crew");
@@ -113,14 +108,14 @@ public class PlayerTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement pstm = connection.prepareStatement(
+                "SELECT * FROM Players INNER JOIN PlayerLogins ON "
+                        +
+                        "Players.playerID = PlayerLogins.playerID INNER JOIN PlayerConnection ON "
+                        +
+                        "Players.playerID = PlayerConnection.playerID Where Players.online = true"))
         {
-            return processResultSetToPlayerDTO(connection.prepareStatement(
-                    "SELECT * FROM Players INNER JOIN PlayerLogins ON "
-                            +
-                            "Players.playerID = PlayerLogins.playerID INNER JOIN PlayerConnection ON "
-                            +
-                            "Players.playerID = PlayerConnection.playerID Where Players.online = true"));
+            return processResultSetToPlayerDTO(pstm);
         }
         catch (SQLException e)
         {
@@ -133,14 +128,14 @@ public class PlayerTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement pstm = connection.prepareStatement(
+                "SELECT * FROM Players INNER JOIN PlayerLogins ON "
+                        +
+                        "Players.playerID = PlayerLogins.playerID INNER JOIN PlayerConnection ON "
+                        + "Players.playerID = PlayerConnection.playerID "
+                        + ""))
         {
-            return processResultSetToPlayerDTO(connection.prepareStatement(
-                    "SELECT * FROM Players INNER JOIN PlayerLogins ON "
-                            +
-                            "Players.playerID = PlayerLogins.playerID INNER JOIN PlayerConnection ON "
-                            + "Players.playerID = PlayerConnection.playerID "
-                            + ""));
+            return processResultSetToPlayerDTO(pstm);
         }
         catch (SQLException e)
         {
@@ -160,10 +155,8 @@ public class PlayerTableDataGateway
     {
         ArrayList<PlayerDTO> resultList = new ArrayList<>();
 
-        try
+        try (ResultSet result = stmt.executeQuery())
         {
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 int playerID = result.getInt("playerID");

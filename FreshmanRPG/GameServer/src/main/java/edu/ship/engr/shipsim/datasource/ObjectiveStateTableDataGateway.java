@@ -52,10 +52,9 @@ public class ObjectiveStateTableDataGateway
                           boolean needingNotification) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO ObjectiveStates SET questID = ?, objectiveID = ?, playerID = ?, objectiveState = ?, needingNotification = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO ObjectiveStates SET questID = ?, objectiveID = ?, playerID = ?, objectiveState = ?, needingNotification = ?");
             stmt.setInt(1, questID);
             stmt.setInt(2, objectiveID);
             stmt.setInt(3, playerID);
@@ -81,20 +80,27 @@ public class ObjectiveStateTableDataGateway
     public void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+
+        String dropSql = "DROP TABLE IF EXISTS ObjectiveStates";
+        String createSql = "Create TABLE ObjectiveStates (objectiveID INT NOT NULL, questID INT NOT NULL, playerID INT NOT NULL, "
+                + "objectiveState INT, needingNotification BOOLEAN)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS ObjectiveStates");
-            stmt.executeUpdate();
-            stmt.close();
-            stmt = connection.prepareStatement(
-                    "Create TABLE ObjectiveStates (objectiveID INT NOT NULL, questID INT NOT NULL, playerID INT NOT NULL, "
-                            + "objectiveState INT, needingNotification BOOLEAN)");
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the Objective State table", e);
+            throw new DatabaseException("Unable to drop ObjectiveStates table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create ObjectiveStates table", e);
         }
     }
 
@@ -103,25 +109,27 @@ public class ObjectiveStateTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM ObjectiveStates WHERE questID = ? and playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM ObjectiveStates WHERE questID = ? and playerID = ?");
             stmt.setInt(1, questID);
             stmt.setInt(2, playerID);
-            ResultSet result = stmt.executeQuery();
 
-            ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                ObjectiveStateRecordDTO rec =
-                        new ObjectiveStateRecordDTO(result.getInt("playerID"),
-                                result.getInt("questID"), result.getInt("objectiveID"),
-                                convertToState(result.getInt("objectiveState")),
-                                result.getBoolean("needingNotification"));
-                results.add(rec);
+                ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
+                while (result.next())
+                {
+                    ObjectiveStateRecordDTO rec =
+                            new ObjectiveStateRecordDTO(result.getInt("playerID"),
+                                    result.getInt("questID"), result.getInt("objectiveID"),
+                                    convertToState(result.getInt("objectiveState")),
+                                    result.getBoolean("needingNotification"));
+                    results.add(rec);
+                }
+                return results;
             }
-            return results;
+
         }
         catch (SQLException e)
         {
@@ -134,25 +142,26 @@ public class ObjectiveStateTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM ObjectiveStates WHERE objectiveState = ? and playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM ObjectiveStates WHERE objectiveState = ? and playerID = ?");
             stmt.setInt(1, ObjectiveStateEnum.TRIGGERED.getID());
             stmt.setInt(2, playerID);
-            ResultSet result = stmt.executeQuery();
 
-            ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                ObjectiveStateRecordDTO rec =
-                        new ObjectiveStateRecordDTO(result.getInt("playerID"),
-                                result.getInt("questID"), result.getInt("objectiveID"),
-                                convertToState(result.getInt("objectiveState")),
-                                result.getBoolean("needingNotification"));
-                results.add(rec);
+                ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
+                while (result.next())
+                {
+                    ObjectiveStateRecordDTO rec =
+                            new ObjectiveStateRecordDTO(result.getInt("playerID"),
+                                    result.getInt("questID"), result.getInt("objectiveID"),
+                                    convertToState(result.getInt("objectiveState")),
+                                    result.getBoolean("needingNotification"));
+                    results.add(rec);
+                }
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {
@@ -172,26 +181,28 @@ public class ObjectiveStateTableDataGateway
             int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM ObjectiveStates WHERE (objectiveState = ? OR objectiveState = ?) and playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM ObjectiveStates WHERE (objectiveState = ? OR objectiveState = ?) and playerID = ?");
+
             stmt.setInt(1, ObjectiveStateEnum.TRIGGERED.getID());
             stmt.setInt(2, ObjectiveStateEnum.HIDDEN.getID());
             stmt.setInt(3, playerID);
-            ResultSet result = stmt.executeQuery();
 
-            ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
-            while (result.next())
+            try (ResultSet result = stmt.executeQuery())
             {
-                ObjectiveStateRecordDTO rec =
-                        new ObjectiveStateRecordDTO(result.getInt("playerID"),
-                                result.getInt("questID"), result.getInt("objectiveID"),
-                                convertToState(result.getInt("objectiveState")),
-                                result.getBoolean("needingNotification"));
-                results.add(rec);
+                ArrayList<ObjectiveStateRecordDTO> results = new ArrayList<>();
+                while (result.next())
+                {
+                    ObjectiveStateRecordDTO rec =
+                            new ObjectiveStateRecordDTO(result.getInt("playerID"),
+                                    result.getInt("questID"), result.getInt("objectiveID"),
+                                    convertToState(result.getInt("objectiveState")),
+                                    result.getBoolean("needingNotification"));
+                    results.add(rec);
+                }
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {
@@ -206,10 +217,9 @@ public class ObjectiveStateTableDataGateway
     {
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE ObjectiveStates SET objectiveState = ?, needingNotification = ? WHERE  playerID = ? and questID = ? and objectiveID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE ObjectiveStates SET objectiveState = ?, needingNotification = ? WHERE  playerID = ? and questID = ? and objectiveID = ?");
             stmt.setInt(1, newState.getID());
             stmt.setBoolean(2, needingNotification);
             stmt.setInt(3, playerID);

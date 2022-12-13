@@ -52,12 +52,10 @@ public class ObjectiveTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Objectives SET objectiveID = ?, objectiveDescription = ?, questID = ?," +
+                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Objectives SET objectiveID = ?, objectiveDescription = ?, questID = ?,"
-                            +
-                            "experiencePointsGained = ?, completionType = ?, completionCriteria = ?");
             stmt.setInt(1, objectiveID);
             stmt.setString(2, objectiveDescription);
             stmt.setInt(3, questID);
@@ -83,22 +81,27 @@ public class ObjectiveTableDataGateway
     public static void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            PreparedStatement stmt =
-                    connection.prepareStatement("DROP TABLE IF EXISTS Objectives");
-            stmt.executeUpdate();
-            stmt.close();
 
-            stmt = connection.prepareStatement(
-                    "Create TABLE Objectives (objectiveID INT NOT NULL, objectiveDescription VARCHAR(200), "
-                            +
-                            "questID INT NOT NULL, experiencePointsGained INT, completionType INT, completionCriteria BLOB, PRIMARY KEY(questID, objectiveID))");
+        String dropSql = "DROP TABLE IF EXISTS Objectives";
+        String createSql = "Create TABLE Objectives (objectiveID INT NOT NULL, objectiveDescription VARCHAR(200), " +
+                "questID INT NOT NULL, experiencePointsGained INT, completionType INT, completionCriteria BLOB, PRIMARY KEY(questID, objectiveID))";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
+        {
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the Objective table", e);
+            throw new DatabaseException("Unable to drop Objectives table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create Objectives table", e);
         }
     }
 
@@ -111,9 +114,9 @@ public class ObjectiveTableDataGateway
         ByteArrayInputStream baip = new ByteArrayInputStream(
                 (byte[]) queryResult.getObject("completionCriteria"));
         ObjectiveCompletionCriteria completionCriteria;
-        try
+        try (ObjectInputStream ois = new ObjectInputStream(baip))
         {
-            Object x = new ObjectInputStream(baip).readObject();
+            Object x = ois.readObject();
             completionCriteria = completionCriteriaClass.cast(x);
         }
         catch (ClassNotFoundException | IOException e)
@@ -139,25 +142,26 @@ public class ObjectiveTableDataGateway
         ArrayList<ObjectiveRecord> results = new ArrayList<>();
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM Objectives WHERE completionType = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Objectives WHERE completionType = ?");
             stmt.setInt(1, ObjectiveCompletionType.MOVEMENT.getID());
-            ResultSet queryResult = stmt.executeQuery();
 
-            while (queryResult.next())
+            try (ResultSet queryResult = stmt.executeQuery())
             {
-                ObjectiveRecord rec = buildObjectiveRecord(queryResult);
-                GameLocationDTO thisLocation =
-                        (GameLocationDTO) rec.getCompletionCriteria();
-                if (thisLocation.getPosition().equals(pos) &&
-                        thisLocation.getMapName().equals(mapName))
+                while (queryResult.next())
                 {
-                    results.add(rec);
+                    ObjectiveRecord rec = buildObjectiveRecord(queryResult);
+                    GameLocationDTO thisLocation =
+                            (GameLocationDTO) rec.getCompletionCriteria();
+                    if (thisLocation.getPosition().equals(pos) &&
+                            thisLocation.getMapName().equals(mapName))
+                    {
+                        results.add(rec);
+                    }
                 }
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {
@@ -176,17 +180,18 @@ public class ObjectiveTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM Objectives WHERE questID = ? and objectiveID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Objectives WHERE questID = ? and objectiveID = ?");
             stmt.setInt(1, questID);
             stmt.setInt(2, objectiveID);
-            ResultSet queryResult = stmt.executeQuery();
 
-            if (queryResult.next())
+            try (ResultSet queryResult = stmt.executeQuery())
             {
-                return buildObjectiveRecord(queryResult);
+                if (queryResult.next())
+                {
+                    return buildObjectiveRecord(queryResult);
+                }
             }
         }
         catch (SQLException e)
@@ -202,20 +207,21 @@ public class ObjectiveTableDataGateway
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM Objectives WHERE questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Objectives WHERE questID = ?");
             stmt.setInt(1, questID);
-            ResultSet queryResult = stmt.executeQuery();
 
-            ArrayList<ObjectiveRecord> results = new ArrayList<>();
-            while (queryResult.next())
+            try (ResultSet queryResult = stmt.executeQuery())
             {
-                ObjectiveRecord rec = buildObjectiveRecord(queryResult);
-                results.add(rec);
+                ArrayList<ObjectiveRecord> results = new ArrayList<>();
+                while (queryResult.next())
+                {
+                    ObjectiveRecord rec = buildObjectiveRecord(queryResult);
+                    results.add(rec);
+                }
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {

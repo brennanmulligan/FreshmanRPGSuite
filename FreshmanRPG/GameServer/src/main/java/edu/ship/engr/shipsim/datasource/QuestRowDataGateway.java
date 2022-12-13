@@ -7,7 +7,11 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,26 +46,28 @@ public class QuestRowDataGateway
     {
         this.questID = questID;
         this.connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Quests WHERE questID = ?"))
         {
-            PreparedStatement stmt =
-                    connection.prepareStatement("SELECT * FROM Quests WHERE questID = ?");
             stmt.setInt(1, questID);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            this.questTitle = result.getString("questTitle");
-            this.questDescription = result.getString("questDescription");
-            this.triggerMapName = result.getString("triggerMapName");
-            this.triggerPosition = new Position(result.getInt("triggerRow"),
-                    result.getInt("triggerColumn"));
-            this.experiencePointsGained = result.getInt("experiencePointsGained");
-            this.objectivesForFulfillment = result.getInt("objectivesForFulfillment");
-            this.completionActionType = QuestCompletionActionType.findByID(
-                    result.getInt("completionActionType"));
-            completionActionParameter =
-                    extractCompletionActionParameter(result, completionActionType);
-            this.startDate = result.getDate("startDate");
-            this.endDate = result.getDate("endDate");
+
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+
+                this.questTitle = result.getString("questTitle");
+                this.questDescription = result.getString("questDescription");
+                this.triggerMapName = result.getString("triggerMapName");
+                this.triggerPosition = new Position(result.getInt("triggerRow"),
+                        result.getInt("triggerColumn"));
+                this.experiencePointsGained = result.getInt("experiencePointsGained");
+                this.objectivesForFulfillment = result.getInt("objectivesForFulfillment");
+                this.completionActionType = QuestCompletionActionType.findByID(
+                        result.getInt("completionActionType"));
+                completionActionParameter =
+                        extractCompletionActionParameter(result, completionActionType);
+                this.startDate = result.getDate("startDate");
+                this.endDate = result.getDate("endDate");
+            }
         }
         catch (SQLException e)
         {
@@ -101,13 +107,15 @@ public class QuestRowDataGateway
     {
         this.questID = questID;
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Quests SET " +
+                        "questID = ?, questTitle = ?, " +
+                        "questDescription = ?, triggerMapname = ?, " +
+                        "triggerRow = ?, triggerColumn = ?, " +
+                        "experiencePointsGained = ?, objectivesForFulfillment = ?," +
+                        " completionActionType = ?, completionActionParameter = ?," +
+                        " startDate = ?, endDate = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Quests SET questID = ?, questTitle = ?,questDescription = ?, triggerMapname = ?, triggerRow = ?, triggerColumn = ?, " +
-                            "experiencePointsGained = ?, objectivesForFulfillment = ?," +
-                            " completionActionType = ?, completionActionParameter = ?," +
-                            " startDate = ?, endDate = ?");
             stmt.setInt(1, questID);
             stmt.setString(2, questTitle);
             stmt.setString(3, questDescription);
@@ -160,14 +168,15 @@ public class QuestRowDataGateway
                                Date startDate, Date endDate) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Quests SET " +
+                        "questTitle = ?, questDescription = ?, " +
+                        "triggerMapname = ?, triggerRow = ?, triggerColumn = ?, " +
+                        "experiencePointsGained = ?, objectivesForFulfillment = ?, " +
+                        "completionActionType = ?, completionActionParameter = ?, " +
+                        "startDate = ?, endDate = ?",
+                Statement.RETURN_GENERATED_KEYS))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Quests SET questTitle = ?,questDescription = ?, triggerMapname = ?, triggerRow = ?, triggerColumn = ?, " +
-                            "experiencePointsGained = ?, objectivesForFulfillment = ?," +
-                            " completionActionType = ?, completionActionParameter = ?," +
-                            " startDate = ?, endDate = ?",
-                    Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, title);
             stmt.setString(2, description);
             stmt.setString(3, mapName);
@@ -181,15 +190,16 @@ public class QuestRowDataGateway
             stmt.setDate(11, new java.sql.Date(endDate.getTime()));
             stmt.executeUpdate();
 
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-            if (generatedKeys.next())
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys())
             {
-                this.questID = generatedKeys.getInt(1);
-            }
-            else
-            {
-                throw new DatabaseException("No quest id was generated.");
+                if (generatedKeys.next())
+                {
+                    this.questID = generatedKeys.getInt(1);
+                }
+                else
+                {
+                    throw new DatabaseException("No quest id was generated.");
+                }
             }
 
             this.questDescription = description;
@@ -210,21 +220,28 @@ public class QuestRowDataGateway
     public static void createTable() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+
+        String dropSql = "DROP TABLE IF EXISTS VanityAwards, Quests";
+        String createSql = "Create TABLE Quests (questID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questTitle VARCHAR(40) UNIQUE,questDescription VARCHAR(200), triggerMapName VARCHAR(80)," +
+                " triggerRow INT, triggerColumn INT, experiencePointsGained INT, objectivesForFulfillment INT, " +
+                " completionActionType INT, completionActionParameter BLOB, startDate DATE, endDate DATE )";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS Quests, VanityAwards");
-            stmt.executeUpdate();
-            stmt.close();
-            stmt = connection.prepareStatement(
-                    "Create TABLE Quests (questID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questTitle VARCHAR(40) UNIQUE,questDescription VARCHAR(200), triggerMapName VARCHAR(80)," +
-                            " triggerRow INT, triggerColumn INT, experiencePointsGained INT, objectivesForFulfillment INT, " +
-                            " completionActionType INT, completionActionParameter BLOB, startDate DATE, endDate DATE )");
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to create the Quest table", e);
+            throw new DatabaseException("Unable to drop Quests table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create Quests table", e);
         }
     }
 
@@ -237,11 +254,10 @@ public class QuestRowDataGateway
         QuestCompletionActionParameter completionActionParameter;
         if (completionActionType != QuestCompletionActionType.NO_ACTION)
         {
-            ByteArrayInputStream baip = new ByteArrayInputStream(
-                    (byte[]) result.getObject("completionActionParameter"));
-            try
+            ByteArrayInputStream baip = new ByteArrayInputStream((byte[]) result.getObject("completionActionParameter"));
+            try (ObjectInputStream ois = new ObjectInputStream(baip))
             {
-                Object x = new ObjectInputStream(baip).readObject();
+                Object x = ois.readObject();
                 completionActionParameter = completionActionParameterType.cast(x);
             }
             catch (ClassNotFoundException | IOException e)
@@ -266,26 +282,28 @@ public class QuestRowDataGateway
      * @return the quest IDs
      * @throws DatabaseException if we can't talk to the RDS data source
      */
-    public static ArrayList<Integer> findQuestsForMapLocation(String mapName,
-                                                              Position position)
+    public static ArrayList<Integer> findQuestsForMapLocation(String mapName, Position position)
             throws DatabaseException
     {
-        try
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT questID FROM Quests WHERE triggerMapName = ? and triggerRow = ? and triggerColumn = ?"))
         {
-            Connection connection = DatabaseManager.getSingleton().getConnection();
-
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT questID FROM Quests WHERE triggerMapName = ? and triggerRow = ? and triggerColumn = ?");
             stmt.setString(1, mapName);
             stmt.setInt(2, position.getRow());
             stmt.setInt(3, position.getColumn());
-            ResultSet result = stmt.executeQuery();
-            ArrayList<Integer> results = new ArrayList<>();
-            while (result.next())
+
+            try (ResultSet result = stmt.executeQuery())
             {
-                results.add(result.getInt("questID"));
+                ArrayList<Integer> results = new ArrayList<>();
+
+                while (result.next())
+                {
+                    results.add(result.getInt("questID"));
+                }
+
+                return results;
             }
-            return results;
         }
         catch (SQLException e)
         {
@@ -405,14 +423,12 @@ public class QuestRowDataGateway
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE Quests SET questTitle = ?, questDescription = ?, triggerMapName = ?, " +
+                        "triggerRow = ?, triggerColumn = ?, experiencePointsGained = ?, " +
+                        "objectivesForFulfillment = ?, completionActionType = ?, " +
+                        "completionActionParameter = ?, startDate = ?, endDate = ? WHERE questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE Quests SET questTitle = ?, questDescription = ?, triggerMapName = ?, " +
-                            "triggerRow = ?, triggerColumn = ?, experiencePointsGained = ?, " +
-                            "objectivesForFulfillment = ?, completionActionType = ?, " +
-                            "completionActionParameter = ?, startDate = ?, endDate = ? WHERE questID = ?");
-
             stmt.setString(1, questTitle);
             stmt.setString(2, questDescription);
             stmt.setString(3, triggerMapName);
@@ -442,12 +458,18 @@ public class QuestRowDataGateway
      * @throws DatabaseException will if the quest is not found
      * @throws SQLException,     shouldn't
      */
-    public void remove() throws DatabaseException, SQLException
+    public void remove() throws DatabaseException
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
-        PreparedStatement stmt =
-                connection.prepareStatement("DELETE from Quests where questID = ?");
-        stmt.setInt(1, questID);
-        stmt.executeUpdate();
+
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE from Quests where questID = ?"))
+        {
+            stmt.setInt(1, questID);
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to delete quest: " + questID, e);
+        }
     }
 }

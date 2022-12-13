@@ -38,23 +38,24 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
         this.objectiveID = objectiveID;
         this.questId = questId;
         this.connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT * FROM Objectives WHERE objectiveID = ? and questID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM Objectives WHERE objectiveID = ? and questID = ?");
             stmt.setInt(1, objectiveID);
             stmt.setInt(2, questId);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            this.objectiveDescription = result.getString("objectiveDescription");
-            this.questId = result.getInt("questID");
-            this.experiencePointsGained = result.getInt("experiencePointsGained");
-            this.objectiveCompletionType =
-                    ObjectiveCompletionType.findByID(result.getInt("completionType"));
-            this.objectiveCompletionCriteria =
-                    ObjectiveTableDataGateway.extractCompletionCriteria(result,
-                            this.objectiveCompletionType);
 
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                this.objectiveDescription = result.getString("objectiveDescription");
+                this.questId = result.getInt("questID");
+                this.experiencePointsGained = result.getInt("experiencePointsGained");
+                this.objectiveCompletionType =
+                        ObjectiveCompletionType.findByID(result.getInt("completionType"));
+                this.objectiveCompletionCriteria =
+                        ObjectiveTableDataGateway.extractCompletionCriteria(result,
+                                this.objectiveCompletionType);
+            }
         }
         catch (SQLException e)
         {
@@ -83,12 +84,10 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
             throws DatabaseException
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO Objectives SET objectiveID = ?, objectiveDescription = ?, questID = ?, " +
+                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO Objectives SET objectiveID = ?, objectiveDescription = ?, questID = ?,"
-                            +
-                            "experiencePointsGained = ?, completionType = ?, completionCriteria = ?");
             stmt.setInt(1, objectiveID);
             stmt.setString(2, objectiveDescription);
             stmt.setInt(3, questId);
@@ -96,6 +95,7 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
             stmt.setInt(5, objectiveCompletionType.getID());
             stmt.setObject(6, objectiveCompletionCriteria);
             stmt.executeUpdate();
+
             this.objectiveID = objectiveID;
             this.objectiveDescription = objectiveDescription;
             this.questId = questId;
@@ -254,12 +254,10 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
 
         this.connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE Objectives SET objectiveDescription = ?," +
+                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ? WHERE objectiveID = ? AND questID = ?");)
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE Objectives SET objectiveDescription = ?,"
-                            +
-                            "experiencePointsGained = ?, completionType = ?, completionCriteria = ? WHERE objectiveID = ? AND questID = ?");
             stmt.setString(1, objectiveDescription);
             stmt.setInt(2, experiencePointsGained);
             stmt.setInt(3, objectiveCompletionType.getID());
@@ -267,7 +265,6 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
             stmt.setInt(5, objectiveID);
             stmt.setInt(6, questId);
             stmt.executeUpdate();
-
         }
         catch (SQLException e)
         {
@@ -285,11 +282,11 @@ public class ObjectiveRowDataGatewayRDS implements ObjectiveRowDataGateway
     @Override
     public void removeObjective() throws DatabaseException
     {
-        try
+        this.connection = DatabaseManager.getSingleton().getConnection();
+
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "DELETE from Objectives where questID = ? and objectiveID = ?"))
         {
-            this.connection = DatabaseManager.getSingleton().getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE from Objectives where questID = ? and objectiveID = ?");
             stmt.setInt(1, questId);
             stmt.setInt(2, objectiveID);
             stmt.execute();

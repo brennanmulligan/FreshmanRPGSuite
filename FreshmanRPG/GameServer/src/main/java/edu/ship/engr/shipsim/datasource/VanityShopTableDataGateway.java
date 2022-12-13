@@ -35,26 +35,29 @@ public class VanityShopTableDataGateway
     public static void createTable() throws DatabaseException
     {
         String dropSql = "DROP TABLE IF EXISTS VanityShop";
-        String vanityShopCreationSql = "CREATE TABLE VanityShop(" +
+        String createSql = "CREATE TABLE VanityShop(" +
                 "vanityID INT NOT NULL UNIQUE," +
                 "price INT NOT NULL," +
                 "FOREIGN KEY (vanityID) REFERENCES VanityItems(vanityID) ON DELETE CASCADE);";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(dropSql);
-            stmt.execute();
-            stmt.close();
-
-            stmt = connection.prepareStatement(vanityShopCreationSql);
-            stmt.execute();
-            stmt.close();
+            stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Could not create the Vanity shop table", e);
+            throw new DatabaseException("Unable to drop VanityShop table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create VanityShop table", e);
         }
     }
 
@@ -65,13 +68,10 @@ public class VanityShopTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> shopItems = new ArrayList<>();
-        VanityItemsTableDataGateway vanityShopGateway =
-                VanityItemsTableDataGateway.getSingleton();
-        try
+        VanityItemsTableDataGateway vanityShopGateway = VanityItemsTableDataGateway.getSingleton();
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityShop");
+             ResultSet result = stmt.executeQuery())
         {
-            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityShop");
-            ResultSet result = stmt.executeQuery();
-
             while (result.next())
             {
                 VanityDTO actualItem = vanityShopGateway.getVanityItemByID(result.getInt("vanityID"));
@@ -91,9 +91,8 @@ public class VanityShopTableDataGateway
         if (price > 0)
         {
             Connection connection = DatabaseManager.getSingleton().getConnection();
-            try
+            try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityShop SET vanityID = ?, price = ?"))
             {
-                PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityShop SET vanityID = ?, price = ?");
                 stmt.setInt(1, vanityID);
                 stmt.setInt(2, price);
 
@@ -119,9 +118,8 @@ public class VanityShopTableDataGateway
         if (price > 0)
         {
             Connection connection = DatabaseManager.getSingleton().getConnection();
-            try
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityShop SET price = ? WHERE vanityID = ?"))
             {
-                PreparedStatement stmt = connection.prepareStatement("UPDATE VanityShop SET price = ? WHERE vanityID = ?");
                 stmt.setInt(1, price);
                 stmt.setInt(2, vanityID);
 

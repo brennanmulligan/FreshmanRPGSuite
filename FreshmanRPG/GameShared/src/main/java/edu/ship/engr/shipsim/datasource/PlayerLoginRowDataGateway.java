@@ -1,12 +1,18 @@
 package edu.ship.engr.shipsim.datasource;
 
+import org.intellij.lang.annotations.Language;
+
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -32,29 +38,33 @@ public class PlayerLoginRowDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        @Language("MySQL") String dropSql = "DROP TABLE IF EXISTS PlayerLogins";
+        @Language("MySQL") String createSql = "" +
+                "CREATE TABLE PlayerLogins(" +
+                "    playerID int NOT NULL," +
+                "    playerName VARCHAR(30) NOT NULL," +
+                "    password BLOB NOT NULL," +
+                "    salt BLOB NOT NULL," +
+                "    PRIMARY KEY (playerID)," +
+                "    UNIQUE KEY unique_playerID (playerID)," +
+                "    FOREIGN KEY (playerID) REFERENCES Players(playerID) ON DELETE CASCADE)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "DROP TABLE IF EXISTS PlayerLogins");
             stmt.executeUpdate();
-            StringBuffer sql = new StringBuffer("CREATE TABLE PlayerLogins(");
-            sql.append("playerID int NOT NULL, ");
-            sql.append("playerName VARCHAR(30) NOT NULL,");
-            sql.append("password BLOB NOT NULL,");
-            sql.append("salt BLOB NOT NULL,");
-            sql.append("PRIMARY KEY (playerID),");
-            sql.append("FOREIGN KEY (playerID) REFERENCES Players(playerID) ");
-            sql.append(" ON DELETE CASCADE)");
-
-            stmt.executeUpdate(new String(sql));
-            stmt.executeUpdate("ALTER TABLE PlayerLogins ENGINE = INNODB");
-            stmt.executeUpdate("ALTER TABLE PlayerLogins ADD UNIQUE (PlayerName)");
-
-            stmt.close();
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Unable to initialize Player Login table", e);
+            throw new DatabaseException("Unable to drop PlayerLogins table", e);
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(createSql))
+        {
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Unable to create PlayerLogins table", e);
         }
     }
 
@@ -72,17 +82,17 @@ public class PlayerLoginRowDataGateway
         this.connection = DatabaseManager.getSingleton().getConnection();
         this.playerName = playerName;
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM PlayerLogins WHERE playerName = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM PlayerLogins WHERE playerName = ?");
             stmt.setString(1, playerName);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            password = result.getBytes("password");
-            salt = result.getBytes("salt");
-            playerID = result.getInt("playerID");
 
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                password = result.getBytes("password");
+                salt = result.getBytes("salt");
+                playerID = result.getInt("playerID");
+            }
         }
         catch (SQLException e)
         {
@@ -109,22 +119,25 @@ public class PlayerLoginRowDataGateway
         this.setPassword(password);
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "Insert INTO PlayerLogins SET playerID = ?, playerName = ?, salt = ?, password = ?",
+                Statement.RETURN_GENERATED_KEYS))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "Insert INTO PlayerLogins SET playerID = ?, playerName = ?, salt = ?, password = ?",
-                    Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, this.playerID);
             stmt.setString(2, this.playerName);
             stmt.setBytes(3, this.salt);
             stmt.setBytes(4, this.password);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
 
-            if (rs.next())
+            try (ResultSet rs = stmt.getGeneratedKeys())
             {
-                playerID = rs.getInt(1);
+                if (rs.next())
+                {
+                    // FIXME: Figure out what's going on here
+                    playerID = rs.getInt(1);
+                }
             }
+
 
         }
         catch (SQLException e)
@@ -146,17 +159,17 @@ public class PlayerLoginRowDataGateway
         this.connection = DatabaseManager.getSingleton().getConnection();
         this.playerID = playerID;
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM PlayerLogins WHERE playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT * FROM PlayerLogins WHERE playerID = ?");
             stmt.setInt(1, playerID);
-            ResultSet result = stmt.executeQuery();
-            result.next();
-            password = result.getBytes("password");
-            salt = result.getBytes("salt");
-            playerName = result.getString("playerName");
 
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                password = result.getBytes("password");
+                salt = result.getBytes("salt");
+                playerName = result.getString("playerName");
+            }
         }
         catch (SQLException e)
         {
@@ -183,10 +196,9 @@ public class PlayerLoginRowDataGateway
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE PlayerLogins SET password = ?, playerName = ?, salt = ? WHERE playerID = ?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "UPDATE PlayerLogins SET password = ?, playerName = ?, salt = ? WHERE playerID = ?");
             stmt.setBytes(1, password);
             stmt.setString(2, playerName);
             stmt.setBytes(3, salt);
@@ -214,10 +226,8 @@ public class PlayerLoginRowDataGateway
     {
         this.connection = DatabaseManager.getSingleton().getConnection();
 
-        try
+        try (PreparedStatement stmt = connection.prepareStatement("delete from PlayerLogins where playerID=?"))
         {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "delete from PlayerLogins where playerID=?");
             stmt.setInt(1, this.playerID);
             stmt.execute();
         }
