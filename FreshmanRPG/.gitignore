@@ -11,9 +11,14 @@ GameManager/.settings/org.eclipse.jdt.ui.prefs
 **/*.log
 **/*.log.*
 **/*.lck
+**/*.jar
 **Include
 
 # Include IntelliJ Run Configurations
 !.idea/
+!.idea/codeStyles
+!.idea/codeStyles/*
+!.idea/inspectionProfiles
+!.idea/inspectionProfiles/*
 !.idea/runConfigurations
 !.idea/runConfigurations/*

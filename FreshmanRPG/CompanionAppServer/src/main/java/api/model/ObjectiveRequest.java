@@ -1,4 +1,3 @@
-
 package api.model;
 
 import java.util.Objects;
@@ -8,7 +7,8 @@ import java.util.Objects;
  *
  * @author Joel
  */
-public class ObjectiveRequest {
+public class ObjectiveRequest
+{
 
     private double longitude;
     private double latitude;
@@ -19,13 +19,14 @@ public class ObjectiveRequest {
     /**
      * Create an ObjectiveAuthentication
      *
-     * @param longitude coordinate from where request was made
-     * @param latitude coordinate from where request was made
-     * @param questID quest id number
+     * @param longitude   coordinate from where request was made
+     * @param latitude    coordinate from where request was made
+     * @param questID     quest id number
      * @param objectiveID objective (previously objective) id number
-     * @param playerID player id number
+     * @param playerID    player id number
      */
-    public ObjectiveRequest(double longitude, double latitude, int questID, int objectiveID, int playerID){
+    public ObjectiveRequest(double longitude, double latitude, int questID, int objectiveID, int playerID)
+    {
         this.longitude = longitude;
         this.latitude = latitude;
         this.questID = questID;
@@ -33,48 +34,59 @@ public class ObjectiveRequest {
         this.playerID = playerID;
     }
 
-    public double getLongitude() {
+    public double getLongitude()
+    {
         return longitude;
     }
 
-    public double getLatitude() {
+    public double getLatitude()
+    {
         return latitude;
     }
 
-    public int getQuestID() {
+    public int getQuestID()
+    {
         return questID;
     }
 
-    public int getObjectiveID() {
+    public int getObjectiveID()
+    {
         return objectiveID;
     }
 
-    public int getPlayerID() {
+    public int getPlayerID()
+    {
         return playerID;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(double longitude)
+    {
         this.longitude = longitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(double latitude)
+    {
         this.latitude = latitude;
     }
 
-    public void setQuestID(int questID) {
+    public void setQuestID(int questID)
+    {
         this.questID = questID;
     }
 
-    public void setObjectiveID(int objectiveID) {
+    public void setObjectiveID(int objectiveID)
+    {
         this.objectiveID = objectiveID;
     }
 
-    public void setPlayerID(int playerID) {
+    public void setPlayerID(int playerID)
+    {
         this.playerID = playerID;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ObjectiveAuthentication{" +
                 "longitude=" + longitude +
                 ", latitude=" + latitude +
@@ -85,15 +97,23 @@ public class ObjectiveRequest {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
         ObjectiveRequest that = (ObjectiveRequest) o;
         return Double.compare(that.getLongitude(), getLongitude()) == 0 && Double.compare(that.getLatitude(), getLatitude()) == 0 && getQuestID() == that.getQuestID() && getObjectiveID() == that.getObjectiveID() && getPlayerID() == that.getPlayerID();
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getLongitude(), getLatitude(), getQuestID(), getObjectiveID(), getPlayerID());
     }
 }

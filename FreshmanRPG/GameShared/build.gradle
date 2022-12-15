@@ -3,6 +3,9 @@ plugins {
     id 'checkstyle'
 }
 
+apply from: rootProject.file("dependencies.gradle")
+apply from: 'database-builders.gradle'
+
 group 'edu.ship.cs'
 version '1.0-SNAPSHOT'
 
@@ -11,16 +14,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
-    testImplementation group: 'org.easymock', name: 'easymock', version: '3.1'
-    testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.5'
+    normDependencies.values().forEach {
+        implementation it
+    }
 
-    implementation group: 'org.reflections', name: 'reflections', version: '0.9.12'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.16'
-
-    compile group: 'commons-io', name: 'commons-io', version: '2.11.0'
-    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
-    compile group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+    testDependencies.values().forEach {
+        testImplementation it
+    }
 }
 
 configurations {
@@ -39,8 +39,6 @@ checkstyle {
     maxWarnings = 0
 }
 
-task shadowJar {
-
+test {
+    useJUnitPlatform()
 }
-
-apply from: 'database-builders.gradle'

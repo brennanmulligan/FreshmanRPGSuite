@@ -1,98 +1,98 @@
 // Gradle equivalent to GameServer.seed - start
 task DBBuildTestQuestsAndObjectives(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestQuestsAndObjectives'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestQuestsAndObjectives'
 }
 
 task DBBuildProductionQuestsAndObjectives(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildProductionQuestsAndObjectives'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildProductionQuestsAndObjectives'
 }
 
 task DBAddProductionObjectives(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.AddProductionObjectives'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.AddProductionObjectives'
 }
 
 
 task DBBuildProductionInteractableItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildProductionInteractableItems'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildProductionInteractableItems'
 }
 task DBBuildTestDBPlayers(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestDBPlayers'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestDBPlayers'
 }
 
 task DBBuildTestLevels(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestLevels'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestLevels'
 }
 
 task DBBuildTestQuizbotQuestions(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestQuizbotQuestions'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestQuizbotQuestions'
 }
 
 task DBBuildTestInteractableItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestInteractableItems'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestInteractableItems'
 }
 // Gradle equivalent to GameServer.seed - end
 
 // Gradle equivalent to VisitedMap.seed - start
 task DBBuildTestDoubloonPrizes(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestDoubloonPrizes'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestDoubloonPrizes'
 }
 
 task DBBuildTestRandomFacts(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestRandomFacts'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestRandomFacts'
 }
 
 task DBBuildTestDBVisitedMaps(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestDBVisitedMaps'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestDBVisitedMaps'
 }
 
 task DBBuildTestFriends(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestFriends'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestFriends'
 }
 
 task DBBuildTestInfoNPC(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestInfoNPC'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestInfoNPC'
 }
 
 task DBBuildTestRoamingNPC(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestRoamingNPC'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestRoamingNPC'
 }
 
 task DBBuildTestVanityItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestVanityItems'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestVanityItems'
 }
 
 task DBBuildTestVanityInventory(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestVanityInventory'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestVanityInventory'
 }
 
 task DBBuildTestDefaultItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestDefaultItems'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestDefaultItems'
 }
 
 task DBBuildTestVanityAwards(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestVanityAwards'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestVanityAwards'
 }
 
 task DBBuildTestVanityShop(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
-    main = 'DatabaseBuilders.BuildTestVanityShop'
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestVanityShop'
 }
 // Gradle equivalent to VisitedMap.seed - start

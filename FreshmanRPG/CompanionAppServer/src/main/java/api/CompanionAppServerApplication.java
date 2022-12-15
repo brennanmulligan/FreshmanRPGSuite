@@ -1,7 +1,7 @@
 package api;
 
 import api.model.PlayerTokenManager;
-import datasource.LoggerManager;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,12 +17,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class CompanionAppServerApplication {
+public class CompanionAppServerApplication
+{
 
-	public static void main(String[] args) {
-		PlayerTokenManager.getInstance();
-		LoggerManager.createLogger("Restful.log");
-		SpringApplication.run(CompanionAppServerApplication.class, args);
-	}
+    public static void main(String[] args)
+    {
+        PlayerTokenManager.getInstance();
+        LoggerManager.createLogger("Restful.log");
+        SpringApplication.run(CompanionAppServerApplication.class, args);
+    }
 
 }

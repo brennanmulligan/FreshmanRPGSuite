@@ -1,0 +1,28 @@
+---
+version: "3.9"
+services:
+    frpg_mysql:
+        container_name: frpg_mysql
+        hostname: frpgmysql
+        restart: unless-stopped
+        build:
+            context: ./database
+        cap_add:
+            - SYS_NICE
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        volumes:
+            - /Scratch/.frpg/mysql:/var/lib/mysql
+        ports:
+            - "3308:3306"
+        networks:
+            - frpg_database
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 15s
+
+networks:
+    frpg_database:

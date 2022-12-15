@@ -1,16 +1,19 @@
 package api.datasource;
 
+import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DatabaseManager;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datasource.QuestRowDataGateway;
+import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.model.QuestRecord;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-
-import dataENUM.QuestCompletionActionType;
-import datasource.*;
-import datatypes.Position;
-import model.QuestRecord;
 
 /**
  * Encapsulates access to the RDS Quest table.
@@ -54,14 +57,12 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
     @Override
     public ArrayList<QuestRecord> getAllQuests() throws DatabaseException
     {
-        final ArrayList<QuestRecord> quests = new ArrayList<>();
-        final Connection connection = DatabaseManager.getSingleton().getConnection();
-        try
-        {
-            final PreparedStatement stmt =connection.prepareStatement(
-                    "SELECT * From Quests");
-            final ResultSet rs = stmt.executeQuery();
+        ArrayList<QuestRecord> quests = new ArrayList<>();
+        Connection connection = DatabaseManager.getSingleton().getConnection();
 
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * From Quests");
+             ResultSet rs = stmt.executeQuery())
+        {
             while (rs.next())
             {
                 quests.add(buildQuestRecord(rs));
@@ -78,8 +79,8 @@ public class QuestTableDataGatewayRDS implements QuestTableDataGateway
     private QuestRecord buildQuestRecord(ResultSet rs) throws SQLException, DatabaseException
     {
         QuestCompletionActionType qcat = QuestCompletionActionType.findByID(rs.getInt("completionActionType"));
-        final Date startDate = rs.getDate("startDate");
-        final Date endDate = rs.getDate("endDate");
+        Date startDate = rs.getDate("startDate");
+        Date endDate = rs.getDate("endDate");
 
         return new QuestRecord(
                 rs.getInt("questID"),

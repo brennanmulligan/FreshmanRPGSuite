@@ -1,13 +1,12 @@
 package api.model.reports;
 
-import java.util.ArrayList;
+import edu.ship.engr.shipsim.model.ObjectiveRecord;
+import edu.ship.engr.shipsim.model.QualifiedObservableReport;
 
-import model.ObjectiveRecord;
-import model.QualifiedObservableReport;
+import java.util.ArrayList;
 
 /**
  * @author Scott Bowling
- *
  */
 public class PlayersUncompletedObjectivesReport implements QualifiedObservableReport
 {
@@ -16,7 +15,6 @@ public class PlayersUncompletedObjectivesReport implements QualifiedObservableRe
 
 
     /**
-     *
      * @param list of Objectives
      */
     public PlayersUncompletedObjectivesReport(ArrayList<ObjectiveRecord> list)
@@ -25,7 +23,6 @@ public class PlayersUncompletedObjectivesReport implements QualifiedObservableRe
     }
 
     /**
-     *
      * @return the list of objectives
      */
     public ArrayList<ObjectiveRecord> getAllUncompletedObjectives()
