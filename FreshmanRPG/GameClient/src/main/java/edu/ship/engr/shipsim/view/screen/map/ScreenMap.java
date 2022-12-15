@@ -517,8 +517,8 @@ public class ScreenMap extends ScreenBasic
         Gdx.input.setInputProcessor(multiplexer);
         // prepare the shader
         // create the Blur Shader for our pretty ui
-        aeroGlass = new ShaderProgram(Gdx.files.internal("edu/ship/engr/shipsim/util/shaders/Aero.vertex.glsl"),
-                Gdx.files.internal("edu/ship/engr/shipsim/util/shaders/Aero.fragment.glsl"));
+        aeroGlass = new ShaderProgram(Gdx.files.internal("util/shaders/Aero.vertex.glsl"),
+                Gdx.files.internal("util/shaders/Aero.fragment.glsl"));
         if (!aeroGlass.isCompiled())
         {
             System.err.println(aeroGlass.getLog());
