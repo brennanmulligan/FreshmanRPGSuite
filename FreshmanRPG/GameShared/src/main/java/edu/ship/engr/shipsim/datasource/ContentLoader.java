@@ -30,9 +30,9 @@ public class ContentLoader
         {
             return Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "assets");
         }
-        else if (OptionsManager.getSingleton().isRunningInDocker() || OptionsManager.getSingleton().isRunningInCI() || OptionsManager.getSingleton().isTestMode())
+        else if (OptionsManager.getSingleton().isRunningInCI() || OptionsManager.getSingleton().isTestMode())
         {
-            return Paths.get(System.getProperty("user.dir"), "..", "GameServer", "maps"); // FIXME: Please do this correctly
+            throw new UnsupportedOperationException("Sounds aren't accessible in CI/Test mode");
         }
         else
         {
