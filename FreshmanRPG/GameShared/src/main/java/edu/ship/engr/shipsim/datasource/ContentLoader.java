@@ -28,11 +28,11 @@ public class ContentLoader
     {
         if (OptionsManager.getSingleton().isRunningInIntelliJ())
         {
-            return Paths.get(System.getProperty("user.dir"), "assets");
+            return Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "assets");
         }
         else if (OptionsManager.getSingleton().isRunningInDocker() || OptionsManager.getSingleton().isRunningInCI() || OptionsManager.getSingleton().isTestMode())
         {
-            return Paths.get(System.getProperty("user.dir"), "..", "GameServer", "maps");
+            return Paths.get(System.getProperty("user.dir"), "..", "GameServer", "maps"); // FIXME: Please do this correctly
         }
         else
         {

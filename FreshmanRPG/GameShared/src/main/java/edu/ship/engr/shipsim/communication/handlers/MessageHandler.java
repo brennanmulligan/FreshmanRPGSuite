@@ -55,11 +55,9 @@ public abstract class MessageHandler
      *
      * @param stateAccumulator the accumulator
      */
-    protected <T extends MessageHandler> T setAccumulator(StateAccumulator stateAccumulator)
+    protected void setAccumulator(StateAccumulator stateAccumulator)
     {
         this.stateAccumulator = stateAccumulator;
-
-        return (T) this;
     }
 
     /**

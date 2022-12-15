@@ -68,7 +68,8 @@ public class TeleportationInitiationHandlerTest
         StateAccumulator accum = new StateAccumulator(null).setPlayerId(
                 PlayersForTest.MERLIN.getPlayerID());
         TeleportationInitiationHandler handler =
-                new TeleportationInitiationHandler().setAccumulator(accum);
+                new TeleportationInitiationHandler();
+        handler.setAccumulator(accum);
 
         // teleport message will move player from quad -> first server
         TeleportationInitiationMessage msg =
