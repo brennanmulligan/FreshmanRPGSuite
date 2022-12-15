@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PlayerController {
+public class PlayerController
+{
 
     private final PlayerService playerService;
 
     /**
-     *
      * @param playerService - player service
      */
-    public PlayerController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService)
+    {
         super();
         this.playerService = playerService;
     }
@@ -29,14 +30,16 @@ public class PlayerController {
 
     /**
      * Adds a player
+     *
      * @param player Basic player information in GameManagerPlayerDTO
      * @return Returns result int
      */
     @CrossOrigin // Required for web client support
     @PostMapping("/player")
-    public ResponseEntity<Object> addPlayer(@RequestBody GameManagerPlayer player) throws JsonProcessingException {
+    public ResponseEntity<Object> addPlayer(@RequestBody GameManagerPlayer player) throws JsonProcessingException
+    {
         int result = playerService.addPlayer(player);
         CreatePlayerResponce responseObj = new CreatePlayerResponce(result);
-        return new ResponseEntity<>(responseObj.toJSON(),HttpStatus.OK);
+        return new ResponseEntity<>(responseObj.toJSON(), HttpStatus.OK);
     }
 }

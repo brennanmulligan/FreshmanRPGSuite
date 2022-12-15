@@ -7,40 +7,40 @@ import com.badlogic.gdx.maps.MapLayer;
 public class TiledMapImageLayer extends MapLayer
 {
 
-	private float x, y;
+    private float x, y;
 
-	private TextureRegion image;
+    private TextureRegion image;
 
-	public TiledMapImageLayer(float x, float y, TextureRegion tex)
-	{
-		this.x = x;
-		this.y = y;
-		this.image = tex;
-	}
+    public TiledMapImageLayer(float x, float y, TextureRegion tex)
+    {
+        this.x = x;
+        this.y = y;
+        this.image = tex;
+    }
 
-	public TextureRegion getImage()
-	{
-		return this.image;
-	}
+    public TextureRegion getImage()
+    {
+        return this.image;
+    }
 
-	public float getX()
-	{
-		return x;
-	}
+    public float getX()
+    {
+        return x;
+    }
 
-	public float getY()
-	{
-		return y;
-	}
+    public float getY()
+    {
+        return y;
+    }
 
-	public int getWidth()
-	{
-		return image.getRegionWidth();
-	}
+    public int getWidth()
+    {
+        return image.getRegionWidth();
+    }
 
-	public int getHeight()
-	{
-		return image.getRegionHeight();
-	}
+    public int getHeight()
+    {
+        return image.getRegionHeight();
+    }
 
 }

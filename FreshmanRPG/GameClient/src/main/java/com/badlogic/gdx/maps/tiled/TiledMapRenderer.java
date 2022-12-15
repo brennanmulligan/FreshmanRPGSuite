@@ -22,9 +22,9 @@ import com.badlogic.gdx.maps.MapRenderer;
 @SuppressWarnings("javadoc")
 public interface TiledMapRenderer extends MapRenderer
 {
-	public void renderObject(MapObject object);
+    public void renderObject(MapObject object);
 
-	public void renderImageLayer(TiledMapImageLayer layer);
+    public void renderImageLayer(TiledMapImageLayer layer);
 
-	public void renderTileLayer(TiledMapTileLayer layer);
+    public void renderTileLayer(TiledMapTileLayer layer);
 }

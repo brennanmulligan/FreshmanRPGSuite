@@ -3,11 +3,11 @@ package api.service;
 import api.datasource.ExternalObjectiveManager;
 import api.model.ObjectiveRequest;
 import api.model.PlayerTokenManager;
-import datasource.DatabaseException;
-import datasource.LoggerManager;
-import datasource.ObjectiveStateTableDataGateway;
-import datatypes.ObjectiveStateEnum;
-import model.*;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
+import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
+import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
+import edu.ship.engr.shipsim.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

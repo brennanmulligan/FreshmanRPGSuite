@@ -1,18 +1,20 @@
 package api.model;
 
-import java.util.ArrayList;
-
-import dataDTO.PlayerDTO;
-import datasource.DatabaseException;
-import datatypes.Crew;
-import datatypes.Major;
-import datatypes.Position;
 import api.model.reports.AllPlayersReport;
-import model.*;
+import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datatypes.Crew;
+import edu.ship.engr.shipsim.datatypes.Major;
+import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.model.FindPlayerIDFromPlayerName;
+import edu.ship.engr.shipsim.model.Player;
+import edu.ship.engr.shipsim.model.PlayerMapper;
+import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+
+import java.util.ArrayList;
 
 /**
  * Manage a list of players for administration.
- *
  */
 public class GameManagerPlayerManager
 {
@@ -33,9 +35,7 @@ public class GameManagerPlayerManager
      * Returns an instance of this PlayerManager.
      *
      * @return an instance of PlayerManager
-     *
-     * @throws DatabaseException
-     *             - shouldn't
+     * @throws DatabaseException - shouldn't
      */
     public synchronized static GameManagerPlayerManager getInstance() throws DatabaseException
     {
@@ -60,8 +60,7 @@ public class GameManagerPlayerManager
     /**
      * Used for testing
      *
-     * @param instance
-     *            The instance to which the singleton will be set.
+     * @param instance The instance to which the singleton will be set.
      */
     protected static void setSingleton(GameManagerPlayerManager instance)
     {
@@ -71,21 +70,13 @@ public class GameManagerPlayerManager
     /**
      * Add a player to the data source and store player info in list.
      *
-     * @param name
-     *            the name of the player
-     * @param password
-     *            the password for the player
-     * @param crewID
-     *            the crew the player is in
-     * @param majorID
-     *            the player's current major
-     * @param sectionID
-     *            the section the player is in
-     *
+     * @param name      the name of the player
+     * @param password  the password for the player
+     * @param crewID    the crew the player is in
+     * @param majorID   the player's current major
+     * @param sectionID the section the player is in
      * @return PlayerInfo DTO
-     *
-     * @throws DatabaseException
-     *             - shouldn't
+     * @throws DatabaseException - shouldn't
      */
     public PlayerDTO addPlayer(String name, String password, int crewID, int majorID, int sectionID)
             throws DatabaseException
@@ -114,18 +105,12 @@ public class GameManagerPlayerManager
     }
 
     /**
-     * @param name
-     *            the name of the player
-     * @param password
-     *            the password for the player
-     * @param crewID
-     *            the crew the player is in
-     * @param majorID
-     *            the player's current major
-     * @param sectionID
-     *            the section the player is in
-     * @throws DatabaseException
-     *             if we fail to complete the save
+     * @param name      the name of the player
+     * @param password  the password for the player
+     * @param crewID    the crew the player is in
+     * @param majorID   the player's current major
+     * @param sectionID the section the player is in
+     * @throws DatabaseException if we fail to complete the save
      */
     protected void savePlayer(String name, String password, int crewID, int majorID, int sectionID)
             throws DatabaseException
@@ -184,11 +169,8 @@ public class GameManagerPlayerManager
     /**
      * Remove a player and remove it from list.
      *
-     * @param playerID
-     *            - the ID of the player to be removed
-     *
-     * @throws DatabaseException
-     *             - shouldn't
+     * @param playerID - the ID of the player to be removed
+     * @throws DatabaseException - shouldn't
      */
     protected void removePlayer(int playerID) throws DatabaseException
     {
@@ -206,9 +188,8 @@ public class GameManagerPlayerManager
     /**
      * Deletes all players currently in the player table.
      *
+     * @throws DatabaseException Unable to find player.
      * @author Jordan Long
-     * @throws DatabaseException
-     *             Unable to find player.
      */
     protected void removeAllPlayers() throws DatabaseException
     {
@@ -222,27 +203,17 @@ public class GameManagerPlayerManager
     }
 
     /**
-     * @param playerID
-     *            - id of the player
-     * @param name
-     *            - The name of the Player
-     * @param password
-     *            - The players password
-     * @param appearanceType
-     *            - Appearance type of the player
-     * @param quizScore
-     *            - Players Quiz Score
-     * @param experiencePoints
-     *            - Players Exp points
-     * @param crew
-     *            - Crew of the player
-     * @param major
-     *            - Players Major
-     * @param section
-     *            - Players section number
+     * @param playerID         - id of the player
+     * @param name             - The name of the Player
+     * @param password         - The players password
+     * @param appearanceType   - Appearance type of the player
+     * @param quizScore        - Players Quiz Score
+     * @param experiencePoints - Players Exp points
+     * @param crew             - Crew of the player
+     * @param major            - Players Major
+     * @param section          - Players section number
      * @return true if successful
-     * @throws DatabaseException
-     *             shouldn't
+     * @throws DatabaseException shouldn't
      */
     public boolean editPlayer(int playerID, String appearanceType, int quizScore, int experiencePoints, Crew crew,
                               Major major, int section, String name, String password)
@@ -274,7 +245,6 @@ public class GameManagerPlayerManager
 
     /**
      * Generates and sends a report to all qualified observers
-     *
      */
     public void refreshPlayerList()
     {
@@ -296,10 +266,8 @@ public class GameManagerPlayerManager
     /**
      * Triggers quests for all users
      *
-     * @param questID
-     *            - id of the quest
-     * @throws DatabaseException
-     *             shouldn't
+     * @param questID - id of the quest
+     * @throws DatabaseException shouldn't
      */
     public void triggerQuestForAllUsers(int questID) throws DatabaseException
     {
@@ -316,10 +284,8 @@ public class GameManagerPlayerManager
     /**
      * Finds the index of the player in the player list
      *
-     * @param id
-     *            PlayerID
+     * @param id PlayerID
      * @return Index
-     *
      */
     protected int playerIndex(int id)
     {

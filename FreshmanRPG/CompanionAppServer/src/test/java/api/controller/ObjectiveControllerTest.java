@@ -1,9 +1,8 @@
 package api.controller;
 
-import api.model.ObjectiveResponse;
+import api.model.ObjectiveRequest;
 import api.service.ObjectiveService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import api.model.ObjectiveRequest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = ObjectiveController.class)
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ObjectiveController.class)
-class ObjectiveControllerTest {
+class ObjectiveControllerTest
+{
 
 
     //ObjectiveController is dependent on objectiveService, so we need to mock that class
@@ -43,11 +43,13 @@ class ObjectiveControllerTest {
 
     /**
      * Test for controller receiving a POST containing ObjectiveAuthentication as the content
+     *
      * @throws Exception if database access fails
      */
     @Test
-    void authenticateObjective() throws Exception {
-        ObjectiveRequest objectiveRequest = new ObjectiveRequest(3, 3, 2,3, 1);
+    void authenticateObjective() throws Exception
+    {
+        ObjectiveRequest objectiveRequest = new ObjectiveRequest(3, 3, 2, 3, 1);
 
         String objectiveRequestJSON = new ObjectMapper().writeValueAsString(objectiveRequest);
 
@@ -58,7 +60,7 @@ class ObjectiveControllerTest {
                 .content(objectiveRequestJSON)
                 .contentType(MediaType.APPLICATION_JSON);
         mvc.perform(request).andExpect(status().isOk())
-                            .andExpect((jsonPath("$.responseType", Matchers.is(0))));
+                .andExpect((jsonPath("$.responseType", Matchers.is(0))));
 
     }
 }
