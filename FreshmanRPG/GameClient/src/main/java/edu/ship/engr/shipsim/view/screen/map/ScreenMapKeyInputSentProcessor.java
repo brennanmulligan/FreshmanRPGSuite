@@ -17,9 +17,9 @@ import edu.ship.engr.shipsim.view.screen.qas.QuestUI;
  */
 public class ScreenMapKeyInputSentProcessor implements InputProcessor
 {
-    private Stage stage;
-    private MenuUI menuArea;
-    private PopUpChatUI popUpChatUI;
+    private final Stage stage;
+    private final MenuUI menuArea;
+    private final PopUpChatUI popUpChatUI;
 
     /**
      * @param stage       - The stage
@@ -168,13 +168,8 @@ public class ScreenMapKeyInputSentProcessor implements InputProcessor
         return false;
     }
 
-    /**
-     * (non-Javadoc)
-     *
-     * @see com.badlogic.gdx.InputProcessor#scrolled(int)
-     */
     @Override
-    public boolean scrolled(int amount)
+    public boolean scrolled(float amountX, float amountY)
     {
         return false;
     }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreenTable;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
@@ -25,8 +25,6 @@ public class FriendsChatTable extends OverlayingScreenTable
     ArrayList<FriendMessage> activeMessages;
 
     private Skin skin;
-    private ScrollPane listPane;
-    private Table grid;
     private Table itemTable;
 
     /**
@@ -120,9 +118,9 @@ public class FriendsChatTable extends OverlayingScreenTable
     public void setupUI()
     {
         skin = SkinPicker.getSkinPicker().getDefaultSkin();
-        grid = new Table();
+        Table grid = new Table();
         itemTable = new Table(skin);
-        listPane = new ScrollPane(itemTable, skin);
+        ScrollPane listPane = new ScrollPane(itemTable, skin);
         listPane.setScrollingDisabled(true, false);
         listPane.setFadeScrollBars(false);
 
@@ -170,7 +168,7 @@ public class FriendsChatTable extends OverlayingScreenTable
      * Represents a message's content as well as whether it is an incoming or an
      * outgoing message
      */
-    private class FriendMessage
+    private static class FriendMessage
     {
         MessageType direction;
         String message;

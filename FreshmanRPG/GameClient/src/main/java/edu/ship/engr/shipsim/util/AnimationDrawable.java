@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 public class AnimationDrawable extends BaseDrawable
 {
 
-    Animation animation;
+    Animation<TextureRegion> animation;
     TextureRegion currentFrame;
     float timer;
 
@@ -24,7 +24,7 @@ public class AnimationDrawable extends BaseDrawable
      *
      * @param animation - the animation to wrap
      */
-    public AnimationDrawable(Animation animation)
+    public AnimationDrawable(Animation<TextureRegion> animation)
     {
         super();
         this.animation = animation;
@@ -41,7 +41,7 @@ public class AnimationDrawable extends BaseDrawable
     {
         timer = time;
 
-        if (animation.animationDuration < timer)
+        if (animation.getAnimationDuration() < timer)
         {
             timer = 0;
         }

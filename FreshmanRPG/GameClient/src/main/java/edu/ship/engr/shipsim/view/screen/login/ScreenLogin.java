@@ -259,7 +259,7 @@ public class ScreenLogin extends ScreenBasic
 
         stage.act();
         stage.draw();
-        Table.drawDebug(stage);
+        stage.setDebugAll(false);
     }
 
     /**
