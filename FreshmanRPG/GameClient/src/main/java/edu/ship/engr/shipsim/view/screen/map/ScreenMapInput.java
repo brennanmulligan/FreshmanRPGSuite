@@ -107,18 +107,10 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
     {
         switch (direction)
         {
-            case North:
-                this.up = true;
-                break;
-            case South:
-                this.down = true;
-                break;
-            case West:
-                this.left = true;
-                break;
-            case East:
-                this.right = true;
-                break;
+            case North -> this.up = true;
+            case South -> this.down = true;
+            case West -> this.left = true;
+            case East -> this.right = true;
         }
     }
 
@@ -131,18 +123,10 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
     {
         switch (direction)
         {
-            case North:
-                this.up = false;
-                break;
-            case South:
-                this.down = false;
-                break;
-            case West:
-                this.left = false;
-                break;
-            case East:
-                this.right = false;
-                break;
+            case North -> this.up = false;
+            case South -> this.down = false;
+            case West -> this.left = false;
+            case East -> this.right = false;
         }
     }
 
@@ -235,11 +219,8 @@ public class ScreenMapInput extends PlayerSprite implements InputProcessor
         return false;
     }
 
-    /**
-     * @see com.badlogic.gdx.InputProcessor
-     */
     @Override
-    public boolean scrolled(int amount)
+    public boolean scrolled(float amountX, float amountY)
     {
         return false;
     }
