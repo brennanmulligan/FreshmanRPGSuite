@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.view.screen.clothingShop;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
@@ -18,13 +18,12 @@ import java.util.List;
 public class ShopTable extends OverlayingScreenTable
 {
     private List<VanityDTO> inventory;
-    private VanityDTO selectedVanity;
     private int selectedVanityIndex;
     private int selectedFilterIndex = 0;
-    private Table selectorTable;
-    private ShopPreviewTable previewTable;
-    private Label priceBox;
-    private TextButton purchaseButton;
+    private final Table selectorTable;
+    private final ShopPreviewTable previewTable;
+    private final Label priceBox;
+    private final TextButton purchaseButton;
     private SelectorControl<VanityDTO> vanitySelector = null;
     private SelectorControl<String> filterSelector = null;
     ArrayList<String> types = new ArrayList<>();
@@ -120,7 +119,7 @@ public class ShopTable extends OverlayingScreenTable
 
         vanitySelector.addListener(getVanitySelectorClickListener());
 
-        priceBox.setText("Price: " + String.valueOf(inventory.get(selectedVanityIndex).getPrice()) + " doubloons");
+        priceBox.setText("Price: " + inventory.get(selectedVanityIndex).getPrice() + " doubloons");
 
         // Update preview
         setSelectedVanities();
@@ -154,7 +153,7 @@ public class ShopTable extends OverlayingScreenTable
     {
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();
-        selectedVanity = vanitySelector.getSelectedItem();
+        VanityDTO selectedVanity = vanitySelector.getSelectedItem();
         selectedVanityIndex = vanitySelector.getSelectedIndex();
         priceBox.setText("Price: " + selectedVanity.getPrice() + " doubloons");
 

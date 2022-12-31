@@ -6,10 +6,12 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.util.AnimationDrawable;
 import edu.ship.engr.shipsim.util.SpriteSheet;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Class to represent each individual piece of clothing or sprite attributed to the character
@@ -56,8 +58,8 @@ public class Vanity extends Image implements Comparable<Object>
         animation = new ObjectMap<>();
         for (Direction dir : Direction.values())
         {
-            TextureRegion[] row = sourceImg.getRow(dir.ordinal());
-            Animation a = new Animation(moveDuration / row.length, row);
+            Array<TextureRegion> row = new Array<>(sourceImg.getRow(dir.ordinal()));
+            Animation<TextureRegion> a = new Animation<>(moveDuration / row.size, row);
             a.setPlayMode(Animation.PlayMode.LOOP);
             AnimationDrawable ad = new AnimationDrawable(a);
             animation.put(dir, ad);
@@ -164,7 +166,7 @@ public class Vanity extends Image implements Comparable<Object>
     }
 
     @Override
-    public int compareTo(Object vanity)
+    public int compareTo(@NotNull Object vanity)
     {
         if (vanity instanceof Vanity)
         {

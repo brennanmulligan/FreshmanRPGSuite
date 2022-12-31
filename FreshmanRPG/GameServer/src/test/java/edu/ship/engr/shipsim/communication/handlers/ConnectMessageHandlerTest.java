@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.ConnectionManager;
 import edu.ship.engr.shipsim.communication.messages.ConnectMessage;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
@@ -9,6 +10,7 @@ import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * @author merlin
@@ -54,7 +56,6 @@ public class ConnectMessageHandlerTest
         handler.process(msg);
 
         ModelFacadeTestHelper.waitForFacadeToProcess();
-
         assertEquals(1, connectionManager.getPlayerID());
     }
 
@@ -65,7 +66,7 @@ public class ConnectMessageHandlerTest
     public void testTypeWeHandle()
     {
         ConnectMessageHandler h = new ConnectMessageHandler();
-        assertEquals(ConnectMessage.class, h.getMessageTypeWeHandle());
+        assertSame(ConnectMessage.class, h.getMessageTypeWeHandle());
     }
 
 }

@@ -4,22 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.view.player.*;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
 public class ShopPreviewTable extends Table
 {
-    private Table vanityTable;
+    private final Table vanityTable= new Table();
     private final float vanityWidth = 150f;
     private final float vanityHeight = 200f;
 
 
     public ShopPreviewTable()
     {
-        vanityTable = new Table();
-
         Skin skin = SkinPicker.getSkinPicker().getDefaultSkin();
 
         Label previewLabel = new Label("Preview", skin);
@@ -41,35 +39,40 @@ public class ShopPreviewTable extends Table
 
         switch (vanity.getVanityType())
         {
-            case HAT:
+            case HAT ->
+            {
                 PlayerHatFactory hatFactory = new PlayerHatFactory(Gdx.files.internal("ui-data/hats.atlas"));
                 vanityPreview = hatFactory.create(vanity.getTextureName());
-                break;
-            case HAIR:
+            }
+            case HAIR ->
+            {
                 PlayerHairFactory hairFactory = new PlayerHairFactory(Gdx.files.internal("ui-data/hair.atlas"));
                 vanityPreview = hairFactory.create(vanity.getTextureName());
-                break;
-            case SHIRT:
+            }
+            case SHIRT ->
+            {
                 PlayerShirtFactory shirtFactory = new PlayerShirtFactory(Gdx.files.internal("ui-data/shirts.atlas"));
                 vanityPreview = shirtFactory.create(vanity.getTextureName());
-                break;
-            case BODY:
+            }
+            case BODY ->
+            {
                 PlayerBodyFactory bodyFactory = new PlayerBodyFactory(Gdx.files.internal("ui-data/body.atlas"));
                 vanityPreview = bodyFactory.create(vanity.getTextureName());
-                break;
-            case PANTS:
+            }
+            case PANTS ->
+            {
                 PlayerPantsFactory pantsFactory = new PlayerPantsFactory(Gdx.files.internal("ui-data/pants.atlas"));
                 vanityPreview = pantsFactory.create(vanity.getTextureName());
-                break;
-            case SHOES:
+            }
+            case SHOES ->
+            {
                 PlayerShoesFactory shoesFactory = new PlayerShoesFactory(Gdx.files.internal("ui-data/shoes.atlas"));
                 vanityPreview = shoesFactory.create(vanity.getTextureName());
-                break;
-            default:
-                System.out.println("Unknown vanity type!");
-                break;
+            }
+            default -> System.out.println("Unknown vanity type!");
         }
 
+        assert vanityPreview != null;
         vanityPreview.setSize(vanityWidth, vanityHeight);
         vanityPreview.setAlign(Align.center);
         vanityTable.addActor(vanityPreview);

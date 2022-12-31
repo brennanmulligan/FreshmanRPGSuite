@@ -16,6 +16,7 @@ dependencies {
     implementation project(':GameShared')
     implementation project(':GameServer')
     implementation project(':LoginServer')
+    implementation project(':GameClient')
     testImplementation project(path: ':GameClient', configuration: 'testArtifacts')
     testImplementation project(path: ':GameServer', configuration: 'testArtifacts')
     testImplementation project(path: ':GameShared', configuration: 'testArtifacts')

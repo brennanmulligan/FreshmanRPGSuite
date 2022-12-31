@@ -9,7 +9,7 @@ buildscript {
                 guava: 'com.google.guava:guava:31.1-jre',
                 gson: 'com.google.code.gson:gson:2.10',
                 jetbrains_annotations: 'org.jetbrains:annotations:16.0.2',
-                libgdx: 'com.badlogicgames.gdx:gdx:1.0.1',
+                libgdx: 'com.badlogicgames.gdx:gdx:1.11.+',
                 pdfbox: 'org.apache.pdfbox:pdfbox:2.0.24',
                 javatuples: 'org.javatuples:javatuples:1.2'
         ]
