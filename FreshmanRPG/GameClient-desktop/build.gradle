@@ -24,10 +24,10 @@ dependencies {
         implementation it
     }
 
-    implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.0.1'
-    implementation 'com.badlogicgames.gdx:gdx-platform:1.0.1:natives-desktop'
-    implementation group: 'com.badlogicgames.gdx', name: 'gdx-tools', version: '1.0.1'
-    implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.0.1'
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.11.+'
+    implementation 'com.badlogicgames.gdx:gdx-platform:1.11.+:natives-desktop'
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx-tools', version: '1.11.+'
+    implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.11.+'
 }
 
 shadowJar {
