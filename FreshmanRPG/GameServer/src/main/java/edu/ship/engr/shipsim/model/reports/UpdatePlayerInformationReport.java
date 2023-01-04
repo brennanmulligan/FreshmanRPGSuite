@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Ryan, LaVonne, Olivia
  */
-public class UpdatePlayerInformationReport implements QualifiedObservableReport
+public class UpdatePlayerInformationReport implements Report
 {
 
     private final List<ClientPlayerQuestStateDTO> clientPlayerQuestList;

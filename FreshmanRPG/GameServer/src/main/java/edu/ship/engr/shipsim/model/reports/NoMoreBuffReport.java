@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Report if a Buff has run out.
@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  * @author Aaron Gerber
  * @author Stephen Clabaugh
  */
-public class NoMoreBuffReport implements QualifiedObservableReport
+public class NoMoreBuffReport implements Report
 {
     /**
      * The player's id

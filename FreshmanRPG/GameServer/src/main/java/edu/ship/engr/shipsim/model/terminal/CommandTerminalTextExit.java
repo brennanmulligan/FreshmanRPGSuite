@@ -1,9 +1,8 @@
 package edu.ship.engr.shipsim.model.terminal;
 
-import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.CommandRemovePlayer;
 import edu.ship.engr.shipsim.model.ModelFacade;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.TerminalTextExitReport;
 
 
@@ -32,7 +31,7 @@ public class CommandTerminalTextExit extends TerminalCommand
     {
 
         TerminalTextExitReport report = new TerminalTextExitReport(playerID);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         CommandRemovePlayer cmd = new CommandRemovePlayer(playerID);
         ModelFacade.getSingleton().queueCommand(cmd);

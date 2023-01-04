@@ -36,7 +36,7 @@ public class CommandObjectiveNotificationComplete extends Command
         SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("notification_objective_complete.mp3"))), 2);
 
         ObjectiveNotificationCompleteReport report = new ObjectiveNotificationCompleteReport(playerID, questID, objectiveID);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

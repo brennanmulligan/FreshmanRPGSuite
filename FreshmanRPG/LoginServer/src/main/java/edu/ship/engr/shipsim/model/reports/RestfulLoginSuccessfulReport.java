@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
 /**
  * @author Derek
  */
-public class RestfulLoginSuccessfulReport implements QualifiedObservableReport
+public class RestfulLoginSuccessfulReport implements Report
 {
     private final int playerID;
 

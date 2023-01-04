@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 /**
  * @author sl6469, cody
  */
-public final class ObjectiveStateChangeReportInClient implements QualifiedObservableReport, NotificationTrigger
+public final class ObjectiveStateChangeReportInClient implements Report, NotificationTrigger
 {
 
     private final int objectiveID;

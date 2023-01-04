@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 
 /**
  * @author Derek
@@ -19,8 +19,8 @@ public abstract class Controller
     }
 
     @SafeVarargs
-    public final <T extends QualifiedObservableReport> T processAction(Runnable initiationAction, Class<? extends QualifiedObservableReport>... reportClasses)
+    public final <T extends Report> T processAction(Runnable initiationAction, Class<? extends Report>... reportClasses)
     {
-        return QualifiedObservableConnector.processAction(initiationAction, getMaxWaitTime(), reportClasses);
+        return ReportObserverConnector.processAction(initiationAction, getMaxWaitTime(), reportClasses);
     }
 }

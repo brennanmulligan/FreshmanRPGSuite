@@ -3,12 +3,12 @@ package edu.ship.engr.shipsim.model.cheatCodeBehaviors;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectBuffReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class BuffBehaviorTest
 {
     /**
@@ -31,8 +31,8 @@ public class BuffBehaviorTest
     public void testGivesOnCorrectMessage()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if an InteractableObjectBuffReport is sent
         connector.registerObserver(observer, InteractableObjectBuffReport.class);
@@ -63,8 +63,8 @@ public class BuffBehaviorTest
     public void testAddBuffOnCorrectMessage()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if an InteractableObjectBuffReport is sent
         connector.registerObserver(observer, InteractableObjectBuffReport.class);
@@ -97,8 +97,8 @@ public class BuffBehaviorTest
     public void testDontOverMaxBuffOnCorrectMessage()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if an InteractableObjectBuffReport is sent
         connector.registerObserver(observer, InteractableObjectBuffReport.class);
@@ -126,8 +126,8 @@ public class BuffBehaviorTest
     public void testDoesntGiveBuffOnIncorrectMessage()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if an InteractableObjectBuffReport is sent
         connector.registerObserver(observer, InteractableObjectBuffReport.class);

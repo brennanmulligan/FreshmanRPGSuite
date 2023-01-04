@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Reports that a player tried to connect with an invalid pin
  *
  * @author Matt and Andy
  */
-public final class PinFailedReport implements QualifiedObservableReport
+public final class PinFailedReport implements Report
 {
 
     private final int playerID;

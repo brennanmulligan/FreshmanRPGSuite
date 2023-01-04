@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.VanityShopInventoryResponseReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
  * @author Aaron, Jake
  */
 @GameTest("GameClient")
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class CommandVanityShopInventoryResponseTest
 {
 
@@ -43,8 +43,8 @@ public class CommandVanityShopInventoryResponseTest
     public void testExecute()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a VanityShopInventoryResponseReport is sent
         connector.registerObserver(observer, VanityShopInventoryResponseReport.class);

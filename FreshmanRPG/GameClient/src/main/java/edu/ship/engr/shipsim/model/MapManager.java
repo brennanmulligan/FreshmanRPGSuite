@@ -111,7 +111,7 @@ public class MapManager
         {
             recentlyChanged = false;
         }
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .sendReport(new NewMapReport(tiledMap));
     }
 

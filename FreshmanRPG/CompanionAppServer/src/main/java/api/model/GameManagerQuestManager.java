@@ -16,7 +16,7 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.ObjectiveRecord;
 import edu.ship.engr.shipsim.model.PlayerMapper;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.QuestRecord;
 
 import java.sql.SQLException;
@@ -330,7 +330,7 @@ public class GameManagerQuestManager
     {
         AllQuestsAndObjectivesReport report =
                 new AllQuestsAndObjectivesReport(this.getQuests());
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
@@ -345,7 +345,7 @@ public class GameManagerQuestManager
         PlayersUncompletedObjectivesReport report =
                 new PlayersUncompletedObjectivesReport(
                         new PlayerMapper(playerID).getIncompleteObjectives());
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**

@@ -33,7 +33,7 @@ public class CommandVanityShopInventoryResponse extends Command
     boolean execute()
     {
         VanityShopInventoryResponseReport report = new VanityShopInventoryResponseReport(inventory);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

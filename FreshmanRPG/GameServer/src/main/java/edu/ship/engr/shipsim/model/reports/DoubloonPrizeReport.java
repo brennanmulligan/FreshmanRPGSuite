@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * <p>
  * This is the doubloon prize report
  */
-public class DoubloonPrizeReport implements QualifiedObservableReport
+public class DoubloonPrizeReport implements Report
 {
 
 

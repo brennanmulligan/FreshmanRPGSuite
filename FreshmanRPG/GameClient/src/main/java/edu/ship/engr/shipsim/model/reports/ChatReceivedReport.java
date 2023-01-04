@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.model.reports;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.model.ClientPlayer;
 import edu.ship.engr.shipsim.model.ClientPlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 /**
@@ -11,7 +11,7 @@ import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
  *
  * @author Steve
  */
-public class ChatReceivedReport implements QualifiedObservableReport, NotificationTrigger
+public class ChatReceivedReport implements Report, NotificationTrigger
 {
     private final String message;
     private final int senderID;

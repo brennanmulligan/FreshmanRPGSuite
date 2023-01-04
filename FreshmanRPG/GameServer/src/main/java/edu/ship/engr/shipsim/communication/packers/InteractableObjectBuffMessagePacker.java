@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.BuffMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectBuffReport;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class InteractableObjectBuffMessagePacker extends MessagePacker
      * builds the message if this is the appropriate packer
      */
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         InteractableObjectBuffReport report = (InteractableObjectBuffReport) object;
 
@@ -38,9 +38,9 @@ public class InteractableObjectBuffMessagePacker extends MessagePacker
      * The list of reports we listen for
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> result = new ArrayList<>();
+        ArrayList<Class<? extends Report>> result = new ArrayList<>();
         result.add(InteractableObjectBuffReport.class);
         return result;
     }

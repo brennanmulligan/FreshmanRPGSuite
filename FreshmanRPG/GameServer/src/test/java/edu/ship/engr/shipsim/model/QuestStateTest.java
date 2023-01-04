@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.model.reports.QuestStateChangeReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetQuestManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class QuestStateTest
 {
     /**
@@ -137,8 +137,8 @@ public class QuestStateTest
     public void testFulfilling() throws DatabaseException, IllegalQuestChangeException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a QuestStateChangeReport is sent
         connector.registerObserver(observer, QuestStateChangeReport.class);
@@ -188,8 +188,8 @@ public class QuestStateTest
     public void testFulfillingRepeatedly() throws DatabaseException, IllegalQuestChangeException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a QuestStateChangeReport is sent
         connector.registerObserver(observer, QuestStateChangeReport.class);

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author Stefan Milanovic & Nick Starkey
  */
-public class ClosetUI extends OverlayingScreen implements QualifiedObserver
+public class ClosetUI extends OverlayingScreen implements ReportObserver
 {
     private final float WIDTH = 600f;
     private final float HEIGHT = 380f;
@@ -36,7 +36,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     {
         super();
 
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, ClientKeyInputSentReport.class);
         cm.registerObserver(this, ServerPlayerOwnedItemsResponseReport.class);
 
@@ -134,7 +134,7 @@ public class ClosetUI extends OverlayingScreen implements QualifiedObserver
     }
 
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass().equals(ClientKeyInputSentReport.class))
         {

@@ -10,34 +10,34 @@ import java.util.HashMap;
  * the game state changes. In other words, they need to be observers of a
  * variety of places within the Model. However, we don't want things that are
  * outside of the model to have knowledge of where in the model those place are.
- * Therefore, we have created the QualifiedObservableConnector (which is a
+ * Therefore, we have created the ReportObserverConnector (which is a
  * singleton) on the edge of the Model. Entities outside of (or inside) the
  * model can use this to become an observer of all of the places within the
  * model that report messages of a given type on state change.
  * <p>
  * Changes it game state are called game state reports and we want to make sure
  * that each observer only gets the reports in which it is interested.
- * Therefore, QualifiedObservableConnector allows the observer to specify
+ * Therefore, ReportObserverConnector allows the observer to specify
  * exactly which type of report they want to receive. For example, registering
  * to receive a report that the current player moved is done like this:
  *
  * <p>
  *
  * <pre>
- * QualifiedObservableConnector.getSingleton().registerObserver(this, ThisPlayerMovedReport.class);
+ * ReportObserverConnector.getSingleton().registerObserver(this, ThisPlayerMovedReport.class);
  * </pre>
  *
  * @author Merlin
  */
-public class QualifiedObservableConnector
+public class ReportObserverConnector
 {
 
-    private static QualifiedObservableConnector singleton;
+    private static ReportObserverConnector singleton;
 
-    private final HashMap<Class<? extends QualifiedObservableReport>,
-            ArrayList<QualifiedObserver>> observers;
+    private final HashMap<Class<? extends Report>,
+            ArrayList<ReportObserver>> observers;
 
-    private QualifiedObservableConnector()
+    private ReportObserverConnector()
     {
         observers = new HashMap<>();
     }
@@ -45,11 +45,11 @@ public class QualifiedObservableConnector
     /**
      * @return the only one of these in the system
      */
-    public synchronized static QualifiedObservableConnector getSingleton()
+    public synchronized static ReportObserverConnector getSingleton()
     {
         if (singleton == null)
         {
-            singleton = new QualifiedObservableConnector();
+            singleton = new ReportObserverConnector();
         }
         return singleton;
     }
@@ -69,10 +69,10 @@ public class QualifiedObservableConnector
      *
      * @param report the report
      */
-    public void sendReport(QualifiedObservableReport report)
+    public void sendReport(Report report)
     {
 
-        ArrayList<QualifiedObserver> relevantObservers =
+        ArrayList<ReportObserver> relevantObservers =
                 observers.get(report.getClass());
         if (relevantObservers != null)
         {
@@ -80,9 +80,9 @@ public class QualifiedObservableConnector
             // someone who gets this report will want to register another observer.
             // That would cause concurrent modification exception
             @SuppressWarnings("unchecked")
-            ArrayList<QualifiedObserver> x =
-                    (ArrayList<QualifiedObserver>) relevantObservers.clone();
-            for (QualifiedObserver a : x)
+            ArrayList<ReportObserver> x =
+                    (ArrayList<ReportObserver>) relevantObservers.clone();
+            for (ReportObserver a : x)
             {
                 a.receiveReport(report);
             }
@@ -96,8 +96,8 @@ public class QualifiedObservableConnector
      * @param observer   the observer who is interested
      * @param reportType the report type the observer wants to receive
      */
-    public void registerObserver(QualifiedObserver observer,
-                                 Class<? extends QualifiedObservableReport> reportType)
+    public void registerObserver(ReportObserver observer,
+                                 Class<? extends Report> reportType)
     {
         synchronized (this)
         {
@@ -109,9 +109,9 @@ public class QualifiedObservableConnector
      * @param observer   the observer we should remember
      * @param reportType the report type this observer is interested in
      */
-    private void rememberObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
+    private void rememberObserver(ReportObserver observer, Class<? extends Report> reportType)
     {
-        ArrayList<QualifiedObserver> relevantObservers =
+        ArrayList<ReportObserver> relevantObservers =
                 observers.computeIfAbsent(reportType, k -> new ArrayList<>());
         if (!relevantObservers.contains(observer))
         {
@@ -127,11 +127,11 @@ public class QualifiedObservableConnector
      * @param observer   the observer who is no longer interested
      * @param reportType the report types they no longer want to receive
      */
-    public void unregisterObserver(QualifiedObserver observer, Class<? extends QualifiedObservableReport> reportType)
+    public void unregisterObserver(ReportObserver observer, Class<? extends Report> reportType)
     {
         synchronized (this)
         {
-            ArrayList<QualifiedObserver> observerList = observers.get(reportType);
+            ArrayList<ReportObserver> observerList = observers.get(reportType);
             if (observerList != null)
             {
                 observerList.remove(observer);
@@ -147,11 +147,11 @@ public class QualifiedObservableConnector
      * @param reportType the report type
      * @return true if the observer is hooked up for that report type
      */
-    public boolean doIObserve(QualifiedObserver obs, Class<? extends QualifiedObservableReport> reportType)
+    public boolean doIObserve(ReportObserver obs, Class<? extends Report> reportType)
     {
         synchronized (this)
         {
-            ArrayList<QualifiedObserver> relavantObservers = observers.get(reportType);
+            ArrayList<ReportObserver> relavantObservers = observers.get(reportType);
             if (relavantObservers == null)
             {
                 return false;
@@ -181,9 +181,9 @@ public class QualifiedObservableConnector
      */
     @Nullable
     @SuppressWarnings("unchecked")
-    public static <T extends QualifiedObservableReport> T processAction(Runnable initiationAction, long maxWaitTime, Class<? extends QualifiedObservableReport>... reportClasses)
+    public static <T extends Report> T processAction(Runnable initiationAction, long maxWaitTime, Class<? extends Report>... reportClasses)
     {
-        try (AsyncQualifiedObserver observer = new AsyncQualifiedObserver(Thread.currentThread(), reportClasses))
+        try (AsyncReportObserver observer = new AsyncReportObserver(Thread.currentThread(), reportClasses))
         {
             // Run the initiationAction then wait for a specified amount of time
             initiationAction.run();
@@ -213,20 +213,20 @@ public class QualifiedObservableConnector
     }
 
     /**
-     * A custom QualifiedObserver for use in {@link QualifiedObservableConnector#processAction}
+     * A custom ReportObserver for use in {@link ReportObserverConnector#processAction}
      *
      * <br></br>
      *
-     * The difference between this observer and any other is the method: {@link AsyncQualifiedObserver#getReport()}
+     * The difference between this observer and any other is the method: {@link AsyncReportObserver#getReport()}
      */
-    private static class AsyncQualifiedObserver implements QualifiedObserver, AutoCloseable
+    private static class AsyncReportObserver implements ReportObserver, AutoCloseable
     {
-        private QualifiedObservableReport report;
+        private Report report;
         private final Thread waitingThread;
-        private final Class<? extends QualifiedObservableReport>[] reportClasses;
+        private final Class<? extends Report>[] reportClasses;
 
         @SafeVarargs
-        public AsyncQualifiedObserver(Thread waitingThread, Class<? extends QualifiedObservableReport>... reportClasses)
+        public AsyncReportObserver(Thread waitingThread, Class<? extends Report>... reportClasses)
         {
             this.waitingThread = waitingThread;
             this.reportClasses = reportClasses;
@@ -235,15 +235,15 @@ public class QualifiedObservableConnector
         }
 
         @Nullable
-        public QualifiedObservableReport getReport()
+        public Report getReport()
         {
             return report;
         }
 
         @Override
-        public void receiveReport(QualifiedObservableReport report)
+        public void receiveReport(Report report)
         {
-            for (Class<? extends QualifiedObservableReport> reportClass : reportClasses)
+            for (Class<? extends Report> reportClass : reportClasses)
             {
                 if (report.getClass().equals(reportClass))
                 {
@@ -258,17 +258,17 @@ public class QualifiedObservableConnector
 
         public void register()
         {
-            for (Class<? extends QualifiedObservableReport> reportClass : reportClasses)
+            for (Class<? extends Report> reportClass : reportClasses)
             {
-                QualifiedObservableConnector.getSingleton().registerObserver(this, reportClass);
+                ReportObserverConnector.getSingleton().registerObserver(this, reportClass);
             }
         }
 
         public void unregister()
         {
-            for (Class<? extends QualifiedObservableReport> reportClass : reportClasses)
+            for (Class<? extends Report> reportClass : reportClasses)
             {
-                QualifiedObservableConnector.getSingleton().unregisterObserver(this, reportClass);
+                ReportObserverConnector.getSingleton().unregisterObserver(this, reportClass);
             }
         }
 

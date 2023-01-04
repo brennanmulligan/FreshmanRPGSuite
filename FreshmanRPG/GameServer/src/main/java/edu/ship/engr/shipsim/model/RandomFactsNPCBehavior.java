@@ -68,17 +68,17 @@ public class RandomFactsNPCBehavior extends NPCBehavior
     }
 
     @Override
-    protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    protected ArrayList<Class<? extends Report>> getReportTypes()
     {
         return null;
     }
 
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
     }
 

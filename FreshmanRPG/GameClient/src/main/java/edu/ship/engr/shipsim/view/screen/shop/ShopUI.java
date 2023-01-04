@@ -2,9 +2,9 @@ package edu.ship.engr.shipsim.view.screen.shop;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.DoubloonChangeReport;
 import edu.ship.engr.shipsim.model.reports.DoubloonPrizeListReport;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreen;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Zachary Semanco, Kevin Marek
  */
-public class ShopUI extends OverlayingScreen implements QualifiedObserver
+public class ShopUI extends OverlayingScreen implements ReportObserver
 {
     private final float WIDTH = 600f;
     private final float HEIGHT = 400f;
@@ -40,7 +40,7 @@ public class ShopUI extends OverlayingScreen implements QualifiedObserver
      */
     private void setUpListener()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, DoubloonPrizeListReport.class);
         cm.registerObserver(this, DoubloonChangeReport.class);
     }
@@ -49,10 +49,9 @@ public class ShopUI extends OverlayingScreen implements QualifiedObserver
      * When the prize report is received, ask the ShopTable to add each item to the
      * UI
      *
-     * @see ShopTable#addShopItem(String, String, int)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == DoubloonPrizeListReport.class)
         {

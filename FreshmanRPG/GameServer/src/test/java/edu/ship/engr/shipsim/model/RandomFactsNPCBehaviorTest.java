@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class RandomFactsNPCBehaviorTest
 {
     private RandomFactsNPCBehavior behavior;
@@ -39,8 +39,8 @@ public class RandomFactsNPCBehaviorTest
     public void canSpoutAFactEveryFiveSeconds()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatMessageToClientReport is sent
         connector.registerObserver(observer, ChatMessageToClientReport.class);

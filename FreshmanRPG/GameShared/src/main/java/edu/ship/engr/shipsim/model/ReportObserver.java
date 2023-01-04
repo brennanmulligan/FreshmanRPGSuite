@@ -5,7 +5,7 @@ package edu.ship.engr.shipsim.model;
  *
  * @author Merlin
  */
-public interface QualifiedObserver
+public interface ReportObserver
 {
 
     /**
@@ -13,5 +13,5 @@ public interface QualifiedObserver
      *
      * @param report the report
      */
-    public void receiveReport(QualifiedObservableReport report);
+    public void receiveReport(Report report);
 }

@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.model.reports.HighScoreResponseReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
  * @author nk3668
  */
 @GameTest("GameClient")
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class CommandHighScoreResponseTest
 {
 
@@ -43,8 +43,8 @@ public class CommandHighScoreResponseTest
     public void testExecute()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a HighScoreResponseReport is sent
         connector.registerObserver(observer, HighScoreResponseReport.class);

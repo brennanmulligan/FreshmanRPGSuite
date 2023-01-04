@@ -3,12 +3,12 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
-import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport2;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.reports.StubReport1;
+import edu.ship.engr.shipsim.model.reports.StubReport2;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author merlin
  */
 @GameTest("GameShared")
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class MessagePackerSetTest
 {
     /**
@@ -38,9 +38,9 @@ public class MessagePackerSetTest
     public void detectsAll() throws CommunicationException
     {
         MessagePackerSet set = new MessagePackerSet();
-        ArrayList<Message> result = set.pack(new StubQualifiedObservableReport1());
+        ArrayList<Message> result = set.pack(new StubReport1());
         assertNotNull(result);
-        result = set.pack(new StubQualifiedObservableReport2());
+        result = set.pack(new StubReport2());
         assertNotNull(result);
     }
 
@@ -53,7 +53,7 @@ public class MessagePackerSetTest
     public void canHaveTwo() throws CommunicationException
     {
         MessagePackerSet set = new MessagePackerSet();
-        ArrayList<Message> result = set.pack(new StubQualifiedObservableReport2());
+        ArrayList<Message> result = set.pack(new StubReport2());
         assertEquals(2, result.size());
     }
 
@@ -65,7 +65,7 @@ public class MessagePackerSetTest
     public void noSuchHandler() throws CommunicationException
     {
         MessagePackerSet set = new MessagePackerSet();
-        QualifiedObservableReport report = Mockito.mock(QualifiedObservableReport.class);
+        Report report = Mockito.mock(Report.class);
 
         ArrayList<Message> msgs = set.pack(report);
         assertEquals(0, msgs.size());
@@ -92,7 +92,7 @@ public class MessagePackerSetTest
         set.registerPacker(packer);
         set.hookUpObservationFor(observer);
         assertEquals(observer, packer.getAccumulator());
-        QualifiedObservableConnector.getSingleton().sendReport(new TestReport1());
+        ReportObserverConnector.getSingleton().sendReport(new TestReport1());
     }
 
     /**
@@ -103,7 +103,7 @@ public class MessagePackerSetTest
     public void destroyObservers()
     {
         MessagePackerSet set = new MessagePackerSet();
-        QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector connector = ReportObserverConnector.getSingleton();
         StateAccumulator observer = Mockito.mock(StateAccumulator.class);
         connector.registerObserver(observer, TestReport1.class);
         assertEquals(2, set.getCount());
@@ -111,12 +111,12 @@ public class MessagePackerSetTest
         assertEquals(0, set.getCount());
     }
 
-    private static class TestReport1 implements QualifiedObservableReport
+    private static class TestReport1 implements Report
     {
 
     }
 
-    private static class TestReport2 implements QualifiedObservableReport
+    private static class TestReport2 implements Report
     {
 
     }
@@ -125,10 +125,10 @@ public class MessagePackerSetTest
     {
 
         /**
-         * @see MessagePacker#pack(QualifiedObservableReport)
+         * @see MessagePacker#pack(Report)
          */
         @Override
-        public Message pack(QualifiedObservableReport object)
+        public Message pack(Report object)
         {
             return Mockito.mock(Message.class);
         }
@@ -137,9 +137,9 @@ public class MessagePackerSetTest
          * @see MessagePacker#getReportTypesWePack()
          */
         @Override
-        public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+        public ArrayList<Class<? extends Report>> getReportTypesWePack()
         {
-            ArrayList<Class<? extends QualifiedObservableReport>> result = new ArrayList<>();
+            ArrayList<Class<? extends Report>> result = new ArrayList<>();
 
             result.add(TestReport1.class);
             result.add(TestReport2.class);

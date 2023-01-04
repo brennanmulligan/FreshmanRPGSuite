@@ -30,14 +30,14 @@ public final class CommandRestfulLogout extends Command
             RestfulLogoutSuccessReport report = new RestfulLogoutSuccessReport();
 
             // Send a report saying that we logged out successfully
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         catch (DatabaseException e)
         {
             RestfulLogoutFailedReport report = new RestfulLogoutFailedReport(e.getMessage());
 
             // Send a report saying that something went wrong while logging out
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
 
         return true;

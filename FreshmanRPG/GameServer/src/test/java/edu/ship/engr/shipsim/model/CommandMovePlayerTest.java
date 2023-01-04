@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class CommandMovePlayerTest
 {
     /**
@@ -49,8 +49,8 @@ public class CommandMovePlayerTest
     public void notifyObservers()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a PlayerMovedReport is sent
         connector.registerObserver(observer, PlayerMovedReport.class);

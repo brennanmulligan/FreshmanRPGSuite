@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.model.cheatCodeBehaviors;
 
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.InteractableObjectBuffReport;
 
 /**
@@ -34,7 +34,7 @@ public class BuffBehavior implements CheatCodeBehavior
             int changeInBuff = BUFF_VALUE - originalBuff;
             if (changeInBuff > 0)
             {
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new InteractableObjectBuffReport(playerID, changeInBuff));
                 return true;
             }

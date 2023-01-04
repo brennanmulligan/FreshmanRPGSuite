@@ -5,9 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.DoubloonChangeReport;
 import edu.ship.engr.shipsim.model.reports.ExperiencePointsChangeReport;
 
@@ -15,7 +15,7 @@ import edu.ship.engr.shipsim.model.reports.ExperiencePointsChangeReport;
  * @author ck4124
  * Displays ThisClientPlayer's experiencePoints and progress for the current level
  */
-public class ExperienceDisplay extends Group implements QualifiedObserver
+public class ExperienceDisplay extends Group implements ReportObserver
 {
     private int experiencePoints;
     private int numPointsLvlRequires;
@@ -37,7 +37,7 @@ public class ExperienceDisplay extends Group implements QualifiedObserver
 
     private void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, DoubloonChangeReport.class);
     }
 
@@ -112,10 +112,10 @@ public class ExperienceDisplay extends Group implements QualifiedObserver
 
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass().equals(ExperiencePointsChangeReport.class))
         {

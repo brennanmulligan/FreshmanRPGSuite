@@ -125,7 +125,7 @@ public class ClientPlayer
 
         if (sendReport)
         {
-            QualifiedObservableConnector.getSingleton().sendReport(new ChangePlayerAppearanceReport(this.id, vanities));
+            ReportObserverConnector.getSingleton().sendReport(new ChangePlayerAppearanceReport(this.id, vanities));
         }
     }
 
@@ -162,7 +162,7 @@ public class ClientPlayer
     public void move(Position playerPosition, boolean isThisClientsPlayer)
     {
         this.position = playerPosition;
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .sendReport(new ClientPlayerMovedReport(this.id, playerPosition, isThisClientsPlayer));
     }
 

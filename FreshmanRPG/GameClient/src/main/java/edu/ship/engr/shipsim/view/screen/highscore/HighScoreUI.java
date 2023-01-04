@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author ck4124, Scott
  * @fixedby Ian Keefer and TJ Renninger
  */
-public class HighScoreUI extends OverlayingScreen implements QualifiedObserver
+public class HighScoreUI extends OverlayingScreen implements ReportObserver
 {
     private final float WIDTH = 200f;
     private final float HEIGHT = 300f;
@@ -33,11 +33,11 @@ public class HighScoreUI extends OverlayingScreen implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for HighScoreResponseReport
+     * Sets up the ReportObserver for HighScoreResponseReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, HighScoreResponseReport.class);
         cm.registerObserver(this, ClientKeyInputSentReport.class);
     }
@@ -61,10 +61,10 @@ public class HighScoreUI extends OverlayingScreen implements QualifiedObserver
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass().equals(HighScoreResponseReport.class))
         {

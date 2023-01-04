@@ -5,12 +5,12 @@ import edu.ship.engr.shipsim.communication.messages.LoginMessage;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
 import edu.ship.engr.shipsim.model.OptionsManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.LoginFailedReport;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
  * @author Merlin
  */
 @GameTest("LoginServer")
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class LoginMessageHandlerTest
 {
 
@@ -57,8 +57,8 @@ public class LoginMessageHandlerTest
     {
         LoginMessageHandler handler = new LoginMessageHandler();
 
-        QualifiedObserver observer = mock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(observer, LoginSuccessfulReport.class);
+        ReportObserver observer = mock(ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(observer, LoginSuccessfulReport.class);
 
         LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword());
         handler.process(loginMessage);
@@ -71,8 +71,8 @@ public class LoginMessageHandlerTest
     {
         LoginMessageHandler handler = new LoginMessageHandler();
 
-        QualifiedObserver observer = mock(QualifiedObserver.class);
-        QualifiedObservableConnector.getSingleton().registerObserver(observer, LoginFailedReport.class);
+        ReportObserver observer = mock(ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(observer, LoginFailedReport.class);
 
         LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword() + "Z");
         handler.process(loginMessage);

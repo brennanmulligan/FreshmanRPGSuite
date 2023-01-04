@@ -1,12 +1,12 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ServerPlayerOwnedItemsResponseReport implements QualifiedObservableReport
+public class ServerPlayerOwnedItemsResponseReport implements Report
 {
     private final ArrayList<VanityDTO> serverOwnedItems;
 

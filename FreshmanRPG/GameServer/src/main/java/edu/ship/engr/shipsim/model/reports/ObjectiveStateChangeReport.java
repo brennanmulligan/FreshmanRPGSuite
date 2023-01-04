@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author nk3668
  */
-public final class ObjectiveStateChangeReport implements QualifiedObservableReport
+public final class ObjectiveStateChangeReport implements Report
 {
     private final int playerID;
     private final int questID;

@@ -43,7 +43,7 @@ public class CommandKeyInputMessageReceived extends Command
     boolean execute()
     {
         KeyInputRecievedReport report = new KeyInputRecievedReport(input, playerId);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

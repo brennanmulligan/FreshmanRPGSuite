@@ -95,11 +95,11 @@ import org.junit.platform.suite.api.Suite;
                 MapToServerMappingTest.class,
                 PlayerConnectionTest.class,
                 PlayerLoginTest.class,
-                QualifiedObserverConnectorTest.class,
+                ReportObserverConnectorTest.class,
 
                 // edu.ship.engr.shipsim.model.reports
-                // StubQualifiedObservableReport1.class,
-                // StubQualifiedObservableReport2.class
+                // StubReport1.class,
+                // StubReport2.class
 
                 // edu.ship.engr.shipsim.model.terminal
                 TerminalManagerTest.class,

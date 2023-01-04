@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * This report is sent when the player initiates his login to the system
  *
  * @author Merlin
  */
-public final class LoginInitiatedReport implements QualifiedObservableReport
+public final class LoginInitiatedReport implements Report
 {
 
     private final String name;

@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
@@ -23,14 +23,14 @@ public abstract class MessagePacker
      * @param object the object pushed by the observable in its notification
      * @return the appropriate message
      */
-    public abstract Message pack(QualifiedObservableReport object);
+    public abstract Message pack(Report object);
 
     /**
      * Tell which type of report we pack
      *
      * @return the type of report we pack
      */
-    public abstract ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack();
+    public abstract ArrayList<Class<? extends Report>> getReportTypesWePack();
 
     /**
      * @return the StateAccumulator attached to this packer

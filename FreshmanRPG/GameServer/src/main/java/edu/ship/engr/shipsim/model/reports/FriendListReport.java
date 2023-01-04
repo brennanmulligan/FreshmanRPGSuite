@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
-public class FriendListReport implements QualifiedObservableReport
+public class FriendListReport implements Report
 {
 
     private int playerId;

@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Merlin
  */
-public final class LoginSuccessfulReport implements QualifiedObservableReport
+public final class LoginSuccessfulReport implements Report
 {
 
     private final String hostname;

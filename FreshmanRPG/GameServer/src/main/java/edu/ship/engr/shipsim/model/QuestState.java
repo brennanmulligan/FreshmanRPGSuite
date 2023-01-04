@@ -121,7 +121,7 @@ public class QuestState
             TeleportOnQuestCompletionReport report = new TeleportOnQuestCompletionReport(playerID, questID, gl,
                     mapping.getHostName(), mapping.getPortNumber());
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         else if (q.getCompletionActionType() == QuestCompletionActionType.TRIGGER_QUESTS)
         {
@@ -276,7 +276,7 @@ public class QuestState
             if (this.needingNotification)
             {
                 QuestRecord quest = QuestManager.getSingleton().getQuest(questID);
-                QualifiedObservableConnector.getSingleton().sendReport(new QuestStateChangeReport(playerID, questID,
+                ReportObserverConnector.getSingleton().sendReport(new QuestStateChangeReport(playerID, questID,
                         quest.getTitle(), quest.getDescription(), questState));
             }
 

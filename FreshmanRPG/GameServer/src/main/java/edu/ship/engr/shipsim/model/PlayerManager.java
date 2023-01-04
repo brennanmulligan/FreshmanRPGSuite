@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * @author Merlin
  */
-public class PlayerManager implements QualifiedObserver
+public class PlayerManager implements ReportObserver
 {
     /**
      * @return the only PlayerManger in the system
@@ -66,7 +66,7 @@ public class PlayerManager implements QualifiedObserver
     {
         players = new HashMap<>();
         npcs = new ArrayList<>();
-        QualifiedObservableConnector.getSingleton().registerObserver(this, PlayerDisconnectedReport.class);
+        ReportObserverConnector.getSingleton().registerObserver(this, PlayerDisconnectedReport.class);
     }
 
     /**
@@ -81,7 +81,7 @@ public class PlayerManager implements QualifiedObserver
         Player player = addPlayerSilently(playerID);
 
 
-        QualifiedObservableConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPlayerPosition(),
+        ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPlayerPosition(),
                 player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems()));
         return player;
     }
@@ -133,25 +133,25 @@ public class PlayerManager implements QualifiedObserver
         {
             players.put(playerID, player);
 
-            QualifiedObservableConnector.getSingleton().sendReport(new PlayerConnectionReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType(), player
+            ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType(), player
                     .getPlayerPosition(), player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems(), player.getAllOwnedItems()));
 
-            QualifiedObservableConnector.getSingleton().sendReport(new UpdatePlayerInformationReport(player));
+            ReportObserverConnector.getSingleton().sendReport(new UpdatePlayerInformationReport(player));
             tellNewPlayerAboutEveryoneElse(player);
 
             LevelRecord currentLevel = LevelManagerDTO.getSingleton().getLevelForPoints(player.getExperiencePoints());
             LevelRecord nextLevel = LevelManagerDTO.getSingleton().getNextLevelForPoints(player.getExperiencePoints());
-            QualifiedObservableConnector.getSingleton().sendReport(new TimeToLevelUpDeadlineReport(player.getPlayerID(), currentLevel.getDeadlineDate(), nextLevel
+            ReportObserverConnector.getSingleton().sendReport(new TimeToLevelUpDeadlineReport(player.getPlayerID(), currentLevel.getDeadlineDate(), nextLevel
                     .getDescription()));
 
-            QualifiedObservableConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
+            ReportObserverConnector.getSingleton().sendReport(new PlayerFinishedInitializingReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType()));
             DoubloonPrizesTableDataGateway doubloonPrizesGateway =
                     DoubloonPrizesTableDataGateway.getSingleton();
             FriendTableDataGateway friendTableDataGateway =
                     FriendTableDataGateway.getSingleton();
 
-            QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
-            QualifiedObservableConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
+            ReportObserverConnector.getSingleton().sendReport(new DoubloonPrizeReport(player.getPlayerID(), doubloonPrizesGateway.getAllDoubloonPrizes()));
+            ReportObserverConnector.getSingleton().sendReport(new FriendListReport(player.getPlayerID(), friendTableDataGateway.getAllFriends(player.getPlayerID())));
             return player;
         }
         else
@@ -159,7 +159,7 @@ public class PlayerManager implements QualifiedObserver
             pm.removeQuestStates();
             System.err.println("Failed adding player " + playerID + " with pin " + pin);
             PinFailedReport report = new PinFailedReport(playerID);
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         return null;
     }
@@ -299,7 +299,7 @@ public class PlayerManager implements QualifiedObserver
         {
             // send the disconnect message to clients
             PlayerLeaveReport report = new PlayerLeaveReport(playerID);
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
     }
 
@@ -348,16 +348,16 @@ public class PlayerManager implements QualifiedObserver
                     report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
                             .getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), existingPlayer.getVanityItems());
                 }
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass().equals(PlayerDisconnectedReport.class))
         {
