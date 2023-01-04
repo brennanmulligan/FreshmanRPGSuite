@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Date;
 
 /**
  * @author Evan, Chris, Marty
  */
-public final class ClientTimeToLevelUpDeadlineReport implements QualifiedObservableReport
+public final class ClientTimeToLevelUpDeadlineReport implements Report
 {
     private int playerID;
     private Date timeToDeadline;

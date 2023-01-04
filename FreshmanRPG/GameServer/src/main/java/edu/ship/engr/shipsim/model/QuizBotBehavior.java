@@ -47,9 +47,9 @@ public class QuizBotBehavior extends NPCBehavior
      * Get report types that this class watches for.
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    public ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes =
+        ArrayList<Class<? extends Report>> reportTypes =
                 new ArrayList<>();
         reportTypes.add(NPCChatReport.class);
         return reportTypes;
@@ -60,10 +60,10 @@ public class QuizBotBehavior extends NPCBehavior
      * announce the correct answer, pull a new random question, and ask that
      * question. *
      *
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport incomingReport)
+    public void receiveReport(Report incomingReport)
     {
         if (incomingReport instanceof NPCChatReport)
         {

@@ -49,7 +49,7 @@ public class CommandReceiveTerminalText extends Command
             result = commandArgs[0] + ": command not found";
             report = new ReceiveTerminalTextReport(playerID, result,
                     commandName);
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         else
         {
@@ -58,7 +58,7 @@ public class CommandReceiveTerminalText extends Command
             {
                 report = new ReceiveTerminalTextReport(playerID, result,
                         cmd.getTerminalIdentifier());
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
         return true;

@@ -1,14 +1,14 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
 /**
  * @author nk3668
  */
-public final class HighScoreResponseReport implements QualifiedObservableReport
+public final class HighScoreResponseReport implements Report
 {
     private final ArrayList<PlayerScoreRecord> scores = new ArrayList<>();
 

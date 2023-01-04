@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.model.ClientPlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ChatReceivedReport;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreen;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  *
  * @author Zachary & Abdul, Ian Keefer, TJ Renninger
  */
-public class MenuUI extends Group implements QualifiedObserver
+public class MenuUI extends Group implements ReportObserver
 {
     private final float HEIGHT = 30f;
     private final Skin skin;
@@ -240,7 +240,7 @@ public class MenuUI extends Group implements QualifiedObserver
      * Receive the chat received report and update the friends button color if the screen is not visibile
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == ChatReceivedReport.class)
         {
@@ -268,11 +268,11 @@ public class MenuUI extends Group implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ChatReceivedReport
+     * Sets up the ReportObserver for ChatReceivedReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, ChatReceivedReport.class);
     }
 }

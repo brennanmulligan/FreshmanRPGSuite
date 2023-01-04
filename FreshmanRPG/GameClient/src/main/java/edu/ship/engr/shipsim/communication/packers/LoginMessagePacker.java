@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.LoginMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.LoginInitiatedReport;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class LoginMessagePacker extends MessagePacker
      *
      */
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         if (object.getClass() != LoginInitiatedReport.class)
         {
@@ -37,9 +37,9 @@ public class LoginMessagePacker extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> result =
+        ArrayList<Class<? extends Report>> result =
                 new ArrayList<>();
         result.add(LoginInitiatedReport.class);
         return result;

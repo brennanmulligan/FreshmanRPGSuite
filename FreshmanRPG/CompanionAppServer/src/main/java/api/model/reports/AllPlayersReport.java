@@ -1,7 +1,7 @@
 package api.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Merlin
  */
-public class AllPlayersReport implements QualifiedObservableReport
+public class AllPlayersReport implements Report
 {
 
     private final ArrayList<PlayerDTO> list;

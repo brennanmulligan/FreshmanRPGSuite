@@ -1,9 +1,9 @@
 package edu.ship.engr.shipsim.view.screen;
 
 import com.badlogic.gdx.Game;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Merlin
  */
-public abstract class ScreenListener implements QualifiedObserver
+public abstract class ScreenListener implements ReportObserver
 {
 
     protected ScreenBasic screen;
@@ -22,7 +22,7 @@ public abstract class ScreenListener implements QualifiedObserver
     /**
      * @return the report types this listener should pay attention to
      */
-    public abstract ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes();
+    public abstract ArrayList<Class<? extends Report>> getReportTypes();
 
     /**
      * Tell this listener which screen it is managing
@@ -50,9 +50,9 @@ public abstract class ScreenListener implements QualifiedObserver
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = getReportTypes();
-        for (Class<? extends QualifiedObservableReport> reportType : reportTypes)
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
+        ArrayList<Class<? extends Report>> reportTypes = getReportTypes();
+        for (Class<? extends Report> reportType : reportTypes)
         {
             cm.registerObserver(this, reportType);
         }

@@ -42,17 +42,17 @@ public class NPCMockBehavior extends NPCBehavior
      * @see NPCBehavior#getReportTypes()
      */
     @Override
-    protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    protected ArrayList<Class<? extends Report>> getReportTypes()
     {
         return null;
     }
 
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport arg)
+    public void receiveReport(Report arg)
     {
     }
 

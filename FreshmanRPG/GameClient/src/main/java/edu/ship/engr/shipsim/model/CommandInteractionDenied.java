@@ -12,7 +12,7 @@ public class CommandInteractionDenied extends Command
     boolean execute()
     {
         InteractionDeniedReport report = new InteractionDeniedReport();
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

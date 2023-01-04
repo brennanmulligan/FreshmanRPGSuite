@@ -2,12 +2,12 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /*
  * @Author Christian Crouthamel, Andrew McCoy
  */
-public class updateFriendListReport implements QualifiedObservableReport
+public class updateFriendListReport implements Report
 {
 
     FriendDTO friend;

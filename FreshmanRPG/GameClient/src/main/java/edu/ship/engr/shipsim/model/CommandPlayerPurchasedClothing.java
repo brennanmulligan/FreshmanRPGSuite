@@ -20,7 +20,7 @@ public class CommandPlayerPurchasedClothing extends Command
     boolean execute() throws IOException
     {
         PlayerPurchasedClothingReport report = new PlayerPurchasedClothingReport(playerID, vanityDTO);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();
 

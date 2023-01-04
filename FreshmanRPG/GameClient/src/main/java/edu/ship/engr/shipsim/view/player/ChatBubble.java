@@ -7,16 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import edu.ship.engr.shipsim.datatypes.VanityType;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.ChatReceivedReport;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class ChatBubble extends Group implements QualifiedObserver
+public class ChatBubble extends Group implements ReportObserver
 {
     protected Vector2 dest;
 
@@ -46,11 +46,11 @@ public class ChatBubble extends Group implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ChatReceivedReport
+     * Sets up the ReportObserver for ChatReceivedReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, ChatReceivedReport.class);
     }
 
@@ -84,7 +84,7 @@ public class ChatBubble extends Group implements QualifiedObserver
     }
 
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == ChatReceivedReport.class)
         {

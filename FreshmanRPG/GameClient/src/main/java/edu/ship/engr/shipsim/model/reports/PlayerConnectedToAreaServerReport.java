@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.player.PlayerType;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Merlin
  */
-public class PlayerConnectedToAreaServerReport implements QualifiedObservableReport
+public class PlayerConnectedToAreaServerReport implements Report
 {
     private int playerID;
     private String playerName;

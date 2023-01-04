@@ -1,8 +1,8 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
-public class FriendChangedStateReport implements QualifiedObservableReport
+public class FriendChangedStateReport implements Report
 {
     private int playerID;
     private String playerName;

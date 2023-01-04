@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.testing.annotations;
 
-import edu.ship.engr.shipsim.testing.extensions.ResetQualifiedObservableConnectorExtension;
+import edu.ship.engr.shipsim.testing.extensions.ResetReportObserverConnectorExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ExtendWith(ResetQualifiedObservableConnectorExtension.class)
-public @interface ResetQualifiedObservableConnector
+@ExtendWith(ResetReportObserverConnectorExtension.class)
+public @interface ResetReportObserverConnector
 {
 }

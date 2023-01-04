@@ -58,7 +58,7 @@ public class CommandRecieveTerminalResponse extends Command
     boolean execute()
     {
         TerminalResponseReport report = new TerminalResponseReport(playerID, terminalResult);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         return true;
     }

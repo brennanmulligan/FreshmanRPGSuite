@@ -6,7 +6,7 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetInteractObjectManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @GameTest("GameServer")
 @ResetInteractObjectManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class InteractObjectManagerTest
 {
     /**

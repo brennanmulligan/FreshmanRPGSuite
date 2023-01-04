@@ -28,7 +28,7 @@ import java.util.ArrayList;
  *
  * @author Zack Semanco, Kevin Marek
  */
-public class FriendsUI extends OverlayingScreen implements QualifiedObserver
+public class FriendsUI extends OverlayingScreen implements ReportObserver
 {
 
     private final float WIDTH = 600f;
@@ -116,11 +116,11 @@ public class FriendsUI extends OverlayingScreen implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ChatReceivedReport
+     * Sets up the ReportObserver for ChatReceivedReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, FriendChangedStateReport.class);
         cm.registerObserver(this, ChatReceivedReport.class);
         cm.registerObserver(this, CurrentFriendListReport.class);
@@ -132,7 +132,7 @@ public class FriendsUI extends OverlayingScreen implements QualifiedObserver
      * are the recipient, add the message to our list
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == ChatReceivedReport.class)
         {

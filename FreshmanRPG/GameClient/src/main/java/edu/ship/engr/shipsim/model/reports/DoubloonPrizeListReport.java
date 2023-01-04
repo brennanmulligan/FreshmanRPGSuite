@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
-public final class DoubloonPrizeListReport implements QualifiedObservableReport
+public final class DoubloonPrizeListReport implements Report
 {
     private final ArrayList<DoubloonPrizeDTO> doubloonPrizes;
 

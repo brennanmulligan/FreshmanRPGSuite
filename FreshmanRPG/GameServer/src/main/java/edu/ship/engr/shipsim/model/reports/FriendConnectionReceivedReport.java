@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Carries information from a friend request
@@ -9,7 +9,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  * @author Joshua Wood, Evan Reese
  */
 
-public final class FriendConnectionReceivedReport implements QualifiedObservableReport
+public final class FriendConnectionReceivedReport implements Report
 {
 
 

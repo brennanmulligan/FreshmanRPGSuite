@@ -10,8 +10,8 @@ import edu.ship.engr.shipsim.model.ModelFacadeTestHelper;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
@@ -77,8 +77,8 @@ public class TeleportationInitiationHandlerTest
                         ServersForTest.FIRST_SERVER.getMapName(), playerPos);
 
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register observer to be notified if the move wasn't handled silently
         connector.registerObserver(observer, PlayerMovedReport.class);

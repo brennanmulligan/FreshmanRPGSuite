@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -13,8 +13,8 @@ import static org.mockito.Mockito.times;
  * @author Merlin
  */
 @GameTest("GameShared")
-@ResetQualifiedObservableConnector
-public class QualifiedObserverConnectorTest
+@ResetReportObserverConnector
+public class ReportObserverConnectorTest
 {
     /**
      * Test the singleton functionality. First, make sure you get the same
@@ -23,13 +23,13 @@ public class QualifiedObserverConnectorTest
     @Test
     public void isSingleton()
     {
-        QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector connector = ReportObserverConnector.getSingleton();
         assertNotNull(connector);
-        QualifiedObservableConnector connector2 = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector connector2 = ReportObserverConnector.getSingleton();
         assertNotNull(connector2);
         assertSame(connector, connector2);
-        QualifiedObservableConnector.resetSingleton();
-        connector2 = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector.resetSingleton();
+        connector2 = ReportObserverConnector.getSingleton();
         assertNotSame(connector, connector2);
     }
 
@@ -41,8 +41,8 @@ public class QualifiedObserverConnectorTest
     public void addingSameObserverTwiceIgnoresSecondCall()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = Mockito.spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver mockObserver = Mockito.mock(QualifiedObserver.class);
+        ReportObserverConnector connector = Mockito.spy(ReportObserverConnector.getSingleton());
+        ReportObserver mockObserver = Mockito.mock(ReportObserver.class);
 
         // register the observer twice, only the first should be effective
         connector.registerObserver(mockObserver, TestReport.class);
@@ -67,8 +67,8 @@ public class QualifiedObserverConnectorTest
     public void canUnRegisterAnObserver()
     {
         // set up the connection
-        QualifiedObservableConnector connector = Mockito.spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver mockObserver = Mockito.mock(QualifiedObserver.class);
+        ReportObserverConnector connector = Mockito.spy(ReportObserverConnector.getSingleton());
+        ReportObserver mockObserver = Mockito.mock(ReportObserver.class);
         connector.registerObserver(mockObserver, TestReport.class);
 
         // verify that registerObserver was called once
@@ -96,8 +96,8 @@ public class QualifiedObserverConnectorTest
     public void testObserverGetsRecorded()
     {
         // set up the connection
-        QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
-        QualifiedObserver mockObserver = Mockito.mock(QualifiedObserver.class);
+        ReportObserverConnector connector = ReportObserverConnector.getSingleton();
+        ReportObserver mockObserver = Mockito.mock(ReportObserver.class);
         connector.registerObserver(mockObserver, TestReport.class);
 
         assertEquals(1, connector.getCount());
@@ -111,8 +111,8 @@ public class QualifiedObserverConnectorTest
     public void unregistrationForgetsObserver()
     {
         // set up the connection
-        QualifiedObservableConnector connector = Mockito.spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver mockObserver = Mockito.mock(QualifiedObserver.class);
+        ReportObserverConnector connector = Mockito.spy(ReportObserverConnector.getSingleton());
+        ReportObserver mockObserver = Mockito.mock(ReportObserver.class);
 
         // register and unregister the observer with the connector
         connector.registerObserver(mockObserver, TestReport.class);
@@ -137,8 +137,8 @@ public class QualifiedObserverConnectorTest
     @Test
     public void observerUnregistrationWhenNotRegistered()
     {
-        QualifiedObservableConnector connector = QualifiedObservableConnector.getSingleton();
-        QualifiedObserver mockObserver = Mockito.mock(QualifiedObserver.class);
+        ReportObserverConnector connector = ReportObserverConnector.getSingleton();
+        ReportObserver mockObserver = Mockito.mock(ReportObserver.class);
         connector.unregisterObserver(mockObserver, TestReport.class);
     }
 
@@ -147,9 +147,9 @@ public class QualifiedObserverConnectorTest
     {
         TestReport report = new TestReport();
 
-        TestReport response = QualifiedObservableConnector.processAction(() ->
+        TestReport response = ReportObserverConnector.processAction(() ->
         {
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }, 1000, TestReport.class);
 
         assertEquals(report, response);
@@ -160,7 +160,7 @@ public class QualifiedObserverConnectorTest
     {
         TestReport report = new TestReport();
 
-        TestReport response = QualifiedObservableConnector.processAction(() ->
+        TestReport response = ReportObserverConnector.processAction(() ->
         {
             try
             {
@@ -171,13 +171,13 @@ public class QualifiedObserverConnectorTest
                 throw new RuntimeException(e);
             }
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }, 1000, TestReport.class);
 
         assertEquals(report, response);
     }
 
-    private static class TestReport implements QualifiedObservableReport
+    private static class TestReport implements Report
     {
 
     }

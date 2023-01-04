@@ -23,7 +23,7 @@ public final class CommandRestfulLogin extends Command
     {
         RestfulLoginInitiatedReport report = new RestfulLoginInitiatedReport(username, password);
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         return true;
     }

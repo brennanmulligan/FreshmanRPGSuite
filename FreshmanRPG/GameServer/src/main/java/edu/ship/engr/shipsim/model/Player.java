@@ -73,7 +73,7 @@ public class Player
         this.experiencePoints = experiencePoints + expPoints;
         ExperienceChangedReport report = new ExperienceChangedReport(this.playerID, this.experiencePoints, LevelManagerDTO.getSingleton().getLevelForPoints(this.experiencePoints));
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
     }
 
@@ -176,12 +176,12 @@ public class Player
             if (this.buffPool == 0)
             {
                 NoMoreBuffReport report = new NoMoreBuffReport(playerID);
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
 
         DoubloonChangeReport report = new DoubloonChangeReport(playerID, this.doubloons, this.buffPool);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
@@ -341,7 +341,7 @@ public class Player
     {
         PlayerMovedReport report = new PlayerMovedReport(playerID, this.getPlayerName(), playerPosition, this.mapName);
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
@@ -359,7 +359,7 @@ public class Player
     {
         doubloons -= price;
         DoubloonChangeReport report = new DoubloonChangeReport(playerID, this.doubloons, this.buffPool);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**

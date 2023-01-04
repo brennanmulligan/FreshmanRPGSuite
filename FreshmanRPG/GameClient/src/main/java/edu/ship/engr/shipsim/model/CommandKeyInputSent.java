@@ -32,7 +32,7 @@ public class CommandKeyInputSent extends Command
     boolean execute()
     {
         ClientKeyInputSentReport report = new ClientKeyInputSentReport(input);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

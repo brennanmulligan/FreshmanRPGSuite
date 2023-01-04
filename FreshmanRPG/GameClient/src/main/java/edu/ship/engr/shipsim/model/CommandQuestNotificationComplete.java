@@ -34,7 +34,7 @@ public class CommandQuestNotificationComplete extends Command
 
         QuestNotificationCompleteReport report = new QuestNotificationCompleteReport(
                 playerID, questID);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

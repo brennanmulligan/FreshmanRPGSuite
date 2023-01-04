@@ -11,7 +11,7 @@ public class CommandShopInventoryRequest extends Command
     boolean execute()
     {
         ShopInventoryRequestReport r = new ShopInventoryRequestReport();
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
 
         return true;
     }

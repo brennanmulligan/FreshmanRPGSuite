@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author bl5922 SendTerminalTextReport that gets sent from CommandSendTerminalText
  */
-public class SendTerminalTextReport implements QualifiedObservableReport
+public class SendTerminalTextReport implements Report
 {
 
     private int playerID = 0;

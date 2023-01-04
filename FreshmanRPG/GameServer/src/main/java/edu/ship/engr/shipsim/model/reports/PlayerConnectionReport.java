@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  * @author Merlin, Aaron W., Jake H.
  */
-public final class PlayerConnectionReport implements QualifiedObservableReport
+public final class PlayerConnectionReport implements Report
 {
 
     private final int playerID;

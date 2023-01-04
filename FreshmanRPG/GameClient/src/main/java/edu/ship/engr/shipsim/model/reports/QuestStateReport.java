@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Merlin
  */
-public class QuestStateReport implements QualifiedObservableReport
+public class QuestStateReport implements Report
 {
 
     private List<ClientPlayerQuestStateDTO> data;

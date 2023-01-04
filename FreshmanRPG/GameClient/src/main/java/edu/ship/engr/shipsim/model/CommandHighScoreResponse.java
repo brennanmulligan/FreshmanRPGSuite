@@ -29,7 +29,7 @@ public class CommandHighScoreResponse extends Command
     boolean execute()
     {
         HighScoreResponseReport report = new HighScoreResponseReport(scores);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

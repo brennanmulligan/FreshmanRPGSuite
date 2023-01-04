@@ -25,8 +25,8 @@ public class CommandTerminalTextExitTest
     public void testExecution() throws ModelFacadeException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a TerminalTextExitReport is sent
         connector.registerObserver(observer, TerminalTextExitReport.class);

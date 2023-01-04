@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.TeleportationInitiationMessage;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ChangeMapReport;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class TeleportationInitiationMessagePacker extends MessagePacker
      * @return A TeleportationInitiationMessage based on the ChangeMapReport that was given.
      */
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         if (object.getClass() != ChangeMapReport.class)
         {
@@ -38,9 +38,9 @@ public class TeleportationInitiationMessagePacker extends MessagePacker
      * The packer listens for ChangeMapReport.
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> result =
+        ArrayList<Class<? extends Report>> result =
                 new ArrayList<>();
         result.add(ChangeMapReport.class);
         return result;

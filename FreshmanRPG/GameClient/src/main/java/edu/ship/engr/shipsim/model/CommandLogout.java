@@ -17,7 +17,7 @@ public class CommandLogout extends Command
     public boolean execute()
     {
         LogoutReport report = new LogoutReport();
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

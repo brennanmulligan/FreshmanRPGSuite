@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datasource.LevelRecord;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * The ExperienceChangedReport class
@@ -9,7 +9,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  * @author Olivia
  * @author LaVonne
  */
-public final class ExperienceChangedReport implements QualifiedObservableReport
+public final class ExperienceChangedReport implements Report
 {
 
     private final int experiencePoints;

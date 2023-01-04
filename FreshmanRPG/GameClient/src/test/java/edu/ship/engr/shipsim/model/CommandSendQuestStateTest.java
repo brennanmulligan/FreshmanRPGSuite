@@ -5,7 +5,7 @@ import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.QuestStateReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
  * @author Merlin
  */
 @GameTest("GameClient")
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class CommandSendQuestStateTest
 {
 
@@ -30,8 +30,8 @@ public class CommandSendQuestStateTest
     public void executeTest()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a QuestStateReport is sent
         connector.registerObserver(observer, QuestStateReport.class);

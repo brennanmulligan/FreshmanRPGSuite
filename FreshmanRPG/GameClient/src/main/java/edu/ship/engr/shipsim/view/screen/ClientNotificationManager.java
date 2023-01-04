@@ -1,12 +1,12 @@
 package edu.ship.engr.shipsim.view.screen;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.*;
 import edu.ship.engr.shipsim.view.screen.notification.AlertContainer;
 
-public class ClientNotificationManager implements QualifiedObserver
+public class ClientNotificationManager implements ReportObserver
 {
     private static ClientNotificationManager manager = null;
     private static AlertContainer alertContainer;
@@ -29,7 +29,7 @@ public class ClientNotificationManager implements QualifiedObserver
     }
 
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         // They all implement NotificationTrigger, so we have the notification type and text.
         // Spawn that kind of notification
@@ -50,11 +50,11 @@ public class ClientNotificationManager implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ChatReceivedReport
+     * Sets up the ReportObserver for ChatReceivedReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, DisplayTextReport.class);
         cm.registerObserver(this, ChatReceivedReport.class);
         cm.registerObserver(this, QuestNeedingNotificationReport.class);

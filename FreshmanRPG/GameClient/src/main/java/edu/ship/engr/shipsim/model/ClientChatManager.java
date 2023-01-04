@@ -64,7 +64,7 @@ public class ClientChatManager
         // if chat type is not local chat, just send the message as is.
         if (!type.equals(ChatType.Local) && !type.equals(ChatType.Private))
         {
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         //if chat type is Private check for IDs
         else if (type.equals(ChatType.Private))
@@ -72,7 +72,7 @@ public class ClientChatManager
             if (senderID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID() ||
                     receiverID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID())
             {
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
         else
@@ -80,7 +80,7 @@ public class ClientChatManager
             //if it is local, however, we need to check if they can hear it.
             if (this.canReceiveLocalMessage(position))
             {
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
     }
@@ -96,7 +96,7 @@ public class ClientChatManager
     {
         ClientPlayer thisPlayer = ClientPlayerManager.getSingleton().getThisClientsPlayer();
         ChatSentReport report = new ChatSentReport(thisPlayer.getID(), receiverID, message, thisPlayer.getPosition(), type);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**

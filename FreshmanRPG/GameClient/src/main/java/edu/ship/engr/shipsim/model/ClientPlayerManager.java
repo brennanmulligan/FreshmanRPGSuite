@@ -132,7 +132,7 @@ public class ClientPlayerManager
     public void initiateLogin(String name, String password)
     {
         loginInProgress = true;
-        QualifiedObservableConnector.getSingleton().sendReport(new LoginInitiatedReport(name, password));
+        ReportObserverConnector.getSingleton().sendReport(new LoginInitiatedReport(name, password));
     }
 
     /**
@@ -191,7 +191,7 @@ public class ClientPlayerManager
 
         PlayerConnectedToAreaServerReport report = new PlayerConnectedToAreaServerReport(playerID, playerName,
                 position, crew, major, isThisClientsPlayer, vanities);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         if (thisClientsPlayer != null)
         {
@@ -200,7 +200,7 @@ public class ClientPlayerManager
                 if (friendDTO.getFriendID() == playerID)
                 {
                     FriendChangedStateReport friendReport = new FriendChangedStateReport(playerID);
-                    QualifiedObservableConnector.getSingleton().sendReport(friendReport);
+                    ReportObserverConnector.getSingleton().sendReport(friendReport);
                 }
             }
         }
@@ -225,7 +225,7 @@ public class ClientPlayerManager
     private void tellObserversToRemoveThePlayer(int playerID)
     {
         PlayerDisconnectedFromAreaServerReport report = new PlayerDisconnectedFromAreaServerReport(playerID);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         if (thisClientsPlayer != null)
         {
@@ -234,7 +234,7 @@ public class ClientPlayerManager
                 if (friendDTO.getFriendID() == playerID)
                 {
                     FriendChangedStateReport friendReport = new FriendChangedStateReport(playerID);
-                    QualifiedObservableConnector.getSingleton().sendReport(friendReport);
+                    ReportObserverConnector.getSingleton().sendReport(friendReport);
                 }
             }
         }
@@ -247,7 +247,7 @@ public class ClientPlayerManager
     {
         LoginFailedReport report = new LoginFailedReport(message);
         loginInProgress = false;
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
@@ -259,7 +259,7 @@ public class ClientPlayerManager
     {
         PinFailedReport report = new PinFailedReport(err);
         loginInProgress = false;
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
