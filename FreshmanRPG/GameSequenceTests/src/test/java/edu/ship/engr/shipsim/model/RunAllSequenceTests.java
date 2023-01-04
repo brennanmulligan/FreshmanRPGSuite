@@ -47,7 +47,7 @@ public class RunAllSequenceTests
 
     void resetCommonSingletons()
     {
-        QualifiedObservableConnector.resetSingleton();
+        ReportObserverConnector.resetSingleton();
         ModelFacade.resetSingleton();
         ClientModelFacade.resetSingleton();
         ClientModelFacade.getSingleton(true, true);

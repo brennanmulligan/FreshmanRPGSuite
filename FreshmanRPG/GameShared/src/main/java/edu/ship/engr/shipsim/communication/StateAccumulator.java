@@ -3,8 +3,8 @@ package edu.ship.engr.shipsim.communication;
 import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author merlin
  */
-public class StateAccumulator implements QualifiedObserver
+public class StateAccumulator implements ReportObserver
 {
 
     /**
@@ -56,10 +56,10 @@ public class StateAccumulator implements QualifiedObserver
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport arg1)
+    public void receiveReport(Report arg1)
     {
         ArrayList<Message> msgs;
         try

@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.reports.NewMapReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameClient")
 @ResetClientModelFacade
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class MapManagerTest
 {
     /**
@@ -42,8 +42,8 @@ public class MapManagerTest
     public void updatesOnNewMap()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a NewMapReport is sent
         connector.registerObserver(observer, NewMapReport.class);

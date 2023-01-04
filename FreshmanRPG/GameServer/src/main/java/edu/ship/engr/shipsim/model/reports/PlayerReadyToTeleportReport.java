@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Created after a player gets saved to the database.
  */
-public class PlayerReadyToTeleportReport implements QualifiedObservableReport
+public class PlayerReadyToTeleportReport implements Report
 {
 
     private int id = 0;

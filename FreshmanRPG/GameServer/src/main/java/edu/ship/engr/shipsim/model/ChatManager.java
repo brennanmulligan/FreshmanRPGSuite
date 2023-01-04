@@ -63,7 +63,7 @@ public class ChatManager
     {
         ChatMessageToClientReport report = new ChatMessageToClientReport(senderID,
                 receiverID, message, pos, type);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
     }
 
@@ -79,7 +79,7 @@ public class ChatManager
     protected void sendChatToNPCs(int senderID, int receiverID, String message, Position pos, ChatType type)
     {
         NPCChatReport report = new NPCChatReport(senderID, receiverID, message, pos, type);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
     }
 
@@ -98,7 +98,7 @@ public class ChatManager
             //So player messages show up before NPC responses
             sendChatToClients(senderID, receiverID, chatText, location, type);
             sendChatToNPCs(senderID, receiverID, chatText, location, type);
-            QualifiedObservableConnector.getSingleton().sendReport(new ChatMessageReceivedReport(senderID,
+            ReportObserverConnector.getSingleton().sendReport(new ChatMessageReceivedReport(senderID,
                     receiverID, chatText, location,
                     type));
         }

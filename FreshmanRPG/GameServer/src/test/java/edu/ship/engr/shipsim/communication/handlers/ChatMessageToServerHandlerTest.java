@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToServer;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @GameTest("GameServer")
 @ResetModelFacade
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class ChatMessageToServerHandlerTest
 {
     /**

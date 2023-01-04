@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Contains information that allows a doubloon prize to be purchased
  *
  * @author Kevin Marek
  */
-public class ItemPurchasedReport implements QualifiedObservableReport
+public class ItemPurchasedReport implements Report
 {
     private final int playerID;
     private final int price;

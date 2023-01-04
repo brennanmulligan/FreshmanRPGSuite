@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 @ResetModelFacade
 @ResetQuestManager
 @ResetPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class TestPlayerController
 {
     @SuppressWarnings("unchecked")

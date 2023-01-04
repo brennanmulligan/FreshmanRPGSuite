@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * A report that handles recieving the Terminal Response
  *
  * @author Nathaniel, Allen
  */
-public class TerminalResponseReport implements QualifiedObservableReport
+public class TerminalResponseReport implements Report
 {
     private int playerID;
     private String terminalResult;

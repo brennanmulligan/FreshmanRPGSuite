@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Adam Pine, Jacob Knight
  */
-public class InteractableObjectBuffReport implements QualifiedObservableReport
+public class InteractableObjectBuffReport implements Report
 {
     private final int playerID;
     private final int experiencePointPool;

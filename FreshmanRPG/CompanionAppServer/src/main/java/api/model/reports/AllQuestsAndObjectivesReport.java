@@ -1,6 +1,6 @@
 package api.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.QuestRecord;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Darnell Martin & Darin Alleman
  */
-public class AllQuestsAndObjectivesReport implements QualifiedObservableReport
+public class AllQuestsAndObjectivesReport implements Report
 {
 
     /**

@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
 /**
  * @author Ryan Handley and Scott Bowling
  */
-public final class PlayerAppearanceChangeReport implements QualifiedObservableReport
+public final class PlayerAppearanceChangeReport implements Report
 {
 //	private final int playerID;
 //	private final String appearanceType;

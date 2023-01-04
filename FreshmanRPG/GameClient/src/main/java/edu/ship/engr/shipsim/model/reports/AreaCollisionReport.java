@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author nhydock
  */
-public class AreaCollisionReport implements QualifiedObservableReport
+public class AreaCollisionReport implements Report
 {
     private final int playerID;
     private final String areaName;

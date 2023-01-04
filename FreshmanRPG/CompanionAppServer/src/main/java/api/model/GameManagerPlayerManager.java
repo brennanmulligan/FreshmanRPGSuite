@@ -9,7 +9,7 @@ import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.FindPlayerIDFromPlayerName;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerMapper;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 
 import java.util.ArrayList;
 
@@ -250,7 +250,7 @@ public class GameManagerPlayerManager
     {
         ArrayList<PlayerDTO> reportList = getAllPlayers();
         AllPlayersReport report = new AllPlayersReport(reportList);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**
@@ -260,7 +260,7 @@ public class GameManagerPlayerManager
     {
         ArrayList<PlayerDTO> reportList = getPlayers();
         AllPlayersReport report = new AllPlayersReport(reportList);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     /**

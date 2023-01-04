@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Merlin
  */
-public final class NewMapReport implements QualifiedObservableReport
+public final class NewMapReport implements Report
 {
 
     private TiledMap tiledMap;

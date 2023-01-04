@@ -22,7 +22,7 @@ public class CommandSendTerminalText extends Command
     {
         SendTerminalTextReport report = new SendTerminalTextReport(
                 ClientPlayerManager.getSingleton().getThisClientsPlayer().getID(), terminalText);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

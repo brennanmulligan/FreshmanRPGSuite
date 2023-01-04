@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.model.Player;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collection;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * @author Derek
  */
-public class PlayerQuestReport implements QualifiedObservableReport
+public class PlayerQuestReport implements Report
 {
     private final Player player;
     private final List<ClientPlayerQuestStateDTO> quests;

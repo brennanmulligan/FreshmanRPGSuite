@@ -25,10 +25,10 @@ public class TutorBehavior extends NPCBehavior
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report instanceof NPCChatReport)
         {
@@ -55,9 +55,9 @@ public class TutorBehavior extends NPCBehavior
      * @see NPCBehavior#getReportTypes()
      */
     @Override
-    protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    protected ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
+        ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
         reportTypes.add(NPCChatReport.class);
         return reportTypes;
     }

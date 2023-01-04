@@ -28,7 +28,7 @@ public class CommandFetchPlayerObjectives extends Command
 
             PlayerQuestReport report = new PlayerQuestReport(player, quests);
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
 
             return true;
         }

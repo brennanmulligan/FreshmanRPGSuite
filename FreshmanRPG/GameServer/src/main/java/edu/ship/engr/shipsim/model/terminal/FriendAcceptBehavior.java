@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.FriendTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.FriendConnectionReceivedReport;
 import edu.ship.engr.shipsim.model.reports.updateFriendListReport;
 
@@ -34,7 +34,7 @@ class FriendAcceptBehavior extends FriendBehavior
                         .append(FriendStatusEnum.ACCEPTED).append("\n");
                 FriendTableDataGateway friendGateway =
                         FriendTableDataGateway.getSingleton();
-                QualifiedObservableConnector.getSingleton().sendReport(
+                ReportObserverConnector.getSingleton().sendReport(
                         new FriendConnectionReceivedReport(
                                 friendGateway.accept(playerID, friend), playerID));
 
@@ -44,14 +44,14 @@ class FriendAcceptBehavior extends FriendBehavior
                                 FriendStatusEnum.ACCEPTED,
                                 gateway.getSpecificNameFromId(playerID), friend);
 
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new updateFriendListReport(objForReportOne));
 
                 FriendDTO objForReportTwo =
                         new FriendDTO(gateway.getSpecificIDFromName(friend), playerID,
                                 FriendStatusEnum.ACCEPTED, friend,
                                 gateway.getSpecificNameFromId(playerID));
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new updateFriendListReport(objForReportTwo));
             }
             catch (DatabaseException e)

@@ -3,8 +3,8 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.TypeDetector;
 
 import java.lang.reflect.InvocationTargetException;
@@ -55,11 +55,11 @@ public class MessagePackerSet extends TypeDetector
         {
             for (MessagePacker packer : packerList)
             {
-                ArrayList<Class<? extends QualifiedObservableReport>> reportTypesWePack =
+                ArrayList<Class<? extends Report>> reportTypesWePack =
                         packer.getReportTypesWePack();
-                for (Class<? extends QualifiedObservableReport> reportType : reportTypesWePack)
+                for (Class<? extends Report> reportType : reportTypesWePack)
                 {
-                    QualifiedObservableConnector.getSingleton()
+                    ReportObserverConnector.getSingleton()
                             .unregisterObserver(obs, reportType);
                 }
                 packer.setAccumulator(obs);
@@ -102,11 +102,11 @@ public class MessagePackerSet extends TypeDetector
         {
             for (MessagePacker packer : packerList)
             {
-                ArrayList<Class<? extends QualifiedObservableReport>> reportTypesWePack =
+                ArrayList<Class<? extends Report>> reportTypesWePack =
                         packer.getReportTypesWePack();
-                for (Class<? extends QualifiedObservableReport> reportType : reportTypesWePack)
+                for (Class<? extends Report> reportType : reportTypesWePack)
                 {
-                    QualifiedObservableConnector.getSingleton()
+                    ReportObserverConnector.getSingleton()
                             .registerObserver(obs, reportType);
                 }
                 packer.setAccumulator(obs);
@@ -122,11 +122,11 @@ public class MessagePackerSet extends TypeDetector
      * @throws CommunicationException if there is no packer registered for this type
      *                                of event
      */
-    public ArrayList<Message> pack(QualifiedObservableReport report)
+    public ArrayList<Message> pack(Report report)
             throws CommunicationException
     {
         ArrayList<Message> results = new ArrayList<>();
-        Class<? extends QualifiedObservableReport> classWeArePacking = report.getClass();
+        Class<? extends Report> classWeArePacking = report.getClass();
         ArrayList<MessagePacker> packers = getPackersFor(classWeArePacking);
         if (packers != null)
         {
@@ -150,10 +150,10 @@ public class MessagePackerSet extends TypeDetector
      */
     public void registerPacker(MessagePacker packer)
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportsWePack =
+        ArrayList<Class<? extends Report>> reportsWePack =
                 packer.getReportTypesWePack();
 
-        for (Class<? extends QualifiedObservableReport> reportWePack : reportsWePack)
+        for (Class<? extends Report> reportWePack : reportsWePack)
         {
             ArrayList<MessagePacker> relevantPackers =
                     packers.computeIfAbsent(reportWePack, k -> new ArrayList<>());

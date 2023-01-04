@@ -14,7 +14,7 @@ public class CommandHighScoreRequest extends Command
     boolean execute()
     {
         HighScoreRequestReport r = new HighScoreRequestReport();
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
 
         return true;
     }

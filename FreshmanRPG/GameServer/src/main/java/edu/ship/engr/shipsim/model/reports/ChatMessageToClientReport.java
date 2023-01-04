@@ -2,14 +2,14 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Carries information from a chat message that should be sent to all clients.
  *
  * @author Dave
  */
-public final class ChatMessageToClientReport implements QualifiedObservableReport
+public final class ChatMessageToClientReport implements Report
 {
     private final String text;
     private final int senderID;

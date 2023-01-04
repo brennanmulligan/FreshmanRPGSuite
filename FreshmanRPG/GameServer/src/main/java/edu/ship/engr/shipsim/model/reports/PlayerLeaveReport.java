@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Is created when the player on the server has disconnected and we need to
@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  *
  * @author nhydock
  */
-public class PlayerLeaveReport implements QualifiedObservableReport
+public class PlayerLeaveReport implements Report
 {
     private int playerID;
 

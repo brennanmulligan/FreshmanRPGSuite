@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.FriendTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.updateFriendListReport;
 
 /**
@@ -40,14 +40,14 @@ class FriendAddBehavior extends FriendBehavior
                                 FriendStatusEnum.PENDING,
                                 gateway.getSpecificNameFromId(playerID), friend);
 
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new updateFriendListReport(objForReportOne));
 
                 FriendDTO objForReportTwo =
                         new FriendDTO(gateway.getSpecificIDFromName(friend), playerID,
                                 FriendStatusEnum.PENDING, friend,
                                 gateway.getSpecificNameFromId(playerID));
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new updateFriendListReport(objForReportTwo));
                 System.out.println(
                         "Second report playerID: " + objForReportTwo.getPlayerID());

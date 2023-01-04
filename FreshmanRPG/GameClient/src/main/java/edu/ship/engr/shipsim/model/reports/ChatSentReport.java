@@ -2,14 +2,14 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Report for when a chat message is sent
  *
  * @author Steve
  */
-public class ChatSentReport implements QualifiedObservableReport
+public class ChatSentReport implements Report
 {
     private String message;
     private int senderID;

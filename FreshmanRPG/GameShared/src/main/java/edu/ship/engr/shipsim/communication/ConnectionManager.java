@@ -3,9 +3,9 @@ package edu.ship.engr.shipsim.communication;
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSet;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.OptionsManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.LogoutReport;
 import edu.ship.engr.shipsim.model.reports.PlayerDisconnectedReport;
 
@@ -22,7 +22,7 @@ import java.net.Socket;
  *
  * @author merlin
  */
-public class ConnectionManager implements QualifiedObserver
+public class ConnectionManager implements ReportObserver
 {
 
     private ConnectionIncoming incoming;
@@ -80,7 +80,7 @@ public class ConnectionManager implements QualifiedObserver
             {
                 disconnect();
                 ConnectionManagerList.getSingleton().remove(this);
-                QualifiedObservableConnector.getSingleton()
+                ReportObserverConnector.getSingleton()
                         .sendReport(new PlayerDisconnectedReport(
                                 stateAccumulator.getPlayerID()));
                 messagePackerSet.destroyAllObservables(stateAccumulator);
@@ -88,7 +88,7 @@ public class ConnectionManager implements QualifiedObserver
             Thread watcherThread = new Thread(cl);
             watcherThread.start();
         }
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, LogoutReport.class);
     }
 
@@ -177,7 +177,7 @@ public class ConnectionManager implements QualifiedObserver
      * Receives a logout report and connects to the login server
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == LogoutReport.class)
         {

@@ -1,14 +1,14 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
 /**
  * @author Andrew McCoy
  */
-public class CurrentFriendListReport implements QualifiedObservableReport
+public class CurrentFriendListReport implements Report
 {
 
 

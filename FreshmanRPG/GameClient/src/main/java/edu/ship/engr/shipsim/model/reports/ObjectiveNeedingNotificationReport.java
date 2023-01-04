@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 import java.util.Objects;
@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author nk3668 & ew4344
  */
-public final class ObjectiveNeedingNotificationReport implements QualifiedObservableReport, NotificationTrigger
+public final class ObjectiveNeedingNotificationReport implements Report, NotificationTrigger
 {
 
     private final int questID;

@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.model.reports.ChatMessageReceivedReport;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetChatManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class ChatManagerTest
 {
     /**
@@ -44,8 +44,8 @@ public class ChatManagerTest
     @Test
     public void testNotifiesObserversOnDirectSend()
     {
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified when a ChatMessageToClientReport is sent
         connector.registerObserver(observer, ChatMessageToClientReport.class);
@@ -65,8 +65,8 @@ public class ChatManagerTest
     public void handlesCheatCodes()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a Chat MessageReceivedReport
         connector.registerObserver(observer, ChatMessageReceivedReport.class);
@@ -88,8 +88,8 @@ public class ChatManagerTest
     public void sendTheChatIfItIsntACheatCode()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatMessageToClientReport is sent
         connector.registerObserver(observer, ChatMessageToClientReport.class);

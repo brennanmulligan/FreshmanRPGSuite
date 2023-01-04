@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.TimeToLevelUpDeadlineMessage;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.ClientTimeToLevelUpDeadlineReport;
 
 /**
@@ -25,7 +25,7 @@ public class TimeToLevelUpDeadlineHandler extends MessageHandler
         {
             TimeToLevelUpDeadlineMessage realMsg = (TimeToLevelUpDeadlineMessage) msg;
             ClientTimeToLevelUpDeadlineReport report = new ClientTimeToLevelUpDeadlineReport(realMsg.getPlayerID(), realMsg.getTimeToDeadline(), realMsg.getNextLevel());
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
 
     }

@@ -29,7 +29,7 @@ public class CommandDisplayText extends Command
     boolean execute()
     {
         DisplayTextReport report = new DisplayTextReport(text);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         return true;
     }
 

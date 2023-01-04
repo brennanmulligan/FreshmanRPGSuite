@@ -1,15 +1,15 @@
 package edu.ship.engr.shipsim.view.screen.popup;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 
 import java.util.ArrayList;
 
 /**
  * @author Cody/Scott Sends popup data to constructor from reports observed
  */
-public class DisplayPopupPrompt implements QualifiedObserver
+public class DisplayPopupPrompt implements ReportObserver
 {
 
     private ArrayList<ScreenPopUp> waitingPopUps;
@@ -26,7 +26,7 @@ public class DisplayPopupPrompt implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ObjectivesNeedingNotificationReport
+     * Sets up the ReportObserver for ObjectivesNeedingNotificationReport
      */
     public void setUpListening()
     {
@@ -34,10 +34,10 @@ public class DisplayPopupPrompt implements QualifiedObserver
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
 
     }

@@ -1,9 +1,9 @@
 package edu.ship.engr.shipsim.view.screen;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
-import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport2;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.reports.StubReport1;
+import edu.ship.engr.shipsim.model.reports.StubReport2;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 
@@ -27,11 +27,11 @@ public class ScreenListenerTest
     public void addsItselfCorrectly()
     {
         ScreenListener underTest = new MockScreenListener();
-        QualifiedObservableConnector connector = QualifiedObservableConnector
+        ReportObserverConnector connector = ReportObserverConnector
                 .getSingleton();
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = underTest
+        ArrayList<Class<? extends Report>> reportTypes = underTest
                 .getReportTypes();
-        for (Class<? extends QualifiedObservableReport> reportType : reportTypes)
+        for (Class<? extends Report> reportType : reportTypes)
         {
             assertTrue(connector.doIObserve(underTest, reportType));
         }
@@ -46,17 +46,17 @@ public class ScreenListenerTest
         }
 
         @Override
-        public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+        public ArrayList<Class<? extends Report>> getReportTypes()
         {
-            ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
-            reportTypes.add(StubQualifiedObservableReport1.class);
-            reportTypes.add(StubQualifiedObservableReport2.class);
+            ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
+            reportTypes.add(StubReport1.class);
+            reportTypes.add(StubReport2.class);
 
             return reportTypes;
         }
 
         @Override
-        public void receiveReport(QualifiedObservableReport report)
+        public void receiveReport(Report report)
         {
             // don't need anything here
         }

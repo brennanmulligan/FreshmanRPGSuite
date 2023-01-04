@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * This report is sent by the communication layer when a player breaks its
@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  *
  * @author merlin
  */
-public class PlayerDisconnectedReport implements QualifiedObservableReport
+public class PlayerDisconnectedReport implements Report
 {
 
     private int playerID;

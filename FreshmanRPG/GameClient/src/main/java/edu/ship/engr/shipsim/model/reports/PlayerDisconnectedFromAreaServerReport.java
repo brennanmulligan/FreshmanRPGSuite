@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Is sent when the player on the same area server as the client player has
@@ -9,7 +9,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  * @author nhydock
  */
 public class PlayerDisconnectedFromAreaServerReport implements
-        QualifiedObservableReport
+        Report
 {
 
     private int playerID;

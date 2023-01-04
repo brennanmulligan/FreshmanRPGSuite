@@ -11,7 +11,7 @@ import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.reports.*;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameClient")
 @ResetClientPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class ThisClientsPlayerTest
 {
     /**
@@ -40,8 +40,8 @@ public class ThisClientsPlayerTest
     public void notifiesOnMove()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ClientPlayerMovedReport is sent
         connector.registerObserver(observer, ClientPlayerMovedReport.class);
@@ -64,8 +64,8 @@ public class ThisClientsPlayerTest
     public void notifiesOnQuestRequest()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a QuestStateReport is sent
         connector.registerObserver(observer, QuestStateReport.class);
@@ -169,8 +169,8 @@ public class ThisClientsPlayerTest
     public void testSendObjectivesNeedingNotificationReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ObjectiveNeedingNotificationReport is sent
         connector.registerObserver(observer, ObjectiveNeedingNotificationReport.class);
@@ -205,8 +205,8 @@ public class ThisClientsPlayerTest
     public void testQuestNeedingNotificationReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a QuestNeedingNotificationReport is sent
         connector.registerObserver(observer, QuestNeedingNotificationReport.class);
@@ -241,8 +241,8 @@ public class ThisClientsPlayerTest
     public void testSendExperiencePointsChangeReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ExperiencePointsChangeReport is sent
         connector.registerObserver(observer, ExperiencePointsChangeReport.class);
@@ -276,8 +276,8 @@ public class ThisClientsPlayerTest
     public void testSendDoubloonChangeReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a DoubloonChangeReport is sent
         connector.registerObserver(observer, DoubloonChangeReport.class);

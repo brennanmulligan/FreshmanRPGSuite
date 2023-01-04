@@ -6,7 +6,7 @@ import edu.ship.engr.shipsim.model.reports.ChatReceivedReport;
 import edu.ship.engr.shipsim.model.reports.ChatSentReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameClient")
 @ResetClientPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class ClientChatManagerTest
 {
     /**
@@ -55,8 +55,8 @@ public class ClientChatManagerTest
     public void notifiesOnAreaChatReceived()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatReceivedReport is sent
         connector.registerObserver(observer, ChatReceivedReport.class);
@@ -81,8 +81,8 @@ public class ClientChatManagerTest
     public void notifiesOnLocalChatReceived() throws AlreadyBoundException, NotBoundException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatReceivedReport is sent
         connector.registerObserver(observer, ChatReceivedReport.class);
@@ -155,8 +155,8 @@ public class ClientChatManagerTest
     public void notifiesOnSendChatToServer() throws AlreadyBoundException, NotBoundException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatSentReport is sent
         connector.registerObserver(observer, ChatSentReport.class);
@@ -183,8 +183,8 @@ public class ClientChatManagerTest
     public void sendChatToFriend() throws AlreadyBoundException, NotBoundException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChatReceivedReport is sent
         connector.registerObserver(observer, ChatReceivedReport.class);
