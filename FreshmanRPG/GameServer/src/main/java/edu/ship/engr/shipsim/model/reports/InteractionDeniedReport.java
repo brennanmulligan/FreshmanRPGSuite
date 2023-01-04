@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Sent by InteractObjectManager
  *
  * @author ed9737
  */
-public class InteractionDeniedReport implements QualifiedObservableReport
+public class InteractionDeniedReport implements Report
 {
 
     private final int playerID;

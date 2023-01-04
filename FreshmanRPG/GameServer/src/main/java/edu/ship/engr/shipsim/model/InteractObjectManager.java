@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Andy, Truc, and Emmanuel
  */
-public class InteractObjectManager implements QualifiedObserver
+public class InteractObjectManager implements ReportObserver
 {
     private static final int WIDTH = 2;
     private static final int HEIGHT = 2;
@@ -42,7 +42,7 @@ public class InteractObjectManager implements QualifiedObserver
         gateway =
                 InteractableItemTableDataGateway.getSingleton();
 
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, KeyInputRecievedReport.class);
     }
 
@@ -66,7 +66,7 @@ public class InteractObjectManager implements QualifiedObserver
         OptionsManager.getSingleton().assertTestMode();
         if (singleton != null)
         {
-            QualifiedObservableConnector.getSingleton()
+            ReportObserverConnector.getSingleton()
                     .unregisterObserver(singleton, KeyInputRecievedReport.class);
             singleton = null;
         }
@@ -122,7 +122,7 @@ public class InteractObjectManager implements QualifiedObserver
      * edited by: Elisabeth Ostrow
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass().equals(KeyInputRecievedReport.class))
         {
@@ -177,7 +177,7 @@ public class InteractObjectManager implements QualifiedObserver
                         InteractableObjectTextReport textReport =
                                 new InteractableObjectTextReport(playerId,
                                         txt.getString());
-                        QualifiedObservableConnector.getSingleton()
+                        ReportObserverConnector.getSingleton()
                                 .sendReport(textReport);
                         return true;
                     case BOARD:
@@ -185,7 +185,7 @@ public class InteractObjectManager implements QualifiedObserver
                         InteractableObjectTextReport textReport1 =
                                 new InteractableObjectTextReport(playerId,
                                         txt1.getString());
-                        QualifiedObservableConnector.getSingleton()
+                        ReportObserverConnector.getSingleton()
                                 .sendReport(textReport1);
                         return true;
                     case BUFF:
@@ -195,13 +195,13 @@ public class InteractObjectManager implements QualifiedObserver
                             CriteriaIntegerDTO buffPool = (CriteriaIntegerDTO) param;
                             PlayerManager.getSingleton().getPlayerFromID(playerId)
                                     .setBuffPool(buffPool.getTarget());
-                            QualifiedObservableConnector.getSingleton().sendReport(
+                            ReportObserverConnector.getSingleton().sendReport(
                                     new InteractableObjectBuffReport(playerId,
                                             buffPool.getTarget()));
                         }
                         else
                         {
-                            QualifiedObservableConnector.getSingleton()
+                            ReportObserverConnector.getSingleton()
                                     .sendReport(new InteractionDeniedReport(playerId));
                         }
                         return true;

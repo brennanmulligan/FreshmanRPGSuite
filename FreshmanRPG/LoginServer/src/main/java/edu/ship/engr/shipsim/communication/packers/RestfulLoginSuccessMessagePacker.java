@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.communication.packers;
 import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.RestfulLoginSuccessMessage;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginSuccessfulReport;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class RestfulLoginSuccessMessagePacker extends MessagePacker
 {
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         RestfulLoginSuccessfulReport report = (RestfulLoginSuccessfulReport) object;
 
@@ -22,7 +22,7 @@ public class RestfulLoginSuccessMessagePacker extends MessagePacker
     }
 
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
         return Lists.newArrayList(RestfulLoginSuccessfulReport.class);
     }

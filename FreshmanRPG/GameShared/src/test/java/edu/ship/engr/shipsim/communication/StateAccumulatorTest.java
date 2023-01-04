@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
-import edu.ship.engr.shipsim.model.reports.StubQualifiedObservableReport1;
+import edu.ship.engr.shipsim.model.reports.StubReport1;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -62,7 +62,7 @@ public class StateAccumulatorTest
         MessagePackerSet packerSet = new MessagePackerSet();
 
         StateAccumulator accum = new StateAccumulator(packerSet);
-        accum.receiveReport(new StubQualifiedObservableReport1());
+        accum.receiveReport(new StubReport1());
         ArrayList<Message> pending = accum.pendingMsgs;
         assertEquals(2, pending.size());
     }

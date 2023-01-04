@@ -39,7 +39,7 @@ public class CommandRemovePlayer extends Command
         if (playerID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID())
         {
             LogoutReport report = new LogoutReport();
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         ClientPlayerManager.getSingleton().removePlayer(playerID);
 

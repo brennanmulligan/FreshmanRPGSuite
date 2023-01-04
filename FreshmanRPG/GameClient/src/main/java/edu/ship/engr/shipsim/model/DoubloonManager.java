@@ -99,7 +99,7 @@ public class DoubloonManager
     {
         if (!DoubloonManager.getSingleton().getDoubloons().isEmpty())
         {
-            QualifiedObservableConnector.getSingleton().sendReport(new DoubloonPrizeListReport(doubloonList));
+            ReportObserverConnector.getSingleton().sendReport(new DoubloonPrizeListReport(doubloonList));
         }
     }
 }

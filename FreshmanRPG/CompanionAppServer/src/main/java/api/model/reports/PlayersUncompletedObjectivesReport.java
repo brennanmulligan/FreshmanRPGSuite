@@ -1,14 +1,14 @@
 package api.model.reports;
 
 import edu.ship.engr.shipsim.model.ObjectiveRecord;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 
 /**
  * @author Scott Bowling
  */
-public class PlayersUncompletedObjectivesReport implements QualifiedObservableReport
+public class PlayersUncompletedObjectivesReport implements Report
 {
 
     private final ArrayList<ObjectiveRecord> list;

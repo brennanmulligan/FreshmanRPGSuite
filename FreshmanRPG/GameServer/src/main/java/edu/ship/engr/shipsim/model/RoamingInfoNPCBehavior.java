@@ -217,9 +217,9 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
      * @return ArrayList of report types
      */
     @Override
-    protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    protected ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
+        ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
         //NPCs that respond to chat messages have to listen to different reports
         //So that player messages can show up before NPC messages
         reportTypes.add(NPCChatReport.class);
@@ -231,7 +231,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
      * it will respond to the player from the dialogue tree
      */
     @Override
-    public void receiveReport(QualifiedObservableReport incomingReport)
+    public void receiveReport(Report incomingReport)
     {
         //If this NPC has no dialogue, go no further
         if (!parsedDialogueXML.isEmpty())

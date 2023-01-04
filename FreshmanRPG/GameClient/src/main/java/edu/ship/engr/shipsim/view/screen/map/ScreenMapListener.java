@@ -4,8 +4,8 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.ClientPlayer;
 import edu.ship.engr.shipsim.model.ClientPlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.*;
 import edu.ship.engr.shipsim.view.screen.ScreenListener;
 
@@ -28,11 +28,11 @@ public class ScreenMapListener extends ScreenListener
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      * added an if statement that only allows the playersConnectToAreaServerReport to get that Clients Player, not a new player
      */
     @Override
-    public void receiveReport(QualifiedObservableReport arg)
+    public void receiveReport(Report arg)
     {
         ScreenMap map = (ScreenMap) this.screen;
 
@@ -90,9 +90,9 @@ public class ScreenMapListener extends ScreenListener
      * @see ScreenListener#getReportTypes()
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    public ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
+        ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
         reportTypes.add(PlayerConnectedToAreaServerReport.class);
         reportTypes.add(PlayerDisconnectedFromAreaServerReport.class);
         reportTypes.add(ClientPlayerMovedReport.class);

@@ -5,7 +5,7 @@ import edu.ship.engr.shipsim.model.CommandRestfulLogout;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginFailedReport;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginSuccessReport;
 import edu.ship.engr.shipsim.model.reports.RestfulLogoutFailedReport;
@@ -33,7 +33,7 @@ public class LoginController extends Controller
         // Temporary fix for autoclosing the connection
         try (RestfulServer.AutoClosingConnectionManager manager = RestfulServer.createConnectionToLoginServer())
         {
-            QualifiedObservableReport report = processAction(() ->
+            Report report = processAction(() ->
             {
                 CommandRestfulLogin command = new CommandRestfulLogin(info.getUsername(), info.getPassword());
 
@@ -56,7 +56,7 @@ public class LoginController extends Controller
     @PostMapping("/logout")
     public ResponseEntity<Object> logout(@RequestBody LogoutInformation info)
     {
-        QualifiedObservableReport report = processAction(() ->
+        Report report = processAction(() ->
         {
             CommandRestfulLogout command = new CommandRestfulLogout(info.getAuthKey());
 
@@ -71,7 +71,7 @@ public class LoginController extends Controller
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<Object> handleLogoutReport(QualifiedObservableReport report)
+    private ResponseEntity<Object> handleLogoutReport(Report report)
     {
         if (report.getClass().equals(RestfulLogoutSuccessReport.class))
         {
@@ -85,7 +85,7 @@ public class LoginController extends Controller
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<Object> handleLoginReport(QualifiedObservableReport report)
+    private ResponseEntity<Object> handleLoginReport(Report report)
     {
         if (report.getClass().equals(RestfulLoginSuccessReport.class))
         {

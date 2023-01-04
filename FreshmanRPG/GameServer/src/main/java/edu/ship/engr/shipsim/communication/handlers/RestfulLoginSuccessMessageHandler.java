@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.RestfulLoginSuccessMessage;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginSuccessReport;
 
 /**
@@ -17,7 +17,7 @@ public class RestfulLoginSuccessMessageHandler extends MessageHandler
 
         RestfulLoginSuccessReport report = new RestfulLoginSuccessReport(message.getPlayerID());
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
     }
 
     @Override

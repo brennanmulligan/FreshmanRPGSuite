@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * This report is sent when a player is finished being initialized.
  *
  * @author Brad Olah
  */
-public final class PlayerFinishedInitializingReport implements QualifiedObservableReport
+public final class PlayerFinishedInitializingReport implements Report
 {
     private final int playerID;
     private final String playerName;

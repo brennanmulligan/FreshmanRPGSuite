@@ -15,7 +15,7 @@ public class CommandServerPlayerOwnedItemsRequest extends Command
     {
         System.out.println("step 1");
         ServerPlayerOwnedItemsRequestReport r = new ServerPlayerOwnedItemsRequestReport();
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
 
         return true;
     }

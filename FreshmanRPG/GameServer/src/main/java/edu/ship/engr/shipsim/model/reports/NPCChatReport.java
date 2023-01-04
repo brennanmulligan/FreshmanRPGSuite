@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Carries information from a chat message from the ChatManager to the
@@ -10,7 +10,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  *
  * @author Dan & Josh
  */
-public final class NPCChatReport implements QualifiedObservableReport
+public final class NPCChatReport implements Report
 {
     private final String text;
     private final int senderID;

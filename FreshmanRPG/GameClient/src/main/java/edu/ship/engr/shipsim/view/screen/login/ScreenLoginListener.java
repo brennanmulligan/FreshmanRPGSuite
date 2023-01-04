@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.view.screen.login;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.LoginFailedReport;
 import edu.ship.engr.shipsim.model.reports.LoginInitiatedReport;
 import edu.ship.engr.shipsim.model.reports.LogoutReport;
@@ -30,10 +30,10 @@ public class ScreenLoginListener extends ScreenListener
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport arg)
+    public void receiveReport(Report arg)
     {
         final ScreenListener sl = this;
         if (arg.getClass().equals(LoginInitiatedReport.class))
@@ -70,9 +70,9 @@ public class ScreenLoginListener extends ScreenListener
      * @see ScreenListener#getReportTypes()
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    public ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
+        ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
         reportTypes.add(LoginInitiatedReport.class);
         reportTypes.add(LoginFailedReport.class);
         reportTypes.add(PinFailedReport.class);

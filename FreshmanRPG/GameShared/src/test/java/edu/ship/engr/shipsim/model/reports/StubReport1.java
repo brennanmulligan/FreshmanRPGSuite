@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * An empty report that the tests for MessagePackerSet and StateAccumulator
@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.QualifiedObservableReport;
  *
  * @author Merlin
  */
-public class StubQualifiedObservableReport1 implements QualifiedObservableReport
+public class StubReport1 implements Report
 {
 
 }

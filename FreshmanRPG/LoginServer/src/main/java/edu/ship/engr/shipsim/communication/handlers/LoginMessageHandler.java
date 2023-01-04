@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.communication.messages.LoginMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.model.LoginFailedException;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.LoginFailedReport;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
 
@@ -34,13 +34,13 @@ public class LoginMessageHandler extends MessageHandler
             LoginSuccessfulReport report = LoginPlayerManager.getSingleton().login(loginMsg.getPlayerName(),
                     loginMsg.getPassword());
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         catch (LoginFailedException e)
         {
             LoginFailedReport report = new LoginFailedReport(e.getMessage());
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
     }
 

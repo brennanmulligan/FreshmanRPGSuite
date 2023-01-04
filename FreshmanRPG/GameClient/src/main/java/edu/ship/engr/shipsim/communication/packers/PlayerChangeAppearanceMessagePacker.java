@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.PlayerChangeAppearanceMessage;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ChangePlayerAppearanceReport;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class PlayerChangeAppearanceMessagePacker extends MessagePacker
      * @return the appropriate message
      */
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         ChangePlayerAppearanceReport cp = (ChangePlayerAppearanceReport) object;
         return new PlayerChangeAppearanceMessage(cp.getPlayerID(), (ArrayList<VanityDTO>) cp.getVanities());
@@ -32,9 +32,9 @@ public class PlayerChangeAppearanceMessagePacker extends MessagePacker
      * @return the type of report we pack
      */
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> result =
+        ArrayList<Class<? extends Report>> result =
                 new ArrayList<>();
         result.add(ChangePlayerAppearanceReport.class);
         return result;

@@ -63,8 +63,8 @@ public class ClientPlayerTest
     public void testSetVanityReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChangePlayerAppearanceReport is sent
         connector.registerObserver(observer, ChangePlayerAppearanceReport.class);
@@ -87,8 +87,8 @@ public class ClientPlayerTest
     public void testSetVanityNoReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a ChangePlayerAppearanceReport is sent
         connector.registerObserver(observer, ChangePlayerAppearanceReport.class);

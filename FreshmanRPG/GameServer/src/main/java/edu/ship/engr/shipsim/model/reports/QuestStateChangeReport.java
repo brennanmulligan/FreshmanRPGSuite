@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Merlin
  */
-public final class QuestStateChangeReport implements QualifiedObservableReport
+public final class QuestStateChangeReport implements Report
 {
 
     private final int questID;

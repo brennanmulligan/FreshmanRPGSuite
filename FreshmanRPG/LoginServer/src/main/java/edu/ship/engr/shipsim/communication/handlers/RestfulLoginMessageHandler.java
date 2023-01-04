@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.RestfulLoginMessage;
 import edu.ship.engr.shipsim.model.LoginFailedException;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginFailedReport;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginSuccessfulReport;
@@ -28,13 +28,13 @@ public class RestfulLoginMessageHandler extends MessageHandler
 
             RestfulLoginSuccessfulReport report = new RestfulLoginSuccessfulReport(response.getPlayerID());
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
         catch (LoginFailedException e)
         {
             RestfulLoginFailedReport report = new RestfulLoginFailedReport(e.getMessage());
 
-            QualifiedObservableConnector.getSingleton().sendReport(report);
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
     }
 

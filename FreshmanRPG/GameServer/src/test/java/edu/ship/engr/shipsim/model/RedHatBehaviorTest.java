@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.model.reports.PlayerFinishedInitializingReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @GameTest("GameServer")
 @ResetPlayerManager
 @ResetChatManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class RedHatBehaviorTest
 {
     private RedHatBehavior behavior;
@@ -47,7 +47,7 @@ public class RedHatBehaviorTest
         Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.NEWBIE.getPlayerID());
         PlayerManager.getSingleton().addPlayer(PlayersForTest.RED_HAT.getPlayerID());
 
-        MockQualifiedObserver mock = new MockQualifiedObserver(ChatMessageToClientReport.class);
+        MockReportObserver mock = new MockReportObserver(ChatMessageToClientReport.class);
         p.setAppearanceType("default_player");
         assertEquals("default_player", p.getAppearanceType());
 

@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.model.reports.NPCChatReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @GameTest("GameServer")
 @ResetPlayerManager
 @ResetChatManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class QuizBotBehaviorTest
 {
     private QuizBotBehavior behavior;

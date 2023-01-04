@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Dave, Andy, Matt
  */
-public final class LoginFailedReport implements QualifiedObservableReport
+public final class LoginFailedReport implements Report
 {
     private final String errMsg;
 

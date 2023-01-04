@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.reports.LoginInitiatedReport;
 import edu.ship.engr.shipsim.model.reports.PlayerConnectedToAreaServerReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.apache.commons.compress.utils.Lists;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameClient")
 @ResetClientPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class ClientPlayerManagerTest
 {
 
@@ -98,8 +98,8 @@ public class ClientPlayerManagerTest
     public void notifiesOnLoginInitiation()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a LoginInitiatedReport is sent
         connector.registerObserver(observer, LoginInitiatedReport.class);
@@ -150,8 +150,8 @@ public class ClientPlayerManagerTest
     public void testInitializePlayerFiresReport()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a PlayerConnectedToAreaServerReport is sent
         connector.registerObserver(observer, PlayerConnectedToAreaServerReport.class);

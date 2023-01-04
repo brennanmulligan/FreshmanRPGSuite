@@ -138,9 +138,9 @@ public class NPCBehaviorRPS extends NPCBehavior
     }
 
     @Override
-    protected ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes()
+    protected ArrayList<Class<? extends Report>> getReportTypes()
     {
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = new ArrayList<>();
+        ArrayList<Class<? extends Report>> reportTypes = new ArrayList<>();
         reportTypes.add(NPCChatReport.class);
 
         return reportTypes;
@@ -148,7 +148,7 @@ public class NPCBehaviorRPS extends NPCBehavior
 
 
     @Override
-    public void receiveReport(QualifiedObservableReport incomingReport)
+    public void receiveReport(Report incomingReport)
     {
 
         if (incomingReport instanceof NPCChatReport && !RPSFinished)

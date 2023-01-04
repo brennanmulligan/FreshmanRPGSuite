@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Ryan
  */
-public final class QuestNotificationCompleteReport implements QualifiedObservableReport
+public final class QuestNotificationCompleteReport implements Report
 {
 
     private final int playerID;

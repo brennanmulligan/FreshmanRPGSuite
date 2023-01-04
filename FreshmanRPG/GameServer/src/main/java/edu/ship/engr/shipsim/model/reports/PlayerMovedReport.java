@@ -1,14 +1,14 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Reports movement of any player playing on this server
  *
  * @author Merlin
  */
-public final class PlayerMovedReport implements QualifiedObservableReport
+public final class PlayerMovedReport implements Report
 {
 
     private final Position newPosition;

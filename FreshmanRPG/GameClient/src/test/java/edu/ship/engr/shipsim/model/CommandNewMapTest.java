@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.model.reports.NewMapReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.AlreadyBoundException;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameClient")
 @ResetClientModelFacade
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class CommandNewMapTest
 {
 
@@ -28,8 +28,8 @@ public class CommandNewMapTest
     public void testExecution()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a NewMapReport is sent
         connector.registerObserver(observer, NewMapReport.class);

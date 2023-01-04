@@ -231,7 +231,7 @@ public class ObjectiveState
                 {
                     witness = objective.getCompletionCriteria().toString();
                 }
-                QualifiedObservableConnector.getSingleton().sendReport(
+                ReportObserverConnector.getSingleton().sendReport(
                         new ObjectiveStateChangeReport(parentQuestState.getPlayerID(),
                                 parentQuestState.getID(), objectiveID,
                                 objective.getObjectiveDescription(), objectiveState,

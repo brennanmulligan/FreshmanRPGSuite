@@ -23,7 +23,7 @@ import edu.ship.engr.shipsim.view.screen.popup.QuestNotificationCompleteBehavior
 /**
  * Pops up the chat UI
  */
-public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
+public class PopUpChatUI extends OverlayingScreen implements ReportObserver
 {
     private final float WIDTH = 600f;
     private final float HEIGHT = 400f;
@@ -74,7 +74,7 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
      * Handles chat received reports
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         String systemLabel = "[System]: ";
 
@@ -160,11 +160,11 @@ public class PopUpChatUI extends OverlayingScreen implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for ChatReceivedReport
+     * Sets up the ReportObserver for ChatReceivedReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, QuestNeedingNotificationReport.class);
         cm.registerObserver(this, ObjectiveNeedingNotificationReport.class);
         cm.registerObserver(this, QuestStateChangeReport.class);

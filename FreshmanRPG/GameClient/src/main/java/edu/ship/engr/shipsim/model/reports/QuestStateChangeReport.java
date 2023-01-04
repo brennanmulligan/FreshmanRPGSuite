@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 /**
@@ -13,7 +13,7 @@ import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
  *
  * @author Merlin
  */
-public final class QuestStateChangeReport implements QualifiedObservableReport, NotificationTrigger
+public final class QuestStateChangeReport implements Report, NotificationTrigger
 {
 
     private final int questID;

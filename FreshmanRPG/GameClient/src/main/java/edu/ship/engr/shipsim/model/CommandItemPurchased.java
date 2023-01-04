@@ -59,7 +59,7 @@ public class CommandItemPurchased extends Command
     {
         //Create and send a report that will make the doubloons be subtracted
         ItemPurchasedReport report = new ItemPurchasedReport(playerID, price);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         //Create the pdf receipt for the purchase
         PDFPrizeWriter writer = new PDFPrizeWriter();

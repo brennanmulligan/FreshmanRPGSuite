@@ -1,12 +1,12 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 /**
  * The report used when an interaction was denied, for any reason.
  */
-public class InteractionDeniedReport implements QualifiedObservableReport, NotificationTrigger
+public class InteractionDeniedReport implements Report, NotificationTrigger
 {
     private String popupMessage = "You cannot use this item.";
 

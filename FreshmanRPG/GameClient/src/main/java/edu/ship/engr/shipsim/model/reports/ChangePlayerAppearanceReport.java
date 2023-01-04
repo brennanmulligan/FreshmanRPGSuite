@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author merlin
  */
-public class ChangePlayerAppearanceReport implements QualifiedObservableReport
+public class ChangePlayerAppearanceReport implements Report
 {
 
     private int playerID;

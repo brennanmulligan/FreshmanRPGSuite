@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Steve
  */
-public abstract class NPCBehavior implements Serializable, QualifiedObserver
+public abstract class NPCBehavior implements Serializable, ReportObserver
 {
     private static final long serialVersionUID = -1535370359851281459L;
 
@@ -40,9 +40,9 @@ public abstract class NPCBehavior implements Serializable, QualifiedObserver
      */
     protected void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
-        ArrayList<Class<? extends QualifiedObservableReport>> reportTypes = getReportTypes();
-        for (Class<? extends QualifiedObservableReport> reportType : reportTypes)
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
+        ArrayList<Class<? extends Report>> reportTypes = getReportTypes();
+        for (Class<? extends Report> reportType : reportTypes)
         {
             cm.registerObserver(this, reportType);
         }
@@ -57,7 +57,7 @@ public abstract class NPCBehavior implements Serializable, QualifiedObserver
     /**
      * @return the report types this listener should pay attention to
      */
-    protected abstract ArrayList<Class<? extends QualifiedObservableReport>> getReportTypes();
+    protected abstract ArrayList<Class<? extends Report>> getReportTypes();
 
 
 }

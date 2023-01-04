@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Report for when key input is given.
  *
  * @author Ian Keefer & TJ Renninger
  */
-public class ClientKeyInputSentReport implements QualifiedObservableReport
+public class ClientKeyInputSentReport implements Report
 {
 
     private String input;

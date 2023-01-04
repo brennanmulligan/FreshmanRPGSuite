@@ -1,12 +1,12 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Ian Keefer
  * @author TJ Renninger
  */
-public class KeyInputRecievedReport implements QualifiedObservableReport
+public class KeyInputRecievedReport implements Report
 {
 
     private String input;

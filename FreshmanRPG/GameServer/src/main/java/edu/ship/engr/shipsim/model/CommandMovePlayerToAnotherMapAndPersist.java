@@ -42,7 +42,7 @@ public class CommandMovePlayerToAnotherMapAndPersist extends Command
             {
                 boolean result = playerManager.persistPlayer(playerId);
                 PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(playerId, map);
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
 
                 return result;
 

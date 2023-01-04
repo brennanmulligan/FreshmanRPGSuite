@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @ResetPlayerManager
 @ResetQuestManager
 @ResetInteractObjectManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class QuestManagerTest
 {
     /**
@@ -129,7 +129,7 @@ public class QuestManagerTest
     {
         QuestManager.getSingleton()
                 .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false));
-        QualifiedObservableConnector.getSingleton().sendReport(new PlayerLeaveReport(4));
+        ReportObserverConnector.getSingleton().sendReport(new PlayerLeaveReport(4));
         assertNull(QuestManager.getSingleton().getQuestList(4));
     }
 
@@ -260,7 +260,7 @@ public class QuestManagerTest
                 new ChatMessageReceivedReport(playerOne.getPlayerID(), 0, "Hello",
                         playerOne.getPlayerPosition(), ChatType.Local);
 
-        QualifiedObservableConnector.getSingleton().sendReport(csmr);
+        ReportObserverConnector.getSingleton().sendReport(csmr);
 
         assertEquals(ObjectiveStateEnum.COMPLETED,
                 QuestManager.getSingleton().getQuestStateByID(playerToTest, 5)
@@ -307,7 +307,7 @@ public class QuestManagerTest
                         "Hello, student",
                         playerOne.getPlayerPosition(), ChatType.Local);
 
-        QualifiedObservableConnector.getSingleton().sendReport(csmr);
+        ReportObserverConnector.getSingleton().sendReport(csmr);
 
         assertEquals(ObjectiveStateEnum.COMPLETED,
                 QuestManager.getSingleton().getQuestStateByID(playerToTest, 16)
@@ -391,8 +391,8 @@ public class QuestManagerTest
     public void testFinishQuest() throws IllegalQuestChangeException, DatabaseException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a TeleportOnQuestCompletionReport is sent
         connector.registerObserver(observer, TeleportOnQuestCompletionReport.class);
@@ -770,7 +770,7 @@ public class QuestManagerTest
         FriendConnectionReceivedReport report =
                 new FriendConnectionReceivedReport(playerID, playerIDD);
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         QuestManager.getSingleton().handleFriends(report);
 
         // Verifies that the objective is now completed
@@ -821,7 +821,7 @@ public class QuestManagerTest
         // Places Nick next to the object and interacts with it
         nick.setPlayerPosition(InteractableItemsForTest.MSG_TEST.getPosition());
         KeyInputRecievedReport report = new KeyInputRecievedReport("e", playerID);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         // Verifies that the objective is now completed
         assertEquals(ObjectiveStateEnum.COMPLETED,
@@ -869,7 +869,7 @@ public class QuestManagerTest
         FriendConnectionReceivedReport report =
                 new FriendConnectionReceivedReport(playerID, playerIDD);
 
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
         QuestManager.getSingleton().handleFriends(report);
         gateway.add(playerID, "Josh", FriendStatusEnum.ACCEPTED);
 
@@ -877,7 +877,7 @@ public class QuestManagerTest
         FriendConnectionReceivedReport report2 =
                 new FriendConnectionReceivedReport(playerID, playerIDD);
 
-        QualifiedObservableConnector.getSingleton().sendReport(report2);
+        ReportObserverConnector.getSingleton().sendReport(report2);
         QuestManager.getSingleton().handleFriends(report2);
         assertEquals(2, gateway.getFriendCounter(playerID));
         // Verifies that the objective is now completed
@@ -919,7 +919,7 @@ public class QuestManagerTest
         String terminalText = "man";
         ReceiveTerminalTextReport report =
                 new ReceiveTerminalTextReport(playerID, "", terminalText);
-        QualifiedObservableConnector.getSingleton().sendReport(report);
+        ReportObserverConnector.getSingleton().sendReport(report);
 
         assertEquals(ObjectiveStateEnum.COMPLETED, QuestManager.getSingleton()
                 .getObjectiveStateByID(playerID, questID, objectiveID).getState());
@@ -971,7 +971,7 @@ public class QuestManagerTest
                 new ChatMessageReceivedReport(playerOne.getPlayerID(), 0, "Hello",
                         playerOne.getPlayerPosition(), ChatType.Local);
 
-        QualifiedObservableConnector.getSingleton().sendReport(csmr);
+        ReportObserverConnector.getSingleton().sendReport(csmr);
 
         assertEquals(ObjectiveStateEnum.TRIGGERED,
                 QuestManager.getSingleton().getQuestStateByID(playerToTest, 5)

@@ -9,7 +9,7 @@ import edu.ship.engr.shipsim.model.reports.PlayerConnectionReport;
 import edu.ship.engr.shipsim.model.reports.PlayerDisconnectedReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
-import edu.ship.engr.shipsim.testing.annotations.ResetQualifiedObservableConnector;
+import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
  */
 @GameTest("GameServer")
 @ResetPlayerManager
-@ResetQualifiedObservableConnector
+@ResetReportObserverConnector
 public class PlayerManagerTest
 {
     /**
@@ -58,8 +58,8 @@ public class PlayerManagerTest
     public void notifiesOnAddPlayer()
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a PlayerConnectionReport is sent
         connector.registerObserver(observer, PlayerConnectionReport.class);
@@ -78,8 +78,8 @@ public class PlayerManagerTest
     public void notifiesAboutExistingPlayersOnAddPlayer() throws DatabaseException, IllegalQuestChangeException
     {
         // mock the connector and observer
-        QualifiedObservableConnector connector = spy(QualifiedObservableConnector.getSingleton());
-        QualifiedObserver observer = mock(QualifiedObserver.class);
+        ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
+        ReportObserver observer = mock(ReportObserver.class);
 
         // register the observer to be notified if a AddExistingPlayerReport is sent
         connector.registerObserver(observer, AddExistingPlayerReport.class);

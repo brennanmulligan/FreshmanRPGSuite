@@ -1,16 +1,16 @@
 package edu.ship.engr.shipsim.view.screen.terminal;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.TerminalResponseReport;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreen;
 
 /**
  * @author as3871
  */
-public class TerminalUI extends OverlayingScreen implements QualifiedObserver
+public class TerminalUI extends OverlayingScreen implements ReportObserver
 {
 
     private final float WIDTH = 600f;
@@ -34,7 +34,7 @@ public class TerminalUI extends OverlayingScreen implements QualifiedObserver
      * Handle the report that we need
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == TerminalResponseReport.class)
         {
@@ -45,11 +45,11 @@ public class TerminalUI extends OverlayingScreen implements QualifiedObserver
     }
 
     /**
-     * Sets up the QualifiedObserver for HighScoreResponseReport
+     * Sets up the ReportObserver for HighScoreResponseReport
      */
     public void setUpListening()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, TerminalResponseReport.class);
     }
 

@@ -1,26 +1,26 @@
 package edu.ship.engr.shipsim.model;
 
 /**
- * Generic QualifiedObserver class that registers an observer
+ * Generic ReportObserver class that registers an observer
  */
-public class MockQualifiedObserver implements QualifiedObserver
+public class MockReportObserver implements ReportObserver
 {
 
-    private QualifiedObservableReport report;
+    private Report report;
 
     /**
      * @param reportType the type of report type this observer would like to receive reports of
      */
-    public MockQualifiedObserver(Class<? extends QualifiedObservableReport> reportType)
+    public MockReportObserver(Class<? extends Report> reportType)
     {
-        QualifiedObservableConnector.getSingleton().registerObserver(this, reportType);
+        ReportObserverConnector.getSingleton().registerObserver(this, reportType);
     }
 
     /**
      * Set the report when received
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         this.report = report;
     }
@@ -28,7 +28,7 @@ public class MockQualifiedObserver implements QualifiedObserver
     /**
      * @return the report that was received
      */
-    public QualifiedObservableReport getReport()
+    public Report getReport()
     {
         return this.report;
     }

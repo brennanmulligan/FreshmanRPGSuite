@@ -1,6 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
 
 /**
@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
  *
  * @author Adam Pine & Emmanuel Douge
  */
-public class BuffPoolChangedReport implements QualifiedObservableReport, NotificationTrigger
+public class BuffPoolChangedReport implements Report, NotificationTrigger
 {
     private int buffPool;
 

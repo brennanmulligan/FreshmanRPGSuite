@@ -23,7 +23,7 @@ public class DoubloonManagerTest
     public void reset()
     {
         DoubloonManager.resetSingleton();
-        QualifiedObservableConnector.resetSingleton();
+        ReportObserverConnector.resetSingleton();
     }
 
     /**

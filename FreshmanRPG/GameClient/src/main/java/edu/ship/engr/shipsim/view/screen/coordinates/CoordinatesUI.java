@@ -1,9 +1,9 @@
 package edu.ship.engr.shipsim.view.screen.coordinates;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import edu.ship.engr.shipsim.model.QualifiedObservableConnector;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
-import edu.ship.engr.shipsim.model.QualifiedObserver;
+import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ClientPlayerMovedReport;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreen;
 
@@ -12,7 +12,7 @@ import edu.ship.engr.shipsim.view.screen.OverlayingScreen;
  *
  * @author Zachary Semanco, Kevin Marek
  */
-public class CoordinatesUI extends OverlayingScreen implements QualifiedObserver
+public class CoordinatesUI extends OverlayingScreen implements ReportObserver
 {
     private final float WIDTH = 125f;
     private final float HEIGHT = 75f;
@@ -40,7 +40,7 @@ public class CoordinatesUI extends OverlayingScreen implements QualifiedObserver
      */
     private void setUpListener()
     {
-        QualifiedObservableConnector cm = QualifiedObservableConnector.getSingleton();
+        ReportObserverConnector cm = ReportObserverConnector.getSingleton();
         cm.registerObserver(this, ClientPlayerMovedReport.class);
     }
 
@@ -48,10 +48,9 @@ public class CoordinatesUI extends OverlayingScreen implements QualifiedObserver
      * When the prize report is received, ask the ShopTable to add each item to the
      * UI
      *
-     * @see edu.ship.engr.shipsim.view.screen.shop.ShopTable#addShopItem(String, String, int)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         ClientPlayerMovedReport movedReport = (ClientPlayerMovedReport) report;
         if (movedReport.isThisClientsPlayer())

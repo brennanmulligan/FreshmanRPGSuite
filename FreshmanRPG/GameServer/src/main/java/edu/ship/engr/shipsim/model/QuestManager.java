@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author lavonne
  */
-public class QuestManager implements QualifiedObserver
+public class QuestManager implements ReportObserver
 {
     private static QuestManager singleton;
     private final ObjectiveTableDataGateway objectiveGateway;
@@ -37,25 +37,25 @@ public class QuestManager implements QualifiedObserver
 
     private QuestManager()
     {
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, PlayerMovedReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, PlayerLeaveReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, KeyInputRecievedReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, ChatMessageReceivedReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, DoubloonChangeReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, PlayerConnectionReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, InteractableObjectBuffReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, InteractableObjectTextReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, FriendConnectionReceivedReport.class);
-        QualifiedObservableConnector.getSingleton()
+        ReportObserverConnector.getSingleton()
                 .registerObserver(this, ReceiveTerminalTextReport.class);
 
         questStates = new HashMap<>();
@@ -457,7 +457,7 @@ public class QuestManager implements QualifiedObserver
      *
      * @param report a FriendConnectionReceivedReport
      */
-    public void handleFriends(QualifiedObservableReport report)
+    public void handleFriends(Report report)
     {
         FriendConnectionReceivedReport friendship =
                 (FriendConnectionReceivedReport) report;
@@ -539,10 +539,10 @@ public class QuestManager implements QualifiedObserver
     }
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == PlayerMovedReport.class)
         {
@@ -846,7 +846,7 @@ public class QuestManager implements QualifiedObserver
         return pointsObjectives;
     }
 
-    private void handleInteractableObjectBuffReport(QualifiedObservableReport report)
+    private void handleInteractableObjectBuffReport(Report report)
     {
         InteractableObjectBuffReport myReport =
                 (InteractableObjectBuffReport) report;
@@ -888,7 +888,7 @@ public class QuestManager implements QualifiedObserver
         }
     }
 
-    private void handleInteractableObjectTextReport(QualifiedObservableReport report)
+    private void handleInteractableObjectTextReport(Report report)
     {
         InteractableObjectTextReport myReport =
                 (InteractableObjectTextReport) report;
@@ -937,7 +937,7 @@ public class QuestManager implements QualifiedObserver
      * ObjectiveCompletion type chat and the players must be within a certain
      * distance of each other
      */
-    private void handlePlayerChatCriteriaCompletion(QualifiedObservableReport report)
+    private void handlePlayerChatCriteriaCompletion(Report report)
     {
         ChatMessageReceivedReport myReport = (ChatMessageReceivedReport) report;
         try
@@ -969,7 +969,7 @@ public class QuestManager implements QualifiedObserver
      * @param report a ChatMessageReceivedReport
      */
     private void handlePlayerChatReceivedCriteriaCompletion(
-            QualifiedObservableReport report)
+            Report report)
     {
         ChatMessageReceivedReport myReport = (ChatMessageReceivedReport) report;
         try
@@ -1002,7 +1002,7 @@ public class QuestManager implements QualifiedObserver
      *
      * @param report a KeyInputRecievedReport
      */
-    private void handlePlayerInput(QualifiedObservableReport report)
+    private void handlePlayerInput(Report report)
     {
         KeyInputRecievedReport myReport = (KeyInputRecievedReport) report;
         ArrayList<QuestState> questStates =
@@ -1020,7 +1020,7 @@ public class QuestManager implements QualifiedObserver
         }
     }
 
-    private void handlePlayerMovement(QualifiedObservableReport report)
+    private void handlePlayerMovement(Report report)
     {
         PlayerMovedReport myReport = (PlayerMovedReport) report;
         Position position = myReport.getNewPosition();
@@ -1095,7 +1095,7 @@ public class QuestManager implements QualifiedObserver
      *
      * @param report A DoubloonChangeReport
      */
-    protected void handleDoubloonsChanged(QualifiedObservableReport report)
+    protected void handleDoubloonsChanged(Report report)
     {
         DoubloonChangeReport myReport = (DoubloonChangeReport) report;
         PlayerManager PM = PlayerManager.getSingleton();
@@ -1141,7 +1141,7 @@ public class QuestManager implements QualifiedObserver
      * any of the current objective that a player is doing Objective must be of
      * ObjectiveCompletion type terminal
      */
-    protected void handleReceiveTerminalTextReport(QualifiedObservableReport report)
+    protected void handleReceiveTerminalTextReport(Report report)
     {
         ReceiveTerminalTextReport myReport = (ReceiveTerminalTextReport) report;
 

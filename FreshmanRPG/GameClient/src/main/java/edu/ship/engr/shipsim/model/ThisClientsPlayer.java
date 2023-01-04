@@ -20,7 +20,7 @@ import java.util.TimerTask;
  *
  * @author merlin
  */
-public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
+public class ThisClientsPlayer extends ClientPlayer implements ReportObserver
 {
     List<ClientPlayerQuestStateDTO> questList = new ArrayList<>();
     ArrayList<FriendDTO> friendList = new ArrayList<>();
@@ -38,16 +38,16 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     {
         super(playerID);
 
-        QualifiedObservableConnector.getSingleton().registerObserver(this,
+        ReportObserverConnector.getSingleton().registerObserver(this,
                 ClientTimeToLevelUpDeadlineReport.class);
     }
 
 
     /**
-     * @see QualifiedObserver#receiveReport(QualifiedObservableReport)
+     * @see ReportObserver#receiveReport(Report)
      */
     @Override
-    public void receiveReport(QualifiedObservableReport report)
+    public void receiveReport(Report report)
     {
         if (report.getClass() == ClientTimeToLevelUpDeadlineReport.class)
         {
@@ -69,7 +69,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
      *
      * @param report time to level up deadline report
      */
-    private void updateDeadlineTimeToLevelUp(QualifiedObservableReport report)
+    private void updateDeadlineTimeToLevelUp(Report report)
     {
         timeToLevelUp = ((ClientTimeToLevelUpDeadlineReport) report).getTimeToDeadline();
 
@@ -127,7 +127,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
         if (!MapManager.getSingleton().getRecentlyChanged())
         {
             TeleportHotSpot hotSpot = MapManager.getSingleton().getTeleportHotSpot(thePosition);
-            QualifiedObservableConnector.getSingleton()
+            ReportObserverConnector.getSingleton()
                     .sendReport(new ChangeMapReport(getID(), hotSpot.getTeleportPosition(), hotSpot.getMapName()));
         }
     }
@@ -169,7 +169,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
                 QuestNeedingNotificationReport report = new QuestNeedingNotificationReport(
                         ClientPlayerManager.getSingleton().getThisClientsPlayer().getID(),
                         q.getQuestID(), q.getQuestDescription(), q.getQuestState());
-                QualifiedObservableConnector.getSingleton().sendReport(report);
+                ReportObserverConnector.getSingleton().sendReport(report);
             }
             for (ClientPlayerObjectiveStateDTO objective : q.getObjectiveList())
             {
@@ -180,7 +180,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
                                     .getID(), q.getQuestID(), objective.getObjectiveID(),
                             objective.getObjectiveDescription(), objective.getObjectiveState(),
                             objective.isNeedingNotification(), objective.getWitnessTitle());
-                    QualifiedObservableConnector.getSingleton().sendReport(report);
+                    ReportObserverConnector.getSingleton().sendReport(report);
                 }
             }
         }
@@ -192,7 +192,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     public void sendCurrentQuestStateReport()
     {
         QuestStateReport r = new QuestStateReport(questList);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
     }
 
     /**
@@ -221,7 +221,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     public void sendExperiencePointsChangeReport()
     {
         ExperiencePointsChangeReport r = new ExperiencePointsChangeReport(experiencePoints, record);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
     }
 
     /**
@@ -242,7 +242,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
 
                 QuestStateChangeReport r = new QuestStateChangeReport(this.getID(),
                         q.getQuestID(), questDescription, newState);
-                QualifiedObservableConnector.getSingleton().sendReport(r);
+                ReportObserverConnector.getSingleton().sendReport(r);
             }
         }
     }
@@ -268,7 +268,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
                         ObjectiveStateChangeReportInClient r = new ObjectiveStateChangeReportInClient(
                                 this.getID(), questID, objectiveID, objectiveDescription,
                                 objectiveState);
-                        QualifiedObservableConnector.getSingleton().sendReport(r);
+                        ReportObserverConnector.getSingleton().sendReport(r);
                     }
                 }
 
@@ -328,7 +328,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     public void sendDoubloonChangeReport()
     {
         DoubloonChangeReport r = new DoubloonChangeReport(this.doubloons);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
     }
 
     /**
@@ -372,7 +372,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     public void sendBuffPoolChangeReport()
     {
         BuffPoolChangedReport r = new BuffPoolChangedReport(this.buffPool);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
     }
 
     /**
@@ -393,7 +393,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
     {
         this.friendList = friendList;
         CurrentFriendListReport r = new CurrentFriendListReport(friendList);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
 
     }
 
@@ -419,7 +419,7 @@ public class ThisClientsPlayer extends ClientPlayer implements QualifiedObserver
         ArrayList<FriendDTO> temp = new ArrayList<>();
         temp.add(friend);
         UpdateFriendsListReport r = new UpdateFriendsListReport(temp);
-        QualifiedObservableConnector.getSingleton().sendReport(r);
+        ReportObserverConnector.getSingleton().sendReport(r);
 
     }
 }

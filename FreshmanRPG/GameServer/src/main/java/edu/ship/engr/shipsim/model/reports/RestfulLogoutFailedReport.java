@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 
 /**
  * @author Derek
  */
-public final class RestfulLogoutFailedReport implements QualifiedObservableReport
+public final class RestfulLogoutFailedReport implements Report
 {
     private final String message;
 

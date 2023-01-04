@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.communication.packers;
 import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.LoginFailedMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.QualifiedObservableReport;
+import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.LoginFailedReport;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class LoginFailedMessagePacker extends MessagePacker
 {
     @Override
-    public Message pack(QualifiedObservableReport object)
+    public Message pack(Report object)
     {
         LoginFailedReport report = (LoginFailedReport) object;
 
@@ -22,7 +22,7 @@ public class LoginFailedMessagePacker extends MessagePacker
     }
 
     @Override
-    public ArrayList<Class<? extends QualifiedObservableReport>> getReportTypesWePack()
+    public ArrayList<Class<? extends Report>> getReportTypesWePack()
     {
         return Lists.newArrayList(LoginFailedReport.class);
     }
