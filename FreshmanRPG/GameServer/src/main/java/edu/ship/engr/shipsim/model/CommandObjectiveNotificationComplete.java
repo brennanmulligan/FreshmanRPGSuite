@@ -8,9 +8,9 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 public class CommandObjectiveNotificationComplete extends Command
 {
 
-    private int playerID;
-    private int questID;
-    private int objectiveID;
+    private final int playerID;
+    private final int questID;
+    private final int objectiveID;
 
     /**
      * Constructor
@@ -30,25 +30,16 @@ public class CommandObjectiveNotificationComplete extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         try
         {
             QuestManager.getSingleton().turnOffNotification(playerID, questID, objectiveID);
         }
-        catch (DatabaseException e)
+        catch (DatabaseException | IllegalQuestChangeException | IllegalObjectiveChangeException e)
         {
             e.printStackTrace();
         }
-        catch (IllegalObjectiveChangeException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IllegalQuestChangeException e)
-        {
-            e.printStackTrace();
-        }
-        return true;
     }
 
     /**

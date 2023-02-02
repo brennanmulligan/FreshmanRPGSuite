@@ -10,11 +10,8 @@ public abstract class Command implements InfoPacket
 
     /**
      * perform the action associated with this command
-     *
-     * @return true of the operation was successful
-     * @throws IOException
      */
-    abstract boolean execute() throws IOException;
+    abstract void execute();
 
     /**
      * @return true if the command should dump the queue of other commands after

@@ -10,9 +10,9 @@ import edu.ship.engr.shipsim.model.reports.ObjectiveNotificationCompleteReport;
  */
 public class CommandObjectiveNotificationComplete extends Command
 {
-    private int playerID;
-    private int questID;
-    private int objectiveID;
+    private final int playerID;
+    private final int questID;
+    private final int objectiveID;
 
     /**
      * @param playerID    the player ID
@@ -30,14 +30,13 @@ public class CommandObjectiveNotificationComplete extends Command
      * Command's execute method
      */
     @Override
-    boolean execute()
+    void execute()
     {
 //		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/notification_objective_complete.mp3"))), 2);
         SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("notification_objective_complete.mp3"))), 2);
 
         ObjectiveNotificationCompleteReport report = new ObjectiveNotificationCompleteReport(playerID, questID, objectiveID);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
     /**

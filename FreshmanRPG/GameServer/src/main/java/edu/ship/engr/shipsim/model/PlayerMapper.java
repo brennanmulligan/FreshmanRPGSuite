@@ -278,7 +278,7 @@ public class PlayerMapper
         String mapTitle = player.getLastVisitedMap();
         if (mapTitle != null)
         {
-            VisitedMapsGateway gateway = getVisitedMapsGateway(player.getPlayerID());
+            VisitedMapsGateway gateway = getVisitedMapsGateway();
             if (!gateway.getMaps().contains(mapTitle))
             {
                 // insert the most recent map into the list of visited maps
@@ -308,7 +308,7 @@ public class PlayerMapper
         }
     }
 
-    VisitedMapsGateway getVisitedMapsGateway(int playerID) throws DatabaseException
+    VisitedMapsGateway getVisitedMapsGateway() throws DatabaseException
     {
         return new VisitedMapsGateway(player.getPlayerID());
     }

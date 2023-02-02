@@ -9,8 +9,8 @@ import edu.ship.engr.shipsim.datatypes.Position;
  */
 public class CommandMovePlayer extends Command
 {
-    private int playerId;
-    private Position newPosition;
+    private final int playerId;
+    private final Position newPosition;
 
     /**
      * @param playerId    The player who to move
@@ -26,17 +26,12 @@ public class CommandMovePlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerId);
         if (player != null)
         {
             player.setPlayerPosition(newPosition);
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 }

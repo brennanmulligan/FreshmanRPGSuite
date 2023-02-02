@@ -2,8 +2,6 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.model.reports.RestfulLoginInitiatedReport;
 
-import java.io.IOException;
-
 /**
  * @author Derek
  */
@@ -19,12 +17,9 @@ public final class CommandRestfulLogin extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         RestfulLoginInitiatedReport report = new RestfulLoginInitiatedReport(username, password);
-
         ReportObserverConnector.getSingleton().sendReport(report);
-
-        return true;
     }
 }

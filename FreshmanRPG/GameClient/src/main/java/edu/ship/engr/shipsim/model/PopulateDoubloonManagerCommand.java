@@ -77,15 +77,11 @@ public class PopulateDoubloonManagerCommand extends Command
 
     /**
      * Executes the command
-     *
-     * @return true
      */
     @Override
-    boolean execute()
+    void execute()
     {
-
         DoubloonManager.getSingleton().add(dtos);
-        return true;
     }
 
 }

@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 
 /**
  * Persist a player through a command
@@ -23,15 +24,17 @@ public class CommandPersistPlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         try
         {
-            return PlayerManager.getSingleton().persistPlayer(playerID);
+            PlayerManager.getSingleton().persistPlayer(playerID);
         }
         catch (DatabaseException e)
         {
-            return false;
+            LoggerManager.getSingleton().getLogger().fine(
+                    "Database error trying to persist player " + playerID + ": "
+                            + e.getMessage());
         }
     }
 

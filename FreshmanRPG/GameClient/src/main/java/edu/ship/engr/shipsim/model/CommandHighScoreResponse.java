@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class CommandHighScoreResponse extends Command
 {
-    ArrayList<PlayerScoreRecord> scores = new ArrayList<>();
+    ArrayList<PlayerScoreRecord> scores;
 
     /**
      * Constructor for CommandHighScoreResponse
@@ -26,11 +26,10 @@ public class CommandHighScoreResponse extends Command
      * Generate a HighScoreReponseReport and send it off
      */
     @Override
-    boolean execute()
+    void execute()
     {
         HighScoreResponseReport report = new HighScoreResponseReport(scores);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
     /**

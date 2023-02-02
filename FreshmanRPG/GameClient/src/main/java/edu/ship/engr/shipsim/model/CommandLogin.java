@@ -7,8 +7,8 @@ package edu.ship.engr.shipsim.model;
 public class CommandLogin extends Command
 {
 
-    private String name;
-    private String password;
+    private final String name;
+    private final String password;
 
     /**
      * @param name     the player's name
@@ -24,11 +24,10 @@ public class CommandLogin extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager p = ClientPlayerManager.getSingleton();
         p.initiateLogin(name, password);
-        return true;
     }
 
 }

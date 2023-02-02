@@ -21,11 +21,9 @@ public class CommandPinFailed extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.getSingleton().pinFailed(err);
-
-        return true;
     }
 
 }

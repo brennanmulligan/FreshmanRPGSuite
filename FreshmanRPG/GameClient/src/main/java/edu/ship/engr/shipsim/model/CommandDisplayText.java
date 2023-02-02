@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.model.reports.DisplayTextReport;
  */
 public class CommandDisplayText extends Command
 {
-    private String text;
+    private final String text;
 
     /**
      * constructor with text to be sent
@@ -22,15 +22,12 @@ public class CommandDisplayText extends Command
 
     /**
      * sends DisplayTextReport
-     *
-     * @return successful or not
      */
     @Override
-    boolean execute()
+    void execute()
     {
         DisplayTextReport report = new DisplayTextReport(text);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
     /**

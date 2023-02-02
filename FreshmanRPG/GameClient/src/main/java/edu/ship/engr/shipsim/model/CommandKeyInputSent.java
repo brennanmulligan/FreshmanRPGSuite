@@ -10,7 +10,7 @@ import edu.ship.engr.shipsim.model.reports.ClientKeyInputSentReport;
 public class CommandKeyInputSent extends Command
 {
 
-    private String input;
+    private final String input;
 
     /**
      * @param input user key input
@@ -29,11 +29,10 @@ public class CommandKeyInputSent extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         ClientKeyInputSentReport report = new ClientKeyInputSentReport(input);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
 }

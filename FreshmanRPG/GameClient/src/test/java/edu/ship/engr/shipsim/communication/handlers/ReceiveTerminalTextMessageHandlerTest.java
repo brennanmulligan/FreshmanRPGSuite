@@ -3,12 +3,13 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.ReceiveTerminalTextMessage;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
-import edu.ship.engr.shipsim.model.CommandRecieveTerminalResponse;
+import edu.ship.engr.shipsim.model.CommandReceiveTerminalResponse;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 
 /**
@@ -33,7 +34,7 @@ public class ReceiveTerminalTextMessageHandlerTest
         handler.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
 
-        CommandRecieveTerminalResponse cmd = (CommandRecieveTerminalResponse) ClientModelFacade.getSingleton().getNextCommand();
+        CommandReceiveTerminalResponse cmd = (CommandReceiveTerminalResponse) ClientModelFacade.getSingleton().getNextCommand();
 
         assertEquals(PlayersForTest.MERLIN.getPlayerID(), cmd.getPlayerID());
         assertEquals(testString, cmd.getTerminalResult());
@@ -46,6 +47,6 @@ public class ReceiveTerminalTextMessageHandlerTest
     public void typeWeHandle()
     {
         ReceiveTerminalTextMessageHandler h = new ReceiveTerminalTextMessageHandler();
-        assertEquals(ReceiveTerminalTextMessage.class, h.getMessageTypeWeHandle());
+        assertSame(ReceiveTerminalTextMessage.class, h.getMessageTypeWeHandle());
     }
 }

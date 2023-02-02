@@ -9,7 +9,7 @@ package edu.ship.engr.shipsim.model;
 public class CommandLoginFailed extends Command
 {
 
-    private static String message = "";
+    private String message = "";
 
 
     public CommandLoginFailed()
@@ -27,12 +27,9 @@ public class CommandLoginFailed extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
-
         ClientPlayerManager.getSingleton().loginFailed(message);
-
-        return true;
     }
 
 }

@@ -9,11 +9,12 @@ import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 public class CommandObjectiveStateChange extends Command
 {
 
-    private int objectiveID, questID;
-    private String objectiveDescription;
-    private ObjectiveStateEnum objectiveState;
-    private String witnessTitle;
-    private boolean realLifeObjective;
+    private final int objectiveID;
+    private final int questID;
+    private final String objectiveDescription;
+    private final ObjectiveStateEnum objectiveState;
+    private final String witnessTitle;
+    private final boolean realLifeObjective;
 
     /**
      * @param message that ObjectiveStateChangeMessage
@@ -29,10 +30,10 @@ public class CommandObjectiveStateChange extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
-        ClientPlayerManager.getSingleton().getThisClientsPlayer().sendObjectiveStateChangeReport(questID, objectiveID, objectiveDescription, objectiveState);
-        return true;
+        ClientPlayerManager.getSingleton().getThisClientsPlayer().sendObjectiveStateChangeReport(questID, objectiveID,
+                objectiveDescription, objectiveState);
     }
 
     /**

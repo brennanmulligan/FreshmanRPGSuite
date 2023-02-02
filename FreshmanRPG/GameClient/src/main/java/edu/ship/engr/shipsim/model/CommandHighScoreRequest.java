@@ -11,12 +11,10 @@ public class CommandHighScoreRequest extends Command
 {
 
     @Override
-    boolean execute()
+    void execute()
     {
         HighScoreRequestReport r = new HighScoreRequestReport();
         ReportObserverConnector.getSingleton().sendReport(r);
-
-        return true;
     }
 
 }
