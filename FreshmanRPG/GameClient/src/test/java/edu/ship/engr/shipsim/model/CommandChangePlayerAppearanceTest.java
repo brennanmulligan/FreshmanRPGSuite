@@ -42,9 +42,8 @@ public class CommandChangePlayerAppearanceTest
         vanityDTOS2.add(newHat);
         vanityDTOS2.add(newBody);
         final CommandChangePlayerAppearance command = new CommandChangePlayerAppearance(playerId, vanityDTOS2);
-        final boolean success = command.execute();
+        command.execute();
 
-        assertTrue(success);
         assertEquals(newBody, manager.getPlayerFromID(1).getVanities().get(0));
         assertEquals(newHat, manager.getPlayerFromID(1).getVanities().get(1));
     }

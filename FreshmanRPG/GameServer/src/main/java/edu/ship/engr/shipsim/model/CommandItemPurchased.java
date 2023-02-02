@@ -7,8 +7,8 @@ package edu.ship.engr.shipsim.model;
  */
 public class CommandItemPurchased extends Command
 {
-    private int playerID;
-    private int price;
+    private final int playerID;
+    private final int price;
 
     /**
      * @param playerID the player who made the purchase
@@ -24,17 +24,15 @@ public class CommandItemPurchased extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
 
         if (player == null)
         {
-            return false;
+            return;
         }
-
         player.removeDoubloons(price);
-        return true;
     }
 
 }

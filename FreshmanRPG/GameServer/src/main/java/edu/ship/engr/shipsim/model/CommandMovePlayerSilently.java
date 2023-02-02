@@ -11,9 +11,9 @@ import edu.ship.engr.shipsim.datatypes.Position;
 public class CommandMovePlayerSilently extends Command
 {
 
-    private Position newPosition;
-    private int playerId;
-    private String mapName;
+    private final Position newPosition;
+    private final int playerId;
+    private final String mapName;
 
     /**
      * @param mapName  the name of the map the player should be on
@@ -31,18 +31,13 @@ public class CommandMovePlayerSilently extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerId);
         if (player != null)
         {
             player.setPlayerPositionWithoutNotifying(newPosition);
             player.setMapName(mapName);
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 

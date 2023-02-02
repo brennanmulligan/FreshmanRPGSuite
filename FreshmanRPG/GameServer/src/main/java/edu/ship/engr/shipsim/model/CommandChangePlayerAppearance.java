@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class CommandChangePlayerAppearance extends Command
 {
-    private int playerID;
-    private ArrayList<VanityDTO> newWearing;
+    private final int playerID;
+    private final ArrayList<VanityDTO> newWearing;
 
     /**
      * Construct and initialize a CommandChangePlayerAppearance.
@@ -25,18 +25,15 @@ public class CommandChangePlayerAppearance extends Command
 
     /**
      * Execute the command.
-     *
-     * @return true if successful
      */
     @Override
-    boolean execute()
+    void execute()
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
         if (player != null)
         {
             player.setVanityItems(newWearing);
         }
-        return true;
     }
 
     /**

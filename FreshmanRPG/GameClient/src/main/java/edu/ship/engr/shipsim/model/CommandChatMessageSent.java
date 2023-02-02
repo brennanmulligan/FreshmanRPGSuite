@@ -10,9 +10,9 @@ import edu.ship.engr.shipsim.datatypes.ChatType;
  */
 public class CommandChatMessageSent extends Command
 {
-    private String message;
-    private ChatType type;
-    private boolean isValidMessage;
+    private final String message;
+    private final ChatType type;
+    private final boolean isValidMessage;
     private int receiverID;
 
 
@@ -76,9 +76,8 @@ public class CommandChatMessageSent extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientChatManager.getSingleton().sendChatToServer(message, type, receiverID);
-        return true;
     }
 }

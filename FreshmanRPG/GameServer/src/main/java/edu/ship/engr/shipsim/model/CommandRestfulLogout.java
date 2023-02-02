@@ -5,8 +5,6 @@ import edu.ship.engr.shipsim.model.reports.RestfulLogoutFailedReport;
 import edu.ship.engr.shipsim.model.reports.RestfulLogoutSuccessReport;
 import edu.ship.engr.shipsim.restfulcommunication.RestfulPlayerManager;
 
-import java.io.IOException;
-
 /**
  * @author Derek
  */
@@ -20,7 +18,7 @@ public final class CommandRestfulLogout extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         try
         {
@@ -39,7 +37,5 @@ public final class CommandRestfulLogout extends Command
             // Send a report saying that something went wrong while logging out
             ReportObserverConnector.getSingleton().sendReport(report);
         }
-
-        return true;
     }
 }

@@ -9,18 +9,18 @@ import edu.ship.engr.shipsim.model.reports.TerminalResponseReport;
  *
  * @author Nathaniel, Allen
  */
-public class CommandRecieveTerminalResponse extends Command
+public class CommandReceiveTerminalResponse extends Command
 {
 
-    private String terminalResult;
-    private int playerID;
-    private ChatType type = ChatType.Terminal;
+    private final String terminalResult;
+    private final int playerID;
+    private final ChatType type = ChatType.Terminal;
 
     /**
      * @param senderID        Player who sent the terminal command.
      * @param terminalResults Result of the terminal command to be sent to the player.
      */
-    public CommandRecieveTerminalResponse(int senderID, String terminalResults)
+    public CommandReceiveTerminalResponse(int senderID, String terminalResults)
     {
         this.playerID = senderID;
         this.terminalResult = terminalResults;
@@ -55,12 +55,10 @@ public class CommandRecieveTerminalResponse extends Command
      * parameters.
      */
     @Override
-    boolean execute()
+    void execute()
     {
         TerminalResponseReport report = new TerminalResponseReport(playerID, terminalResult);
         ReportObserverConnector.getSingleton().sendReport(report);
-
-        return true;
     }
 
 }

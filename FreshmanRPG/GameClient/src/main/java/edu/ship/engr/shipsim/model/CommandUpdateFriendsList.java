@@ -45,11 +45,10 @@ public class CommandUpdateFriendsList extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         ThisClientsPlayer thisClientsPlayer = ClientPlayerManager.getSingleton().getThisClientsPlayer();
         thisClientsPlayer.sendCurrentFriendListReport(friendList);
-        return true;
     }
 
 }

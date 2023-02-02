@@ -10,8 +10,8 @@ import edu.ship.engr.shipsim.model.reports.KeyInputRecievedReport;
 public class CommandKeyInputMessageReceived extends Command
 {
 
-    private String input;
-    private int playerId;
+    private final String input;
+    private final int playerId;
 
     /**
      * @param input    user key input
@@ -40,11 +40,10 @@ public class CommandKeyInputMessageReceived extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         KeyInputRecievedReport report = new KeyInputRecievedReport(input, playerId);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
 }

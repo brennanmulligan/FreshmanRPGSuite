@@ -11,11 +11,11 @@ public class CommandNewMap extends Command
 {
 
     private final String fileContents;
-    private String fileTitle;
+    private final String fileTitle;
 
     /**
      * @param title        the title of the tmx file containing the new map
-     * @param fileContents
+     * @param fileContents The contents that should be written to the map file
      */
     public CommandNewMap(String title, String fileContents)
     {
@@ -27,7 +27,7 @@ public class CommandNewMap extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         if (fileTitle.contains("Ducktopia"))
         {
@@ -38,7 +38,6 @@ public class CommandNewMap extends Command
 
         MapManager.getSingleton().changeToNewFile(fileTitle, fileContents);
         ClientPlayerManager.getSingleton().removeOtherPlayers();
-        return true;
     }
 
     /**
