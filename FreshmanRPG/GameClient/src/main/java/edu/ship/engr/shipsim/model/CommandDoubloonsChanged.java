@@ -10,8 +10,7 @@ public class CommandDoubloonsChanged extends Command
 {
 
 
-    private int doubloons;
-    private int playerID;
+    private final int doubloons;
     private int buffPool;
 
     /**
@@ -27,14 +26,12 @@ public class CommandDoubloonsChanged extends Command
 
 
     /**
-     * @param playerID  of the player
      * @param doubloons of the player
      * @param buffPool  of the player
      */
-    public CommandDoubloonsChanged(int playerID, int doubloons, int buffPool)
+    public CommandDoubloonsChanged(int doubloons, int buffPool)
     {
         this.doubloons = doubloons;
-        this.playerID = playerID;
         this.buffPool = buffPool;
     }
 
@@ -46,20 +43,11 @@ public class CommandDoubloonsChanged extends Command
         return doubloons;
     }
 
-    /**
-     * @return the playerID for this player
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
     @Override
-    boolean execute()
+    void execute()
     {
         ThisClientsPlayer thisClientsPlayer = ClientPlayerManager.getSingleton().getThisClientsPlayer();
         thisClientsPlayer.doubloonsAndBuffPoolChanged(doubloons, buffPool);
-        return true;
     }
 
 }

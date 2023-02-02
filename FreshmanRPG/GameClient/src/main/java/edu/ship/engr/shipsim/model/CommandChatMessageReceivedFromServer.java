@@ -13,11 +13,11 @@ import edu.ship.engr.shipsim.datatypes.Position;
  */
 public class CommandChatMessageReceivedFromServer extends Command
 {
-    private String chatText;
-    private int senderID;
-    private int receiverID;
-    private Position location;
-    private ChatType type;
+    private final String chatText;
+    private final int senderID;
+    private final int receiverID;
+    private final Position location;
+    private final ChatType type;
 
     /**
      * @param senderID   is the ID of the player who sent the message
@@ -80,12 +80,11 @@ public class CommandChatMessageReceivedFromServer extends Command
      * The ChatManager will call the sendChatToUI method with the following parameters.
      */
     @Override
-    boolean execute()
+    void execute()
     {
 //		SoundManager.addSound(Gdx.audio.newSound(new FileHandle(new File("../GameClient/assets/message_notification.mp3"))), 1);
         SoundManager.addSound(Gdx.audio.newSound(new FileHandle(ContentLoader.getAssetFile("message_notification.mp3"))), 1);
 
         ClientChatManager.getSingleton().sendChatToUI(senderID, receiverID, chatText, location, type);
-        return true;
     }
 }

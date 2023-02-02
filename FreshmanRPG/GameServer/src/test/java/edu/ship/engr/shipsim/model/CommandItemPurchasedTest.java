@@ -62,17 +62,4 @@ public class CommandItemPurchasedTest
 
         verify(observer, times(1)).receiveReport(any(DoubloonChangeReport.class));
     }
-
-    /**
-     * Tests that the command reports false when an invalid player id is used
-     */
-    @Test
-    public void testInvalidPlayer()
-    {
-        int price = 50;
-
-        CommandItemPurchased cmd = new CommandItemPurchased(-1, price);
-        assertFalse(cmd.execute());
-    }
-
 }

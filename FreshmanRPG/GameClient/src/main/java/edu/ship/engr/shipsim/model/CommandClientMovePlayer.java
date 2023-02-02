@@ -46,9 +46,8 @@ public class CommandClientMovePlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
-        boolean moved = false;
 
         ThisClientsPlayer thisClientsPlayer = ClientPlayerManager.getSingleton()
                 .getThisClientsPlayer();
@@ -72,7 +71,6 @@ public class CommandClientMovePlayer extends Command
             else if (MapManager.getSingleton().getIsTilePassable(position))
             {
                 thisClientsPlayer.move(position, true);
-                moved = true;
             }
         }
         else
@@ -83,9 +81,7 @@ public class CommandClientMovePlayer extends Command
             {
                 playerFromID.move(position, false);
             }
-            moved = true;
         }
-        return moved;
     }
 
     /**

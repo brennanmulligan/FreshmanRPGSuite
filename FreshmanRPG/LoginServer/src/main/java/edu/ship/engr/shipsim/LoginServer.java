@@ -11,7 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * A daemon that resides on the server listening to the gigabuds and to client
+ * A daemon that resides on the server listening to the client
  * requests
  *
  * @author Merlin
@@ -38,15 +38,13 @@ public class LoginServer implements Runnable
      */
     public void run()
     {
-        int i = 0;
-        try
+
+        try (ServerSocket servSock = new ServerSocket(1871, 10))
         {
-            ServerSocket servSock = new ServerSocket(1871, 10);
             OptionsManager.getSingleton();
             while (true)
             {
                 Socket sock = servSock.accept();
-                i++;
                 MessagePackerSet packers = new MessagePackerSet();
                 StateAccumulator stateAccumulator = new StateAccumulator(packers);
 
@@ -54,7 +52,6 @@ public class LoginServer implements Runnable
                 new ConnectionManager(sock, stateAccumulator, handlers, packers, true);
 
             }
-
         }
         catch (Throwable e)
         {

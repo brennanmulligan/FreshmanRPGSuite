@@ -24,7 +24,7 @@ public class CommandRemovePlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
 
         try
@@ -37,7 +37,6 @@ public class CommandRemovePlayer extends Command
             e.printStackTrace();
         }
         QuestManager.getSingleton().removeQuestStatesForPlayer(playerID);
-        return true;
     }
 
 }

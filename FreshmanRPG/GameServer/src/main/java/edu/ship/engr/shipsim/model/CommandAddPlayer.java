@@ -10,8 +10,8 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 public class CommandAddPlayer extends Command
 {
 
-    private int playerID;
-    private double pin;
+    private final int playerID;
+    private final double pin;
 
     /**
      * @param playerID the player's player id
@@ -27,7 +27,7 @@ public class CommandAddPlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         try
         {
@@ -37,7 +37,6 @@ public class CommandAddPlayer extends Command
         {
             e.printStackTrace();
         }
-        return true;
     }
 
 }

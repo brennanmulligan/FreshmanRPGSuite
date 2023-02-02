@@ -6,8 +6,8 @@ package edu.ship.engr.shipsim.model;
 public class CommandQuestNotificationComplete extends Command
 {
 
-    private int playerID;
-    private int questID;
+    private final int playerID;
+    private final int questID;
 
     /**
      * Constructor
@@ -25,10 +25,9 @@ public class CommandQuestNotificationComplete extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         QuestManager.getSingleton().turnOffQuestNotification(playerID, questID);
-        return true;
     }
 
     /**

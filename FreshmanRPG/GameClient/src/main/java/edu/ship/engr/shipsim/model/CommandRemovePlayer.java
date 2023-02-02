@@ -34,7 +34,7 @@ public class CommandRemovePlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         if (playerID == ClientPlayerManager.getSingleton().getThisClientsPlayer().getID())
         {
@@ -42,8 +42,6 @@ public class CommandRemovePlayer extends Command
             ReportObserverConnector.getSingleton().sendReport(report);
         }
         ClientPlayerManager.getSingleton().removePlayer(playerID);
-
-        return true;
     }
 
 }

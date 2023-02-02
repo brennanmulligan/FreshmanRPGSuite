@@ -14,11 +14,10 @@ public class CommandLogout extends Command
      *
      */
     @Override
-    public boolean execute()
+    public void execute()
     {
         LogoutReport report = new LogoutReport();
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
 }

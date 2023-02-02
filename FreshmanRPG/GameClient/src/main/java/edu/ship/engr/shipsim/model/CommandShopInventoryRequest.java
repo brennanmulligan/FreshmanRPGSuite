@@ -8,11 +8,9 @@ import edu.ship.engr.shipsim.model.reports.ShopInventoryRequestReport;
 public class CommandShopInventoryRequest extends Command
 {
     @Override
-    boolean execute()
+    void execute()
     {
         ShopInventoryRequestReport r = new ShopInventoryRequestReport();
         ReportObserverConnector.getSingleton().sendReport(r);
-
-        return true;
     }
 }

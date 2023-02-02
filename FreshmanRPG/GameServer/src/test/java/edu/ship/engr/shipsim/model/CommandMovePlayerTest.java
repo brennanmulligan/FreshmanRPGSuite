@@ -63,15 +63,4 @@ public class CommandMovePlayerTest
         verify(observer, times(1)).receiveReport(any(PlayerMovedReport.class));
     }
 
-    /**
-     * Update a player's position from id
-     */
-    @Test
-    public void testNoPlayer()
-    {
-        CommandMovePlayer cmd = new CommandMovePlayer(-1, mock(Position.class));
-
-        assertFalse(cmd.execute());
-    }
-
 }

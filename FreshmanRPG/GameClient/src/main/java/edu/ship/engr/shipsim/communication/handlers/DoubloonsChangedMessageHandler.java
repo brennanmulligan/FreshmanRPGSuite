@@ -21,7 +21,7 @@ public class DoubloonsChangedMessageHandler extends MessageHandler
         if (msg.getClass().equals(DoubloonsChangedMessage.class))
         {
             DoubloonsChangedMessage doubloonsChangedMessage = (DoubloonsChangedMessage) msg;
-            CommandDoubloonsChanged cmd = new CommandDoubloonsChanged(doubloonsChangedMessage.getPlayerID(), doubloonsChangedMessage.getDoubloons(), doubloonsChangedMessage.getBuffPool());
+            CommandDoubloonsChanged cmd = new CommandDoubloonsChanged(doubloonsChangedMessage.getDoubloons(), doubloonsChangedMessage.getBuffPool());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }
 

@@ -28,12 +28,10 @@ public class CommandReceiveTerminalText extends Command
      * If the user only types one command, we execute the command.
      * Otherwise, if the user types "man" and one more command, we execute a man command to
      * return the description of the second command.
-     *
-     * @return true
      */
 
     @Override
-    boolean execute()
+    void execute()
     {
         String result;
         ReceiveTerminalTextReport report;
@@ -61,6 +59,5 @@ public class CommandReceiveTerminalText extends Command
                 ReportObserverConnector.getSingleton().sendReport(report);
             }
         }
-        return true;
     }
 }

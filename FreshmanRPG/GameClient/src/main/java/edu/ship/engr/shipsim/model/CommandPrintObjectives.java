@@ -9,7 +9,7 @@ package edu.ship.engr.shipsim.model;
 public class CommandPrintObjectives extends Command
 {
 
-    private String fileTitle;
+    private final String fileTitle;
 
     /**
      * @param fileTitle the file that will be overwritten with the certificates
@@ -23,11 +23,10 @@ public class CommandPrintObjectives extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         PDFObjectiveWriter writer = new PDFObjectiveWriter();
         writer.createPDFOfTriggeredExternalObjectives(fileTitle);
-        return true;
     }
 
 }

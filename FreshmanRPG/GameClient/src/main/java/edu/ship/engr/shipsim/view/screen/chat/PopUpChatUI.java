@@ -25,11 +25,11 @@ import edu.ship.engr.shipsim.view.screen.popup.QuestNotificationCompleteBehavior
  */
 public class PopUpChatUI extends OverlayingScreen implements ReportObserver
 {
-    private final float WIDTH = 600f;
-    private final float HEIGHT = 400f;
-    private ChatTable localChatTable;
-    private ChatTable zoneChatTable;
-    private ChatTable systemChatTable;
+    private static final float WIDTH = 600f;
+    private static final float HEIGHT = 300f;
+    private final ChatTable localChatTable;
+    private final ChatTable zoneChatTable;
+    private final ChatTable systemChatTable;
     private ChatTable activeView;
     ChatType systemChatType = ChatType.System;
     ChatType localChatType = ChatType.Local;
@@ -38,14 +38,9 @@ public class PopUpChatUI extends OverlayingScreen implements ReportObserver
     private TextButton localButton;
     private TextButton zoneButton;
     private TextButton systemButton;
-    private TextFieldStyle tfs;
-    private float width = 600f;
-    private float height = 300f;
+
     private TextField entryField;
-    private ObjectFloatMap<Label> newLabels;
-    private Skin skin;
     private ScrollPane listPane;
-    private Table listPaneContainer;
 
 
     /**
@@ -188,12 +183,11 @@ public class PopUpChatUI extends OverlayingScreen implements ReportObserver
         }
 
         grid = new Table();
-        newLabels = new ObjectFloatMap<>();
-        skin = SkinPicker.getSkinPicker().getDefaultSkin();
-        tfs = skin.get(TextField.TextFieldStyle.class);
+        Skin skin = SkinPicker.getSkinPicker().getDefaultSkin();
+        TextFieldStyle tfs = skin.get(TextFieldStyle.class);
 
-        grid.setWidth(width);
-        grid.setHeight(height);
+        grid.setWidth(WIDTH);
+        grid.setHeight(HEIGHT);
         //set up zone chat button
         zoneButton = new TextButton("Zone", skin);
         zoneButton.setColor(Color.DARK_GRAY);

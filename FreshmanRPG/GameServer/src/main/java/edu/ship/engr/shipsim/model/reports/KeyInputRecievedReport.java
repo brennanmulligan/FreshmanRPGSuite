@@ -9,8 +9,8 @@ import edu.ship.engr.shipsim.model.Report;
 public class KeyInputRecievedReport implements Report
 {
 
-    private String input;
-    private int playerId;
+    private final String input;
+    private final int playerId;
 
     /**
      * @param input    the key that is pressed
@@ -36,5 +36,34 @@ public class KeyInputRecievedReport implements Report
     public int getPlayerId()
     {
         return playerId;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        KeyInputRecievedReport that = (KeyInputRecievedReport) o;
+
+        if (playerId != that.playerId)
+        {
+            return false;
+        }
+        return input.equals(that.input);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = input.hashCode();
+        result = 31 * result + playerId;
+        return result;
     }
 }

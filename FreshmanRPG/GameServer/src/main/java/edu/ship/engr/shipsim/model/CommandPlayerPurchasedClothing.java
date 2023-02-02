@@ -2,15 +2,13 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 
-import java.io.IOException;
-
 /**
  * Command to add a clothing item to a players inventory
  */
 public class CommandPlayerPurchasedClothing extends Command
 {
-    private int playerID;
-    private VanityDTO vanity;
+    private final int playerID;
+    private final VanityDTO vanity;
 
     /**
      * Command to add a clothing item to a players inventory
@@ -27,14 +25,11 @@ public class CommandPlayerPurchasedClothing extends Command
     /**
      * perform the action associated with this command
      *
-     * @return true of the operation was successful
-     * @throws IOException
      */
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
         player.addItemToInventory(vanity);
-        return true;
     }
 }

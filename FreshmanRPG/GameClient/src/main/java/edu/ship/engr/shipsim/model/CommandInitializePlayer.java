@@ -17,14 +17,14 @@ import java.util.List;
 public class CommandInitializePlayer extends Command
 {
 
-    private int playerID;
-    private String playerName;
-    private Position position;
-    private Crew crew;
-    private Major major;
-    private int section;
-    private List<VanityDTO> vanities;
-    private List<VanityDTO> ownedItems;
+    private final int playerID;
+    private final String playerName;
+    private final Position position;
+    private final Crew crew;
+    private final Major major;
+    private final int section;
+    private final List<VanityDTO> vanities;
+    private final List<VanityDTO> ownedItems;
 
     /**
      * For now, we just know his name
@@ -71,11 +71,10 @@ public class CommandInitializePlayer extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.getSingleton().initializePlayer(playerID, playerName,
                 vanities, position, crew, major, section, ownedItems);
-        return true;
     }
 
     /**

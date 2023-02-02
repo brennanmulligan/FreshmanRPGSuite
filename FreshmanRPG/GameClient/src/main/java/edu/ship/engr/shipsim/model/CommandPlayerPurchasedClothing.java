@@ -3,8 +3,6 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.model.reports.PlayerPurchasedClothingReport;
 
-import java.io.IOException;
-
 public class CommandPlayerPurchasedClothing extends Command
 {
     private final int playerID;
@@ -17,7 +15,7 @@ public class CommandPlayerPurchasedClothing extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         PlayerPurchasedClothingReport report = new PlayerPurchasedClothingReport(playerID, vanityDTO);
         ReportObserverConnector.getSingleton().sendReport(report);
@@ -28,7 +26,6 @@ public class CommandPlayerPurchasedClothing extends Command
         player.sendDoubloonChangeReport();
 
         player.addItemToInventory(vanityDTO);
-        return true;
     }
 
     public int getPlayerID()

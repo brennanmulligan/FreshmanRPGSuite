@@ -12,7 +12,7 @@ import java.rmi.NotBoundException;
 public class CommandFinishLogin extends Command
 {
 
-    private int playerID;
+    private final int playerID;
 
 
     /**
@@ -27,7 +27,7 @@ public class CommandFinishLogin extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         try
         {
@@ -37,6 +37,5 @@ public class CommandFinishLogin extends Command
         {
             e.printStackTrace();
         }
-        return true;
     }
 }

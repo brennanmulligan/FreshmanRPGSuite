@@ -62,7 +62,7 @@ public class ClientModelFacade
                                     commandsPending = false;
                                 }
                             }
-                            catch (InterruptedException | IOException e)
+                            catch (InterruptedException e)
                             {
                                 e.printStackTrace();
                             }
@@ -273,7 +273,7 @@ public class ClientModelFacade
                         }
                     }
                 }
-                catch (InterruptedException | IOException e)
+                catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }

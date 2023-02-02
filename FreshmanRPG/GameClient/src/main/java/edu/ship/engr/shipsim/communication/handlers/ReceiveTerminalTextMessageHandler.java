@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.ReceiveTerminalTextMessage;
 import edu.ship.engr.shipsim.model.ClientModelFacade;
-import edu.ship.engr.shipsim.model.CommandRecieveTerminalResponse;
+import edu.ship.engr.shipsim.model.CommandReceiveTerminalResponse;
 
 /**
  * @author Denny Fleagle
@@ -22,7 +22,7 @@ public class ReceiveTerminalTextMessageHandler extends MessageHandler
     public void process(Message msg)
     {
         ReceiveTerminalTextMessage message = (ReceiveTerminalTextMessage) msg;
-        CommandRecieveTerminalResponse cmd = new CommandRecieveTerminalResponse(
+        CommandReceiveTerminalResponse cmd = new CommandReceiveTerminalResponse(
                 message.getRequestingPlayerID(), message.getResultText());
 
         ClientModelFacade.getSingleton().queueCommand(cmd);

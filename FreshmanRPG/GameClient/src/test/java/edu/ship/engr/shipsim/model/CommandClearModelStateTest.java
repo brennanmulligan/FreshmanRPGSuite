@@ -35,7 +35,7 @@ public class CommandClearModelStateTest
         ClientPlayerManager original = ClientPlayerManager.getSingleton();
 
         CommandClearModelState cms = new CommandClearModelState();
-        assertTrue(cms.execute());
+        cms.execute();
 
         assertNotEquals(original, ClientPlayerManager.getSingleton());
     }
@@ -49,7 +49,7 @@ public class CommandClearModelStateTest
         MapManager original = MapManager.getSingleton();
 
         CommandClearModelState cms = new CommandClearModelState();
-        assertTrue(cms.execute());
+        cms.execute();
 
         assertNotEquals(original, MapManager.getSingleton());
     }
