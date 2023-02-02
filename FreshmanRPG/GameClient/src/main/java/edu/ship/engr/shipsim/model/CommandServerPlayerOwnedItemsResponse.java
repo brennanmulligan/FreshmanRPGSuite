@@ -3,7 +3,6 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.model.reports.ServerPlayerOwnedItemsResponseReport;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CommandServerPlayerOwnedItemsResponse extends Command
@@ -17,11 +16,9 @@ public class CommandServerPlayerOwnedItemsResponse extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         ServerPlayerOwnedItemsResponseReport report = new ServerPlayerOwnedItemsResponseReport(serverOwnedItems);
         ReportObserverConnector.getSingleton().sendReport(report);
-
-        return true;
     }
 }

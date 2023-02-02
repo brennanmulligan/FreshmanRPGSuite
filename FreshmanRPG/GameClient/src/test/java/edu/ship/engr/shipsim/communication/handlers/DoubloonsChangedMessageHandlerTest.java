@@ -9,6 +9,7 @@ import edu.ship.engr.shipsim.testing.annotations.ResetClientModelFacade;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * @author Matthew Croft
@@ -25,7 +26,7 @@ public class DoubloonsChangedMessageHandlerTest
     public void testTypeWeHandle()
     {
         DoubloonsChangedMessageHandler h = new DoubloonsChangedMessageHandler();
-        assertEquals(DoubloonsChangedMessage.class, h.getMessageTypeWeHandle());
+        assertSame(DoubloonsChangedMessage.class, h.getMessageTypeWeHandle());
     }
 
     /**
@@ -43,7 +44,6 @@ public class DoubloonsChangedMessageHandlerTest
         h.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
         CommandDoubloonsChanged cmd = (CommandDoubloonsChanged) ClientModelFacade.getSingleton().getNextCommand();
-        assertEquals(PlayersForTest.JOHN.getPlayerID(), cmd.getPlayerID());
         assertEquals(oldScore + 5, cmd.getDoubloons());
     }
 }

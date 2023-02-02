@@ -10,7 +10,30 @@ import edu.ship.engr.shipsim.model.Report;
 public class ClientKeyInputSentReport implements Report
 {
 
-    private String input;
+    private final String input;
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        ClientKeyInputSentReport that = (ClientKeyInputSentReport) o;
+
+        return input.equals(that.input);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return input.hashCode();
+    }
 
     /**
      * @param input user key input

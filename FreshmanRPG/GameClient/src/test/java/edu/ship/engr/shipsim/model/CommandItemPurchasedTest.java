@@ -20,8 +20,6 @@ public class CommandItemPurchasedTest
 
     /**
      * Tests that the command can be created
-     *
-     * @throws IOException
      */
     @Test
     public void testInitialization() throws IOException
@@ -34,8 +32,7 @@ public class CommandItemPurchasedTest
         assertEquals(id, cmd.getPlayerID());
         assertEquals(amount, cmd.getPrice());
         assertEquals(prizeFile, cmd.getFileTitle());
-        assertTrue(cmd.execute());
-        f.delete();
+        cmd.execute();
     }
 
     /**
@@ -43,7 +40,6 @@ public class CommandItemPurchasedTest
      * the file gets created. Hand checking is required if the contents of the
      * file change
      *
-     * @throws IOException
      */
     @Test
     public void createsFile() throws IOException
@@ -56,6 +52,6 @@ public class CommandItemPurchasedTest
         cmd.execute();
         f = new File("test.pdf");
         assertTrue(f.exists());
-        f.delete();
+        assertTrue(f.delete());
     }
 }

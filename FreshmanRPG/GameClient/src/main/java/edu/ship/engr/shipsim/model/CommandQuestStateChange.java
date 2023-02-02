@@ -9,10 +9,10 @@ import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 public class CommandQuestStateChange extends Command
 {
 
-    private int questID;
-    private String questTitle;
-    private String questDescription;
-    private QuestStateEnum questState;
+    private final int questID;
+    private final String questTitle;
+    private final String questDescription;
+    private final QuestStateEnum questState;
 
     /**
      * @param message the QuestStateChangeMesage
@@ -26,11 +26,10 @@ public class CommandQuestStateChange extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.getSingleton().getThisClientsPlayer()
                 .sendQuestStateChangeReport(questID, questDescription, questState);
-        return true;
     }
 
     /**

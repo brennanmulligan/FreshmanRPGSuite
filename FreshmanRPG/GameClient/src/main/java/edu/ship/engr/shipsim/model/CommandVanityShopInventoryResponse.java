@@ -26,15 +26,12 @@ public class CommandVanityShopInventoryResponse extends Command
 
     /**
      * perform the action associated with this command
-     *
-     * @return true of the operation was successful
      */
     @Override
-    boolean execute()
+    void execute()
     {
         VanityShopInventoryResponseReport report = new VanityShopInventoryResponseReport(inventory);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
     /**

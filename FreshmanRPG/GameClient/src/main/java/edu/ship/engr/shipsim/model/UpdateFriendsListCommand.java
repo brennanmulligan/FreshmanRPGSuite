@@ -2,12 +2,10 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 
-import java.io.IOException;
-
 public class UpdateFriendsListCommand extends Command
 {
 
-    private FriendDTO friendList;
+    private final FriendDTO friendList;
 
     public UpdateFriendsListCommand(FriendDTO friend)
     {
@@ -15,13 +13,10 @@ public class UpdateFriendsListCommand extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
-
         ThisClientsPlayer thisClientsPlayer = ClientPlayerManager.getSingleton().getThisClientsPlayer();
         thisClientsPlayer.updateCurrentFriendListReport(friendList);
-        System.out.println("In command");
-        return true;
     }
 
 

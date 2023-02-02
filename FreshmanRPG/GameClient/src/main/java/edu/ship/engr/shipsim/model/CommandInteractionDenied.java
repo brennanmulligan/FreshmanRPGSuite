@@ -9,11 +9,10 @@ public class CommandInteractionDenied extends Command
 {
 
     @Override
-    boolean execute()
+    void execute()
     {
         InteractionDeniedReport report = new InteractionDeniedReport();
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
 }

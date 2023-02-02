@@ -74,11 +74,17 @@ public class CommandMovePlayerToAnotherMapAndPersistTest
     @Test
     public void testNoPlayer()
     {
-        Position newPosition = new Position(10, 10);
 
+        ReportObserver obs = mock(ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(obs, PlayerReadyToTeleportReport.class);
+
+        Position newPosition = new Position(10, 10);
         CommandMovePlayerToAnotherMapAndPersist
                 cmd = new CommandMovePlayerToAnotherMapAndPersist(-1, "a map", newPosition);
-        assertFalse(cmd.execute());
+        cmd.execute();
+
+        verify(obs,times(0))
+                .receiveReport(new PlayerReadyToTeleportReport(-1,"a map"));
     }
 
     /**

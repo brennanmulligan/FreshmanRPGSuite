@@ -28,7 +28,7 @@ public class CommandMovePlayerToAnotherMapAndPersist extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         PlayerManager playerManager = PlayerManager.getSingleton();
         Player player = playerManager.getPlayerFromID(playerId);
@@ -40,21 +40,16 @@ public class CommandMovePlayerToAnotherMapAndPersist extends Command
 
             try
             {
-                boolean result = playerManager.persistPlayer(playerId);
+                playerManager.persistPlayer(playerId);
                 PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(playerId, map);
                 ReportObserverConnector.getSingleton().sendReport(report);
-
-                return result;
-
             }
             catch (DatabaseException e)
             {
                 LoggerManager.getSingleton().getLogger().info("Exception in moving the " +
-                        "player");
+                        "player:" + e.getMessage());
             }
         }
-
-        return false;
     }
 
 }

@@ -10,12 +10,12 @@ import edu.ship.engr.shipsim.datatypes.Position;
  */
 public class CommandChatMessageReceived extends Command
 {
-    private String chatText;
-    private int senderID;
-    private int receiverID;
+    private final String chatText;
+    private final int senderID;
+    private final int receiverID;
 
-    private Position location;
-    private ChatType type;
+    private final Position location;
+    private final ChatType type;
 
     /**
      * @param senderID   is the name of the player who sent the message
@@ -38,10 +38,9 @@ public class CommandChatMessageReceived extends Command
      * parameters.
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ChatManager.getSingleton().processChatMessage(senderID, receiverID, chatText, location, type);
-        return true;
     }
 
     /**

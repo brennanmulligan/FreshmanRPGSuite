@@ -13,11 +13,10 @@ public class CommandClearModelState extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.resetSingleton();
         MapManager.resetSingleton();
-        return true;
     }
 
 }

@@ -2,7 +2,6 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,10 +18,9 @@ public class CommandSendCurrentFriendList extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         ClientPlayerManager.getSingleton().getThisClientsPlayer().sendCurrentFriendListReport(friendList);
-        return false;
     }
 
 }

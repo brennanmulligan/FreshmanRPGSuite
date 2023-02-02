@@ -14,9 +14,9 @@ import java.util.List;
 public class CommandOverwriteQuestState extends Command
 {
 
-    private List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
-    private LevelRecord record;
-    private int expPoints;
+    private final List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
+    private final LevelRecord record;
+    private final int expPoints;
 
     /**
      * Initializes clientPlayerQuestList
@@ -32,11 +32,10 @@ public class CommandOverwriteQuestState extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.getSingleton().getThisClientsPlayer().overwriteQuestList(clientPlayerQuestList);
         ClientPlayerManager.getSingleton().getThisClientsPlayer().setLevelInfo(record, expPoints);
-        return true;
     }
 
     /**

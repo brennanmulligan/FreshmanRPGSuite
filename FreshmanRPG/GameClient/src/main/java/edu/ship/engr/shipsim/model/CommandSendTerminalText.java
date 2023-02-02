@@ -7,7 +7,7 @@ import edu.ship.engr.shipsim.model.reports.SendTerminalTextReport;
  */
 public class CommandSendTerminalText extends Command
 {
-    private String terminalText;
+    private final String terminalText;
 
     /**
      * @param text from the terminal
@@ -18,12 +18,11 @@ public class CommandSendTerminalText extends Command
     }
 
     @Override
-    boolean execute()
+    void execute()
     {
         SendTerminalTextReport report = new SendTerminalTextReport(
                 ClientPlayerManager.getSingleton().getThisClientsPlayer().getID(), terminalText);
         ReportObserverConnector.getSingleton().sendReport(report);
-        return true;
     }
 
 }

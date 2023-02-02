@@ -14,10 +14,9 @@ public class CommandSendQuestState extends Command
      * @see Command#execute()
      */
     @Override
-    boolean execute()
+    void execute()
     {
         ClientPlayerManager.getSingleton().getThisClientsPlayer().sendCurrentQuestStateReport();
-        return true;
     }
 
 }

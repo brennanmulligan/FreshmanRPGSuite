@@ -11,10 +11,10 @@ import java.io.IOException;
 public class CommandItemPurchased extends Command
 {
 
-    private int playerID;
-    private int price;
-    private String fileTitle;
-    private String itemName;
+    private final int playerID;
+    private final int price;
+    private final String fileTitle;
+    private final String itemName;
 
     /**
      * @param playerID  player ID of the player that made the purchase
@@ -55,7 +55,7 @@ public class CommandItemPurchased extends Command
     }
 
     @Override
-    boolean execute() throws IOException
+    void execute()
     {
         //Create and send a report that will make the doubloons be subtracted
         ItemPurchasedReport report = new ItemPurchasedReport(playerID, price);
@@ -63,8 +63,14 @@ public class CommandItemPurchased extends Command
 
         //Create the pdf receipt for the purchase
         PDFPrizeWriter writer = new PDFPrizeWriter();
-        writer.createPDFOfPurchasedPrize(fileTitle, price, itemName);
-        return true;
+        try
+        {
+            writer.createPDFOfPurchasedPrize(fileTitle, price, itemName);
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
