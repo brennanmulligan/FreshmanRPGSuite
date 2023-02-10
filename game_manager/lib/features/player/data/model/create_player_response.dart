@@ -19,7 +19,7 @@ class CreatePlayerResponse extends Equatable {
     required JSON json,
   }) {
     return CreatePlayerResponse(
-      responseType: PlayerResponseType.values[json['responseType']],
+      responseType: PlayerResponseType.values[json['responseTypeID']],
     );
   }
 

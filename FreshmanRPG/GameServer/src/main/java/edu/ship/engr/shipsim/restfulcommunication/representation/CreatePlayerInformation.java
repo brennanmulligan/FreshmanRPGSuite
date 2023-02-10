@@ -7,6 +7,25 @@ public class CreatePlayerInformation
 {
     private final String username;
     private final String password;
+    private final int crewNum;
+    private final int majorNum;
+
+    public int getCrewNum()
+    {
+        return crewNum;
+    }
+
+    public int getMajorNum()
+    {
+        return majorNum;
+    }
+
+    public int getSection()
+    {
+        return section;
+    }
+
+    private final int section;
 
     public String getUsername()
     {
@@ -19,9 +38,14 @@ public class CreatePlayerInformation
     }
 
     @JsonCreator
-public CreatePlayerInformation(@JsonProperty("username") String username, @JsonProperty("password") String password)
-{
-    this.username = username;
-    this.password = password;
-}
+    public CreatePlayerInformation(@JsonProperty("name") String username, @JsonProperty("password") String password,
+                                   @JsonProperty("crew") int crewNum, @JsonProperty("major") int majorNum,
+                                   @JsonProperty("section") int section)
+    {
+        this.username = username;
+        this.password = password;
+        this.crewNum = crewNum;
+        this.majorNum = majorNum;
+        this.section = section;
+    }
 }

@@ -4,7 +4,10 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
 import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestStateTableDataGateway;
+import edu.ship.engr.shipsim.datatypes.Crew;
+import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
+import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestsForProduction;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
@@ -13,14 +16,27 @@ import java.util.ArrayList;
 
 public class CommandCreatePlayer extends Command
 {
-
+    public enum CreatePlayerResponseType {
+        created,
+        alreadyExists,
+        crewNotValid,
+        majorNotValid,
+        sectionNotValid,
+        networkFailure,
+    }
     private final String password;
-    private String playerName;
+    private final Crew crew;
+    private final Major major;
+    private final int section;
+    private String name;
 
-    public CommandCreatePlayer(String playerName, String password)
+    public CommandCreatePlayer(String playerName, String password, int crewNum, int majorNum, int section)
     {
-        this.playerName = playerName;
+        this.name = playerName;
         this.password = password;
+        this.crew = Crew.getCrewForID(crewNum);
+        this.major = Major.getMajorForID(majorNum);
+        this.section = section;
     }
     private static final QuestsForProduction[] questsToTrigger =
             {QuestsForProduction.ONRAMPING_QUEST,
@@ -29,9 +45,27 @@ public class CommandCreatePlayer extends Command
     @Override
     void execute()
     {
-        ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(true));
-        return ;
-    }  private void triggerInitialQuests(int playerID) throws DatabaseException
+        try
+        {
+
+            Position position = new Position(11, 7);
+            int doubloons = 0;
+            int experiencePoints = 0;
+            String appearanceType = "default_player";
+
+            PlayerMapper mapper = new PlayerMapper(position, appearanceType, doubloons, experiencePoints,
+                    crew, major, section, name, password);
+            triggerInitialQuests(mapper.getPlayer().getPlayerID());
+        }
+        catch (DatabaseException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(CreatePlayerResponseType.created));
+    }
+
+    private void triggerInitialQuests(int playerID) throws DatabaseException
 {
     QuestStateTableDataGateway questStateTableDataGatewayRDS =
             QuestStateTableDataGateway.getSingleton();

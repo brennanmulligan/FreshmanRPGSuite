@@ -1,5 +1,7 @@
 ///
 /// Types of resposnes we get from the server when trying to create player.
+/// These need to match the enum in CreatePlayerCommand in the restful server's\
+/// model
 ///
 enum PlayerResponseType {
   created,

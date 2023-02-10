@@ -40,7 +40,7 @@ public class DatabaseManager
         connections = new HashMap<>();
     }
 
-    public void touchConnection()
+    public void touchConnection() throws DatabaseException
     {
         long id;
         if (testing)
@@ -53,6 +53,11 @@ public class DatabaseManager
         }
 
         Connection connection = connections.get(id);
+        if (connection == null)
+        {
+            connection = openConnection();
+            connections.put(id, connection);
+        }
         try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
         {
             pstm.execute();
