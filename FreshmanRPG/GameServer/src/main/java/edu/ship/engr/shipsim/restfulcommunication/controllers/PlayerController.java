@@ -29,25 +29,21 @@ import java.util.stream.Collectors;
 @RestController
 public class PlayerController extends Controller
 {
-
-
-
     @CrossOrigin // Required for web client support
     @PostMapping("/player")
     public ResponseEntity<Object> addPlayer(@RequestBody CreatePlayerInformation info) throws JsonProcessingException
     {
-        int playerID;
 
-        System.out.println("Got the request");
         CreatePlayerResponseReport report = processAction(() ->
         {
-            CommandCreatePlayer command = new CommandCreatePlayer(info.getUsername(), info.getPassword());
+            CommandCreatePlayer command = new CommandCreatePlayer(info.getUsername(), info.getPassword(),
+                    info.getCrewNum(), info.getMajorNum(), info.getSection());
             ModelFacade.getSingleton().queueCommand(command);
         }, CreatePlayerResponseReport.class);
 
         if (report != null)
         {
-            CreatePlayerResponse response = new CreatePlayerResponse(report.getSuccess());
+            CreatePlayerResponse response = new CreatePlayerResponse(report.getResponse());
             return new ResponseEntity<>(response.toString(), HttpStatus.OK);
         }
 
