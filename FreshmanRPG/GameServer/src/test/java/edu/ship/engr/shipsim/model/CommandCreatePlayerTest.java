@@ -64,6 +64,6 @@ public class CommandCreatePlayerTest
             assertEquals(shouldHaveObjectives.size(), objectiveStates.size());
         }
 
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(CommandCreatePlayer.CreatePlayerResponseType.created));
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(true));
     }
 }
