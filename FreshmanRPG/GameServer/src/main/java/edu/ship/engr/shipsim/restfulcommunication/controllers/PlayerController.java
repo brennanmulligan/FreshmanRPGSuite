@@ -34,7 +34,8 @@ public class PlayerController extends Controller
             if(report.isSuccessful())
             {
                 return new ResponseEntity<>(HttpStatus.OK);
-            } else
+            }
+            else
             {
                 return new ResponseEntity<>(new GeneralFailureResponse(report.getDescription()), HttpStatus.BAD_REQUEST);
             }
