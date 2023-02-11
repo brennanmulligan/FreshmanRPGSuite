@@ -8,6 +8,7 @@ import edu.ship.engr.shipsim.datasource.*;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.BuffBehaviorTest;
 import edu.ship.engr.shipsim.model.reports.*;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.TestPlayerController;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -81,6 +82,7 @@ import org.junit.platform.suite.api.Suite;
                 ChatMessageReceivedCommandTest.class,
                 CheatCodeManagerTest.class,
                 CommandAddPlayerTest.class,
+                CommandCreatePlayerTest.class,
                 CommandObjectiveNotificationCompleteTest.class,
                 CommandKeyInputMessageReceivedTest.class,
                 CommandMovePlayerToAnotherMapAndPersistTest.class,
@@ -130,6 +132,8 @@ import org.junit.platform.suite.api.Suite;
                 TimeToLevelUpDeadlineTest.class,
                 UpdatePlayerInformationReportTest.class,
 
+                // restfulcommunication.controllers
+                TestPlayerController.class,
         })
 
 public class AllServerTests

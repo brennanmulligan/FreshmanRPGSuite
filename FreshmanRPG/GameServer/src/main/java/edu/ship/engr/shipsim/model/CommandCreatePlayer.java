@@ -16,19 +16,11 @@ import java.util.ArrayList;
 
 public class CommandCreatePlayer extends Command
 {
-    public enum CreatePlayerResponseType {
-        created,
-        alreadyExists,
-        crewNotValid,
-        majorNotValid,
-        sectionNotValid,
-        networkFailure,
-    }
     private final String password;
     private final Crew crew;
     private final Major major;
     private final int section;
-    private String name;
+    private final String name;
 
     public CommandCreatePlayer(String playerName, String password, int crewNum, int majorNum, int section)
     {
@@ -48,12 +40,7 @@ public class CommandCreatePlayer extends Command
         try
         {
 
-            Position position = new Position(11, 7);
-            int doubloons = 0;
-            int experiencePoints = 0;
-            String appearanceType = "default_player";
-
-            PlayerMapper mapper = new PlayerMapper(position, appearanceType, doubloons, experiencePoints,
+            PlayerMapper mapper = new PlayerMapper(new Position(11, 7), "default_player", 0, 0,
                     crew, major, section, name, password);
             triggerInitialQuests(mapper.getPlayer().getPlayerID());
         }
@@ -62,7 +49,7 @@ public class CommandCreatePlayer extends Command
             throw new RuntimeException(e);
         }
 
-        ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(CreatePlayerResponseType.created));
+        ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(true));
     }
 
     private void triggerInitialQuests(int playerID) throws DatabaseException
