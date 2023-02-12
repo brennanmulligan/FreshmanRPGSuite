@@ -120,8 +120,8 @@ class CreatePLayerView extends HookConsumerWidget {
                       num.parse(major.text),
                       num.parse(section.text),
                     );
-                    if (notifier.createPlayerResponse?.responseType ==
-                        PlayerResponseType.created) {
+                    String desc = notifier.createPlayerResponse?.description;
+                    if (notifier.createPlayerResponse?.success == true) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Padding(
@@ -138,8 +138,6 @@ class CreatePLayerView extends HookConsumerWidget {
                                   flex: 6,
                                   child: Text(
                                     'Player Created'
-                                    // notifier.createPlayerResponse?.responseType
-                                    //         .description() ??
                                     ,
                                   ),
                                 ),
@@ -151,28 +149,11 @@ class CreatePLayerView extends HookConsumerWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: const [
-                                Icon(
-                                  Icons.error,
-                                  color: Colors.red,
-                                  size: 40,
-                                ),
-                                Spacer(),
-                                Flexible(
-                                  flex: 6,
-                                  child: Text(
-                                      // notifier.createPlayerResponse?.responseType
-                                      //         .description() ??
-                                      //     '',
-                                      'Cannot create player, check the inputs'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                          content:
+                                 Text(
+                                     'ERROR: $desc'
+                                      ),
+                        )
                       );
                     }
                   },

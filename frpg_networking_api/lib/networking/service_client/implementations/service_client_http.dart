@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../service_client.dart';
@@ -21,7 +23,7 @@ class ServiceClientHTTP extends ServiceClient {
   /// Converts `http.Response` to `JSON`.
   ///
   JSON _processResponse(http.Response response) {
-    return json.decode(response.body);
+        return json.decode(response.body);
   }
 
   ///

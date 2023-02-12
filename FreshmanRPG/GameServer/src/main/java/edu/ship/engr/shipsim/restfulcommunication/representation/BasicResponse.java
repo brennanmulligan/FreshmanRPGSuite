@@ -2,15 +2,16 @@ package edu.ship.engr.shipsim.restfulcommunication.representation;
 
 import com.google.gson.Gson;
 
-public class GeneralFailureResponse
+public class BasicResponse
 {
 
-    public GeneralFailureResponse(String description)
+    private final String description;
+    private final boolean success;
+    public BasicResponse(boolean success, String description)
     {
         this.description = description;
+        this.success = success;
     }
-
-    private final String description;
 
     public String toString()
     {
