@@ -41,6 +41,8 @@ public class TestPlayerController
         ResponseEntity<Object> response = mock.createPlayer(new CreatePlayerInformation("fred", "ow", 1, 2, 3));
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("{\"description\":\"Created\",\"success\":true}", Objects.requireNonNull(response.getBody()).toString());
+
     }
 
     @Test
@@ -53,7 +55,7 @@ public class TestPlayerController
 
         ResponseEntity<Object> response = mock.createPlayer(new CreatePlayerInformation("fred", "ow", 1, 2, 3));
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("{\"description\":\"ERROR\"}", Objects.requireNonNull(response.getBody()).toString());
+        assertEquals("{\"description\":\"ERROR\",\"success\":false}", Objects.requireNonNull(response.getBody()).toString());
     }
 }
 

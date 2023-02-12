@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.model.CommandCreatePlayer;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
-import edu.ship.engr.shipsim.restfulcommunication.representation.GeneralFailureResponse;
+import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,12 +37,15 @@ public class PlayerController extends Controller
         {
             if (report.isSuccessful())
             {
-                return new ResponseEntity<>(HttpStatus.OK);
+                System.out.println("Success");
+                return new ResponseEntity<>(new BasicResponse(true,"Created").toString(),
+                        HttpStatus.OK);
             }
             else
             {
+                System.out.println("FAIL");
                 return new ResponseEntity<>(
-                        new GeneralFailureResponse(report.getDescription()),
+                        new BasicResponse(false, report.getDescription()).toString(),
                         HttpStatus.BAD_REQUEST);
             }
         }

@@ -24,7 +24,6 @@ class PlayerRepositoryHTTP extends PlayerRepository {
     try {
       final response =
           await createPlayerDatasource.createPlayer(request: request);
-      debugPrint(response.toString());
       return Result.data(data: response);
     } catch (exception, stackTrace) {
       debugPrint(exception.toString() + " " + stackTrace.toString());
