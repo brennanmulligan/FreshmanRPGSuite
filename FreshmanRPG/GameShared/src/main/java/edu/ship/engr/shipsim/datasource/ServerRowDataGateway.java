@@ -277,7 +277,8 @@ public class ServerRowDataGateway
         return teleportPositionY;
     }
 
-    public boolean isQuiet() {
+    public boolean isQuiet()
+    {
         return isQuiet;
     }
 
@@ -312,7 +313,8 @@ public class ServerRowDataGateway
         this.mapTitle = mapTitle;
     }
 
-    private void setQuiet(boolean status) {
+    private void setQuiet(boolean status)
+    {
         this.isQuiet = status;
     }
 
