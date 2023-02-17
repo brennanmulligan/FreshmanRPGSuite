@@ -176,6 +176,8 @@ INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, tele
 VALUES (12, 'localhost', 1883, 'quad.tmx', 'Quad', 52, 52);
 INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
 VALUES (13, 'localhost', 1884, 'dhc1.tmx', 'DHC1', 44, 49);
+INSERT INTO frpg.Server (serverID, hostName, portNumber, mapName, mapTitle, teleportPositionX, teleportPositionY)
+VALUES (14, 'localhost', 1890, 'restfulMap.tmx', 'RestfulServer', 50, 50);
 
 CREATE TABLE IF NOT EXISTS frpg.DoubloonPrizes
 (
