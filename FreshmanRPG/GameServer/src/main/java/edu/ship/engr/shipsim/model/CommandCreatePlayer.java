@@ -29,7 +29,18 @@ public class CommandCreatePlayer extends Command
         this.crew = Crew.getCrewForID(crewNum);
         this.major = Major.getMajorForID(majorNum);
         this.section = section;
+
+        if (!checkSectionNum(section))
+        {
+            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "ERROR"));
+        }
     }
+
+    private boolean checkSectionNum(int sectionNum)
+    {
+        return(sectionNum > 0);
+    }
+
     private static final QuestsForProduction[] questsToTrigger =
             {QuestsForProduction.ONRAMPING_QUEST,
                     QuestsForProduction.SCAVENGER_HUNT, QuestsForProduction.EVENTS};

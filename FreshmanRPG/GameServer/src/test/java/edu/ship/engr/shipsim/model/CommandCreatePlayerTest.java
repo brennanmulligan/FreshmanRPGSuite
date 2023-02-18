@@ -66,4 +66,15 @@ public class CommandCreatePlayerTest
 
         verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(true));
     }
+
+    @Test
+    public void testInvalidSectionNumber() {
+        ReportObserver obs = mock( ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
+
+        CommandCreatePlayer cmd = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), -2);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "ERROR"));
+    }
 }
