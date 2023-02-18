@@ -44,8 +44,10 @@ public class CommandCreatePlayer extends Command
     {
         ArrayList<PlayerDTO> players = PlayerTableDataGateway.getSingleton().retrieveAllPlayers();
 
-        for (PlayerDTO player : players) {
-            if (Objects.equals(player.getPlayerName(), playerName)) {
+        for (PlayerDTO player : players)
+        {
+            if (Objects.equals(player.getPlayerName(), playerName))
+            {
                 return false;
             }
         }
