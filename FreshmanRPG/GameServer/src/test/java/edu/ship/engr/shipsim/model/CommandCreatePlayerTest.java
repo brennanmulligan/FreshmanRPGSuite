@@ -68,13 +68,29 @@ public class CommandCreatePlayerTest
     }
 
     @Test
-    public void testInvalidSectionNumber() {
+    public void testInvalidSectionNumber() throws DatabaseException
+    {
         ReportObserver obs = mock( ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
 
         CommandCreatePlayer cmd = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), -2);
         cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "ERROR"));
+    }
+
+    @Test
+    public void testDuplicateNames() throws DatabaseException
+    {
+        ReportObserver obs = mock( ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
+
+        CommandCreatePlayer cmd1 = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 30);
+        cmd1.execute();
+        CommandCreatePlayer cmd2 = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 30);
+        cmd2.execute();
         verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "ERROR"));
     }
 }

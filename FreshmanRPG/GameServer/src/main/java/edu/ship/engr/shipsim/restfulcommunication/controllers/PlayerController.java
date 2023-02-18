@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.model.CommandCreatePlayer;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
@@ -26,10 +27,18 @@ public class PlayerController extends Controller
         CreatePlayerResponseReport report = processAction(() ->
         {
             CommandCreatePlayer command =
-                    new CommandCreatePlayer(info.getUsername(),
-                            info.getPassword(),
-                            info.getCrewNum(), info.getMajorNum(),
-                            info.getSection());
+                    null;
+            try
+            {
+                command = new CommandCreatePlayer(info.getUsername(),
+                        info.getPassword(),
+                        info.getCrewNum(), info.getMajorNum(),
+                        info.getSection());
+            }
+            catch (DatabaseException e)
+            {
+                throw new RuntimeException(e);
+            }
             ModelFacade.getSingleton().queueCommand(command);
         }, CreatePlayerResponseReport.class);
 

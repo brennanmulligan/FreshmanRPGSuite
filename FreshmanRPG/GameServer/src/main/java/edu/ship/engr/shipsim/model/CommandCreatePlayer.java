@@ -1,8 +1,10 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
 import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datasource.PlayerTableDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestStateTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
@@ -13,6 +15,7 @@ import edu.ship.engr.shipsim.datatypes.QuestsForProduction;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CommandCreatePlayer extends Command
 {
@@ -23,6 +26,7 @@ public class CommandCreatePlayer extends Command
     private final String name;
 
     public CommandCreatePlayer(String playerName, String password, int crewNum, int majorNum, int section)
+            throws DatabaseException
     {
         this.name = playerName;
         this.password = password;
@@ -30,10 +34,23 @@ public class CommandCreatePlayer extends Command
         this.major = Major.getMajorForID(majorNum);
         this.section = section;
 
-        if (!checkSectionNum(section))
+        if (!checkSectionNum(section) || !isDuplicateName(playerName))
         {
             ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "ERROR"));
         }
+    }
+
+    private boolean isDuplicateName(String playerName) throws DatabaseException
+    {
+        ArrayList<PlayerDTO> players = PlayerTableDataGateway.getSingleton().retrieveAllPlayers();
+
+        for (PlayerDTO player : players) {
+            if (Objects.equals(player.getPlayerName(), playerName)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean checkSectionNum(int sectionNum)
