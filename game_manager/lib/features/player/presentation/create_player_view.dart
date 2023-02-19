@@ -58,38 +58,40 @@ class CreatePLayerView extends HookConsumerWidget {
                   fillColor: Colors.grey,
                 ),
               ),
-              TextField(
-                controller: crew,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.key),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Crew'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
-                ),
-              ),
-              TextField(
-                controller: major,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.key),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Major'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
-                ),
-              ),
+              DropdownCrews(),
+              // TextField(
+              //   controller: crew,
+              //   keyboardType: TextInputType.number,
+              //   decoration: InputDecoration(
+              //     label: Row(
+              //       children: const [
+              //         Icon(Icons.key),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         Text('Crew'),
+              //       ],
+              //     ),
+              //     fillColor: Colors.grey,
+              //   ),
+              // ),
+              DropdownMajors(),
+              // TextField(
+              //   controller: major,
+              //   keyboardType: TextInputType.number,
+              //   decoration: InputDecoration(
+              //     label: Row(
+              //       children: const [
+              //         Icon(Icons.key),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         Text('Major'),
+              //       ],
+              //     ),
+              //     fillColor: Colors.grey,
+              //   ),
+              // ),
               TextField(
                 controller: section,
                 keyboardType: TextInputType.number,
@@ -165,3 +167,80 @@ class CreatePLayerView extends HookConsumerWidget {
     );
   }
 }
+
+/**
+ * Dropdown Menu for Crews
+ */
+class DropdownCrews extends StatefulWidget {
+  const DropdownCrews();
+
+  @override
+  State <DropdownCrews> createState() => _DropdownCrewsState();
+}
+
+class _DropdownCrewsState extends State<DropdownCrews> {
+
+  // String dropDownMajors = 'Major';
+
+  // var majors = ['Software Engineering', 'Psychology', 'Education', 'Business'];
+  var crews = ['0: Crews', '1: Null-Pointer', '2: Off-By-One', '3: Out-of-Bounds'];
+  String dropDownCrew = '0: Crews';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+        value: dropDownCrew,
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: crews.map((String crews) {
+          return DropdownMenuItem(
+            value: crews,
+            child: Text(crews),
+          );
+        }).toList(),
+
+        onChanged: (String? newValue) {
+          setState(() {
+            dropDownCrew = newValue!;
+          });
+        }
+    );
+  }
+}
+
+/**
+ * Dropdown Menu for Majors
+ */
+class DropdownMajors extends StatefulWidget {
+  const DropdownMajors();
+
+  @override
+  State <DropdownMajors> createState() => _DropdownMajorsState();
+}
+
+class _DropdownMajorsState extends State<DropdownMajors> {
+
+  String dropdownMajors = '0: Major';
+
+  var majors = ['0: Major', '1: Software Engineering', '2: Psychology', '3: Education', '4: Business'];
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+        value: dropdownMajors,
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: majors.map((String majors) {
+          return DropdownMenuItem(
+            value: majors,
+            child: Text(majors),
+          );
+        }).toList(),
+
+        onChanged: (String? newValue) {
+          setState(() {
+            dropdownMajors = newValue!;
+          });
+        }
+    );
+  }
+}
+
