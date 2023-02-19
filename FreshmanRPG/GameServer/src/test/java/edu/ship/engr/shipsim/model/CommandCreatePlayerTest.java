@@ -82,30 +82,30 @@ public class CommandCreatePlayerTest
         cmd = new CommandCreatePlayer("name", "looooooooooooooooooooooooooong", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(2)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
 
         // No uppercase
         cmd = new CommandCreatePlayer("name", "password*", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(3)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
 
         // No lowercase
         cmd = new CommandCreatePlayer("name", "UPPERCASE*", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(4)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
 
         // No special chars
         cmd = new CommandCreatePlayer("name", "NoSpecials", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(5)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
 
         // Good password!
         cmd = new CommandCreatePlayer("name", "GoodPass!*", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(6)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
     }
 }
