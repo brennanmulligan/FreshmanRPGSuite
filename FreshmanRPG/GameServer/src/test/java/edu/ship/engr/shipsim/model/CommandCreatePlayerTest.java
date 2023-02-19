@@ -106,6 +106,7 @@ public class CommandCreatePlayerTest
         cmd = new CommandCreatePlayer("name", "GoodPass!*", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
-        verify(obs, times(6)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        // Shows we did not fail this time
+        verify(obs, times(5)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
     }
 }
