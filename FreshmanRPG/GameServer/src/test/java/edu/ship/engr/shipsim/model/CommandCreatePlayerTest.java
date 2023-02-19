@@ -66,4 +66,46 @@ public class CommandCreatePlayerTest
 
         verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(true));
     }
+
+    @Test
+    public void testInvalidPassword() {
+        ReportObserver obs = mock(ReportObserver.class);
+        ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
+
+        // Password too short
+        CommandCreatePlayer cmd = new CommandCreatePlayer("name", "short", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+
+        // Password too long
+        cmd = new CommandCreatePlayer("name", "looooooooooooooooooooooooooong", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+
+        // No uppercase
+        cmd = new CommandCreatePlayer("name", "password*", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+
+        // No lowercase
+        cmd = new CommandCreatePlayer("name", "UPPERCASE*", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+
+        // No special chars
+        cmd = new CommandCreatePlayer("name", "NoSpecials", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+
+        // Good password!
+        cmd = new CommandCreatePlayer("name", "GoodPass!*", Crew.OUT_OF_BOUNDS.getID(),
+                Major.BIOLOGY.getID(), 42);
+        cmd.execute();
+        verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+    }
 }
