@@ -31,7 +31,7 @@ public class CommandCreatePlayer extends Command
         this.section = section;
 
         if(!checkPassword()) {
-            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password");
+            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password"));
         }
     }
     private static final QuestsForProduction[] questsToTrigger =
