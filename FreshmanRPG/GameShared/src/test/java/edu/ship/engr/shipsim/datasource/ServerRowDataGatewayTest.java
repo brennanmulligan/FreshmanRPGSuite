@@ -5,8 +5,11 @@ import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the behaviors associated with Server data sources
@@ -31,6 +34,23 @@ public class ServerRowDataGatewayTest
     public ServerRowDataGateway createGateway(String mapName, String hostName, int port, String mapTitle, int teleportPositionX, int teleportPositionY) throws DatabaseException
     {
         return new ServerRowDataGateway(mapName, hostName, port, mapTitle, teleportPositionX, teleportPositionY);
+    }
+
+    /**
+     * same as other but with isQuiet included
+     * @param mapName
+     * @param hostName
+     * @param port
+     * @param mapTitle
+     * @param teleportPositionX
+     * @param teleportPositionY
+     * @param isQuiet
+     * @return
+     * @throws DatabaseException
+     */
+    public ServerRowDataGateway createGateway(String mapName, String hostName, int port, String mapTitle, int teleportPositionX, int teleportPositionY, boolean isQuiet) throws DatabaseException
+    {
+        return new ServerRowDataGateway(mapName, hostName, port, mapTitle, teleportPositionX, teleportPositionY, isQuiet);
     }
 
     /**
@@ -168,4 +188,22 @@ public class ServerRowDataGatewayTest
         assertEquals(42, after.getPortNumber());
         assertEquals(ServersForTest.FIRST_SERVER.getHostName(), after.getHostName());
     }
+
+    /**
+     * checks that you can make a quiet server and get that status
+     * @throws DatabaseException
+     */
+    @Test
+    public void testQuietConstructor() throws DatabaseException
+    {
+        gateway = createGateway("testMapQuiet", "host", 100, "mapTitle", 10, 10, false);
+
+        assertFalse(gateway.isQuiet());
+
+        ServerRowDataGateway gateway2 = createGateway("testMapQuiet2", "host2", 100, "mapTitle2", 10, 10, true);
+
+        assertTrue(gateway2.isQuiet());
+    }
+
+
 }
