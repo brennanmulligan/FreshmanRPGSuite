@@ -30,7 +30,8 @@ public class CommandCreatePlayer extends Command
         this.major = Major.getMajorForID(majorNum);
         this.section = section;
 
-        if(!checkPassword()) {
+        if(!checkPassword())
+        {
             ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password"));
         }
     }
@@ -93,19 +94,25 @@ public class CommandCreatePlayer extends Command
 
         // 8 - 16 char length
         if(password.length() < 8 || password.length() > 16)
+        {
                 return false;
+        }
 
         // Has capital
         char current;
         boolean hasCapital = false, hasLowercase = false, hasSpecial = false;
-        for(int i = 0; i < password.length(); i++) {
+        for(int i = 0; i < password.length(); i++)
+        {
             current = password.charAt(i);
-            if(Character.isUpperCase(current))
+            if(Character.isUpperCase(current)) {
                 hasCapital = true;
-            else if(Character.isLowerCase(current))
+            }
+            else if(Character.isLowerCase(current)) {
                 hasLowercase = true;
-            else
+            }
+            else {
                 hasSpecial = true;
+            }
         }
 
         return (hasCapital && hasLowercase && hasSpecial);
