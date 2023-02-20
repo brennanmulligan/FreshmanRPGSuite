@@ -83,7 +83,8 @@ public class CommandCreatePlayer extends Command
     }
 }
 
-    private boolean checkPassword() {
+    private boolean checkPassword()
+    {
         /**
          * Password Requirements
          * 8-16 characters in length
@@ -104,13 +105,16 @@ public class CommandCreatePlayer extends Command
         for(int i = 0; i < password.length(); i++)
         {
             current = password.charAt(i);
-            if(Character.isUpperCase(current)) {
+            if(Character.isUpperCase(current))
+            {
                 hasCapital = true;
             }
-            else if(Character.isLowerCase(current)) {
+            else if(Character.isLowerCase(current))
+            {
                 hasLowercase = true;
             }
-            else {
+            else
+            {
                 hasSpecial = true;
             }
         }
