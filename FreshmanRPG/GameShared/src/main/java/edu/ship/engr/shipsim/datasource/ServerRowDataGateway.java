@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.datasource;
 
+import edu.ship.engr.shipsim.model.MapToServerMapping;
 import edu.ship.engr.shipsim.model.OptionsManager;
 
 import java.sql.Connection;
@@ -32,14 +33,10 @@ public class ServerRowDataGateway
     private int teleportPositionX;
 
     private int teleportPositionY;
+    private boolean isQuiet;
 
 
-    //This is the isQuiet method added for the
-    //mock test
-    public boolean isQuiet()
-    {
-        return true;
-    }
+
 
     /**
      * Drop the table if it exists and re-create it empty
