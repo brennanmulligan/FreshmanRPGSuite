@@ -5,8 +5,6 @@ import 'package:game_manager/features/player/data/data.dart';
 
 part 'majors_and_crews.freezed.dart';
 
-// https://code-with-me.global.jetbrains.com/0O-5DRBf4bNdyHqVzkOfbg#p=IU&fp=7C83B720229CB5BE01EE1574E7D83F234281FE6D13C2E7FE0849920DA267ABE9
-
 // State for the controller
 
 @freezed
