@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/repository/service/http-service.dart';
 
 import '../../repository/player_repository.dart';
-import 'models/create_player_request.dart';
 import 'bloc/create_player_bloc.dart';
 import 'models/create_player_response.dart';
 
@@ -154,7 +152,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
               const SizedBox(
                 height: 60,
               ),
-              SearchButtonBuilder( username: username,
+              SubmitButtonBuilder( username: username,
                   password: password, crew: crew, major: major, section: section)
             ],
           ),
@@ -168,8 +166,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
       const Center(child: Text('Error'));
 }
 
-class SearchButtonBuilder extends StatelessWidget {
-  const SearchButtonBuilder(
+class SubmitButtonBuilder extends StatelessWidget {
+  const SubmitButtonBuilder(
       {Key? key,
         required this.username,
         required this.password,
@@ -201,7 +199,7 @@ class SearchButtonBuilder extends StatelessWidget {
             .add(SendCreatePlayerEvent(username.text, password.text,int.parse(crew
             .text), int.parse(major.text), int.parse(section.text))),
         child: const Text(
-          "Search",
+          "Create Player",
           style: TextStyle(color: Colors.black),
         ),
       ),
