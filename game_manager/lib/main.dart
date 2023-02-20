@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_manager/features/dashboard/presentaion/dashboard_view.dart';
+import 'package:game_manager/pages/dashboard/dashboard_view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'features/network/network_provider.dart';
