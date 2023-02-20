@@ -2,10 +2,13 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.ContentLoader;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ServerRowDataGateway;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
+import static edu.ship.engr.shipsim.model.MapToServerMapping.getDataGateway;
 
 /**
  * Contain information about this server's mapping so it can be used easily in
@@ -35,6 +38,9 @@ public class OptionsManager
     private final boolean runningInDocker;
     private final boolean runningInIntelliJ;
 
+    private final ServerRowDataGateway dataGateway;
+    private MapToServerMapping mapping;
+
     /**
      * I'm a singleton
      */
@@ -45,6 +51,8 @@ public class OptionsManager
         runningInCI = (System.getenv("GITLAB_CI") != null);
         runningInDocker = (System.getenv("DOCKER_FRPG") != null);
         runningInIntelliJ = (System.getenv("INTELLIJ_MODE") != null);
+
+        dataGateway = getDataGateway();
     }
 
     /**
@@ -254,7 +262,7 @@ public class OptionsManager
      */
     public synchronized void updateMapInformation(String mapFileTitle, String hostName, int port) throws DatabaseException
     {
-        MapToServerMapping mapping;
+
         this.hostName = hostName;
         this.portNumber = port;
 
@@ -288,5 +296,15 @@ public class OptionsManager
     public String getProductionHostName()
     {
         return productionHostName;
+    }
+
+    public void setMapToServerMapping(MapToServerMapping mapToServerMapping)
+    {
+        this.mapping = mapToServerMapping;
+    }
+
+    public boolean isQuiet()
+    {
+        return mapping.isQuiet();
     }
 }

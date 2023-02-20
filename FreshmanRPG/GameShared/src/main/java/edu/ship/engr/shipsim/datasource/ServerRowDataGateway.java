@@ -33,6 +33,14 @@ public class ServerRowDataGateway
 
     private int teleportPositionY;
 
+
+    //This is the isQuiet method added for the
+    //mock test
+    public boolean isQuiet()
+    {
+        return true;
+    }
+
     /**
      * Drop the table if it exists and re-create it empty
      *
