@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:game_manager/features/qr/presentation/create_qr_code_view.dart';
 
 class NavigationCard extends StatelessWidget {
   final String cardTitle;

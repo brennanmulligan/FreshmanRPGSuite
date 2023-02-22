@@ -34,6 +34,16 @@ class CreatePlayerRequest extends Equatable {
         section,
       ];
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'password': password,
+      'crew': crew.toString(),
+      'major': major.toString(),
+      'section': section.toString()
+    };
+  }
+
   @override
   String toString() {
     return 'CreatePlayerRequest(name: $name, '
@@ -46,8 +56,8 @@ class CreatePlayerRequest extends Equatable {
   JSON get asJson => {
         'name': name,
         'password': password,
-        'crew': crew,
-        'major': major,
-        'section': section
+        'crew': crew.toString(),
+        'major': major.toString(),
+        'section': section.toString()
       };
 }
