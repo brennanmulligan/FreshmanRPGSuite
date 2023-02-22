@@ -19,7 +19,8 @@ void main() {
   group('Test CreatePlayerDatasource.', () {
     test('Test for ResultData.', () async {
       const expected = CreatePlayerResponse(
-        responseType: PlayerResponseType.created,
+        success: true,
+        description: "Created"
       );
 
       when(mockCreatePlayerDatasource.createPlayer(
