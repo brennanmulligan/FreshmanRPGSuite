@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../repository/player_repository.dart';
@@ -23,11 +22,9 @@ class CreatePlayerBloc extends Bloc<CreatePlayerEvent, CreatePlayerState> {
         (name:
       event.name, password: event.password, crew: event.crew,
           major: event.major, section: event.section));
-      if (response.success) {
-        emit(CreatePlayerSuccess(response));
-      } else {
-        emit(CreatePlayerFailure());
-      }
+
+        emit(CreatePlayerComplete(response));
+
     });
   }
 
