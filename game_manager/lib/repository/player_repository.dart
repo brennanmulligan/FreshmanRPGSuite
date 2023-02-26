@@ -1,29 +1,28 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-import 'package:game_manager/repository/service/http-service.dart';
+import 'package:dio/dio.dart';
 
 import '../pages/create_player/models/create_player_request.dart';
 import '../pages/create_player/models/create_player_response.dart';
 
+
+
 class PlayerRepository{
-  const PlayerRepository({
-    required this.service,
-  });
-  final HttpService service;
+
+  PlayerRepository({required this.dio}){
+    dio.options.headers['content-Type'] = 'application/json; charset=UTF-8';
+    dio.options.headers['Access-Control-Allow-Origin'] = '*';
+    dio.options.baseUrl = "http://127.0.0.1:8080";
+  }
+  final Dio dio;
 
   Future<CreatePlayerResponse> createPlayer(CreatePlayerRequest request) async
   {
-    final response = await service.httpClient.post(
-      service.getUrl(url: 'player'),
-      headers:
-          <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Access-Control-Allow-Origin': '*',
-          },
-      body: jsonEncode(request),
+    final response = await dio.post(
+      '/player',
+
+      data: jsonEncode(request),
     );
     //TODO Error checking on http response type
-    return CreatePlayerResponse.fromJson(json: jsonDecode(response.body));
+    return CreatePlayerResponse.fromJson(json: jsonDecode(response.data));
   }
 }
