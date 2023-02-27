@@ -24,7 +24,7 @@ public class PlayerJoinedMessageTest
                 PlayersForTest.JOSH.getVanityItems(), PlayersForTest.JOSH.getPosition(),
                 PlayersForTest.JOSH.getCrew(), PlayersForTest.JOSH.getMajor(), PlayersForTest.JOSH.getSection());
         assertEquals("PlayerJoined Message: playerName = Josh", msg.toString());
-        assertEquals(2, msg.getPlayerID());
+        assertEquals(2, msg.getRelevantPlayerID());
         assertEquals("Josh", msg.getPlayerName());
         assertEquals(PlayersForTest.JOSH.getVanityItems(), msg.getVanities());
         assertEquals(PlayersForTest.JOSH.getPosition(), msg.getPosition());

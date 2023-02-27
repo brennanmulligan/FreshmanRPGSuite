@@ -27,7 +27,7 @@ public class SendTerminalTextPackerTest
 
         SendTerminalTextPacker packer = new SendTerminalTextPacker();
         SendTerminalTextMessage msg = (SendTerminalTextMessage) packer.pack(cpr);
-        assertEquals(playerID, msg.getPlayerID());
+        assertEquals(playerID, msg.getRelevantPlayerID());
         assertEquals(terminalText, msg.getTerminalText());
 
 

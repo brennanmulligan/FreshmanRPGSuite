@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  * @author Merlin
  */
-public class TeleportationContinuationMessage implements Message, Serializable
+public class TeleportationContinuationMessage extends Message implements Serializable
 {
 
     /**
@@ -21,7 +21,7 @@ public class TeleportationContinuationMessage implements Message, Serializable
         int result = 1;
         result = prime * result + ((hostName == null) ? 0 : hostName.hashCode());
         result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + portNumber;
         return result;
     }
@@ -67,7 +67,7 @@ public class TeleportationContinuationMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -85,7 +85,6 @@ public class TeleportationContinuationMessage implements Message, Serializable
     private String mapName;
     private String hostName;
     private int portNumber;
-    private int playerID;
     private int pin;
 
     /**
@@ -101,10 +100,10 @@ public class TeleportationContinuationMessage implements Message, Serializable
      */
     public TeleportationContinuationMessage(String mapName, String hostName, int portNumber, int playerID, int pin)
     {
+        super(playerID);
         this.mapName = mapName;
         this.hostName = hostName;
         this.portNumber = portNumber;
-        this.playerID = playerID;
         this.pin = pin;
     }
 
@@ -146,16 +145,6 @@ public class TeleportationContinuationMessage implements Message, Serializable
     public int getPortNumber()
     {
         return portNumber;
-    }
-
-    /**
-     * Get the player ID
-     *
-     * @return the player ID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

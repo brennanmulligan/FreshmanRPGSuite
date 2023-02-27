@@ -11,12 +11,12 @@ import java.util.ArrayList;
  * <p>
  * This is the message class for the doubloon prize message
  */
-public class DoubloonPrizeMessage implements Message, Serializable
+public class DoubloonPrizeMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     ArrayList<DoubloonPrizeDTO> dtos;
-    int playerID;
+
 
     /**
      * Constructor for message
@@ -26,20 +26,12 @@ public class DoubloonPrizeMessage implements Message, Serializable
      */
     public DoubloonPrizeMessage(int playerID, ArrayList<DoubloonPrizeDTO> dtos)
     {
-        this.playerID = playerID;
+        super(playerID);
+
         this.dtos = dtos;
 
     }
 
-    /**
-     * Returns the playerID
-     *
-     * @return playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
 
     /**
      * @return the list of DTOs
@@ -88,7 +80,7 @@ public class DoubloonPrizeMessage implements Message, Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dtos == null) ? 0 : dtos.hashCode());
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -124,7 +116,7 @@ public class DoubloonPrizeMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }

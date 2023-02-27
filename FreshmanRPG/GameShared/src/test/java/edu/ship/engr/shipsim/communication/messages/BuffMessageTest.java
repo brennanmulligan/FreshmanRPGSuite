@@ -22,7 +22,7 @@ public class BuffMessageTest
     {
         int playerID = 1;
         BuffMessage msg = new BuffMessage(1, 10);
-        assertEquals(msg.getPlayerID(), playerID);
+        assertEquals(msg.getRelevantPlayerID(), playerID);
 
     }
 

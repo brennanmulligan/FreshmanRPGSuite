@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.*;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.datatypes.ServersForTest;
 import edu.ship.engr.shipsim.model.Interaction;
 import edu.ship.engr.shipsim.model.MessageFlow;
 import edu.ship.engr.shipsim.model.SequenceTest;
@@ -48,7 +47,8 @@ public class RestfulLoginBadUsernameSequenceTest extends SequenceTest
         // Send login message from restful server to the login server
         messageFlow.add(new MessageFlow(
                 ServerType.RESTFUL_SERVER, ServerType.LOGIN_SERVER,
-                new RestfulLoginMessage(player.getPlayerName() + "Z", player.getPlayerPassword()),
+                new RestfulLoginMessage(player.getPlayerName() + "Z", player.getPlayerPassword()
+                        ),
                 true
         ));
 

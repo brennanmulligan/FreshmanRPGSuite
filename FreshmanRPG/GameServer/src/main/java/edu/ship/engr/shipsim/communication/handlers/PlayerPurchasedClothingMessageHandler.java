@@ -19,7 +19,7 @@ public class PlayerPurchasedClothingMessageHandler extends MessageHandler
     public void process(Message msg)
     {
         PlayerPurchasedClothingMessage actualMsg = (PlayerPurchasedClothingMessage) msg;
-        CommandPlayerPurchasedClothing cmd = new CommandPlayerPurchasedClothing(actualMsg.getPlayerID(), actualMsg.getVanityDTO());
+        CommandPlayerPurchasedClothing cmd = new CommandPlayerPurchasedClothing(actualMsg.getRelevantPlayerID(), actualMsg.getVanityDTO());
         ModelFacade.getSingleton().queueCommand(cmd);
     }
 

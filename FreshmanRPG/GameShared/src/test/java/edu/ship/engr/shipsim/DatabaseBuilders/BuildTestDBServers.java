@@ -35,7 +35,7 @@ public class BuildTestDBServers
         ServerRowDataGateway.createTable();
         for (ServersForTest p : ServersForTest.values())
         {
-            new ServerRowDataGateway(p.getMapName(), p.getHostName(), p.getPortNumber(), p.getMapTitle(), p.getTeleportPositionX(), p.getTeleportPositionY());
+            new ServerRowDataGateway(p.getMapName(), p.getHostName(), p.getPortNumber(), p.getMapTitle(), p.getTeleportPositionX(), p.getTeleportPositionY(), p.isQuiet());
 
             bar.update();
         }

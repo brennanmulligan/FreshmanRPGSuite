@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author merlin
  */
-public class LoginMessage implements Message, Serializable
+public class LoginMessage extends Message implements Serializable
 {
 
     /**
@@ -96,8 +96,14 @@ public class LoginMessage implements Message, Serializable
      */
     public LoginMessage(String playerName, String password)
     {
+        super(0);
         this.playerName = playerName;
         this.password = password;
+    }
+
+    public LoginMessage()
+    {
+        super(0);
     }
 
     /**
