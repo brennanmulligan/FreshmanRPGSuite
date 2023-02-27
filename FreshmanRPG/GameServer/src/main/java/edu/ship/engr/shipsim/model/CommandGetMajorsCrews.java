@@ -12,8 +12,8 @@ public class CommandGetMajorsCrews extends Command
 
     /**
      *
-     * @param majors the player's major
-     * @param crews the player's crew
+     * @param majors the majors
+     * @param crews the crews
      */
     public CommandGetMajorsCrews(Major[] majors, Crew[] crews) {
         this.majors = majors;
@@ -24,7 +24,7 @@ public class CommandGetMajorsCrews extends Command
     {
         try
         {
-            MajorsCrewsManager.getSingleton().addMajorsCrews(majors, crews);
+            PlayerManager.getSingleton().getMajorsCrews(majors, crews);
         }
         catch (DatabaseException e)
         {
