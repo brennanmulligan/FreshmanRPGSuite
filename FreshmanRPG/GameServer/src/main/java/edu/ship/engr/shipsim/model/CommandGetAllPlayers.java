@@ -10,7 +10,9 @@ import java.util.ArrayList;
 public class CommandGetAllPlayers extends Command
 {
     public CommandGetAllPlayers()
-    {}
+    {
+
+    }
     @Override
     void execute()
     {
