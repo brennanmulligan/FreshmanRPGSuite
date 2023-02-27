@@ -3,7 +3,7 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
-import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.PlayerController;
 
 public class CommandGetMajorsCrews extends Command
 {
@@ -24,7 +24,7 @@ public class CommandGetMajorsCrews extends Command
     {
         try
         {
-            PlayerManager.getSingleton().getMajorsCrews(majors, crews);
+            PlayerController.getMajorsCrews(majors, crews);
         }
         catch (DatabaseException e)
         {
