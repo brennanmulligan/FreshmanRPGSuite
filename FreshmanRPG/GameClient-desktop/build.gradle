@@ -5,12 +5,12 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
-apply from: rootProject.file("dependencies.gradle")
+apply from: file("builder.gradle")
 
-group 'edu.ship.cs'
+group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
 
-mainClassName = "DesktopClient"
+mainClassName = "edu.ship.engr.shipsim.DesktopClient"
 
 repositories {
     mavenCentral()
@@ -20,17 +20,8 @@ dependencies {
     implementation project(':GameClient')
     implementation project(':GameShared')
 
-    normDependencies.values().forEach {
-        implementation it
-    }
-
     implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.11.+'
     implementation 'com.badlogicgames.gdx:gdx-platform:1.11.+:natives-desktop'
     implementation group: 'com.badlogicgames.gdx', name: 'gdx-tools', version: '1.11.+'
     implementation group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: '1.11.+'
-}
-
-shadowJar {
-    archiveFileName = 'GameClient-linux.jar'
-    destinationDirectory = new File(project.projectDir, "build")
 }
