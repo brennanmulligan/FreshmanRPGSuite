@@ -23,7 +23,7 @@ public class ObjectiveStateChangeMessageTest
         ObjectiveStateChangeMessage msg = new ObjectiveStateChangeMessage(1, 2, 3, "Big Objective",
                 ObjectiveStateEnum.TRIGGERED, true, "Provost");
 
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(2, msg.getQuestID());
         assertEquals(3, msg.getObjectiveID());
         assertEquals("Big Objective", msg.getObjectiveDescription());

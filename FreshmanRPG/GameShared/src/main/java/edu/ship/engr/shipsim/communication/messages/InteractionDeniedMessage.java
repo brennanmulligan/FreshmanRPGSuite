@@ -10,10 +10,9 @@ import java.io.Serializable;
  * @author jk1964
  * @author tc9538
  */
-public class InteractionDeniedMessage implements Message, Serializable
+public class InteractionDeniedMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final int playerID;
 
     /**
      * Constructor - sets the playerID
@@ -22,7 +21,7 @@ public class InteractionDeniedMessage implements Message, Serializable
      */
     public InteractionDeniedMessage(int playerID)
     {
-        this.playerID = playerID;
+        super(playerID);
     }
 
     /**
@@ -33,7 +32,7 @@ public class InteractionDeniedMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -56,21 +55,11 @@ public class InteractionDeniedMessage implements Message, Serializable
             return false;
         }
         InteractionDeniedMessage other = (InteractionDeniedMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Returns the playerID
-     *
-     * @return playerID - ID of the player close enough to interact with the object
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
 
@@ -82,7 +71,7 @@ public class InteractionDeniedMessage implements Message, Serializable
     @Override
     public String toString()
     {
-        return "ObjectUnavailableMessage: playerID = " + playerID;
+        return "ObjectUnavailableMessage: playerID = " + relevantPlayerID;
     }
 
 

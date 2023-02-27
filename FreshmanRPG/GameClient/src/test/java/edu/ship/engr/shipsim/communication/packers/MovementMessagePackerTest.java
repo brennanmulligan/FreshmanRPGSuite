@@ -38,7 +38,7 @@ public class MovementMessagePackerTest
         PlayerMovedMessagePacker packer = new PlayerMovedMessagePacker();
         PlayerMovedMessage msg = (PlayerMovedMessage) packer.pack(new ClientPlayerMovedReport(1,
                 new Position(4, 3), true));
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(new Position(4, 3), msg.getPosition());
     }
 

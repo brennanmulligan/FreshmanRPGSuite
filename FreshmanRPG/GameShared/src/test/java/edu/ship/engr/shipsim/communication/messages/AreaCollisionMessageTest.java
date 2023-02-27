@@ -22,7 +22,7 @@ public class AreaCollisionMessageTest
     public void testConstructor() throws Exception
     {
         AreaCollisionMessage msg = new AreaCollisionMessage(1, "test");
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals("test", msg.getAreaName());
     }
 

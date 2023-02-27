@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Ian Keefer & TJ Renninger
  */
-public class KeyInputMessage implements Message, Serializable
+public class KeyInputMessage extends Message implements Serializable
 {
 
     /**
@@ -63,6 +63,7 @@ public class KeyInputMessage implements Message, Serializable
      */
     public KeyInputMessage(String input)
     {
+        super(0);
         this.input = input;
     }
 

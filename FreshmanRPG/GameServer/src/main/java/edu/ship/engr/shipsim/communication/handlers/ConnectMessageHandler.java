@@ -26,14 +26,14 @@ public class ConnectMessageHandler extends MessageHandler
         if (msg.getClass().equals(ConnectMessage.class))
         {
             ConnectMessage cMsg = (ConnectMessage) msg;
-            LoggerManager.getSingleton().getLogger().info("Player connected: " + cMsg.getPlayerID());
+            LoggerManager.getSingleton().getLogger().info("Player connected: " + cMsg.getRelevantPlayerID());
 
             if (getConnectionManager() != null)
             {
-                getConnectionManager().setPlayerID(cMsg.getPlayerID());
+                getConnectionManager().setPlayerID(cMsg.getRelevantPlayerID());
                 ConnectionManagerList.getSingleton().add(getConnectionManager());
             }
-            CommandAddPlayer cmd = new CommandAddPlayer(cMsg.getPlayerID(), cMsg.getPin());
+            CommandAddPlayer cmd = new CommandAddPlayer(cMsg.getRelevantPlayerID(), cMsg.getPin());
 
             ModelFacade.getSingleton().queueCommand(cmd);
 

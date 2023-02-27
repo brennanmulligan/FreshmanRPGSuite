@@ -20,7 +20,7 @@ public class ObjectiveNotificationCompleteMessageHandler extends MessageHandler
         if (msg.getClass().equals(ObjectiveNotificationCompleteMessage.class))
         {
             ObjectiveNotificationCompleteMessage aMsg = (ObjectiveNotificationCompleteMessage) msg;
-            CommandObjectiveNotificationComplete cmd = new CommandObjectiveNotificationComplete(aMsg.getPlayerID(),
+            CommandObjectiveNotificationComplete cmd = new CommandObjectiveNotificationComplete(aMsg.getRelevantPlayerID(),
                     aMsg.getQuestID(), aMsg.getObjectiveID());
             ModelFacade.getSingleton().queueCommand(cmd);
         }

@@ -36,7 +36,7 @@ public class CommandOverwriteExperienceTest
         ArrayList<ClientPlayerQuestStateDTO> list = new ArrayList<>();
         ArrayList<FriendDTO> friends = new ArrayList<>();
         InitializeThisClientsPlayerMessage msg = new InitializeThisClientsPlayerMessage(
-                list, friends, expPoints, 50, report);
+                PlayersForTest.MERLIN.getPlayerID(), list, friends, expPoints, 50, report);
         CommandOverwriteExperience ow = new CommandOverwriteExperience(msg);
         assertEquals(expPoints, ow.getExperiencePoints());
         assertEquals(report, ow.getLevelRecord());
@@ -72,7 +72,7 @@ public class CommandOverwriteExperienceTest
         int expectedExperience = 100;
 
         CommandOverwriteExperience x = new CommandOverwriteExperience(
-                new InitializeThisClientsPlayerMessage(quests, friends, expectedExperience, 50, level));
+                new InitializeThisClientsPlayerMessage(PlayersForTest.JOHN.getPlayerID(), quests, friends, expectedExperience, 50, level));
         x.execute();
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();
