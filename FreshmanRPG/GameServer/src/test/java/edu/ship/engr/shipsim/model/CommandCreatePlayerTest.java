@@ -40,7 +40,7 @@ public class CommandCreatePlayerTest
     @Test
     public void testValidPlayer() throws DatabaseException
     {
-        ReportObserver obs = mock( ReportObserver.class);
+        ReportObserver obs = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
 
         CommandCreatePlayer cmd = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
