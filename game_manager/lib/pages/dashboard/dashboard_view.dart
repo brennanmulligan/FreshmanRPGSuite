@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:game_manager/pages/dashboard/widgets/navigation_card.dart';
 import 'package:game_manager/pages/create_player/create_player_page.dart';
+import 'package:game_manager/pages/change_password/change_password_page.dart';
+
 
 class DashboardView extends StatelessWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -20,6 +22,12 @@ class DashboardView extends StatelessWidget {
               cardTitle: 'Create Player',
               cardIcon: Icon(Icons.accessibility_new_rounded),
               cardLink: CreatePlayerPage(),
+            ),
+
+            NavigationCard(
+              cardTitle: 'Change Player Password',
+              cardIcon: Icon(Icons.lock_open),
+              cardLink: ChangePasswordPage(),
             ),
           ],
 
