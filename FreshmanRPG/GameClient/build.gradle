@@ -3,9 +3,7 @@ plugins {
     id 'checkstyle'
 }
 
-apply from: rootProject.file("dependencies.gradle")
-
-group 'edu.ship.cs'
+group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -15,30 +13,6 @@ repositories {
 dependencies {
     implementation project(':GameShared')
     testImplementation project(path: ':GameShared', configuration: 'testArtifacts')
-
-    normDependencies.values().forEach {
-        implementation it
-    }
-
-    testDependencies.values().forEach {
-        testImplementation it
-    }
-}
-
-configurations {
-    testArtifacts.extendsFrom testRuntime
-}
-task testJar(type: Jar) {
-    classifier "test"
-    from sourceSets.test.output
-}
-artifacts {
-    testArtifacts testJar
-}
-
-checkstyle {
-    ignoreFailures = false
-    maxWarnings = 0
 }
 
 test {
