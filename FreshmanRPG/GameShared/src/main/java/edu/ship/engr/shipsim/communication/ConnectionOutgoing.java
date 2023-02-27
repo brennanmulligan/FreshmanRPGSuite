@@ -2,9 +2,13 @@ package edu.ship.engr.shipsim.communication;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
+import edu.ship.engr.shipsim.dataDTO.PlayerMapLocationDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DatabaseManager;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
+import edu.ship.engr.shipsim.datasource.PlayerConnectionRowDataGateway;
+import edu.ship.engr.shipsim.datasource.ServerRowDataGateway;
+import edu.ship.engr.shipsim.model.OptionsManager;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -74,10 +78,16 @@ public class ConnectionOutgoing implements Runnable
                     {
                         try
                         {
-                            logger.log(Level.FINE, "Sending " + msg.getClass() + " to " +
-                                    stateAccumulator.getPlayerID());
+                            if(!OptionsManager.getSingleton().isQuiet() ||
+                                msg.getRelevantPlayerID() == stateAccumulator.getPlayerID() ||
+                                msg.getRelevantPlayerID() == 17)
+                            {
+                                logger.log(Level.FINE,
+                                        "Sending " + msg.getClass() + " to " +
+                                                stateAccumulator.getPlayerID());
 
-                            this.ostream.writeObject(msg);
+                                this.ostream.writeObject(msg);
+                            }
                         }
                         catch (SocketException e)
                         {

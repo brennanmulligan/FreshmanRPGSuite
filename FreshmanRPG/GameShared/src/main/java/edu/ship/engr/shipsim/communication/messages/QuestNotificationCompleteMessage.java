@@ -5,10 +5,9 @@ import java.io.Serializable;
 /**
  * @author Ryan
  */
-public class QuestNotificationCompleteMessage implements Message, Serializable
+public class QuestNotificationCompleteMessage extends Message implements Serializable
 {
 
-    private int playerID;
     private int questID;
 
     /**
@@ -17,7 +16,7 @@ public class QuestNotificationCompleteMessage implements Message, Serializable
      */
     public QuestNotificationCompleteMessage(int playerID, int questID)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.questID = questID;
     }
 
@@ -25,14 +24,6 @@ public class QuestNotificationCompleteMessage implements Message, Serializable
      *
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * @return id of the player
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
 
     /**
      * @return id of the quest

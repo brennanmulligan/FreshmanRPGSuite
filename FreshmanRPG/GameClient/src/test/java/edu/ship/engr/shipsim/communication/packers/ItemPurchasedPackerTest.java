@@ -21,7 +21,7 @@ public class ItemPurchasedPackerTest
         ItemPurchasedPacker packer = new ItemPurchasedPacker();
         ItemPurchasedMessage msg = (ItemPurchasedMessage) packer.pack(report);
 
-        assertEquals(playerID, msg.getPlayerID());
+        assertEquals(playerID, msg.getRelevantPlayerID());
         assertEquals(price, msg.getPrice());
     }
 

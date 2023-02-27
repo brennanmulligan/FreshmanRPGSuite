@@ -37,9 +37,9 @@ public class LoginSuccessfulMessageHandler extends MessageHandler
                     getConnectionManager().moveToNewSocket(socket);
                 }
 
-                CommandFinishLogin cmd = new CommandFinishLogin(rMsg.getPlayerID());
+                CommandFinishLogin cmd = new CommandFinishLogin(rMsg.getRelevantPlayerID());
                 ClientModelFacade.getSingleton().queueCommand(cmd);
-                this.getStateAccumulator().queueMessage(new ConnectMessage(rMsg.getPlayerID(), rMsg.getPin()));
+                this.getStateAccumulator().queueMessage(new ConnectMessage(rMsg.getRelevantPlayerID(), rMsg.getPin()));
             }
             catch (IOException e)
             {

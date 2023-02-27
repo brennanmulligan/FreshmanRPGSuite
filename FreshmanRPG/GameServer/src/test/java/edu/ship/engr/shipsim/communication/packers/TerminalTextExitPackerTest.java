@@ -30,7 +30,7 @@ public class TerminalTextExitPackerTest
         TerminalTextExitPacker packer = new TerminalTextExitPacker();
         TerminalTextExitMessage msg = (TerminalTextExitMessage) packer.pack(report);
 
-        assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getPlayerID());
+        assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getRelevantPlayerID());
     }
 
 

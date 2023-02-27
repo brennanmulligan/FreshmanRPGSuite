@@ -8,10 +8,9 @@ import java.util.Objects;
 /**
  * Contains the id of a player and their list of new things to wear
  */
-public class PlayerChangeAppearanceMessage implements Message
+public class PlayerChangeAppearanceMessage extends Message
 {
     private static final long serialVersionUID = 1L;
-    private int playerID;
     private ArrayList<VanityDTO> newWearing;
 
     /**
@@ -20,7 +19,7 @@ public class PlayerChangeAppearanceMessage implements Message
      */
     public PlayerChangeAppearanceMessage(int playerID, ArrayList<VanityDTO> newWearing)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.newWearing = newWearing;
     }
 
@@ -30,14 +29,6 @@ public class PlayerChangeAppearanceMessage implements Message
     public ArrayList<VanityDTO> getNewWearing()
     {
         return newWearing;
-    }
-
-    /**
-     * @return the ID of the player
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     @Override

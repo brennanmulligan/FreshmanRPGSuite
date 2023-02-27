@@ -13,7 +13,7 @@ public class TerminalTextExitMessageTest
     public void basic()
     {
         TerminalTextExitMessage msg = new TerminalTextExitMessage(42);
-        assertEquals(42, msg.getPlayerID());
+        assertEquals(42, msg.getRelevantPlayerID());
 
     }
 

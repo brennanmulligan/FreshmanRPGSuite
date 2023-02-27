@@ -59,7 +59,7 @@ public class InteractionDeniedMessagePackerTest
 
         InteractionDeniedMessage message = (InteractionDeniedMessage) packer.pack(report);
 
-        assertEquals(message.getPlayerID(), report.getPlayerID());
+        assertEquals(message.getRelevantPlayerID(), report.getPlayerID());
     }
 
     /**

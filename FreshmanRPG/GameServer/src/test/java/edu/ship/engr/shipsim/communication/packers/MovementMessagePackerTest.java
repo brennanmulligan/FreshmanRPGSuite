@@ -75,7 +75,7 @@ public class MovementMessagePackerTest
         packer.setAccumulator(stateAccumulator);
 
         OtherPlayerMovedMessage message = (OtherPlayerMovedMessage) packer.pack(report);
-        assertEquals(-1, message.getPlayerID());
+        assertEquals(-1, message.getRelevantPlayerID());
         assertEquals(position, message.getPosition());
     }
 }

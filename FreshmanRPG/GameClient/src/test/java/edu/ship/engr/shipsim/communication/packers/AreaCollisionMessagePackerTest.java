@@ -29,7 +29,7 @@ public class AreaCollisionMessagePackerTest
         AreaCollisionMessagePacker packer = new AreaCollisionMessagePacker();
         AreaCollisionMessage msg = (AreaCollisionMessage) packer.pack(report);
 
-        assertEquals(sender, msg.getPlayerID());
+        assertEquals(sender, msg.getRelevantPlayerID());
         assertEquals(region, msg.getAreaName());
     }
 
