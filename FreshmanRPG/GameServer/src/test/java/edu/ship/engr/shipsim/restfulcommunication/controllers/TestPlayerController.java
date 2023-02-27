@@ -83,7 +83,7 @@ public class TestPlayerController
 
         ResponseEntity<Object> response = mock.getAllPlayers();
 
-        // Response body is the array list of players/
+        // Response body is the array list of players
         ArrayList<PlayerDTO> players = (ArrayList<PlayerDTO>) response.getBody();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
