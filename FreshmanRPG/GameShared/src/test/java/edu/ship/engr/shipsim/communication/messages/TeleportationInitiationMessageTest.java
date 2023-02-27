@@ -26,7 +26,7 @@ public class TeleportationInitiationMessageTest
         assertEquals("TeleportationInitiationMessage: playerID = 1 mapName = "
                 + ServersForTest.FIRST_SERVER.getMapName() + " position = " + msg.getPosition(), msg.toString());
         assertEquals(ServersForTest.FIRST_SERVER.getMapName(), msg.getMapName());
-        assertEquals(1, msg.getPlayerId());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(new Position(4, 3), msg.getPosition());
     }
 

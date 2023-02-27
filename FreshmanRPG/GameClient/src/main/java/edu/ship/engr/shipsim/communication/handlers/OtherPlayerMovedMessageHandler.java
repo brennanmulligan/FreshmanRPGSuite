@@ -23,7 +23,7 @@ public class OtherPlayerMovedMessageHandler extends MessageHandler
         {
 
             OtherPlayerMovedMessage movementMessage = (OtherPlayerMovedMessage) msg;
-            CommandClientMovePlayer cmd = new CommandClientMovePlayer(movementMessage.getPlayerID(),
+            CommandClientMovePlayer cmd = new CommandClientMovePlayer(movementMessage.getRelevantPlayerID(),
                     movementMessage.getPosition());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }

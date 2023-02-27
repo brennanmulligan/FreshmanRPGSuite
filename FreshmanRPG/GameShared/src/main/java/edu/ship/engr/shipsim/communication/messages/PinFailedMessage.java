@@ -8,10 +8,8 @@ import java.io.Serializable;
  * <p>
  * Matt and Andy
  */
-public class PinFailedMessage implements Message, Serializable
+public class PinFailedMessage extends Message implements Serializable
 {
-
-    private int playerID;
 
     /**
      *
@@ -24,7 +22,7 @@ public class PinFailedMessage implements Message, Serializable
      */
     public PinFailedMessage(int playerID)
     {
-        this.playerID = playerID;
+        super(playerID);
     }
 
     /**
@@ -46,19 +44,11 @@ public class PinFailedMessage implements Message, Serializable
             return false;
         }
         PinFailedMessage other = (PinFailedMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
         return true;
-    }
-
-    /**
-     * @return the unique ID of the player whose pin was invalid
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**
@@ -69,7 +59,7 @@ public class PinFailedMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -79,7 +69,7 @@ public class PinFailedMessage implements Message, Serializable
     @Override
     public String toString()
     {
-        return "Pin failed message for player #" + playerID;
+        return "Pin failed message for player #" + relevantPlayerID;
     }
 
 }

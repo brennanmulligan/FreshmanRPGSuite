@@ -32,7 +32,7 @@ public class UpdatePlayerInformationMessagePacker extends MessagePacker
         UpdatePlayerInformationReport x = (UpdatePlayerInformationReport) object;
         if (this.getAccumulator().getPlayerID() == x.getPlayerID())
         {
-            return new InitializeThisClientsPlayerMessage(x.getClientPlayerQuestList(), x.getFriendsList(), x.getExperiencePts(),
+            return new InitializeThisClientsPlayerMessage(x.getPlayerID(), x.getClientPlayerQuestList(), x.getFriendsList(), x.getExperiencePts(),
                     x.getDoubloons(), x.getLevel());
         }
         return null;

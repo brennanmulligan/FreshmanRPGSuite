@@ -1,18 +1,13 @@
 package edu.ship.engr.shipsim.communication.messages;
 
-public class ServerPlayerOwnedItemsRequestMessage implements Message
+public class ServerPlayerOwnedItemsRequestMessage extends Message
 {
     private static final long serialVersionUID = 1L;
-    int playerID;
 
     public ServerPlayerOwnedItemsRequestMessage(int playerID)
     {
+        super(playerID);
         System.out.println("step 3");
-        this.playerID = playerID;
-    }
 
-    public int getPlayerID()
-    {
-        return playerID;
     }
 }

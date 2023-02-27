@@ -57,7 +57,7 @@ public class TeleportOnQuestCompletionPackerTest
         assertEquals(gl.getMapName(), msg.getMapName());
         assertEquals(host, msg.getHostName());
         assertEquals(port, msg.getPortNumber());
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
 
     }
 

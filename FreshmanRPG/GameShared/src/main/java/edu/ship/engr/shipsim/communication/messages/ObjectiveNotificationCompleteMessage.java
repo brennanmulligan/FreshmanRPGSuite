@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * @author Ryan
  */
-public class ObjectiveNotificationCompleteMessage implements Message, Serializable
+public class ObjectiveNotificationCompleteMessage extends Message implements Serializable
 {
 
-    private int playerID;
+
     private int questID;
     private int objectiveID;
 
@@ -19,7 +19,7 @@ public class ObjectiveNotificationCompleteMessage implements Message, Serializab
      */
     public ObjectiveNotificationCompleteMessage(int playerID, int questID, int objectiveID)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.questID = questID;
         this.objectiveID = objectiveID;
     }
@@ -28,14 +28,6 @@ public class ObjectiveNotificationCompleteMessage implements Message, Serializab
      *
      */
     private static final long serialVersionUID = 1L;
-
-    /**
-     * @return id of the player
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
 
     /**
      * @return id of the quest
