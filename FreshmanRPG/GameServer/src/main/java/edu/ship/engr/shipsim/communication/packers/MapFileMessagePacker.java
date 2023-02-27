@@ -30,7 +30,7 @@ public class MapFileMessagePacker extends MessagePacker
             {
                 // send this server's map file back to the client when they
                 // connect to the server
-                return new MapFileMessage(OptionsManager.getSingleton().getMapFileTitle());
+                return new MapFileMessage(playerID, OptionsManager.getSingleton().getMapFileTitle());
             }
         }
         catch (IOException e)

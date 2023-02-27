@@ -6,11 +6,16 @@ import java.util.Objects;
 /**
  * @author Derek
  */
-public class RestfulLoginFailedMessage implements Message, Serializable
+public class RestfulLoginFailedMessage extends Message implements Serializable
 {
     // We have this because we need it :)
     private static final long serialVersionUID = 1L;
     private final String message = "Invalid Login - Incorrect Username/Password";
+
+    public RestfulLoginFailedMessage()
+    {
+        super(0);
+    }
 
     public String getMessage()
     {

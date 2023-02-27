@@ -27,7 +27,7 @@ public class SendTerminalTextMessageHandler extends MessageHandler
         {
             SendTerminalTextMessage oMsg = (SendTerminalTextMessage) msg;
 
-            CommandReceiveTerminalText cmd = new CommandReceiveTerminalText(oMsg.getPlayerID(), oMsg.getTerminalText());
+            CommandReceiveTerminalText cmd = new CommandReceiveTerminalText(oMsg.getRelevantPlayerID(), oMsg.getTerminalText());
             ModelFacade.getSingleton().queueCommand(cmd);
         }
     }

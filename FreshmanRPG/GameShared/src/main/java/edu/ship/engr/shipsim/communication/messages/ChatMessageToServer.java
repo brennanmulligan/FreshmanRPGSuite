@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Create a ChatMessage that is used for sending messages.
  */
-public class ChatMessageToServer implements Message, Serializable
+public class ChatMessageToServer extends Message implements Serializable
 {
 
 
@@ -16,21 +16,20 @@ public class ChatMessageToServer implements Message, Serializable
     private final String chatText;
     private final Position position;
     private final ChatType type;
-    private int senderID;
     private int receiverID;
 
     /**
      * Create a chat message
      *
-     * @param senderID user sending the message
+     * @param senderID relevant player sending the chat
      * @param chatText the message to be sent
      * @param location the location of the sender
      * @param type     the type of chat message being sent
      */
     public ChatMessageToServer(int senderID, int receiverID, String chatText, Position location, ChatType type)
     {
+        super(senderID);
         this.chatText = chatText;
-        this.senderID = senderID;
         this.receiverID = receiverID;
         this.position = location;
         this.type = type;
@@ -79,7 +78,7 @@ public class ChatMessageToServer implements Message, Serializable
         {
             return false;
         }
-        if (senderID != other.senderID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -105,7 +104,7 @@ public class ChatMessageToServer implements Message, Serializable
      */
     public int getSenderID()
     {
-        return senderID;
+        return relevantPlayerID;
     }
 
     /**
@@ -140,7 +139,7 @@ public class ChatMessageToServer implements Message, Serializable
         result = prime * result + ((chatText == null) ? 0 : chatText.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + receiverID;
-        result = prime * result + senderID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
@@ -153,7 +152,7 @@ public class ChatMessageToServer implements Message, Serializable
     {
         return "ChatMessageToServer [chatText=" + chatText + ", position=" + position +
                 ", type=" + type + ", playerID="
-                + senderID + "]";
+                + relevantPlayerID + "]";
     }
 
 }

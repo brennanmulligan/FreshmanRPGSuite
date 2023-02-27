@@ -42,7 +42,7 @@ public class InteractableObjectTextMessagePackerTest
 
         DisplayTextMessage message = (DisplayTextMessage) packer.pack(report);
 
-        assertEquals(message.getPlayerID(), report.getPlayerID());
+        assertEquals(message.getRelevantPlayerID(), report.getPlayerID());
     }
 
     /**

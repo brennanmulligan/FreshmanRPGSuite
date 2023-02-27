@@ -49,7 +49,7 @@ public class PlayerJoinedMessagePackerTest
 //		String bodyID = report.getVanity().get(0).getTextureName();
 //
 //		assertEquals(bodyID, msg.getBodyID());
-        assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getPlayerID());
+        assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getRelevantPlayerID());
         assertEquals(PlayersForTest.JOHN.getPosition(), msg.getPosition());
         assertEquals(PlayersForTest.JOHN.getCrew(), msg.getCrew());
         assertEquals(PlayersForTest.JOHN.getSection(), msg.getSection());
@@ -77,7 +77,7 @@ public class PlayerJoinedMessagePackerTest
         packer.setAccumulator(stateAccumulator);
         PlayerJoinedMessage msg = (PlayerJoinedMessage) packer.pack(report);
         assertEquals(PlayersForTest.JOHN.getPlayerName(), msg.getPlayerName());
-        assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getPlayerID());
+        assertEquals(PlayersForTest.JOHN.getPlayerID(), msg.getRelevantPlayerID());
         assertEquals(PlayersForTest.JOHN.getPosition(), msg.getPosition());
         assertEquals(PlayersForTest.JOHN.getCrew(), msg.getCrew());
         assertEquals(PlayersForTest.JOHN.getSection(), msg.getSection());
