@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * @author Merlin
  */
-public class MapFileMessage implements Message, Serializable
+public class MapFileMessage extends Message implements Serializable
 {
 
     /**
@@ -22,11 +22,13 @@ public class MapFileMessage implements Message, Serializable
     private final String fileContents;
 
     /**
+     * @param playerID
      * @param fileTitle the name of the file we want to send
      * @throws IOException if the file doesn't exist or is poorly formatted
      */
-    public MapFileMessage(String fileTitle) throws IOException
+    public MapFileMessage(int playerID, String fileTitle) throws IOException
     {
+        super(playerID);
         this.mapFileName = fileTitle;
         StringBuffer x = new StringBuffer();
         Scanner file = new Scanner(

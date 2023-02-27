@@ -24,7 +24,7 @@ public class ObjectUnavailableMessageTest
     {
         int playerID = 23;
         InteractionDeniedMessage msg = new InteractionDeniedMessage(playerID);
-        assertEquals(playerID, msg.getPlayerID());
+        assertEquals(playerID, msg.getRelevantPlayerID());
     }
 
     /**

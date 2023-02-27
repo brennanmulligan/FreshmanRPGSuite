@@ -15,7 +15,7 @@ public class RestfulLoginSuccessMessageHandler extends MessageHandler
     {
         RestfulLoginSuccessMessage message = (RestfulLoginSuccessMessage) msg;
 
-        RestfulLoginSuccessReport report = new RestfulLoginSuccessReport(message.getPlayerID());
+        RestfulLoginSuccessReport report = new RestfulLoginSuccessReport(message.getRelevantPlayerID());
 
         ReportObserverConnector.getSingleton().sendReport(report);
     }

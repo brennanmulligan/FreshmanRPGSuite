@@ -62,7 +62,7 @@ public class TeleportationContinuationPackerTest
         assertEquals(report.getMap(), message.getMapName());
         assertEquals(mapping.getHostName(), message.getHostName());
         assertEquals(mapping.getPortNumber(), message.getPortNumber());
-        assertEquals(id, message.getPlayerID());
+        assertEquals(id, message.getRelevantPlayerID());
     }
 
     /**
