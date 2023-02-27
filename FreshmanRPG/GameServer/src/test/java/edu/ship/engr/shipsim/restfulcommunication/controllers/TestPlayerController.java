@@ -1,6 +1,8 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
+import edu.ship.engr.shipsim.datatypes.Crew;
+import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
@@ -65,20 +68,28 @@ public class TestPlayerController
     {
         PlayerController mock = mock(PlayerController.class);
 
+        PlayerDTO player1 = new PlayerDTO();
+        player1.setPlayerID(1);
+        PlayerDTO player2 = new PlayerDTO();
+        player2.setPlayerID(2);
+
         when(mock.processAction(any(Runnable.class), eq(GetAllPlayersReport.class))).thenReturn(
                 new GetAllPlayersReport(new ArrayList<>() {{
-                    add(mock(PlayerDTO.class));
-                    add(mock(PlayerDTO.class));
-                    add(mock(PlayerDTO.class));
+                    add(player1);
+                    add(player2);
                 }}));
 
         when(mock.getAllPlayers()).thenCallRealMethod();
 
         ResponseEntity<Object> response = mock.getAllPlayers();
 
+        // Response body is the array list of players/
+        ArrayList<PlayerDTO> players = (ArrayList<PlayerDTO>) response.getBody();
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals("[{\"id\":0,\"username\":\"\",\"password\":\"\",\"crewNum\":0,\"majorNum\":0,\"section\":0,\"questId\":0,\"questProgress\":0,\"questCompleted\":false,\"questFailed\":false},{\"id\":0,\"username\":\"\",\"password\":\"\",\"crewNum\":0,\"majorNum\":0,\"section\":0,\"questId\":0,\"questProgress\":0,\"questCompleted\":false,\"questFailed\":false},{\"id\":0,\"username\":\"\",\"password\":\"\",\"crewNum\":0,\"majorNum\":0,\"section\":0,\"questId\":0,\"questProgress\":0,\"questCompleted\":false,\"questFailed\":false}]",
-//                Objects.requireNonNull(response.getBody()).toString());
+        assertNotNull(players);
+        assertEquals(players.get(0).getPlayerID(), 1);
+        assertEquals(players.get(1).getPlayerID(), 2);
     }
 }
 
