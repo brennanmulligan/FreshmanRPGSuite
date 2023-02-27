@@ -23,7 +23,6 @@ public class OptionsManager
     private int portNumber;
     private String loginHost;
     private boolean usingTestDB = true;
-    private boolean usingClient = false;
 
     private String dbIdentifier;
     private String dbPathName = "../GameShared/config.txt";
@@ -181,22 +180,6 @@ public class OptionsManager
     public boolean isUsingTestDB()
     {
         return usingTestDB;
-    }
-
-    /**
-     * @return whether the game is being run in client mode
-     */
-    public boolean isUsingClient()
-    {
-        return usingClient;
-    }
-
-    /**
-     * @param usingClient whether the game is being run in client mode
-     */
-    public void setUsingClient(boolean usingClient)
-    {
-        this.usingClient = usingClient;
     }
 
     /**

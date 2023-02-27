@@ -5,12 +5,11 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.1.0'
 }
 
-apply from: rootProject.file("dependencies.gradle")
-apply from: 'database-builders.gradle'
+apply from: file('database-builders.gradle')
 
 mainClassName = "edu.ship.engr.shipsim.LoginServer"
 
-group 'edu.ship.cs'
+group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -20,19 +19,6 @@ repositories {
 dependencies {
     implementation project(':GameShared')
     testImplementation project(path: ':GameShared', configuration: 'testArtifacts')
-
-    normDependencies.values().forEach {
-        implementation it
-    }
-
-    testDependencies.values().forEach {
-        testImplementation it
-    }
-}
-
-checkstyle {
-    ignoreFailures = false
-    maxWarnings = 0
 }
 
 shadowJar {
