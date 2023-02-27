@@ -1,18 +1,18 @@
-image: openjdk:17
-
 stages:
     - run
+    - flutter
 
 variables:
     DOCKER_DRIVER: overlay
 
-before_script:
-    - cd FreshmanRPG
-    - chmod +x ./gradlew
-    - chmod +x ./runPipeline.sh
-    - chmod +x ./setDatabase.sh
+.openjdk_docker_image:
+    image: openjdk:17
+
+.flutter_docker_image:
+    image: cirrusci/flutter
 
 run_pipeline:
+    extends: .openjdk_docker_image
     stage: run
     artifacts:
         when: always
@@ -20,7 +20,34 @@ run_pipeline:
             junit: FreshmanRPG/*/build/test-results/test/**/TEST-*.xml
         paths:
             - FreshmanRPG/*/*.log
-            
     script:
+        - cd FreshmanRPG
+        - chmod +x ./gradlew
+        - chmod +x ./runPipeline.sh
+        - chmod +x ./setDatabase.sh
         - ./setDatabase.sh $CI_PIPELINE_ID
-        - ./runPipeline.sh 
+        - ./runPipeline.sh
+
+game_manager_test:
+    extends: .flutter_docker_image
+    stage: flutter
+    script:
+        - cd game_manager
+        - flutter test --coverage
+        - genhtml coverage/lcov.info --output=coverage
+    artifacts:
+        paths:
+            - coverage
+        expire_in: 5 days
+
+companion_app_test:
+    extends: .flutter_docker_image
+    stage: flutter
+    script:
+        - cd frpg-companion
+        - flutter test --coverage
+        - genhtml coverage/lcov.info --output=coverage
+    artifacts:
+        paths:
+            - coverage
+        expire_in: 5 days

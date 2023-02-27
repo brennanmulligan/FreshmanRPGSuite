@@ -1,0 +1,47 @@
+// Register the 'genFileManifest' task.
+tasks.register('genFileManifest') {
+    // Create the build directory if it does not exist.
+    file("$buildDir").mkdirs()
+
+    // Define the output file path.
+    def outputFile = file("$buildDir/FILE_MANIFEST.txt")
+
+    // Create the output file.
+    outputFile.createNewFile()
+
+    // Write the contents of the output file.
+    outputFile.withPrintWriter { writer ->
+        getFiles().each { string ->
+            writer.println(string)
+        }
+    }
+}
+
+// Configure the 'shadowJar' task.
+shadowJar {
+    // Set the archive file name.
+    archiveFileName = 'GameClient-linux.jar'
+
+    // Set the destination directory.
+    destinationDirectory = new File(project.projectDir, "build")
+
+    // Add the generated 'FILE_MANIFEST.txt' file to the JAR.
+    from file("$buildDir/FILE_MANIFEST.txt")
+
+    // Make the 'shadowJar' task depend on the 'genFileManifest' task.
+    dependsOn(tasks.named('genFileManifest'))
+}
+
+// Returns a list of file paths relative to 'src/main/resources'.
+private List<String> getFiles() {
+    def rootDir = file('src/main/resources')
+    def files = []
+
+    fileTree(rootDir).visit { FileVisitDetails details ->
+        if (details.file.isFile()) {
+            files << rootDir.relativePath(details.file)
+        }
+    }
+
+    return files
+}
