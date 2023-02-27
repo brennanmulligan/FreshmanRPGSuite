@@ -28,7 +28,7 @@ public class PlayerLeaveMessageHandler extends MessageHandler
         if (msg.getClass().equals(PlayerLeaveMessage.class))
         {
             PlayerLeaveMessage realMsg = (PlayerLeaveMessage) msg;
-            CommandRemovePlayer cmd = new CommandRemovePlayer(realMsg.getPlayerID());
+            CommandRemovePlayer cmd = new CommandRemovePlayer(realMsg.getRelevantPlayerID());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }
 

@@ -27,7 +27,7 @@ public class TimeToLevelUpDeadlineTest
         Date date = new GregorianCalendar(2016, 3, 4).getTime();
         TimeToLevelUpDeadlineMessage msg = new TimeToLevelUpDeadlineMessage(PlayersForTest.MARTY.getPlayerID(),
                 new GregorianCalendar(2016, 3, 4).getTime(), "freemerchant");
-        assertEquals(18, msg.getPlayerID());
+        assertEquals(18, msg.getRelevantPlayerID());
         assertEquals(date, msg.getTimeToDeadline());
         assertEquals("freemerchant", msg.getNextLevel());
     }

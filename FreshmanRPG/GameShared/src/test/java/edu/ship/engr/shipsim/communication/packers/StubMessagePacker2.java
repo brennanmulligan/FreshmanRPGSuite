@@ -23,7 +23,7 @@ public class StubMessagePacker2 extends MessagePacker
     @Override
     public Message pack(Report object)
     {
-        return new StubMessage1();
+        return new StubMessage1(0);
     }
 
     /**

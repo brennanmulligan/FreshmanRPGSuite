@@ -10,13 +10,12 @@ import java.io.Serializable;
  *
  * @author Ryan
  */
-public class ObjectiveStateChangeMessage implements Message, Serializable
+public class ObjectiveStateChangeMessage extends Message implements Serializable
 {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private int playerID;
     private int questID;
     private int objectiveID;
     private String objectiveDescription;
@@ -38,7 +37,7 @@ public class ObjectiveStateChangeMessage implements Message, Serializable
 
         ObjectiveStateChangeMessage that = (ObjectiveStateChangeMessage) o;
 
-        if (playerID != that.playerID)
+        if (relevantPlayerID != that.relevantPlayerID)
         {
             return false;
         }
@@ -69,7 +68,7 @@ public class ObjectiveStateChangeMessage implements Message, Serializable
     @Override
     public int hashCode()
     {
-        int result = playerID;
+        int result = relevantPlayerID;
         result = 31 * result + questID;
         result = 31 * result + objectiveID;
         result = 31 * result + objectiveDescription.hashCode();
@@ -93,7 +92,7 @@ public class ObjectiveStateChangeMessage implements Message, Serializable
     public ObjectiveStateChangeMessage(int playerID, int questID, int objectiveID, String objectiveDescription,
                                        ObjectiveStateEnum newState, boolean realLifeObjective, String witnessTitle)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.questID = questID;
         this.objectiveID = objectiveID;
         this.objectiveDescription = objectiveDescription;
@@ -126,15 +125,6 @@ public class ObjectiveStateChangeMessage implements Message, Serializable
         return newState;
     }
 
-    /**
-     * Get the player's ID
-     *
-     * @return playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
 
     /**
      * Get the quest's ID

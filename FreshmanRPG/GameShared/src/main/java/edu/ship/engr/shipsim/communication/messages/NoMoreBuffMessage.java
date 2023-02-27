@@ -8,11 +8,10 @@ import java.io.Serializable;
  * @author Aaron Gerber
  * @author Stephen Clabaugh
  */
-public class NoMoreBuffMessage implements Message, Serializable
+public class NoMoreBuffMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private final int playerID;
 
     /**
      * Constructor
@@ -21,17 +20,7 @@ public class NoMoreBuffMessage implements Message, Serializable
      */
     public NoMoreBuffMessage(int playerID)
     {
-        this.playerID = playerID;
-    }
-
-    /**
-     * Instance variable getter
-     *
-     * @return playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
+        super(playerID);
     }
 
     /**
@@ -40,6 +29,6 @@ public class NoMoreBuffMessage implements Message, Serializable
     @Override
     public String toString()
     {
-        return "NoMoreBuffMessage: No remaining buff for playerID = " + playerID;
+        return "NoMoreBuffMessage: No remaining buff for playerID = " + relevantPlayerID;
     }
 }

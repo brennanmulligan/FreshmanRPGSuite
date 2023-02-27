@@ -21,7 +21,7 @@ public class ObjectiveNotificationCompleteMessageTest
     public void testInitialization()
     {
         ObjectiveNotificationCompleteMessage msg = new ObjectiveNotificationCompleteMessage(1, 2, 1);
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(2, msg.getQuestID());
         assertEquals(1, msg.getObjectiveID());
     }

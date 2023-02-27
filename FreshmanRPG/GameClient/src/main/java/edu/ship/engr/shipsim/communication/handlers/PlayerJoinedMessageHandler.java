@@ -25,7 +25,7 @@ public class PlayerJoinedMessageHandler extends MessageHandler
     {
         PlayerJoinedMessage playerJoinedMessage = (PlayerJoinedMessage) msg;
         CommandInitializePlayer cmd = new CommandInitializePlayer(
-                playerJoinedMessage.getPlayerID(), playerJoinedMessage.getPlayerName(),
+                playerJoinedMessage.getRelevantPlayerID(), playerJoinedMessage.getPlayerName(),
                 playerJoinedMessage.getVanities(),
                 playerJoinedMessage.getPosition(),
                 playerJoinedMessage.getCrew(),

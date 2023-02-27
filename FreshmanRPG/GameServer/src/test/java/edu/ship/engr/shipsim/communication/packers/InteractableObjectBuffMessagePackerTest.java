@@ -43,7 +43,7 @@ public class InteractableObjectBuffMessagePackerTest
 
         BuffMessage message = (BuffMessage) packer.pack(report);
 
-        assertEquals(message.getPlayerID(), report.getPlayerID());
+        assertEquals(message.getRelevantPlayerID(), report.getPlayerID());
     }
 
     /**

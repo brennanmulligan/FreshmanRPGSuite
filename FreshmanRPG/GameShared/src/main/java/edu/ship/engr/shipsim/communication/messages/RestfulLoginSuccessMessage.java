@@ -6,21 +6,14 @@ import java.util.Objects;
 /**
  * @author Derek
  */
-public class RestfulLoginSuccessMessage implements Message, Serializable
+public class RestfulLoginSuccessMessage extends Message implements Serializable
 {
     // We have this because we need it :)
     private static final long serialVersionUID = 1L;
 
-    private final int playerID;
-
     public RestfulLoginSuccessMessage(int playerID)
     {
-        this.playerID = playerID;
-    }
-
-    public int getPlayerID()
-    {
-        return playerID;
+        super(playerID);
     }
 
     @Override
@@ -43,12 +36,12 @@ public class RestfulLoginSuccessMessage implements Message, Serializable
 
         RestfulLoginSuccessMessage otherMessage = (RestfulLoginSuccessMessage) o;
 
-        return Objects.equals(playerID, otherMessage.getPlayerID());
+        return Objects.equals(relevantPlayerID, otherMessage.getRelevantPlayerID());
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(playerID);
+        return Objects.hash(relevantPlayerID);
     }
 }

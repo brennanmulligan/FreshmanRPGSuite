@@ -21,11 +21,11 @@ public class LoginResponseMessageTest
     public void basic()
     {
         LoginSuccessfulMessage msg = new LoginSuccessfulMessage(42, "localhost", 1872, 12345);
-        assertEquals(42, msg.getPlayerID());
+        assertEquals(42, msg.getRelevantPlayerID());
         assertEquals("localhost", msg.getHostName());
         assertEquals(1872, msg.getPortNumber());
         assertEquals(12345, msg.getPin(), 0.0001);
-        assertEquals("Successful login of player " + msg.getPlayerID(), msg.toString());
+        assertEquals("Successful login of player " + msg.getRelevantPlayerID(), msg.toString());
     }
 
 }
