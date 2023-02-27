@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlayerController extends Controller
 {
     @CrossOrigin // Required for web client support
-    @PostMapping("/player")
+    @PostMapping("/createPlayer")
     public ResponseEntity<Object> createPlayer(
             @RequestBody CreatePlayerInformation info)
     {
@@ -56,7 +56,7 @@ public class PlayerController extends Controller
     }
 
     @CrossOrigin // Required for web client support
-    @PostMapping("/players")
+    @PostMapping("/getAllPlayers")
     public ResponseEntity<Object> getAllPlayers()
     {
         GetAllPlayersReport report = processAction(() ->
@@ -73,5 +73,4 @@ public class PlayerController extends Controller
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
