@@ -1,20 +1,18 @@
 package edu.ship.engr.shipsim.model.reports;
 
+import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.model.Report;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
+import java.util.ArrayList;
 
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Data
-public class GetAllPlayersResponseReport implements Report
+public class GetAllPlayersReport implements Report
 {
-    private final boolean successful;
+    private final ArrayList<PlayerDTO> players;
 
-    @Setter(AccessLevel.NONE)
-    private String description = "";
+    public GetAllPlayersReport(ArrayList<PlayerDTO> players)
+    {
+        this.players = players;
+    }
 }
