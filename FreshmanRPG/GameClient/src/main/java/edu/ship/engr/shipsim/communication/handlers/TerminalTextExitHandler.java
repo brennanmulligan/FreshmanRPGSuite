@@ -29,7 +29,7 @@ public class TerminalTextExitHandler extends MessageHandler
         if (msg.getClass().equals(TerminalTextExitMessage.class))
         {
             TerminalTextExitMessage message = (TerminalTextExitMessage) msg;
-            CommandRemovePlayer cmd = new CommandRemovePlayer(message.getPlayerID());
+            CommandRemovePlayer cmd = new CommandRemovePlayer(message.getRelevantPlayerID());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }
     }

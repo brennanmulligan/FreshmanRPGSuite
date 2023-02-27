@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Create a ChatMessage that is used for sending messages.
  */
-public class ChatMessageToClient implements Message, Serializable
+public class ChatMessageToClient extends Message implements Serializable
 {
 
 
@@ -17,11 +17,10 @@ public class ChatMessageToClient implements Message, Serializable
     private final Position position;
     private final ChatType type;
     private int senderID;
-    private int receiverID;
 
     /**
      * Create a chat message
-     *
+     * @param receiverID this is the relevant player for this message
      * @param senderID user sending the message
      * @param chatText the message to be sent
      * @param location the location of the sender
@@ -29,9 +28,9 @@ public class ChatMessageToClient implements Message, Serializable
      */
     public ChatMessageToClient(int senderID, int receiverID, String chatText, Position location, ChatType type)
     {
+        super(receiverID);
         this.chatText = chatText;
         this.senderID = senderID;
-        this.receiverID = receiverID;
         this.position = location;
         this.type = type;
     }
@@ -75,7 +74,7 @@ public class ChatMessageToClient implements Message, Serializable
         {
             return false;
         }
-        if (receiverID != other.receiverID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -113,7 +112,7 @@ public class ChatMessageToClient implements Message, Serializable
      */
     public int getReceiverID()
     {
-        return receiverID;
+        return relevantPlayerID;
     }
 
     /**
@@ -139,7 +138,7 @@ public class ChatMessageToClient implements Message, Serializable
         int result = 1;
         result = prime * result + ((chatText == null) ? 0 : chatText.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
-        result = prime * result + receiverID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + senderID;
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;

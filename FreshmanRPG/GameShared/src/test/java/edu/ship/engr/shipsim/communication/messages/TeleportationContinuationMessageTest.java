@@ -31,7 +31,7 @@ public class TeleportationContinuationMessageTest
         assertEquals(ServersForTest.FIRST_SERVER.getMapName(), msg.getMapName());
         assertEquals(ServersForTest.FIRST_SERVER.getHostName(), msg.getHostName());
         assertEquals(ServersForTest.FIRST_SERVER.getPortNumber(), msg.getPortNumber());
-        assertEquals(2, msg.getPlayerID());
+        assertEquals(2, msg.getRelevantPlayerID());
         assertEquals(4, msg.getPin());
     }
 

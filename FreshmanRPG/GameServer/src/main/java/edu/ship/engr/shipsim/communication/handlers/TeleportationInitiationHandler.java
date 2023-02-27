@@ -25,10 +25,10 @@ public class TeleportationInitiationHandler extends MessageHandler
     {
         TeleportationInitiationMessage currentMsg = (TeleportationInitiationMessage) msg;
         LoggerManager.getSingleton().getLogger().info("Received Teleportation " +
-                "initiation from player " + currentMsg.getPlayerId());
+                "initiation from player " + currentMsg.getRelevantPlayerID());
         CommandMovePlayerToAnotherMapAndPersist
                 command = new CommandMovePlayerToAnotherMapAndPersist(
-                currentMsg.getPlayerId(),
+                currentMsg.getRelevantPlayerID(),
                 currentMsg.getMapName(),
                 currentMsg.getPosition()
         );

@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.datasource;
 
+import edu.ship.engr.shipsim.model.MapToServerMapping;
 import edu.ship.engr.shipsim.model.OptionsManager;
 
 import java.sql.Connection;
@@ -32,6 +33,10 @@ public class ServerRowDataGateway
     private int teleportPositionX;
 
     private int teleportPositionY;
+    private boolean isQuiet;
+
+
+
 
     /**
      * Drop the table if it exists and re-create it empty
@@ -50,7 +55,8 @@ public class ServerRowDataGateway
                 + "mapName varchar(80) UNIQUE, "
                 + "mapTitle varchar(80) UNIQUE, "
                 + "teleportPositionX INT DEFAULT 0, "
-                + "teleportPositionY INT DEFAULT 0)";
+                + "teleportPositionY INT DEFAULT 0, "
+                + "quiet TINYINT DEFAULT 0)";
 
         try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
@@ -97,13 +103,35 @@ public class ServerRowDataGateway
         this.teleportPositionY = teleportPositionY;
     }
 
+    public ServerRowDataGateway(String mapName, String hostName, int portNumber,
+                                String mapTitle, int teleportPositionX,
+                                int teleportPositionY, boolean isQuiet) throws DatabaseException
+    {
+        insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX,
+                teleportPositionY, isQuiet);
+        this.mapName = mapName;
+        this.hostName = hostName;
+        this.portNumber = portNumber;
+        this.mapTitle = mapTitle;
+        this.teleportPositionX = teleportPositionX;
+        this.teleportPositionY = teleportPositionY;
+        this.isQuiet = isQuiet;
+    }
+
     private void insertNewRow(String mapName, String hostName, int portNumber,
                               String mapTitle, int teleportPositionX,
                               int teleportPositionY) throws DatabaseException
     {
+        insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX, teleportPositionY, false);
+    }
+
+    private void insertNewRow(String mapName, String hostName, int portNumber,
+                              String mapTitle, int teleportPositionX,
+                              int teleportPositionY, boolean isQuiet) throws DatabaseException
+    {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "Insert INTO Server SET hostName = ?, portNumber = ?, mapName = ?, mapTitle = ?, teleportPositionX = ?, teleportPositionY = ?"))
+                "Insert INTO Server SET hostName = ?, portNumber = ?, mapName = ?, mapTitle = ?, teleportPositionX = ?, teleportPositionY = ?, quiet = ?"))
         {
             stmt.setString(1, hostName);
             stmt.setInt(2, portNumber);
@@ -111,6 +139,7 @@ public class ServerRowDataGateway
             stmt.setString(4, mapTitle);
             stmt.setInt(5, teleportPositionX);
             stmt.setInt(6, teleportPositionY);
+            stmt.setBoolean(7, isQuiet);
             stmt.executeUpdate();
 
         }
@@ -143,6 +172,7 @@ public class ServerRowDataGateway
                 this.setPortNumber(result.getInt("portNumber"));
                 this.setTeleportPositionX(result.getInt("teleportPositionX"));
                 this.setTeleportPositionY(result.getInt("teleportPositionY"));
+                this.setQuiet(result.getBoolean("quiet"));
                 mapID = result.getInt("serverID");
             }
         }
@@ -250,6 +280,11 @@ public class ServerRowDataGateway
         return teleportPositionY;
     }
 
+    public boolean isQuiet()
+    {
+        return isQuiet;
+    }
+
     public void setMapName(String mapName)
     {
         this.mapName = mapName;
@@ -279,6 +314,11 @@ public class ServerRowDataGateway
     public void setMapTitle(String mapTitle)
     {
         this.mapTitle = mapTitle;
+    }
+
+    private void setQuiet(boolean status)
+    {
+        this.isQuiet = status;
     }
 
     public void persist() throws DatabaseException

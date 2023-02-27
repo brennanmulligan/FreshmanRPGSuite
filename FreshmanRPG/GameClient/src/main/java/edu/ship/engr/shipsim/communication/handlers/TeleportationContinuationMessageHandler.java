@@ -32,7 +32,7 @@ public class TeleportationContinuationMessageHandler extends MessageHandler
                 if (!OptionsManager.getSingleton().isTestMode())
                 {
                     getConnectionManager().moveToNewSocket(new Socket(rMsg.getHostName(), rMsg.getPortNumber()));
-                    this.getStateAccumulator().queueMessage(new ConnectMessage(rMsg.getPlayerID(), rMsg.getPin()));
+                    this.getStateAccumulator().queueMessage(new ConnectMessage(rMsg.getRelevantPlayerID(), rMsg.getPin()));
                 }
             }
             catch (IOException e)

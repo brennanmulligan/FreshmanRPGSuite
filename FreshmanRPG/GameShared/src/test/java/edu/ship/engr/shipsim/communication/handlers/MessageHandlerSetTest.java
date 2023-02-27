@@ -35,8 +35,8 @@ public class MessageHandlerSetTest
     {
         MessageHandlerSet proc = new MessageHandlerSet(null);
 
-        proc.process(new StubMessage1());
-        proc.process(new StubMessage2());
+        proc.process(new StubMessage1(0));
+        proc.process(new StubMessage2(0));
 
     }
 

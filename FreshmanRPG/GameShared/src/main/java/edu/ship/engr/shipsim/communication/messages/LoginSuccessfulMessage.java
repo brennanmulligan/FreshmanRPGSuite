@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author Merlin
  */
-public class LoginSuccessfulMessage implements Message, Serializable
+public class LoginSuccessfulMessage extends Message implements Serializable
 {
 
     /**
@@ -17,7 +17,6 @@ public class LoginSuccessfulMessage implements Message, Serializable
      */
     private static final long serialVersionUID = 1L;
 
-    private int playerID;
 
     private String hostName;
     private int portNumber;
@@ -33,7 +32,7 @@ public class LoginSuccessfulMessage implements Message, Serializable
      */
     public LoginSuccessfulMessage(int playerID, String hostName, int portNumber, double pin)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.pin = pin;
@@ -69,7 +68,7 @@ public class LoginSuccessfulMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -98,14 +97,6 @@ public class LoginSuccessfulMessage implements Message, Serializable
     }
 
     /**
-     * @return the player ID of the player that just logged in
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    /**
      * @return the port number of the area server where this player should start
      * playing
      */
@@ -126,7 +117,7 @@ public class LoginSuccessfulMessage implements Message, Serializable
         long temp;
         temp = Double.doubleToLongBits(pin);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + portNumber;
         return result;
     }
@@ -137,7 +128,7 @@ public class LoginSuccessfulMessage implements Message, Serializable
     @Override
     public String toString()
     {
-        return "Successful login of player " + playerID;
+        return "Successful login of player " + relevantPlayerID;
     }
 
 }

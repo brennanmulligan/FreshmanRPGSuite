@@ -5,11 +5,10 @@ import java.io.Serializable;
 /**
  * @author nhydock
  */
-public class AreaCollisionMessage implements Message, Serializable
+public class AreaCollisionMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private final int playerID;
     private final String areaName;
 
     /**
@@ -18,18 +17,9 @@ public class AreaCollisionMessage implements Message, Serializable
      */
     public AreaCollisionMessage(int playerID, String areaName)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.areaName = areaName;
     }
-
-    /**
-     * @return the player who moved
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -38,13 +28,13 @@ public class AreaCollisionMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((areaName == null) ? 0 : areaName.hashCode());
         return result;
     }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @see Object#equals(Object)
      */
     @Override
     public final boolean equals(Object obj)
@@ -62,7 +52,7 @@ public class AreaCollisionMessage implements Message, Serializable
             return false;
         }
         AreaCollisionMessage other = (AreaCollisionMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -86,7 +76,7 @@ public class AreaCollisionMessage implements Message, Serializable
      */
     public String toString()
     {
-        return "Collision Message: playerID = " + playerID + " collided with object = " + areaName;
+        return "Collision Message: playerID = " + relevantPlayerID + " collided with object = " + areaName;
     }
 
 }

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Matthew Croft
  * @author Evan Stevenson
  */
-public class DoubloonsChangedMessage implements Message, Serializable
+public class DoubloonsChangedMessage extends Message implements Serializable
 {
     /**
      *
@@ -14,8 +14,6 @@ public class DoubloonsChangedMessage implements Message, Serializable
     private static final long serialVersionUID = 1L;
 
     private int doubloons;
-
-    private int playerID;
 
     private int buffPool;
 
@@ -28,8 +26,8 @@ public class DoubloonsChangedMessage implements Message, Serializable
      */
     public DoubloonsChangedMessage(int playerID, int doubloons, int buffPool)
     {
+        super(playerID);
         this.doubloons = doubloons;
-        this.playerID = playerID;
         this.buffPool = buffPool;
     }
 
@@ -51,7 +49,7 @@ public class DoubloonsChangedMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != that.playerID)
+        if (relevantPlayerID != that.relevantPlayerID)
         {
             return false;
         }
@@ -62,7 +60,7 @@ public class DoubloonsChangedMessage implements Message, Serializable
     public int hashCode()
     {
         int result = doubloons;
-        result = 31 * result + playerID;
+        result = 31 * result + relevantPlayerID;
         result = 31 * result + buffPool;
         return result;
     }
@@ -73,14 +71,6 @@ public class DoubloonsChangedMessage implements Message, Serializable
     public int getDoubloons()
     {
         return doubloons;
-    }
-
-    /**
-     * @return the playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

@@ -1,12 +1,15 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ServerRowDataGateway;
 import edu.ship.engr.shipsim.datatypes.ServersForTest;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests the OptionsManager
@@ -78,5 +81,30 @@ public class OptionsManagerTest
         assertEquals(ServersForTest.FIRST_SERVER.getMapName(), manager.getMapFileTitle());
         assertEquals("ourhost.com", manager.getHostName());
         assertEquals(1337, manager.getPortNumber());
+    }
+
+
+    @Test
+    public void testGetterOfIsQuietServer()
+    {
+        MapToServerMapping mapToServerMapping = mock(MapToServerMapping.class);
+        when(mapToServerMapping.isQuiet()).thenReturn(true);
+
+        OptionsManager receives =  OptionsManager.getSingleton();
+        receives.setMapToServerMapping(mapToServerMapping);
+
+        assertTrue(receives.isQuiet());
+    }
+
+    @Test
+    public void testGetterOfIsNotQuietServer()
+    {
+        MapToServerMapping mapToServerMapping = mock(MapToServerMapping.class);
+        when(mapToServerMapping.isQuiet()).thenReturn(false);
+
+        OptionsManager receives =  OptionsManager.getSingleton();
+        receives.setMapToServerMapping(mapToServerMapping);
+
+        assertFalse(receives.isQuiet());
     }
 }

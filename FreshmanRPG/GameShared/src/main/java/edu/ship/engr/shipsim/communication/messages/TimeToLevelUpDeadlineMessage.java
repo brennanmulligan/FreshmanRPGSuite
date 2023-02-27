@@ -8,11 +8,9 @@ import java.util.Date;
  *
  * @author Chris, Evan, Marty
  */
-public class TimeToLevelUpDeadlineMessage implements Message, Serializable
+public class TimeToLevelUpDeadlineMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
-
-    private int playerID;
     private Date timeToDeadline;
     private String nextLevel;
 
@@ -24,7 +22,7 @@ public class TimeToLevelUpDeadlineMessage implements Message, Serializable
      */
     public TimeToLevelUpDeadlineMessage(int playerID, Date timeToDeadline, String nextLevel)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.timeToDeadline = timeToDeadline;
         this.nextLevel = nextLevel;
     }
@@ -38,7 +36,7 @@ public class TimeToLevelUpDeadlineMessage implements Message, Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + ((nextLevel == null) ? 0 : nextLevel.hashCode());
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((timeToDeadline == null) ? 0 : timeToDeadline.hashCode());
         return result;
     }
@@ -73,7 +71,7 @@ public class TimeToLevelUpDeadlineMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -89,14 +87,6 @@ public class TimeToLevelUpDeadlineMessage implements Message, Serializable
             return false;
         }
         return true;
-    }
-
-    /**
-     * @return The player id
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

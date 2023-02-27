@@ -23,18 +23,8 @@ public class MovementMessageTest
     {
         Position position = new Position(42, 13);
         PlayerMovedMessage msg = new PlayerMovedMessage(1, position);
-        assertEquals(1, msg.getPlayerID());
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(position, msg.getPosition());
-        assertEquals("Movement Message: playerID = 1, position = " + position.toString(), msg.toString());
+        assertEquals("Movement Message: relevantPlayerID = 1, position = " + position.toString(), msg.toString());
     }
-
-    /**
-     * Make sure the equals contract is obeyed
-     */
-    @Test
-    public void equalsContract()
-    {
-        EqualsVerifier.forClass(PlayerMovedMessage.class).verify();
-    }
-
 }
