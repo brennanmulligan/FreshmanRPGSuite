@@ -3,8 +3,8 @@ abstract class CreateMajorsCrewsEvent{}
 
 class SendCreateMajorsCrewEvent extends CreateMajorsCrewsEvent {
 
-    var crews;
-    var  majors;
+    final num crews;
+    final num  majors;
 
 
   SendCreateMajorsCrewEvent(this.crews, this.majors);
