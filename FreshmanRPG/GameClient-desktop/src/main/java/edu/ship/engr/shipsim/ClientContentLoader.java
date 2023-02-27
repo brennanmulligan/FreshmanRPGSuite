@@ -25,7 +25,11 @@ public class ClientContentLoader
 
     public static void execute()
     {
-        Objects.requireNonNull(getFileManifest()).forEach(ClientContentLoader::copyFileToContentPath);
+        // If not in IntelliJ, FILE_MANIFEST.txt is required
+        if (!OptionsManager.getSingleton().isRunningInIntelliJ())
+        {
+            Objects.requireNonNull(getFileManifest()).forEach(ClientContentLoader::copyFileToContentPath);
+        }
     }
 
     /**
