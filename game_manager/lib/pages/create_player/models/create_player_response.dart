@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:frpg_networking_api/networking/service_client/type_definitions/type_definitions.dart';
+
+import '../../../type_definitions.dart';
 
 ///
 /// Object to request creating a player.
