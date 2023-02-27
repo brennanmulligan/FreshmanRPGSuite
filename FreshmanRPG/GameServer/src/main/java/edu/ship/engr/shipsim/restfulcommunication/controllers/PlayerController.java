@@ -1,8 +1,10 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
 import edu.ship.engr.shipsim.model.CommandCreatePlayer;
+import edu.ship.engr.shipsim.model.CommandGetAllPlayers;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
+import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
 import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,25 @@ public class PlayerController extends Controller
                         new BasicResponse(false, report.getDescription()).toString(),
                         HttpStatus.BAD_REQUEST);
             }
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @CrossOrigin // Required for web client support
+    @PostMapping("/players")
+    public ResponseEntity<Object> getAllPlayers()
+    {
+        GetAllPlayersReport report = processAction(() ->
+        {
+            CommandGetAllPlayers command =
+                    new CommandGetAllPlayers();
+            ModelFacade.getSingleton().queueCommand(command);
+        }, GetAllPlayersReport.class);
+
+        if (report != null)
+        {
+            return new ResponseEntity<>(report.getPlayers(), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
