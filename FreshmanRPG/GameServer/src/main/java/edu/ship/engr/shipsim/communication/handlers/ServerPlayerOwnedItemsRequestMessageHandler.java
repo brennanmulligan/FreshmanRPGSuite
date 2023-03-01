@@ -19,7 +19,7 @@ public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
         try
         {
             Player player =
-                    PlayerManager.getSingleton().getPlayerFromID(actualMsg.getPlayerID());
+                    PlayerManager.getSingleton().getPlayerFromID(actualMsg.getRelevantPlayerID());
             if (player == null)
             {
                 return;

@@ -7,13 +7,18 @@ import java.io.Serializable;
  *
  * @author merlin
  */
-public class StubMessage2 implements Message, Serializable
+public class StubMessage2 extends Message implements Serializable
 {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+
+    public StubMessage2(int relevantPlayerID)
+    {
+        super(relevantPlayerID);
+    }
 
     /**
      * @see java.lang.Object#toString()

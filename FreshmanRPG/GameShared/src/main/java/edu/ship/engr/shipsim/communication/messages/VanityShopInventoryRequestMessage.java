@@ -6,9 +6,14 @@ package edu.ship.engr.shipsim.communication.messages;
  *
  * @author Aaron, Jake
  */
-public class VanityShopInventoryRequestMessage implements Message
+public class VanityShopInventoryRequestMessage extends Message
 {
     private static final long serialVersionUID = 1L;
+
+    public VanityShopInventoryRequestMessage()
+    {
+        super(0);
+    }
 
     /**
      * @see java.lang.Object#equals(java.lang.Object)

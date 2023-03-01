@@ -7,11 +7,10 @@ import java.io.Serializable;
  *
  * @author Truc Chau
  */
-public class BuffMessage implements Message, Serializable
+public class BuffMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private final int playerID;
     private final int experiencePointPool;
 
     /**
@@ -22,7 +21,7 @@ public class BuffMessage implements Message, Serializable
      */
     public BuffMessage(int playerID, int experiencePoints)
     {
-        this.playerID = playerID;
+        super(playerID);
         this.experiencePointPool = experiencePoints;
     }
 
@@ -35,7 +34,7 @@ public class BuffMessage implements Message, Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + experiencePointPool;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -62,21 +61,11 @@ public class BuffMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Returns player's id
-     *
-     * @return id of the player
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

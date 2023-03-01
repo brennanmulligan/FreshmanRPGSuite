@@ -24,7 +24,7 @@ public class TimeToLevelUpDeadlineHandler extends MessageHandler
         if (msg.getClass().equals(TimeToLevelUpDeadlineMessage.class))
         {
             TimeToLevelUpDeadlineMessage realMsg = (TimeToLevelUpDeadlineMessage) msg;
-            ClientTimeToLevelUpDeadlineReport report = new ClientTimeToLevelUpDeadlineReport(realMsg.getPlayerID(), realMsg.getTimeToDeadline(), realMsg.getNextLevel());
+            ClientTimeToLevelUpDeadlineReport report = new ClientTimeToLevelUpDeadlineReport(realMsg.getRelevantPlayerID(), realMsg.getTimeToDeadline(), realMsg.getNextLevel());
             ReportObserverConnector.getSingleton().sendReport(report);
         }
 

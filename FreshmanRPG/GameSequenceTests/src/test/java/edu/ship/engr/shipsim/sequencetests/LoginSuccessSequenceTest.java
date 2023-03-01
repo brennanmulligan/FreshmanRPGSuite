@@ -60,10 +60,10 @@ public class LoginSuccessSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN_OFFLINE.getOwnedItems()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new MapFileMessage(
-                                    ServersForTest.QUAD.getMapName()), true),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), ServersForTest.QUAD.getMapName()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new InitializeThisClientsPlayerMessage(
-                                    DataGatheringUtilities.getPlayersQuest(
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), DataGatheringUtilities.getPlayersQuest(
                                             PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
                                     DataGatheringUtilities.getPlayersFriends(
                                             PlayersForTest.MERLIN_OFFLINE.getPlayerID()),

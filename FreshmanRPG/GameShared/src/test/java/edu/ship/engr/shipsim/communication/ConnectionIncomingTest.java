@@ -28,7 +28,7 @@ public class ConnectionIncomingTest
     @Test
     public void incomingMsgGetsProcessed() throws IOException
     {
-        Message msg = new StubMessage1();
+        Message msg = new StubMessage1(0);
 
         MessageHandlerSet messageHandlerSet = new MessageHandlerSet(null);
         ConnectionIncoming connection = new ConnectionIncoming(null, messageHandlerSet);
