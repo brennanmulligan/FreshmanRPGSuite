@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-import '../pages/create_player/models/create_player_request.dart';
-import '../pages/create_player/models/create_player_response.dart';
+import 'create_player_request.dart';
+import 'create_player_response.dart';
 
 
 
