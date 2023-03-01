@@ -4,14 +4,16 @@ import edu.ship.engr.shipsim.model.Report;
 
 public abstract class SendMessageReport implements Report
 {
-    private int relevantPlayerID;
+    private final int relevantPlayerID;
+    private boolean isQuiet = true;
 
     /**
      * @param relevantPlayerID the ID of the player associated with the message
      */
-    public SendMessageReport(int relevantPlayerID)
+    public SendMessageReport(int relevantPlayerID, boolean isQuiet)
     {
         this.relevantPlayerID = relevantPlayerID;
+        this.isQuiet = isQuiet;
     }
 
     /**
@@ -25,5 +27,7 @@ public abstract class SendMessageReport implements Report
     /**
      * @return isQuiet
      */
-    public abstract boolean isQuiet();
+    public final boolean isQuiet(){
+        return isQuiet;
+    }
 }
