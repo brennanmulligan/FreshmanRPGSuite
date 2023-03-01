@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../repository/player_repository.dart';
-import 'models/create_player_response.dart';
+import '../../repository/player/player_repository.dart';
+import '../../repository/player/create_player_response.dart';
 
 class CreatePlayerPage extends StatefulWidget {
   const CreatePlayerPage({Key? key}) : super(key: key);
