@@ -74,10 +74,12 @@ public class TestPlayerController
         player2.setPlayerID(2);
 
         when(mock.processAction(any(Runnable.class), eq(GetAllPlayersReport.class))).thenReturn(
-                new GetAllPlayersReport(new ArrayList<>() {{
-                    add(player1);
-                    add(player2);
-                }}));
+                new GetAllPlayersReport(new ArrayList<>()
+                    {{
+                        add(player1);
+                        add(player2);
+                    }}
+                ));
 
         when(mock.getAllPlayers()).thenCallRealMethod();
 
