@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../type_definitions.dart';
+import '../../type_definitions.dart';
 
 ///
 /// Object to request creating a player.
