@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:game_manager/pages/create_player/models/create_player_request.dart';
-import 'package:game_manager/pages/create_player/models/create_player_response.dart';
-import 'package:game_manager/repository/player_repository.dart';
+import 'package:game_manager/repository/player/create_player_request.dart';
+import 'package:game_manager/repository/player/create_player_response.dart';
+import 'package:game_manager/repository/player/player_repository.dart';
 import 'package:test/test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
