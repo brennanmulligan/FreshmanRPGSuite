@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:game_manager/pages/create_player/models/create_player_response.dart';
+import 'package:game_manager/repository/player/create_player_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:mockito/mockito.dart';
-import 'package:game_manager/repository/player_repository.dart';
+import 'package:game_manager/repository/player/player_repository.dart';
 
 import 'create_player_test.mocks.dart';
 
