@@ -46,6 +46,16 @@ public class PlayerTableDataGateway
         return singleton;
     }
 
+    /**
+     * Used for testing
+     *
+     * @param instance The instance to which the singleton will be set.
+     */
+    public void setSingleton(PlayerTableDataGateway instance)
+    {
+        singleton = instance;
+    }
+
     public ArrayList<PlayerScoreRecord> getHighScoreList() throws DatabaseException
     {
         ArrayList<PlayerScoreRecord> resultList = new ArrayList<>();
