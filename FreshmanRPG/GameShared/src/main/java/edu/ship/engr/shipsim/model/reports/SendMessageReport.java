@@ -27,7 +27,8 @@ public abstract class SendMessageReport implements Report
     /**
      * @return isQuiet
      */
-    public final boolean isQuiet(){
+    public final boolean isQuiet()
+    {
         return isQuiet;
     }
 }
