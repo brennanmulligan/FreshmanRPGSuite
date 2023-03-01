@@ -32,7 +32,8 @@ public class CommandGetAllPlayersTest
         PlayerDTO player2 = new PlayerDTO();
         player2.setPlayerID(2);
 
-        ArrayList<PlayerDTO> players = new ArrayList<>() {{
+        ArrayList<PlayerDTO> players = new ArrayList<>()
+        {{
             add(player1);
             add(player2);
         }};
