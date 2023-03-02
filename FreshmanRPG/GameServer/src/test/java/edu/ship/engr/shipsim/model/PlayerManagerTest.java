@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datatypes.NPCsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
@@ -228,4 +229,20 @@ public class PlayerManagerTest
         pm.addPlayer(2);
         assertEquals(PlayersForTest.MERLIN.getMapsVisited(), pm.getPlayerFromID(2).getPlayerVisitedMaps());
     }
+
+    @Test
+    public void testIsNPC() throws DatabaseException
+    {
+        OptionsManager om = OptionsManager.getSingleton();
+        om.setTestMode(true);
+        om.updateMapInformation(PlayersForTest.RED_HAT.getMapName(), "localhost", 1874);
+
+        PlayerManager pm = PlayerManager.getSingleton();
+        pm.loadNpcs(true);
+        pm.addPlayer(PlayersForTest.MERLIN.getPlayerID());
+        pm.addPlayer(PlayersForTest.RED_HAT.getPlayerID());
+        assertFalse(pm.isNPC(PlayersForTest.MERLIN.getPlayerID()));
+        assertTrue(pm.isNPC(PlayersForTest.RED_HAT.getPlayerID()));
+    }
+
 }
