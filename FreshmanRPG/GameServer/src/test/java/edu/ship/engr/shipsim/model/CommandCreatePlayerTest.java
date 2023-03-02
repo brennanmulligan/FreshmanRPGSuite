@@ -68,7 +68,8 @@ public class CommandCreatePlayerTest
     }
 
     @Test
-    public void testInvalidPassword() {
+    public void testInvalidPassword()
+    {
         ReportObserver obs = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
 

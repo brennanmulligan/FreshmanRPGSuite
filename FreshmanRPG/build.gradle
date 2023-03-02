@@ -5,19 +5,78 @@ plugins {
     id 'eclipse'
 }
 
-group 'edu.ship.cs'
+group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
-
-//sourceCompatibility = JavaVersion.VERSION_17
-//targetCompatibility = JavaVersion.VERSION_17
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
 
 task outputJVMVersion {
     def currentJvm = Jvm.current()
     println currentJvm
+}
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'checkstyle'
+
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation group: 'com.badlogicgames.gdx', name: 'gdx', version: '1.11.+'
+        implementation group: 'com.google.code.gson', name: 'gson', version: '2.10'
+        implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+        implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+        implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+        implementation group: 'org.apache.commons', name: 'commons-compress', version: '1.21'
+        implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+        implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
+        implementation group: 'org.javatuples', name: 'javatuples', version: '1.2'
+        implementation group: 'org.jetbrains', name: 'annotations', version: '16.0.2'
+        implementation group: 'org.reflections', name: 'reflections', version: '0.9.12'
+
+        testImplementation group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '3.10.1'
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: JupiterVersion
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: JupiterVersion
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: JupiterVersion
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-suite', version: JPlatformVersion
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: MockitoVersion
+        testImplementation group: 'org.mockito', name: 'mockito-inline', version: MockitoVersion
+        testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: MockitoVersion
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: LombokVersion
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: LombokVersion
+        testCompileOnly group: 'org.projectlombok', name: 'lombok', version: LombokVersion
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: LombokVersion
+    }
+
+    checkstyle {
+        ignoreFailures = false
+        maxWarnings = 0
+
+        configFile = rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+    }
+
+    configurations {
+        testArtifacts.extendsFrom testRuntime
+    }
+
+    tasks.register('testJar', Jar) {
+        classifier "test"
+        from sourceSets.test.output
+    }
+
+    artifacts {
+        testArtifacts testJar
+    }
 }

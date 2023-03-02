@@ -6,19 +6,12 @@ plugins {
     id "org.springframework.boot" version "2.7.5"
 }
 
-apply from: rootProject.file("dependencies.gradle")
-apply from: 'database-builders.gradle'
+apply from: file('database-builders.gradle')
 
 mainClassName = "edu.ship.engr.shipsim.Server"
 
-group 'edu.ship.cs'
+group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
-
-
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_17
-//    targetCompatibility = JavaVersion.VERSION_17
-//}
 
 repositories {
     mavenCentral()
@@ -26,38 +19,10 @@ repositories {
 
 dependencies {
     implementation project(':GameShared')
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
     testImplementation project(path: ':GameShared', configuration: 'testArtifacts')
-
-    normDependencies.values().forEach {
-        implementation it
-    }
-
-    testDependencies.values().forEach {
-        testImplementation it
-    }
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.5'
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.7.5'
-}
-
-configurations {
-    testArtifacts.extendsFrom testRuntime
-}
-task testJar(type: Jar) {
-    classifier "test"
-    from sourceSets.test.output
-}
-artifacts {
-    testArtifacts testJar
-}
-
-checkstyle {
-    ignoreFailures = false
-    maxWarnings = 0
 }
 
 shadowJar {

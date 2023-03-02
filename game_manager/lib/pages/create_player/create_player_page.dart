@@ -1,10 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_manager/repository/service/http-service.dart';
 
 import '../../repository/player_repository.dart';
-import 'bloc/create_player_bloc.dart';
 import 'models/create_player_response.dart';
 
 class CreatePlayerPage extends StatefulWidget {
@@ -45,7 +44,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
         ),
         body:
         RepositoryProvider(
-          create: (context) => PlayerRepository(service: HttpService()),
+          create: (context) => PlayerRepository(dio: Dio()),
 
           child: BlocProvider<CreatePlayerBloc>(
             create: (context) => CreatePlayerBloc
@@ -55,10 +54,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
           BlocConsumer<CreatePlayerBloc, CreatePlayerState>(
             listener: (context, state) {},
             builder: (context, state) {
-              if (state is CreatePlayerSuccess) {
-                return buildSuccessScreen(state.data);
-              } else if (state is CreatePlayerFailure) {
-                return buildErrorScreen();
+              if (state is CreatePlayerComplete) {
+                return buildRequestCompleteScreen(state.response);
               } else {
                 return buildInputScreen();
               }
@@ -159,11 +156,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
         ),
       );
 
-  Widget buildSuccessScreen(CreatePlayerResponse data) =>
-      Center(child: Text('Success'));
-
-  Widget buildErrorScreen() =>
-      const Center(child: Text('Error'));
+  Widget buildRequestCompleteScreen(CreatePlayerResponse data) =>
+      Center(child: Text('$data'));
 }
 
 class SubmitButtonBuilder extends StatelessWidget {
@@ -188,8 +182,7 @@ class SubmitButtonBuilder extends StatelessWidget {
       padding: const EdgeInsets.all(1),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          onPrimary: Colors.blue,
-          primary: Colors.blue,
+          foregroundColor: Colors.blue,
           minimumSize: const Size(double.infinity, 50),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(1)),

@@ -32,11 +32,7 @@ public class DesktopClient
             }
         }
 
-        if (!OptionsManager.getSingleton().isRunningInIntelliJ())
-        {
-            OptionsManager.getSingleton().setUsingClient(true);
-            ClientContentLoader.execute();
-        }
+        ClientContentLoader.execute();
 
         OptionsManager.getSingleton().setLoginHost(host);
         OptionsManager.getSingleton().setTestMode(false);
