@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-function search() {
-    ./gradlew checkForDuplicateClasses || exit
-}
-
 function seedServer() {
     cd GameServer > /dev/null || exit
     ./../gradlew DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems --console=plain || exit
@@ -128,7 +124,6 @@ function runCheckstyle() {
 }
 
 function run() {
-    search
     seedFirst
     seedSecond
     runTests

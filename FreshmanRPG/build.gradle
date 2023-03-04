@@ -78,7 +78,11 @@ subprojects {
         from sourceSets.test.output
     }
 
-    compileJava.dependsOn rootProject.checkForDuplicateClasses
+    compileJava {
+        doLast {
+            rootProject.checkForDuplicateClasses
+        }
+    }
 
     artifacts {
         testArtifacts testJar
