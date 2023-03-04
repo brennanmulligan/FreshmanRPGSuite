@@ -36,11 +36,11 @@ public class TerminalTextSequenceTest extends SequenceTest
 
         MessageFlow[] sequence = new MessageFlow[]{
                 new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                        new SendTerminalTextMessage(PlayersForTest.JEFF.getPlayerID(),
+                        new SendTerminalTextMessage(PlayersForTest.JEFF.getPlayerID(), false,
                                 "who"), true),
 
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                        new ReceiveTerminalTextMessage(PlayersForTest.JEFF.getPlayerID(),
+                        new ReceiveTerminalTextMessage(PlayersForTest.JEFF.getPlayerID(), false,
                                 expected.toString()), true)};
 
         serverList.add(ServerType.THIS_PLAYER_CLIENT);

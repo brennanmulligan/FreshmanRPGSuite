@@ -21,7 +21,7 @@ public class VanityShopInventoryRequestPacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-        return new VanityShopInventoryRequestMessage();
+        return new VanityShopInventoryRequestMessage(false);
     }
 
     /**

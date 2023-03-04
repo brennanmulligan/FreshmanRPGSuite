@@ -64,9 +64,9 @@ public class DisplayTextMessage extends Message implements Serializable
      * @param playerID player id of the player we want to send this message to
      * @param text     text we want to send to the player
      */
-    public DisplayTextMessage(int playerID, String text)
+    public DisplayTextMessage(int playerID, boolean quietMessage, String text)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.text = text;
     }
 

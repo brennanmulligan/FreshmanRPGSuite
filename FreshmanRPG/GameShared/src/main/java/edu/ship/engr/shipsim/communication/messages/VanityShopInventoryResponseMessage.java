@@ -18,9 +18,9 @@ public class VanityShopInventoryResponseMessage extends Message
     /**
      * @param vanityShopItems the list of items in the vanity shop
      */
-    public VanityShopInventoryResponseMessage(ArrayList<VanityDTO> vanityShopItems)
+    public VanityShopInventoryResponseMessage(ArrayList<VanityDTO> vanityShopItems, boolean quietMessage)
     {
-        super(0);
+        super(0,quietMessage);
         this.vanityShopInventory = vanityShopItems;
     }
 

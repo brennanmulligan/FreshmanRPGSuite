@@ -35,7 +35,7 @@ public class CommandUpdateFriendsListTest
         friends.add(new FriendDTO(1, 2, FriendStatusEnum.ACCEPTED, "John", "Merlin"));
 
         InitializeThisClientsPlayerMessage msg = new InitializeThisClientsPlayerMessage(
-                PlayersForTest.JOHN.getPlayerID(), list, friends, 0, 100, null);
+                PlayersForTest.JOHN.getPlayerID(), false, list, friends, 0, 100, null);
         CommandUpdateFriendsList friendCmd = new CommandUpdateFriendsList(msg);
         assertEquals(1, friendCmd.getFriendList().get(0).getPlayerID());
 
@@ -75,7 +75,7 @@ public class CommandUpdateFriendsListTest
         int doubloons = 100;
 
         CommandUpdateFriendsList x = new CommandUpdateFriendsList(
-                new InitializeThisClientsPlayerMessage(PlayersForTest.JOHN.getPlayerID(), quests, friends, 0, doubloons, level));
+                new InitializeThisClientsPlayerMessage(PlayersForTest.JOHN.getPlayerID(), false, quests, friends, 0, doubloons, level));
         x.execute();
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();

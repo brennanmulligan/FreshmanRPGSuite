@@ -19,9 +19,9 @@ public class BuffMessage extends Message implements Serializable
      * @param playerID         - The id of the player
      * @param experiencePoints - The number of Bonus Exp Points
      */
-    public BuffMessage(int playerID, int experiencePoints)
+    public BuffMessage(int playerID, boolean quietMessage, int experiencePoints)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.experiencePointPool = experiencePoints;
     }
 

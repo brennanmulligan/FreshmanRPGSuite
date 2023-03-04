@@ -18,7 +18,7 @@ public class LoginSuccessMessagePacker extends MessagePacker
     {
         LoginSuccessfulReport report = (LoginSuccessfulReport) object;
 
-        return new LoginSuccessfulMessage(report.getPlayerID(), report.getHostname(), report.getPort(), report.getPin());
+        return new LoginSuccessfulMessage(report.getPlayerID(), report.isQuiet(), report.getHostname(), report.getPort(), report.getPin());
     }
 
     @Override

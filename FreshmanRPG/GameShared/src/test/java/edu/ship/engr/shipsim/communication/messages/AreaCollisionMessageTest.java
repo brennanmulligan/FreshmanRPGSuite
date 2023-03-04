@@ -21,9 +21,10 @@ public class AreaCollisionMessageTest
     @Test
     public void testConstructor() throws Exception
     {
-        AreaCollisionMessage msg = new AreaCollisionMessage(1, "test");
+        AreaCollisionMessage msg = new AreaCollisionMessage(1, false, "test");
         assertEquals(1, msg.getRelevantPlayerID());
         assertEquals("test", msg.getAreaName());
+        assertEquals(false, msg.isQuietMessage());
     }
 
 }

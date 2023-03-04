@@ -47,7 +47,7 @@ public class ExperienceChangedMessageHandlerTest
         LevelRecord record = new LevelRecord("Serf", 15, 10, 7);
 
         ExperienceChangedMessage msg = new ExperienceChangedMessage(
-                PlayersForTest.JOHN.getPlayerID(),
+                PlayersForTest.JOHN.getPlayerID(), false,
                 PlayersForTest.JOHN.getExperiencePoints() + 2, record);
         ExperienceChangedMessageHandler h = new ExperienceChangedMessageHandler();
         h.process(msg);

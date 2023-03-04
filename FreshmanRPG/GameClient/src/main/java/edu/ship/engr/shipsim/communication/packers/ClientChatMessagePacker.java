@@ -31,7 +31,7 @@ public class ClientChatMessagePacker extends MessagePacker
 
         ChatSentReport report = (ChatSentReport) object;
         ChatMessageToServer msg = new ChatMessageToServer(report.getSenderID(),
-                report.getReceiverID(), report.getMessage(), report.getPosition(),
+                report.getReceiverID(), report.isQuiet(), report.getMessage(), report.getPosition(),
                 report.getType());
 
         return msg;

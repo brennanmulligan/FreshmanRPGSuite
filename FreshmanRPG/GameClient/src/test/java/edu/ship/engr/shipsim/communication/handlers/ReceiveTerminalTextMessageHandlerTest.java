@@ -29,7 +29,7 @@ public class ReceiveTerminalTextMessageHandlerTest
     public void testHandlerProcess() throws InterruptedException
     {
         String testString = "Test : String";
-        ReceiveTerminalTextMessage msg = new ReceiveTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(), testString);
+        ReceiveTerminalTextMessage msg = new ReceiveTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(), false, testString);
         ReceiveTerminalTextMessageHandler handler = new ReceiveTerminalTextMessageHandler();
         handler.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

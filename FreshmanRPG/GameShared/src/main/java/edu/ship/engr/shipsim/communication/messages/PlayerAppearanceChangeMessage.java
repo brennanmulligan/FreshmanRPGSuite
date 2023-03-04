@@ -21,9 +21,9 @@ public class PlayerAppearanceChangeMessage extends Message implements Serializab
      * @param playerID ID of the player
      * @param vanities the list of vanity objects the player is wearing
      */
-    public PlayerAppearanceChangeMessage(int playerID, VanityDTO bodyDTO, VanityDTO hatDTO)
+    public PlayerAppearanceChangeMessage(int playerID, boolean quietMessage, VanityDTO bodyDTO, VanityDTO hatDTO)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.vanities = new ArrayList<>(vanities);
 
     }

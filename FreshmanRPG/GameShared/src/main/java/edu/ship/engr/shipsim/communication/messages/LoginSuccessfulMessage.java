@@ -30,9 +30,9 @@ public class LoginSuccessfulMessage extends Message implements Serializable
      *                   should connect to
      * @param pin        the magic number required to connect to area servers
      */
-    public LoginSuccessfulMessage(int playerID, String hostName, int portNumber, double pin)
+    public LoginSuccessfulMessage(int playerID, boolean quietMessage, String hostName, int portNumber, double pin)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.hostName = hostName;
         this.portNumber = portNumber;
         this.pin = pin;

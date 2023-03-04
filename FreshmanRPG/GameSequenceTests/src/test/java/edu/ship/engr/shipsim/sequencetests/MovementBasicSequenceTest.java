@@ -17,12 +17,12 @@ public class MovementBasicSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(), false,
                             new Position(PlayersForTest.MATT.getPosition().getRow(),
                                     PlayersForTest.MATT.getPosition().getColumn() + 1)),
                     true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                            new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                            new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(), false,
                                     new Position(
                                             PlayersForTest.MATT.getPosition().getRow(),
                                             PlayersForTest.MATT.getPosition()
