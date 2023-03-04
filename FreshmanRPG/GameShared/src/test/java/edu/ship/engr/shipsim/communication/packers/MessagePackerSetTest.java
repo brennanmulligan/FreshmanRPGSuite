@@ -3,8 +3,8 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 import edu.ship.engr.shipsim.model.reports.StubReport1;
 import edu.ship.engr.shipsim.model.reports.StubReport2;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
@@ -65,7 +65,7 @@ public class MessagePackerSetTest
     public void noSuchHandler() throws CommunicationException
     {
         MessagePackerSet set = new MessagePackerSet();
-        Report report = Mockito.mock(Report.class);
+        SendMessageReport report = Mockito.mock(SendMessageReport.class);
 
         ArrayList<Message> msgs = set.pack(report);
         assertEquals(0, msgs.size());
@@ -111,24 +111,31 @@ public class MessagePackerSetTest
         assertEquals(0, set.getCount());
     }
 
-    private static class TestReport1 implements Report
+    private static class TestReport1 extends SendMessageReport
     {
-
+        public TestReport1()
+        {
+            super(0, false);
+        }
     }
 
-    private static class TestReport2 implements Report
+    private static class TestReport2 extends SendMessageReport
     {
-
+        public TestReport2()
+        {
+            // Happens on client, thus it will always be loud
+            super(0, false);
+        }
     }
 
     private static class MockMessagePacker extends MessagePacker
     {
 
         /**
-         * @see MessagePacker#pack(Report)
+         * @see MessagePacker#pack(SendMessageReport)
          */
         @Override
-        public Message pack(Report object)
+        public Message pack(SendMessageReport object)
         {
             return Mockito.mock(Message.class);
         }
@@ -137,9 +144,9 @@ public class MessagePackerSetTest
          * @see MessagePacker#getReportTypesWePack()
          */
         @Override
-        public ArrayList<Class<? extends Report>> getReportTypesWePack()
+        public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
         {
-            ArrayList<Class<? extends Report>> result = new ArrayList<>();
+            ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
 
             result.add(TestReport1.class);
             result.add(TestReport2.class);

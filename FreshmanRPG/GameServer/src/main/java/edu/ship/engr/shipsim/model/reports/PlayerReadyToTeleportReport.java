@@ -1,11 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Created after a player gets saved to the database.
  */
-public class PlayerReadyToTeleportReport implements Report
+public class PlayerReadyToTeleportReport extends SendMessageReport
 {
 
     private int id = 0;
@@ -17,6 +15,7 @@ public class PlayerReadyToTeleportReport implements Report
      */
     public PlayerReadyToTeleportReport(int playerID, String map)
     {
+        super(playerID, true);
         this.id = playerID;
         this.map = map;
     }

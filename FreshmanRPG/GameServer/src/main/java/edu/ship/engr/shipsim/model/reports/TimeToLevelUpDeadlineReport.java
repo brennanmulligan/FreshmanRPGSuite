@@ -1,7 +1,5 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 import java.util.Date;
 
 /**
@@ -9,7 +7,7 @@ import java.util.Date;
  *
  * @author Evan, Chris, Marty
  */
-public final class TimeToLevelUpDeadlineReport implements Report
+public final class TimeToLevelUpDeadlineReport extends SendMessageReport
 {
     private int playerID;
     private Date timeToDeadline;
@@ -23,6 +21,7 @@ public final class TimeToLevelUpDeadlineReport implements Report
      */
     public TimeToLevelUpDeadlineReport(int playerID, Date timeToDeadline, String nextLevel)
     {
+        super(playerID, true);
         this.playerID = playerID;
         this.timeToDeadline = timeToDeadline;
         this.nextLevel = nextLevel;

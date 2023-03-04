@@ -6,8 +6,8 @@ import edu.ship.engr.shipsim.model.LoginFailedException;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
-import edu.ship.engr.shipsim.model.reports.RestfulLoginFailedReport;
-import edu.ship.engr.shipsim.model.reports.RestfulLoginSuccessfulReport;
+import edu.ship.engr.shipsim.model.reports.RestfulLoginServerFailedReport;
+import edu.ship.engr.shipsim.model.reports.RestfulLoginServerSuccessfulReport;
 
 /**
  * @author Derek
@@ -26,13 +26,15 @@ public class RestfulLoginMessageHandler extends MessageHandler
             LoginSuccessfulReport response = LoginPlayerManager.getSingleton().login(loginMsg.getUsername(),
                     loginMsg.getPassword());
 
-            RestfulLoginSuccessfulReport report = new RestfulLoginSuccessfulReport(response.getPlayerID());
+            RestfulLoginServerSuccessfulReport
+                    report = new RestfulLoginServerSuccessfulReport(response.getPlayerID());
 
             ReportObserverConnector.getSingleton().sendReport(report);
         }
         catch (LoginFailedException e)
         {
-            RestfulLoginFailedReport report = new RestfulLoginFailedReport(e.getMessage());
+            RestfulLoginServerFailedReport
+                    report = new RestfulLoginServerFailedReport(e.getMessage());
 
             ReportObserverConnector.getSingleton().sendReport(report);
         }

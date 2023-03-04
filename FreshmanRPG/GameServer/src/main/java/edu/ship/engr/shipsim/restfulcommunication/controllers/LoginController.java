@@ -95,7 +95,8 @@ public class LoginController extends Controller
         }
         else if (report.getClass().equals(RestfulLoginFailedReport.class))
         {
-            RestfulLoginFailedReport failedReport = (RestfulLoginFailedReport) report;
+            RestfulLoginFailedReport
+                    failedReport = (RestfulLoginFailedReport) report;
 
             return new ResponseEntity<>(failedReport.getMessage(), HttpStatus.BAD_REQUEST);
         }

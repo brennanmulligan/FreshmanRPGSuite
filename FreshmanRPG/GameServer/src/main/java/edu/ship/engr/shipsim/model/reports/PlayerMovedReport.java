@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.PlayerManager;
+
+import java.util.Objects;
 
 /**
  * Reports movement of any player playing on this server
  *
  * @author Merlin
  */
-public final class PlayerMovedReport implements Report
+public final class PlayerMovedReport extends SendMessageReport
 {
 
     private final Position newPosition;
@@ -24,69 +26,11 @@ public final class PlayerMovedReport implements Report
      */
     public PlayerMovedReport(int playerID, String playerName, Position position, String mapName)
     {
+        super(playerID, !PlayerManager.getSingleton().isNPC(playerID));
         newPosition = position;
         this.playerID = playerID;
         this.playerName = playerName;
         this.mapName = mapName;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        PlayerMovedReport other = (PlayerMovedReport) obj;
-        if (mapName == null)
-        {
-            if (other.mapName != null)
-            {
-                return false;
-            }
-        }
-        else if (!mapName.equals(other.mapName))
-        {
-            return false;
-        }
-        if (newPosition == null)
-        {
-            if (other.newPosition != null)
-            {
-                return false;
-            }
-        }
-        else if (!newPosition.equals(other.newPosition))
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        if (playerName == null)
-        {
-            if (other.playerName != null)
-            {
-                return false;
-            }
-        }
-        else if (!playerName.equals(other.playerName))
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -123,19 +67,30 @@ public final class PlayerMovedReport implements Report
         return playerName;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof PlayerMovedReport that))
+        {
+            return false;
+        }
+
+        return getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getNewPosition(), that.getNewPosition()) &&
+                Objects.equals(getPlayerName(), that.getPlayerName()) &&
+                Objects.equals(getMapName(), that.getMapName()) &&
+                Objects.equals(getRelevantPlayerID(), that.getRelevantPlayerID()) &&
+                Objects.equals(isQuiet(), that.isQuiet());
+    }
+
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
-        result = prime * result + ((newPosition == null) ? 0 : newPosition.hashCode());
-        result = prime * result + playerID;
-        result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
-        return result;
+        return Objects.hash(getNewPosition(), getPlayerID(), getPlayerName(),
+                getMapName(), getRelevantPlayerID(), isQuiet());
     }
-
 }
