@@ -1,11 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * @author Ryan
  */
-public final class QuestNotificationCompleteReport implements Report
+public final class QuestNotificationCompleteReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -19,6 +17,9 @@ public final class QuestNotificationCompleteReport implements Report
      */
     public QuestNotificationCompleteReport(int playerID, int questID)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
+
         this.playerID = playerID;
         this.questID = questID;
     }

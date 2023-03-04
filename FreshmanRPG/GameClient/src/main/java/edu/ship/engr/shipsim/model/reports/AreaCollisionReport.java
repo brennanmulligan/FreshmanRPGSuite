@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import java.util.Objects;
 
 /**
  * @author nhydock
  */
-public class AreaCollisionReport implements Report
+public class AreaCollisionReport extends SendMessageReport
 {
     private final int playerID;
     private final String areaName;
@@ -16,6 +16,7 @@ public class AreaCollisionReport implements Report
      */
     public AreaCollisionReport(int playerID, String areaName)
     {
+        super(playerID, true);
         this.playerID = playerID;
         this.areaName = areaName;
     }
@@ -29,60 +30,33 @@ public class AreaCollisionReport implements Report
     }
 
     /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public final int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((areaName == null) ? 0 : areaName.hashCode());
-        result = prime * result + playerID;
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public final boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (!(obj instanceof AreaCollisionReport))
-        {
-            return false;
-        }
-        AreaCollisionReport other = (AreaCollisionReport) obj;
-        if (areaName == null)
-        {
-            if (other.areaName != null)
-            {
-                return false;
-            }
-        }
-        else if (!areaName.equals(other.areaName))
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @return the position to which the player moved
      */
     public String getAreaName()
     {
         return areaName;
+    }
+
+    @Override
+    public final boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof AreaCollisionReport that))
+        {
+            return false;
+        }
+        return getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getAreaName(), that.getAreaName()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
+    @Override
+    public final int hashCode()
+    {
+        return Objects.hash(getPlayerID(), getAreaName(), getRelevantPlayerID(), isQuiet());
     }
 }

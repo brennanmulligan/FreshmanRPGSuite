@@ -3,6 +3,7 @@ package edu.ship.engr.shipsim.communication;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.reports.StubReport1;
+import edu.ship.engr.shipsim.model.reports.StubReport3;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -62,6 +63,7 @@ public class StateAccumulatorTest
         MessagePackerSet packerSet = new MessagePackerSet();
 
         StateAccumulator accum = new StateAccumulator(packerSet);
+        //Stub report 1 is a SendMessageReport so it should get sent.
         accum.receiveReport(new StubReport1());
         ArrayList<Message> pending = accum.pendingMsgs;
         assertEquals(2, pending.size());
@@ -80,4 +82,20 @@ public class StateAccumulatorTest
         assertEquals(m, accum.pendingMsgs.get(0));
     }
 
+    /**
+     * Test to ensure that we do not send Reports
+     */
+    @Test
+    public void doesNotSendReport()
+    {
+        StateAccumulator accum = new StateAccumulator(null);
+
+        //stub report 3 is just a Report not a SendMessageReport
+        accum.receiveReport(new StubReport3());
+
+        ArrayList<Message> pending = accum.pendingMsgs;
+
+        //we should have no pending messages in this case.
+        assertEquals(0, pending.size());
+    }
 }

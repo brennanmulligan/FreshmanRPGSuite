@@ -1,11 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * @author bl5922 SendTerminalTextReport that gets sent from CommandSendTerminalText
  */
-public class SendTerminalTextReport implements Report
+public class SendTerminalTextReport extends SendMessageReport
 {
 
     private int playerID = 0;
@@ -17,6 +15,8 @@ public class SendTerminalTextReport implements Report
      */
     public SendTerminalTextReport(int playerID, String text)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.playerID = playerID;
         this.terminalText = text;
 

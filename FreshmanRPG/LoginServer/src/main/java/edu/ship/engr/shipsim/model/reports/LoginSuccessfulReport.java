@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import java.util.Objects;
 
 /**
  * @author Merlin
  */
-public final class LoginSuccessfulReport implements Report
+public final class LoginSuccessfulReport extends SendMessageReport
 {
 
     private final String hostname;
@@ -23,51 +23,11 @@ public final class LoginSuccessfulReport implements Report
      */
     public LoginSuccessfulReport(int playerID, String hostname, int port, double d)
     {
+        super(playerID, true);
         this.hostname = hostname;
         this.port = port;
         this.pin = d;
         this.playerID = playerID;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        LoginSuccessfulReport other = (LoginSuccessfulReport) obj;
-        if (hostname == null)
-        {
-            if (other.hostname != null)
-            {
-                return false;
-            }
-        }
-        else if (!hostname.equals(other.hostname))
-        {
-            return false;
-        }
-        if (port != other.port)
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -102,18 +62,27 @@ public final class LoginSuccessfulReport implements Report
         return playerID;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof LoginSuccessfulReport that))
+        {
+            return false;
+        }
+        return getPort() == that.getPort() &&
+                getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getHostname(), that.getHostname()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
-        result = prime * result + port;
-        result = prime * result + playerID;
-        return result;
+        return Objects.hash(getHostname(), getPort(), getPlayerID(), getRelevantPlayerID(), isQuiet());
     }
-
 }
