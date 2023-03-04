@@ -4,7 +4,6 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,7 +13,7 @@ import java.util.Objects;
  *
  * @author Merlin, Aaron W., Jake H.
  */
-public final class PlayerConnectionReport implements Report
+public final class PlayerConnectionReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -60,6 +59,7 @@ public final class PlayerConnectionReport implements Report
     public PlayerConnectionReport(int playerID, String playerName, String appearanceType, Position position, Crew crew,
                                   Major major, int section, ArrayList<VanityDTO> vanityDTOs, ArrayList<VanityDTO> ownedItems)
     {
+        super(playerID, true);
         this.playerID = playerID;
         this.playerName = playerName;
         this.appearanceType = appearanceType;
@@ -149,19 +149,28 @@ public final class PlayerConnectionReport implements Report
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if (!(o instanceof PlayerConnectionReport that))
         {
             return false;
         }
-        PlayerConnectionReport that = (PlayerConnectionReport) o;
-        return playerID == that.playerID && section == that.section && Objects.equals(playerName, that.playerName) &&
-                Objects.equals(appearanceType, that.appearanceType) && Objects.equals(position, that.position) &&
-                crew == that.crew && major == that.major && Objects.equals(vanityDTOs, that.vanityDTOs) && Objects.equals(ownedItems, that.ownedItems);
+        return getPlayerID() == that.getPlayerID() &&
+                getSection() == that.getSection() &&
+                Objects.equals(getPlayerName(), that.getPlayerName()) &&
+                Objects.equals(getAppearanceType(),
+                        that.getAppearanceType()) &&
+                Objects.equals(getPosition(), that.getPosition()) &&
+                getCrew() == that.getCrew() && getMajor() == that.getMajor() &&
+                Objects.equals(vanityDTOs, that.vanityDTOs) &&
+                Objects.equals(getOwnedItems(), that.getOwnedItems()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(playerID, playerName, appearanceType, position, crew, major, section, vanityDTOs, ownedItems);
+        return Objects.hash(getPlayerID(), getPlayerName(), getAppearanceType(),
+                getPosition(), getCrew(), getMajor(), getSection(), vanityDTOs,
+                getOwnedItems(), getRelevantPlayerID(), isQuiet());
     }
 }

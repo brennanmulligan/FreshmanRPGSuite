@@ -1,18 +1,18 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 import java.util.Objects;
 
 /**
  * @author Derek
  */
-public class RestfulLoginFailedReport implements Report
+public class RestfulLoginServerFailedReport extends SendMessageReport
 {
+
     private final String message;
 
-    public RestfulLoginFailedReport(String message)
+    public RestfulLoginServerFailedReport(String message)
     {
+        super(0, false);
         this.message = message;
     }
 
@@ -39,7 +39,8 @@ public class RestfulLoginFailedReport implements Report
             return false;
         }
 
-        RestfulLoginFailedReport otherReport = (RestfulLoginFailedReport) o;
+        RestfulLoginServerFailedReport
+                otherReport = (RestfulLoginServerFailedReport) o;
 
         return Objects.equals(message, otherReport.getMessage());
     }

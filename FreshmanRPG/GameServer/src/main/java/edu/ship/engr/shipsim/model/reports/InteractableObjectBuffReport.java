@@ -1,11 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * @author Adam Pine, Jacob Knight
  */
-public class InteractableObjectBuffReport implements Report
+public class InteractableObjectBuffReport extends SendMessageReport
 {
     private final int playerID;
     private final int experiencePointPool;
@@ -18,6 +16,7 @@ public class InteractableObjectBuffReport implements Report
      */
     public InteractableObjectBuffReport(int playerID, int experiencePointPool)
     {
+        super(playerID, true);
         this.playerID = playerID;
         this.experiencePointPool = experiencePointPool;
     }
