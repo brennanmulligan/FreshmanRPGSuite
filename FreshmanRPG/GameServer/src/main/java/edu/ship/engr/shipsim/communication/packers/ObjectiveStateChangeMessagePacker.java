@@ -19,13 +19,13 @@ public class ObjectiveStateChangeMessagePacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-        ObjectiveStateChangeReport rpt = (ObjectiveStateChangeReport) object;
+        ObjectiveStateChangeReport report = (ObjectiveStateChangeReport) object;
         ObjectiveStateChangeMessage msg = null;
-        int playerID = rpt.getPlayerID();
+        int playerID = report.getPlayerID();
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            msg = new ObjectiveStateChangeMessage(rpt.getPlayerID(), rpt.getQuestID(), rpt.getObjectiveID(),
-                    rpt.getObjectiveDescription(), rpt.getNewState(), rpt.isRealLifeObjective(), rpt.getWitnessTitle());
+            msg = new ObjectiveStateChangeMessage(report.getPlayerID(), report.isQuiet(), report.getQuestID(), report.getObjectiveID(),
+                    report.getObjectiveDescription(), report.getNewState(), report.isRealLifeObjective(), report.getWitnessTitle());
         }
         return msg;
     }

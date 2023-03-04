@@ -12,12 +12,24 @@ import java.util.Objects;
  * message class and other need a constructor that uses relevantPlayerID as the
  * parameter.
  *
- * @author Evan Paules and Yohan
+ * @author Evan Paules and Yong Hang Lin
  */
 
 public abstract class Message implements Serializable
 {
     int relevantPlayerID;
+    boolean quietMessage;
+
+    public boolean isQuietMessage()
+    {
+        return quietMessage;
+    }
+
+    public Message(int relevantPlayerID, boolean quietMessage)
+    {
+        this.relevantPlayerID = relevantPlayerID;
+        this.quietMessage = quietMessage;
+    }
 
     public int getRelevantPlayerID()
     {

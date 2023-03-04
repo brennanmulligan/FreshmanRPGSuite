@@ -17,7 +17,7 @@ public class TerminalTeleportationSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(),
+                    new SendTerminalTextMessage(PlayersForTest.MERLIN.getPlayerID(), false,
                             "teleport " + ServersForTest.FIRST_SERVER.getMapTitle()),
                     true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
@@ -25,7 +25,7 @@ public class TerminalTeleportationSequenceTest extends SequenceTest
                                     ServersForTest.FIRST_SERVER.getMapName(),
                                     ServersForTest.FIRST_SERVER.getHostName(),
                                     ServersForTest.FIRST_SERVER.getPortNumber(),
-                                    PlayersForTest.MERLIN.getPlayerID(), 1111), true)};
+                                    PlayersForTest.MERLIN.getPlayerID(), 1111, false), true)};
 
 
     /**

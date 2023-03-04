@@ -16,9 +16,9 @@ public class ItemPurchasedMessage extends Message implements Serializable
      * @param playerID - player purchasing the item
      * @param price    - number of doubloons the item costs
      */
-    public ItemPurchasedMessage(int playerID, int price)
+    public ItemPurchasedMessage(int playerID, boolean quietMessage, int price)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.price = price;
     }
 

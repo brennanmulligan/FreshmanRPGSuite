@@ -6,9 +6,9 @@ import java.util.Objects;
 public class TerminalTextExitMessage extends Message implements Serializable
 {
 
-    public TerminalTextExitMessage(int playerID)
+    public TerminalTextExitMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     @Override

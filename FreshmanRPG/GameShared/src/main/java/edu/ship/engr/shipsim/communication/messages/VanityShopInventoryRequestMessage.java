@@ -10,9 +10,9 @@ public class VanityShopInventoryRequestMessage extends Message
 {
     private static final long serialVersionUID = 1L;
 
-    public VanityShopInventoryRequestMessage()
+    public VanityShopInventoryRequestMessage(boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
     }
 
     /**

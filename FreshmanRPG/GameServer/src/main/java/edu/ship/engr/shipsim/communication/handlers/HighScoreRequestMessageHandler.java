@@ -23,7 +23,7 @@ public class HighScoreRequestMessageHandler extends MessageHandler
         try
         {
             this.getStateAccumulator()
-                    .queueMessage(new HighScoreResponseMessage(PlayerManager.getSingleton().getTopTenPlayers()));
+                    .queueMessage(new HighScoreResponseMessage(PlayerManager.getSingleton().getTopTenPlayers(), msg.isQuietMessage()));
         }
         catch (DatabaseException e)
         {

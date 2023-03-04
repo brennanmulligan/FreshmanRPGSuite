@@ -18,7 +18,7 @@ public class LoginBadPWSequenceTest extends SequenceTest
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.LOGIN_SERVER,
                     new LoginMessage(PlayersForTest.MERLIN.getPlayerName(),
-                            PlayersForTest.MERLIN.getPlayerPassword() + "Z"), true),
+                            PlayersForTest.MERLIN.getPlayerPassword() + "Z", false), true),
                     new MessageFlow(ServerType.LOGIN_SERVER,
                             ServerType.THIS_PLAYER_CLIENT, new LoginFailedMessage(),
                             true)};

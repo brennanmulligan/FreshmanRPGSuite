@@ -17,9 +17,9 @@ public class ReceiveTerminalTextMessage extends Message implements Serializable
      * @param resultText         The text to send back to the client
      * @param requestingPlayerID the id of the player requesting the information
      */
-    public ReceiveTerminalTextMessage(int requestingPlayerID, String resultText)
+    public ReceiveTerminalTextMessage(int requestingPlayerID, boolean quietMessage, String resultText)
     {
-        super(requestingPlayerID);
+        super(requestingPlayerID, quietMessage);
         this.resultText = resultText;
     }
 

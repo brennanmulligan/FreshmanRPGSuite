@@ -20,9 +20,9 @@ public class TimeToLevelUpDeadlineMessage extends Message implements Serializabl
      *                       penalized
      * @param nextLevel      next level the player needs to get to
      */
-    public TimeToLevelUpDeadlineMessage(int playerID, Date timeToDeadline, String nextLevel)
+    public TimeToLevelUpDeadlineMessage(int playerID, boolean quietMessage, Date timeToDeadline, String nextLevel)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.timeToDeadline = timeToDeadline;
         this.nextLevel = nextLevel;
     }

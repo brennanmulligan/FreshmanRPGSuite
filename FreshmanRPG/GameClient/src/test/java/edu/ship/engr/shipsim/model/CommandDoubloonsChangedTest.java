@@ -34,7 +34,7 @@ public class CommandDoubloonsChangedTest
         ArrayList<ClientPlayerQuestStateDTO> list = new ArrayList<>();
         ArrayList<FriendDTO> friends = new ArrayList<>();
         InitializeThisClientsPlayerMessage msg = new InitializeThisClientsPlayerMessage(
-                PlayersForTest.MERLIN.getPlayerID(), list, friends, 0, doubloons, null);
+                PlayersForTest.MERLIN.getPlayerID(), false, list, friends, 0, doubloons, null);
         CommandDoubloonsChanged ow = new CommandDoubloonsChanged(msg);
         assertEquals(doubloons, ow.getDoubloons());
     }
@@ -71,7 +71,7 @@ public class CommandDoubloonsChangedTest
         int doubloons = 100;
 
         CommandDoubloonsChanged x = new CommandDoubloonsChanged(
-                new InitializeThisClientsPlayerMessage(PlayersForTest.JOHN.getPlayerID(), quests, friends, 0, doubloons, level));
+                new InitializeThisClientsPlayerMessage(PlayersForTest.JOHN.getPlayerID(), false, quests, friends, 0, doubloons, level));
         x.execute();
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();

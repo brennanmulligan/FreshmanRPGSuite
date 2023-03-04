@@ -38,7 +38,7 @@ public class ClientChatMessageHandlerTest
     {
         ClientChatMessageHandler handler = new ClientChatMessageHandler();
         ChatMessageToClient
-                chat = new ChatMessageToClient(42, 0, "message", new Position(1, 1),
+                chat = new ChatMessageToClient(42, 0, false, "message", new Position(1, 1),
                 ChatType.Local);
         handler.process(chat);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

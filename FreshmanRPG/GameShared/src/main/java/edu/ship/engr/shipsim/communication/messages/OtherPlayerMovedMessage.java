@@ -21,9 +21,9 @@ public class OtherPlayerMovedMessage extends Message implements Serializable
      * @param playerID The player who moved
      * @param p        Where the player moved to
      */
-    public OtherPlayerMovedMessage(int playerID, Position p)
+    public OtherPlayerMovedMessage(int playerID, boolean quietMessage, Position p)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.position = p;
     }
 

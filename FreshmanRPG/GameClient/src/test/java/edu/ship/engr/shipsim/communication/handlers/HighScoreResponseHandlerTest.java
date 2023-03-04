@@ -43,7 +43,7 @@ public class HighScoreResponseHandlerTest
         list.add(new PlayerScoreRecord("Merlin", 9001));
         list.add(new PlayerScoreRecord("Nate", 984257));
 
-        HighScoreResponseMessage msg = new HighScoreResponseMessage(list);
+        HighScoreResponseMessage msg = new HighScoreResponseMessage(list, false);
         HighScoreResponseMessageHandler h = new HighScoreResponseMessageHandler();
         h.process(msg);
 

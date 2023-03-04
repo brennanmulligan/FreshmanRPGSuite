@@ -41,7 +41,7 @@ public class PlayerLeaveMessagePacker extends MessagePacker
                 LoggerManager.getSingleton().getLogger()
                         .info("Telling player " + this.getAccumulator().getPlayerID() +
                                 " that player " + report.getPlayerID() + " left");
-                return new PlayerLeaveMessage(report.getPlayerID());
+                return new PlayerLeaveMessage(report.getPlayerID(), report.isQuiet());
             }
         }
         return null;

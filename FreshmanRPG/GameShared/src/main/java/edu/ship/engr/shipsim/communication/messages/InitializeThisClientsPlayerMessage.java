@@ -35,10 +35,10 @@ public class InitializeThisClientsPlayerMessage extends Message implements Seria
      * @param doubloons             for this player
      * @param level                 LevelRecord
      */
-    public InitializeThisClientsPlayerMessage(int relevantPlayerID, List<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
+    public InitializeThisClientsPlayerMessage(int relevantPlayerID, boolean quietMessage, List<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
                                               int doubloons, LevelRecord level)
     {
-        super(relevantPlayerID);
+        super(relevantPlayerID, quietMessage);
         this.friends = friends;
         this.clientPlayerQuestList = clientPlayerQuestList;
         this.experiencePts = experiencePts;

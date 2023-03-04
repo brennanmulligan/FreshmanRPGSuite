@@ -21,7 +21,7 @@ public class HighScoreRequestPacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-        return new HighScoreRequestMessage(getAccumulator().getPlayerID());
+        return new HighScoreRequestMessage(getAccumulator().getPlayerID(), getAccumulator().getFirstMessage().isQuietMessage());
     }
 
     /**
