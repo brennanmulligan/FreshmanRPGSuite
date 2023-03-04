@@ -17,9 +17,9 @@ public class ObjectiveNotificationCompleteMessage extends Message implements Ser
      * @param questID     id of the quest
      * @param objectiveID id of the objective
      */
-    public ObjectiveNotificationCompleteMessage(int playerID, int questID, int objectiveID)
+    public ObjectiveNotificationCompleteMessage(int playerID, boolean quietMessage, int questID, int objectiveID)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.questID = questID;
         this.objectiveID = objectiveID;
     }

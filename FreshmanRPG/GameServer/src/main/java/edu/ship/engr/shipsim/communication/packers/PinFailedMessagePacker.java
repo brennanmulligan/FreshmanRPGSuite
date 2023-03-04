@@ -30,7 +30,7 @@ public class PinFailedMessagePacker extends MessagePacker
             int playerID = report.getPlayerID();
             if (this.getAccumulator().getPlayerID() == playerID)
             {
-                PinFailedMessage msg = new PinFailedMessage(playerID);
+                PinFailedMessage msg = new PinFailedMessage(playerID, report.isQuiet());
                 return msg;
             }
 

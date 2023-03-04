@@ -26,9 +26,9 @@ public class MapFileMessage extends Message implements Serializable
      * @param fileTitle the name of the file we want to send
      * @throws IOException if the file doesn't exist or is poorly formatted
      */
-    public MapFileMessage(int playerID, String fileTitle) throws IOException
+    public MapFileMessage(int playerID, boolean quietMessage, String fileTitle) throws IOException
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.mapFileName = fileTitle;
         StringBuffer x = new StringBuffer();
         Scanner file = new Scanner(

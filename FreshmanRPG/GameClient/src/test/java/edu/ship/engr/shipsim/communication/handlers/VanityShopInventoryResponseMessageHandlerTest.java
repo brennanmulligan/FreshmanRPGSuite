@@ -44,7 +44,7 @@ public class VanityShopInventoryResponseMessageHandlerTest
         inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0));
         inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1));
 
-        VanityShopInventoryResponseMessage msg = new VanityShopInventoryResponseMessage(inventory);
+        VanityShopInventoryResponseMessage msg = new VanityShopInventoryResponseMessage(inventory, false);
         VanityShopInventoryResponseMessageHandler handle = new VanityShopInventoryResponseMessageHandler();
         handle.process(msg);
 

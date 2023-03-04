@@ -34,10 +34,10 @@ public class PlayerJoinedMessage extends Message implements Serializable
      * @param major      of the player
      * @param section    of the player
      */
-    public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+    public PlayerJoinedMessage(int playerID, boolean quietMessage, String playerName, List<VanityDTO> vanities,
                                Position position, Crew crew, Major major, int section)
     {
-        this(playerID, playerName, vanities, position, crew, major, section, new ArrayList<>());
+        this(playerID, quietMessage, playerName, vanities, position, crew, major, section, new ArrayList<>());
     }
 
     /**
@@ -49,11 +49,11 @@ public class PlayerJoinedMessage extends Message implements Serializable
      * @param major      of the player
      * @param section    of the player
      */
-    public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+    public PlayerJoinedMessage(int playerID, boolean quietMessage, String playerName, List<VanityDTO> vanities,
                                Position position, Crew crew, Major major, int section,
                                List<VanityDTO> ownedItems)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.playerName = playerName;
         this.vanities = vanities;
         this.position = position;

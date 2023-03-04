@@ -28,7 +28,7 @@ public class ItemPurchasedPacker extends MessagePacker
                             + object.getClass());
         }
         ItemPurchasedReport report = (ItemPurchasedReport) object;
-        Message msg = new ItemPurchasedMessage(report.getPlayerID(), report.getPrice());
+        Message msg = new ItemPurchasedMessage(report.getPlayerID(), report.isQuiet(), report.getPrice());
         return msg;
     }
 

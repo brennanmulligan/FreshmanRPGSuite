@@ -31,7 +31,7 @@ public class DoubloonPacker extends MessagePacker
         DoubloonPrizeReport report = (DoubloonPrizeReport) object;
         if (this.getAccumulator().getPlayerID() == report.getPlayerID())
         {
-            msg = new DoubloonPrizeMessage(report.getPlayerID(), report.getPrizes());
+            msg = new DoubloonPrizeMessage(report.getPlayerID(), report.isQuiet(), report.getPrizes());
         }
         return msg;
     }

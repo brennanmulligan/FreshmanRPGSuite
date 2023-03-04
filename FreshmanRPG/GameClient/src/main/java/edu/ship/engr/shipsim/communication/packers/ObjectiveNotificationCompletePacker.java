@@ -21,7 +21,7 @@ public class ObjectiveNotificationCompletePacker extends MessagePacker
     public Message pack(SendMessageReport object)
     {
         ObjectiveNotificationCompleteReport r = (ObjectiveNotificationCompleteReport) object;
-        return new ObjectiveNotificationCompleteMessage(r.getPlayerID(), r.getQuestID(), r.getObjectiveID());
+        return new ObjectiveNotificationCompleteMessage(r.getPlayerID(), r.isQuiet(), r.getQuestID(), r.getObjectiveID());
     }
 
     /**

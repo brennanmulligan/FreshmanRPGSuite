@@ -31,7 +31,7 @@ public class TimeToLevelUpDeadlinePacker extends MessagePacker
 
         if (this.getAccumulator().getPlayerID() == report.getPlayerID())
         {
-            TimeToLevelUpDeadlineMessage msg = new TimeToLevelUpDeadlineMessage(report.getPlayerID(),
+            TimeToLevelUpDeadlineMessage msg = new TimeToLevelUpDeadlineMessage(report.getPlayerID(), report.isQuiet(),
                     report.getTimeToDeadline(), report.getNextLevel());
             return msg;
         }

@@ -25,10 +25,11 @@ public class InteractableObjectBuffMessagePacker extends MessagePacker
 
         int playerID = report.getPlayerID();
         int pointPool = report.getExpPointPool();
+        boolean isQuiet =  report.isQuiet();
 
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            BuffMessage msg = new BuffMessage(playerID, pointPool);
+            BuffMessage msg = new BuffMessage(playerID, isQuiet, pointPool);
             return msg;
         }
         return null;

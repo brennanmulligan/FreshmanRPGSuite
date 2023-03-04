@@ -21,7 +21,7 @@ public class TeleportationInitiationMessageTest
     @Test
     public void testInitialization()
     {
-        TeleportationInitiationMessage msg = new TeleportationInitiationMessage(1,
+        TeleportationInitiationMessage msg = new TeleportationInitiationMessage(1, false,
                 ServersForTest.FIRST_SERVER.getMapName(), new Position(4, 3));
         assertEquals("TeleportationInitiationMessage: playerID = 1 mapName = "
                 + ServersForTest.FIRST_SERVER.getMapName() + " position = " + msg.getPosition(), msg.toString());

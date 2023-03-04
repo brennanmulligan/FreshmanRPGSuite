@@ -15,9 +15,9 @@ public class SendTerminalTextMessage extends Message implements Serializable
      * @param playerID     for the client player
      * @param terminalText command from terminal
      */
-    public SendTerminalTextMessage(int playerID, String terminalText)
+    public SendTerminalTextMessage(int playerID, boolean quietMessage, String terminalText)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.terminalText = terminalText;
     }
 

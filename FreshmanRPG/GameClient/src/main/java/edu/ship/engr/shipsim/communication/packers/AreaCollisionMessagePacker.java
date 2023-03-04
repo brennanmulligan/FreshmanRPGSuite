@@ -25,7 +25,7 @@ public class AreaCollisionMessagePacker extends MessagePacker
                             + object.getClass());
         }
         AreaCollisionReport report = (AreaCollisionReport) object;
-        Message msg = new AreaCollisionMessage(report.getPlayerID(), report.getAreaName());
+        Message msg = new AreaCollisionMessage(report.getPlayerID(), report.isQuiet(), report.getAreaName());
         return msg;
     }
 

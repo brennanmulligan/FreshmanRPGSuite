@@ -29,7 +29,7 @@ public class updateFriendListPacker extends MessagePacker
 
         if (this.getAccumulator().getPlayerID() == report.getPlayerID())
         {
-            updateFriendListMessage msg = new updateFriendListMessage(report.getFriendDTO());
+            updateFriendListMessage msg = new updateFriendListMessage(report.getFriendDTO(), report.isQuiet());
             return msg;
         }
         return null;

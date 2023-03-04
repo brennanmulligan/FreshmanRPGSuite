@@ -29,11 +29,11 @@ public class UpdatePlayerInformationMessagePacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-        UpdatePlayerInformationReport x = (UpdatePlayerInformationReport) object;
-        if (this.getAccumulator().getPlayerID() == x.getPlayerID())
+        UpdatePlayerInformationReport report = (UpdatePlayerInformationReport) object;
+        if (this.getAccumulator().getPlayerID() == report.getPlayerID())
         {
-            return new InitializeThisClientsPlayerMessage(x.getPlayerID(), x.getClientPlayerQuestList(), x.getFriendsList(), x.getExperiencePts(),
-                    x.getDoubloons(), x.getLevel());
+            return new InitializeThisClientsPlayerMessage(report.getPlayerID(), report.isQuiet(),report.getClientPlayerQuestList(), report.getFriendsList(), report.getExperiencePts(),
+                    report.getDoubloons(), report.getLevel());
         }
         return null;
     }

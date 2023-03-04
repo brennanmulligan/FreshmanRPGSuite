@@ -30,7 +30,7 @@ public class TeleportOnQuestCompletionPacker extends MessagePacker
             {
                 TeleportationContinuationMessage msg = new TeleportationContinuationMessage(
                         report.getLocation().getMapName(), report.getHostName(), report.getPortNumber(),
-                        report.getPlayerID(), PlayerManager.getSingleton().getNewPinFor(report.getPlayerID()));
+                        report.getPlayerID(), PlayerManager.getSingleton().getNewPinFor(report.getPlayerID()), report.isQuiet());
                 return msg;
             }
             catch (DatabaseException e)

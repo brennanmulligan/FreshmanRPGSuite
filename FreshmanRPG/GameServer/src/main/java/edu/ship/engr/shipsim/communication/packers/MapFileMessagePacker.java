@@ -26,11 +26,12 @@ public class MapFileMessagePacker extends MessagePacker
         try
         {
             int playerID = report.getPlayerID();
+            boolean isQuiet =  report.isQuiet();
             if (this.getAccumulator().getPlayerID() == playerID)
             {
                 // send this server's map file back to the client when they
                 // connect to the server
-                return new MapFileMessage(playerID, OptionsManager.getSingleton().getMapFileTitle());
+                return new MapFileMessage(playerID, isQuiet, OptionsManager.getSingleton().getMapFileTitle());
             }
         }
         catch (IOException e)

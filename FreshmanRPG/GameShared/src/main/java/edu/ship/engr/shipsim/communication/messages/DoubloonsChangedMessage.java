@@ -24,9 +24,9 @@ public class DoubloonsChangedMessage extends Message implements Serializable
      * @param playerID  of the current player
      * @param buffPool  - the player's current bonuspoint pool
      */
-    public DoubloonsChangedMessage(int playerID, int doubloons, int buffPool)
+    public DoubloonsChangedMessage(int playerID, boolean quietMessage, int doubloons, int buffPool)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.doubloons = doubloons;
         this.buffPool = buffPool;
     }

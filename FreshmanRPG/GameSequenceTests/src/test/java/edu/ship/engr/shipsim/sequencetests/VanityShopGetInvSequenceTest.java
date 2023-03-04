@@ -60,10 +60,10 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
     {
         MessageFlow[] sequence =
                 {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                        new VanityShopInventoryRequestMessage(), true),
+                        new VanityShopInventoryRequestMessage(false), true),
                         new MessageFlow(ServerType.AREA_SERVER,
                                 ServerType.THIS_PLAYER_CLIENT,
-                                new VanityShopInventoryResponseMessage(response), true)};
+                                new VanityShopInventoryResponseMessage(response, false), true)};
         interactions.add(new Interaction(new CommandShopInventoryRequest(),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
                 sequence));

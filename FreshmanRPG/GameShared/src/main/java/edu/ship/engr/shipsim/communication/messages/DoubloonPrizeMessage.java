@@ -24,12 +24,10 @@ public class DoubloonPrizeMessage extends Message implements Serializable
      * @param playerID
      * @param dtos
      */
-    public DoubloonPrizeMessage(int playerID, ArrayList<DoubloonPrizeDTO> dtos)
+    public DoubloonPrizeMessage(int playerID, boolean quietMessage, ArrayList<DoubloonPrizeDTO> dtos)
     {
-        super(playerID);
-
+        super(playerID, quietMessage);
         this.dtos = dtos;
-
     }
 
 

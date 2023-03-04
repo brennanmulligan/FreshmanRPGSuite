@@ -27,7 +27,7 @@ public class QuestStateChangeMessagePacker extends MessagePacker
         int playerID = rpt.getPlayerID();
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            msg = new QuestStateChangeMessage(rpt.getPlayerID(), rpt.getQuestID(), rpt.getQuestTitle(),
+            msg = new QuestStateChangeMessage(rpt.getPlayerID(), rpt.isQuiet(), rpt.getQuestID(), rpt.getQuestTitle(),
                     rpt.getQuestDescription(), rpt.getNewState());
         }
         return msg;
