@@ -1,32 +1,22 @@
 // Define a task named "checkForDuplicateClasses"
 tasks.register('checkForDuplicateClasses') {
     doLast {
-        // Define a multimap to store classes with their package names and the subprojects that contain them
         def duplicates = new MyMultimap()
 
-        // For each subproject
         subprojects { Project subproject ->
-            // For each source set in the subproject
             subproject.sourceSets.each { SourceSet sourceSet ->
-                // Get the directory containing the compiled class files
-                def dir = sourceSet.java.classesDirectory.get()
+                sourceSet.java.sourceDirectories.getFiles().each { File sourceDir ->
+                    if (sourceDir.path.contains('main')) {
+                        sourceDir.eachFileRecurse { File classFile ->
+                            if (classFile.file && classFile.name.endsWith(".java")) {
+                                def className = classFile.name.substring(0, classFile.name.indexOf(".java"))
+                                def packagePath = classFile.parentFile.absolutePath
+                                        .replace(sourceDir.absolutePath, '')
+                                        .replaceAll('[\\\\/]', '.')
+                                        .substring(1)
 
-                // If the directory is the main directory
-                if (dir.asFile.name.endsWith('main')) {
-                    // For each class file in the directory and its subdirectories
-                    dir.asFile.eachFileRecurse { File classFile ->
-                        // If the file is a class file
-                        if (classFile.isFile() && classFile.name.endsWith('.class')) {
-                            // Get the name of the class
-                            def className = classFile.name.substring(0, classFile.name.indexOf(".class"))
-                            // Get the package name of the class
-                            def packagePath = classFile.parentFile.absolutePath
-                                    .replace(dir.asFile.absolutePath, '')
-                                    .replaceAll('[\\\\/]', '.')
-                                    .substring(1)
-
-                            // Add the class and its subproject to the multimap
-                            duplicates.put(className + ":" + packagePath, subproject)
+                                duplicates.put(className + ":" + packagePath, subproject)
+                            }
                         }
                     }
                 }
@@ -35,10 +25,8 @@ tasks.register('checkForDuplicateClasses') {
 
         def outLines = []
 
-        // For each class in the multimap
         def found = duplicates.search(outLines)
 
-        // If duplicates were found, throw a runtime exception with the output
         if (found) {
             throw new RuntimeException(outLines.join('\n'))
         }
