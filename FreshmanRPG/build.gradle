@@ -5,6 +5,8 @@ plugins {
     id 'eclipse'
 }
 
+apply from: 'filtering.gradle'
+
 group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
 
@@ -75,6 +77,8 @@ subprojects {
         classifier "test"
         from sourceSets.test.output
     }
+
+    compileJava.dependsOn rootProject.checkForDuplicateClasses
 
     artifacts {
         testArtifacts testJar
