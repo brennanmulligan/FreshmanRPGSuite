@@ -11,9 +11,9 @@ public class RestfulLoginSuccessMessage extends Message implements Serializable
     // We have this because we need it :)
     private static final long serialVersionUID = 1L;
 
-    public RestfulLoginSuccessMessage(int playerID)
+    public RestfulLoginSuccessMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     @Override

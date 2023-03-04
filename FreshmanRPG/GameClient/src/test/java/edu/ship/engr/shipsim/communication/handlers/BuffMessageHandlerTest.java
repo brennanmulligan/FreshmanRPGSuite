@@ -38,7 +38,7 @@ public class BuffMessageHandlerTest
     {
         ClientModelFacade modelFacade = ClientModelFacade.getSingleton();
         BuffMessageHandler display = new BuffMessageHandler();
-        BuffMessage text = new BuffMessage(1, 10);
+        BuffMessage text = new BuffMessage(1, false, 10);
 
         display.process(text);
 

@@ -26,7 +26,7 @@ public class ServerPlayerJoinedMessagePacker extends MessagePacker
         {
             PlayerConnectionReport report = (PlayerConnectionReport) object;
 
-            PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.getPlayerName(),
+            PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.isQuiet(), report.getPlayerName(),
                     report.getVanity(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection(),
                     report.getOwnedItems());
             return msg;
@@ -36,7 +36,7 @@ public class ServerPlayerJoinedMessagePacker extends MessagePacker
             AddExistingPlayerReport report = (AddExistingPlayerReport) object;
             if (report.getRecipientPlayerID() == getAccumulator().getPlayerID())
             {
-                PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.getPlayerName(),
+                PlayerJoinedMessage msg = new PlayerJoinedMessage(report.getPlayerID(), report.isQuiet(), report.getPlayerName(),
                         report.getVanity(), report.getPosition(), report.getCrew(), report.getMajor(), report.getSection());
                 return msg;
             }

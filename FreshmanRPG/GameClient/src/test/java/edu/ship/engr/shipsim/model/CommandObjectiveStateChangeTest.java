@@ -27,7 +27,7 @@ public class CommandObjectiveStateChangeTest
     public void testInitialization()
     {
         CommandObjectiveStateChange x = new CommandObjectiveStateChange(
-                new ObjectiveStateChangeMessage(1, 2, 5, "Silly Objective",
+                new ObjectiveStateChangeMessage(1, false, 2, 5, "Silly Objective",
                         ObjectiveStateEnum.COMPLETED, true, "Lex Luther"));
         assertEquals(2, x.getQuestID());
         assertEquals(5, x.getObjectiveID());
@@ -69,7 +69,7 @@ public class CommandObjectiveStateChangeTest
         ClientPlayerManager.getSingleton().getThisClientsPlayer().addQuest(q);
 
         CommandObjectiveStateChange x = new CommandObjectiveStateChange(
-                new ObjectiveStateChangeMessage(playerID, questID, objectiveID,
+                new ObjectiveStateChangeMessage(playerID, false, questID, objectiveID,
                         "objective 1", ObjectiveStateEnum.COMPLETED, true, "Comrade"));
         x.execute();
 

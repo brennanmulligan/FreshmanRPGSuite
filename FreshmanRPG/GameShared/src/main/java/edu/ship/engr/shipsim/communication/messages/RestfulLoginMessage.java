@@ -14,9 +14,9 @@ public class RestfulLoginMessage extends Message implements Serializable
     public final String username;
     public final String password;
 
-    public RestfulLoginMessage(String username, String password)
+    public RestfulLoginMessage(String username, String password, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.username = username;
         this.password = password;
     }

@@ -30,7 +30,7 @@ public class ConnectMessageHandlerTest
     public void tellsModel() throws ModelFacadeException
     {
         ConnectMessageHandler handler = new ConnectMessageHandler();
-        ConnectMessage msg = new ConnectMessage(1, PlayerConnection.DEFAULT_PIN);
+        ConnectMessage msg = new ConnectMessage(1, false,PlayerConnection.DEFAULT_PIN);
         handler.process(msg);
 
         ModelFacadeTestHelper.waitForFacadeToProcess();
@@ -52,7 +52,7 @@ public class ConnectMessageHandlerTest
         ConnectMessageHandler handler = new ConnectMessageHandler();
         ConnectionManager connectionManager = new ConnectionManager();
         handler.setConnectionManager(connectionManager);
-        ConnectMessage msg = new ConnectMessage(1, PlayerConnection.DEFAULT_PIN);
+        ConnectMessage msg = new ConnectMessage(1, false,PlayerConnection.DEFAULT_PIN);
         handler.process(msg);
 
         ModelFacadeTestHelper.waitForFacadeToProcess();

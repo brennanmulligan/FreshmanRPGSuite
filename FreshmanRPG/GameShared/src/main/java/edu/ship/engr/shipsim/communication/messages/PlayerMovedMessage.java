@@ -22,9 +22,9 @@ public class PlayerMovedMessage extends Message implements Serializable
     private static final long serialVersionUID = 1L;
     private final Position position;
 
-    public PlayerMovedMessage(int relevantPlayerID, Position position)
+    public PlayerMovedMessage(int relevantPlayerID, boolean quietMessage, Position position)
     {
-        super(relevantPlayerID);
+        super(relevantPlayerID, quietMessage);
         this.position = position;
     }
 

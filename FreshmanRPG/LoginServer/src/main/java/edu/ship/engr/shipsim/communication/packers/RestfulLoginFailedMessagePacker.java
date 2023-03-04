@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.RestfulLoginFailedMessage;
 import edu.ship.engr.shipsim.model.reports.RestfulLoginServerFailedReport;
+import edu.ship.engr.shipsim.model.reports.RestfulLoginServerSuccessfulReport;
 import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ public class RestfulLoginFailedMessagePacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-        return new RestfulLoginFailedMessage();
+        RestfulLoginServerFailedReport
+                report = (RestfulLoginServerFailedReport) object;
+        return new RestfulLoginFailedMessage(report.isQuiet());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TeleportationContinuationMessageTest
     {
         TeleportationContinuationMessage msg = new TeleportationContinuationMessage(
                 ServersForTest.FIRST_SERVER.getMapName(), ServersForTest.FIRST_SERVER.getHostName(),
-                ServersForTest.FIRST_SERVER.getPortNumber(), 2, 4);
+                ServersForTest.FIRST_SERVER.getPortNumber(), 2, 4, false);
         assertTrue(msg.toString()
                 .startsWith("TeleportationContinuationMessage: mapName = " + ServersForTest.FIRST_SERVER.getMapName()
                         + " and hostName = " + ServersForTest.FIRST_SERVER.getHostName() + " and portNumber = "

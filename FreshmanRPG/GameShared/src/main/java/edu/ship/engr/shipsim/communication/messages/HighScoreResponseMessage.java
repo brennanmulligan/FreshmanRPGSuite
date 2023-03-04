@@ -20,9 +20,9 @@ public class HighScoreResponseMessage extends Message
     /**
      * @param scoreReports the top ten players (sorted)
      */
-    public HighScoreResponseMessage(ArrayList<PlayerScoreRecord> scoreReports)
+    public HighScoreResponseMessage(ArrayList<PlayerScoreRecord> scoreReports, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.scoreReports = scoreReports;
     }
 

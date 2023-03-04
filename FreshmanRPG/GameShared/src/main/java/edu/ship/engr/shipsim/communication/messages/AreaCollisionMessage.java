@@ -15,9 +15,9 @@ public class AreaCollisionMessage extends Message implements Serializable
      * @param playerID The player who moved
      * @param areaName The name of the area the player has stepped into
      */
-    public AreaCollisionMessage(int playerID, String areaName)
+    public AreaCollisionMessage(int playerID, boolean quietMessage, String areaName)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.areaName = areaName;
     }
     /**

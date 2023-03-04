@@ -31,7 +31,7 @@ public class TeleportationInitiationMessagePacker extends MessagePacker
         ChangeMapReport report = (ChangeMapReport) object;
 
         return new TeleportationInitiationMessage(report.getPlayerID(),
-                report.getMapName(), report.getPosition());
+                report.isQuiet(), report.getMapName(), report.getPosition());
     }
 
     /**

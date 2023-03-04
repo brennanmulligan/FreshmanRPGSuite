@@ -47,7 +47,7 @@ public class MovementMessageHandlerTest
 
         assertEquals(startPosition, p.getPlayerPosition());
 
-        PlayerMovedMessage msg = new PlayerMovedMessage(playerID, newPosition);
+        PlayerMovedMessage msg = new PlayerMovedMessage(playerID, false, newPosition);
         MovementMessageHandler handler = new MovementMessageHandler();
 
         handler.process(msg);

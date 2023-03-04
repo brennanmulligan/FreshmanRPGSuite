@@ -39,7 +39,7 @@ public class DoubloonsChangedMessageHandlerTest
     {
         int oldScore = PlayersForTest.JOHN.getDoubloons();
 
-        DoubloonsChangedMessage msg = new DoubloonsChangedMessage(PlayersForTest.JOHN.getPlayerID(), oldScore + 5, PlayersForTest.JOHN.getBuffPool() - 5);
+        DoubloonsChangedMessage msg = new DoubloonsChangedMessage(PlayersForTest.JOHN.getPlayerID(), false, oldScore + 5, PlayersForTest.JOHN.getBuffPool() - 5);
         DoubloonsChangedMessageHandler h = new DoubloonsChangedMessageHandler();
         h.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

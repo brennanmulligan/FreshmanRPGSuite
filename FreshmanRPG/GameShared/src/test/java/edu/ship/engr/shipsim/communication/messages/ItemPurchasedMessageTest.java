@@ -21,7 +21,7 @@ public class ItemPurchasedMessageTest
     @Test
     public void testInitialization()
     {
-        ItemPurchasedMessage msg = new ItemPurchasedMessage(1, 10);
+        ItemPurchasedMessage msg = new ItemPurchasedMessage(1, false, 10);
         assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(10, msg.getPrice());
 

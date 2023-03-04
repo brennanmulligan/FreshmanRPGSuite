@@ -25,7 +25,7 @@ public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
                 return;
             }
             ArrayList<VanityDTO> ownedItems = player.getAllOwnedItems();
-            ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems);
+            ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems, msg.isQuietMessage());
             this.getStateAccumulator().queueMessage(msgToSend);
         }
         catch (Exception e)

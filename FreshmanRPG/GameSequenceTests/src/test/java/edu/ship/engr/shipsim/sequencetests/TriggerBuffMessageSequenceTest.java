@@ -20,9 +20,9 @@ public class TriggerBuffMessageSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new KeyInputMessage("e"), true),
+                    new KeyInputMessage("e", false), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new BuffMessage(PlayersForTest.JAWN.getPlayerID(),
+                            new BuffMessage(PlayersForTest.JAWN.getPlayerID(), false,
                                     InteractableItemsForTest.BOOK.getExperiencePointPool()),
                             true)
 
