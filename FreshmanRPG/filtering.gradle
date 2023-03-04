@@ -39,6 +39,10 @@ class MyMultimap {
     // Define an instance variable "map" that is a new empty Map
     Map map = [:]
 
+    def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+
     // Define a method named "put" that takes a "key" and a "value" as arguments
     boolean put(String key, Project value) {
         // Get the current value for the given key in the map, or an empty list if the key is not present
@@ -63,14 +67,14 @@ class MyMultimap {
                 def (name, packageName) = key.tokenize(':')
 
                 // Add information about the duplicate class to the output
-                outLines << "Duplicate class found!!"
-                outLines << " - Name: $name"
-                outLines << " - Package: $packageName"
-                outLines << " - Projects: "
+                outLines << "${styler['red']('Duplicate class found!!')}"
+                outLines << "${styler['red'](" - Name: $name")}"
+                outLines << "${styler['red'](" - Package: $packageName")}"
+                outLines << "${styler['red'](" - Projects: ")}"
 
                 // Add the names of the subprojects containing the class to the output
                 value.each { subproject ->
-                    outLines << "   - $subproject.name"
+                    outLines << "${styler['red']("   - $subproject.name")}"
                 }
 
                 outLines << ""
