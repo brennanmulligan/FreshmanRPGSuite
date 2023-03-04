@@ -2,12 +2,11 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.FriendDTO;
 import edu.ship.engr.shipsim.datatypes.FriendStatusEnum;
-import edu.ship.engr.shipsim.model.Report;
 
 /*
  * @Author Christian Crouthamel, Andrew McCoy
  */
-public class updateFriendListReport implements Report
+public class updateFriendListReport extends SendMessageReport
 {
 
     FriendDTO friend;
@@ -17,7 +16,7 @@ public class updateFriendListReport implements Report
      */
     public updateFriendListReport(FriendDTO friend)
     {
-
+        super(friend.getPlayerID(), true);
         this.friend = friend;
     }
 

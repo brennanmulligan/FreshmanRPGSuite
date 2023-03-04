@@ -1,11 +1,10 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
-import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
-public class PlayerPurchasedClothingReport implements Report
+public class PlayerPurchasedClothingReport extends SendMessageReport
 {
     private final int playerID;
     private final VanityDTO vanityDTO;
@@ -16,6 +15,8 @@ public class PlayerPurchasedClothingReport implements Report
      */
     public PlayerPurchasedClothingReport(int playerID, VanityDTO vanityDTO)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.playerID = playerID;
         this.vanityDTO = vanityDTO;
     }

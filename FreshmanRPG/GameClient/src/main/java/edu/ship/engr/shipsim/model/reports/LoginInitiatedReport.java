@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import java.util.Objects;
 
 /**
  * This report is sent when the player initiates his login to the system
  *
  * @author Merlin
  */
-public final class LoginInitiatedReport implements Report
+public final class LoginInitiatedReport extends SendMessageReport
 {
 
     private final String name;
@@ -19,52 +19,10 @@ public final class LoginInitiatedReport implements Report
      */
     public LoginInitiatedReport(String name, String password)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.name = name;
         this.password = password;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        LoginInitiatedReport other = (LoginInitiatedReport) obj;
-        if (name == null)
-        {
-            if (other.name != null)
-            {
-                return false;
-            }
-        }
-        else if (!name.equals(other.name))
-        {
-            return false;
-        }
-        if (password == null)
-        {
-            if (other.password != null)
-            {
-                return false;
-            }
-        }
-        else if (!password.equals(other.password))
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -83,17 +41,26 @@ public final class LoginInitiatedReport implements Report
         return name;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof LoginInitiatedReport that))
+        {
+            return false;
+        }
+        return Objects.equals(name, that.name) &&
+                Objects.equals(getPassword(), that.getPassword())&&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        return result;
+        return Objects.hash(name, getPassword(), getRelevantPlayerID(), isQuiet());
     }
-
 }

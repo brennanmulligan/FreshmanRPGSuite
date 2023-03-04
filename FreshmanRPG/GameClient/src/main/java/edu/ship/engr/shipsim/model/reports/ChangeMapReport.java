@@ -1,7 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ import java.util.Objects;
  *
  * @author Steve
  */
-public final class ChangeMapReport implements Report
+public final class ChangeMapReport extends SendMessageReport
 {
     private final int playerID;
     private final Position position;
@@ -24,6 +23,9 @@ public final class ChangeMapReport implements Report
      */
     public ChangeMapReport(int playerID, Position position, String mapName)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
+
         this.playerID = playerID;
         this.position = position;
         this.mapName = mapName;
@@ -60,17 +62,20 @@ public final class ChangeMapReport implements Report
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if (!(o instanceof ChangeMapReport that))
         {
             return false;
         }
-        ChangeMapReport that = (ChangeMapReport) o;
-        return playerID == that.playerID && Objects.equals(position, that.position) && Objects.equals(mapName, that.mapName);
+        return getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getPosition(), that.getPosition()) &&
+                Objects.equals(getMapName(), that.getMapName()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(playerID, position, mapName);
+        return Objects.hash(getPlayerID(), getPosition(), getMapName(), getRelevantPlayerID(), isQuiet());
     }
 }

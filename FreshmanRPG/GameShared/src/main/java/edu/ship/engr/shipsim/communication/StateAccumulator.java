@@ -5,6 +5,7 @@ import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.ReportObserver;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -61,12 +62,19 @@ public class StateAccumulator implements ReportObserver
     @Override
     public void receiveReport(Report arg1)
     {
+        if (!(SendMessageReport.class.isInstance(arg1)))
+        {
+            return;
+        }
+
+        SendMessageReport report = (SendMessageReport) arg1;
+
         ArrayList<Message> msgs;
         try
         {
             synchronized (pendingMsgs)
             {
-                msgs = packerSet.pack(arg1);
+                msgs = packerSet.pack(report);
                 if (msgs != null)
                 {
                     pendingMsgs.addAll(msgs);
