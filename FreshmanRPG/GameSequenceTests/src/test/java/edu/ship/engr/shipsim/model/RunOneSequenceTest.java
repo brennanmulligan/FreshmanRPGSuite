@@ -40,7 +40,7 @@ public class RunOneSequenceTest
             CommunicationException,
             DatabaseException, ModelFacadeException, DuplicateNameException
     {
-        Class<? extends SequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
+        Class<? extends SequenceTest> testClass = RestfulLoginBadPasswordSequenceTest.class;
 
         RunAllSequenceTests runner = new RunAllSequenceTests();
         runner.runTest("My Single Sequence Test", testClass);
