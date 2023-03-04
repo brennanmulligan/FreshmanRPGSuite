@@ -19,9 +19,9 @@ public class InteractionDeniedMessage extends Message implements Serializable
      *
      * @param playerID - ID of the player close enough to interact with the object
      */
-    public InteractionDeniedMessage(int playerID)
+    public InteractionDeniedMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     /**

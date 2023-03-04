@@ -73,7 +73,7 @@ public class TeleportationInitiationHandlerTest
 
         // teleport message will move player from quad -> first server
         TeleportationInitiationMessage msg =
-                new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(),
+                new TeleportationInitiationMessage(PlayersForTest.MERLIN.getPlayerID(), false,
                         ServersForTest.FIRST_SERVER.getMapName(), playerPos);
 
         // mock the connector and observer

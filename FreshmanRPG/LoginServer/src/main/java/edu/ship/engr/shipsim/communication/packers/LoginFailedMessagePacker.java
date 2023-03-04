@@ -18,7 +18,7 @@ public class LoginFailedMessagePacker extends MessagePacker
     {
         LoginFailedReport report = (LoginFailedReport) object;
 
-        return new LoginFailedMessage(report.getMessage());
+        return new LoginFailedMessage(report.getMessage(), report.isQuiet());
     }
 
     @Override

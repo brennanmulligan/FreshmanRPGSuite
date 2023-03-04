@@ -8,9 +8,9 @@ public class PlayerPurchasedClothingMessage extends Message implements Serializa
 {
     private VanityDTO vanityDTO;
 
-    public PlayerPurchasedClothingMessage(int playerID, VanityDTO vanityDTO)
+    public PlayerPurchasedClothingMessage(int playerID, boolean quietMessage, VanityDTO vanityDTO)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.vanityDTO = vanityDTO;
     }
 

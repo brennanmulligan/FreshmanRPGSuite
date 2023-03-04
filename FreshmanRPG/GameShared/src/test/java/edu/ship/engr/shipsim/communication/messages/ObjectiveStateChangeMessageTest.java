@@ -20,7 +20,7 @@ public class ObjectiveStateChangeMessageTest
     @Test
     public void testInit()
     {
-        ObjectiveStateChangeMessage msg = new ObjectiveStateChangeMessage(1, 2, 3, "Big Objective",
+        ObjectiveStateChangeMessage msg = new ObjectiveStateChangeMessage(1, false, 2, 3,  "Big Objective",
                 ObjectiveStateEnum.TRIGGERED, true, "Provost");
 
         assertEquals(1, msg.getRelevantPlayerID());

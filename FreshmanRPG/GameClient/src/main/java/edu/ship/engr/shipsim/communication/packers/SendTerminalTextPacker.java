@@ -28,7 +28,7 @@ public class SendTerminalTextPacker extends MessagePacker
         }
 
         SendTerminalTextReport report = (SendTerminalTextReport) object;
-        SendTerminalTextMessage msg = new SendTerminalTextMessage(report.getPlayerID(), report.getTerminalText());
+        SendTerminalTextMessage msg = new SendTerminalTextMessage(report.getPlayerID(), report.isQuiet(), report.getTerminalText());
 
         return msg;
 

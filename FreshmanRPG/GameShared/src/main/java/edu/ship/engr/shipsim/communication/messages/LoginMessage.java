@@ -94,9 +94,9 @@ public class LoginMessage extends Message implements Serializable
      * @param playerName the player's name
      * @param password   the player's password
      */
-    public LoginMessage(String playerName, String password)
+    public LoginMessage(String playerName, String password, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.playerName = playerName;
         this.password = password;
     }

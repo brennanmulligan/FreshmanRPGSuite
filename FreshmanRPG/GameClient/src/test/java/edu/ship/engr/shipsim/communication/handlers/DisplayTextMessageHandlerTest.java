@@ -36,7 +36,7 @@ public class DisplayTextMessageHandlerTest
     public void test() throws InterruptedException
     {
         DisplayTextMessageHandler display = new DisplayTextMessageHandler();
-        DisplayTextMessage text = new DisplayTextMessage(1, "text");
+        DisplayTextMessage text = new DisplayTextMessage(1, false, "text");
         display.process(text);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());
 

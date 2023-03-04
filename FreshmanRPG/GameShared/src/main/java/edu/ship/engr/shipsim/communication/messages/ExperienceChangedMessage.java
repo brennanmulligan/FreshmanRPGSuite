@@ -59,9 +59,9 @@ public class ExperienceChangedMessage extends Message implements Serializable
      * @param experiencePoints the amount of experience points the player has
      * @param levelRecord      the id of the player
      */
-    public ExperienceChangedMessage(int playerID, int experiencePoints, LevelRecord levelRecord)
+    public ExperienceChangedMessage(int playerID, boolean quietMessage, int experiencePoints, LevelRecord levelRecord)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.experiencePoints = experiencePoints;
         this.level = levelRecord;
     }

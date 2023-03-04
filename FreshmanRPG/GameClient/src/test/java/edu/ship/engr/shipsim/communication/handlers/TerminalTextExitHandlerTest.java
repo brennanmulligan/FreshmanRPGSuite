@@ -29,7 +29,7 @@ public class TerminalTextExitHandlerTest
     @Test
     public void testHandlerProcess()
     {
-        Message message = new TerminalTextExitMessage(PlayersForTest.MERLIN.getPlayerID());
+        Message message = new TerminalTextExitMessage(PlayersForTest.MERLIN.getPlayerID(), false);
         TerminalTextExitHandler handler = new TerminalTextExitHandler();
         handler.process(message);
         assertEquals(1, ClientModelFacade.getSingleton().queueSize());

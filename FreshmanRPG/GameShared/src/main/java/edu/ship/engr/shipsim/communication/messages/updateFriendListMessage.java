@@ -16,9 +16,9 @@ public class updateFriendListMessage extends Message implements Serializable
     /*
      * constructor for message
      */
-    public updateFriendListMessage(FriendDTO friend)
+    public updateFriendListMessage(FriendDTO friend, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.friend = friend;
     }
 

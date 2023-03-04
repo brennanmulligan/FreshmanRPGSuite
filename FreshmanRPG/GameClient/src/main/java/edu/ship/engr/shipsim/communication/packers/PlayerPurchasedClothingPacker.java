@@ -22,7 +22,7 @@ public class PlayerPurchasedClothingPacker extends MessagePacker
 
         PlayerPurchasedClothingReport purchaseReport = (PlayerPurchasedClothingReport) object;
 
-        Message msg = new PlayerPurchasedClothingMessage(purchaseReport.getPlayerID(), purchaseReport.getVanityDTO());
+        Message msg = new PlayerPurchasedClothingMessage(purchaseReport.getPlayerID(), purchaseReport.isQuiet(), purchaseReport.getVanityDTO());
         return msg;
     }
 

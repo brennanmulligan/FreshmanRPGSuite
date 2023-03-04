@@ -27,7 +27,7 @@ public class KeyInputMessagePacker extends MessagePacker
         }
 
         ClientKeyInputSentReport report = (ClientKeyInputSentReport) object;
-        KeyInputMessage msg = new KeyInputMessage(report.getInput());
+        KeyInputMessage msg = new KeyInputMessage(report.getInput(), report.isQuiet());
 
         return msg;
     }

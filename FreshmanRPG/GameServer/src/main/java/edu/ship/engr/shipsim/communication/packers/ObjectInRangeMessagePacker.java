@@ -25,9 +25,10 @@ public class ObjectInRangeMessagePacker extends MessagePacker
         InteractionDeniedReport report = (InteractionDeniedReport) object;
 
         int playerID = report.getPlayerID();
+        boolean isQuiet = report.isQuiet();
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            InteractionDeniedMessage msg = new InteractionDeniedMessage(playerID);
+            InteractionDeniedMessage msg = new InteractionDeniedMessage(playerID, isQuiet);
             return msg;
         }
         return null;

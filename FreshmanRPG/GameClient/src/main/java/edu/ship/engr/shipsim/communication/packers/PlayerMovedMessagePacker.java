@@ -26,7 +26,7 @@ public class PlayerMovedMessagePacker extends MessagePacker
         int playerID = movementReport.getID();
         if (movementReport.isThisClientsPlayer())
         {
-            Message msg = new PlayerMovedMessage(playerID, movementReport.getNewPosition());
+            Message msg = new PlayerMovedMessage(playerID, movementReport.isQuiet(), movementReport.getNewPosition());
             return msg;
         }
         return null;

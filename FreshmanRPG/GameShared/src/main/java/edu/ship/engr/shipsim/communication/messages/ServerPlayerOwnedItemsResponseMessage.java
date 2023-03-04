@@ -16,9 +16,9 @@ public class ServerPlayerOwnedItemsResponseMessage extends Message
     /**
      * @param serverOwnedItems server's copy of the player's owned items
      */
-    public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems)
+    public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.serverOwnedItems = new ArrayList<>(serverOwnedItems);
     }
 

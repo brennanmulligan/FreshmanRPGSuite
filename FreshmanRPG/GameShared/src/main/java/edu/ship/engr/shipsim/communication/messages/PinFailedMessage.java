@@ -20,9 +20,9 @@ public class PinFailedMessage extends Message implements Serializable
      * @param playerID the unique ID of the player who tried to connect with an
      *                 invalid pin
      */
-    public PinFailedMessage(int playerID)
+    public PinFailedMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     /**

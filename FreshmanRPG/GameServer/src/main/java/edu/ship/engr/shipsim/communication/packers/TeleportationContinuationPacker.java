@@ -36,7 +36,7 @@ public class TeleportationContinuationPacker extends MessagePacker
                         "to " + report.getMap());
                 return new TeleportationContinuationMessage(report.getMap(), mapping.getHostName(),
                         mapping.getPortNumber(), report.getPlayerID(),
-                        newPin);
+                        newPin, report.isQuiet());
             }
             catch (DatabaseException e)
             {
