@@ -1,17 +1,16 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * @author Derek
  */
-public final class RestfulLoginInitiatedReport implements Report
+public final class RestfulLoginInitiatedReport extends SendMessageReport
 {
     private final String username;
     private final String password;
 
     public RestfulLoginInitiatedReport(String username, String password)
     {
+        super(0, true);
         this.username = username;
         this.password = password;
     }
