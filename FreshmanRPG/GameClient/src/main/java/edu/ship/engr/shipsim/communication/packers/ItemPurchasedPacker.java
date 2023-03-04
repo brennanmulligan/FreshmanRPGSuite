@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.ItemPurchasedMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ItemPurchasedReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class ItemPurchasedPacker extends MessagePacker
      * Transform the ItemPurchasedReport into an ItemPurchasedMessage
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         if (object.getClass() != ItemPurchasedReport.class)
         {
@@ -36,9 +36,9 @@ public class ItemPurchasedPacker extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(ItemPurchasedReport.class);
         return result;
     }

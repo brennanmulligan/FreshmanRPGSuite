@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ObjectFloatMap;
 import edu.ship.engr.shipsim.datatypes.ChatTextDetails;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;

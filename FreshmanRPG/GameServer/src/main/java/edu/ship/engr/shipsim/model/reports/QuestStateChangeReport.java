@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.PlayerManager;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Merlin
  */
-public final class QuestStateChangeReport implements Report
+public final class QuestStateChangeReport extends SendMessageReport
 {
 
     private final int questID;
@@ -29,6 +29,7 @@ public final class QuestStateChangeReport implements Report
     public QuestStateChangeReport(int playerID, int questID, String questTitle, String questDescription,
                                   QuestStateEnum newState)
     {
+        super(playerID, !PlayerManager.getSingleton().isNPC(playerID));
         this.playerID = playerID;
         this.questID = questID;
         this.questTitle = questTitle;
@@ -83,19 +84,24 @@ public final class QuestStateChangeReport implements Report
         {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
+        if (!(o instanceof QuestStateChangeReport that))
         {
             return false;
         }
-        QuestStateChangeReport that = (QuestStateChangeReport) o;
-        return questID == that.questID && playerID == that.playerID &&
-                Objects.equals(questDescription, that.questDescription) &&
-                Objects.equals(questTitle, that.questTitle) && newState == that.newState;
+        return getQuestID() == that.getQuestID() &&
+                getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getQuestDescription(),
+                        that.getQuestDescription()) &&
+                Objects.equals(getQuestTitle(), that.getQuestTitle()) &&
+                getNewState() == that.getNewState() &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(questID, playerID, questDescription, questTitle, newState);
+        return Objects.hash(getQuestID(), getPlayerID(), getQuestDescription(),
+                getQuestTitle(), getNewState(), getRelevantPlayerID(), isQuiet());
     }
 }

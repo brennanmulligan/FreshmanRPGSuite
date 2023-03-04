@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.StubMessage1;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 import edu.ship.engr.shipsim.model.reports.StubReport1;
 
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ public class StubMessagePacker1 extends MessagePacker
 {
 
     /**
-     * @see MessagePacker#pack(Report)
+     * @see MessagePacker#pack(SendMessageReport)
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         return new StubMessage1(0);
     }
@@ -30,9 +30,9 @@ public class StubMessagePacker1 extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(StubReport1.class);
         return result;
     }

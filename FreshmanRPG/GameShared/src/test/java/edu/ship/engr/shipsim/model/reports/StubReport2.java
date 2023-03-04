@@ -1,14 +1,17 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * An empty report that the tests for MessagePackerSet and StateAccumulator
  * require.
  *
  * @author Merlin
  */
-public class StubReport2 implements Report
+public class StubReport2 extends SendMessageReport
 {
+    public StubReport2()
+    {
+        // Test Report
+        super(0, false);
+    }
 
 }

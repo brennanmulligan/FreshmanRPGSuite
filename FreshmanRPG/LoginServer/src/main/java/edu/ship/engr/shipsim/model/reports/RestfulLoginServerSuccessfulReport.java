@@ -1,18 +1,17 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 import java.util.Objects;
 
 /**
  * @author Derek
  */
-public class RestfulLoginSuccessfulReport implements Report
+public class RestfulLoginServerSuccessfulReport extends SendMessageReport
 {
     private final int playerID;
 
-    public RestfulLoginSuccessfulReport(int playerID)
+    public RestfulLoginServerSuccessfulReport(int playerID)
     {
+        super(playerID, true);
         this.playerID = playerID;
     }
 
@@ -39,7 +38,8 @@ public class RestfulLoginSuccessfulReport implements Report
             return false;
         }
 
-        RestfulLoginSuccessfulReport otherReport = (RestfulLoginSuccessfulReport) o;
+        RestfulLoginServerSuccessfulReport
+                otherReport = (RestfulLoginServerSuccessfulReport) o;
 
         return Objects.equals(playerID, otherReport.getPlayerID());
     }
