@@ -36,7 +36,7 @@ public class PlayerLeaveMessageHandlerTest
     @Test
     public void test() throws InterruptedException
     {
-        PlayerLeaveMessage msg = new PlayerLeaveMessage(1);
+        PlayerLeaveMessage msg = new PlayerLeaveMessage(1, false);
         PlayerLeaveMessageHandler handler = new PlayerLeaveMessageHandler();
         handler.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

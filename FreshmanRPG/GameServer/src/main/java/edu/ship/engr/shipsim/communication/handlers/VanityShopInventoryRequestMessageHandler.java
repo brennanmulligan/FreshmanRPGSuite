@@ -18,7 +18,7 @@ public class VanityShopInventoryRequestMessageHandler extends MessageHandler
         try
         {
             this.getStateAccumulator()
-                    .queueMessage(new VanityShopInventoryResponseMessage(PlayerManager.getSingleton().getVanityShopInventory()));
+                    .queueMessage(new VanityShopInventoryResponseMessage(PlayerManager.getSingleton().getVanityShopInventory(), msg.isQuietMessage()));
         }
         catch (Exception e)
         {

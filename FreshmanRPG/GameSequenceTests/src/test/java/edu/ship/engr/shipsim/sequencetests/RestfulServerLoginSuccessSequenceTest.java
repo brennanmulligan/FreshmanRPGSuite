@@ -48,7 +48,7 @@ public class RestfulServerLoginSuccessSequenceTest extends SequenceTest
         // Send login message from restful server to the login server
         messageFlow.add(new MessageFlow(
                 ServerType.RESTFUL_SERVER, ServerType.LOGIN_SERVER,
-                new RestfulLoginMessage(player.getPlayerName(), player.getPlayerPassword()
+                new RestfulLoginMessage(player.getPlayerName(), player.getPlayerPassword(), false
                         ),
                 true
         ));
@@ -56,7 +56,7 @@ public class RestfulServerLoginSuccessSequenceTest extends SequenceTest
         // Send a login success message from login server to restful server
         messageFlow.add(new MessageFlow(
                 ServerType.LOGIN_SERVER, ServerType.RESTFUL_SERVER,
-                new RestfulLoginSuccessMessage(player.getPlayerID()),
+                new RestfulLoginSuccessMessage(player.getPlayerID(), false),
                 true
         ));
 

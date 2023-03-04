@@ -30,7 +30,7 @@ public class DoubloonChangePacker extends MessagePacker
 
         if (this.getAccumulator().getPlayerID() == report.getPlayerID())
         {
-            DoubloonsChangedMessage msg = new DoubloonsChangedMessage(report.getPlayerID(),
+            DoubloonsChangedMessage msg = new DoubloonsChangedMessage(report.getPlayerID(), report.isQuiet(),
                     report.getDoubloons(), report.getBuffPool());
             return msg;
         }

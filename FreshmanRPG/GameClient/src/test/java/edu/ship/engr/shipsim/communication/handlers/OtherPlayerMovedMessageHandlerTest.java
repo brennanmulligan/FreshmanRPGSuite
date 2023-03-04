@@ -48,7 +48,7 @@ public class OtherPlayerMovedMessageHandlerTest
 
         Position p = new Position(1, 1);
         OtherPlayerMovedMessage msg = new OtherPlayerMovedMessage(
-                PlayersForTest.MATT.getPlayerID(), p);
+                PlayersForTest.MATT.getPlayerID(), false, p);
         OtherPlayerMovedMessageHandler handler = new OtherPlayerMovedMessageHandler();
         handler.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

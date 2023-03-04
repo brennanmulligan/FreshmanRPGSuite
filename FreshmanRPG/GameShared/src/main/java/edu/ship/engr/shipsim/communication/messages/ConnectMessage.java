@@ -59,9 +59,9 @@ public class ConnectMessage extends Message implements Serializable
      * @param playerID the player ID we should use to connect
      * @param pin      the pin we were given to validate this connection request
      */
-    public ConnectMessage(int playerID, double pin)
+    public ConnectMessage(int playerID, boolean quietMessage, double pin)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.pin = pin;
     }
     /**

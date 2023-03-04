@@ -61,7 +61,7 @@ public class InitializeThisClientsPlayerMessageHandlerTest
 
         LevelRecord level = new LevelRecord("One", 45, 10, 7);
         InitializeThisClientsPlayerMessage msg = new InitializeThisClientsPlayerMessage(
-                PlayersForTest.MERLIN.getPlayerID(), qList, mockFriends, 20, 50, level);
+                PlayersForTest.MERLIN.getPlayerID(), false, qList, mockFriends, 20, 50, level);
         handler.process(msg);
 
         ClientModelFacade facade = ClientModelFacade.getSingleton();

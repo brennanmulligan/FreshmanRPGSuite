@@ -12,9 +12,9 @@ public class RestfulLoginFailedMessage extends Message implements Serializable
     private static final long serialVersionUID = 1L;
     private final String message = "Invalid Login - Incorrect Username/Password";
 
-    public RestfulLoginFailedMessage()
+    public RestfulLoginFailedMessage(boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
     }
 
     public String getMessage()

@@ -41,7 +41,7 @@ public class MapFileMessageHandlerTest
     public void tellsEngine() throws IOException, InterruptedException
     {
         MapFileMessage msg =
-                new MapFileMessage(PlayersForTest.MERLIN.getPlayerID(), "mct1.tmx");
+                new MapFileMessage(PlayersForTest.MERLIN.getPlayerID(), false, "mct1.tmx");
         MapFileMessageHandler handler = new MapFileMessageHandler();
         handler.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

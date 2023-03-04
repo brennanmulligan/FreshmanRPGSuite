@@ -24,7 +24,7 @@ public class CommandQuestStateChangeTest
     public void testConstructor()
     {
         CommandQuestStateChange x = new CommandQuestStateChange(
-                new QuestStateChangeMessage(1, 2, "title", "Silly Quest",
+                new QuestStateChangeMessage(1, false, 2, "title", "Silly Quest",
                         QuestStateEnum.COMPLETED));
         assertEquals(2, x.getQuestID());
         assertEquals("title", x.getQuestTitle());
