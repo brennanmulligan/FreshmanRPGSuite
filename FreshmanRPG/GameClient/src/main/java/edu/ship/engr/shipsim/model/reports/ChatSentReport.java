@@ -2,14 +2,13 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Report for when a chat message is sent
  *
  * @author Steve
  */
-public class ChatSentReport implements Report
+public class ChatSentReport extends SendMessageReport
 {
     private String message;
     private int senderID;
@@ -25,6 +24,8 @@ public class ChatSentReport implements Report
      */
     public ChatSentReport(int senderID, int receiverID, String message, Position position, ChatType type)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.message = message;
         this.senderID = senderID;
         this.receiverID = receiverID;

@@ -1,14 +1,12 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Is created when the player on the server has disconnected and we need to
  * inform the clients that they need to stop watching the player
  *
  * @author nhydock
  */
-public class PlayerLeaveReport implements Report
+public class PlayerLeaveReport extends SendMessageReport
 {
     private int playerID;
 
@@ -17,6 +15,7 @@ public class PlayerLeaveReport implements Report
      */
     public PlayerLeaveReport(int id)
     {
+        super(id, true);
         this.playerID = id;
     }
 

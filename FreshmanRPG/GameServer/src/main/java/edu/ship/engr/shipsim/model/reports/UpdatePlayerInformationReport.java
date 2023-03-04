@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Ryan, LaVonne, Olivia
  */
-public class UpdatePlayerInformationReport implements Report
+public class UpdatePlayerInformationReport extends SendMessageReport
 {
 
     private final List<ClientPlayerQuestStateDTO> clientPlayerQuestList;
@@ -35,6 +35,7 @@ public class UpdatePlayerInformationReport implements Report
      */
     public UpdatePlayerInformationReport(Player player) throws DatabaseException
     {
+        super(player.getPlayerID(), PlayerManager.getSingleton().isNPC(player.getPlayerID()));
         this.clientPlayerQuestList = QuestManager.getSingleton().getQuests(player);
         this.friendList = getFriendList(player.getPlayerID());
         this.experiencePoints = player.getExperiencePoints();

@@ -1,7 +1,8 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datasource.LevelRecord;
-import edu.ship.engr.shipsim.model.Report;
+
+import java.util.Objects;
 
 /**
  * The ExperienceChangedReport class
@@ -9,7 +10,7 @@ import edu.ship.engr.shipsim.model.Report;
  * @author Olivia
  * @author LaVonne
  */
-public final class ExperienceChangedReport implements Report
+public final class ExperienceChangedReport extends SendMessageReport
 {
 
     private final int experiencePoints;
@@ -25,6 +26,7 @@ public final class ExperienceChangedReport implements Report
      */
     public ExperienceChangedReport(int playerID, int experiencePoints, LevelRecord record)
     {
+        super(playerID, true);
         this.experiencePoints = experiencePoints;
         this.record = record;
         this.playerID = playerID;
@@ -60,59 +62,27 @@ public final class ExperienceChangedReport implements Report
         return playerID;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public int hashCode()
+    public boolean equals(Object o)
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + experiencePoints;
-        result = prime * result + playerID;
-        result = prime * result + ((record == null) ? 0 : record.hashCode());
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-        if (obj == null)
+        if (!(o instanceof ExperienceChangedReport that))
         {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        ExperienceChangedReport other = (ExperienceChangedReport) obj;
-        if (experiencePoints != other.experiencePoints)
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        if (record == null)
-        {
-            if (other.record != null)
-            {
-                return false;
-            }
-        }
-        else if (!record.equals(other.record))
-        {
-            return false;
-        }
-        return true;
+        return getExperiencePoints() == that.getExperiencePoints() &&
+                getPlayerID() == that.getPlayerID() &&
+                Objects.equals(getRecord(), that.getRecord()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
     }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getExperiencePoints(), getRecord(), getPlayerID(), getRelevantPlayerID(), isQuiet());
+    }
 }

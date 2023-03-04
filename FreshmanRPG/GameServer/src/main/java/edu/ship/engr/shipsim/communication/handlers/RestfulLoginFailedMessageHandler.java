@@ -15,7 +15,8 @@ public class RestfulLoginFailedMessageHandler extends MessageHandler
     {
         RestfulLoginFailedMessage message = (RestfulLoginFailedMessage) msg;
 
-        RestfulLoginFailedReport report = new RestfulLoginFailedReport(message.getMessage());
+        RestfulLoginFailedReport
+                report = new RestfulLoginFailedReport(message.getMessage());
 
         ReportObserverConnector.getSingleton().sendReport(report);
     }

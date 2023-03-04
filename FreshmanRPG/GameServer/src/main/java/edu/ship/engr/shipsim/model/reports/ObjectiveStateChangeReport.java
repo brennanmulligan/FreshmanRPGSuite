@@ -1,7 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.PlayerManager;
 
 import java.util.Objects;
 
@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author nk3668
  */
-public final class ObjectiveStateChangeReport implements Report
+public final class ObjectiveStateChangeReport extends SendMessageReport
 {
     private final int playerID;
     private final int questID;
@@ -34,6 +34,7 @@ public final class ObjectiveStateChangeReport implements Report
     public ObjectiveStateChangeReport(int id, int questID, int objectiveID, String objectiveDescription,
                                       ObjectiveStateEnum newState, boolean realLifeObjective, String witnessTitle)
     {
+        super(id, !PlayerManager.getSingleton().isNPC(id));
         this.playerID = id;
         this.questID = questID;
         this.objectiveID = objectiveID;
@@ -83,30 +84,6 @@ public final class ObjectiveStateChangeReport implements Report
         return questID;
     }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass())
-        {
-            return false;
-        }
-        ObjectiveStateChangeReport that = (ObjectiveStateChangeReport) o;
-        return playerID == that.playerID && questID == that.questID && objectiveID == that.objectiveID &&
-                realLifeObjective == that.realLifeObjective &&
-                Objects.equals(objectiveDescription, that.objectiveDescription) && newState == that.newState &&
-                Objects.equals(witnessTitle, that.witnessTitle);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(playerID, questID, objectiveID, objectiveDescription, newState, realLifeObjective, witnessTitle);
-    }
-
     /**
      * @return true if the player must complete this objective in real life
      */
@@ -124,4 +101,35 @@ public final class ObjectiveStateChangeReport implements Report
         return witnessTitle;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof ObjectiveStateChangeReport that))
+        {
+            return false;
+        }
+        return getPlayerID() == that.getPlayerID() &&
+                getQuestID() == that.getQuestID() &&
+                getObjectiveID() == that.getObjectiveID() &&
+                isRealLifeObjective() == that.isRealLifeObjective() &&
+                Objects.equals(getObjectiveDescription(),
+                        that.getObjectiveDescription()) &&
+                getNewState() == that.getNewState() &&
+                Objects.equals(getWitnessTitle(), that.getWitnessTitle()) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getPlayerID(), getQuestID(), getObjectiveID(),
+                getObjectiveDescription(), getNewState(), isRealLifeObjective(),
+                getWitnessTitle(), getRelevantPlayerID(), isQuiet());
+    }
 }

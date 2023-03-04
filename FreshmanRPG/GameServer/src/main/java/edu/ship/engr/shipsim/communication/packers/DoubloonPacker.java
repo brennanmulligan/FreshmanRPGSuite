@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.DoubloonPrizeMessage;
 import edu.ship.engr.shipsim.dataDTO.DoubloonPrizeDTO;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.DoubloonPrizeReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class DoubloonPacker extends MessagePacker
     /*
      * pack the message
      */
-    public DoubloonPrizeMessage pack(Report object)
+    public DoubloonPrizeMessage pack(SendMessageReport object)
     {
 
         if (object.getClass() != DoubloonPrizeReport.class)
@@ -39,9 +39,9 @@ public class DoubloonPacker extends MessagePacker
     /*
      * listen for report
      */
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(DoubloonPrizeReport.class);
         return result;
     }
