@@ -43,7 +43,7 @@ public class PlayerJoinedMessageHandlerTest
 
         VanityDTO hat = new VanityDTO(-1, "", "", "hat_duck", VanityType.HAT);
 
-        PlayerJoinedMessage msg = new PlayerJoinedMessage(PlayersForTest.JOSH.getPlayerID(), PlayersForTest.JOSH.name(),
+        PlayerJoinedMessage msg = new PlayerJoinedMessage(PlayersForTest.JOSH.getPlayerID(), false, PlayersForTest.JOSH.name(),
                 PlayersForTest.JOSH.getVanityItems(), PlayersForTest.JOSH.getPosition(),
                 PlayersForTest.JOSH.getCrew(), PlayersForTest.JOSH.getMajor(), PlayersForTest.JOSH.getSection());
         PlayerJoinedMessageHandler handler = new PlayerJoinedMessageHandler();

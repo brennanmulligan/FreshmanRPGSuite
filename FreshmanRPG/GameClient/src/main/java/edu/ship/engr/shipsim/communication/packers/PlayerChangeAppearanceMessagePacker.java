@@ -23,7 +23,7 @@ public class PlayerChangeAppearanceMessagePacker extends MessagePacker
     public Message pack(SendMessageReport object)
     {
         ChangePlayerAppearanceReport cp = (ChangePlayerAppearanceReport) object;
-        return new PlayerChangeAppearanceMessage(cp.getPlayerID(), (ArrayList<VanityDTO>) cp.getVanities());
+        return new PlayerChangeAppearanceMessage(cp.getPlayerID(), cp.isQuiet(), (ArrayList<VanityDTO>) cp.getVanities());
     }
 
     /**

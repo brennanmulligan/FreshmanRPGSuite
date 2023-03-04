@@ -44,7 +44,7 @@ public class ObjectiveStateChangeMessageHandlerTest
     {
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JOHN);
         ObjectiveStateChangeMessageHandler h = new ObjectiveStateChangeMessageHandler();
-        ObjectiveStateChangeMessage msg = new ObjectiveStateChangeMessage(1, 2, 3, "Big Objective", ObjectiveStateEnum.TRIGGERED, true, "Grammy");
+        ObjectiveStateChangeMessage msg = new ObjectiveStateChangeMessage(1, false, 2, 3, "Big Objective", ObjectiveStateEnum.TRIGGERED, true, "Grammy");
 
         h.process(msg);
         assertEquals(1, ClientModelFacade.getSingleton().getCommandQueueLength());

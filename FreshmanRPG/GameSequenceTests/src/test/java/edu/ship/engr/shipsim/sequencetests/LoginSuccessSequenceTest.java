@@ -28,19 +28,19 @@ public class LoginSuccessSequenceTest extends SequenceTest
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.LOGIN_SERVER,
                     new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
-                            PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()), true),
+                            PlayersForTest.MERLIN_OFFLINE.getPlayerPassword(), false), true),
                     new MessageFlow(ServerType.LOGIN_SERVER,
                             ServerType.THIS_PLAYER_CLIENT, new LoginSuccessfulMessage(
-                            PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                            PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                             ServersForTest.QUAD.getHostName(),
                             ServersForTest.QUAD.getPortNumber(), 33), true),
                     new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                             new ConnectMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                                     PlayersForTest.MERLIN_OFFLINE.getPin()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new PlayerJoinedMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                                     addDefaultItemsToVanityItems(PlayersForTest.MERLIN_OFFLINE.getVanityItems()),
                                     PlayersForTest.MERLIN_OFFLINE.getPosition(),
@@ -50,7 +50,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN_OFFLINE.getOwnedItems()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
                             new PlayerJoinedMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                                     PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                                     addDefaultItemsToVanityItems(PlayersForTest.MERLIN_OFFLINE.getVanityItems()),
                                     PlayersForTest.MERLIN_OFFLINE.getPosition(),
@@ -60,10 +60,10 @@ public class LoginSuccessSequenceTest extends SequenceTest
                                     PlayersForTest.MERLIN_OFFLINE.getOwnedItems()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new MapFileMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), ServersForTest.QUAD.getMapName()), true),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false, ServersForTest.QUAD.getMapName()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new InitializeThisClientsPlayerMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), DataGatheringUtilities.getPlayersQuest(
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false, DataGatheringUtilities.getPlayersQuest(
                                             PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
                                     DataGatheringUtilities.getPlayersFriends(
                                             PlayersForTest.MERLIN_OFFLINE.getPlayerID()),
@@ -73,12 +73,12 @@ public class LoginSuccessSequenceTest extends SequenceTest
 
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new TimeToLevelUpDeadlineMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                                     LEVEL_TWO_RECORD.getDeadlineDate(),
                                     LevelsForTest.TWO.getDescription()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new DoubloonPrizeMessage(
-                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
+                                    PlayersForTest.MERLIN_OFFLINE.getPlayerID(), false,
                                     DataGatheringUtilities.getDoubloonPrizeList()),
                             true)};
 

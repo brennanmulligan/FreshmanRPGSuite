@@ -30,10 +30,10 @@ public class QuestStateChangeMessage extends Message implements Serializable
      * @param questDescription the description of the quest
      * @param newState         the state the quest has moved to
      */
-    public QuestStateChangeMessage(int playerID, int questID, String questTitle, String questDescription,
+    public QuestStateChangeMessage(int playerID, boolean quietMessage, int questID, String questTitle, String questDescription,
                                    QuestStateEnum newState)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.questID = questID;
         this.questTitle = questTitle;
         this.questDescription = questDescription;

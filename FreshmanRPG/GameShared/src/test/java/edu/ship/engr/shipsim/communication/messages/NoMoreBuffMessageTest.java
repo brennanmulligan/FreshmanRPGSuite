@@ -17,7 +17,7 @@ public class NoMoreBuffMessageTest
     @Test
     public void testToString()
     {
-        NoMoreBuffMessage message = new NoMoreBuffMessage(1);
+        NoMoreBuffMessage message = new NoMoreBuffMessage(1, false);
 
         assertEquals("NoMoreBuffMessage: No remaining buff for playerID = 1", message.toString());
     }

@@ -4,10 +4,9 @@ public class ServerPlayerOwnedItemsRequestMessage extends Message
 {
     private static final long serialVersionUID = 1L;
 
-    public ServerPlayerOwnedItemsRequestMessage(int playerID)
+    public ServerPlayerOwnedItemsRequestMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         System.out.println("step 3");
-
     }
 }

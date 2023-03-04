@@ -34,7 +34,7 @@ public class TerminalTextExitPacker extends MessagePacker
                             + object.getClass());
         }
         TerminalTextExitReport report = (TerminalTextExitReport) object;
-        Message msg = new TerminalTextExitMessage(report.getPlayerID());
+        Message msg = new TerminalTextExitMessage(report.getPlayerID(), report.isQuiet());
         System.out.println("Sending message");
         return msg;
     }

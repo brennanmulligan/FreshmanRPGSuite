@@ -14,9 +14,9 @@ public class QuestNotificationCompleteMessage extends Message implements Seriali
      * @param playerID id of the player
      * @param questID  id of the quest
      */
-    public QuestNotificationCompleteMessage(int playerID, int questID)
+    public QuestNotificationCompleteMessage(int playerID, boolean quietMessage, int questID)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.questID = questID;
     }
 

@@ -89,10 +89,10 @@ public class ObjectiveStateChangeMessage extends Message implements Serializable
      * @param witnessTitle         if this is a real life objective, the title of the
      *                             person who can witness completion
      */
-    public ObjectiveStateChangeMessage(int playerID, int questID, int objectiveID, String objectiveDescription,
+    public ObjectiveStateChangeMessage(int playerID, boolean quietMessage, int questID, int objectiveID, String objectiveDescription,
                                        ObjectiveStateEnum newState, boolean realLifeObjective, String witnessTitle)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.questID = questID;
         this.objectiveID = objectiveID;
         this.objectiveDescription = objectiveDescription;

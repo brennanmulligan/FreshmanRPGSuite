@@ -35,7 +35,7 @@ public class KeyInputMessageHandlerTest
         StateAccumulator accum = new StateAccumulator(null);
         accum.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
         String input = "q";
-        KeyInputMessage message = new KeyInputMessage(input);
+        KeyInputMessage message = new KeyInputMessage(input, false);
         KeyInputMessageHandler handler = new KeyInputMessageHandler();
         handler.setAccumulator(accum);
         handler.process(message);

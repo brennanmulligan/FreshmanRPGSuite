@@ -14,8 +14,8 @@ public class HighScoreRequestMessage extends Message
      */
     private static final long serialVersionUID = 1L;
 
-    public HighScoreRequestMessage(int playerID)
+    public HighScoreRequestMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 }

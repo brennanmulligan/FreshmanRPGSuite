@@ -26,9 +26,9 @@ public class ChatMessageToServer extends Message implements Serializable
      * @param location the location of the sender
      * @param type     the type of chat message being sent
      */
-    public ChatMessageToServer(int senderID, int receiverID, String chatText, Position location, ChatType type)
+    public ChatMessageToServer(int senderID, int receiverID, boolean quietMessage, String chatText, Position location, ChatType type)
     {
-        super(senderID);
+        super(senderID, quietMessage);
         this.chatText = chatText;
         this.receiverID = receiverID;
         this.position = location;

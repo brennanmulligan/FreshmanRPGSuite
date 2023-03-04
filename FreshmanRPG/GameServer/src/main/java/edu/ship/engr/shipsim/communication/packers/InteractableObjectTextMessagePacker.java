@@ -24,10 +24,11 @@ public class InteractableObjectTextMessagePacker extends MessagePacker
 
         int playerID = report.getPlayerID();
         String text = report.getText();
+        boolean isQuiet = report.isQuiet();
 
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            DisplayTextMessage msg = new DisplayTextMessage(playerID, text);
+            DisplayTextMessage msg = new DisplayTextMessage(playerID, isQuiet, text);
             return msg;
         }
         return null;

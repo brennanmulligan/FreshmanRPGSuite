@@ -98,9 +98,9 @@ public class TeleportationContinuationMessage extends Message implements Seriali
      * @param playerID   the player ID of the person who is teleporting
      * @param pin        the pin the player must use to connect to the new server
      */
-    public TeleportationContinuationMessage(String mapName, String hostName, int portNumber, int playerID, int pin)
+    public TeleportationContinuationMessage(String mapName, String hostName, int portNumber, int playerID, int pin, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.mapName = mapName;
         this.hostName = hostName;
         this.portNumber = portNumber;

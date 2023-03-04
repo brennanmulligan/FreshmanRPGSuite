@@ -22,7 +22,7 @@ public class QuestNotificationCompletePacker extends MessagePacker
     public Message pack(SendMessageReport object)
     {
         QuestNotificationCompleteReport r = (QuestNotificationCompleteReport) object;
-        return new QuestNotificationCompleteMessage(r.getPlayerID(), r.getQuestID());
+        return new QuestNotificationCompleteMessage(r.getPlayerID(), r.isQuiet(), r.getQuestID());
     }
 
     /**
