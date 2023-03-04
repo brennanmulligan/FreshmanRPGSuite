@@ -19,7 +19,8 @@ public class RestfulLoginSuccessMessagePacker extends MessagePacker
         RestfulLoginServerSuccessfulReport
                 report = (RestfulLoginServerSuccessfulReport) object;
 
-        return new RestfulLoginSuccessMessage(report.getPlayerID());
+        return new RestfulLoginSuccessMessage(report.getPlayerID(),
+                report.isQuiet());
     }
 
     @Override

@@ -17,9 +17,9 @@ public class PlayerChangeAppearanceMessage extends Message
      * @param playerID   the ID of the player
      * @param newWearing the list of new things to wear
      */
-    public PlayerChangeAppearanceMessage(int playerID, ArrayList<VanityDTO> newWearing)
+    public PlayerChangeAppearanceMessage(int playerID, boolean quietMessage, ArrayList<VanityDTO> newWearing)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.newWearing = newWearing;
     }
 

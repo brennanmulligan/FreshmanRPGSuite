@@ -90,9 +90,9 @@ public class TeleportationInitiationMessage extends Message implements Serializa
      * @param newPosition the position in which the player should be placed when
      *                    the move is complete
      */
-    public TeleportationInitiationMessage(int playerID, String mapName, Position newPosition)
+    public TeleportationInitiationMessage(int playerID, boolean quietMessage, String mapName, Position newPosition)
     {
-        super(playerID);
+        super(playerID, quietMessage);
         this.mapName = mapName;
         this.position = newPosition;
     }

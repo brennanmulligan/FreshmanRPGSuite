@@ -21,7 +21,7 @@ public class KeyInputMessageTest
     public void testInitialization()
     {
         String input = "q";
-        KeyInputMessage keyInputMessage = new KeyInputMessage(input);
+        KeyInputMessage keyInputMessage = new KeyInputMessage(input,false);
         assertEquals(input, keyInputMessage.getInput());
     }
 

@@ -22,9 +22,9 @@ public class ObjectSendsPopupMessageSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new KeyInputMessage("e"), true),
+                    new KeyInputMessage("e", false), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new DisplayTextMessage(PlayersForTest.JAWN.getPlayerID(),
+                            new DisplayTextMessage(PlayersForTest.JAWN.getPlayerID(), false,
                                     InteractableItemsForTest.BOOKSHELF.getMessage()),
                             true)};
 

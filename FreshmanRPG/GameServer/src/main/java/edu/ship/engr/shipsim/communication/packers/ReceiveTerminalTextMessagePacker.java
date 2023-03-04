@@ -35,7 +35,7 @@ public class ReceiveTerminalTextMessagePacker extends MessagePacker
         String terminalText = report.getResultText();
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            ReceiveTerminalTextMessage msg = new ReceiveTerminalTextMessage(playerID, terminalText);
+            ReceiveTerminalTextMessage msg = new ReceiveTerminalTextMessage(playerID, report.isQuiet(), terminalText);
             return msg;
         }
 

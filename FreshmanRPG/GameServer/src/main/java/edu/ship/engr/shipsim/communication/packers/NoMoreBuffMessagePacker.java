@@ -25,9 +25,10 @@ public class NoMoreBuffMessagePacker extends MessagePacker
         NoMoreBuffReport report = (NoMoreBuffReport) object;
 
         int playerID = report.getPlayerID();
+        boolean isQuiet =  report.isQuiet();
         if (this.getAccumulator().getPlayerID() == playerID)
         {
-            NoMoreBuffMessage msg = new NoMoreBuffMessage(playerID);
+            NoMoreBuffMessage msg = new NoMoreBuffMessage(playerID, isQuiet);
             return msg;
         }
         return null;

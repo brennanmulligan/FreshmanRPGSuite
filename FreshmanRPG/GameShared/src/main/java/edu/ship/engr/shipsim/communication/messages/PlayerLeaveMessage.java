@@ -18,9 +18,9 @@ public class PlayerLeaveMessage extends Message implements Serializable
     /**
      * @param playerID the unique ID of the player
      */
-    public PlayerLeaveMessage(int playerID)
+    public PlayerLeaveMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     @Override

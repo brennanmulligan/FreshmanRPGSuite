@@ -14,8 +14,9 @@ public class ServerPlayerOwnedItemsRequestPacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
+        ServerPlayerOwnedItemsRequestReport report = (ServerPlayerOwnedItemsRequestReport) object;
         System.out.println("step 2");
-        return new ServerPlayerOwnedItemsRequestMessage(ClientPlayerManager.getSingleton().getThisClientsPlayer().getID());
+        return new ServerPlayerOwnedItemsRequestMessage(ClientPlayerManager.getSingleton().getThisClientsPlayer().getID(), report.isQuiet());
     }
 
     @Override

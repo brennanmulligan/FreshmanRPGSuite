@@ -86,21 +86,21 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
                 ObjectivesForTest.QUEST13_OBJECTIVE_1.getExperiencePointsGained();
         MessageFlow[] sequence = new MessageFlow[]{
                 new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                        new KeyInputMessage("e"), true),
+                        new KeyInputMessage("e", false), true),
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                         //last two arguments should be false and null (bc this isn't a real life objective)
                         new ObjectiveStateChangeMessage(
-                                PlayersForTest.MERLIN.getPlayerID(),
+                                PlayersForTest.MERLIN.getPlayerID(), false,
                                 ObjectivesForTest.QUEST13_OBJECTIVE_1.getQuestID(),
                                 ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveID(),
                                 ObjectivesForTest.QUEST13_OBJECTIVE_1.getObjectiveDescription(),
                                 ObjectiveStateEnum.COMPLETED, false, null), true),
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                        new ExperienceChangedMessage(PlayersForTest.MERLIN.getPlayerID(),
+                        new ExperienceChangedMessage(PlayersForTest.MERLIN.getPlayerID(), false,
                                 newExperiencePoints, LevelManagerDTO.getSingleton()
                                 .getLevelForPoints(newExperiencePoints)), true),
                 new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                        new DisplayTextMessage(PlayersForTest.MERLIN.getPlayerID(),
+                        new DisplayTextMessage(PlayersForTest.MERLIN.getPlayerID(), false,
                                 InteractableItemsForTest.CHEST.getMessage()), true),};
 
         interactions.add(new Interaction(new CommandKeyInputSent("e"),

@@ -18,9 +18,9 @@ public class NoMoreBuffMessage extends Message implements Serializable
      *
      * @param playerID - the id of the player
      */
-    public NoMoreBuffMessage(int playerID)
+    public NoMoreBuffMessage(int playerID, boolean quietMessage)
     {
-        super(playerID);
+        super(playerID, quietMessage);
     }
 
     /**

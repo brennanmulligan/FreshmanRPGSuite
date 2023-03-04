@@ -61,9 +61,9 @@ public class KeyInputMessage extends Message implements Serializable
     /**
      * @param input user key input
      */
-    public KeyInputMessage(String input)
+    public KeyInputMessage(String input, boolean quietMessage)
     {
-        super(0);
+        super(0, quietMessage);
         this.input = input;
     }
 
