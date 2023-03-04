@@ -23,9 +23,7 @@ tasks.register('checkForDuplicateClasses') {
             }
         }
 
-        def outLines = []
-
-        def found = duplicates.search(outLines)
+        def (found, outLines) = duplicates.search()
 
         if (found) {
             throw new RuntimeException(outLines.join('\n'))
@@ -57,7 +55,8 @@ class MyMultimap {
         map."$key" = list
     }
 
-    boolean search(List<String> outLines) {
+    def search() {
+        def outLines = []
         def found = false
 
         map.each { String key, List<Project> value ->
@@ -83,5 +82,7 @@ class MyMultimap {
                 found = true
             }
         }
+
+        return [found, outLines]
     }
 }
