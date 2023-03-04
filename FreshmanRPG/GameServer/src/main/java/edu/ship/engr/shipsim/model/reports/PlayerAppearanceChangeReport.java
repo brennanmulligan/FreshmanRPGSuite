@@ -1,20 +1,19 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 import java.util.Objects;
 
 /**
  * @author Ryan Handley and Scott Bowling
  */
-public final class PlayerAppearanceChangeReport implements Report
+public final class PlayerAppearanceChangeReport extends SendMessageReport
 {
 //	private final int playerID;
 //	private final String appearanceType;
 
     public PlayerAppearanceChangeReport()
     {
-
+        //Defunct class
+        super(0, true);
     }
 
 //	/**

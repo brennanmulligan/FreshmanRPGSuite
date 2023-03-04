@@ -1,14 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
-public class TerminalTextExitReport implements Report
+public class TerminalTextExitReport extends SendMessageReport
 {
 
     private int playerID;
 
     public TerminalTextExitReport(int playerID)
     {
+        super(playerID, true);
         this.playerID = playerID;
     }
 

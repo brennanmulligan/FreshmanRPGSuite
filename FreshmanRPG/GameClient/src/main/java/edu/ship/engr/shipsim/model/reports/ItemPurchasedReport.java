@@ -1,13 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Contains information that allows a doubloon prize to be purchased
  *
  * @author Kevin Marek
  */
-public class ItemPurchasedReport implements Report
+public class ItemPurchasedReport extends SendMessageReport
 {
     private final int playerID;
     private final int price;
@@ -18,6 +16,8 @@ public class ItemPurchasedReport implements Report
      */
     public ItemPurchasedReport(int playerID, int price)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.playerID = playerID;
         this.price = price;
     }

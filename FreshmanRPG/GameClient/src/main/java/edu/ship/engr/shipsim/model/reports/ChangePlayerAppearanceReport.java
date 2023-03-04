@@ -1,7 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
-import edu.ship.engr.shipsim.model.Report;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  *
  * @author merlin
  */
-public class ChangePlayerAppearanceReport implements Report
+public class ChangePlayerAppearanceReport extends SendMessageReport
 {
 
     private int playerID;
@@ -22,7 +21,9 @@ public class ChangePlayerAppearanceReport implements Report
      */
     public ChangePlayerAppearanceReport(int playerID, List<VanityDTO> vanities)
     {
-        super();
+        // Happens on client, thus it will always be loud
+        super(0, false);
+
         this.playerID = playerID;
         this.vanities = vanities;
     }

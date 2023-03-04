@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.ReceiveTerminalTextMessage;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ReceiveTerminalTextReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class ReceiveTerminalTextMessagePacker extends MessagePacker
      * pack the report to a message
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         if (object.getClass() != ReceiveTerminalTextReport.class)
         {
@@ -46,9 +46,9 @@ public class ReceiveTerminalTextMessagePacker extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(ReceiveTerminalTextReport.class);
         return result;
     }

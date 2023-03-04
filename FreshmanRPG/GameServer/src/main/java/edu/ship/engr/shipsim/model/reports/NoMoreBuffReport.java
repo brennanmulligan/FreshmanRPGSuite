@@ -1,14 +1,12 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Report if a Buff has run out.
  *
  * @author Aaron Gerber
  * @author Stephen Clabaugh
  */
-public class NoMoreBuffReport implements Report
+public class NoMoreBuffReport extends SendMessageReport
 {
     /**
      * The player's id
@@ -22,6 +20,7 @@ public class NoMoreBuffReport implements Report
      */
     public NoMoreBuffReport(int playerID)
     {
+        super(playerID, true);
         this.playerID = playerID;
     }
 

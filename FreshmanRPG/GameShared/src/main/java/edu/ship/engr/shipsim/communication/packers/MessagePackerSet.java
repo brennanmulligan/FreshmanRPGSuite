@@ -6,6 +6,7 @@ import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.TypeDetector;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -55,9 +56,9 @@ public class MessagePackerSet extends TypeDetector
         {
             for (MessagePacker packer : packerList)
             {
-                ArrayList<Class<? extends Report>> reportTypesWePack =
+                ArrayList<Class<? extends SendMessageReport>> reportTypesWePack =
                         packer.getReportTypesWePack();
-                for (Class<? extends Report> reportType : reportTypesWePack)
+                for (Class<? extends SendMessageReport> reportType : reportTypesWePack)
                 {
                     ReportObserverConnector.getSingleton()
                             .unregisterObserver(obs, reportType);
@@ -102,7 +103,7 @@ public class MessagePackerSet extends TypeDetector
         {
             for (MessagePacker packer : packerList)
             {
-                ArrayList<Class<? extends Report>> reportTypesWePack =
+                ArrayList<Class<? extends SendMessageReport>> reportTypesWePack =
                         packer.getReportTypesWePack();
                 for (Class<? extends Report> reportType : reportTypesWePack)
                 {
@@ -122,11 +123,11 @@ public class MessagePackerSet extends TypeDetector
      * @throws CommunicationException if there is no packer registered for this type
      *                                of event
      */
-    public ArrayList<Message> pack(Report report)
+    public ArrayList<Message> pack(SendMessageReport report)
             throws CommunicationException
     {
         ArrayList<Message> results = new ArrayList<>();
-        Class<? extends Report> classWeArePacking = report.getClass();
+        Class<? extends SendMessageReport> classWeArePacking = report.getClass();
         ArrayList<MessagePacker> packers = getPackersFor(classWeArePacking);
         if (packers != null)
         {
@@ -150,10 +151,10 @@ public class MessagePackerSet extends TypeDetector
      */
     public void registerPacker(MessagePacker packer)
     {
-        ArrayList<Class<? extends Report>> reportsWePack =
+        ArrayList<Class<? extends SendMessageReport>> reportsWePack =
                 packer.getReportTypesWePack();
 
-        for (Class<? extends Report> reportWePack : reportsWePack)
+        for (Class<? extends SendMessageReport> reportWePack : reportsWePack)
         {
             ArrayList<MessagePacker> relevantPackers =
                     packers.computeIfAbsent(reportWePack, k -> new ArrayList<>());

@@ -1,13 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Sent by InteractObjectManager
  *
  * @author ed9737
  */
-public class InteractionDeniedReport implements Report
+public class InteractionDeniedReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -17,6 +15,7 @@ public class InteractionDeniedReport implements Report
      */
     public InteractionDeniedReport(int playerID)
     {
+        super(playerID, true);
         this.playerID = playerID;
     }
 

@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import java.util.Objects;
 
 /**
  * @author Ryan
  */
-public final class ObjectiveNotificationCompleteReport implements Report
+public final class ObjectiveNotificationCompleteReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -21,6 +21,8 @@ public final class ObjectiveNotificationCompleteReport implements Report
      */
     public ObjectiveNotificationCompleteReport(int playerID, int questID, int objectiveID)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         this.playerID = playerID;
         this.questID = questID;
         this.objectiveID = objectiveID;
@@ -50,53 +52,27 @@ public final class ObjectiveNotificationCompleteReport implements Report
         return objectiveID;
     }
 
-    /**
-     * )
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public int hashCode()
+    public boolean equals(Object o)
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + objectiveID;
-        result = prime * result + playerID;
-        result = prime * result + questID;
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-        if (obj == null)
+        if (!(o instanceof ObjectiveNotificationCompleteReport that))
         {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        ObjectiveNotificationCompleteReport other = (ObjectiveNotificationCompleteReport) obj;
-        if (objectiveID != other.objectiveID)
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        if (questID != other.questID)
-        {
-            return false;
-        }
-        return true;
+        return getPlayerID() == that.getPlayerID() &&
+                getQuestID() == that.getQuestID() &&
+                getObjectiveID() == that.getObjectiveID()&&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getPlayerID(), getQuestID(), getObjectiveID(), getRelevantPlayerID(), isQuiet());
     }
 }

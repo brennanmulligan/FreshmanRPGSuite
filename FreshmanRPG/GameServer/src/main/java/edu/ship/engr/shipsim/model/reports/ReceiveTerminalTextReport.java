@@ -1,13 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.PlayerManager;
 
 /**
  * @author Chris Roadcap
  * @author Denny Fleagle
  */
 
-public class ReceiveTerminalTextReport implements Report
+public class ReceiveTerminalTextReport extends SendMessageReport
 {
 
     private int requestingPlayerID;
@@ -23,6 +23,7 @@ public class ReceiveTerminalTextReport implements Report
      */
     public ReceiveTerminalTextReport(int requestingPlayerID, String resultText, String command)
     {
+        super(requestingPlayerID, !PlayerManager.getSingleton().isNPC(requestingPlayerID));
         this.requestingPlayerID = requestingPlayerID;
         this.resultText = resultText;
         this.command = command;

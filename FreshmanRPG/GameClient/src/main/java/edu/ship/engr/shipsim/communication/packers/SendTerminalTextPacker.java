@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.SendTerminalTextMessage;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 import edu.ship.engr.shipsim.model.reports.SendTerminalTextReport;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class SendTerminalTextPacker extends MessagePacker
      * given.
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         if (object.getClass() != SendTerminalTextReport.class)
         {
@@ -39,9 +39,9 @@ public class SendTerminalTextPacker extends MessagePacker
      * listens for SendTerminalTextReport
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(SendTerminalTextReport.class);
         return result;
     }
