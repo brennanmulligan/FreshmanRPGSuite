@@ -224,7 +224,8 @@ public class QuestRowDataGateway
         String dropSql = "DROP TABLE IF EXISTS VanityAwards, Quests";
         String createSql = "Create TABLE Quests (questID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, questTitle VARCHAR(40) UNIQUE,questDescription VARCHAR(200), triggerMapName VARCHAR(80)," +
                 " triggerRow INT, triggerColumn INT, experiencePointsGained INT, objectivesForFulfillment INT, " +
-                " completionActionType INT, completionActionParameter BLOB, startDate DATE, endDate DATE )";
+                " completionActionType INT, completionActionParameter BLOB, startDate DATE, endDate DATE," +
+                " easterEgg TINYINT DEFAULT 0)";
 
         try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
