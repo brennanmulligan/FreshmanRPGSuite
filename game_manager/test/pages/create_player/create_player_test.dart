@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:game_manager/repository/player/create_player_response.dart';
+import 'package:game_manager/repository/player/basic_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
@@ -19,8 +19,8 @@ Future<void> main() async {
   });
 
   group('Create Player Tests: ', () {
-    const CreatePlayerResponse goodResponse =
-        CreatePlayerResponse(success: true, description: "created");
+    const BasicResponse goodResponse =
+        BasicResponse(success: true, description: "created");
 
     blocTest<CreatePlayerBloc, CreatePlayerState>(
       'Check flow of states',

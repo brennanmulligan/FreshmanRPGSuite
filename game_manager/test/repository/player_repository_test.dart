@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:game_manager/repository/player/create_player_request.dart';
-import 'package:game_manager/repository/player/create_player_response.dart';
+import 'package:game_manager/repository/player/basic_response.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
 import 'package:test/test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -34,7 +34,7 @@ void main() {
 
       PlayerRepository repo = PlayerRepository(dio: dio);
 
-      CreatePlayerResponse response = await repo.createPlayer(createPlayerRequest);
+      BasicResponse response = await repo.createPlayer(createPlayerRequest);
       expect(response.success, true);
       expect(response.description, "Success");
     });
