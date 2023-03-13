@@ -65,7 +65,7 @@ public class BuildTestQuestsAndObjectives
                     quest.getQuestDescription(), quest.getMapName(), quest.getPosition(),
                     quest.getExperienceGained(), quest.getObjectiveForFulfillment(),
                     quest.getCompletionActionType(), quest.getCompletionActionParameter(),
-                    quest.getStartDate(), quest.getEndDate());
+                    quest.getStartDate(), quest.getEndDate(), quest.getIsEasterEgg());
 
             bar.update();
         }
