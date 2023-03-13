@@ -5,22 +5,22 @@ import '../../type_definitions.dart';
 ///
 /// Object to request creating a player.
 ///
-class CreatePlayerResponse extends Equatable {
+class BasicResponse extends Equatable {
   final bool success;
   final String description;
 
   ///
   /// Constructor
   ///
-  const CreatePlayerResponse({
+  const BasicResponse({
     required this.success,
     required this.description
   });
 
-  factory CreatePlayerResponse.fromJson({
+  factory BasicResponse.fromJson({
     required JSON json,
   }) {
-     return CreatePlayerResponse(
+     return BasicResponse(
        success: json['success'],
        description: json['description']
     );
