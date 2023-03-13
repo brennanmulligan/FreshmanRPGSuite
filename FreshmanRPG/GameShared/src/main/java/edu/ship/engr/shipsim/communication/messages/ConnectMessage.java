@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Merlin
  */
-public class ConnectMessage implements Message, Serializable
+public class ConnectMessage extends Message implements Serializable
 {
 
     /**
@@ -19,7 +19,7 @@ public class ConnectMessage implements Message, Serializable
         long temp;
         temp = Double.doubleToLongBits(pin);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -42,7 +42,7 @@ public class ConnectMessage implements Message, Serializable
             return false;
         }
         ConnectMessage other = (ConnectMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -53,27 +53,17 @@ public class ConnectMessage implements Message, Serializable
      *
      */
     private static final long serialVersionUID = 1L;
-    private int playerID;
     private double pin;
 
     /**
      * @param playerID the player ID we should use to connect
      * @param pin      the pin we were given to validate this connection request
      */
-    public ConnectMessage(int playerID, double pin)
+    public ConnectMessage(int playerID, boolean quietMessage, double pin)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.pin = pin;
     }
-
-    /**
-     * @return the playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
     /**
      * @return the pin
      */
@@ -87,6 +77,6 @@ public class ConnectMessage implements Message, Serializable
      */
     public String toString()
     {
-        return "Connect Message: playerID = " + playerID + " and pin = " + pin;
+        return "Connect Message: playerID = " + relevantPlayerID + " and pin = " + pin;
     }
 }

@@ -19,13 +19,13 @@ public class ServerPlayerOwnedItemsRequestMessageHandler extends MessageHandler
         try
         {
             Player player =
-                    PlayerManager.getSingleton().getPlayerFromID(actualMsg.getPlayerID());
+                    PlayerManager.getSingleton().getPlayerFromID(actualMsg.getRelevantPlayerID());
             if (player == null)
             {
                 return;
             }
             ArrayList<VanityDTO> ownedItems = player.getAllOwnedItems();
-            ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems);
+            ServerPlayerOwnedItemsResponseMessage msgToSend = new ServerPlayerOwnedItemsResponseMessage(ownedItems, msg.isQuietMessage());
             this.getStateAccumulator().queueMessage(msgToSend);
         }
         catch (Exception e)

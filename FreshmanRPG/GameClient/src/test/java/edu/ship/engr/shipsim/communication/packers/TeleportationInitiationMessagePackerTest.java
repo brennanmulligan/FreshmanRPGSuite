@@ -30,7 +30,7 @@ public class TeleportationInitiationMessagePackerTest
         TeleportationInitiationMessagePacker packer = new TeleportationInitiationMessagePacker();
         TeleportationInitiationMessage msg = (TeleportationInitiationMessage) packer.pack(report);
 
-        assertEquals(playerId, msg.getPlayerId());
+        assertEquals(playerId, msg.getRelevantPlayerID());
         assertEquals(mapName, msg.getMapName());
         assertEquals(position, msg.getPosition());
     }

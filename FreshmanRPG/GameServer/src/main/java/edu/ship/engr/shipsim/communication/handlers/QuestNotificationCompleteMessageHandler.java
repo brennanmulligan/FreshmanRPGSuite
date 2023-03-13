@@ -20,7 +20,7 @@ public class QuestNotificationCompleteMessageHandler extends MessageHandler
         if (msg.getClass().equals(QuestNotificationCompleteMessage.class))
         {
             QuestNotificationCompleteMessage aMsg = (QuestNotificationCompleteMessage) msg;
-            CommandQuestNotificationComplete cmd = new CommandQuestNotificationComplete(aMsg.getPlayerID(),
+            CommandQuestNotificationComplete cmd = new CommandQuestNotificationComplete(aMsg.getRelevantPlayerID(),
                     aMsg.getQuestID());
             ModelFacade.getSingleton().queueCommand(cmd);
         }

@@ -16,10 +16,10 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new KeyInputMessage("e"), true),
+                    new KeyInputMessage("e", false), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new InteractionDeniedMessage(
-                                    PlayersForTest.JEFF.getPlayerID()), true)};
+                                    PlayersForTest.JEFF.getPlayerID(), false), true)};
 
     /**
      * Runs through the message flow

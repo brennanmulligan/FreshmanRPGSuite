@@ -51,7 +51,7 @@ public class HighScoreRequestMessageHandlerTest
         StateAccumulator accum = new StateAccumulator(null);
         accum.setPlayerId(PlayersForTest.MERLIN.getPlayerID());
         handler.setAccumulator(accum);
-        HighScoreResponseMessage msg = new HighScoreResponseMessage(PlayerManager.getSingleton().getTopTenPlayers());
+        HighScoreResponseMessage msg = new HighScoreResponseMessage(PlayerManager.getSingleton().getTopTenPlayers(), false);
 
         handler.process(msg);
 

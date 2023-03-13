@@ -6,19 +6,18 @@ import java.io.Serializable;
  * @author bl5922 Message that contains the players ID and is packed by the
  * GetOnlinePlayersPacker
  */
-public class SendTerminalTextMessage implements Message, Serializable
+public class SendTerminalTextMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private int playerID;
     private String terminalText;
 
     /**
      * @param playerID     for the client player
      * @param terminalText command from terminal
      */
-    public SendTerminalTextMessage(int playerID, String terminalText)
+    public SendTerminalTextMessage(int playerID, boolean quietMessage, String terminalText)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.terminalText = terminalText;
     }
 
@@ -30,7 +29,7 @@ public class SendTerminalTextMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         return result;
     }
 
@@ -53,19 +52,11 @@ public class SendTerminalTextMessage implements Message, Serializable
             return false;
         }
         SendTerminalTextMessage other = (SendTerminalTextMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
         return true;
-    }
-
-    /**
-     * @return playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**
@@ -80,7 +71,7 @@ public class SendTerminalTextMessage implements Message, Serializable
     public String toString()
     {
         return "SendTerminalTextMessage{" +
-                "playerID=" + playerID +
+                "playerID=" + relevantPlayerID +
                 ", terminalText='" + terminalText + '\'' +
                 '}';
     }

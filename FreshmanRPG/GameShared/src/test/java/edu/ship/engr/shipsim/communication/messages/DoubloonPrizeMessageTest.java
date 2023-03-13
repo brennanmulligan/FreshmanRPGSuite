@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Christian C, Andrew M
@@ -26,11 +27,12 @@ public class DoubloonPrizeMessageTest
 
         DoubloonPrizeDTO dto = new DoubloonPrizeDTO("pizza", 100, "pizza party");
         list.add(dto);
-        DoubloonPrizeMessage kpm = new DoubloonPrizeMessage(1, list);
+        DoubloonPrizeMessage kpm = new DoubloonPrizeMessage(1, false, list);
 
         assertEquals("pizza", kpm.getName(0));
         assertEquals(100, kpm.getPrice(0));
         assertEquals("pizza party", kpm.getDescription(0));
+        assertFalse(kpm.isQuietMessage());
     }
 
 }

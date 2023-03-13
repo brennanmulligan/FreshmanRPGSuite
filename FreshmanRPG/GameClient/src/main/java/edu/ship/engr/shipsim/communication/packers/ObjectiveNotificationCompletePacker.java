@@ -4,6 +4,7 @@ import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.ObjectiveNotificationCompleteMessage;
 import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ObjectiveNotificationCompleteReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -14,22 +15,22 @@ public class ObjectiveNotificationCompletePacker extends MessagePacker
 {
 
     /**
-     * @see MessagePacker#pack(Report)
+     * @see MessagePacker#pack(SendMessageReport)
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         ObjectiveNotificationCompleteReport r = (ObjectiveNotificationCompleteReport) object;
-        return new ObjectiveNotificationCompleteMessage(r.getPlayerID(), r.getQuestID(), r.getObjectiveID());
+        return new ObjectiveNotificationCompleteMessage(r.getPlayerID(), r.isQuiet(), r.getQuestID(), r.getObjectiveID());
     }
 
     /**
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result =
+        ArrayList<Class<? extends SendMessageReport>> result =
                 new ArrayList<>();
         result.add(ObjectiveNotificationCompleteReport.class);
         return result;

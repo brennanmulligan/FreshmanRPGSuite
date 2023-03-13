@@ -24,7 +24,7 @@ public class RecievedTerminalTextMessageTest
         String result = "unknown";
 
         //Create message
-        ReceiveTerminalTextMessage message = new ReceiveTerminalTextMessage(PlayersForTest.ANDY.getPlayerID(), result);
+        ReceiveTerminalTextMessage message = new ReceiveTerminalTextMessage(PlayersForTest.ANDY.getPlayerID(), false, result);
 
         assertEquals(PlayersForTest.ANDY.getPlayerID(), message.getRequestingPlayerID());
 

@@ -6,8 +6,8 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.MapToServerMapping;
 import edu.ship.engr.shipsim.model.PlayerManager;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.PlayerReadyToTeleportReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ public class TeleportationContinuationPacker extends MessagePacker
 {
 
     /**
-     * @see MessagePacker#pack(Report)
+     * @see MessagePacker#pack(SendMessageReport)
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         PlayerReadyToTeleportReport report = (PlayerReadyToTeleportReport) object;
         if (this.getAccumulator().getPlayerID() == report.getPlayerID())
@@ -36,7 +36,7 @@ public class TeleportationContinuationPacker extends MessagePacker
                         "to " + report.getMap());
                 return new TeleportationContinuationMessage(report.getMap(), mapping.getHostName(),
                         mapping.getPortNumber(), report.getPlayerID(),
-                        newPin);
+                        newPin, report.isQuiet());
             }
             catch (DatabaseException e)
             {
@@ -51,9 +51,9 @@ public class TeleportationContinuationPacker extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(PlayerReadyToTeleportReport.class);
         return result;
     }

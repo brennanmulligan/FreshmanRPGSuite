@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.PlayerManager;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Merlin
  */
-public final class AddExistingPlayerReport implements Report
+public final class AddExistingPlayerReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -41,6 +41,7 @@ public final class AddExistingPlayerReport implements Report
     public AddExistingPlayerReport(int recipientID, int playerID, String playerName, String appearanceType,
                                    Position position, Crew crew, Major major, int section, ArrayList<VanityDTO> vanityDTOs)
     {
+        super(recipientID, !PlayerManager.getSingleton().isNPC(playerID));
         this.recipientPlayerID = recipientID;
         this.playerID = playerID;
         this.playerName = playerName;

@@ -7,7 +7,7 @@ import java.io.Serializable;
 /*
  *  @Author Christian Crouthamel, Andrew McCoy
  */
-public class updateFriendListMessage implements Message, Serializable
+public class updateFriendListMessage extends Message implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
@@ -16,8 +16,9 @@ public class updateFriendListMessage implements Message, Serializable
     /*
      * constructor for message
      */
-    public updateFriendListMessage(FriendDTO friend)
+    public updateFriendListMessage(FriendDTO friend, boolean quietMessage)
     {
+        super(0, quietMessage);
         this.friend = friend;
     }
 

@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Jake, Aaron
  */
-public class VanityShopInventoryResponseMessage implements Message
+public class VanityShopInventoryResponseMessage extends Message
 {
     private static final long serialVersionUID = 1L;
     private ArrayList<VanityDTO> vanityShopInventory;
@@ -18,8 +18,9 @@ public class VanityShopInventoryResponseMessage implements Message
     /**
      * @param vanityShopItems the list of items in the vanity shop
      */
-    public VanityShopInventoryResponseMessage(ArrayList<VanityDTO> vanityShopItems)
+    public VanityShopInventoryResponseMessage(ArrayList<VanityDTO> vanityShopItems, boolean quietMessage)
     {
+        super(0,quietMessage);
         this.vanityShopInventory = vanityShopItems;
     }
 

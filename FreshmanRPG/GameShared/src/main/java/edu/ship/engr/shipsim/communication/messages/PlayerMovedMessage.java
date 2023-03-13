@@ -2,104 +2,68 @@ package edu.ship.engr.shipsim.communication.messages;
 
 import edu.ship.engr.shipsim.datatypes.Position;
 
+
+import javax.management.ConstructorParameters;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Encodes the fact that a player has moved to a given location
  *
  * @author merlin
  */
-public class PlayerMovedMessage implements Message, Serializable
+
+public class PlayerMovedMessage extends Message implements Serializable
 {
+
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private final int playerID;
     private final Position position;
 
-    /**
-     * @param playerID The player who moved
-     * @param p        Where the player moved to
-     */
-    public PlayerMovedMessage(int playerID, Position p)
+    public PlayerMovedMessage(int relevantPlayerID, boolean quietMessage, Position position)
     {
-        this.playerID = playerID;
-        this.position = p;
+        super(relevantPlayerID, quietMessage);
+        this.position = position;
     }
 
-    /**
-     * @return the player who moved
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public final int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + playerID;
-        result = prime * result + ((position == null) ? 0 : position.hashCode());
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public final boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (!(obj instanceof PlayerMovedMessage))
-        {
-            return false;
-        }
-        PlayerMovedMessage other = (PlayerMovedMessage) obj;
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        if (position == null)
-        {
-            if (other.position != null)
-            {
-                return false;
-            }
-        }
-        else if (!position.equals(other.position))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @return the position to which the player moved
-     */
     public Position getPosition()
     {
         return position;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    public String toString()
+    @Override
+    public boolean equals(Object o)
     {
-        return "Movement Message: playerID = " + playerID + ", position = " + position;
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof PlayerMovedMessage))
+        {
+            return false;
+        }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+        PlayerMovedMessage that = (PlayerMovedMessage) o;
+        return Objects.equals(position, that.position);
     }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(super.hashCode(), position);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Movement Message: " +
+                "relevantPlayerID = " + relevantPlayerID +
+                ", position = " + position
+                ;
+    }
 }

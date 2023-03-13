@@ -12,8 +12,8 @@ public class TerminalTextExitMessageTest
     @Test
     public void basic()
     {
-        TerminalTextExitMessage msg = new TerminalTextExitMessage(42);
-        assertEquals(42, msg.getPlayerID());
+        TerminalTextExitMessage msg = new TerminalTextExitMessage(42, false);
+        assertEquals(42, msg.getRelevantPlayerID());
 
     }
 

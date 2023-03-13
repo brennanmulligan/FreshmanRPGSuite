@@ -22,13 +22,13 @@ public class TeleportationMovementSequenceTest extends SequenceTest
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new TeleportationInitiationMessage(
-                            PlayersForTest.MERLIN.getPlayerID(), "recCenter.tmx",
+                            PlayersForTest.MERLIN.getPlayerID(), false, "recCenter.tmx",
                             TELEPORT_POSITION), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                             new TeleportationContinuationMessage("recCenter.tmx",
                                     ServersForTest.REC_CENTER.getHostName(),
                                     ServersForTest.REC_CENTER.getPortNumber(),
-                                    PlayersForTest.MERLIN.getPlayerID(), 1111), true)
+                                    PlayersForTest.MERLIN.getPlayerID(), 1111, false), true)
                     // from there, the connection sequence is the same as for the login
                     // tests
             };

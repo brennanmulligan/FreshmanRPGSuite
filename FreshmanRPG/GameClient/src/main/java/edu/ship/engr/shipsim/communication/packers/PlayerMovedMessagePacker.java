@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.PlayerMovedMessage;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ClientPlayerMovedReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -20,13 +20,13 @@ public class PlayerMovedMessagePacker extends MessagePacker
      *
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         ClientPlayerMovedReport movementReport = (ClientPlayerMovedReport) object;
         int playerID = movementReport.getID();
         if (movementReport.isThisClientsPlayer())
         {
-            Message msg = new PlayerMovedMessage(playerID, movementReport.getNewPosition());
+            Message msg = new PlayerMovedMessage(playerID, movementReport.isQuiet(), movementReport.getNewPosition());
             return msg;
         }
         return null;
@@ -36,9 +36,9 @@ public class PlayerMovedMessagePacker extends MessagePacker
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result =
+        ArrayList<Class<? extends SendMessageReport>> result =
                 new ArrayList<>();
         result.add(ClientPlayerMovedReport.class);
         return result;

@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  * @author Merlin
  */
-public class LoginFailedMessage implements Message, Serializable
+public class LoginFailedMessage extends Message implements Serializable
 {
 
 
@@ -20,6 +20,7 @@ public class LoginFailedMessage implements Message, Serializable
      */
     public LoginFailedMessage()
     {
+        super(0);
 
     }
 
@@ -29,8 +30,9 @@ public class LoginFailedMessage implements Message, Serializable
      *
      * @param message
      */
-    public LoginFailedMessage(String message)
+    public LoginFailedMessage(String message, boolean quietMessage)
     {
+        super(0, quietMessage);
         this.message = message;
     }
 

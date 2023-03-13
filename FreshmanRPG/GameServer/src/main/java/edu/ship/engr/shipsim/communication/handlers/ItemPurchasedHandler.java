@@ -24,7 +24,7 @@ public class ItemPurchasedHandler extends MessageHandler
         if (msg.getClass().equals(ItemPurchasedMessage.class))
         {
             ItemPurchasedMessage iMsg = (ItemPurchasedMessage) msg;
-            CommandItemPurchased cmd = new CommandItemPurchased(iMsg.getPlayerID(), iMsg.getPrice());
+            CommandItemPurchased cmd = new CommandItemPurchased(iMsg.getRelevantPlayerID(), iMsg.getPrice());
             ModelFacade.getSingleton().queueCommand(cmd);
         }
     }

@@ -196,8 +196,9 @@ public enum PlayersForTest
      */
     MOWREY_FRONTDESK_NPC(32, "MowreyInfoPerson", "Magi", 48, 56, "", "mowrey.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.CS_AND_E_GENERAL, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey"))),
 
-    PRESIDENT_NPC(33, "President", "Magi", 89, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey")));
+    PRESIDENT_NPC(33, "President", "Magi", 89, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey"))),
 
+    QUIET_PLAYER(34, "ShyGuy", "default_player", 11, 7, "pw", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>());
 
     private final int playerID;
     private final String appearanceType;

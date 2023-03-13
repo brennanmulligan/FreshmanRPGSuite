@@ -30,7 +30,7 @@ public class MapFileMessageTest
     @Test
     public void testToString() throws Exception
     {
-        MapFileMessage msg = new MapFileMessage("quad.tmx");
+        MapFileMessage msg = new MapFileMessage(42, false, "quad.tmx");
         assertEquals("quad.tmx", msg.toString());
         assertEquals("quad.tmx", msg.getMapFileName());
         assertTrue(msg.getFileContents().length() > 0);

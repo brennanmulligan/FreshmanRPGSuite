@@ -15,7 +15,7 @@ public class ObjectiveNotificationCompleteSequenceTest extends SequenceTest
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
                     new ObjectiveNotificationCompleteMessage(
-                            PlayersForTest.MERLIN.getPlayerID(), 1, 1), false)};
+                            PlayersForTest.MERLIN.getPlayerID(), false, 1, 1), false)};
 
     public ObjectiveNotificationCompleteSequenceTest()
     {

@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.StubMessage1;
-import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 import edu.ship.engr.shipsim.model.reports.StubReport1;
 import edu.ship.engr.shipsim.model.reports.StubReport2;
 
@@ -19,21 +19,21 @@ public class StubMessagePacker2a extends MessagePacker
 {
 
     /**
-     * @see MessagePacker#pack(Report)
+     * @see MessagePacker#pack(SendMessageReport)
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
-        return new StubMessage1();
+        return new StubMessage1(0);
     }
 
     /**
      * @see MessagePacker#getReportTypesWePack()
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(StubReport1.class);
         result.add(StubReport2.class);
         return result;

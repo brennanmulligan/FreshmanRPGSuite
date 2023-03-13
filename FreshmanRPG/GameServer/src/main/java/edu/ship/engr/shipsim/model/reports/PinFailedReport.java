@@ -1,13 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
-
 /**
  * Reports that a player tried to connect with an invalid pin
  *
  * @author Matt and Andy
  */
-public final class PinFailedReport implements Report
+public final class PinFailedReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -18,6 +16,7 @@ public final class PinFailedReport implements Report
      */
     public PinFailedReport(int playerID)
     {
+        super(playerID, true);
         this.playerID = playerID;
     }
 

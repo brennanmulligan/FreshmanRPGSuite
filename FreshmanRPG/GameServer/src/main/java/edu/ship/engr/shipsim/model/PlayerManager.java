@@ -415,4 +415,27 @@ public class PlayerManager implements ReportObserver
     {
         return VanityShopTableDataGateway.getSingleton().getVanityShopInventory();
     }
+
+    /**
+     * Method that checks the type of a Player to see if it is an NPC or not
+     * @param relevantID the ID to be checked to if it is a player or NPC
+     * @return true if it is an NPC, false otherwise.
+     */
+    public boolean isNPC(int relevantID)
+    {
+        int index = 0;
+
+        while(index < npcs.size() && npcs.get(index).getPlayerID() != relevantID)
+        {
+            index = index + 1;
+        }
+
+        if(index == npcs.size())
+        {
+            return false;
+        }
+
+        return true;
+
+    }
 }

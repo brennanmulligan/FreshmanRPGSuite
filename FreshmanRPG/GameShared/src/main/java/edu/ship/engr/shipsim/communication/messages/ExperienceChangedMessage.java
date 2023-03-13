@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Olivia
  * @author LaVonne
  */
-public class ExperienceChangedMessage implements Message, Serializable
+public class ExperienceChangedMessage extends Message implements Serializable
 {
 
     /**
@@ -19,7 +19,6 @@ public class ExperienceChangedMessage implements Message, Serializable
     private static final long serialVersionUID = 1L;
     private int experiencePoints;
     private LevelRecord level;
-    private int playerID;
 
     @Override
     public boolean equals(Object o)
@@ -39,7 +38,7 @@ public class ExperienceChangedMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != that.playerID)
+        if (relevantPlayerID != that.relevantPlayerID)
         {
             return false;
         }
@@ -51,7 +50,7 @@ public class ExperienceChangedMessage implements Message, Serializable
     {
         int result = experiencePoints;
         result = 31 * result + level.hashCode();
-        result = 31 * result + playerID;
+        result = 31 * result + relevantPlayerID;
         return result;
     }
 
@@ -60,9 +59,9 @@ public class ExperienceChangedMessage implements Message, Serializable
      * @param experiencePoints the amount of experience points the player has
      * @param levelRecord      the id of the player
      */
-    public ExperienceChangedMessage(int playerID, int experiencePoints, LevelRecord levelRecord)
+    public ExperienceChangedMessage(int playerID, boolean quietMessage, int experiencePoints, LevelRecord levelRecord)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.experiencePoints = experiencePoints;
         this.level = levelRecord;
     }
@@ -85,16 +84,6 @@ public class ExperienceChangedMessage implements Message, Serializable
     public LevelRecord getLevel()
     {
         return level;
-    }
-
-    /**
-     * Get the player's id
-     *
-     * @return player id
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
 }

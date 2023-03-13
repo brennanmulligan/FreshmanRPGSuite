@@ -6,9 +6,9 @@
 import 'dart:async' as _i5;
 
 import 'package:dio/dio.dart' as _i2;
-import 'package:game_manager/pages/create_player/models/create_player_request.dart'
+import 'package:game_manager/repository/player/create_player_request.dart'
     as _i6;
-import 'package:game_manager/pages/create_player/models/create_player_response.dart'
+import 'package:game_manager/repository/player/create_player_response.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 

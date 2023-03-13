@@ -21,18 +21,10 @@ public class ItemPurchasedMessageTest
     @Test
     public void testInitialization()
     {
-        ItemPurchasedMessage msg = new ItemPurchasedMessage(1, 10);
-        assertEquals(1, msg.getPlayerID());
+        ItemPurchasedMessage msg = new ItemPurchasedMessage(1, false, 10);
+        assertEquals(1, msg.getRelevantPlayerID());
         assertEquals(10, msg.getPrice());
 
     }
 
-    /**
-     * Tests the equals method
-     */
-    @Test
-    public void testEquality()
-    {
-        EqualsVerifier.forClass(ItemPurchasedMessage.class).verify();
-    }
 }

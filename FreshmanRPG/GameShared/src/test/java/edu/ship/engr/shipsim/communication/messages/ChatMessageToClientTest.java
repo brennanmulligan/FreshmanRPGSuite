@@ -7,6 +7,7 @@ import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Tests a ChatMessage
@@ -25,12 +26,13 @@ public class ChatMessageToClientTest
     {
         Position p = new Position(0, 0);
         ChatMessageToClient
-                msg = new ChatMessageToClient(PlayersForTest.MERLIN.getPlayerID(), 0, "Hello World!", p, ChatType.Local);
+                msg = new ChatMessageToClient(PlayersForTest.MERLIN.getPlayerID(), 0, false, "Hello World!", p, ChatType.Local);
         assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getSenderID());
         assertEquals(0, msg.getReceiverID());
         assertEquals("Hello World!", msg.getChatText());
         assertEquals(ChatType.Local, msg.getType());
         assertEquals(p, msg.getPosition());
+        assertFalse(msg.isQuietMessage());
     }
 
 }

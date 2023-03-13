@@ -10,8 +10,12 @@ import edu.ship.engr.shipsim.datasource.ServerRowDataGateway;
  */
 public final class MapToServerMapping
 {
-    private final ServerRowDataGateway dataGateway;
+    private static ServerRowDataGateway dataGateway;
 
+    public static ServerRowDataGateway getDataGateway()
+    {
+        return dataGateway;
+    }
 
     /**
      * Get an object from the database
@@ -23,6 +27,13 @@ public final class MapToServerMapping
     public MapToServerMapping(String mapName) throws DatabaseException
     {
         this.dataGateway = new ServerRowDataGateway(mapName);
+    }
+
+    //This is the other constructor for our mock test to
+    //assign the mock gateway to the datagateway
+    MapToServerMapping(ServerRowDataGateway gateway)
+    {
+        this.dataGateway = gateway;
     }
 
     /**
@@ -107,5 +118,10 @@ public final class MapToServerMapping
     {
         return this.dataGateway.getHostName() + " on " + dataGateway.getHostName() + ":" +
                 dataGateway.getPortNumber();
+    }
+
+    public boolean isQuiet()
+    {
+        return dataGateway.isQuiet();
     }
 }

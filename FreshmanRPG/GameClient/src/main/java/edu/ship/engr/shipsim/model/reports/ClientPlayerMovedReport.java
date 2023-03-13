@@ -1,7 +1,6 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.Position;
-import edu.ship.engr.shipsim.model.Report;
 
 import java.util.Objects;
 
@@ -10,7 +9,7 @@ import java.util.Objects;
  *
  * @author Matt Kujawski
  */
-public final class ClientPlayerMovedReport implements Report
+public final class ClientPlayerMovedReport extends SendMessageReport
 {
     private final int playerID;
     private final Position thePosition;
@@ -31,30 +30,11 @@ public final class ClientPlayerMovedReport implements Report
      */
     public ClientPlayerMovedReport(int playerID, Position position, boolean thisClientsPlayer)
     {
+        // Happens on client, thus it will always be loud
+        super(0, false);
         thePosition = position;
         this.playerID = playerID;
         this.thisClientsPlayer = thisClientsPlayer;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass())
-        {
-            return false;
-        }
-        ClientPlayerMovedReport that = (ClientPlayerMovedReport) o;
-        return playerID == that.playerID && thisClientsPlayer == that.thisClientsPlayer && Objects.equals(thePosition, that.thePosition);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(playerID, thePosition, thisClientsPlayer);
     }
 
     /**
@@ -71,5 +51,29 @@ public final class ClientPlayerMovedReport implements Report
     public Position getNewPosition()
     {
         return thePosition;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (!(o instanceof ClientPlayerMovedReport that))
+        {
+            return false;
+        }
+        return playerID == that.playerID &&
+                isThisClientsPlayer() == that.isThisClientsPlayer() &&
+                Objects.equals(thePosition, that.thePosition) &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(playerID, thePosition, isThisClientsPlayer(), getRelevantPlayerID(), isQuiet());
     }
 }
