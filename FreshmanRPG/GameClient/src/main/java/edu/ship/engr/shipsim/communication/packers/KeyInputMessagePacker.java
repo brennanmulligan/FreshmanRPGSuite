@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.KeyInputMessage;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ClientKeyInputSentReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,10 @@ public class KeyInputMessagePacker extends MessagePacker
 {
 
     /**
-     * @see MessagePacker#pack(Report)
+     * @see MessagePacker#pack(SendMessageReport)
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
         if (object.getClass() != ClientKeyInputSentReport.class)
         {
@@ -27,7 +27,7 @@ public class KeyInputMessagePacker extends MessagePacker
         }
 
         ClientKeyInputSentReport report = (ClientKeyInputSentReport) object;
-        KeyInputMessage msg = new KeyInputMessage(report.getInput());
+        KeyInputMessage msg = new KeyInputMessage(report.getInput(), report.isQuiet());
 
         return msg;
     }
@@ -36,9 +36,9 @@ public class KeyInputMessagePacker extends MessagePacker
      *
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result =
+        ArrayList<Class<? extends SendMessageReport>> result =
                 new ArrayList<>();
         result.add(ClientKeyInputSentReport.class);
         return result;

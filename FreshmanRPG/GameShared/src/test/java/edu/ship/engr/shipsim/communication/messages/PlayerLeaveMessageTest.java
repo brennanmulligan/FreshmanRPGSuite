@@ -19,7 +19,7 @@ public class PlayerLeaveMessageTest
     @Test
     public void testToString()
     {
-        PlayerLeaveMessage msg = new PlayerLeaveMessage(1);
+        PlayerLeaveMessage msg = new PlayerLeaveMessage(1, false);
         assertEquals("PlayerLeaveMessage: playerID = 1", msg.toString());
     }
 

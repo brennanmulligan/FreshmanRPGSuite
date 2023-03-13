@@ -88,7 +88,6 @@ public class ModelFacade
             {
                 try
                 {
-                    System.out.println("Touching DB");
                     dbTouchCounter = 0;
                     DatabaseManager.getSingleton().touchConnection();
                 }

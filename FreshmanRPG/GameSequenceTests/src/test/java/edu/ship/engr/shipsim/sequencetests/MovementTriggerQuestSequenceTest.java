@@ -19,13 +19,13 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
     @SuppressWarnings("FieldCanBeLocal")
     private final MessageFlow[] sequence =
             {new MessageFlow(ServerType.THIS_PLAYER_CLIENT, ServerType.AREA_SERVER,
-                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                    new PlayerMovedMessage(PlayersForTest.MATT.getPlayerID(), false,
                             QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                            new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(),
+                            new OtherPlayerMovedMessage(PlayersForTest.MATT.getPlayerID(), false,
                                     QuestsForTest.THE_LITTLE_QUEST.getPosition()), true),
                     new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                            new QuestStateChangeMessage(PlayersForTest.MATT.getPlayerID(),
+                            new QuestStateChangeMessage(PlayersForTest.MATT.getPlayerID(), false,
                                     QuestsForTest.THE_LITTLE_QUEST.getQuestID(),
                                     QuestsForTest.THE_LITTLE_QUEST.getQuestTitle(),
                                     QuestsForTest.THE_LITTLE_QUEST.getQuestDescription(),

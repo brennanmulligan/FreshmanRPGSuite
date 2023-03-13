@@ -9,32 +9,24 @@ import java.io.Serializable;
  *
  * @author merlin
  */
-public class OtherPlayerMovedMessage implements Message, Serializable
+public class OtherPlayerMovedMessage extends Message implements Serializable
 {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private final int playerID;
     private final Position position;
 
     /**
      * @param playerID The player who moved
      * @param p        Where the player moved to
      */
-    public OtherPlayerMovedMessage(int playerID, Position p)
+    public OtherPlayerMovedMessage(int playerID, boolean quietMessage, Position p)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.position = p;
     }
 
-    /**
-     * @return the player who moved
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
 
     /**
      * @see java.lang.Object#hashCode()
@@ -44,7 +36,7 @@ public class OtherPlayerMovedMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         return result;
     }
@@ -68,7 +60,7 @@ public class OtherPlayerMovedMessage implements Message, Serializable
             return false;
         }
         OtherPlayerMovedMessage other = (OtherPlayerMovedMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -99,7 +91,7 @@ public class OtherPlayerMovedMessage implements Message, Serializable
      */
     public String toString()
     {
-        return "Other player moved message: playerID = " + playerID + ", position = " + position;
+        return "Other player moved message: playerID = " + relevantPlayerID + ", position = " + position;
     }
 
 }

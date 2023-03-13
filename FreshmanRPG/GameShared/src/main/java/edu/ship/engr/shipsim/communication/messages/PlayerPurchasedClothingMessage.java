@@ -4,20 +4,14 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 
 import java.io.Serializable;
 
-public class PlayerPurchasedClothingMessage implements Message, Serializable
+public class PlayerPurchasedClothingMessage extends Message implements Serializable
 {
-    private int playerID;
     private VanityDTO vanityDTO;
 
-    public PlayerPurchasedClothingMessage(int playerID, VanityDTO vanityDTO)
+    public PlayerPurchasedClothingMessage(int playerID, boolean quietMessage, VanityDTO vanityDTO)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.vanityDTO = vanityDTO;
-    }
-
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     public VanityDTO getVanityDTO()

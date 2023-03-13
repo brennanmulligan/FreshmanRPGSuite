@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Contains the server's copy of the player's owned items
  */
-public class ServerPlayerOwnedItemsResponseMessage implements Message
+public class ServerPlayerOwnedItemsResponseMessage extends Message
 {
     private static final long serialVersionUID = 1L;
     private final ArrayList<VanityDTO> serverOwnedItems;
@@ -16,8 +16,9 @@ public class ServerPlayerOwnedItemsResponseMessage implements Message
     /**
      * @param serverOwnedItems server's copy of the player's owned items
      */
-    public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems)
+    public ServerPlayerOwnedItemsResponseMessage(ArrayList<VanityDTO> serverOwnedItems, boolean quietMessage)
     {
+        super(0, quietMessage);
         this.serverOwnedItems = new ArrayList<>(serverOwnedItems);
     }
 

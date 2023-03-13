@@ -22,7 +22,7 @@ public class VanityShopInventoryResponseMessageTest
     {
         ArrayList<VanityDTO> items = new ArrayList<>();
         items.add(new VanityDTO(1, "Hello", "world", "!", VanityType.HAT, 200));
-        assertEquals(items, new VanityShopInventoryResponseMessage(items).getVanityShopInventory());
-        assertEquals(1, new VanityShopInventoryResponseMessage(items).getVanityShopInventory().get(0).getID());
+        assertEquals(items, new VanityShopInventoryResponseMessage(items, false).getVanityShopInventory());
+        assertEquals(1, new VanityShopInventoryResponseMessage(items, false).getVanityShopInventory().get(0).getID());
     }
 }

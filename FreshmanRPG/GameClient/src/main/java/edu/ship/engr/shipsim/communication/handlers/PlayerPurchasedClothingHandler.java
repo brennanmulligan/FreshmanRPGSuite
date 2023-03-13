@@ -13,7 +13,7 @@ public class PlayerPurchasedClothingHandler extends MessageHandler
         if (msg.getClass().equals(PlayerPurchasedClothingMessage.class))
         {
             PlayerPurchasedClothingMessage clothingMessage = (PlayerPurchasedClothingMessage) msg;
-            CommandPlayerPurchasedClothing cmd = new CommandPlayerPurchasedClothing(clothingMessage.getPlayerID(), clothingMessage.getVanityDTO());
+            CommandPlayerPurchasedClothing cmd = new CommandPlayerPurchasedClothing(clothingMessage.getRelevantPlayerID(), clothingMessage.getVanityDTO());
             ClientModelFacade.getSingleton().queueCommand(cmd);
         }
     }

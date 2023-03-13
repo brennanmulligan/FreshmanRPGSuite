@@ -5,10 +5,9 @@ import java.io.Serializable;
 /**
  * @author sk5587 & ed9737 contains text that we want to send to client
  */
-public class DisplayTextMessage implements Message, Serializable
+public class DisplayTextMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private int playerID;
     private String text;
 
     /**
@@ -19,7 +18,7 @@ public class DisplayTextMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((text == null) ? 0 : text.hashCode());
         return result;
     }
@@ -43,7 +42,7 @@ public class DisplayTextMessage implements Message, Serializable
             return false;
         }
         DisplayTextMessage other = (DisplayTextMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -65,20 +64,10 @@ public class DisplayTextMessage implements Message, Serializable
      * @param playerID player id of the player we want to send this message to
      * @param text     text we want to send to the player
      */
-    public DisplayTextMessage(int playerID, String text)
+    public DisplayTextMessage(int playerID, boolean quietMessage, String text)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.text = text;
-    }
-
-    /**
-     * Get the player's id
-     *
-     * @return player id
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

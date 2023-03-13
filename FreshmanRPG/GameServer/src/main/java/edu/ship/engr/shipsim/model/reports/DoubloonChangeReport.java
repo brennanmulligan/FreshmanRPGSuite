@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.model.Report;
+import java.util.Objects;
 
 /**
  * @author Matthew Croft
  */
-public final class DoubloonChangeReport implements Report
+public final class DoubloonChangeReport extends SendMessageReport
 {
 
     /**
@@ -25,6 +25,7 @@ public final class DoubloonChangeReport implements Report
      */
     public DoubloonChangeReport(int playerID, int doubloons, int buffPool)
     {
+        super(playerID, true);
         this.playerID = playerID;
         this.doubloons = doubloons;
         this.buffPool = buffPool;
@@ -57,52 +58,27 @@ public final class DoubloonChangeReport implements Report
     }
 
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public int hashCode()
+    public boolean equals(Object o)
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + doubloons;
-        result = prime * result + playerID;
-        result = prime * result + this.buffPool;
-        return result;
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-        if (obj == null)
+        if (!(o instanceof DoubloonChangeReport that))
         {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        DoubloonChangeReport other = (DoubloonChangeReport) obj;
-        if (doubloons != other.doubloons)
-        {
-            return false;
-        }
-        if (this.buffPool != other.getBuffPool())
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        return true;
+        return getDoubloons() == that.getDoubloons() &&
+                getPlayerID() == that.getPlayerID() &&
+                getBuffPool() == that.getBuffPool() &&
+                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
+                this.isQuiet() == that.isQuiet();
     }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getDoubloons(), getPlayerID(), getBuffPool(), getRelevantPlayerID(), isQuiet());
+    }
 }

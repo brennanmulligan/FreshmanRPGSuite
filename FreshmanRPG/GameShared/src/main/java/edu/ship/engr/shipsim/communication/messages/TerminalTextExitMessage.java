@@ -3,19 +3,12 @@ package edu.ship.engr.shipsim.communication.messages;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class TerminalTextExitMessage implements Message, Serializable
+public class TerminalTextExitMessage extends Message implements Serializable
 {
 
-    private int playerID;
-
-    public TerminalTextExitMessage(int playerID)
+    public TerminalTextExitMessage(int playerID, boolean quietMessage)
     {
-        this.playerID = playerID;
-    }
-
-    public int getPlayerID()
-    {
-        return playerID;
+        super(playerID, quietMessage);
     }
 
     @Override
@@ -30,20 +23,20 @@ public class TerminalTextExitMessage implements Message, Serializable
             return false;
         }
         TerminalTextExitMessage that = (TerminalTextExitMessage) o;
-        return playerID == that.playerID;
+        return relevantPlayerID == that.relevantPlayerID;
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(playerID);
+        return Objects.hash(relevantPlayerID);
     }
 
     @Override
     public String toString()
     {
         return "TerminalTextExitMessage{" +
-                "playerID=" + playerID +
+                "playerID=" + relevantPlayerID +
                 '}';
     }
 }

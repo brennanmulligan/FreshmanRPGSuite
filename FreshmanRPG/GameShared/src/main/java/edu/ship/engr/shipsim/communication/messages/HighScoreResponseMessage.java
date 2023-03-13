@@ -9,9 +9,8 @@ import java.util.ArrayList;
  *
  * @author Merlin
  */
-public class HighScoreResponseMessage implements Message
+public class HighScoreResponseMessage extends Message
 {
-
     /**
      *
      */
@@ -21,8 +20,9 @@ public class HighScoreResponseMessage implements Message
     /**
      * @param scoreReports the top ten players (sorted)
      */
-    public HighScoreResponseMessage(ArrayList<PlayerScoreRecord> scoreReports)
+    public HighScoreResponseMessage(ArrayList<PlayerScoreRecord> scoreReports, boolean quietMessage)
     {
+        super(0, quietMessage);
         this.scoreReports = scoreReports;
     }
 

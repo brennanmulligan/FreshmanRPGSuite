@@ -6,7 +6,7 @@ package edu.ship.engr.shipsim.communication.messages;
  *
  * @author Merlin
  */
-public class HighScoreRequestMessage implements Message
+public class HighScoreRequestMessage extends Message
 {
 
     /**
@@ -14,4 +14,8 @@ public class HighScoreRequestMessage implements Message
      */
     private static final long serialVersionUID = 1L;
 
+    public HighScoreRequestMessage(int playerID, boolean quietMessage)
+    {
+        super(playerID, quietMessage);
+    }
 }

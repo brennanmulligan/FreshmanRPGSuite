@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Merlin
  */
-public class QuestStateChangeMessage implements Message, Serializable
+public class QuestStateChangeMessage extends Message implements Serializable
 {
 
     /**
@@ -19,8 +19,6 @@ public class QuestStateChangeMessage implements Message, Serializable
     private static final long serialVersionUID = 1L;
 
     private int questID;
-
-    private int playerID;
     private String questTitle;
     private String questDescription;
     private QuestStateEnum newState;
@@ -32,10 +30,10 @@ public class QuestStateChangeMessage implements Message, Serializable
      * @param questDescription the description of the quest
      * @param newState         the state the quest has moved to
      */
-    public QuestStateChangeMessage(int playerID, int questID, String questTitle, String questDescription,
+    public QuestStateChangeMessage(int playerID, boolean quietMessage, int questID, String questTitle, String questDescription,
                                    QuestStateEnum newState)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.questID = questID;
         this.questTitle = questTitle;
         this.questDescription = questDescription;
@@ -65,7 +63,7 @@ public class QuestStateChangeMessage implements Message, Serializable
         {
             return false;
         }
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -96,16 +94,6 @@ public class QuestStateChangeMessage implements Message, Serializable
     }
 
     /**
-     * Get the player's ID
-     *
-     * @return playerID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    /**
      * @return the quest's descrption
      */
     public String getQuestDescription()
@@ -130,7 +118,7 @@ public class QuestStateChangeMessage implements Message, Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + ((newState == null) ? 0 : newState.hashCode());
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((questDescription == null) ? 0 : questDescription.hashCode());
         result = prime * result + questID;
         return result;

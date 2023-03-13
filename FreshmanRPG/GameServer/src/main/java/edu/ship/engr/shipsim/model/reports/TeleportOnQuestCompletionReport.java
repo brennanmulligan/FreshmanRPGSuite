@@ -1,14 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
-import edu.ship.engr.shipsim.model.Report;
 
 /**
  * Report that the client needs to be teleported somewhere
  *
  * @author Chris Hersh, Zach Thompson
  */
-public class TeleportOnQuestCompletionReport implements Report
+public class TeleportOnQuestCompletionReport extends SendMessageReport
 {
 
     private final int playerID;
@@ -27,6 +26,7 @@ public class TeleportOnQuestCompletionReport implements Report
      */
     public TeleportOnQuestCompletionReport(int id, int questID, GameLocationDTO gl, String hostName, int port)
     {
+        super(id, true);
         this.playerID = id;
         this.questID = questID;
         this.location = gl;

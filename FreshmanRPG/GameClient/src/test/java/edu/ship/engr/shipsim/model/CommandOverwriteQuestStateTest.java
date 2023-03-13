@@ -36,7 +36,8 @@ public class CommandOverwriteQuestStateTest
         expected.add(q);
         LevelRecord level = new LevelRecord("One", 15, 10, 7);
 
-        CommandOverwriteQuestState x = new CommandOverwriteQuestState(new InitializeThisClientsPlayerMessage(expected, friends, 20, 50, level));
+        CommandOverwriteQuestState x = new CommandOverwriteQuestState(new InitializeThisClientsPlayerMessage(
+                PlayersForTest.MERLIN.getPlayerID(), false, expected, friends, 20, 50, level));
         assertEquals(expected, x.getClientPlayerQuestList());
     }
 
@@ -70,7 +71,8 @@ public class CommandOverwriteQuestStateTest
         expected.add(q);
         LevelRecord level = new LevelRecord("One", 15, 10, 7);
 
-        CommandOverwriteQuestState x = new CommandOverwriteQuestState(new InitializeThisClientsPlayerMessage(expected, friends, 20, 50, level));
+        CommandOverwriteQuestState x = new CommandOverwriteQuestState(new InitializeThisClientsPlayerMessage(
+                PlayersForTest.JOHN.getPlayerID(), false, expected, friends, 20, 50, level));
         x.execute();
 
         ThisClientsPlayer player = ClientPlayerManager.getSingleton().getThisClientsPlayer();

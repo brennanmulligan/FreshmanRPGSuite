@@ -21,8 +21,8 @@ public class BuffMessageTest
     public void testGetPlayerID()
     {
         int playerID = 1;
-        BuffMessage msg = new BuffMessage(1, 10);
-        assertEquals(msg.getPlayerID(), playerID);
+        BuffMessage msg = new BuffMessage(1,false, 10);
+        assertEquals(msg.getRelevantPlayerID(), playerID);
 
     }
 
@@ -34,7 +34,7 @@ public class BuffMessageTest
     {
         int playerID = 1;
         int experiencePointPool = 25;
-        BuffMessage msg = new BuffMessage(playerID, experiencePointPool);
+        BuffMessage msg = new BuffMessage(playerID, false, experiencePointPool);
         assertEquals(experiencePointPool, msg.getExperiencePointPool());
     }
 
@@ -45,8 +45,8 @@ public class BuffMessageTest
     @Test
     public void testNotEqualObjectComparison()
     {
-        BuffMessage msg1 = new BuffMessage(1, 10);
-        BuffMessage msg2 = new BuffMessage(2, 20);
+        BuffMessage msg1 = new BuffMessage(1,false, 10);
+        BuffMessage msg2 = new BuffMessage(2,false, 20);
         assertFalse(msg1.equals(msg2));
     }
 
@@ -57,8 +57,8 @@ public class BuffMessageTest
     @Test
     public void testEqualObjectComparison()
     {
-        BuffMessage msg1 = new BuffMessage(1, 10);
-        BuffMessage msg2 = new BuffMessage(1, 10);
+        BuffMessage msg1 = new BuffMessage(1,false, 10);
+        BuffMessage msg2 = new BuffMessage(1,false, 10);
         assertTrue(msg1.equals(msg2));
     }
 
@@ -69,7 +69,7 @@ public class BuffMessageTest
     @Test
     public void testNullObject()
     {
-        BuffMessage msg1 = new BuffMessage(0, 0);
+        BuffMessage msg1 = new BuffMessage(0,false, 0);
         assertFalse(msg1.equals(null));
     }
 
@@ -80,8 +80,8 @@ public class BuffMessageTest
     @Test
     public void testNotEqualPlayerID()
     {
-        BuffMessage msg1 = new BuffMessage(1, 1);
-        BuffMessage msg2 = new BuffMessage(2, 1);
+        BuffMessage msg1 = new BuffMessage(1,false, 1);
+        BuffMessage msg2 = new BuffMessage(2,false, 1);
         assertFalse(msg1.equals(msg2));
 
     }
@@ -93,9 +93,20 @@ public class BuffMessageTest
     @Test
     public void testNotEqualExperiencePoint()
     {
-        BuffMessage msg1 = new BuffMessage(1, 1);
-        BuffMessage msg2 = new BuffMessage(1, 100);
+        BuffMessage msg1 = new BuffMessage(1,false, 1);
+        BuffMessage msg2 = new BuffMessage(1,false, 100);
         assertFalse(msg1.equals(msg2));
 
+    }
+
+    /**
+     * Testing quietness of the message
+     */
+    @Test
+    public void testisQuiet()
+    {
+        int playerID = 1;
+        BuffMessage msg = new BuffMessage(1,false, 10);
+        assertFalse(msg.isQuietMessage());
     }
 }

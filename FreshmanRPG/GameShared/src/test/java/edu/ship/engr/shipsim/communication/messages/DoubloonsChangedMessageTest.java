@@ -19,7 +19,7 @@ public class DoubloonsChangedMessageTest
     @Test
     public void testCreateMessage()
     {
-        DoubloonsChangedMessage msg = new DoubloonsChangedMessage(PlayersForTest.JOHN.getPlayerID(),
+        DoubloonsChangedMessage msg = new DoubloonsChangedMessage(PlayersForTest.JOHN.getPlayerID(), false,
                 PlayersForTest.JOHN.getDoubloons(), PlayersForTest.JOHN.getBuffPool());
         assertEquals(PlayersForTest.JOHN.getDoubloons(), msg.getDoubloons());
         assertEquals(PlayersForTest.JOHN.getBuffPool(), msg.getBuffPool());

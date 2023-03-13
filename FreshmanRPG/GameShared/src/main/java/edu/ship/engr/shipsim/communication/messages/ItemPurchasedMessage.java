@@ -7,28 +7,19 @@ import java.io.Serializable;
  *
  * @author Kevin Marek, Zack Semanco
  */
-public class ItemPurchasedMessage implements Message, Serializable
+public class ItemPurchasedMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final int playerID;
     private final int price;
 
     /**
      * @param playerID - player purchasing the item
      * @param price    - number of doubloons the item costs
      */
-    public ItemPurchasedMessage(int playerID, int price)
+    public ItemPurchasedMessage(int playerID, boolean quietMessage, int price)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.price = price;
-    }
-
-    /**
-     * @return the purchasing player's id
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**
@@ -47,7 +38,7 @@ public class ItemPurchasedMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + playerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + price;
         return result;
     }
@@ -67,7 +58,7 @@ public class ItemPurchasedMessage implements Message, Serializable
             return false;
         }
         ItemPurchasedMessage other = (ItemPurchasedMessage) obj;
-        if (playerID != other.playerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -84,6 +75,6 @@ public class ItemPurchasedMessage implements Message, Serializable
     @Override
     public String toString()
     {
-        return "ItemPurchasedMessage [playerID=" + playerID + ", price=" + price + "]";
+        return "ItemPurchasedMessage [playerID=" + relevantPlayerID + ", price=" + price + "]";
     }
 }

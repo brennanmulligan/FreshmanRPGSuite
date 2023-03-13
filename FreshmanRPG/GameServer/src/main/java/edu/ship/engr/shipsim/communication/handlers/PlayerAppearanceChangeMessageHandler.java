@@ -22,7 +22,7 @@ public class PlayerAppearanceChangeMessageHandler extends MessageHandler
     {
         PlayerChangeAppearanceMessage playerChangeAppearanceMessage = (PlayerChangeAppearanceMessage) msg;
         CommandChangePlayerAppearance cmd = new CommandChangePlayerAppearance(
-                playerChangeAppearanceMessage.getPlayerID(),
+                playerChangeAppearanceMessage.getRelevantPlayerID(),
                 playerChangeAppearanceMessage.getNewWearing());
         ModelFacade.getSingleton().queueCommand(cmd);
     }

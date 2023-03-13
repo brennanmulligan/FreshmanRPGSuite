@@ -2,8 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToServer;
 import edu.ship.engr.shipsim.communication.messages.Message;
-import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.reports.ChatSentReport;
+import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class ClientChatMessagePacker extends MessagePacker
      * @return A ChatMessage based on the ChatSentReport that was given.
      */
     @Override
-    public Message pack(Report object)
+    public Message pack(SendMessageReport object)
     {
 
         if (object.getClass() != ChatSentReport.class)
@@ -31,7 +31,7 @@ public class ClientChatMessagePacker extends MessagePacker
 
         ChatSentReport report = (ChatSentReport) object;
         ChatMessageToServer msg = new ChatMessageToServer(report.getSenderID(),
-                report.getReceiverID(), report.getMessage(), report.getPosition(),
+                report.getReceiverID(), report.isQuiet(), report.getMessage(), report.getPosition(),
                 report.getType());
 
         return msg;
@@ -41,9 +41,9 @@ public class ClientChatMessagePacker extends MessagePacker
      * This packer listens for ChatSentReports
      */
     @Override
-    public ArrayList<Class<? extends Report>> getReportTypesWePack()
+    public ArrayList<Class<? extends SendMessageReport>> getReportTypesWePack()
     {
-        ArrayList<Class<? extends Report>> result = new ArrayList<>();
+        ArrayList<Class<? extends SendMessageReport>> result = new ArrayList<>();
         result.add(ChatSentReport.class);
         return result;
     }

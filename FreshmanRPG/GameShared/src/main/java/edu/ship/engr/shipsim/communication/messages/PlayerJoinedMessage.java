@@ -14,11 +14,10 @@ import java.util.List;
  *
  * @author Merlin
  */
-public class PlayerJoinedMessage implements Message, Serializable
+public class PlayerJoinedMessage extends Message implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private final String playerName;
-    private final int playerID;
     private final List<VanityDTO> vanities;
     private final List<VanityDTO> ownedItems;
     private final Position position;
@@ -35,10 +34,10 @@ public class PlayerJoinedMessage implements Message, Serializable
      * @param major      of the player
      * @param section    of the player
      */
-    public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+    public PlayerJoinedMessage(int playerID, boolean quietMessage, String playerName, List<VanityDTO> vanities,
                                Position position, Crew crew, Major major, int section)
     {
-        this(playerID, playerName, vanities, position, crew, major, section, new ArrayList<>());
+        this(playerID, quietMessage, playerName, vanities, position, crew, major, section, new ArrayList<>());
     }
 
     /**
@@ -50,11 +49,11 @@ public class PlayerJoinedMessage implements Message, Serializable
      * @param major      of the player
      * @param section    of the player
      */
-    public PlayerJoinedMessage(int playerID, String playerName, List<VanityDTO> vanities,
+    public PlayerJoinedMessage(int playerID, boolean quietMessage, String playerName, List<VanityDTO> vanities,
                                Position position, Crew crew, Major major, int section,
                                List<VanityDTO> ownedItems)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
         this.playerName = playerName;
         this.vanities = vanities;
         this.position = position;
@@ -78,7 +77,7 @@ public class PlayerJoinedMessage implements Message, Serializable
 
         PlayerJoinedMessage that = (PlayerJoinedMessage) o;
 
-        if (playerID != that.playerID)
+        if (relevantPlayerID != that.relevantPlayerID)
         {
             return false;
         }
@@ -113,7 +112,7 @@ public class PlayerJoinedMessage implements Message, Serializable
     public int hashCode()
     {
         int result = playerName.hashCode();
-        result = 31 * result + playerID;
+        result = 31 * result + relevantPlayerID;
         result = 31 * result + vanities.hashCode();
         result = 31 * result + ownedItems.hashCode();
         result = 31 * result + position.hashCode();
@@ -145,16 +144,6 @@ public class PlayerJoinedMessage implements Message, Serializable
     public List<VanityDTO> getAllOwnedItems()
     {
         return ownedItems;
-    }
-
-    /**
-     * get this player's unique ID
-     *
-     * @return the player's ID
-     */
-    public int getPlayerID()
-    {
-        return playerID;
     }
 
     /**

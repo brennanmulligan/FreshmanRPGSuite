@@ -48,7 +48,7 @@ public class LoginMessageHandlerTest
         StateAccumulator accum = new StateAccumulator(null);
         handler.setAccumulator(accum);
         handler.process(
-                new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()));
+                new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword(), false));
         assertEquals(1, LoginPlayerManager.getSingleton().getNumberOfPlayers());
     }
 
@@ -60,7 +60,7 @@ public class LoginMessageHandlerTest
         ReportObserver observer = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(observer, LoginSuccessfulReport.class);
 
-        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword());
+        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword(), false);
         handler.process(loginMessage);
 
         verify(observer, times(1)).receiveReport(any(LoginSuccessfulReport.class));
@@ -74,7 +74,7 @@ public class LoginMessageHandlerTest
         ReportObserver observer = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(observer, LoginFailedReport.class);
 
-        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword() + "Z");
+        LoginMessage loginMessage = new LoginMessage(PlayersForTest.MERLIN_OFFLINE.getPlayerName(), PlayersForTest.MERLIN_OFFLINE.getPlayerPassword() + "Z", false);
         handler.process(loginMessage);
 
         verify(observer, times(1)).receiveReport(any(LoginFailedReport.class));

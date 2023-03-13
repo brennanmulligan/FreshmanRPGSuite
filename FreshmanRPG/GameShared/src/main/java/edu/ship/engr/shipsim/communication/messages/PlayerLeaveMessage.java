@@ -7,21 +7,20 @@ import java.io.Serializable;
  *
  * @author nhydock
  */
-public class PlayerLeaveMessage implements Message, Serializable
+public class PlayerLeaveMessage extends Message implements Serializable
 {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private final int playerID;
 
     /**
      * @param playerID the unique ID of the player
      */
-    public PlayerLeaveMessage(int playerID)
+    public PlayerLeaveMessage(int playerID, boolean quietMessage)
     {
-        this.playerID = playerID;
+        super(playerID, quietMessage);
     }
 
     @Override
@@ -38,23 +37,13 @@ public class PlayerLeaveMessage implements Message, Serializable
 
         PlayerLeaveMessage that = (PlayerLeaveMessage) o;
 
-        return playerID == that.playerID;
+        return relevantPlayerID == that.relevantPlayerID;
     }
 
     @Override
     public int hashCode()
     {
-        return playerID;
-    }
-
-    /**
-     * get this player's unique ID
-     *
-     * @return the player's ID
-     */
-    public int getPlayerID()
-    {
-        return this.playerID;
+        return relevantPlayerID;
     }
 
     /**
@@ -62,6 +51,6 @@ public class PlayerLeaveMessage implements Message, Serializable
      */
     public String toString()
     {
-        return "PlayerLeaveMessage: playerID = " + playerID;
+        return "PlayerLeaveMessage: playerID = " + relevantPlayerID;
     }
 }

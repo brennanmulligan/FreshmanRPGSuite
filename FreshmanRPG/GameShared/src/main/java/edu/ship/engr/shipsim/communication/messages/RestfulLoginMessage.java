@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Derek
  */
-public class RestfulLoginMessage implements Message, Serializable
+public class RestfulLoginMessage extends Message implements Serializable
 {
     // We have this because we need it :)
     private static final long serialVersionUID = 1L;
@@ -14,11 +14,13 @@ public class RestfulLoginMessage implements Message, Serializable
     public final String username;
     public final String password;
 
-    public RestfulLoginMessage(String username, String password)
+    public RestfulLoginMessage(String username, String password, boolean quietMessage)
     {
+        super(0, quietMessage);
         this.username = username;
         this.password = password;
     }
+
 
     public String getUsername()
     {

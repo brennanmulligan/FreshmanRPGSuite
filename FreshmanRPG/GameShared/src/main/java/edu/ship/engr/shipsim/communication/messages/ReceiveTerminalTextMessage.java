@@ -6,11 +6,10 @@ import java.io.Serializable;
  * @author Chris Roadcap
  * @author Denny Fleagle
  */
-public class ReceiveTerminalTextMessage implements Message, Serializable
+public class ReceiveTerminalTextMessage extends Message implements Serializable
 {
     private final String resultText;
     private static final long serialVersionUID = 1L;
-    private final int requestingPlayerID;
 
     /**
      * Constructor
@@ -18,9 +17,9 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
      * @param resultText         The text to send back to the client
      * @param requestingPlayerID the id of the player requesting the information
      */
-    public ReceiveTerminalTextMessage(int requestingPlayerID, String resultText)
+    public ReceiveTerminalTextMessage(int requestingPlayerID, boolean quietMessage, String resultText)
     {
-        this.requestingPlayerID = requestingPlayerID;
+        super(requestingPlayerID, quietMessage);
         this.resultText = resultText;
     }
 
@@ -41,7 +40,7 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
      */
     public int getRequestingPlayerID()
     {
-        return requestingPlayerID;
+        return relevantPlayerID;
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + requestingPlayerID;
+        result = prime * result + relevantPlayerID;
         result = prime * result + ((resultText == null) ? 0 : resultText.hashCode());
         return result;
     }
@@ -70,7 +69,7 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
             return false;
         }
         ReceiveTerminalTextMessage other = (ReceiveTerminalTextMessage) obj;
-        if (requestingPlayerID != other.requestingPlayerID)
+        if (relevantPlayerID != other.relevantPlayerID)
         {
             return false;
         }
@@ -89,7 +88,7 @@ public class ReceiveTerminalTextMessage implements Message, Serializable
     {
         return "ReceiveTerminalTextMessage{" +
                 "resultText='" + resultText + '\'' +
-                ", requestingPlayerID=" + requestingPlayerID +
+                ", requestingPlayerID=" + relevantPlayerID +
                 '}';
     }
 }

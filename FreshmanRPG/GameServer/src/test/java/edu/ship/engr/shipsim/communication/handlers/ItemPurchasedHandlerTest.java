@@ -48,7 +48,7 @@ public class ItemPurchasedHandlerTest
 
         assertEquals(startingScore, p.getDoubloons());
 
-        ItemPurchasedMessage msg = new ItemPurchasedMessage(playerID, price);
+        ItemPurchasedMessage msg = new ItemPurchasedMessage(playerID, false, price);
         ItemPurchasedHandler handler = new ItemPurchasedHandler();
 
         handler.process(msg);

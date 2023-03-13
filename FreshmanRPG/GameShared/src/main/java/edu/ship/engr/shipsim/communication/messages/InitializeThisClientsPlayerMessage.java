@@ -13,7 +13,7 @@ import java.util.List;
  * @author Olivia
  * @author LaVonne
  */
-public class InitializeThisClientsPlayerMessage implements Message, Serializable
+public class InitializeThisClientsPlayerMessage extends Message implements Serializable
 {
     /**
      *
@@ -28,15 +28,17 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
 
 
     /**
+     * @param relevantPlayerID the player that has just connected
      * @param clientPlayerQuestList players quest list
      * @param friends               of this player
      * @param experiencePts         player's experience points
      * @param doubloons             for this player
      * @param level                 LevelRecord
      */
-    public InitializeThisClientsPlayerMessage(List<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
+    public InitializeThisClientsPlayerMessage(int relevantPlayerID, boolean quietMessage, List<ClientPlayerQuestStateDTO> clientPlayerQuestList, ArrayList<FriendDTO> friends, int experiencePts,
                                               int doubloons, LevelRecord level)
     {
+        super(relevantPlayerID, quietMessage);
         this.friends = friends;
         this.clientPlayerQuestList = clientPlayerQuestList;
         this.experiencePts = experiencePts;
@@ -92,6 +94,7 @@ public class InitializeThisClientsPlayerMessage implements Message, Serializable
     {
         return doubloons;
     }
+
 
     /**
      * @see java.lang.Object#hashCode()

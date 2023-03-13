@@ -10,61 +10,61 @@ public enum ServersForTest
     /**
      *
      */
-    FIRST_SERVER("map1.tmx", "host1.com", 1871, "Map1", 10, 10),
+    FIRST_SERVER("map1.tmx", "host1.com", 1871, "Map1", 10, 10, false),
     /**
      *
      */
-    SECOND_SERVER("map2.tmx", "host2.com", 1872, "Map2", 10, 10),
+    SECOND_SERVER("map2.tmx", "host2.com", 1872, "Map2", 10, 10, false),
 
     /**
      *
      */
-    REC_CENTER("recCenter.tmx", "localhost", 1873, "Rec Center", 4, 20),
+    REC_CENTER("recCenter.tmx", "localhost", 1873, "Rec Center", 4, 20, false),
     /**
      *
      */
-    LIBRARY("library.tmx", "localhost", 1874, "Library", 48, 22),
+    LIBRARY("library.tmx", "localhost", 1874, "Library", 48, 22, false),
     /**
      *
      */
-    SORTINGROOM("sortingRoom.tmx", "localhost", 1875, "SortingRoom", 7, 12),
+    SORTINGROOM("sortingRoom.tmx", "localhost", 1875, "SortingRoom", 7, 12, true),
     /**
      *
      */
-    WELLINGTONROOM("wellingtonRoom.tmx", "localhost", 1876, "WellingtonRoom", 6, 89),
+    WELLINGTONROOM("wellingtonRoom.tmx", "localhost", 1876, "WellingtonRoom", 6, 89, false),
     /**
      *
      */
-    MCT1("mct1.tmx", "localhost", 1877, "MCT1", 33, 55),
+    MCT1("mct1.tmx", "localhost", 1877, "MCT1", 33, 55, false),
 
     /**
      *
      */
-    DUCKTOPIA("Ducktopia.tmx", "localhost", 1879, "Ducktopia", 28, 56),
+    DUCKTOPIA("Ducktopia.tmx", "localhost", 1879, "Ducktopia", 28, 56, false),
     /**
      *
      */
-    CUB("cub.tmx", "localhost", 1880, "Cub", 59, 94),
+    CUB("cub.tmx", "localhost", 1880, "Cub", 59, 94, false),
     /**
      * Next gen maps from here on out
      */
-    MOWREY("mowrey.tmx", "localhost", 1881, "Mowrey", 29, 36),
+    MOWREY("mowrey.tmx", "localhost", 1881, "Mowrey", 29, 36, false),
     /**
      *
      */
-    OUTSIDEMOWREY("outsideOfMowrey.tmx", "localhost", 1882, "OutsideMowrey", 2, 94),
+    OUTSIDEMOWREY("outsideOfMowrey.tmx", "localhost", 1882, "OutsideMowrey", 2, 94, false),
     /**
      *
      */
-    QUAD("quad.tmx", "localhost", 1883, "Quad", 52, 52),
+    QUAD("quad.tmx", "localhost", 1883, "Quad", 52, 52, false),
     /**
      *
      */
-    DHC1("dhc1.tmx", "localhost", 1884, "DHC1", 44, 49),
+    DHC1("dhc1.tmx", "localhost", 1884, "DHC1", 44, 49, false),
     /**
      *
      */
-    RESTFUL_SERVER("RestfulMap.tmx", "localhost", 1890, "RestfulMap", 50, 50);
+    RESTFUL_SERVER("RestfulMap.tmx", "localhost", 1890, "RestfulMap", 50, 50, false);
 
 
     private String mapName;
@@ -79,7 +79,9 @@ public enum ServersForTest
 
     private int teleportPositionY;
 
-    ServersForTest(String mapName, String hostName, int portNumber, String mapTitle, int teleportPositionX, int teleportPositionY)
+    private boolean isQuiet;
+
+    ServersForTest(String mapName, String hostName, int portNumber, String mapTitle, int teleportPositionX, int teleportPositionY, boolean isQuiet)
     {
         this.mapName = mapName;
         this.hostName = hostName;
@@ -87,6 +89,7 @@ public enum ServersForTest
         this.mapTitle = mapTitle;
         this.teleportPositionX = teleportPositionX;
         this.teleportPositionY = teleportPositionY;
+        this.isQuiet = isQuiet;
     }
 
     /**
@@ -135,6 +138,11 @@ public enum ServersForTest
     public int getTeleportPositionY()
     {
         return teleportPositionY;
+    }
+
+    public boolean isQuiet()
+    {
+        return isQuiet;
     }
 
 }

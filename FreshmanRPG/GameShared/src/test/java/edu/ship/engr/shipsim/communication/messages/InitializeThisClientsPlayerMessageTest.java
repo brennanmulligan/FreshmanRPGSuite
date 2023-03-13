@@ -49,7 +49,8 @@ public class InitializeThisClientsPlayerMessageTest
         mockFriends.add(friend1);
         mockFriends.add(friend2);
 
-        InitializeThisClientsPlayerMessage message = new InitializeThisClientsPlayerMessage(list, mockFriends, 20, 50, level);
+        InitializeThisClientsPlayerMessage message = new InitializeThisClientsPlayerMessage(
+                PlayersForTest.MERLIN.getPlayerID(), false, list, mockFriends, 20, 50, level);
 
         assertEquals(20, message.getExperiencePts());
         assertEquals(50, message.getDoubloons());
