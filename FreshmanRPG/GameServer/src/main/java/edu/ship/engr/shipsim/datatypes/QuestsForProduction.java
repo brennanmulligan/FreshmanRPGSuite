@@ -26,7 +26,7 @@ public enum QuestsForProduction
             QuestCompletionActionType.TELEPORT,
             new GameLocationDTO("quad.tmx", new Position(92, 7)),
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Real quest to make them explore
@@ -35,7 +35,7 @@ public enum QuestsForProduction
             new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 2, 5,
             QuestCompletionActionType.TRIGGER_QUESTS, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
 
     /**
@@ -45,7 +45,7 @@ public enum QuestsForProduction
             new GameLocationDTO("library.tmx", new Position(24, 48)), 10, 1,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Tea Ingredients Quest
@@ -55,7 +55,7 @@ public enum QuestsForProduction
             new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 5,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Recipe Quest
@@ -66,7 +66,7 @@ public enum QuestsForProduction
             QuestCompletionActionType.TRIGGER_QUESTS,
             new QuestListCompletionParameter(new ArrayList<>(Arrays.asList(COLLECT_TEA_INGREDIENTS.getQuestID()))),
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
 
     /**
@@ -78,28 +78,28 @@ public enum QuestsForProduction
             new GameLocationDTO("quad.tmx", new Position(92, 7)), 10, 3,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     ROCK_PAPER_SCISSORS(107, "Roshambo",
             "A mysterious figure issues you a challenge, but first you must find the secret password...",
             new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 2,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     SCAVENGER_HUNT(108, "Scavenger Hunt",
             "Find All The Things On Campus!",
             PlayerTableDataGateway.INITIAL_GAME_LOCATION, 30, 20,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime()),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     EVENTS(109, "Event Hunt",
             "Go To All The Things On Campus!",
             PlayerTableDataGateway.INITIAL_GAME_LOCATION, 30, 3,
             QuestCompletionActionType.NO_ACTION, null,
             new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
 
 
     private final int questID;
@@ -112,6 +112,8 @@ public enum QuestsForProduction
     private final QuestCompletionActionParameter completionActionParameter;
     private final Date startDate;
     private final Date endDate;
+
+    private final Boolean isEasterEgg;
 
     /**
      * Constructor for Quests Enum
@@ -134,7 +136,7 @@ public enum QuestsForProduction
                         int objectiveForFulfillment,
                         QuestCompletionActionType completionActionType,
                         QuestCompletionActionParameter completionActionParam,
-                        Date startDate, Date endDate)
+                        Date startDate, Date endDate, Boolean isEasterEgg)
     {
         this.questID = questID;
         this.questTitle = questTitle;
@@ -146,6 +148,7 @@ public enum QuestsForProduction
         this.completionActionParameter = completionActionParam;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isEasterEgg = isEasterEgg;
     }
 
     /**
@@ -239,4 +242,8 @@ public enum QuestsForProduction
         return startDate;
     }
 
+    public Boolean getIsEasterEgg()
+    {
+        return isEasterEgg;
+    }
 }
