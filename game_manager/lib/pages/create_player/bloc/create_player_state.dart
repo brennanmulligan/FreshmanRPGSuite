@@ -11,7 +11,7 @@ class CreatePlayerInitial extends CreatePlayerState {}
 class CreatePlayerLoading extends CreatePlayerState {}
 
 class CreatePlayerComplete extends CreatePlayerState {
-  final CreatePlayerResponse response;
+  final BasicResponse response;
 
   CreatePlayerComplete(this.response);
 
