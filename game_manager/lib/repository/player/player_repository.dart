@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'create_player_request.dart';
-import 'create_player_response.dart';
+import 'basic_response.dart';
 
 
 
@@ -15,7 +15,7 @@ class PlayerRepository{
   }
   final Dio dio;
 
-  Future<CreatePlayerResponse> createPlayer(CreatePlayerRequest request) async
+  Future<BasicResponse> createPlayer(CreatePlayerRequest request) async
   {
     final response = await dio.post(
       '/player',
@@ -23,6 +23,6 @@ class PlayerRepository{
       data: jsonEncode(request),
     );
     //TODO Error checking on http response type
-    return CreatePlayerResponse.fromJson(json: jsonDecode(response.data));
+    return BasicResponse.fromJson(json: jsonDecode(response.data));
   }
 }
