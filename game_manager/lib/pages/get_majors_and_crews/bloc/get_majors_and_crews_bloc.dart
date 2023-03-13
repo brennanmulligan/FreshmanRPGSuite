@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'get_majors_and_crews_event.dart';
@@ -13,15 +14,15 @@ class GetMajorsAndCrewsBloc extends Bloc<GetMajorsAndCrewsEvent, GetMajorsAndCre
   GetMajorsAndCrewsBloc({
     required this.GetMajorsAndCrewsRepository
   }) : super(GetMajorsAndCrewsInitial()) {
-      on<SendGetMajorsAndCrewsEvent>((event, emit) async {
-        emit(GetMajorsAndCrewsLoading());
-        GetMajorsAndCrewsResponse response = await GetMajorsAndCrewsRepository.getMajorsAndCrews();
+    on<SendCreateMajorsCrewEvent>((event, emit) async {
+      emit(GetMajorsAndCrewsLoading());
+      GetMajorsAndCrewsResponse response = await GetMajorsAndCrewsRepository.getMajorsAndCrews();
 
-        if (response.success) {
-          emit(GetMajorsAndCrewsSuccess(response));
-        } else {
-          emit(GetMajorsAndCrewsFail());
-        }
-      });
+      if (response.success) {
+        emit(GetMajorsAndCrewsSuccess(response));
+      } else {
+        emit(GetMajorsAndCrewsFail());
+      }
+    });
   }
 }

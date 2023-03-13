@@ -1,9 +1,10 @@
 /*
  creates a majors and crews event class
  */
-abstract class CreateMajorsCrewsEvent{}
+part of 'get_majors_and_crews_bloc.dart';
+abstract class GetMajorsAndCrewsEvent{}
 
-class SendCreateMajorsCrewEvent extends CreateMajorsCrewsEvent {
+class SendCreateMajorsCrewEvent extends GetMajorsAndCrewsEvent {
 
     final num crews;
     final num  majors;
