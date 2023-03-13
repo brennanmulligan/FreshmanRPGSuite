@@ -8,7 +8,7 @@ import 'dart:async' as _i5;
 import 'package:dio/dio.dart' as _i2;
 import 'package:game_manager/repository/player/create_player_request.dart'
     as _i6;
-import 'package:game_manager/repository/player/create_player_response.dart'
+import 'package:game_manager/repository/player/basic_response.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -36,7 +36,7 @@ class _FakeDio_0 extends _i1.SmartFake implements _i2.Dio {
 }
 
 class _FakeCreatePlayerResponse_1 extends _i1.SmartFake
-    implements _i3.CreatePlayerResponse {
+    implements _i3.BasicResponse {
   _FakeCreatePlayerResponse_1(
     Object parent,
     Invocation parentInvocation,
@@ -64,14 +64,14 @@ class MockPlayerRepositoryTest extends _i1.Mock
         ),
       ) as _i2.Dio);
   @override
-  _i5.Future<_i3.CreatePlayerResponse> createPlayer(
+  _i5.Future<_i3.BasicResponse> createPlayer(
           _i6.CreatePlayerRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #createPlayer,
           [request],
         ),
-        returnValue: _i5.Future<_i3.CreatePlayerResponse>.value(
+        returnValue: _i5.Future<_i3.BasicResponse>.value(
             _FakeCreatePlayerResponse_1(
           this,
           Invocation.method(
@@ -79,5 +79,5 @@ class MockPlayerRepositoryTest extends _i1.Mock
             [request],
           ),
         )),
-      ) as _i5.Future<_i3.CreatePlayerResponse>);
+      ) as _i5.Future<_i3.BasicResponse>);
 }
