@@ -20,6 +20,13 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
   final major = TextEditingController();
   final section = TextEditingController();
 
+  // need to get the actual data for this at some point
+  final List<String> crewsList = <String>['One', 'Two', 'Three'];
+  final List <String> majorsList = <String>['The', 'Boating School', 'Is'];
+
+  String? crewsValue;
+  String? majorsValue;
+
   @override
   void initState() {
     super.initState();
@@ -98,21 +105,21 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   fillColor: Colors.grey,
                 ),
               ),
-              TextField(
-                controller: crew,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.key),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Crew'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
-                ),
+              DropdownButton(
+                hint: Text("Crew"),
+                value: crewsValue,
+                icon: const Icon(Icons.arrow_downward),
+                onChanged: (String? value) {
+                  setState(() {
+                    crewsValue = value!;
+                  });
+                },
+                items: crewsList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
               TextField(
                 controller: major,
