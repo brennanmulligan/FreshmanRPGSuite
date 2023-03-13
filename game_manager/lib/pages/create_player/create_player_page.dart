@@ -4,7 +4,7 @@ import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../repository/player/player_repository.dart';
-import '../../repository/player/create_player_response.dart';
+import '../../repository/player/basic_response.dart';
 
 class CreatePlayerPage extends StatefulWidget {
   const CreatePlayerPage({Key? key}) : super(key: key);
@@ -156,7 +156,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
         ),
       );
 
-  Widget buildRequestCompleteScreen(CreatePlayerResponse data) =>
+  Widget buildRequestCompleteScreen(BasicResponse data) =>
       Center(child: Text('$data'));
 }
 
