@@ -36,6 +36,8 @@ public class QuestRowDataGateway
     private Date startDate;
     private Date endDate;
 
+    private boolean isEasterEgg;
+
     /**
      * Finder constructor
      *
@@ -67,6 +69,7 @@ public class QuestRowDataGateway
                         extractCompletionActionParameter(result, completionActionType);
                 this.startDate = result.getDate("startDate");
                 this.endDate = result.getDate("endDate");
+                this.isEasterEgg = result.getBoolean("easterEgg");
             }
         }
         catch (SQLException e)
@@ -95,6 +98,7 @@ public class QuestRowDataGateway
      *                                  action taken when this quest is completed
      * @param startDate                 the first day the quest is available
      * @param endDate                   the last day the quest is available
+     * @param isEasterEgg               denotes if quest is an easter egg
      * @throws DatabaseException if we can't talk to the RDS
      */
     public QuestRowDataGateway(int questID, String questTitle, String questDescription,
@@ -103,7 +107,7 @@ public class QuestRowDataGateway
                                int objectivesForFulfillment,
                                QuestCompletionActionType completionActionType,
                                QuestCompletionActionParameter completionActionParameter,
-                               Date startDate, Date endDate) throws DatabaseException
+                               Date startDate, Date endDate, Boolean isEasterEgg) throws DatabaseException
     {
         this.questID = questID;
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -114,7 +118,7 @@ public class QuestRowDataGateway
                         "triggerRow = ?, triggerColumn = ?, " +
                         "experiencePointsGained = ?, objectivesForFulfillment = ?," +
                         " completionActionType = ?, completionActionParameter = ?," +
-                        " startDate = ?, endDate = ?"))
+                        " startDate = ?, endDate = ?, easterEgg = ?"))
         {
             stmt.setInt(1, questID);
             stmt.setString(2, questTitle);
@@ -128,6 +132,7 @@ public class QuestRowDataGateway
             stmt.setObject(10, completionActionParameter);
             stmt.setDate(11, new java.sql.Date(startDate.getTime()));
             stmt.setDate(12, new java.sql.Date(endDate.getTime()));
+            stmt.setBoolean(13, isEasterEgg);
             stmt.executeUpdate();
 
             this.questDescription = questDescription;
@@ -165,7 +170,7 @@ public class QuestRowDataGateway
                                int objectivesForFullfillment,
                                QuestCompletionActionType completionActionType,
                                QuestCompletionActionParameter completionActionParameter,
-                               Date startDate, Date endDate) throws DatabaseException
+                               Date startDate, Date endDate, Boolean isEasterEgg) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -174,7 +179,7 @@ public class QuestRowDataGateway
                         "triggerMapname = ?, triggerRow = ?, triggerColumn = ?, " +
                         "experiencePointsGained = ?, objectivesForFulfillment = ?, " +
                         "completionActionType = ?, completionActionParameter = ?, " +
-                        "startDate = ?, endDate = ?",
+                        "startDate = ?, endDate = ?, easterEgg = ?",
                 Statement.RETURN_GENERATED_KEYS))
         {
             stmt.setString(1, title);
@@ -188,6 +193,7 @@ public class QuestRowDataGateway
             stmt.setObject(9, completionActionParameter);
             stmt.setDate(10, new java.sql.Date(startDate.getTime()));
             stmt.setDate(11, new java.sql.Date(endDate.getTime()));
+            stmt.setBoolean(12, isEasterEgg);
             stmt.executeUpdate();
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys())
@@ -345,6 +351,16 @@ public class QuestRowDataGateway
         this.endDate = endDate;
     }
 
+    public void setEasterEgg(Boolean isEasterEgg)
+    {
+        this.isEasterEgg = isEasterEgg;
+    }
+
+    public Boolean getIsEasterEgg()
+    {
+        return isEasterEgg;
+    }
+
     public int getExperiencePointsGained()
     {
         return experiencePointsGained;
@@ -428,7 +444,7 @@ public class QuestRowDataGateway
                 "UPDATE Quests SET questTitle = ?, questDescription = ?, triggerMapName = ?, " +
                         "triggerRow = ?, triggerColumn = ?, experiencePointsGained = ?, " +
                         "objectivesForFulfillment = ?, completionActionType = ?, " +
-                        "completionActionParameter = ?, startDate = ?, endDate = ? WHERE questID = ?"))
+                        "completionActionParameter = ?, startDate = ?, endDate = ?, easterEgg = ? WHERE questID = ?"))
         {
             stmt.setString(1, questTitle);
             stmt.setString(2, questDescription);
@@ -441,7 +457,8 @@ public class QuestRowDataGateway
             stmt.setObject(9, completionActionParameter);
             stmt.setDate(10, new java.sql.Date(startDate.getTime()));
             stmt.setDate(11, new java.sql.Date(endDate.getTime()));
-            stmt.setInt(12, questID);
+            stmt.setBoolean(12, isEasterEgg);
+            stmt.setInt(13, questID);
             stmt.executeUpdate();
         }
         catch (SQLException e)
