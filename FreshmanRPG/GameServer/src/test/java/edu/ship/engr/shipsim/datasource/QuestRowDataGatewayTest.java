@@ -113,6 +113,7 @@ public class QuestRowDataGatewayTest
                 new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime());
         gateway.setTriggerMapName("test.tmx");
         gateway.setTriggerPosition(new Position(2, 32));
+        gateway.setEasterEgg(false);
 
         gateway.persist();
 
@@ -217,7 +218,7 @@ public class QuestRowDataGatewayTest
                 new QuestRowDataGateway(title, description, mapName, position,
                         experiencedGained, objectivesForFullfillment,
                         completionActionType, completionActionParameter, startDate,
-                        endDate);
+                        endDate, false);
 
         return gateway.getQuestID();
     }
