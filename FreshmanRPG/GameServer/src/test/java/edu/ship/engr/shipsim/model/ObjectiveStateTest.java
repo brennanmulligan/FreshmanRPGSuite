@@ -58,7 +58,7 @@ public class ObjectiveStateTest
         ObjectiveState adv = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
         ArrayList<ObjectiveState> al = new ArrayList<>();
         al.add(adv);
-        QuestState q = new QuestState(playerID, 2, QuestStateEnum.TRIGGERED, false);
+        QuestState q = new QuestState(playerID, 2, QuestStateEnum.TRIGGERED, false, false);
         q.addObjectives(al);
         QuestManager.getSingleton().addQuestState(playerID, q);
         adv.trigger();
@@ -75,7 +75,7 @@ public class ObjectiveStateTest
         {
             ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
 
-            questState = new QuestState(19, 6, QuestStateEnum.TRIGGERED, false);
+            questState = new QuestState(19, 6, QuestStateEnum.TRIGGERED, false, false);
 
             ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
             objectiveList.add(objective);
@@ -105,7 +105,7 @@ public class ObjectiveStateTest
         ArrayList<ObjectiveState> al = new ArrayList<>();
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, true);
         al.add(objective);
-        QuestState qState = new QuestState(2, 1, QuestStateEnum.TRIGGERED, false);
+        QuestState qState = new QuestState(2, 1, QuestStateEnum.TRIGGERED, false, false);
         qState.addObjectives(al);
 
         objective.complete();
@@ -130,7 +130,7 @@ public class ObjectiveStateTest
     {
         PlayerManager.getSingleton().addPlayer(1);
 
-        questState = new QuestState(1, QuestsForTest.THE_LITTLE_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false);
+        questState = new QuestState(1, QuestsForTest.THE_LITTLE_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false, false);
 
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
         ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
@@ -162,7 +162,7 @@ public class ObjectiveStateTest
     {
         PlayerManager.getSingleton().addPlayer(1);
 
-        questState = new QuestState(1, 2, QuestStateEnum.TRIGGERED, false);
+        questState = new QuestState(1, 2, QuestStateEnum.TRIGGERED, false, false);
 
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
         ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
@@ -193,7 +193,7 @@ public class ObjectiveStateTest
     {
         PlayerManager.getSingleton().addPlayer(1);
 
-        questState = new QuestState(1, 2, QuestStateEnum.FULFILLED, false);
+        questState = new QuestState(1, 2, QuestStateEnum.FULFILLED, false, false);
 
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, false);
         ObjectiveState objective2 = new ObjectiveState(2, ObjectiveStateEnum.TRIGGERED, false);
@@ -229,7 +229,8 @@ public class ObjectiveStateTest
         al.add(objective);
         QuestState qState = new QuestState(7, QuestStatesForTest.PLAYER7_QUEST2.getQuestID(),
                 QuestStatesForTest.PLAYER7_QUEST2.getState(),
-                QuestStatesForTest.PLAYER7_QUEST2.isNeedingNotification());
+                QuestStatesForTest.PLAYER7_QUEST2.isNeedingNotification(),
+                QuestStatesForTest.PLAYER7_QUEST2.isEasterEgg());
 
         qState.addObjectives(al);
 
@@ -262,7 +263,8 @@ public class ObjectiveStateTest
 
         QuestState questState = new QuestState(1, QuestStatesForTest.PLAYER1_QUEST2.getQuestID(),
                 QuestStatesForTest.PLAYER1_QUEST2.getState(),
-                QuestStatesForTest.PLAYER1_QUEST2.isNeedingNotification());
+                QuestStatesForTest.PLAYER1_QUEST2.isNeedingNotification(),
+                QuestStatesForTest.PLAYER1_QUEST2.isEasterEgg());
         questState.addObjectives(objectiveStates);
 
         // change the state of the objective, which should send out a report
@@ -292,7 +294,7 @@ public class ObjectiveStateTest
             throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
     {
         PlayerManager.getSingleton().addPlayer(19);
-        questState = new QuestState(19, 8, QuestStateEnum.EXPIRED, false);
+        questState = new QuestState(19, 8, QuestStateEnum.EXPIRED, false, false);
 
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
 
@@ -316,7 +318,7 @@ public class ObjectiveStateTest
             throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
     {
         PlayerManager.getSingleton().addPlayer(19);
-        questState = new QuestState(19, 8, QuestStateEnum.EXPIRED, false);
+        questState = new QuestState(19, 8, QuestStateEnum.EXPIRED, false, false);
 
         ObjectiveState objective = new ObjectiveState(1, ObjectiveStateEnum.TRIGGERED, false);
 

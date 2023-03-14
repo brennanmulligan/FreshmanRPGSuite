@@ -36,7 +36,7 @@ public class InitializeThisClientsPlayerMessageTest
         ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 3,
                 ObjectiveStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 42, 13, true,
-                null);
+                false, null);
         q.addObjective(objectiveOne);
         q.addObjective(objectiveTwo);
         ArrayList<ClientPlayerQuestStateDTO> list = new ArrayList<>();

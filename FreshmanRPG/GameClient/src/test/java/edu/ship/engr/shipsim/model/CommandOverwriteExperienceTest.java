@@ -66,7 +66,7 @@ public class CommandOverwriteExperienceTest
         ArrayList<ClientPlayerQuestStateDTO> quests = new ArrayList<>();
         ArrayList<FriendDTO> friends = new ArrayList<>();
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title",
-                "silly", QuestStateEnum.AVAILABLE, 42, 4, false, null);
+                "silly", QuestStateEnum.AVAILABLE, 42, 4, false, false, null);
         quests.add(q);
         LevelRecord level = new LevelRecord("One", 15, 10, 7);
         int expectedExperience = 100;
