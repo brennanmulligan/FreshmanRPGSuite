@@ -89,7 +89,7 @@ public class CommandCreatePlayer extends Command
     for (QuestsForProduction q : questsToTrigger)
     {
         questStateTableDataGatewayRDS.updateState(playerID, q.getQuestID(),
-                QuestStateEnum.TRIGGERED, true);
+                QuestStateEnum.TRIGGERED, true, false);
 
         //Add relevant Objectives
         ArrayList<ObjectiveRecord> objectiveList =
