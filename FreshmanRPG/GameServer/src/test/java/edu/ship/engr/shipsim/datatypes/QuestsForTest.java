@@ -151,9 +151,15 @@ public enum QuestsForTest
     TEMP_QUEST(108, "Triggered by object", "This quest was triggered by an interacting with an object. ",
             new GameLocationDTO("quad.tmx", new Position(83, 33)), 1, 1, QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
-
+    /**
+     * EasterEgg Quest
+     */
+    EASTER_EGG_QUEST(109, "Easter Egg Quest", "This is an easter egg quest. Only pops up once it's triggered.",
+                             new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 1, 1, QuestCompletionActionType.TRIGGER_QUESTS,
+        null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), true);
 
     private final int questID;
     private final String questTitle;
@@ -187,40 +193,6 @@ public enum QuestsForTest
     QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
                   int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
                   QuestCompletionActionParameter completionActionParam, Date startDate, Date endDate, boolean isEasterEgg)
-    {
-        this.questID = questID;
-        this.questTitle = questTitle;
-        this.questDescription = questDescription;
-        this.gameLocation = gameLocation;
-        this.experienceGained = experienceGained;
-        this.objectiveForFulfillment = objectiveForFulfillment;
-        this.completionActionType = completionActionType;
-        this.completionActionParameter = completionActionParam;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isEasterEgg = isEasterEgg;
-    }
-
-    /**
-     * Constructor for Quests Enum
-     *
-     * @param questID                 this quest's unique ID
-     * @param questTitle              this quest's title
-     * @param questDescription        what the player has to do
-     * @param experienceGained        the number of experience points you get when you fulfill the
-     *                                quest
-     * @param objectiveForFulfillment the number of objectives you must complete to fulfill the
-     *                                quest
-     * @param completionActionType    TThe type of action that should be taken when this quest
-     *                                complete
-     * @param completionActionParam   The parameter for the completion action
-     * @param startDate               The first day that this quest is available
-     * @param endDate                 This last day that this quest is available
-     *
-     */
-    QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
-                  int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
-                  QuestCompletionActionParameter completionActionParam, Date startDate, Date endDate, Boolean isEasterEgg)
     {
         this.questID = questID;
         this.questTitle = questTitle;
