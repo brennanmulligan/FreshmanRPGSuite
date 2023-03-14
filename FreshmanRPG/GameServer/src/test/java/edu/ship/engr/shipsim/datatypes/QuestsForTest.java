@@ -154,6 +154,7 @@ public enum QuestsForTest
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
 
 
+
     private final int questID;
     private final String questTitle;
     private final String questDescription;
@@ -164,8 +165,7 @@ public enum QuestsForTest
     private final QuestCompletionActionParameter completionActionParameter;
     private final Date startDate;
     private final Date endDate;
-
-    private final Boolean isEasterEgg;
+    private final boolean isEasterEgg;
 
     /**
      * Constructor for Quests Enum
@@ -182,6 +182,41 @@ public enum QuestsForTest
      * @param completionActionParam   The parameter for the completion action
      * @param startDate               The first day that this quest is available
      * @param endDate                 This last day that this quest is available
+     * @param isEasterEgg             This is a boolean for if the quest is an Easter egg or not
+     */
+    QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
+                  int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
+                  QuestCompletionActionParameter completionActionParam, Date startDate, Date endDate, boolean isEasterEgg)
+    {
+        this.questID = questID;
+        this.questTitle = questTitle;
+        this.questDescription = questDescription;
+        this.gameLocation = gameLocation;
+        this.experienceGained = experienceGained;
+        this.objectiveForFulfillment = objectiveForFulfillment;
+        this.completionActionType = completionActionType;
+        this.completionActionParameter = completionActionParam;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isEasterEgg = isEasterEgg;
+    }
+
+    /**
+     * Constructor for Quests Enum
+     *
+     * @param questID                 this quest's unique ID
+     * @param questTitle              this quest's title
+     * @param questDescription        what the player has to do
+     * @param experienceGained        the number of experience points you get when you fulfill the
+     *                                quest
+     * @param objectiveForFulfillment the number of objectives you must complete to fulfill the
+     *                                quest
+     * @param completionActionType    TThe type of action that should be taken when this quest
+     *                                complete
+     * @param completionActionParam   The parameter for the completion action
+     * @param startDate               The first day that this quest is available
+     * @param endDate                 This last day that this quest is available
+     *
      */
     QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
                   int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
