@@ -28,6 +28,7 @@ public class QuestState
     private final ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
     private int playerID;
     private boolean needingNotification;
+    private boolean easterEgg;
 
     /**
      * Constructs the QuestState
@@ -39,12 +40,13 @@ public class QuestState
      * @param needingNotification true if the player should be notified about
      *                            the quest's state
      */
-    protected QuestState(int playerID, int questID, QuestStateEnum currentState, boolean needingNotification)
+    protected QuestState(int playerID, int questID, QuestStateEnum currentState, boolean needingNotification, boolean easterEgg)
     {
         this.playerID = playerID;
         this.questID = questID;
         this.questState = currentState;
         this.needingNotification = needingNotification;
+        this.easterEgg = easterEgg;
     }
 
     /**
@@ -294,5 +296,10 @@ public class QuestState
     protected void setNeedingNotification(boolean newState)
     {
         needingNotification = newState;
+    }
+
+    public boolean isEasterEgg()
+    {
+        return easterEgg;
     }
 }

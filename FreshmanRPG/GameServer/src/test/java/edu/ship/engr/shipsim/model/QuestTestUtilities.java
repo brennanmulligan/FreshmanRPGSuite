@@ -38,7 +38,7 @@ public final class QuestTestUtilities
                     questID, questName,
                     questDescription, questState,
                     questExperience, objectives.size(),
-                    true, questExpireDate
+                    true, false, questExpireDate
             );
 
             clientPlayerQuestStateDTO.setObjectives(objectives);
