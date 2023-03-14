@@ -98,7 +98,7 @@ public class BuildTestQuestsAndObjectives
         for (QuestStatesForTest quest : QuestStatesForTest.values())
         {
             questStateGateway.createRow(quest.getPlayerID(), quest.getQuestID(),
-                    quest.getState(), quest.isNeedingNotification());
+                    quest.getState(), quest.isNeedingNotification(), quest.isEasterEgg());
 
             bar.update();
         }

@@ -214,7 +214,7 @@ public class PlayerMapper
         {
             QuestState questState =
                     new QuestState(player.getPlayerID(), qsRec.getQuestID(),
-                            qsRec.getState(), qsRec.isNeedingNotification());
+                            qsRec.getState(), qsRec.isNeedingNotification(), qsRec.getIsEasterEgg());
             ArrayList<ObjectiveStateRecordDTO> objectiveStateRecords =
                     objectiveStateGateway.getObjectiveStates(player.getPlayerID(),
                             qsRec.getQuestID());
@@ -298,7 +298,7 @@ public class PlayerMapper
             for (QuestState questState : questList)
             {
                 questStateGateway.updateState(player.getPlayerID(), questState.getID(),
-                        questState.getStateValue(), questState.isNeedingNotification());
+                        questState.getStateValue(), questState.isNeedingNotification(), questState.isEasterEgg());
                 for (ObjectiveState a : questState.getObjectiveList())
                 {
                     objectiveStateGateway.updateState(player.getPlayerID(), questState.getID(),
