@@ -48,7 +48,7 @@ public class InitializeThisClientsPlayerMessageHandlerTest
         InitializeThisClientsPlayerMessageHandler handler = new InitializeThisClientsPlayerMessageHandler();
         ArrayList<ClientPlayerQuestStateDTO> qList = new ArrayList<>();
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(3, "questtitle", "stupid quest",
-                QuestStateEnum.TRIGGERED, 42, 133, true, null);
+                QuestStateEnum.TRIGGERED, 42, 133, true, false, null);
         q.addObjective(new ClientPlayerObjectiveStateDTO(3, "stupid objective", 5,
                 ObjectiveStateEnum.TRIGGERED, false, true, "My big toe", QuestStateEnum.AVAILABLE));
         qList.add(q);
