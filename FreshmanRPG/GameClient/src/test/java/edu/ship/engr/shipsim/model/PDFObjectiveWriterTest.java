@@ -39,7 +39,7 @@ public class PDFObjectiveWriterTest
                 "Find the Department Secretary of the Computer Science & Engineering Department and introduce yourself",
                 5, ObjectiveStateEnum.TRIGGERED, true, true, "The gods", QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "First Quest", "Test Quest 1",
-                QuestStateEnum.COMPLETED, 1, 2, true, null);
+                QuestStateEnum.COMPLETED, 1, 2, true, false, null);
         q.addObjective(objective);
         objective = new ClientPlayerObjectiveStateDTO(1, "Another objective's description which should not be in the PDF", 10,
                 ObjectiveStateEnum.TRIGGERED, true, false, null, QuestStateEnum.AVAILABLE);

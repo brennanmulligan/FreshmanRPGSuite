@@ -39,7 +39,7 @@ public class QuestStateTableDataGatewayTest
     {
         int playerID = QuestStatesForTest.PLAYER1_QUEST1.getPlayerID();
         int questID = QuestStatesForTest.PLAYER1_QUEST1.getQuestID();
-        gateway.updateState(playerID, questID, QuestStateEnum.COMPLETED, true);
+        gateway.updateState(playerID, questID, QuestStateEnum.COMPLETED, true, false);
 
         ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(playerID);
         for (QuestStateRecordDTO qsRec : actual)
@@ -61,13 +61,13 @@ public class QuestStateTableDataGatewayTest
     public void canInsertARecord() throws DatabaseException
     {
         gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(), 4,
-                QuestStateEnum.TRIGGERED, true);
+                QuestStateEnum.TRIGGERED, true, false);
         ArrayList<QuestStateRecordDTO> actual =
                 gateway.getQuestStates(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID());
         assertEquals(10, actual.size());
         assertTrue(actual.contains(
                 new QuestStateRecordDTO(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
-                        4, QuestStateEnum.TRIGGERED, true)));
+                        4, QuestStateEnum.TRIGGERED, true, false)));
 
     }
 
@@ -82,7 +82,7 @@ public class QuestStateTableDataGatewayTest
         {
             gateway.createRow(QuestStatesForTest.PLAYER1_QUEST1.getPlayerID(),
                     QuestStatesForTest.PLAYER1_QUEST1.getQuestID(), QuestStateEnum.TRIGGERED,
-                    true);
+                    true, false);
         });
     }
 
@@ -181,7 +181,7 @@ public class QuestStateTableDataGatewayTest
     {
         int playerID = 10;
         int questID = QuestStatesForTest.PLAYER1_QUEST1.getQuestID();
-        gateway.updateState(playerID, questID, QuestStateEnum.COMPLETED, true);
+        gateway.updateState(playerID, questID, QuestStateEnum.COMPLETED, true, false);
         ArrayList<QuestStateRecordDTO> actual = gateway.getQuestStates(playerID);
         assertEquals(1, actual.size());
         for (QuestStateRecordDTO qsRec : actual)
