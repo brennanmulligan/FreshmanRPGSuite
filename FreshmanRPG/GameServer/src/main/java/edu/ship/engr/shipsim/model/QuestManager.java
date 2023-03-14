@@ -1224,7 +1224,7 @@ public class QuestManager implements ReportObserver
             {
                 qState =
                         new QuestState(playerID, questID,
-                                QuestStateEnum.AVAILABLE, true);
+                                QuestStateEnum.AVAILABLE, true, false);
                 try
                 {
                     quest = getQuest(questID);
@@ -1351,6 +1351,7 @@ public class QuestManager implements ReportObserver
                         record.getExperiencePointsGained(),
                         record.getObjectivesForFulfillment(),
                         questState.isNeedingNotification(),
+                        questState.isEasterEgg(),
                         record.getEndDate());
 
                 dto.setObjectives(getObjectives(record, questState));

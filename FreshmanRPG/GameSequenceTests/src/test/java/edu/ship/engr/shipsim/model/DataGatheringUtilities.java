@@ -17,7 +17,7 @@ public class DataGatheringUtilities
                         qGateway.getQuestDescription(), q.getState(),
                         qGateway.getExperiencePointsGained(),
                         qGateway.getObjectivesForFulfillment(), q.isNeedingNotification(),
-                        null);
+                        false, null);
         ObjectiveStateTableDataGateway asGateway =
                 ObjectiveStateTableDataGateway.getSingleton();
         ArrayList<ObjectiveStateRecordDTO> objectivesForPlayer =
