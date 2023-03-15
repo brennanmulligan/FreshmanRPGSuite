@@ -4,13 +4,13 @@ part of 'change_password_bloc.dart';
 abstract class ChangePasswordEvent {}
 
 class SendChangePasswordEvent extends ChangePasswordEvent {
-  final String playerName;
-  final String password;
+  final String name;
+  final String newPassword;
 
-  SendChangePasswordEvent(this.playerName, this.password);
+  SendChangePasswordEvent(this.name, this.newPassword);
 
   @override
   String toString() {
-    return 'SendChangePasswordEvent(playerName: $playerName, password: $password)';
+    return 'SendChangePasswordEvent(playerName: $name, password: $newPassword)';
   }
 }
