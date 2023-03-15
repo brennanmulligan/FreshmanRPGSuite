@@ -1,4 +1,4 @@
-FROM openjdk:11.0.11
+FROM openjdk:17
 
 COPY entrypoint.sh /game-server-entrypoint.sh
 
