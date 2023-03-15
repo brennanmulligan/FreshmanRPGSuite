@@ -109,10 +109,16 @@ public enum QuestStatesForTest
     /**
      * Newbie should have the first quest already triggered
      */
-
     NEWBIE_ONRAMPING(PlayersForTest.NEWBIE.getPlayerID(), QuestsForTest.ONRAMPING_QUEST.getQuestID(),
             QuestStateEnum.TRIGGERED, true, false),
-
+    /**
+     *
+     */
+    TEST_EASTEREGG(PlayersForTest.EASTEREGG_PLAYER.getPlayerID(), QuestsForTest.EASTER_EGG_QUEST.getQuestID(),
+            QuestStateEnum.TRIGGERED, true, true),
+    /**
+     *
+     */
     MERLIN_EXPLORING(PlayersForTest.MERLIN.getPlayerID(),
             QuestsForTest.EXPLORATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false, false),
     /**
@@ -127,6 +133,8 @@ public enum QuestStatesForTest
      *
      */
     PLAYER29_QUEST4(29, 4, QuestStateEnum.FULFILLED, false, false);
+
+
 
 
 //	TEST_TRIGGER_QUEST(1, 106, QuestStateEnum.AVAILABLE, true);

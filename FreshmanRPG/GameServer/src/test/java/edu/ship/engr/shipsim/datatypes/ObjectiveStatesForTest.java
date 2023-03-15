@@ -277,6 +277,7 @@ public enum ObjectiveStatesForTest
     /**
      *
      */
+    EASTER_EGG_OBJ_STATE(PlayersForTest.EASTEREGG_PLAYER.getPlayerID(), ObjectivesForTest.EASTER_EGG_STEP_1.getQuestID(), ObjectivesForTest.EASTER_EGG_STEP_1.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
     NEWBIE_ONRAMPING_XP_BUFF(PlayersForTest.NEWBIE.getPlayerID(),
             ObjectivesForTest.ONRAMPING_XP_BUFF.getQuestID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
     MERLIN_FIND_THE_LIBRARY(PlayersForTest.MERLIN.getPlayerID(),
