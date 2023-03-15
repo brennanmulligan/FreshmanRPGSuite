@@ -27,7 +27,7 @@ void main() {
 
       const createPlayerRequest = CreatePlayerRequest(name: "name",
           password: "password", crew: 1, major: 2, section: 3);
-      dioAdapter.onPost('/player', (request) => request
+      dioAdapter.onPost('/player/create', (request) => request
           .reply(200,
             jsonEncode(goodResponse)),
         data: jsonEncode(createPlayerRequest));
