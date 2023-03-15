@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlayerController extends Controller
 {
     @CrossOrigin // Required for web client support
-    @PostMapping("/createPlayer")
+    @PostMapping("/player/create")
     public ResponseEntity<Object> createPlayer(
             @RequestBody CreatePlayerInformation info)
     {

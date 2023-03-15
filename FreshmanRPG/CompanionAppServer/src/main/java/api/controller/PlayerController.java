@@ -35,7 +35,7 @@ public class PlayerController
      * @return Returns result int
      */
     @CrossOrigin // Required for web client support
-    @PostMapping("/createPlayer")
+    @PostMapping("/player/create")
     public ResponseEntity<Object> addPlayer(@RequestBody GameManagerPlayer player) throws JsonProcessingException
     {
         int result = playerService.addPlayer(player);
