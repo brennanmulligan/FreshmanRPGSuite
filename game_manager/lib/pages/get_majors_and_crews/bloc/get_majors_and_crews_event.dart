@@ -12,7 +12,7 @@ class SendCreateMajorsCrewEvent extends GetMajorsAndCrewsEvent {
 
     SendCreateMajorsCrewEvent(this.crews, this.majors);
 /*
-returns the major and crews event string
+returns the values major and crews event strings within SendCreateMajorsCrewEvent
  */
   String toSting() {
     return 'SendCreateMajorsCrewsEvent(crew: $crews, major: $majors)';
