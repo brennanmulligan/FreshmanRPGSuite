@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
+import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.view.screen.OverlayingScreenTable;
 import edu.ship.engr.shipsim.view.screen.SkinPicker;
 
@@ -68,16 +69,18 @@ public class QuestTable extends OverlayingScreenTable
                 l.setColor(Color.WHITE);
                 break;
         }
-        ClickListener clickListener = new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y)
+            ClickListener clickListener = new ClickListener()
             {
-                objectiveTable.updateObjectives(cpq.getQuestDescription(), cpq.getExpireDate().toString(), cpq.getObjectiveList());
-                super.clicked(event, x, y);
-            }
-        };
-        l.addListener(clickListener);
+                @Override
+                public void clicked(InputEvent event, float x, float y)
+                {
+                    objectiveTable.updateObjectives(cpq.getQuestDescription(),
+                            cpq.getExpireDate().toString(),
+                            cpq.getObjectiveList());
+                    super.clicked(event, x, y);
+                }
+            };
+            l.addListener(clickListener);
         return l;
     }
 
@@ -91,8 +94,11 @@ public class QuestTable extends OverlayingScreenTable
         container.clear();
         for (ClientPlayerQuestStateDTO cpq : questList)
         {
-            Label l = createQuestLabel(cpq);
-            container.add(l).top().row();
+            if(!cpq.isEasterEgg() || cpq.getQuestState() == QuestStateEnum.COMPLETED)
+            {
+                Label l = createQuestLabel(cpq);
+                container.add(l).top().row();
+            }
         }
     }
 }
