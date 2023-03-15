@@ -314,6 +314,9 @@ public enum ObjectivesForTest
     SECRET_WORD(1, "There is a tree in the quad that is not quite like the others, check it out.", QuestsForTest.ROCK_PAPER_SCISSORS.getQuestID(),
             2, ObjectiveCompletionType.MOVEMENT, new GameLocationDTO("quad.tmx", new Position(118, 74))),
 
+    EASTER_EGG_STEP_1(1, "Woah you found an easter egg.", QuestsForTest.EASTER_EGG_QUEST.getQuestID(), 2,
+            ObjectiveCompletionType.MOVEMENT, new GameLocationDTO("quad.tmx", new Position(119,74))),
+
     SAY_IT_OUT_LOUD(2, "Use the secret password you learned inside of the 'current' map. Who knows what will happen...", QuestsForTest.ROCK_PAPER_SCISSORS.getQuestID(),
             2, ObjectiveCompletionType.MOVEMENT, new GameLocationDTO("current.tmx", new Position(24, 15))),
 
