@@ -6,8 +6,16 @@ abstract class GetMajorsAndCrewsState extends Equatable {
   List<Object> get props => [];
 }
 
-class GetMajorsCrews extends GetMajorsAndCrewsState {
+class GetMajorsAndCrewsInitial extends GetMajorsAndCrewsState {}
 
+class GetMajorsAndCrewsLoading extends GetMajorsAndCrewsState {}
 
+class GetMajorCrewComplete extends GetMajorsAndCrewsState {
+  final BasicResponse response;
+
+  GetMajorCrewComplete(this.response);
+
+  @override
+  List<Object> get props => [response];
 }
 
