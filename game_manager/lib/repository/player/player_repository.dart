@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
+import 'change_password_request.dart';
 import 'create_player_request.dart';
 import 'basic_response.dart';
 
@@ -18,11 +19,17 @@ class PlayerRepository{
   Future<BasicResponse> createPlayer(CreatePlayerRequest request) async
   {
     final response = await dio.post(
-      '/player',
+      '/player/create',
 
       data: jsonEncode(request),
     );
     //TODO Error checking on http response type
     return BasicResponse.fromJson(json: jsonDecode(response.data));
+  }
+
+  Future<BasicResponse> changePassword(ChangePasswordRequest request) async
+  {
+    // return empty response for now
+    return const BasicResponse(success: true, description: "changed");
   }
 }
