@@ -53,10 +53,7 @@ function printCell() {
 # function that prints a 2x10 table, with each cell running the printRunning function
 function printTable() {
     # move cursor to top left of terminal
-#    echo -ne "\033[0;0H"
-
-    # rewind to before the table
-    echo -ne "\033[1A"
+    echo -ne "\033[0;0H"
 
     printf "┌────────────────────┬──────────┬────────────┬──────────┐\n"
     printf "│    Module Name     │ Compile  │ Checkstyle │  Testing │\n"
@@ -70,6 +67,47 @@ function printTable() {
 
     # print footer separator
     echo "└────────────────────┴──────────┴────────────┴──────────┘"
+}
+
+function runTask() {
+    # local variable for table index
+    local index=$(( ( ( $1 - 1 ) * 3 ) + $2 ))
+
+    printf "table[%s]\n" "$index"
+
+    # set table cell to running
+    table[$index]="running"
+
+    # print table
+    printTable
+
+    # run compileJava and compileTestJava for module
+    # run compileTestJava if module is not GameClient-desktop
+    # hide command outputs in variable
+    # if either command fails, set table cell to failed
+    # if failed, print command output
+    # if failed, break out of loop
+    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
+        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava)
+    else
+        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava "${modules[$i-1]}":compileTestJava)
+    fi
+
+    if [[ $? -ne 0 ]]; then
+            table[$index]="failed"
+            printTable
+
+            printf "%s\n" "$output"
+
+            return 1
+    fi
+
+    # set table cell to complete
+    table[$index]="complete"
+
+    printTable
+
+    return 0
 }
 
 function runCompile() {
@@ -162,7 +200,7 @@ function run() {
 
         # if runCompile returns 0, break out of loop
         # if runCompile returns 1, continue loop
-        runCompile $i || break
+        runCompile $i 1 || break
 
         # if runCheckstyle returns 0, break out of loop
         # if runCheckstyle returns 1, continue loop
