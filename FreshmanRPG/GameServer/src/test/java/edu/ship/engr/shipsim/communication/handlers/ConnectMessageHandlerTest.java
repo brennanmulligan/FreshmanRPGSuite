@@ -9,6 +9,8 @@ import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -55,7 +57,12 @@ public class ConnectMessageHandlerTest
         ConnectMessage msg = new ConnectMessage(1, false,PlayerConnection.DEFAULT_PIN);
         handler.process(msg);
 
+        Logger logger = LoggerManager.getSingleton().getLogger();
+        logger.info("In tellsStateAccumulatorIfPlayerIDPIN is Recognized: Waiting for model to process");
         ModelFacadeTestHelper.waitForFacadeToProcess();
+        logger.info("In tellsStateAccumulatorIfPlayerIDPIN is Recognized: Model has processed");
+        logger.info("In tellsStateAccumulatorIfPlayerIDPIN is Recognized: Player Id is " + connectionManager.getPlayerID());
+
         assertEquals(1, connectionManager.getPlayerID());
     }
 
