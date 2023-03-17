@@ -25,11 +25,6 @@ for (( i=0; i<=30; i++ )); do
     table[$i]="waiting"
 done
 
-# set index 16 to complete, 8 to running and 12 to failed
-table[16]="complete"
-table[8]="running"
-table[12]="failed"
-
 # function that prints calculates an index for two coordinates, then prints the value at that index in the table array
 function printCell() {
     local x=$1
@@ -57,21 +52,12 @@ function printCell() {
 
 # function that prints a 2x10 table, with each cell running the printRunning function
 function printTable() {
-    # clear terminal
-    clear
-
     # move cursor to top left of terminal
     echo -ne "\033[0;0H"
 
-    # print header separator
-    echo "┌────────────────────┬──────────┬────────────┬──────────┐"
-
-    # print table header
-    echo "│    Module Name     │ Compile  │ Checkstyle │  Testing │"
-
-    # print header separator
-    echo "├────────────────────┼──────────┼────────────┼──────────┤"
-
+    printf "┌────────────────────┬──────────┬────────────┬──────────┐\n"
+    printf "│    Module Name     │ Compile  │ Checkstyle │  Testing │\n"
+    printf "├────────────────────┼──────────┼────────────┼──────────┤\n"
     printf "│     GameClient     │ %19s │ %21s │ %19s │\n" "$(printCell 1 1)" "$(printCell 1 2)" "$(printCell 1 3)"
     printf "│ GameClient-desktop │ %19s │ %21s │ %19s │\n" "$(printCell 2 1)" "$(printCell 2 2)" "$(printCell 2 3)"
     printf "│ GameSequenceTests  │ %19s │ %21s │ %19s │\n" "$(printCell 3 1)" "$(printCell 3 2)" "$(printCell 3 3)"
@@ -83,4 +69,107 @@ function printTable() {
     echo "└────────────────────┴──────────┴────────────┴──────────┘"
 }
 
-printTable
+function runCompile() {
+    # local variable for table index
+    local index=$(( ( ( $1 - 1 ) * 3 ) + 1 ))
+
+    printf "table[%s]\n" "$index"
+
+    # set table cell to running
+    table[$index]="running"
+
+    # print table
+    printTable
+
+    # run compileJava and compileTestJava for module
+    # run compileTestJava if module is not GameClient-desktop
+    # hide command outputs in variable
+    # if either command fails, set table cell to failed
+    # if failed, print command output
+    # if failed, break out of loop
+    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
+        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava)
+    else
+        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava "${modules[$i-1]}":compileTestJava)
+    fi
+
+    if [[ $? -ne 0 ]]; then
+            table[$index]="failed"
+            printTable
+
+            printf "%s\n" "$output"
+
+            return 1
+    fi
+
+    # set table cell to complete
+    table[$index]="complete"
+
+    printTable
+
+    return 0
+}
+
+# function that runs checkstyleMain on all modules
+function runCheckstyle() {
+    # local variable for table index
+    local index=$(( ( ( $1 - 1 ) * 3 ) + 2 ))
+
+    # set table cell to running
+    table[$index]="running"
+
+    # print table
+    printTable
+
+    # run checkstyleMain and checkstyleTest for module
+    # if module is GameClient-desktop, only run checkstyleMain
+    # include --build-cache flag to use build cache
+    # hide command outputs and errors in variable
+    # if command fails, set table cell to failed
+    # if failed, print command output
+    # if failed, break out of loop
+    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
+        output=$(./gradlew --build-cache "${modules[$i-1]}":checkstyleMain 2>&1)
+    else
+        output=$(./gradlew --build-cache "${modules[$i-1]}":checkstyleMain "${modules[$i-1]}":checkstyleTest 2>&1)
+    fi
+
+    if [[ $? -ne 0 ]]; then
+            table[$index]="failed"
+            printTable
+
+            # echo command output
+            printf "%s\n" "$output"
+
+            return 1
+    fi
+
+    # set table cell to complete
+    table[$index]="complete"
+
+    printTable
+
+    return 0
+}
+
+function run() {
+    printTable
+
+    for (( i=1; i<=6; i++ )); do
+
+        # if runCompile returns 0, break out of loop
+        # if runCompile returns 1, continue loop
+        runCompile $i || break
+
+        # if runCheckstyle returns 0, break out of loop
+        # if runCheckstyle returns 1, continue loop
+        runCheckstyle $i || break
+
+        # print table
+#        printTable
+    done
+}
+
+
+clear
+run

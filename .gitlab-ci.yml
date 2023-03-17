@@ -23,10 +23,10 @@ run_pipeline:
     script:
         - cd FreshmanRPG
         - chmod +x ./gradlew
-        - chmod +x ./runPipeline.sh
+        - chmod +x ./test.sh
         - chmod +x ./setDatabase.sh
         - ./setDatabase.sh $CI_PIPELINE_ID
-        - ./runPipeline.sh
+        - ./test.sh
 
 game_manager_test:
     extends: .flutter_docker_image
