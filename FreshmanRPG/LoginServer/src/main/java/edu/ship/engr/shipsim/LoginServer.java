@@ -36,7 +36,8 @@ public class LoginServer implements Runnable
     /**
      * @see java.lang.Runnable#run()
      */
-    public void run() {
+    public void run()
+    {
 
         try (ServerSocket servSock = new ServerSocket(1871, 10))
         {

@@ -53,7 +53,10 @@ function printCell() {
 # function that prints a 2x10 table, with each cell running the printRunning function
 function printTable() {
     # move cursor to top left of terminal
-    echo -ne "\033[0;0H"
+#    echo -ne "\033[0;0H"
+
+    # rewind to before the table
+    echo -ne "\033[1A"
 
     printf "┌────────────────────┬──────────┬────────────┬──────────┐\n"
     printf "│    Module Name     │ Compile  │ Checkstyle │  Testing │\n"
