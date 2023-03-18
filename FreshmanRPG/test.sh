@@ -7,17 +7,9 @@ GREEN='\033[0;32m'
 WHITE='\033[0;37m'
 RESET='\033[0m'
 
-center_string() {
-    string="$1"
-    max="$2"
-    str_len=${#string}
-    padding_len=$(( ($max - str_len) / 2 ))
-    padding=$(printf '%*s' "$padding_len")
-    printf '%s%s%s\n' "$padding" "$string" "$padding"
-}
-
 # array containing each module name
-declare -a modules=("GameClient" "GameClient-desktop" "GameSequenceTests" "GameServer" "GameShared" "LoginServer")
+declare -a modules=("GameShared" "GameClient" "GameClient-desktop" "GameSequenceTests" "GameServer" "LoginServer")
+declare -a tests=("edu.ship.engr.shipsim.AllSharedTests" "edu.ship.engr.shipsim.AllClientTests" "" "edu.ship.engr.shipsim.model.RunAllSequenceTests" "edu.ship.engr.shipsim.AllServerTests" "edu.ship.engr.shipsim.AllLoginServerTests")
 
 # 30 cell array originally containing "waiting"
 declare -a table
@@ -35,18 +27,21 @@ function printCell() {
 
     # if the cell is waiting, print it in white
     # if the cell is running, print it in blue
+    # if the cell is skipped, print it in blue
     # if the cell is complete, print it in green
     # if the cell is failed, print it in red
     # reset color after printing
     # print it all in one line
     if [[ ${table[$index]} == "waiting" ]]; then
-        echo -ne "${WHITE}${table[$index]}${RESET}"
+        printf "${WHITE}%s${RESET}" "${table[$index]}"
     elif [[ ${table[$index]} == "running" ]]; then
-        echo -ne "${BLUE}${table[$index]}${RESET}"
+        printf "${BLUE}%s${RESET}" "${table[$index]}"
+    elif [[ ${table[$index]} == "skipped" ]]; then
+        printf "${BLUE}%s${RESET}" "${table[$index]}"
     elif [[ ${table[$index]} == "complete" ]]; then
-        echo -ne "${GREEN}${table[$index]}${RESET}"
+        printf "${GREEN}%s${RESET}" "${table[$index]}"
     elif [[ ${table[$index]} == "failed" ]]; then
-        echo -ne "${RED}${table[$index]}${RESET}"
+        printf "${RED}%s${RESET}" "${table[$index]}"
     fi
 }
 
@@ -58,12 +53,12 @@ function printTable() {
     printf "┌────────────────────┬──────────┬────────────┬──────────┐\n"
     printf "│    Module Name     │ Compile  │ Checkstyle │  Testing │\n"
     printf "├────────────────────┼──────────┼────────────┼──────────┤\n"
-    printf "│     GameClient     │ %19s │ %21s │ %19s │\n" "$(printCell 1 1)" "$(printCell 1 2)" "$(printCell 1 3)"
-    printf "│ GameClient-desktop │ %19s │ %21s │ %19s │\n" "$(printCell 2 1)" "$(printCell 2 2)" "$(printCell 2 3)"
-    printf "│ GameSequenceTests  │ %19s │ %21s │ %19s │\n" "$(printCell 3 1)" "$(printCell 3 2)" "$(printCell 3 3)"
-    printf "│     GameServer     │ %19s │ %21s │ %19s │\n" "$(printCell 4 1)" "$(printCell 4 2)" "$(printCell 4 3)"
-    printf "│     GameShared     │ %19s │ %21s │ %19s │\n" "$(printCell 5 1)" "$(printCell 5 2)" "$(printCell 5 3)"
-    printf "│     LoginServer    │ %19s │ %21s │ %19s │\n" "$(printCell 6 1)" "$(printCell 6 2)" "$(printCell 6 3)"
+    printf "│     GameShared     │ %19s │ %21s │ %19s │\n" "$(printCell 1 1)" "$(printCell 1 2)" "$(printCell 1 3)"
+    printf "│     GameClient     │ %19s │ %21s │ %19s │\n" "$(printCell 2 1)" "$(printCell 2 2)" "$(printCell 2 3)"
+    printf "│ GameClient-desktop │ %19s │ %21s │ %19s │\n" "$(printCell 3 1)" "$(printCell 3 2)" "$(printCell 3 3)"
+    printf "│  GameSequenceTests │ %19s │ %21s │ %19s │\n" "$(printCell 4 1)" "$(printCell 4 2)" "$(printCell 4 3)"
+    printf "│      GameServer    │ %19s │ %21s │ %19s │\n" "$(printCell 5 1)" "$(printCell 5 2)" "$(printCell 5 3)"
+    printf "│      LoginServer   │ %19s │ %21s │ %19s │\n" "$(printCell 6 1)" "$(printCell 6 2)" "$(printCell 6 3)"
 
     # print footer separator
     echo "└────────────────────┴──────────┴────────────┴──────────┘"
@@ -72,49 +67,7 @@ function printTable() {
 function runTask() {
     # local variable for table index
     local index=$(( ( ( $1 - 1 ) * 3 ) + $2 ))
-
-    printf "table[%s]\n" "$index"
-
-    # set table cell to running
-    table[$index]="running"
-
-    # print table
-    printTable
-
-    # run compileJava and compileTestJava for module
-    # run compileTestJava if module is not GameClient-desktop
-    # hide command outputs in variable
-    # if either command fails, set table cell to failed
-    # if failed, print command output
-    # if failed, break out of loop
-    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
-        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava)
-    else
-        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava "${modules[$i-1]}":compileTestJava)
-    fi
-
-    if [[ $? -ne 0 ]]; then
-            table[$index]="failed"
-            printTable
-
-            printf "%s\n" "$output"
-
-            return 1
-    fi
-
-    # set table cell to complete
-    table[$index]="complete"
-
-    printTable
-
-    return 0
-}
-
-function runCompile() {
-    # local variable for table index
-    local index=$(( ( ( $1 - 1 ) * 3 ) + 1 ))
-
-    printf "table[%s]\n" "$index"
+    local i=$1
 
     # set table cell to running
     table[$index]="running"
@@ -122,71 +75,34 @@ function runCompile() {
     # print table
     printTable
 
-    # run compileJava and compileTestJava for module
-    # run compileTestJava if module is not GameClient-desktop
-    # hide command outputs in variable
-    # if either command fails, set table cell to failed
-    # if failed, print command output
-    # if failed, break out of loop
-    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
-        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava)
+    if [[ $2 == 1 || $2 == 2 ]]; then
+        if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
+            output=$(./gradlew --build-cache "${modules[$i-1]}:$3" 2>&1)
+        else
+            output=$(./gradlew --build-cache "${modules[$i-1]}:$3" "${modules[$i-1]}:$4" 2>&1)
+        fi
     else
-        output=$(./gradlew --build-cache "${modules[$i-1]}":compileJava "${modules[$i-1]}":compileTestJava)
+        if [[ ${modules[$i-1]} != "GameClient-desktop" ]]; then
+            output=$(./gradlew --build-cache "${modules[$i-1]}:$3" --tests "${tests[$i-1]}" 2>&1)
+        else
+            # set table cell to skipped
+            table[$index]="skipped"
+        fi
     fi
 
     if [[ $? -ne 0 ]]; then
-            table[$index]="failed"
-            printTable
+        table[$index]="failed"
+        printTable
 
-            printf "%s\n" "$output"
+        printf "%s\n" "$output"
 
-            return 1
+        return 1
     fi
 
-    # set table cell to complete
-    table[$index]="complete"
-
-    printTable
-
-    return 0
-}
-
-# function that runs checkstyleMain on all modules
-function runCheckstyle() {
-    # local variable for table index
-    local index=$(( ( ( $1 - 1 ) * 3 ) + 2 ))
-
-    # set table cell to running
-    table[$index]="running"
-
-    # print table
-    printTable
-
-    # run checkstyleMain and checkstyleTest for module
-    # if module is GameClient-desktop, only run checkstyleMain
-    # include --build-cache flag to use build cache
-    # hide command outputs and errors in variable
-    # if command fails, set table cell to failed
-    # if failed, print command output
-    # if failed, break out of loop
-    if [[ ${modules[$i-1]} == "GameClient-desktop" ]]; then
-        output=$(./gradlew --build-cache "${modules[$i-1]}":checkstyleMain 2>&1)
-    else
-        output=$(./gradlew --build-cache "${modules[$i-1]}":checkstyleMain "${modules[$i-1]}":checkstyleTest 2>&1)
+    # set table cell to complete if it wasn't already set to skipped or failed
+    if [[ ${table[$index]} != "skipped" && ${table[$index]} != "failed" ]]; then
+        table[$index]="complete"
     fi
-
-    if [[ $? -ne 0 ]]; then
-            table[$index]="failed"
-            printTable
-
-            # echo command output
-            printf "%s\n" "$output"
-
-            return 1
-    fi
-
-    # set table cell to complete
-    table[$index]="complete"
 
     printTable
 
@@ -197,20 +113,40 @@ function run() {
     printTable
 
     for (( i=1; i<=6; i++ )); do
-
-        # if runCompile returns 0, break out of loop
-        # if runCompile returns 1, continue loop
-        runCompile $i 1 || break
-
-        # if runCheckstyle returns 0, break out of loop
-        # if runCheckstyle returns 1, continue loop
-        runCheckstyle $i || break
-
-        # print table
-#        printTable
+        runTask "$i" 1 compileJava compileTestJava || break
+        runTask "$i" 2 checkstyleMain checkstyleTest || break
+        runTask "$i" 3 test || break
     done
 }
 
+function seedServer() {
+    cd GameServer > /dev/null || exit
+    ./../gradlew --build-cache DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+function seedLogin() {
+    cd LoginServer > /dev/null || exit
+    ./../gradlew --build-cache DBBuildTestDBPlayerLogin --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+function seedShared() {
+    cd GameShared > /dev/null || exit
+    ./../gradlew --build-cache DBBuildTestDBServers --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+function seedServer2() {
+    cd GameServer > /dev/null || exit
+    ./../gradlew --build-cache DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+seedServer 2>&1 /dev/null || exit
+seedLogin 2>&1 /dev/null || exit
+seedShared 2>&1 /dev/null || exit
+seedServer2 2>&1 /dev/null || exit
 
 clear
 run
