@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -73,5 +75,15 @@ public enum Crew
     public static Crew getRandomCrew()
     {
         return values()[new Random().nextInt(values().length)];
+    }
+
+    /**
+     * @return all elements in this enum
+     */
+    public static ArrayList<Crew> getAllCrews()
+    {
+        Crew[] crewArray = values();
+        ArrayList<Crew> crews = new ArrayList<Crew>(Arrays.asList(crewArray));
+        return crews;
     }
 }

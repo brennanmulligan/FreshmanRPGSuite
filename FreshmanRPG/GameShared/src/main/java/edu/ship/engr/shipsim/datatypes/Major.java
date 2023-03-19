@@ -1,5 +1,8 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -94,4 +97,13 @@ public enum Major
         return values()[new Random().nextInt(values().length)];
     }
 
+    /**
+     * @return all elements in this enum
+     */
+    public static ArrayList<Major> getAllMajors()
+    {
+        Major[] majorArray = values();
+        ArrayList<Major> majors = new ArrayList<Major>(Arrays.asList(majorArray));
+        return majors;
+    }
 }
