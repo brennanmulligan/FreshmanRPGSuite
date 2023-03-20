@@ -2,24 +2,26 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.PlayerLoginRowDataGateway;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
 
 /**
  * Command that takes a player's ID and the new
  * password and changes the password in the database.
  */
-public class CommandChangePassword extends Command
+public class CommandChangePlayer extends Command
 {
-    private final String playerName;
-    private final String newPassword;
+    private final String username;
+    private final String password;
 
     /**
      *
-     * @param newPassword the new password overwriting old one
+     * @param username the username of the player
+     * @param password the new password overwriting old one
      */
-    public CommandChangePassword(String playerName, String newPassword)
+    public CommandChangePlayer(String username, String password)
     {
-        this.playerName = playerName;
-        this.newPassword = newPassword;
+        this.username = username;
+        this.password = password;
     }
 
     /**
@@ -32,13 +34,15 @@ public class CommandChangePassword extends Command
         try
         {
             PlayerLoginRowDataGateway gw = new
-                    PlayerLoginRowDataGateway(playerName);
-            gw.setPassword(newPassword);
+                    PlayerLoginRowDataGateway(username);
+            gw.setPassword(password);
             gw.persist();
+
         }
         catch (DatabaseException e)
         {
             e.printStackTrace();
         }
+        ReportObserverConnector.getSingleton().sendReport(new ChangePlayerResponseReport(true));
     }
 }

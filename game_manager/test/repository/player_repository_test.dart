@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:game_manager/repository/player/change_player_request.dart';
 import 'package:game_manager/repository/player/create_player_request.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
@@ -37,6 +38,22 @@ void main() {
       BasicResponse response = await repo.createPlayer(createPlayerRequest);
       expect(response.success, true);
       expect(response.description, "Success");
+    });
+
+    test('Good Change Password Request', () async {
+      const changePlayerRequest = ChangePlayerRequest(username: "username",
+          password: "password");
+      dioAdapter.onPost('/player/update/',
+              (request) => request
+              .reply(200,
+              jsonEncode(goodResponse)),
+          data: jsonEncode(changePlayerRequest));
+
+      PlayerRepository repo = PlayerRepository(dio: dio);
+
+      BasicResponse passwordResponse = await repo.changePassword(changePlayerRequest);
+      expect(passwordResponse.success, true);
+      expect(passwordResponse.description, "Success");
     });
   });
 }
