@@ -2,7 +2,7 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.PlayerLoginRowDataGateway;
-import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerReport;
 
 /**
  * Command that takes a player's ID and the new
@@ -43,6 +43,6 @@ public class CommandChangePlayer extends Command
         {
             e.printStackTrace();
         }
-        ReportObserverConnector.getSingleton().sendReport(new ChangePlayerResponseReport(true));
+        ReportObserverConnector.getSingleton().sendReport(new ChangePlayerReport(true));
     }
 }
