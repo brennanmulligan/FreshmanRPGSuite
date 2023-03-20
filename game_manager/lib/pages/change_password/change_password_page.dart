@@ -111,9 +111,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           // TextField for Players
           TextField(
             controller: username,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               label: Row(
-                children: [
+                children: const [
                   Icon(Icons.person),
                   SizedBox(
                     width: 10,
@@ -129,8 +129,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             controller: passwordFirst,
             obscureText: !passwordVisible,
             decoration: InputDecoration(
-              label: const Row(
-                children: [
+              label: Row(
+                children: const [
                   Icon(Icons.key),
                   SizedBox(
                     width: 10,
@@ -157,8 +157,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             controller: passwordConfirm,
             obscureText: !passwordVisible,
             decoration: InputDecoration(
-              label: const Row(
-                children: [
+              label: Row(
+                children: const [
                   Icon(Icons.key),
                   SizedBox(
                     width: 10,
