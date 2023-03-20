@@ -10,6 +10,8 @@ RESET='\033[0m'
 lastModule=0
 printedTail=0
 
+# array with module names centered with spaces
+declare -a modulesDisplay=( "    GameShared    " "    GameClient    " "GameClient-desktop" " GameSequenceTests" "     GameServer   " "    LoginServer   " )
 declare -a modules=("GameShared" "GameClient" "GameClient-desktop" "GameSequenceTests" "GameServer" "LoginServer")
 declare -a tests=("edu.ship.engr.shipsim.AllSharedTests" "edu.ship.engr.shipsim.AllClientTests" "" "edu.ship.engr.shipsim.model.RunAllSequenceTests" "edu.ship.engr.shipsim.AllServerTests" "edu.ship.engr.shipsim.AllLoginServerTests")
 
@@ -46,22 +48,6 @@ function printCell() {
         printf "${RED}%s${RESET}" "${table[$index]}"
     fi
 }
-
-# function that prints table bars given a specific column position
-function printBars() {
-    local column=$1
-
-    printf "├────────────────────┼──────────┼────────────┼──────────┤\n"
-    printf "│     GameShared     │ %19s │ %21s │ %19s │\n" "$(printCell 1 $column)" "$(printCell 1 $(( column + 1 )))" "$(printCell 1 $(( column + 2 )))"
-    printf "│     GameClient     │ %19s │ %21s │ %19s │\n" "$(printCell 2 $column)" "$(printCell 2 $(( column + 1 )))" "$(printCell 2 $(( column + 2 )))"
-    printf "│ GameClient-desktop │ %19s │ %21s │ %19s │\n" "$(printCell 3 $column)" "$(printCell 3 $(( column + 1 )))" "$(printCell 3 $(( column + 2 )))"
-    printf "│  GameSequenceTests │ %19s │ %21s │ %19s │\n" "$(printCell 4 $column)" "$(printCell 4 $(( column + 1 )))" "$(printCell 4 $(( column + 2 )))"
-    printf "│      GameServer    │ %19s │ %21s │ %19s │\n" "$(printCell 5 $column)" "$(printCell 5 $(( column + 1 )))" "$(printCell 5 $(( column + 2 )))"
-    printf "│     LoginServer    │ %19s │ %21s │ %19s │\n" "$(printCell 6 $column)" "$(printCell 6 $(( column + 1 )))" "$(printCell 6 $(( column + 2 )))"
-}
-
-# array with module names centered with spaces
-modulesDisplay=( "    GameShared    " "    GameClient    " "GameClient-desktop" " GameSequenceTests" "     GameServer   " "    LoginServer   " )
 
 function printElement() {
     local row=$1
@@ -135,7 +121,7 @@ function runTask() {
 
         printf "%s\n" "$output"
 
-        return 1
+        exit 1
     fi
 
     # set table cell to complete if it wasn't already set to skipped or failed
