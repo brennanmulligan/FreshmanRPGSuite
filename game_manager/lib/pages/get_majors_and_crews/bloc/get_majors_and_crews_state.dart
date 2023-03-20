@@ -11,9 +11,33 @@ class GetMajorsAndCrewsInitial extends GetMajorsAndCrewsState {}
 class GetMajorsAndCrewsLoading extends GetMajorsAndCrewsState {}
 
 class GetMajorCrewComplete extends GetMajorsAndCrewsState {
-  final BasicResponse response;
+  final AllMajorsResponse response;
+
 
   GetMajorCrewComplete(this.response);
+
+
+  @override
+  List<Object> get props => [response];
+}
+
+class GetMajorComplete extends GetMajorsAndCrewsState {
+  final AllMajorsResponse response;
+
+
+  GetMajorComplete(this.response);
+
+
+  @override
+  List<Object> get props => [response];
+}
+
+class GetCrewComplete extends GetMajorsAndCrewsState {
+   final AllCrewsResponse response;
+
+
+  GetCrewComplete(this.response);
+
 
   @override
   List<Object> get props => [response];
