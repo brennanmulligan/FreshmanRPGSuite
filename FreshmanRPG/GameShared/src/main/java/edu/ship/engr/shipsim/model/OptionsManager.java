@@ -43,7 +43,8 @@ public class OptionsManager
     /**
      * I'm a singleton
      */
-    private OptionsManager() {
+    private OptionsManager()
+    {
         hostName = "";
 
         runningInCI = (System.getenv("GITLAB_CI") != null);
