@@ -4,7 +4,7 @@ import edu.ship.engr.shipsim.model.CommandChangePlayer;
 import edu.ship.engr.shipsim.model.CommandCreatePlayer;
 import edu.ship.engr.shipsim.model.CommandGetAllPlayers;
 import edu.ship.engr.shipsim.model.ModelFacade;
-import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerReport;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.ChangePlayerInformation;
@@ -13,7 +13,6 @@ import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,13 +82,13 @@ public class PlayerController extends Controller
     public ResponseEntity<Object> changePlayer(
             @RequestBody ChangePlayerInformation info)
     {
-        ChangePlayerResponseReport report = processAction(() ->
+        ChangePlayerReport report = processAction(() ->
         {
             CommandChangePlayer command =
                     new CommandChangePlayer(info.getUsername(),
                             info.getPassword());
             ModelFacade.getSingleton().queueCommand(command);
-        }, ChangePlayerResponseReport.class);
+        }, ChangePlayerReport.class);
 
         if (report != null)
         {
