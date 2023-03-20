@@ -6,14 +6,14 @@ import 'package:game_manager/repository/player/player_repository.dart';
 import 'package:meta/meta.dart';
 
 import '../../../repository/player/basic_response.dart';
-import '../../../repository/player/change_password_request.dart';
+import '../../../repository/player/change_player_request.dart';
 import '../../../repository/player/player_repository.dart';
 
 part 'change_password_event.dart';
 part 'change_password_state.dart';
 
 class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> {
-  late ChangePasswordRequest data;
+  late ChangePlayerRequest data;
   final PlayerRepository playerRepository;
 
   ChangePasswordBloc({
@@ -22,8 +22,8 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
     on<SendChangePasswordEvent>((event, emit) async {
       emit(ChangePasswordLoading());
 
-      BasicResponse response = await playerRepository.changePassword(ChangePasswordRequest
-        (userName: event.name, newPassword: event.newPassword));
+      BasicResponse response = await playerRepository.changePassword(ChangePlayerRequest
+        (username: event.name, password: event.newPassword));
 
       emit(ChangePasswordComplete(response));
     });
