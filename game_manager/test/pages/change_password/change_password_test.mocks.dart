@@ -7,7 +7,7 @@ import 'dart:async' as _i5;
 
 import 'package:dio/dio.dart' as _i2;
 import 'package:game_manager/repository/player/basic_response.dart' as _i3;
-import 'package:game_manager/repository/player/change_password_request.dart'
+import 'package:game_manager/repository/player/change_player_request.dart'
     as _i7;
 import 'package:game_manager/repository/player/create_player_request.dart'
     as _i6;
@@ -81,7 +81,7 @@ class MockPlayerRepositoryTest extends _i1.Mock
       ) as _i5.Future<_i3.BasicResponse>);
   @override
   _i5.Future<_i3.BasicResponse> changePassword(
-          _i7.ChangePasswordRequest? request) =>
+          _i7.ChangePlayerRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #changePassword,

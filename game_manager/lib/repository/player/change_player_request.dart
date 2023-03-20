@@ -5,16 +5,16 @@ import '../../type_definitions.dart';
 ///
 /// Object to request changing the password for a player.
 ///
-class ChangePasswordRequest extends Equatable {
-  final String userName;
-  final String newPassword;
+class ChangePlayerRequest extends Equatable {
+  final String username;
+  final String password;
 
   ///
   /// Constructor
   ///
-  const ChangePasswordRequest({
-    required this.userName,
-    required this.newPassword,
+  const ChangePlayerRequest({
+    required this.username,
+    required this.password,
   });
 
   ///
@@ -22,27 +22,27 @@ class ChangePasswordRequest extends Equatable {
   ///
   @override
   List<Object?> get props => [
-    userName,
-    newPassword,
+    username,
+    password,
   ];
 
   Map<String, dynamic> toJson() {
     return {
-      'username': userName,
-      'password': newPassword,
+      'username': username,
+      'password': password,
     };
   }
 
   @override
   String toString() {
-    return 'ChangePasswordRequest(username: $userName, password: $newPassword)';
+    return 'ChangePasswordRequest(username: $username, password: $password)';
   }
 
   ///
   /// Convert object to JSON.
   ///
   JSON get asJson => {
-    'username': userName,
-    'password': newPassword,
+    'username': username,
+    'password': password,
   };
 }
