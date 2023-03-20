@@ -3,25 +3,25 @@ package edu.ship.engr.shipsim.restfulcommunication.representation;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ChangePasswordInformation
+public class ChangePlayerInformation
 {
     private final String username;
-    private final String newPassword;
+    private final String password;
 
     public String getUsername()
     {
         return username;
     }
 
-    public String getNewPassword()
+    public String getPassword()
     {
-        return newPassword;
+        return password;
     }
 
     @JsonCreator
-    public ChangePasswordInformation(@JsonProperty("name") String username, @JsonProperty("password") String newPassword)
+    public ChangePlayerInformation(@JsonProperty("username") String username, @JsonProperty("password") String password)
     {
         this.username = username;
-        this.newPassword = newPassword;
+        this.password = password;
     }
 }
