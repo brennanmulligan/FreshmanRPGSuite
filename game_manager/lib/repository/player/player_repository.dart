@@ -18,6 +18,7 @@ class PlayerRepository{
 
   Future<BasicResponse> createPlayer(CreatePlayerRequest request) async
   {
+    print(request);
     final response = await dio.post(
       '/player/create',
 
