@@ -199,13 +199,13 @@ public class QuestUI extends OverlayingScreen implements ReportObserver
             QuestStateReport r = (QuestStateReport) report;
             questList = r.getClientPlayerQuestList();
             questTable.updateQuests(questList);
-            if ((questList.size() > 0 && !questList.get(0).isEasterEgg()) || questList.get(0).getQuestState() == QuestStateEnum.COMPLETED)
+            if (questTable.shouldDisplay(questList.get(0)))
             {
                 ClientPlayerQuestStateDTO firstQuest = questList.get(0);
-                    objectiveTable.updateObjectives(
-                            firstQuest.getQuestDescription(),
-                            firstQuest.getExpireDate().toString(),
-                            firstQuest.getObjectiveList());
+                objectiveTable.updateObjectives(
+                        firstQuest.getQuestDescription(),
+                        firstQuest.getExpireDate().toString(),
+                        firstQuest.getObjectiveList());
             }
         }
         else if (report.getClass().equals(ClientKeyInputSentReport.class))
