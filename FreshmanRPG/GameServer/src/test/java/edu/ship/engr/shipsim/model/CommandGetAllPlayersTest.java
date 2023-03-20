@@ -2,9 +2,7 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.PlayerLoginRowDataGateway;
 import edu.ship.engr.shipsim.datasource.PlayerTableDataGateway;
-import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
 import org.junit.jupiter.api.Test;
 
