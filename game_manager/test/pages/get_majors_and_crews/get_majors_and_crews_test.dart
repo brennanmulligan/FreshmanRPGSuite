@@ -39,7 +39,7 @@ Future<void> main() async {
       act: (bloc) => bloc.add(SendCreateMajorsCrewEvent(1, 1)),
       wait: const Duration(milliseconds: 2000),
       //expect: () => [GetMajorsAndCrewsLoading(), GetMajorCrewComplete(goodMajorsResponse)],
-      expect: () => [GetMajorsAndCrewsLoading(), GetCrewComplete(goodCrewsResponse), GetMajorComplete(goodMajorsResponse)],
+      expect: () => [GetMajorsAndCrewsLoading(), GetMajorCrewComplete(goodMajorsResponse, goodCrewsResponse)],
     );
   });
 }

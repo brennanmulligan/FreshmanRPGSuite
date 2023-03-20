@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ship.engr.shipsim.dataDTO.CrewDTO;
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
@@ -37,7 +38,7 @@ public class TestCrewController
 {
 
     @Test
-    public void goodResponseCrews()
+    public void goodResponseCrews() throws JsonProcessingException
     {
         CrewController mock = mock(CrewController.class);
 

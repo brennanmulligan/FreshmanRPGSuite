@@ -14,7 +14,8 @@ class SendCreateMajorsCrewEvent extends GetMajorsAndCrewsEvent {
 /*
 returns the major and crews event string
  */
-  String toSting() {
+  @override
+  String toString() {
     return 'SendCreateMajorsCrewsEvent(crew: $crews, major: $majors)';
   }
 }
