@@ -53,7 +53,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      * @param expireDate              date the quest expires
      */
     public ClientPlayerQuestStateDTO(int questID, String questTitle, String questDescription, QuestStateEnum state,
-                                     int experiencePointsGained, int objectivesToFulfillment, boolean needingNotification, boolean easterEgg, Date expireDate)
+                                     int experiencePointsGained, int objectivesToFulfillment, boolean needingNotification, Boolean easterEgg, Date expireDate)
     {
         this.questID = questID;
         this.questTitle = questTitle;
@@ -62,8 +62,8 @@ public class ClientPlayerQuestStateDTO implements Serializable
         this.experiencePointsGained = experiencePointsGained;
         this.objectivesToFulfillment = objectivesToFulfillment;
         this.needingNotification = needingNotification;
-        this.easterEgg = easterEgg;
         this.expireDate = expireDate;
+        this.easterEgg = easterEgg;
     }
 
     /**
@@ -237,11 +237,6 @@ public class ClientPlayerQuestStateDTO implements Serializable
         return needingNotification;
     }
 
-    public boolean isEasterEgg()
-    {
-        return easterEgg;
-    }
-
     /**
      * Set the Client Player Objective array list to the given array list
      *
@@ -284,10 +279,13 @@ public class ClientPlayerQuestStateDTO implements Serializable
         map.put("experiencePointsGained", getExperiencePointsGained());
         map.put("objectivesToFulfillment", getObjectivesToFulfillment());
         map.put("needingNotification", isNeedingNotification());
-        map.put("easterEgg", easterEgg);
         map.put("objectives", getObjectiveList().stream().map(ClientPlayerObjectiveStateDTO::toMap).collect(Collectors.toList()));
 
         return map;
     }
 
+    public boolean isEasterEgg()
+    {
+        return easterEgg;
+    }
 }
