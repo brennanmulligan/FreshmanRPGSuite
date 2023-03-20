@@ -11,7 +11,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Data
-public class ChangePlayerResponseReport implements Report
+public class ChangePlayerReport implements Report
 {
     private final boolean successful;
 

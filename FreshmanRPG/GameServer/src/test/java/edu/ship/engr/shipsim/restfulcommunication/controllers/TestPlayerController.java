@@ -1,9 +1,7 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
-import edu.ship.engr.shipsim.datatypes.Crew;
-import edu.ship.engr.shipsim.datatypes.Major;
-import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerReport;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.ChangePlayerInformation;
@@ -28,7 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * @author Derek
+ * @author Scott Bucher
  */
 @GameTest("GameServer")
 @ResetModelFacade
@@ -101,8 +99,8 @@ public class TestPlayerController
     {
         PlayerController mock = mock(PlayerController.class);
         when(mock.processAction(any(Runnable.class), eq(
-                ChangePlayerResponseReport.class))).thenReturn(
-                new ChangePlayerResponseReport(true));
+                ChangePlayerReport.class))).thenReturn(
+                new ChangePlayerReport(true));
         when(mock.changePlayer(any(ChangePlayerInformation.class))).thenCallRealMethod();
 
         ResponseEntity<Object> response = mock.changePlayer(new ChangePlayerInformation("fred", "ow"));
