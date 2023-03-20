@@ -8,7 +8,9 @@ WHITE='\033[0;37m'
 RESET='\033[0m'
 
 lastModule=0
-printedTail=0
+lastSeed=0
+printedModuleTail=0
+printedSeedTail=0
 
 # array with module names centered with spaces
 declare -a modulesDisplay=( "    GameShared    " "    GameClient    " "GameClient-desktop" " GameSequenceTests" "     GameServer   " "    LoginServer   " )
@@ -20,6 +22,8 @@ for (( i=0; i<=18; i++ )); do
     table[$i]="waiting"
 done
 
+declare -a seedTable=("waiting" "waiting" "waiting" "waiting")
+
 # function that converts an index to a cell coordinate
 function indexToCell() {
     local index=$1
@@ -30,7 +34,7 @@ function indexToCell() {
     echo "$x $y"
 }
 
-function printCell() {
+function printTestCell() {
     local x=$1
     local y=$2
 
@@ -49,23 +53,61 @@ function printCell() {
     fi
 }
 
+function printSeedCell() {
+    if [[ ${seedTable[$1]} == "waiting" ]]; then
+        printf "${WHITE}%s${RESET}" "${seedTable[$1]}"
+    elif [[ ${seedTable[$1]} == "running" ]]; then
+        printf "${BLUE}%s${RESET}" "${seedTable[$1]}"
+    elif [[ ${seedTable[$1]} == "skipped" ]]; then
+        printf "${BLUE}%s${RESET}" "${seedTable[$1]}"
+    elif [[ ${seedTable[$1]} == "complete" ]]; then
+        printf "${GREEN}%s${RESET}" "${seedTable[$1]}"
+    elif [[ ${seedTable[$1]} == "failed" ]]; then
+        printf "${RED}%s${RESET}" "${seedTable[$1]}"
+    fi
+}
+
 function printElement() {
     local row=$1
     local column=$2
 
     # if column is 1
     if [[ $column == 1 ]]; then
-        printf "│ %s │ %19s │" "${modulesDisplay[$(( row - 1 ))]}" "$(printCell "${row}" "${column}")"
+        printf "│ %s │ %19s │" "${modulesDisplay[$(( row - 1 ))]}" "$(printTestCell "${row}" "${column}")"
     fi
 
     # if column is 2
     if [[ $column == 2 ]]; then
-        printf " %21s │" "$(printCell "${row}" "${column}")"
+        printf " %21s │" "$(printTestCell "${row}" "${column}")"
     fi
 
     # if column is 3
     if [[ $column == 3 ]]; then
-        printf " %19s │\n" "$(printCell "${row}" "${column}")"
+        printf " %19s │\n" "$(printTestCell "${row}" "${column}")"
+    fi
+}
+
+function printSeedElement() {
+    local column=$1
+
+    # if column is 1
+    if [[ $column == 1 ]]; then
+        printf "│ %22s │" "$(printSeedCell "${column}")"
+    fi
+
+    # if column is 2
+    if [[ $column == 2 ]]; then
+        printf " %27s │" "$(printSeedCell "${column}")"
+    fi
+
+    # if column is 3
+    if [[ $column == 3 ]]; then
+        printf " %26s │" "$(printSeedCell "${column}")"
+    fi
+
+    # if column is 4
+    if [[ $column == 4 ]]; then
+        printf " %24s │\n" "$(printSeedCell "${column}")"
     fi
 }
 
@@ -81,7 +123,19 @@ function printRemainder() {
     # if last module is not 18
     if [[ $lastModule != 18 ]]; then
         printf "└────────────────────┴──────────┴────────────┴──────────┘\n"
-        printedTail=1
+        printedModuleTail=1
+    fi
+}
+
+function printSeedRemainder() {
+    for (( i=lastSeed; i<=4; i++ )); do
+        printSeedElement "$i"
+    done
+
+    # if last module is not 18
+    if [[ $lastSeed != 4 ]]; then
+        printf "└─────────────┴──────────────────┴─────────────────┴───────────────┘\n"
+        printedSeedTail=1
     fi
 }
 
@@ -137,7 +191,68 @@ function runTask() {
     return 0
 }
 
+function runSeed() {
+    # local variable for table index
+    local index=$1
+    local module="$2"
+    local tasks="${*:3}"
+
+    cd "$module" > /dev/null
+    output=$(./../gradlew --build-cache "$tasks" 2>&1)
+    cd - > /dev/null
+
+    rc=$?
+
+    lastSeed=$index
+
+    if [[ $rc -ne 0 ]]; then
+        seedTable[$index]="failed"
+
+        # set remaining cells to skipped
+        for (( i=$index+1; i<=4; i++ )); do
+            seedTable[$i]="skipped"
+        done
+
+        printSeedRemainder
+
+        printf "%s\n" "$output"
+
+        exit 1
+    fi
+
+    # set table cell to complete if it wasn't already set to skipped or failed
+    if [[ ${seedTable[$index]} != "skipped" && ${seedTable[$index]} != "failed" ]]; then
+        seedTable[$index]="complete"
+    fi
+
+    # print element if skipped or complete
+    if [[ ${seedTable[$index]} == "skipped" || ${seedTable[$index]} == "complete" ]]; then
+        printSeedElement $1
+    fi
+
+    return 0
+}
+
+function runSeeds() {
+    runSeed 1 "GameServer" DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems || return 1
+    runSeed 2 "LoginServer" DBBuildTestDBPlayerLogin || return 1
+    runSeed 3 "GameShared" DBBuildTestDBServers || return 1
+    runSeed 4 "GameServer" DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop || return 1
+
+    return 0
+}
+
 function run() {
+    printf "┌─────────────┬──────────────────┬─────────────────┬───────────────┐\n"
+    printf "│ Seed Server │ Seed LoginServer │ Seed GameShared │ Seed Server 2 │\n"
+    printf "├─────────────┼──────────────────┼─────────────────┼───────────────┤\n"
+
+    runSeeds
+
+    if [[ $printedSeedTail -eq 0 ]]; then
+        printf "└─────────────┴──────────────────┴─────────────────┴───────────────┘\n"
+    fi
+
     printf "┌────────────────────┬──────────┬────────────┬──────────┐\n"
     printf "│    Module Name     │ Compile  │ Checkstyle │  Testing │\n"
     printf "├────────────────────┼──────────┼────────────┼──────────┤\n"
@@ -148,38 +263,9 @@ function run() {
         runTask "$i" 3 test || break
     done
 
-    if [[ $printedTail -eq 0 ]]; then
+    if [[ $printedModuleTail -eq 0 ]]; then
         printf "└────────────────────┴──────────┴────────────┴──────────┘\n"
     fi
 }
-
-function seedServer() {
-    cd GameServer > /dev/null || exit
-    ./../gradlew --build-cache DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems --console=plain || exit
-    cd - > /dev/null || exit
-}
-
-function seedLogin() {
-    cd LoginServer > /dev/null || exit
-    ./../gradlew --build-cache DBBuildTestDBPlayerLogin --console=plain || exit
-    cd - > /dev/null || exit
-}
-
-function seedShared() {
-    cd GameShared > /dev/null || exit
-    ./../gradlew --build-cache DBBuildTestDBServers --console=plain || exit
-    cd - > /dev/null || exit
-}
-
-function seedServer2() {
-    cd GameServer > /dev/null || exit
-    ./../gradlew --build-cache DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop --console=plain || exit
-    cd - > /dev/null || exit
-}
-
-seedServer || exit
-seedLogin || exit
-seedShared || exit
-seedServer2 || exit
 
 run
