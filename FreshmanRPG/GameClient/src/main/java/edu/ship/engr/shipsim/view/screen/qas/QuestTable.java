@@ -94,11 +94,26 @@ public class QuestTable extends OverlayingScreenTable
         container.clear();
         for (ClientPlayerQuestStateDTO cpq : questList)
         {
-            if(!cpq.isEasterEgg() || cpq.getQuestState() == QuestStateEnum.COMPLETED)
+            if(shouldDisplay(cpq))
             {
                 Label l = createQuestLabel(cpq);
                 container.add(l).top().row();
             }
         }
+    }
+
+    /**
+     * Method that checks logic for whether a quest should be visible/displayed on the client.
+     * @param cpqs the DTO containing the relevant information.
+     * @return true to display, false otherwise.
+     */
+    public boolean shouldDisplay(ClientPlayerQuestStateDTO cpqs)
+    {
+        if (cpqs.isEasterEgg() && !(cpqs.getQuestState() == QuestStateEnum.COMPLETED))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
