@@ -13,6 +13,6 @@ class AllMajorsRequest extends Equatable {
 
   @override
   String toString() {
-    return 'AllObjectivesRequest()';
+    return 'AllMajorsRequest()';
   }
 }

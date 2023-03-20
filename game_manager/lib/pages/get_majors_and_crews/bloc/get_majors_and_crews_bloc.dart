@@ -27,8 +27,9 @@ class GetMajorsAndCrewsBloc extends Bloc<GetMajorsAndCrewsEvent, GetMajorsAndCre
       AllCrewsResponse crewsResponse = await CrewsRepository.getAllCrews(const AllCrewsRequest());
       AllMajorsResponse majorsResponse = await MajorsRepository.getAllMajors(const AllMajorsRequest());
 
-      emit(GetCrewComplete(crewsResponse));
-      emit(GetMajorComplete(majorsResponse));
+      emit(GetMajorCrewComplete(majorsResponse, crewsResponse));
+      //emit(GetCrewComplete(crewsResponse));
+      //emit(GetMajorComplete(majorsResponse));
     });
   }
 }
