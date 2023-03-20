@@ -3,8 +3,10 @@ package edu.ship.engr.shipsim.restfulcommunication.controllers;
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
+import edu.ship.engr.shipsim.restfulcommunication.representation.ChangePlayerInformation;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
@@ -75,10 +77,10 @@ public class TestPlayerController
 
         when(mock.processAction(any(Runnable.class), eq(GetAllPlayersReport.class))).thenReturn(
                 new GetAllPlayersReport(new ArrayList<>()
-                    {{
-                        add(player1);
-                        add(player2);
-                    }}
+                {{
+                    add(player1);
+                    add(player2);
+                }}
                 ));
 
         when(mock.getAllPlayers()).thenCallRealMethod();
@@ -93,5 +95,19 @@ public class TestPlayerController
         assertEquals(players.get(0).getPlayerID(), 1);
         assertEquals(players.get(1).getPlayerID(), 2);
     }
-}
 
+    @Test
+    public void goodResponseChangePlayer()
+    {
+        PlayerController mock = mock(PlayerController.class);
+        when(mock.processAction(any(Runnable.class), eq(
+                ChangePlayerResponseReport.class))).thenReturn(
+                new ChangePlayerResponseReport(true));
+        when(mock.changePlayer(any(ChangePlayerInformation.class))).thenCallRealMethod();
+
+        ResponseEntity<Object> response = mock.changePlayer(new ChangePlayerInformation("fred", "ow"));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("{\"description\":\"Changed\",\"success\":true}", Objects.requireNonNull(response.getBody()).toString());
+    }
+}
