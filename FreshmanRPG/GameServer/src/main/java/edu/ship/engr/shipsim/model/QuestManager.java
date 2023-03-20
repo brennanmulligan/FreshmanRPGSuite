@@ -1352,7 +1352,8 @@ public class QuestManager implements ReportObserver
                         record.getObjectivesForFulfillment(),
                         questState.isNeedingNotification(),
                         questState.isEasterEgg(),
-                        record.getEndDate());
+                        record.getEndDate()
+                        );
 
                 dto.setObjectives(getObjectives(record, questState));
 

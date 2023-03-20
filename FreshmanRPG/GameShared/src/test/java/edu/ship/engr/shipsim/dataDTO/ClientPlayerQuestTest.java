@@ -73,7 +73,7 @@ public class ClientPlayerQuestTest
         ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 2,
                 ObjectiveStateEnum.COMPLETED, true, false, null, QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.COMPLETED, 1, 2, true,
-                false, null);
+                false,null);
         q.addObjective(objectiveOne);
         q.addObjective(objectiveTwo);
         assertEquals(2, q.getObjectiveList().size());
