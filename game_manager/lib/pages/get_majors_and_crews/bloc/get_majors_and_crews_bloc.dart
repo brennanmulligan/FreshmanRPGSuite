@@ -4,26 +4,31 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
+import 'package:game_manager/repository/player/all_crews_request.dart';
+import 'package:game_manager/repository/player/all_majors_request.dart';
+import 'package:game_manager/repository/player/all_crews_response.dart';
+import 'package:game_manager/repository/player/all_majors_response.dart';
 
 part 'get_majors_and_crews_event.dart';
 part 'get_majors_and_crews_state.dart';
 
 class GetMajorsAndCrewsBloc extends Bloc<GetMajorsAndCrewsEvent, GetMajorsAndCrewsState> {
-  late GetMajorsAndCrewsRequest data;
-  final GetMajorsAndCrewsRepository;
+  late AllMajorsRequest majorsData;
+  late AllCrewsRequest crewsData;
+  final CrewsRepository;
+  final MajorsRepository;
 
   GetMajorsAndCrewsBloc({
-    required this.GetMajorsAndCrewsRepository
+    required this.CrewsRepository,
+    required this.MajorsRepository,
   }) : super(GetMajorsAndCrewsInitial()) {
-    on<SendCreateMajorsCrewsEvent>((event, emit) async {
+    on<SendCreateMajorsCrewEvent>((event, emit) async {
       emit(GetMajorsAndCrewsLoading());
-      GetMajorsAndCrewsResponse response = await GetMajorsAndCrewsRepository.getMajorsAndCrews();
+      AllCrewsResponse crewsResponse = await CrewsRepository.getAllCrews(const AllCrewsRequest());
+      AllMajorsResponse majorsResponse = await MajorsRepository.getAllMajors(const AllMajorsRequest());
 
-      if (response.success) {
-        emit(GetMajorsAndCrewsSuccess(response));
-      } else {
-        emit(GetMajorsAndCrewsFail());
-      }
+      emit(GetCrewComplete(crewsResponse));
+      emit(GetMajorComplete(majorsResponse));
     });
   }
 }
