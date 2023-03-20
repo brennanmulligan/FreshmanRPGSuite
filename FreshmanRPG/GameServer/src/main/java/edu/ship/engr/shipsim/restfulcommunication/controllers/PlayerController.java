@@ -1,15 +1,19 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import edu.ship.engr.shipsim.model.CommandChangePlayer;
 import edu.ship.engr.shipsim.model.CommandCreatePlayer;
 import edu.ship.engr.shipsim.model.CommandGetAllPlayers;
 import edu.ship.engr.shipsim.model.ModelFacade;
+import edu.ship.engr.shipsim.model.reports.ChangePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
 import edu.ship.engr.shipsim.model.reports.GetAllPlayersReport;
+import edu.ship.engr.shipsim.restfulcommunication.representation.ChangePlayerInformation;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
 import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,6 +73,39 @@ public class PlayerController extends Controller
         if (report != null)
         {
             return new ResponseEntity<>(report.getPlayers(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @CrossOrigin // Required for web client support
+    @PostMapping("/player/update/")
+    public ResponseEntity<Object> changePlayer(
+            @RequestBody ChangePlayerInformation info)
+    {
+        ChangePlayerResponseReport report = processAction(() ->
+        {
+            CommandChangePlayer command =
+                    new CommandChangePlayer(info.getUsername(),
+                            info.getPassword());
+            ModelFacade.getSingleton().queueCommand(command);
+        }, ChangePlayerResponseReport.class);
+
+        if (report != null)
+        {
+            if (report.isSuccessful())
+            {
+                System.out.println("Success");
+                return new ResponseEntity<>(new BasicResponse(true,"Changed").toString(),
+                        HttpStatus.OK);
+            }
+            else
+            {
+                System.out.println("FAIL");
+                return new ResponseEntity<>(
+                        new BasicResponse(false, report.getDescription()).toString(),
+                        HttpStatus.BAD_REQUEST);
+            }
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
