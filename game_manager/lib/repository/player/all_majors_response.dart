@@ -14,8 +14,8 @@ class AllMajorsResponse extends Equatable {
   factory AllMajorsResponse.fromJson({
     required JSON json,
   }) {
-    return AllMajorsResponse(
-      json['success'],
+    return AllMajorsResponse.allFields(
+      success: json['success'],
       majors: (json['majors'] as List)
           .map((e) => Major.fromJson(json: e))
           .toList()

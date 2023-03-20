@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ship.engr.shipsim.dataDTO.MajorDTO;
 import edu.ship.engr.shipsim.model.reports.GetAllMajorsReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
@@ -32,7 +33,7 @@ public class TestMajorController
 {
 
     @Test
-    public void goodResponseMajors()
+    public void goodResponseMajors() throws JsonProcessingException
     {
         MajorController mock = mock(MajorController.class);
 
