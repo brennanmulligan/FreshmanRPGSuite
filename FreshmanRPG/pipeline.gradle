@@ -1,0 +1,45 @@
+// declare -a modules=("GameShared" "GameClient" "GameClient-desktop" "GameSequenceTests" "GameServer" "LoginServer")
+
+// array of pipeline tasks
+PipelineTask[] tasks = new PipelineTask[] {
+        new PipelineTask('GameShared', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'}),
+        new PipelineTask('GameClient', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'}),
+        new PipelineTask('GameClient-desktop', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'}),
+        new PipelineTask('GameSequenceTests', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'}),
+        new PipelineTask('GameServer', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'}),
+        new PipelineTask('LoginServer', new String[]{'checkstyleMain', 'checkstyleTest'}, new String[]{'test'})
+}
+
+tasks.register('runPipeline') {
+    tasks.each { PipelineTask task ->
+        println "Running pipeline for module: " + task.moduleName
+        println "Checkstyle tasks: " + task.checkstyleTasks
+        println "Test tasks: " + task.testTasks
+        println " "
+    }
+}
+
+// class for each pipeline task
+// string for module name
+// string array for checkstyle tasks
+// string array for test tasks
+class PipelineTask {
+    String moduleName
+    String[] checkstyleTasks
+    String[] testTasks
+
+    // map tasks to moduleName:taskName
+    PipelineTask(String moduleName, String[] checkstyleTasks, String[] testTasks) {
+        this.moduleName = moduleName
+
+        // map checkstyle tasks
+        this.checkstyleTasks = checkstyleTasks.each { String task ->
+            return moduleName + ":" + task
+        }.toArray()
+
+        // map test tasks
+        this.testTasks = testTasks.each { String task ->
+            return moduleName + ":" + task
+        }.toArray()
+    }
+}

@@ -8,6 +8,8 @@ plugins {
 group 'edu.ship.engr'
 version '1.0-SNAPSHOT'
 
+apply from: 'pipeline.gradle'
+
 task outputJVMVersion {
     def currentJvm = Jvm.current()
     println currentJvm
