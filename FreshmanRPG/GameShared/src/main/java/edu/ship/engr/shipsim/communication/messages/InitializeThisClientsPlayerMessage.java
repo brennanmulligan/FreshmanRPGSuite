@@ -27,6 +27,18 @@ public class InitializeThisClientsPlayerMessage extends Message implements Seria
     private int doubloons;
 
 
+    @Override
+    public String toString()
+    {
+        return "InitializeThisClientsPlayerMessage{" +
+                "clientPlayerQuestList=" + clientPlayerQuestList +
+                ", friends=" + friends +
+                ", experiencePts=" + experiencePts +
+                ", level=" + level +
+                ", doubloons=" + doubloons +
+                '}';
+    }
+
     /**
      * @param relevantPlayerID the player that has just connected
      * @param clientPlayerQuestList players quest list

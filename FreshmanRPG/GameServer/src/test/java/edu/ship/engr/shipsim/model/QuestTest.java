@@ -40,7 +40,7 @@ public class QuestTest
 
         QuestRecord q = new QuestRecord(245, "TITLE!!!!", "I am a description", "HappyZone", pos, objectives, 42, 13,
                 QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2015, Calendar.MARCH, 21).getTime(),
-                new GregorianCalendar(9999, Calendar.MARCH, 21).getTime());
+                new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
 
         assertEquals(245, q.getQuestID());
         assertEquals("TITLE!!!!", q.getTitle());
@@ -81,7 +81,7 @@ public class QuestTest
     @Test
     public void testSetters()
     {
-        QuestRecord q = new QuestRecord(-1, null, null, null, null, null, 42, 45, null, null, null, null);
+        QuestRecord q = new QuestRecord(-1, null, null, null, null, null, 42, 45, null, null, null, null, false);
         ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
         objectives.add(new ObjectiveRecord(5, 42, "Merlin Zone", 4, ObjectiveCompletionType.CHAT,
                 new CriteriaStringDTO("Henry")));

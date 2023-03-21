@@ -424,7 +424,8 @@ public class QuestManager implements ReportObserver
                 questGateway.getCompletionActionType(),
                 questGateway.getCompletionActionParameter(),
                 questGateway.getStartDate(),
-                questGateway.getEndDate());
+                questGateway.getEndDate(),
+                questGateway.getIsEasterEgg());
     }
 
     /**
@@ -1224,7 +1225,7 @@ public class QuestManager implements ReportObserver
             {
                 qState =
                         new QuestState(playerID, questID,
-                                QuestStateEnum.AVAILABLE, true, false);
+                                QuestStateEnum.AVAILABLE, true);
                 try
                 {
                     quest = getQuest(questID);
@@ -1351,9 +1352,8 @@ public class QuestManager implements ReportObserver
                         record.getExperiencePointsGained(),
                         record.getObjectivesForFulfillment(),
                         questState.isNeedingNotification(),
-                        questState.isEasterEgg(),
-                        record.getEndDate()
-                        );
+                        record.getEndDate(),
+                        record.isEasterEgg());
 
                 dto.setObjectives(getObjectives(record, questState));
 

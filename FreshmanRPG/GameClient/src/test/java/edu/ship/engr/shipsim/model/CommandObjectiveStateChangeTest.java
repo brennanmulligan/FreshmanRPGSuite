@@ -53,7 +53,7 @@ public class CommandObjectiveStateChangeTest
         int objectiveID = 1;
 
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(questID, "questtitle", "silly quest",
-                QuestStateEnum.TRIGGERED, 3, 0, false, false, null);
+                QuestStateEnum.TRIGGERED, 3, 0, false, null, false);
 
         ClientPlayerObjectiveStateDTO a1 = new ClientPlayerObjectiveStateDTO(objectiveID, "objective 1",
                 3, ObjectiveStateEnum.TRIGGERED, false, true, "Comrade", QuestStateEnum.AVAILABLE);
