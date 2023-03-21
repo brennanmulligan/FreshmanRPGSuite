@@ -34,7 +34,7 @@ public class QuestStateTest
     @Test
     public void testInitialize()
     {
-        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true, false);
+        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true);
 
         assertEquals(2, qs.getPlayerID());
         assertEquals(1, qs.getID());
@@ -48,7 +48,7 @@ public class QuestStateTest
     @Test
     public void testAddObjectives()
     {
-        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true, false);
+        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true);
         ArrayList<ObjectiveState> objectiveList = new ArrayList<>();
         ObjectiveState as1 = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
         ObjectiveState as2 = new ObjectiveState(2, ObjectiveStateEnum.HIDDEN, false);
@@ -72,7 +72,7 @@ public class QuestStateTest
     public void testTriggerQuest()
             throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
     {
-        QuestState quest = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true, false);
+        QuestState quest = new QuestState(2, 1, QuestStateEnum.AVAILABLE, true);
         quest.trigger();
         assertEquals(QuestStateEnum.TRIGGERED, quest.getStateValue());
         assertTrue(quest.isNeedingNotification());
@@ -86,7 +86,7 @@ public class QuestStateTest
     {
         assertThrows(IllegalQuestChangeException.class, () ->
         {
-            QuestState quest = new QuestState(2, 1, QuestStateEnum.COMPLETED, false, false);
+            QuestState quest = new QuestState(2, 1, QuestStateEnum.COMPLETED, false);
             quest.trigger();
         });
     }
@@ -102,7 +102,7 @@ public class QuestStateTest
     public void testTriggerQuestsObjectives()
             throws IllegalObjectiveChangeException, IllegalQuestChangeException, DatabaseException
     {
-        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, false, false);
+        QuestState qs = new QuestState(2, 1, QuestStateEnum.AVAILABLE, false);
         ArrayList<ObjectiveState> adList = new ArrayList<>();
 
         ObjectiveState as1 = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
@@ -149,7 +149,7 @@ public class QuestStateTest
         int originalExperiencePoints = player.getExperiencePoints();
 
         // build the quest state for later
-        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false, false);
+        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false);
 
         List<ObjectiveState> objectiveStates = Lists.newArrayList();
         objectiveStates.add(new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true));
@@ -200,7 +200,7 @@ public class QuestStateTest
         int originalExperiencePoints = player.getExperiencePoints();
 
         // build the quest state for later
-        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.FULFILLED, false, false);
+        QuestState questState = new QuestState(player.getPlayerID(), QuestsForTest.ONE_SAME_LOCATION_QUEST.getQuestID(), QuestStateEnum.FULFILLED, false);
 
         List<ObjectiveState> objectiveStates = Lists.newArrayList();
         objectiveStates.add(new ObjectiveState(1, ObjectiveStateEnum.COMPLETED, true));
@@ -232,7 +232,7 @@ public class QuestStateTest
     @Test
     public void testChangeStateToTriggered() throws IllegalQuestChangeException, DatabaseException
     {
-        QuestState quest = new QuestState(2, 1, QuestStateEnum.AVAILABLE, false, false);
+        QuestState quest = new QuestState(2, 1, QuestStateEnum.AVAILABLE, false);
         quest.changeState(QuestStateEnum.TRIGGERED, false);
         assertEquals(quest.getStateValue(), QuestStateEnum.TRIGGERED);
     }
@@ -243,7 +243,7 @@ public class QuestStateTest
     @Test
     public void testCompleteQuestNotExpired()
     {
-        QuestState quest = new QuestState(19, 8, QuestStateEnum.COMPLETED, false, false);
+        QuestState quest = new QuestState(19, 8, QuestStateEnum.COMPLETED, false);
         assertEquals(QuestStateEnum.COMPLETED, quest.getStateValue());
     }
 
@@ -253,7 +253,7 @@ public class QuestStateTest
     @Test
     public void testAvailableQuestIsExpired()
     {
-        QuestState quest = new QuestState(19, 8, QuestStateEnum.AVAILABLE, false, false);
+        QuestState quest = new QuestState(19, 8, QuestStateEnum.AVAILABLE, false);
         assertEquals(QuestStateEnum.EXPIRED, quest.getStateValue());
     }
 
@@ -263,7 +263,7 @@ public class QuestStateTest
     @Test
     public void testTriggeredQuestIsExpired()
     {
-        QuestState quest = new QuestState(19, 8, QuestStateEnum.TRIGGERED, false, false);
+        QuestState quest = new QuestState(19, 8, QuestStateEnum.TRIGGERED, false);
         assertEquals(QuestStateEnum.EXPIRED, quest.getStateValue());
     }
 
