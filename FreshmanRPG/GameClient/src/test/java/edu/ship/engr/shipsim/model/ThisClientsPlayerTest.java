@@ -132,7 +132,7 @@ public class ThisClientsPlayerTest
         ClientPlayerObjectiveStateDTO a = new ClientPlayerObjectiveStateDTO(42, "Test Objective ow2", 3,
                 ObjectiveStateEnum.HIDDEN, false, true, "Chair", QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO qow = new ClientPlayerQuestStateDTO(41, "quest title",
-                "Test Quest ow1", QuestStateEnum.AVAILABLE, 42, 3, true, false, null);
+                "Test Quest ow1", QuestStateEnum.AVAILABLE, 42, 3, true, null, false);
 
         qow.addObjective(a);
 
@@ -180,7 +180,7 @@ public class ThisClientsPlayerTest
         ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
                 ObjectiveStateEnum.COMPLETED, true, true, "Mom", QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "questtitle", "Test Quest 1",
-                QuestStateEnum.COMPLETED, 1, 2, true, false, null);
+                QuestStateEnum.COMPLETED, 1, 2, true, null, false);
         q.addObjective(objective);
         cp.addQuest(q);
 
@@ -216,7 +216,7 @@ public class ThisClientsPlayerTest
         ClientPlayerObjectiveStateDTO objective = new ClientPlayerObjectiveStateDTO(1, "Test Objective 1", 0,
                 ObjectiveStateEnum.COMPLETED, true, true, "Fred", QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "quest title", "Test Quest 1",
-                QuestStateEnum.COMPLETED, 1, 2, true, false, null);
+                QuestStateEnum.COMPLETED, 1, 2, true, null, false);
         q.addObjective(objective);
         cp.addQuest(q);
 

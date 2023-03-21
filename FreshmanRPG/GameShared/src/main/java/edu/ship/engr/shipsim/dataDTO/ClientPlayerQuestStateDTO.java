@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -25,17 +26,25 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     private static final long serialVersionUID = 1L;
 
+    private QuestInfo questInfo;
+
+    @Override
+    public String toString()
+    {
+        return "ClientPlayerQuestStateDTO{" +
+                "questInfo=" + questInfo +
+                ", questID=" + questID +
+                ", state=" + state +
+                ", objectives=" + objectives +
+                ", needingNotification=" + needingNotification +
+                '}';
+    }
+
     private int questID;
-    private String questTitle;
-    private String questDescription;
-    private Date expireDate;
     private QuestStateEnum state;
     private List<ClientPlayerObjectiveStateDTO> objectives = new ArrayList<>();
-    private int experiencePointsGained;
-    private int objectivesToFulfillment;
     private boolean needingNotification;
 
-    private boolean easterEgg;
 
     /**
      * Constructor for client player quest
@@ -53,17 +62,12 @@ public class ClientPlayerQuestStateDTO implements Serializable
      * @param expireDate              date the quest expires
      */
     public ClientPlayerQuestStateDTO(int questID, String questTitle, String questDescription, QuestStateEnum state,
-                                     int experiencePointsGained, int objectivesToFulfillment, boolean needingNotification, Boolean easterEgg, Date expireDate)
+                                     int experiencePointsGained, int objectivesToFulfillment, boolean needingNotification, Date expireDate, boolean easterEgg)
     {
+        questInfo = new QuestInfo(questTitle, questDescription, experiencePointsGained, objectivesToFulfillment, expireDate, easterEgg);
         this.questID = questID;
-        this.questTitle = questTitle;
-        this.questDescription = questDescription;
         this.state = state;
-        this.experiencePointsGained = experiencePointsGained;
-        this.objectivesToFulfillment = objectivesToFulfillment;
         this.needingNotification = needingNotification;
-        this.expireDate = expireDate;
-        this.easterEgg = easterEgg;
     }
 
     /**
@@ -74,66 +78,6 @@ public class ClientPlayerQuestStateDTO implements Serializable
     public void addObjective(ClientPlayerObjectiveStateDTO objective)
     {
         objectives.add(objective);
-    }
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        ClientPlayerQuestStateDTO other = (ClientPlayerQuestStateDTO) obj;
-        if (objectives == null)
-        {
-            if (other.objectives != null)
-            {
-                return false;
-            }
-        }
-        else if (!objectives.equals(other.objectives))
-        {
-            return false;
-        }
-        if (objectivesToFulfillment != other.objectivesToFulfillment)
-        {
-            return false;
-        }
-        if (experiencePointsGained != other.experiencePointsGained)
-        {
-            return false;
-        }
-        if (questDescription == null)
-        {
-            if (other.questDescription != null)
-            {
-                return false;
-            }
-        }
-        else if (!questDescription.equals(other.questDescription))
-        {
-            return false;
-        }
-        if (questID != other.questID)
-        {
-            return false;
-        }
-        if (state != other.state)
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -161,7 +105,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     public int getObjectivesToFulfillment()
     {
-        return objectivesToFulfillment;
+        return questInfo.objectivesToFulfillment;
     }
 
     /**
@@ -170,7 +114,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     public int getExperiencePointsGained()
     {
-        return experiencePointsGained;
+        return questInfo.experiencePointsGained;
     }
 
     /**
@@ -180,7 +124,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     public String getQuestDescription()
     {
-        return questDescription;
+        return questInfo.questDescription;
     }
 
     /**
@@ -208,23 +152,58 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     public String getQuestTitle()
     {
-        return questTitle;
+        return questInfo.questTitle;
     }
 
     /**
-     * @see java.lang.Object#hashCode()
+     * @return whether or not quest is an easter egg
      */
+    public boolean isEasterEgg()
+    {
+        return questInfo.easterEgg;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
+
+        ClientPlayerQuestStateDTO that = (ClientPlayerQuestStateDTO) o;
+
+        if (questID != that.questID)
+        {
+            return false;
+        }
+        if (needingNotification != that.needingNotification)
+        {
+            return false;
+        }
+        if (!Objects.equals(questInfo, that.questInfo))
+        {
+            return false;
+        }
+        if (state != that.state)
+        {
+            return false;
+        }
+        return Objects.equals(objectives, that.objectives);
+    }
+
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((objectives == null) ? 0 : objectives.hashCode());
-        result = prime * result + objectivesToFulfillment;
-        result = prime * result + experiencePointsGained;
-        result = prime * result + ((questDescription == null) ? 0 : questDescription.hashCode());
-        result = prime * result + questID;
-        result = prime * result + ((state == null) ? 0 : state.hashCode());
+        int result = questInfo != null ? questInfo.hashCode() : 0;
+        result = 31 * result + questID;
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (objectives != null ? objectives.hashCode() : 0);
+        result = 31 * result + (needingNotification ? 1 : 0);
         return result;
     }
 
@@ -262,7 +241,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
      */
     public Date getExpireDate()
     {
-        return expireDate;
+        return questInfo.expireDate;
     }
 
     public Map<String, Object> toMap()
@@ -284,8 +263,80 @@ public class ClientPlayerQuestStateDTO implements Serializable
         return map;
     }
 
-    public boolean isEasterEgg()
+    /**
+     * This class holds all information that is unique to a quest and not quest state
+     */
+    private class QuestInfo
     {
-        return easterEgg;
+        private String questTitle;
+        private String questDescription;
+        private Date expireDate;
+        private int experiencePointsGained;
+        private int objectivesToFulfillment;
+        private boolean easterEgg;
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+
+            QuestInfo questInfo = (QuestInfo) o;
+
+            if (experiencePointsGained != questInfo.experiencePointsGained)
+            {
+                return false;
+            }
+            if (objectivesToFulfillment != questInfo.objectivesToFulfillment)
+            {
+                return false;
+            }
+            if (easterEgg != questInfo.easterEgg)
+            {
+                return false;
+            }
+            if (!Objects.equals(questTitle, questInfo.questTitle))
+            {
+                return false;
+            }
+            if (!Objects.equals(questDescription, questInfo.questDescription))
+            {
+                return false;
+            }
+            return Objects.equals(expireDate, questInfo.expireDate);
+        }
+
+        @Override
+        public int hashCode()
+        {
+            int result = questTitle != null ? questTitle.hashCode() : 0;
+            result = 31 * result +
+                    (questDescription != null ? questDescription.hashCode() :
+                            0);
+            result = 31 * result +
+                    (expireDate != null ? expireDate.hashCode() : 0);
+            result = 31 * result + experiencePointsGained;
+            result = 31 * result + objectivesToFulfillment;
+            result = 31 * result + (easterEgg ? 1 : 0);
+            return result;
+        }
+
+        public QuestInfo(String questTitle, String questDescription, int experiencePointsGained, int objectivesToFulfillment, Date expireDate, boolean easterEgg)
+        {
+            this.questTitle = questTitle;
+            this.questDescription = questDescription;
+            this.experiencePointsGained = experiencePointsGained;
+            this.objectivesToFulfillment = objectivesToFulfillment;
+            this.expireDate = expireDate;
+            this.easterEgg = easterEgg;
+        }
     }
 }
+
+

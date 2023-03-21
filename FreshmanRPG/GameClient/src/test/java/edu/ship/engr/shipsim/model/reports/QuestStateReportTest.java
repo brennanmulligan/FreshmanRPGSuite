@@ -25,7 +25,7 @@ public class QuestStateReportTest
     public void test()
     {
         ArrayList<ClientPlayerQuestStateDTO> data = new ArrayList<>();
-        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(4, "title", "silly", QuestStateEnum.TRIGGERED, 42, 13, true, false, null);
+        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(4, "title", "silly", QuestStateEnum.TRIGGERED, 42, 13, true, null, false);
         data.add(q);
         QuestStateReport report = new QuestStateReport(data);
         assertEquals(data, report.getClientPlayerQuestList());
