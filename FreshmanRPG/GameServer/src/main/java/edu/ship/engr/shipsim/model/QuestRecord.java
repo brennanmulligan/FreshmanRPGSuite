@@ -176,6 +176,8 @@ public class QuestRecord
     private Date startDate;
     private Date endDate;
 
+    private boolean easterEgg;
+
     /**
      * Creates a Quest Object
      *
@@ -198,7 +200,7 @@ public class QuestRecord
 
     public QuestRecord(int id, String title, String desc, String map, Position pos, ArrayList<ObjectiveRecord> objectives,
                        int experiencePointsGained, int objectivesForFulfillment, QuestCompletionActionType completionActionType,
-                       QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate)
+                       QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate, boolean easterEgg)
     {
         this.questID = id;
         this.title = title;
@@ -212,6 +214,7 @@ public class QuestRecord
         this.completionActionParameter = completionActionParameter;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.easterEgg = easterEgg;
     }
 
     /**
@@ -373,6 +376,14 @@ public class QuestRecord
     public Date getEndDate()
     {
         return endDate;
+    }
+
+    /**
+     * @return easterEgg status of quest
+     */
+    public boolean isEasterEgg()
+    {
+        return easterEgg;
     }
 
     /**

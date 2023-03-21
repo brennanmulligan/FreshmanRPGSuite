@@ -26,7 +26,7 @@ public class ClientPlayerQuestTest
     {
         Date expireDate = new Date();
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 42, 133, true,
-                false, expireDate);
+                expireDate, false);
         assertEquals(1, q.getQuestID());
         assertEquals("title", q.getQuestTitle());
         assertEquals("Test Quest 1", q.getQuestDescription());
@@ -48,7 +48,7 @@ public class ClientPlayerQuestTest
         ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 4,
                 ObjectiveStateEnum.HIDDEN, false, false, null, QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 1, 2, true,
-                false, null);
+                null, false);
         q.addObjective(objectiveOne);
         q.addObjective(objectiveTwo);
         assertEquals(2, q.getObjectiveList().size());
@@ -73,7 +73,7 @@ public class ClientPlayerQuestTest
         ClientPlayerObjectiveStateDTO objectiveTwo = new ClientPlayerObjectiveStateDTO(2, "Test Objective 2", 2,
                 ObjectiveStateEnum.COMPLETED, true, false, null, QuestStateEnum.AVAILABLE);
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.COMPLETED, 1, 2, true,
-                false,null);
+                null, false);
         q.addObjective(objectiveOne);
         q.addObjective(objectiveTwo);
         assertEquals(2, q.getObjectiveList().size());
@@ -93,7 +93,7 @@ public class ClientPlayerQuestTest
                 ObjectiveStateEnum.HIDDEN, false, true, "Liz", QuestStateEnum.AVAILABLE);
         assertEquals(2, objectiveTwo.getObjectiveID());
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(1, "title", "Test Quest 1", QuestStateEnum.AVAILABLE, 1, 2, true,
-                false, null);
+                null, false);
         q.addObjective(objectiveOne);
         q.addObjective(objectiveTwo);
         assertEquals(2, q.getObjectiveList().size());

@@ -65,7 +65,7 @@ public class CommandDoubloonsChangedTest
 
         ArrayList<ClientPlayerQuestStateDTO> quests = new ArrayList<>();
         ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title",
-                "silly", QuestStateEnum.AVAILABLE, 42, 4, false, false, null);
+                "silly", QuestStateEnum.AVAILABLE, 42, 4, false, null, false);
         quests.add(q);
         LevelRecord level = new LevelRecord("One", 15, 0, 0);
         int doubloons = 100;

@@ -207,7 +207,7 @@ public enum QuestStatesForTest
      */
     public QuestStateRecordDTO getQuestStateRecordDTO()
     {
-        return new QuestStateRecordDTO(this.playerID, this.questID, this.questState, this.needingNotification, this.easterEgg);
+        return new QuestStateRecordDTO(this.playerID, this.questID, this.questState, this.needingNotification);
     }
 
     /**
