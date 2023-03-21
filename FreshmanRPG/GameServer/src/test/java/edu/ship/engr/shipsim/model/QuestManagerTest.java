@@ -58,7 +58,7 @@ public class QuestManagerTest
     public void canRemoveAPlayersQuestStates()
     {
         QuestManager.getSingleton()
-                .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false, false));
+                .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false));
         QuestManager.getSingleton().removeQuestStatesForPlayer(4);
         assertNull(QuestManager.getSingleton().getQuestList(4));
     }
@@ -128,7 +128,7 @@ public class QuestManagerTest
     public void removeAPlayersQuestStatesWhenLeaves()
     {
         QuestManager.getSingleton()
-                .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false, false));
+                .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false));
         ReportObserverConnector.getSingleton().sendReport(new PlayerLeaveReport(4));
         assertNull(QuestManager.getSingleton().getQuestList(4));
     }
@@ -140,7 +140,7 @@ public class QuestManagerTest
     @Test
     public void setPlayerIDWhenQuestStateAdded()
     {
-        QuestState questState = new QuestState(4, 1, QuestStateEnum.AVAILABLE, false, false);
+        QuestState questState = new QuestState(4, 1, QuestStateEnum.AVAILABLE, false);
         QuestManager.getSingleton().addQuestState(4, questState);
         assertEquals(4, questState.getPlayerID());
     }
@@ -202,7 +202,7 @@ public class QuestManagerTest
     public void testAddQuests()
     {
         Player p = PlayerManager.getSingleton().addPlayer(1);
-        QuestState quest = new QuestState(1, 1, QuestStateEnum.AVAILABLE, false, false);
+        QuestState quest = new QuestState(1, 1, QuestStateEnum.AVAILABLE, false);
         QuestManager.getSingleton().addQuestState(p.getPlayerID(), quest);
 
         QuestState questStateByID = QuestManager.getSingleton().getQuestStateByID(1, 1);
@@ -277,7 +277,7 @@ public class QuestManagerTest
 
         // Sets the quest state
         QuestState qs =
-                new QuestState(playerToTest, questID, QuestStateEnum.TRIGGERED, true, false);
+                new QuestState(playerToTest, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerToTest, qs);
 
         // Sets up and adds the chat objective
@@ -338,7 +338,7 @@ public class QuestManagerTest
         objectives.add(as);
 
         QuestState qs =
-                new QuestState(playerID, questID, QuestStateEnum.FULFILLED, false, false);
+                new QuestState(playerID, questID, QuestStateEnum.FULFILLED, false);
         qs.addObjectives(objectives);
         QuestManager.getSingleton().addQuestState(playerID, qs);
         as.complete();
@@ -687,7 +687,7 @@ public class QuestManagerTest
 
         Player p = PlayerManager.getSingleton().addPlayer(playerID);
 
-        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true, false);
+        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
 
         ObjectiveState as =
@@ -729,7 +729,7 @@ public class QuestManagerTest
         Player john = PlayerManager.getSingleton().addPlayer(playerIDD);
 
         // Sets the quest state
-        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true, false);
+        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
 
         // Sets up and adds the friend objective
@@ -747,7 +747,7 @@ public class QuestManagerTest
 
         // Sets the quest state
         QuestState qs2 =
-                new QuestState(playerIDD, questID, QuestStateEnum.TRIGGERED, true, false);
+                new QuestState(playerIDD, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerIDD, qs);
 
         // Sets up and adds the friend objective
@@ -799,7 +799,7 @@ public class QuestManagerTest
         Player nick = PlayerManager.getSingleton().addPlayer(playerID);
 
         // Sets the quest state
-        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true, false);
+        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
 
         // Sets up and adds the interact objective
@@ -843,7 +843,7 @@ public class QuestManagerTest
         Player john = PlayerManager.getSingleton().addPlayer(playerIDD);
         Player josh = PlayerManager.getSingleton().addPlayer(playerIDT);
         // Sets the quest state
-        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true, false);
+        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
 
         // Sets up and adds the friend objective
@@ -900,7 +900,7 @@ public class QuestManagerTest
 
         PlayerManager.getSingleton().addPlayer(playerID);
 
-        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true, false);
+        QuestState qs = new QuestState(playerID, questID, QuestStateEnum.TRIGGERED, true);
         QuestManager.getSingleton().addQuestState(playerID, qs);
 
         ObjectiveState as =
