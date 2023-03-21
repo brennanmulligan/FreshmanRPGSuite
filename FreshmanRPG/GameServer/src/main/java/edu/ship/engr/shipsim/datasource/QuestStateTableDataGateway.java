@@ -47,19 +47,18 @@ public class QuestStateTableDataGateway
      * @throws DatabaseException if we can't talk to the RDS server
      */
     public void createRow(int playerID, int questID, QuestStateEnum state,
-                          boolean needingNotification, boolean easterEgg)
+                          boolean needingNotification)
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         checkForDuplicateEntry(playerID, questID);
         try (PreparedStatement stmt = connection.prepareStatement(
-                "Insert INTO QuestStates SET playerID = ?, questID = ?, questState = ?, needingNotification = ?, easterEgg = ?"))
+                "Insert INTO QuestStates SET playerID = ?, questID = ?, questState = ?, needingNotification = ?"))
         {
             stmt.setInt(1, playerID);
             stmt.setInt(2, questID);
             stmt.setInt(3, state.getID());
             stmt.setBoolean(4, needingNotification);
-            stmt.setBoolean(5, easterEgg);
             stmt.executeUpdate();
 
         }
@@ -90,7 +89,7 @@ public class QuestStateTableDataGateway
         }
 
         try (PreparedStatement stmt = connection.prepareStatement(
-                "Create TABLE QuestStates (playerID INT NOT NULL, questID INT NOT NULL , questState INT NOT NULL, needingNotification BOOLEAN NOT NULL, easterEgg BOOLEAN NOT NULL)"))
+                "Create TABLE QuestStates (playerID INT NOT NULL, questID INT NOT NULL , questState INT NOT NULL, needingNotification BOOLEAN NOT NULL)"))
         {
             stmt.executeUpdate();
         }
@@ -117,8 +116,7 @@ public class QuestStateTableDataGateway
                             new QuestStateRecordDTO(result.getInt("playerID"),
                                     result.getInt("questID"),
                                     convertToState(result.getInt("QuestState")),
-                                    result.getBoolean("needingNotification"),
-                                    result.getBoolean("easterEgg"));
+                                    result.getBoolean("needingNotification"));
                     results.add(rec);
                 }
                 return results;
@@ -157,11 +155,10 @@ public class QuestStateTableDataGateway
                 int questID = rs.getInt("questID");
                 int questStateID = rs.getInt("questState");
                 boolean needingNotification = rs.getBoolean("needingNotification");
-                boolean easterEgg = rs.getBoolean("easterEgg");
 
                 QuestStateRecordDTO questStateRecord =
                         new QuestStateRecordDTO(playerID, questID,
-                                recordMap.get(questStateID), needingNotification, easterEgg);
+                                recordMap.get(questStateID), needingNotification);
                 listOfQuestStates.add(questStateRecord);
             }
         }
@@ -173,22 +170,21 @@ public class QuestStateTableDataGateway
     }
 
     public void updateState(int playerID, int questID, QuestStateEnum newState,
-                            boolean needingNotification, boolean easterEgg)
+                            boolean needingNotification)
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "UPDATE QuestStates SET questState = ?, needingNotification = ?, easterEgg = ? WHERE  playerID = ? and questID = ?"))
+                "UPDATE QuestStates SET questState = ?, needingNotification = ? WHERE  playerID = ? and questID = ?"))
         {
             stmt.setInt(1, newState.getID());
             stmt.setBoolean(2, needingNotification);
-            stmt.setBoolean(3, easterEgg);
-            stmt.setInt(4, playerID);
-            stmt.setInt(5, questID);
+            stmt.setInt(3, playerID);
+            stmt.setInt(4, questID);
             int count = stmt.executeUpdate();
             if (count == 0)
             {
-                this.createRow(playerID, questID, newState, needingNotification, easterEgg);
+                this.createRow(playerID, questID, newState, needingNotification);
             }
         }
         catch (SQLException e)

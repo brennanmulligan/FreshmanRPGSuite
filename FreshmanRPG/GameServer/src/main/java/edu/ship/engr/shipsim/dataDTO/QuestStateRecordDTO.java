@@ -18,8 +18,6 @@ public class QuestStateRecordDTO
 
     private boolean needingNotification;
 
-    private boolean easterEgg;
-
     /**
      * @param playerID            the player's unique ID
      * @param questID             the quest's unique ID
@@ -27,13 +25,13 @@ public class QuestStateRecordDTO
      * @param needingNotification true if the player should be notified about
      *                            this state
      */
-    public QuestStateRecordDTO(int playerID, int questID, QuestStateEnum state, boolean needingNotification, boolean easterEgg)
+    public QuestStateRecordDTO(int playerID, int questID, QuestStateEnum state, boolean needingNotification)
     {
         this.playerID = playerID;
         this.questID = questID;
         this.state = state;
         this.needingNotification = needingNotification;
-        this.easterEgg = easterEgg;
+
     }
 
     /**
@@ -130,10 +128,5 @@ public class QuestStateRecordDTO
     public void setNeedingNotification(boolean needingNotification)
     {
         this.needingNotification = needingNotification;
-    }
-
-    public boolean getIsEasterEgg()
-    {
-        return easterEgg;
     }
 }

@@ -32,7 +32,7 @@ public class CommandOverwriteQuestStateTest
     {
         ArrayList<ClientPlayerQuestStateDTO> expected = new ArrayList<>();
         ArrayList<FriendDTO> friends = new ArrayList<>();
-        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title", "silly", QuestStateEnum.AVAILABLE, 42, 2, true, false, null);
+        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title", "silly", QuestStateEnum.AVAILABLE, 42, 2, true, null, false);
         expected.add(q);
         LevelRecord level = new LevelRecord("One", 15, 10, 7);
 
@@ -67,7 +67,7 @@ public class CommandOverwriteQuestStateTest
 
         ArrayList<ClientPlayerQuestStateDTO> expected = new ArrayList<>();
         ArrayList<FriendDTO> friends = new ArrayList<>();
-        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title", "silly", QuestStateEnum.AVAILABLE, 22, 13, false, false, null);
+        ClientPlayerQuestStateDTO q = new ClientPlayerQuestStateDTO(42, "title", "silly", QuestStateEnum.AVAILABLE, 22, 13, false, null, false);
         expected.add(q);
         LevelRecord level = new LevelRecord("One", 15, 10, 7);
 

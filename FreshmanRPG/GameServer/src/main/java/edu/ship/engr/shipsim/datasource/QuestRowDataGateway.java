@@ -107,7 +107,7 @@ public class QuestRowDataGateway
                                int objectivesForFulfillment,
                                QuestCompletionActionType completionActionType,
                                QuestCompletionActionParameter completionActionParameter,
-                               Date startDate, Date endDate, Boolean isEasterEgg) throws DatabaseException
+                               Date startDate, Date endDate, boolean isEasterEgg) throws DatabaseException
     {
         this.questID = questID;
         Connection connection = DatabaseManager.getSingleton().getConnection();
@@ -351,12 +351,12 @@ public class QuestRowDataGateway
         this.endDate = endDate;
     }
 
-    public void setEasterEgg(Boolean isEasterEgg)
+    public void setEasterEgg(boolean isEasterEgg)
     {
         this.isEasterEgg = isEasterEgg;
     }
 
-    public Boolean getIsEasterEgg()
+    public boolean getIsEasterEgg()
     {
         return isEasterEgg;
     }
