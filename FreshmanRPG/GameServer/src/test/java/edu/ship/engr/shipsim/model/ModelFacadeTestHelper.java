@@ -33,6 +33,8 @@ public class ModelFacadeTestHelper
         {
             LoggerManager.getSingleton().getLogger().warning("ModelFacade queue wasn't empty after: " + testName);
 
+            LoggerManager.getSingleton().getLogger().warning("ModelFacade queue's last command was " + ModelFacade.getSingleton().getLastCommand());
+
             throw new ModelFacadeException("ModelFacade queue wasn't empty after: " + testName);
         }
     }

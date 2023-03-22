@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DatabaseManager;
+import lombok.Getter;
 
 import java.util.Timer;
 
@@ -16,6 +17,7 @@ public class ModelFacade
 
     private static ModelFacade singleton;
     private int dbTouchCounter = 0;
+    @Getter private Command lastCommand;
 
     /**
      * @return the only one of these there is
@@ -106,6 +108,7 @@ public class ModelFacade
                     try
                     {
                         cmd = (Command) commandQueue.getInfoPacket();
+                        lastCommand = cmd;
                         cmd.execute();
                         if (commandQueue.getQueueSize() == 0)
                         {
