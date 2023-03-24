@@ -22,6 +22,8 @@ public enum VanityItemsForTest
 
     BIG_RED_HAT(0, "Big Red's Hat", "Big Red's Hat", "hat_br", 5),
 
+    GRAD_CAP_HAT(0, "Graduation Cap", "A Hat for smart people", "Grad_Cap", 5),
+
     /**
      * Represents a HAIR vanity object.
      */
