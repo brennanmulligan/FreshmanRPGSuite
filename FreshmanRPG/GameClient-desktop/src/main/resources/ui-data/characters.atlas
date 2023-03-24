@@ -1,0 +1,110 @@
+
+characters.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+andy
+  rotate: false
+  xy: 1, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+dave
+  rotate: false
+  xy: 1, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+History Nerd
+  rotate: false
+  xy: 133, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+knight_with_straw_hat
+  rotate: false
+  xy: 1, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+Magi
+  rotate: false
+  xy: 133, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+male_a
+  rotate: false
+  xy: 265, 785
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+MattKujo
+  rotate: false
+  xy: 1, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+merlin
+  rotate: false
+  xy: 133, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+Ninja
+  rotate: false
+  xy: 265, 589
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+null_pointer_exception
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+off_by_one
+  rotate: false
+  xy: 133, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+out_of_bounds
+  rotate: false
+  xy: 265, 393
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+RedHat
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+tutor
+  rotate: false
+  xy: 265, 197
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+female_a
+  rotate: false
+  xy: 265, 3
+  size: 128, 192
+  orig: 128, 192
+  offset: 0, 0
+  index: -1
