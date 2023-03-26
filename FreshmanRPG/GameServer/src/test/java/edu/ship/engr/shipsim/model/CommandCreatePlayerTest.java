@@ -43,11 +43,11 @@ public class CommandCreatePlayerTest
         ReportObserver obs = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
 
-        CommandCreatePlayer cmd = new CommandCreatePlayer("name", "pw", Crew.OUT_OF_BOUNDS.getID(),
+        CommandCreatePlayer cmd = new CommandCreatePlayer("name", "GoodPassword!", Crew.OUT_OF_BOUNDS.getID(),
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
         PlayerLoginRowDataGateway loginRowDataGateway = new PlayerLoginRowDataGateway("name");
-        assertTrue( loginRowDataGateway.checkPassword("pw"));
+        assertTrue( loginRowDataGateway.checkPassword("GoodPassword!"));
         int playerID = loginRowDataGateway.getPlayerID();
         Player player = new PlayerMapper(playerID).getPlayer();
         assertEquals(Crew.OUT_OF_BOUNDS,player.getCrew());
