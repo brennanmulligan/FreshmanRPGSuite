@@ -36,6 +36,10 @@ public class CheckPassword
             {
                 hasSpecial = true;
             }
+            if (hasCapital && hasLowercase && hasSpecial)
+            {
+                break;
+            }
         }
 
         return (hasCapital && hasLowercase && hasSpecial);
