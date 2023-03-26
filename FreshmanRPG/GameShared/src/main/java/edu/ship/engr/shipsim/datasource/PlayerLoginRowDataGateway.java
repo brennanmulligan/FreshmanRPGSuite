@@ -47,6 +47,7 @@ public class PlayerLoginRowDataGateway
                 "    salt BLOB NOT NULL," +
                 "    PRIMARY KEY (playerID)," +
                 "    UNIQUE KEY unique_playerID (playerID)," +
+                "    UNIQUE KEY unique_playerName (playerName)," +
                 "    FOREIGN KEY (playerID) REFERENCES Players(playerID) ON DELETE CASCADE)";
 
         try (PreparedStatement stmt = connection.prepareStatement(dropSql))
