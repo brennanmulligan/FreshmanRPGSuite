@@ -493,10 +493,11 @@ public class ScreenMap extends ScreenBasic
         PlayerShirtFactory shirtFactory = new PlayerShirtFactory(Gdx.files.internal("ui-data/shirts.atlas"));
         PlayerPantsFactory pantsFactory = new PlayerPantsFactory(Gdx.files.internal("ui-data/pants.atlas"));
         PlayerEyesFactory eyesFactory = new PlayerEyesFactory(Gdx.files.internal("ui-data/eyes.atlas"));
+        PlayerBikeFactory bikeFactory = new PlayerBikeFactory(Gdx.files.internal("ui-data/bikes.atlas"));
 
         playerFactory = new PlayerSpriteFactory(hatFactory, hairFactory, bodyFactory,
                 shirtFactory, pantsFactory, shoesFactory,
-                eyesFactory);
+                eyesFactory, bikeFactory);
 
         loadingLayer = new Group();
         loadingLayer.setSize(stage.getWidth(), stage.getHeight());

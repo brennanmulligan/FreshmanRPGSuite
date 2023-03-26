@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.datatypes;
 
 public enum DefaultItemsForTest
 {
+    DEFAULT_BIKE(VanityItemsForTest.BIKE_NONE.getId(), 1),
     DEFAULT_HAT(VanityItemsForTest.NO_HAT.getId(), 1),
     DEFAULT_HAIR(VanityItemsForTest.BLACK_HAIR.getId(), 1),
     DEFAULT_EYES(VanityItemsForTest.BLACK_EYES.getId(), 1),

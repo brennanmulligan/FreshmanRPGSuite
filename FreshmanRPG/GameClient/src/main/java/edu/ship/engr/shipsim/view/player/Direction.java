@@ -14,19 +14,19 @@ public enum Direction
     /**
      * Looking down the screen
      */
-    South(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.EYES, VanityType.HAIR, VanityType.SHIRT, VanityType.HAT, VanityType.NAMEPLATE)),
+    South(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.EYES, VanityType.HAIR, VanityType.SHIRT, VanityType.HAT, VanityType.NAMEPLATE, VanityType.BIKE)),
     /**
      * Looking left on the screen
      */
-    West(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE)),
+    West(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE, VanityType.BIKE)),
     /**
      * Looking right on the screen
      */
-    East(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE)),
+    East(List.of(VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.EYES, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE, VanityType.BIKE)),
     /**
      * Looking up the screen
      */
-    North(List.of(VanityType.EYES, VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE));
+    North(List.of(VanityType.EYES, VanityType.BODY, VanityType.PANTS, VanityType.SHOES, VanityType.SHIRT, VanityType.HAIR, VanityType.HAT, VanityType.NAMEPLATE, VanityType.BIKE));
 
     List<VanityType> vanityOrder;
 
