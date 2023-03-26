@@ -19,9 +19,9 @@ public enum VanityType
     SHOES,
     /* The whole body just in case */
     BODY,
-
     EYES,
-
+    /* The bike that people ride */
+    BIKE,
     NAMEPLATE;
 
     public static VanityType fromInt(int vanityId)
@@ -43,6 +43,8 @@ public enum VanityType
             case 6:
                 return EYES;
             case 7:
+                return BIKE;
+            case 8:
                 return NAMEPLATE;
             default:
                 return BODY;

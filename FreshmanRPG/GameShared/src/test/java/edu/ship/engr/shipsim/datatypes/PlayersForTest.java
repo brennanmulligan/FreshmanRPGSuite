@@ -200,7 +200,11 @@ public enum PlayersForTest
 
     QUIET_PLAYER(34, "ShyGuy", "default_player", 11, 7, "pw", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
 
-    EASTEREGG_PLAYER(35, "Egg", "default_player", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>());
+    EASTEREGG_PLAYER(35, "Egg", "default_player", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
+
+    BIKE_PLAYER(36, "Micycle", "default_player",  11, 7, "pw", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>());
+
+
     private final int playerID;
     private final String appearanceType;
     private final int row;
