@@ -59,8 +59,9 @@ public class PreviewTable extends Table
         PlayerPantsFactory pantsFactory = new PlayerPantsFactory(Gdx.files.internal("ui-data/pants.atlas"));
         PlayerShoesFactory shoesFactory = new PlayerShoesFactory(Gdx.files.internal("ui-data/shoes.atlas"));
         PlayerEyesFactory eyesFactory = new PlayerEyesFactory(Gdx.files.internal("ui-data/eyes.atlas"));
+        PlayerBikeFactory bikeFactory = new PlayerBikeFactory(Gdx.files.internal("ui-data/bikes.atlas"));
         PlayerSpriteFactory playerFactory = new PlayerSpriteFactory(hatFactory, hairFactory, bodyFactory,
-                shirtFactory, pantsFactory, shoesFactory, eyesFactory);
+                shirtFactory, pantsFactory, shoesFactory, eyesFactory, bikeFactory);
 
         PlayerSprite playerPreview = playerFactory.create(vanityDTOs);
         List<VanityType> vanityOrder = playerPreview.getFacing().getVanityOrder();

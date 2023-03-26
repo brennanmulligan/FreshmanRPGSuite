@@ -1,0 +1,19 @@
+
+bikes.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bike
+  rotate: false
+  xy: 1, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1
+bike_none
+  rotate: false
+  xy: 133, 1
+  size: 130, 194
+  orig: 130, 194
+  offset: 0, 0
+  index: -1

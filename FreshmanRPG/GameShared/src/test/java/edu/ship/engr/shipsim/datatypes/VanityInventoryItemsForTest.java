@@ -22,6 +22,7 @@ public enum VanityInventoryItemsForTest
     JOHN_OWNS_EYES1(1, VanityItemsForTest.RED_EYES.getId(), 0),
     JOHN_OWNS_EYES2(1, VanityItemsForTest.GREEN_EYES.getId(), 0),
     JOHN_OWNS_EYES3(1, VanityItemsForTest.PINK_EYES.getId(), 0),
+    JOHN_OWNS_BIKE(1, VanityItemsForTest.BIKE_NONE.getId(), 1),
 
     /**
      * Mapping the items Tutor wears to each vanity type.
@@ -134,7 +135,13 @@ public enum VanityInventoryItemsForTest
     ROCK_PAPER_SCISSORS_NPC_BODY(31, VanityItemsForTest.SKIN_FIFTEEN.getId(), 1),
     ROCK_PAPER_SCISSORS_NPC_PANTS(31, VanityItemsForTest.WHITE_PANTS.getId(), 1),
     ROCK_PAPER_SCISSORS_NPC_SHOES(31, VanityItemsForTest.BLACK_SHOES.getId(), 1),
-    ROCK_PAPER_SCISSORS_NPC_EYES(31, VanityItemsForTest.BROWN_EYES.getId(), 1);
+    ROCK_PAPER_SCISSORS_NPC_EYES(31, VanityItemsForTest.BROWN_EYES.getId(), 1),
+
+    /**
+     * Mapping the bike to Micycle
+     */
+    MICYCLE_OWNS_BIKE(36, VanityItemsForTest.BIKE.getId(), 1),
+    MICYCLE_OWNS_GRAD_HAT(36, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1);
 
     private final int playerID;
     private final int vanityID;
