@@ -18,6 +18,7 @@ public class PlayerSpriteFactory
     PlayerPantsFactory pantsFactory;
     PlayerShoesFactory shoesFactory;
     PlayerEyesFactory eyesFactory;
+    PlayerBikeFactory bikeFactory;
 
     /**
      * A factory for creating a PlayerSprite from a factory for each piece of the sprite
@@ -27,7 +28,7 @@ public class PlayerSpriteFactory
      */
     public PlayerSpriteFactory(PlayerHatFactory hatFactory, PlayerHairFactory hairFactory,
                                PlayerBodyFactory bodyFactory, PlayerShirtFactory shirtFactory,
-                               PlayerPantsFactory pantsFactory, PlayerShoesFactory shoesFactory, PlayerEyesFactory eyesFactory)
+                               PlayerPantsFactory pantsFactory, PlayerShoesFactory shoesFactory, PlayerEyesFactory eyesFactory, PlayerBikeFactory bikeFactory)
     {
         this.bodyFactory = bodyFactory;
         this.hatFactory = hatFactory;
@@ -36,6 +37,7 @@ public class PlayerSpriteFactory
         this.shoesFactory = shoesFactory;
         this.shirtFactory = shirtFactory;
         this.eyesFactory = eyesFactory;
+        this.bikeFactory = bikeFactory;
     }
 
     /**
@@ -62,6 +64,7 @@ public class PlayerSpriteFactory
         vanities.put(VanityType.SHOES, shoesFactory.create(vanityTextureNames.get(VanityType.SHOES)));
         vanities.put(VanityType.SHIRT, shirtFactory.create(vanityTextureNames.get(VanityType.SHIRT)));
         vanities.put(VanityType.EYES, eyesFactory.create(vanityTextureNames.get(VanityType.EYES)));
+        vanities.put(VanityType.BIKE, bikeFactory.create(vanityTextureNames.get(VanityType.BIKE)));
         PlayerSprite player = new PlayerSprite(vanities, playerId); // shoes, pants, hair atlas' as well
         return player;
     }
@@ -82,6 +85,7 @@ public class PlayerSpriteFactory
         vanities.put(VanityType.SHOES, shoesFactory.create(vanityTextureNames.get(VanityType.SHOES)));
         vanities.put(VanityType.SHIRT, shirtFactory.create(vanityTextureNames.get(VanityType.SHIRT)));
         vanities.put(VanityType.EYES, eyesFactory.create(vanityTextureNames.get(VanityType.EYES)));
+        vanities.put(VanityType.BIKE, bikeFactory.create(vanityTextureNames.get(VanityType.BIKE)));
         PlayerSprite player = new PlayerSprite(vanities); // shoes, pants, hair atlas' as well
         return player;
     }

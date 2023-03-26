@@ -140,7 +140,16 @@ public enum VanityItemsForTest
     RED_EYES(6, "Red Eyes", "", "eyes_red", 0),
     YELLOW_EYES(6, "Yellow Eyes", "", "eyes_yellow", 0),
     BROWN_EYES(6, "Brown Eyes", "", "eyes_brown", 0),
-    BIG_RED_EYES(6, "Big Red Eyes", "", "eyes_br", 0);
+    BIG_RED_EYES(6, "Big Red Eyes", "", "eyes_br", 0),
+
+    /**
+     * Represent Bike Vanity Objects
+     */
+    BIKE(7, "Bike", "", "bike", 0),
+
+    BIKE_NONE(7, "No Bike", "", "bike_none", 0);
+
+
 
     private final int vanityType;
     private final String name;
