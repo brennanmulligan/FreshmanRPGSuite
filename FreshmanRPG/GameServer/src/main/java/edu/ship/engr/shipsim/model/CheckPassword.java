@@ -36,7 +36,8 @@ public class CheckPassword
             {
                 hasSpecial = true;
             }
-            if (hasCapital && hasLowercase && hasSpecial) {
+            if (hasCapital && hasLowercase && hasSpecial)
+            {
                 break;
             }
         }
