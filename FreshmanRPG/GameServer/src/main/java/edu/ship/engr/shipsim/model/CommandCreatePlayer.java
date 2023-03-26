@@ -29,11 +29,6 @@ public class CommandCreatePlayer extends Command
         this.crew = Crew.getCrewForID(crewNum);
         this.major = Major.getMajorForID(majorNum);
         this.section = section;
-
-        if(!checkPassword())
-        {
-            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password"));
-        }
     }
     private static final QuestsForProduction[] questsToTrigger =
             {QuestsForProduction.ONRAMPING_QUEST,
@@ -42,9 +37,14 @@ public class CommandCreatePlayer extends Command
     @Override
     void execute()
     {
+        if(!CheckPassword.checkPassword(password))
+        {
+            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password"));
+            return;
+        }
+
         try
         {
-
             PlayerMapper mapper = new PlayerMapper(new Position(11, 7), "default_player", 0, 0,
                     crew, major, section, name, password);
             triggerInitialQuests(mapper.getPlayer().getPlayerID());
@@ -82,44 +82,4 @@ public class CommandCreatePlayer extends Command
         }
     }
 }
-
-    private boolean checkPassword()
-    {
-        /**
-         * Password Requirements
-         * 8-16 characters in length
-         * 1+ capital letters
-         * 1+ lowercase letters
-         * 1+ special characters
-         */
-
-        // 8 - 16 char length
-        if(password.length() < 8 || password.length() > 16)
-        {
-                return false;
-        }
-
-        // Has capital
-        char current;
-        boolean hasCapital = false, hasLowercase = false, hasSpecial = false;
-        for(int i = 0; i < password.length(); i++)
-        {
-            current = password.charAt(i);
-            if(Character.isUpperCase(current))
-            {
-                hasCapital = true;
-            }
-            else if(Character.isLowerCase(current))
-            {
-                hasLowercase = true;
-            }
-            else
-            {
-                hasSpecial = true;
-            }
-        }
-
-        return (hasCapital && hasLowercase && hasSpecial);
-    }
-
 }
