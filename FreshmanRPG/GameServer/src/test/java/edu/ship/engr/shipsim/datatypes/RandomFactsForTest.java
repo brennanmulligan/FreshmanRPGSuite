@@ -98,7 +98,31 @@ public enum RandomFactsForTest
 
     FACT_17(17, PlayersForTest.PRESIDENT_NPC.getPlayerID(), "Hello there! Hope you're having a good semester!", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
 
-    FACT_18(18, PlayersForTest.PRESIDENT_NPC.getPlayerID(), "I'm the president and very cool.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2));
+    FACT_18(18, PlayersForTest.PRESIDENT_NPC.getPlayerID(), "I'm the president and very cool.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+
+    /**
+     * History Fact Set 1
+     */
+    FACT_19(19, PlayersForTest.HISTORY_NPC.getPlayerID(), "SU was originally founded as the Cumberland Valley State Normal School.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_20(20, PlayersForTest.HISTORY_NPC.getPlayerID(), "Until the 1960s, students and faculty still lived in Old Main.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_21(21, PlayersForTest.HISTORY_NPC.getPlayerID(), "The school only had 6 faculty and 217 students when it opened in 1873.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_22(22, PlayersForTest.HISTORY_NPC.getPlayerID(), "McCune Hall became the first co-ed dorm in 1974.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    /**
+     * History Fact Set 2
+     */
+    FACT_23(23, PlayersForTest.HISTORY_NPC_2.getPlayerID(), "Due to the wartime draft, in 1944-45 the campus only had women's athletic teams.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_24(24, PlayersForTest.HISTORY_NPC_2.getPlayerID(), "The African American Organization (Afro Am) began in 1970.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_25(25, PlayersForTest.HISTORY_NPC_2.getPlayerID(), "The campus newspaper, The Slate, was founded in 1957.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_26(26, PlayersForTest.HISTORY_NPC_2.getPlayerID(), "Until the 1970s, new students wore a 'dink' hat during their first semester.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_27(27, PlayersForTest.HISTORY_NPC_2.getPlayerID(), "Anthony 'Tony' Ceddia was SU's longest president (24 years).", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    /**
+     * History Fact Set 3
+     */
+    FACT_28(28, PlayersForTest.HISTORY_NPC_3.getPlayerID(), "SU XC Coach Steve Spence competed in the 1991 Olympics in Tokyo, Japan.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_29(29, PlayersForTest.HISTORY_NPC_3.getPlayerID(), "Stewart Hall was the campus's first gym and student union.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_30(30, PlayersForTest.HISTORY_NPC_3.getPlayerID(), "In 1968, students helped move 75,000 books to the new Ezra Lehman Library.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_31(31, PlayersForTest.HISTORY_NPC_3.getPlayerID(), "Before 1960, the school only granted teaching degrees.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2)),
+    FACT_32(32, PlayersForTest.HISTORY_NPC_3.getPlayerID(), "In 1873-74, the school required all students to take a bath once a week.", LocalDate.of(2020, 5, 2), LocalDate.of(9999, 5, 2));
 
 
     private int randomFactID;
