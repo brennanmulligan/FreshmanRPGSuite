@@ -141,7 +141,40 @@ public enum VanityInventoryItemsForTest
      * Mapping the bike to Micycle
      */
     MICYCLE_OWNS_BIKE(36, VanityItemsForTest.BIKE.getId(), 1),
-    MICYCLE_OWNS_GRAD_HAT(36, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1);
+    MICYCLE_OWNS_GRAD_HAT(36, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1),
+
+    /**
+     * Mapping the items this NPC wears to each vanity type.
+     */
+    HISTORY_NPC_HAT(37, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1),
+    HISTORY_NPC_HAIR(37, VanityItemsForTest.NERD_HAIR.getId(), 1),
+    HISTORY_NPC_SHIRT(37, VanityItemsForTest.NERD_SHIRT.getId(), 1),
+    HISTORY_NPC_PANTS(37, VanityItemsForTest.BIG_RED_PANTS.getId(), 1),
+    HISTORY_NPC_SHOES(37, VanityItemsForTest.BLACK_SHOES.getId(), 1),
+    HISTORY_NPC_EYES(37, VanityItemsForTest.GREEN_EYES.getId(), 1),
+    HISTORY_NPC_SKIN(37, VanityItemsForTest.SKIN_FIVE.getId(), 1),
+
+    /**
+     * Mapping the items this NPC wears to each vanity type.
+     */
+    HISTORY_NPC_HAT2(38, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1),
+    HISTORY_NPC_HAIR2(38, VanityItemsForTest.NERD_HAIR.getId(), 1),
+    HISTORY_NPC_SHIRT2(38, VanityItemsForTest.NERD_SHIRT.getId(), 1),
+    HISTORY_NPC_PANTS2(38, VanityItemsForTest.BIG_RED_PANTS.getId(), 1),
+    HISTORY_NPC_SHOES2(38, VanityItemsForTest.BLACK_SHOES.getId(), 1),
+    HISTORY_NPC_EYES2(38, VanityItemsForTest.GREEN_EYES.getId(), 1),
+    HISTORY_NPC_SKIN2(38, VanityItemsForTest.SKIN_FIVE.getId(), 1),
+
+    /**
+     * Mapping the items this NPC wears to each vanity type.
+     */
+    HISTORY_NPC_HAT3(39, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1),
+    HISTORY_NPC_HAIR3(39, VanityItemsForTest.NERD_HAIR.getId(), 1),
+    HISTORY_NPC_SHIRT3(39, VanityItemsForTest.NERD_SHIRT.getId(), 1),
+    HISTORY_NPC_PANTS3(39, VanityItemsForTest.BIG_RED_PANTS.getId(), 1),
+    HISTORY_NPC_SHOES3(39, VanityItemsForTest.BLACK_SHOES.getId(), 1),
+    HISTORY_NPC_EYES3(39, VanityItemsForTest.GREEN_EYES.getId(), 1),
+    HISTORY_NPC_SKIN3(39, VanityItemsForTest.SKIN_FIVE.getId(), 1);
 
     private final int playerID;
     private final int vanityID;
