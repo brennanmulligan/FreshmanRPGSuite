@@ -67,7 +67,11 @@ public enum NPCsForTest
      */
     MOWREY_FRONTDESK_NPC(PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID(), "edu.ship.engr.shipsim.model.RoamingInfoNPCBehavior", "Assets/MowreyInfoXML.xml"),
 
-    PRESIDENT_NPC(PlayersForTest.PRESIDENT_NPC.getPlayerID(), "edu.ship.engr.shipsim.model.RoamingInfoNPCBehavior", "Assets/Npc_info.xml");
+    PRESIDENT_NPC(PlayersForTest.PRESIDENT_NPC.getPlayerID(), "edu.ship.engr.shipsim.model.RoamingInfoNPCBehavior", "Assets/Npc_info.xml"),
+
+    HISTORY_NPC(PlayersForTest.HISTORY_NPC.getPlayerID(), "edu.ship.engr.shipsim.model.RandomFactsNPCBehavior"),
+    HISTORY_NPC_2(PlayersForTest.HISTORY_NPC_2.getPlayerID(), "edu.ship.engr.shipsim.model.RandomFactsNPCBehavior"),
+    HISTORY_NPC_3(PlayersForTest.HISTORY_NPC_3.getPlayerID(), "edu.ship.engr.shipsim.model.RandomFactsNPCBehavior");
 
     private String behaviorClass;
     private int playerID;
