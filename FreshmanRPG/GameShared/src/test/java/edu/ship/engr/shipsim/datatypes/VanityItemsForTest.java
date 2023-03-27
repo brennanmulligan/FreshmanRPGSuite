@@ -52,6 +52,7 @@ public enum VanityItemsForTest
     TUTOR_HAIR(1, "Tutor Hair", "", "hair_tutor", 2),
 
     BIG_RED_HAIR(1, "Big Red Hair", "", "hair_br", 2),
+    NERD_HAIR(1, "Nerd Hair", "Balding??? KEKW", "Nerd Hair", 0),
     /**
      * Represents a SHIRT vanity object.
      */
@@ -76,6 +77,8 @@ public enum VanityItemsForTest
     BIG_RED_SHIRT(2, "Big Red Shirt", "", "shirt_br", 5),
 
     BASE_SHIRT(2, "Default Shirt", "", "base_shirt", 0),
+
+    NERD_SHIRT(2, "Nerd Shirt", "Shirt for nerds", "Nerd Shirt", 0),
 
     /**
      * Represents a PANTS vanity object.
