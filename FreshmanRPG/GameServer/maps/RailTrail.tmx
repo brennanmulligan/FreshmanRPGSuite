@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="1">
- <tileset firstgid="1" source="../../rail_trail_set.tsx"/>
- <tileset firstgid="73" name="Inq XP MT- Medieval Town" tilewidth="32" tileheight="32" tilecount="4176" columns="8">
-  <image source="../College/Spring2023/SWE420/gameDev/freshmanrpgsuite/FreshmanRPG/GameClient-desktop/maps/tileset/Inq XP MT- Medieval Town.png" width="256" height="16704"/>
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="1">
+ <tileset firstgid="1" source="tileset/tileset file/rail_trail_set.tsx"/>
+ <tileset firstgid="1" name="Inq XP MT- Medieval Town" tilewidth="32" tileheight="32" tilecount="4176" columns="8">
+  <image source="../../GameClient-desktop/maps/tileset/Inq XP MT- Medieval Town.png" width="256" height="16704"/>
  </tileset>
- <tileset firstgid="4249" source="Collision.tsx"/>
- <tileset firstgid="4251" source="Horses.tsx"/>
- <tileset firstgid="5531" source="Cows.tsx"/>
- <tileset firstgid="5727" source="BlackHorse.tsx"/>
- <tileset firstgid="7007" source="WhiteHorse.tsx"/>
+ <tileset firstgid="4177" source="tileset/tileset file/collision.tsx"/>
+ <tileset firstgid="4179" source="tileset/tileset file/Horses.tsx"/>
+ <tileset firstgid="4179" source="tileset/tileset file/Cows.tsx"/>
+ <tileset firstgid="4179" source="tileset/tileset file/BlackHorse.tsx"/>
+ <tileset firstgid="4179" source="tileset/tileset file/WhiteHorse.tsx"/>
  <imagelayer id="10" name="Background" locked="1">
-  <image source="RailTrail.png" width="960" height="640"/>
+  <image source="tileset/RailTrail.png" width="960" height="640"/>
  </imagelayer>
  <layer id="5" name="Collision" width="30" height="20" locked="1" opacity="0">
   <data encoding="csv">
@@ -21,8 +21,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4250,4250,4250,4250,0,0,
+4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4178,4178,4178,4178,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -30,13 +30,29 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,4250,
+4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,4178,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <imagelayer id="12" name="Foreground" locked="1">
-  <image source="Foreground.png" width="960" height="640"/>
+  <image source="tileset/Foreground.png" width="960" height="640"/>
+  <properties>
+   <property name="0 10" value="outsideOfMowrey.tmx 99 96"/>
+   <property name="0 11" value="outsideOfMowrey.tmx 99 97"/>
+   <property name="0 12" value="outsideOfMowrey.tmx 99 97"/>
+   <property name="0 13" value="outsideOfMowrey.tmx 99 97"/>
+   <property name="0 14" value="outsideOfMowrey.tmx 99 97"/>
+   <property name="0 8" value="outsideOfMowrey.tmx 99 96"/>
+   <property name="0 9" value="outsideOfMowrey.tmx 99 96"/>
+   <property name="29 10" value="Fountain.tmx 0 9"/>
+   <property name="29 11" value="Fountain.tmx 0 9"/>
+   <property name="29 12" value="Fountain.tmx 0 9"/>
+   <property name="29 13" value="Fountain.tmx 0 10"/>
+   <property name="29 14" value="Fountain.tmx 0 11"/>
+   <property name="29 8" value="Fountain.tmx 0 7"/>
+   <property name="29 9" value="Fountain.tmx 0 8"/>
+  </properties>
  </imagelayer>
 </map>
