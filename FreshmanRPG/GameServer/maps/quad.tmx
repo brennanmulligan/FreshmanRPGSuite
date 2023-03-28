@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="114" height="124" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="114" height="124" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="1">
  <properties>
+  <property name="0 101" value="Fountain.tmx 29 7"/>
+  <property name="0 102" value="Fountain.tmx 29 8"/>
+  <property name="0 103" value="Fountain.tmx 29 10"/>
+  <property name="0 104" value="Fountain.tmx 29 11"/>
   <property name="113 23" value="outsideOfMowrey.tmx 2 96"/>
   <property name="113 24" value="outsideOfMowrey.tmx 2 96"/>
   <property name="113 25" value="outsideOfMowrey.tmx 2 96"/>
