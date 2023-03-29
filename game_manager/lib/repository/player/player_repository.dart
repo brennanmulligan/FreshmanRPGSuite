@@ -19,13 +19,17 @@ class PlayerRepository{
   Future<BasicResponse> createPlayer(CreatePlayerRequest request) async
   {
     print(request);
-    final response = await dio.post(
-      '/player/create',
+    try {
+      final response = await dio.post(
+        '/player/create',
 
-      data: jsonEncode(request),
-    );
-    //TODO Error checking on http response type
-    return BasicResponse.fromJson(json: jsonDecode(response.data));
+        data: jsonEncode(request),
+      );
+      return BasicResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+        return const BasicResponse(success: false, description: "Failed to create player");
+      //TODO Error checking on http response types
+    }
   }
 
   Future<BasicResponse> changePassword(ChangePlayerRequest request) async
