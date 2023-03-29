@@ -17,7 +17,7 @@ public class QuizBotBehavior extends NPCBehavior
      *
      */
     private static final long serialVersionUID = 1L;
-    private final ChatType chatType = ChatType.Local;
+    private final ChatType chatType = ChatType.Zone;
     private NPCQuestion question;
     private boolean isRandom = true;
 

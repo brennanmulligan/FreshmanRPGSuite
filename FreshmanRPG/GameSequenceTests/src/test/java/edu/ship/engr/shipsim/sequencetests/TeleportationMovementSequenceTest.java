@@ -42,7 +42,7 @@ public class TeleportationMovementSequenceTest extends SequenceTest
         interactions.add(new Interaction(
                 new CommandClientMovePlayer(PlayersForTest.MERLIN.getPlayerID(),
                         TELEPORT_POSITION), PlayersForTest.MERLIN.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT, sequence));
+                ServerType.THIS_PLAYER_CLIENT, 0, sequence));
     }
 
     /**

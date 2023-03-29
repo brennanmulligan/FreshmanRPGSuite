@@ -327,9 +327,28 @@ public enum ObjectivesForTest
     /**
      *
      */
+    RESPONSE_FROM_HISTORY_NPC(1, "Find the history NPC at the fountain and listen to a cool fact about Shippensburg.", QuestsForTest.TEST_HISTORY_RESPONSE_QUEST.getQuestID(),
+            2, ObjectiveCompletionType.CHAT_RECEIVED,
+            new NPCResponseDTO("Does not need check because matchResponse = false", "HistoryNPC", false)),
+    /**
+     *
+     */
+    RESPONSE_FROM_HISTORY_NPC2(2, "Find the history NPC on the rail trail and listen to a cool fact about Shippensburg.", QuestsForTest.TEST_HISTORY_RESPONSE_QUEST.getQuestID(),
+            2, ObjectiveCompletionType.CHAT_RECEIVED,
+            new NPCResponseDTO("Does not need check because matchResponse = false", "HistoryNPC2", false)),
+    /**
+     *
+     */
+    RESPONSE_FROM_HISTORY_NPC3(3, "Find the history NPC in old main and listen to a cool fact about Shippensburg.", QuestsForTest.TEST_HISTORY_RESPONSE_QUEST.getQuestID(),
+            2, ObjectiveCompletionType.CHAT_RECEIVED,
+            new NPCResponseDTO("Does not need check because matchResponse = false", "HistoryNPC3", false)),
+
+    /**
+     *
+     */
     RESPONSE_FROM_MOWREY_NPC(1, "Say hi to the Mowrey NPC", QuestsForTest.TEST_CHAT_RESPONSE_QUEST.getQuestID(),
             2, ObjectiveCompletionType.CHAT_RECEIVED,
-            new NPCResponseDTO("Hello, student", "MowreyInfoPerson"));
+            new NPCResponseDTO("Hello, student", "MowreyInfoPerson", true));
 
     private int objectiveID;
     private String objectiveDescription;

@@ -124,7 +124,7 @@ public class RunAllSequenceTests
             System.out.println("Starting Interaction for " + sType);
         }
 
-        setUpAccumulators(sType, interaction.getInitiatingPlayerID());
+        setUpAccumulators(sType, interaction.getInitiatingPlayerID(), interaction.getOtherPlayerID());
 
         initiateTheSequence(sType, interaction);
         for (MessageFlow msgFlow : interaction.getMessageSequence())
@@ -185,7 +185,7 @@ public class RunAllSequenceTests
         return SUCCESS_MSG;
     }
 
-    private void setUpAccumulators(ServerType sType, int playerID)
+    private void setUpAccumulators(ServerType sType, int playerID, int otherPlayerID)
     {
 
         stateAccumulator = new StateAccumulator(new MessagePackerSet());
@@ -196,8 +196,7 @@ public class RunAllSequenceTests
         if (sType.supportsOneToManyConnections())
         {
             secondStateAccumulator = new StateAccumulator(new MessagePackerSet());
-            // secondMessageHandlerSet = new
-            // MessageHandlerSet(secondStateAccumulator);
+            secondStateAccumulator.setPlayerId(otherPlayerID);
         }
     }
 

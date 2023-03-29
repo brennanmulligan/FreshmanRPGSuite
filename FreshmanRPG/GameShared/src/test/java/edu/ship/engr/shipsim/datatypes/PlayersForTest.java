@@ -200,13 +200,15 @@ public enum PlayersForTest
 
     QUIET_PLAYER(34, "ShyGuy", "default_player", 11, 7, "pw", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
 
-    EASTEREGG_PLAYER(35, "Egg", "default_player", 52, 52, "pw", "quad.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
+    EASTEREGG_PLAYER(35, "Egg", "default_player", 11, 7, "pw", "RailTrail.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
 
-    BIKE_PLAYER(36, "Micycle", "default_player",  11, 7, "pw", "oldMainInside.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
+    BIKE_PLAYER(36, "Micycle", "default_player",  11, 7, "pw", "Fountain.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
 
     HISTORY_NPC(37, "HistoryNPC", "History Nerd", 13, 13, "", "Fountain.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("Fountain"))),
     HISTORY_NPC_2(38, "HistoryNPC2", "History Nerd", 8, 15, "", "RailTrail.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("RailTrail"))),
     HISTORY_NPC_3(39, "HistoryNPC3", "History Nerd", 11, 20, "", "oldMainInside.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("oldMainInside")));
+
+
 
 
     private final int playerID;

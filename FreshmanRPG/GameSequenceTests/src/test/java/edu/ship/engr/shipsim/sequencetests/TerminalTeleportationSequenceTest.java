@@ -39,7 +39,7 @@ public class TerminalTeleportationSequenceTest extends SequenceTest
         interactions.add(new Interaction(new CommandSendTerminalText("teleport " +
                 "Firstserver"),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

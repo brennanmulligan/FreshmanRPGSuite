@@ -23,7 +23,7 @@ public class RestfulLoginBadPasswordSequenceTest extends SequenceTest
                 new CommandRestfulLogin(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                         PlayersForTest.MERLIN_OFFLINE.getPlayerPassword() + "Z"),
                 PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
-                ServerType.RESTFUL_SERVER, getMessageFlow()));
+                ServerType.RESTFUL_SERVER, 0, getMessageFlow()));
     }
 
     @Override
