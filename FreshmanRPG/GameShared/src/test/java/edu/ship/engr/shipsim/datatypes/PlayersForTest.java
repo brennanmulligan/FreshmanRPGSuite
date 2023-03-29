@@ -211,6 +211,8 @@ public enum PlayersForTest
 
 
 
+
+
     private final int playerID;
     private final String appearanceType;
     private final int row;
