@@ -2,6 +2,8 @@ package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToClient;
 import edu.ship.engr.shipsim.communication.messages.Message;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
+import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
@@ -31,10 +33,19 @@ public class ChatMessageToClientPacker extends MessagePacker
         }
 
         ChatMessageToClientReport report = (ChatMessageToClientReport) object;
-        ChatMessageToClient msg = new ChatMessageToClient(report.getSenderID(), report.getReceiverID(), report.isQuiet(), report.getChatText(), report.getPosition(),
-                report.getType());
+        if (getAccumulator().getPlayerID() == report.getRelevantPlayerID())
+        {
+            return new ChatMessageToClient(report.getSenderID(),
+                    report.getReceiverID(), report.isQuiet(),
+                    report.getChatText(), report.getPosition(),
+                    report.getType());
+        }
+        else
+        {
+            return null;
+        }
 
-        return msg;
+
     }
 
     /**

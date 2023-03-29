@@ -24,8 +24,7 @@ public final class ChatMessageToClientReport extends SendMessageReport
      */
     public ChatMessageToClientReport(int senderID, int receiverID, String messageContent, Position pos, ChatType type)
     {
-        // Happens on client, thus it will always be loud
-        super(0, false);
+        super(receiverID, false);
         this.text = messageContent;
         this.senderID = senderID;
         this.receiverID = receiverID;

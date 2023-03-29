@@ -1,10 +1,14 @@
 package edu.ship.engr.shipsim.communication.packers;
 
+import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToClient;
 import edu.ship.engr.shipsim.datatypes.ChatType;
+import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
+import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Make sure that the ChatMessagePacker behaves properly.
  */
 @GameTest("GameServer")
+@ResetPlayerManager
 public class ChatMessagePackerTest
 {
 
@@ -24,8 +29,9 @@ public class ChatMessagePackerTest
     @Test
     public void testPacking()
     {
-        int sender = 42;
-        int receiver = 0;
+        PlayerManager.getSingleton().addPlayerSilently(PlayersForTest.MERLIN.getPlayerID());
+        int sender = PlayersForTest.MERLIN.getPlayerID();
+        int receiver = PlayersForTest.MERLIN.getPlayerID();
         String text = "Hello world";
         Position loc = new Position(0, 0);
         ChatType type = ChatType.Local;
@@ -33,6 +39,9 @@ public class ChatMessagePackerTest
         ChatMessageToClientReport report = new ChatMessageToClientReport(sender, receiver,
                 text, loc, type);
         ChatMessageToClientPacker packer = new ChatMessageToClientPacker();
+        StateAccumulator sa = new StateAccumulator(null);
+        packer.setAccumulator(sa);
+        sa.setPlayerId(sender);
         ChatMessageToClient msg = (ChatMessageToClient) packer.pack(report);
 
         assertEquals(sender, msg.getSenderID());
