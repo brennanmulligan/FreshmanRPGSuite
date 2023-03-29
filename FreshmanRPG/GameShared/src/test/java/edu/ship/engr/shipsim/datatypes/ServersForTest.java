@@ -72,7 +72,7 @@ public enum ServersForTest
     /**
      *
      */
-    OLDMAIN("oldMainInside.tmx", "localhost", 1887, "OldMainInside", 39, 25, false),
+    OLDMAIN("oldMainInside.tmx", "localhost", 1887, "OldMainInside", 18, 8, false),
     /**
      *
      */
