@@ -64,6 +64,18 @@ public enum ServersForTest
     /**
      *
      */
+    RAILTRAIL("RailTrail.tmx", "localhost", 1885, "RailTrail", 14, 10, false),
+    /**
+     *
+     */
+    FOUNTAIN("Fountain.tmx", "localhost", 1886, "Fountain", 14, 2, false),
+    /**
+     *
+     */
+    OLDMAIN("oldMainInside.tmx", "localhost", 1887, "OldMainInside", 39, 25, false),
+    /**
+     *
+     */
     RESTFUL_SERVER("RestfulMap.tmx", "localhost", 1890, "RestfulMap", 50, 50, false);
 
 
