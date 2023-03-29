@@ -8,6 +8,7 @@ import edu.ship.engr.shipsim.datasource.LoggerManager;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.logging.Level;

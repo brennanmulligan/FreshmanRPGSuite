@@ -32,7 +32,7 @@ public class LoginBadPWSequenceTest extends SequenceTest
                 new CommandLogin(PlayersForTest.MERLIN.getPlayerName(),
                         PlayersForTest.MERLIN.getPlayerPassword() + "Z"),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

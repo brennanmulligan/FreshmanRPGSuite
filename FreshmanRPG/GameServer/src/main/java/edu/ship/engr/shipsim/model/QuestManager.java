@@ -16,6 +16,7 @@ import edu.ship.engr.shipsim.model.reports.*;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,6 +58,8 @@ public class QuestManager implements ReportObserver
                 .registerObserver(this, FriendConnectionReceivedReport.class);
         ReportObserverConnector.getSingleton()
                 .registerObserver(this, ReceiveTerminalTextReport.class);
+        ReportObserverConnector.getSingleton()
+                .registerObserver(this, ChatMessageToClientReport.class);
 
         questStates = new HashMap<>();
         this.friendGateway = FriendTableDataGateway.getSingleton();
@@ -561,7 +564,6 @@ public class QuestManager implements ReportObserver
         else if (report.getClass() == ChatMessageReceivedReport.class)
         {
             handlePlayerChatCriteriaCompletion(report);
-            handlePlayerChatReceivedCriteriaCompletion(report);
         }
         else if (report.getClass() == DoubloonChangeReport.class)
         {
@@ -608,7 +610,10 @@ public class QuestManager implements ReportObserver
             handleReceiveTerminalTextReport(report);
 
         }
-
+        else if (report.getClass() == ChatMessageToClientReport.class)
+        {
+            handlePlayerChatReceivedCriteriaCompletion(report);
+        }
     }
 
     /**
@@ -766,7 +771,7 @@ public class QuestManager implements ReportObserver
                 Player player = PM.getPlayerFromID(reportPlayerID);
                 if (player.canReceiveLocalMessage(npc.getPlayerPosition()))
                 {
-                    if (reportChat.equals(castCrit.getResponse()) &&
+                    if (reportChat.equals(castCrit.getResponse()) || !castCrit.isMatchResponse() &&
                             PM.getPlayerIDFromPlayerName(castCrit.getNPCName()) ==
                                     reportNPCID)
                     {
@@ -972,19 +977,19 @@ public class QuestManager implements ReportObserver
     private void handlePlayerChatReceivedCriteriaCompletion(
             Report report)
     {
-        ChatMessageReceivedReport myReport = (ChatMessageReceivedReport) report;
+        ChatMessageToClientReport myReport =  (ChatMessageToClientReport) report;
         try
         {
             int reportNPCID = myReport.getSenderID();
             int reportPlayerID = myReport.getReceiverID();
             String reportChat = myReport.getChatText();
-            ArrayList<QuestState> questStateList = getQuestList(reportPlayerID);
+            ArrayList<QuestState> questStateList = getQuestList(myReport.getReceiverID());
 
             if (questStateList != null)
             {
                 for (QuestState q : questStateList)
                 {
-                    checkAllChatReceivedObjectivesForCompletion(reportPlayerID,
+                    checkAllChatReceivedObjectivesForCompletion(myReport.getReceiverID(),
                             reportNPCID, reportChat, q);
                 }
             }
@@ -1106,10 +1111,13 @@ public class QuestManager implements ReportObserver
 
         ArrayList<ObjectiveRecord> objectivesForCompletion = new ArrayList<>();
 
-        for (QuestState q : questStates)
+        if (questStates!=null)
         {
-            objectivesForCompletion.addAll(
-                    getObjectivesByDoubloons(q.getID(), q.getPlayerID()));
+            for (QuestState q : questStates)
+            {
+                objectivesForCompletion.addAll(
+                        getObjectivesByDoubloons(q.getID(), q.getPlayerID()));
+            }
         }
 
         try
