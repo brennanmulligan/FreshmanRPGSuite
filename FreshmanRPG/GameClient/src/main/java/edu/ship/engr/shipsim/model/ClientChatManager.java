@@ -12,11 +12,6 @@ import edu.ship.engr.shipsim.model.reports.ChatSentReport;
  */
 public class ClientChatManager
 {
-    /**
-     * The square radius that local chat can reach from a position
-     */
-    private static final int LOCAL_CHAT_RADIUS = 5;
-
     private static ClientChatManager singleton;
 
     /**
@@ -77,11 +72,7 @@ public class ClientChatManager
         }
         else
         {
-            //if it is local, however, we need to check if they can hear it.
-            if (this.canReceiveLocalMessage(position))
-            {
-                ReportObserverConnector.getSingleton().sendReport(report);
-            }
+            ReportObserverConnector.getSingleton().sendReport(report);
         }
     }
 
@@ -97,17 +88,5 @@ public class ClientChatManager
         ClientPlayer thisPlayer = ClientPlayerManager.getSingleton().getThisClientsPlayer();
         ChatSentReport report = new ChatSentReport(thisPlayer.getID(), receiverID, message, thisPlayer.getPosition(), type);
         ReportObserverConnector.getSingleton().sendReport(report);
-    }
-
-    /**
-     * When receiving a local message check if the player is close enough to hear
-     *
-     * @param position position of the sender
-     */
-    protected boolean canReceiveLocalMessage(Position position)
-    {
-        Position myPosition = ClientPlayerManager.getSingleton().getThisClientsPlayer().getPosition();
-
-        return Math.abs(myPosition.getColumn() - position.getColumn()) <= LOCAL_CHAT_RADIUS && Math.abs(myPosition.getRow() - position.getRow()) <= LOCAL_CHAT_RADIUS;
     }
 }

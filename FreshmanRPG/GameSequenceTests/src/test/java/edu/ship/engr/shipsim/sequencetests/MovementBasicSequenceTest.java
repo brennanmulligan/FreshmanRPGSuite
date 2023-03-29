@@ -42,7 +42,7 @@ public class MovementBasicSequenceTest extends SequenceTest
                         new Position(PlayersForTest.MATT.getPosition().getRow(),
                                 PlayersForTest.MATT.getPosition().getColumn() + 1)),
                 PlayersForTest.MATT.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

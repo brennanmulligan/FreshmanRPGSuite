@@ -30,7 +30,7 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
         this.serverList.add(ServerType.AREA_SERVER);
         interactions.add(new Interaction(new CommandKeyInputSent("e"),
                 PlayersForTest.JEFF.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**
