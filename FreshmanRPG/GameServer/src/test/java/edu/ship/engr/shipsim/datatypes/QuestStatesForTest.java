@@ -119,6 +119,11 @@ public enum QuestStatesForTest
     /**
      *
      */
+    TEST_HISTORYQUEST(PlayersForTest.BIKE_PLAYER.getPlayerID(), QuestsForTest.TEST_HISTORY_RESPONSE_QUEST.getQuestID(),
+            QuestStateEnum.TRIGGERED, false, false),
+    /**
+     *
+     */
     MERLIN_EXPLORING(PlayersForTest.MERLIN.getPlayerID(),
             QuestsForTest.EXPLORATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false, false),
     /**

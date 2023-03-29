@@ -301,8 +301,8 @@ public class QuestManagerTest
                         toTalkTo.getPlayerPosition().getColumn() + 1);
         playerOne.setPlayerPosition(playerOnePosition);
 
-        ChatMessageReceivedReport csmr =
-                new ChatMessageReceivedReport(toTalkTo.getPlayerID(),
+        ChatMessageToClientReport csmr =
+                new ChatMessageToClientReport(toTalkTo.getPlayerID(),
                         playerOne.getPlayerID(),
                         "Hello, student",
                         playerOne.getPlayerPosition(), ChatType.Local);
