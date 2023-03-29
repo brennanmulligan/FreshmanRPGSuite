@@ -12,11 +12,7 @@
   <property name="29 8" value="quad.tmx 0 102"/>
   <property name="29 9" value="quad.tmx 0 102"/>
  </properties>
- <tileset firstgid="1" source="tileset/tileset file/FountainMap.tsx"/>
- <tileset firstgid="1" source="tileset/tileset file/FoutainWater.tsx"/>
- <tileset firstgid="1" source="Rim.tsx"/>
- <tileset firstgid="1" source="Ducks.tsx"/>
- <tileset firstgid="1" source="Collision_layer.tsx"/>
+ <tileset firstgid="1" source="tileset/tileset file/Collision_layer.tsx"/>
  <imagelayer id="11" name="Background" locked="1">
   <image source="tileset/fountainBackground.png" width="960" height="640"/>
  </imagelayer>
