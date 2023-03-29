@@ -253,6 +253,60 @@ services:
       - ../FreshmanRPG:/repo/frpg:consistent
     ports:
       - "1884:1884"
+  frpg_game_server_railtrail:
+    container_name: frpg_game_server_railtrail
+    restart: always
+    build:
+      context: ./game_server
+    environment:
+      DOCKER_FRPG: "yes"
+      FRPG_MAP: "RailTrail.tmx"
+      FRPG_PORT: "1885"
+    networks:
+      - frpg_database
+    depends_on:
+      frpg_mysql:
+        condition: service_healthy
+    volumes:
+      - ../FreshmanRPG:/repo/frpg:consistent
+    ports:
+      - "1885:1885"
+  frpg_game_server_fountain:
+    container_name: frpg_game_server_fountain
+    restart: always
+    build:
+      context: ./game_server
+    environment:
+      DOCKER_FRPG: "yes"
+      FRPG_MAP: "Fountain.tmx"
+      FRPG_PORT: "1886"
+    networks:
+      - frpg_database
+    depends_on:
+      frpg_mysql:
+        condition: service_healthy
+    volumes:
+      - ../FreshmanRPG:/repo/frpg:consistent
+    ports:
+      - "1886:1886"
+  frpg_game_server_old_main_inside:
+    container_name: frpg_game_server_old_main_inside
+    restart: always
+    build:
+      context: ./game_server
+    environment:
+      DOCKER_FRPG: "yes"
+      FRPG_MAP: "oldMainInside.tmx"
+      FRPG_PORT: "1887"
+    networks:
+      - frpg_database
+    depends_on:
+      frpg_mysql:
+        condition: service_healthy
+    volumes:
+      - ../FreshmanRPG:/repo/frpg:consistent
+    ports:
+      - "1887:1887"
 
 volumes:
   frpgDB:
