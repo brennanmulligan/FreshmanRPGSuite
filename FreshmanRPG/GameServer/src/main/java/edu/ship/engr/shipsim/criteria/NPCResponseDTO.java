@@ -15,15 +15,17 @@ public class NPCResponseDTO implements ObjectiveCompletionCriteria, Interactable
     private static final long serialVersionUID = 1L;
     private String response;
     private String NPCName;
+    private boolean matchResponse;
 
     /**
      * @param response the string that is the criteria
      * @param NPCName  the name of the NPC
      */
-    public NPCResponseDTO(String response, String NPCName)
+    public NPCResponseDTO(String response, String NPCName, boolean matchResponse)
     {
         this.response = response;
         this.NPCName = NPCName;
+        this.matchResponse = matchResponse;
     }
 
     /**
@@ -42,8 +44,13 @@ public class NPCResponseDTO implements ObjectiveCompletionCriteria, Interactable
         return NPCName;
     }
 
+    public boolean isMatchResponse()
+    {
+        return matchResponse;
+    }
+
     /**
-     * @see java.lang.Object#toString()
+     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -51,6 +58,7 @@ public class NPCResponseDTO implements ObjectiveCompletionCriteria, Interactable
         return "NPCResponseDTO{" +
                 "response='" + response + '\'' +
                 ", NPCName='" + NPCName + '\'' +
+                ", matchResponse=" + matchResponse +
                 '}';
     }
 

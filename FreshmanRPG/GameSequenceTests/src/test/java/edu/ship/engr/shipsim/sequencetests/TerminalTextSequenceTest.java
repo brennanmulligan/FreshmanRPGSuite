@@ -48,7 +48,7 @@ public class TerminalTextSequenceTest extends SequenceTest
 
         interactions.add(new Interaction(new CommandSendTerminalText("who"),
                 PlayersForTest.JEFF.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

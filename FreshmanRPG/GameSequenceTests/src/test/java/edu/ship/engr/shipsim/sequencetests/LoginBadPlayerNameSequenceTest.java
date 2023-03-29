@@ -32,7 +32,7 @@ public class LoginBadPlayerNameSequenceTest extends SequenceTest
                 new CommandLogin(PlayersForTest.MERLIN.getPlayerName() + "Z",
                         PlayersForTest.MERLIN.getPlayerPassword()),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

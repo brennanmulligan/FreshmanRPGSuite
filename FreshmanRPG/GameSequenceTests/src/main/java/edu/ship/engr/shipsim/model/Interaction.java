@@ -7,17 +7,24 @@ public class Interaction
 {
     private final Command command;
     private final int initiatingPlayerID;
+    private final int otherPlayerID;
     private final ServerType initiatingMachineType;
     ArrayList<MessageFlow> messageSequence;
-
     public Interaction(Command command, int initiatingPlayerID,
-                       ServerType initiatingMachineType, MessageFlow[] sequence)
+                       ServerType initiatingMachineType, int otherPlayerID,
+                       MessageFlow[] sequence)
     {
         this.command = command;
         this.initiatingPlayerID = initiatingPlayerID;
         this.initiatingMachineType = initiatingMachineType;
+        this.otherPlayerID = otherPlayerID;
         messageSequence = new ArrayList<>();
         messageSequence.addAll(Arrays.asList(sequence));
+    }
+
+    public int getOtherPlayerID()
+    {
+        return otherPlayerID;
     }
 
     public Command getInitiatingCommand()

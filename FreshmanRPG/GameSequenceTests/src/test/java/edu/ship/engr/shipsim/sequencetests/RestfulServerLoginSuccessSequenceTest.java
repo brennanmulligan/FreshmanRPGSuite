@@ -24,7 +24,7 @@ public class RestfulServerLoginSuccessSequenceTest extends SequenceTest
                 new CommandRestfulLogin(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                         PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()),
                 PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
-                ServerType.RESTFUL_SERVER, getMessageFlow()));
+                ServerType.RESTFUL_SERVER, 0, getMessageFlow()));
     }
 
     @Override
