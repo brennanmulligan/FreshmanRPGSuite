@@ -15,6 +15,10 @@ import edu.ship.engr.shipsim.model.reports.NPCChatReport;
  */
 public class ChatManager
 {
+    /**
+     * The square radius that local chat can reach from a position
+     */
+    private static final int LOCAL_CHAT_RADIUS = 5;
     private static ChatManager me;
     private final CheatCodeManager cheatCodeManager;
 
@@ -61,10 +65,22 @@ public class ChatManager
      */
     protected void sendChatToClients(int senderID, int receiverID, String message, Position pos, ChatType type)
     {
-        ChatMessageToClientReport report = new ChatMessageToClientReport(senderID,
-                receiverID, message, pos, type);
-        ReportObserverConnector.getSingleton().sendReport(report);
-
+        for (Player player : PlayerManager.getSingleton()
+                .getConnectedPlayers())
+        {
+            if ((type != ChatType.Local) || (canReceiveLocalMessage(player.getPlayerPosition(),
+                    PlayerManager.getSingleton().getPlayerFromID(senderID)
+                            .getPlayerPosition())))
+            {
+               if (player.getClass() != NPC.class)
+                {
+                    ChatMessageToClientReport report =
+                            new ChatMessageToClientReport(senderID,
+                                    player.getPlayerID(), message, pos, type);
+                    ReportObserverConnector.getSingleton().sendReport(report);
+                }
+            }
+        }
     }
 
     /**
@@ -103,4 +119,9 @@ public class ChatManager
                     type));
         }
     }
+    protected boolean canReceiveLocalMessage(Position receiverPosition, Position senderPosition)
+    {
+        return Math.abs(receiverPosition.getColumn() - senderPosition.getColumn()) <= LOCAL_CHAT_RADIUS && Math.abs(receiverPosition.getRow() - senderPosition.getRow()) <= LOCAL_CHAT_RADIUS;
+    }
+
 }

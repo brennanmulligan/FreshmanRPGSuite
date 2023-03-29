@@ -66,7 +66,7 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
                                 new VanityShopInventoryResponseMessage(response, false), true)};
         interactions.add(new Interaction(new CommandShopInventoryRequest(),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     private ArrayList<VanityDTO> buildResponse()

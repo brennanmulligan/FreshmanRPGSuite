@@ -26,9 +26,9 @@ public class ChatMessageToClientTest
     {
         Position p = new Position(0, 0);
         ChatMessageToClient
-                msg = new ChatMessageToClient(PlayersForTest.MERLIN.getPlayerID(), 0, false, "Hello World!", p, ChatType.Local);
+                msg = new ChatMessageToClient(PlayersForTest.MERLIN.getPlayerID(), PlayersForTest.MERLIN.getPlayerID(), false, "Hello World!", p, ChatType.Local);
         assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getSenderID());
-        assertEquals(0, msg.getReceiverID());
+        assertEquals(PlayersForTest.MERLIN.getPlayerID(), msg.getReceiverID());
         assertEquals("Hello World!", msg.getChatText());
         assertEquals(ChatType.Local, msg.getType());
         assertEquals(p, msg.getPosition());

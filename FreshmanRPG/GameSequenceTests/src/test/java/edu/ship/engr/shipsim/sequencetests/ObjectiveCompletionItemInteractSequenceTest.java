@@ -105,6 +105,6 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
 
         interactions.add(new Interaction(new CommandKeyInputSent("e"),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 }

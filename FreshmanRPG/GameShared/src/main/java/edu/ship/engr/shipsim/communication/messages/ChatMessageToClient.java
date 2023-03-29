@@ -35,60 +35,38 @@ public class ChatMessageToClient extends Message implements Serializable
         this.type = type;
     }
 
-
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-        if (obj == null)
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
-        if (getClass() != obj.getClass())
+        if (!super.equals(o))
         {
             return false;
         }
-        ChatMessageToClient other = (ChatMessageToClient) obj;
-        if (chatText == null)
-        {
-            if (other.chatText != null)
-            {
-                return false;
-            }
-        }
-        else if (!chatText.equals(other.chatText))
-        {
-            return false;
-        }
-        if (position == null)
-        {
-            if (other.position != null)
-            {
-                return false;
-            }
-        }
-        else if (!position.equals(other.position))
-        {
-            return false;
-        }
-        if (relevantPlayerID != other.relevantPlayerID)
-        {
-            return false;
-        }
-        if (senderID != other.senderID)
-        {
-            return false;
-        }
-        if (type != other.type)
-        {
-            return false;
-        }
-        return true;
-    }
 
+        ChatMessageToClient that = (ChatMessageToClient) o;
+
+        if (senderID != that.senderID)
+        {
+            return false;
+        }
+        if (!chatText.equals(that.chatText))
+        {
+            return false;
+        }
+        if (!position.equals(that.position))
+        {
+            return false;
+        }
+        return type == that.type;
+    }
 
     /**
      * @return the text the player is sending

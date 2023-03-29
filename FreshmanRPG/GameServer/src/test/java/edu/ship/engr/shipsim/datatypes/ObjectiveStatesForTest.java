@@ -278,6 +278,13 @@ public enum ObjectiveStatesForTest
      *
      */
     EASTER_EGG_OBJ_STATE(PlayersForTest.EASTEREGG_PLAYER.getPlayerID(), ObjectivesForTest.EASTER_EGG_STEP_1.getQuestID(), ObjectivesForTest.EASTER_EGG_STEP_1.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+
+    HISTORY_QUEST_OBJ_STATE(PlayersForTest.BIKE_PLAYER.getPlayerID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC.getQuestID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+
+    HISTORY_QUEST_OBJ_STATE2(PlayersForTest.BIKE_PLAYER.getPlayerID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC.getQuestID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC2.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+
+    HISTORY_QUEST_OBJ_STATE3(PlayersForTest.BIKE_PLAYER.getPlayerID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC.getQuestID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC3.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
+
     NEWBIE_ONRAMPING_XP_BUFF(PlayersForTest.NEWBIE.getPlayerID(),
             ObjectivesForTest.ONRAMPING_XP_BUFF.getQuestID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
     MERLIN_FIND_THE_LIBRARY(PlayersForTest.MERLIN.getPlayerID(),

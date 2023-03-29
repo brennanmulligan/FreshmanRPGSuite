@@ -28,35 +28,35 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
                     new ChatMessageToServer(PlayersForTest.JEFF.getPlayerID(), 0, false,
                             NPCQuestionsForTest.ONE.getA(),
                             PlayersForTest.JEFF.getPosition(), ChatType.Zone), false),
-            new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), 0, false,
-                            "First answer", PlayersForTest.JEFF.getPosition(),
-                            ChatType.Zone), true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), 0, false,
+                    new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), PlayersForTest.MERLIN.getPlayerID(), false,
                             "First answer", PlayersForTest.JEFF.getPosition(),
                             ChatType.Zone), true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0, false,
-                            "Jeff answered correctly.  The answer was First answer",
-                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local), true),
+                    new ChatMessageToClient(PlayersForTest.JEFF.getPlayerID(), PlayersForTest.JEFF.getPlayerID(), false,
+                            "First answer", PlayersForTest.JEFF.getPosition(),
+                            ChatType.Zone), true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0, false,
+                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), PlayersForTest.MERLIN.getPlayerID(), false,
                             "Jeff answered correctly.  The answer was First answer",
-                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Local), true),
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Zone), true),
+            new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
+                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), PlayersForTest.JEFF.getPlayerID(), false,
+                            "Jeff answered correctly.  The answer was First answer",
+                            PlayersForTest.QUIZBOT.getPosition(), ChatType.Zone), true),
 
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new DoubloonsChangedMessage(PlayersForTest.JEFF.getPlayerID(), false,
                             PlayersForTest.JEFF.getDoubloons() + 2,
                             PlayersForTest.JEFF.getBuffPool() - 1), true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0, false,
+                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), PlayersForTest.JEFF.getPlayerID(), false,
                             "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
-                            ChatType.Local), true),
+                            ChatType.Zone), true),
             new MessageFlow(ServerType.AREA_SERVER, ServerType.OTHER_CLIENT,
-                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), 0, false,
+                    new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), PlayersForTest.MERLIN.getPlayerID(), false,
                             "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
-                            ChatType.Local), true),
+                            ChatType.Zone), true),
 
     };
 
@@ -65,11 +65,11 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
      */
     public RecCenterGrantsDoubloonsWithBuffSequenceTest()
     {
-        serverList.add(ServerType.THIS_PLAYER_CLIENT);
+//        serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
         interactions.add(new Interaction(null, PlayersForTest.JEFF.getPlayerID(),
-                ServerType.AREA_SERVER, sequence));
+                ServerType.AREA_SERVER, PlayersForTest.MERLIN.getPlayerID(), sequence));
     }
 
     /**
@@ -79,7 +79,8 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
     public void resetNecessarySingletons()
     {
         PlayerManager.resetSingleton();
-
+        ChatManager.resetSingleton();
+        QuestManager.resetSingleton();
     }
 
     /**
@@ -94,6 +95,7 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
                 "JEFFSTUFF");
         ClientModelTestUtilities.setUpThisClientsPlayerForTest(PlayersForTest.JEFF);
         PlayerManager.getSingleton().addPlayer(PlayersForTest.JEFF.getPlayerID());
+        PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
         OptionsManager.getSingleton().setMapFileTitle("recCenter.tmx");
         PlayerManager.getSingleton().loadNpcs(true);
         ArrayList<NPC> npcs = PlayerManager.getSingleton().getNpcs();

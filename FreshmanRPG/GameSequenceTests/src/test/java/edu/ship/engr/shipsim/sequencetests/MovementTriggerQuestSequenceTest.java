@@ -41,7 +41,7 @@ public class MovementTriggerQuestSequenceTest extends SequenceTest
                 new CommandClientMovePlayer(PlayersForTest.MATT.getPlayerID(),
                         QuestsForTest.THE_LITTLE_QUEST.getPosition()),
                 PlayersForTest.MATT.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

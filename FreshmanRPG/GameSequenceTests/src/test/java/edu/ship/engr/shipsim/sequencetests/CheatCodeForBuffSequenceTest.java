@@ -41,7 +41,7 @@ public class CheatCodeForBuffSequenceTest extends SequenceTest
         interactions.add(new Interaction(new CommandChatMessageSent(
                 new ChatTextDetails("Magic Buff", ChatType.Local)),
                 PlayersForTest.JAWN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**
