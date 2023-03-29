@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="16" nextobjectid="1">
  <properties>
-  <property name="0 10" value="outsideOfMowrey.tmx 99 96"/>
-  <property name="0 11" value="outsideOfMowrey.tmx 99 97"/>
-  <property name="0 12" value="outsideOfMowrey.tmx 99 97"/>
-  <property name="0 13" value="outsideOfMowrey.tmx 99 97"/>
-  <property name="0 14" value="outsideOfMowrey.tmx 99 97"/>
-  <property name="0 8" value="outsideOfMowrey.tmx 99 96"/>
-  <property name="0 9" value="outsideOfMowrey.tmx 99 96"/>
-  <property name="29 10" value="Fountain.tmx 0 9"/>
-  <property name="29 11" value="Fountain.tmx 0 9"/>
-  <property name="29 12" value="Fountain.tmx 0 9"/>
-  <property name="29 13" value="Fountain.tmx 0 10"/>
-  <property name="29 14" value="Fountain.tmx 0 11"/>
-  <property name="29 8" value="Fountain.tmx 0 7"/>
-  <property name="29 9" value="Fountain.tmx 0 8"/>
+  <property name="0 10" value="outsideOfMowrey.tmx 98 96"/>
+  <property name="0 11" value="outsideOfMowrey.tmx 98 97"/>
+  <property name="0 12" value="outsideOfMowrey.tmx 98 97"/>
+  <property name="0 13" value="outsideOfMowrey.tmx 98 97"/>
+  <property name="0 14" value="outsideOfMowrey.tmx 98 97"/>
+  <property name="0 8" value="outsideOfMowrey.tmx 98 96"/>
+  <property name="0 9" value="outsideOfMowrey.tmx 98 96"/>
+  <property name="29 10" value="Fountain.tmx 1 9"/>
+  <property name="29 11" value="Fountain.tmx 1 9"/>
+  <property name="29 12" value="Fountain.tmx 1 9"/>
+  <property name="29 13" value="Fountain.tmx 1 10"/>
+  <property name="29 14" value="Fountain.tmx 1 11"/>
+  <property name="29 8" value="Fountain.tmx 1 7"/>
+  <property name="29 9" value="Fountain.tmx 1 8"/>
  </properties>
  <tileset firstgid="1" name="Inq XP MT- Medieval Town" tilewidth="32" tileheight="32" tilecount="4176" columns="8">
   <image source="../../GameClient-desktop/maps/tileset/Inq XP MT- Medieval Town.png" width="256" height="16704"/>
