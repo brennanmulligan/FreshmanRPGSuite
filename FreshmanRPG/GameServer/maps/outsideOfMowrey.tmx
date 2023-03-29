@@ -10,8 +10,8 @@
   <property name="26 28" value="recCenter.tmx 4 21"/>
   <property name="72 14" value="mowrey.tmx 29 39"/>
   <property name="73 14" value="mowrey.tmx 29 39"/>
-  <property name="99 96" value="RailTrail.tmx 0 10"/>
-  <property name="99 97" value="RailTrail.tmx 0 12"/>
+  <property name="99 96" value="RailTrail.tmx 1 10"/>
+  <property name="99 97" value="RailTrail.tmx 1 12"/>
  </properties>
  <tileset firstgid="1" source="tileset/tileset file/Inq XP MT- Medieval Town.tsx"/>
  <tileset firstgid="4177" source="tileset/tileset file/collision.tsx"/>
