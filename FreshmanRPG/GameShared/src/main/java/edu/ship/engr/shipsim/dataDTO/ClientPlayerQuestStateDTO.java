@@ -266,7 +266,7 @@ public class ClientPlayerQuestStateDTO implements Serializable
     /**
      * This class holds all information that is unique to a quest and not quest state
      */
-    private class QuestInfo
+    private class QuestInfo implements Serializable
     {
         private String questTitle;
         private String questDescription;

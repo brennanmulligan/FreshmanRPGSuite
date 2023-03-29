@@ -152,7 +152,10 @@ public enum QuestsForTest
             new GameLocationDTO("quad.tmx", new Position(83, 33)), 1, 1, QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
-
+    /**
+     * History NPC Quest
+     */
+    TEST_HISTORY_RESPONSE_QUEST(110, "The history of Shippensburg", "Listen to the history proffesor's facts about shippensburg", new GameLocationDTO("Fountain.tmx", new Position(53, 52)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      * EasterEgg Quest
      */
@@ -160,6 +163,7 @@ public enum QuestsForTest
                              new GameLocationDTO("quad.tmx", new Position(53, 52)), 1, 1, QuestCompletionActionType.NO_ACTION,
         null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), true);
+
 
     private final int questID;
     private final String questTitle;

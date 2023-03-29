@@ -24,7 +24,7 @@ public class ObjectiveNotificationCompleteSequenceTest extends SequenceTest
         interactions.add(new Interaction(new CommandObjectiveNotificationComplete(
                 PlayersForTest.MERLIN.getPlayerID(), 1, 1),
                 PlayersForTest.MERLIN.getPlayerID(), ServerType.THIS_PLAYER_CLIENT,
-                sequence));
+                0, sequence));
     }
 
     /**

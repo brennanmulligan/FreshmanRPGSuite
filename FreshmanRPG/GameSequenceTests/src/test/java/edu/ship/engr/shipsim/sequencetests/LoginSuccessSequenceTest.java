@@ -115,7 +115,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
                 new CommandLogin(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                         PlayersForTest.MERLIN_OFFLINE.getPlayerPassword()),
                 PlayersForTest.MERLIN_OFFLINE.getPlayerID(),
-                ServerType.THIS_PLAYER_CLIENT, sequence));
+                ServerType.THIS_PLAYER_CLIENT, 0, sequence));
     }
 
     /**

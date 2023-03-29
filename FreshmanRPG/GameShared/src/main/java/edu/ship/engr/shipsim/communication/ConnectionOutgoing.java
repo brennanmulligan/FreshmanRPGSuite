@@ -80,7 +80,7 @@ public class ConnectionOutgoing implements Runnable
                         {
                             if(!OptionsManager.getSingleton().isQuiet() ||
                                 msg.getRelevantPlayerID() == stateAccumulator.getPlayerID() ||
-                                msg.getRelevantPlayerID() == 17)
+                                !msg.isQuietMessage())
                             {
                                 logger.log(Level.FINE,
                                         "Sending " + msg.getClass() + " to " +

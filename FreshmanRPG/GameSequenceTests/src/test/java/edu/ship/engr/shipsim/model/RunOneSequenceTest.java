@@ -38,7 +38,7 @@ public class RunOneSequenceTest
             NoSuchMethodException, SecurityException, IOException, CommunicationException,
             DatabaseException, ModelFacadeException
     {
-        Class<? extends SequenceTest> testClass = LoginSuccessSequenceTest.class;
+        Class<? extends SequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
 
         RunAllSequenceTests runner = new RunAllSequenceTests();
         runner.runTest("My Single Sequence Test", testClass);

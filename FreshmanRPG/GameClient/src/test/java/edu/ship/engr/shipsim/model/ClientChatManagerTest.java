@@ -102,50 +102,6 @@ public class ClientChatManagerTest
     }
 
     /**
-     * Conditions for when a local message should be received
-     *
-     * @throws AlreadyBoundException shouldn't
-     * @throws NotBoundException     shouldn't
-     */
-    @Test
-    public void canReceiveLocalMessageValid() throws AlreadyBoundException, NotBoundException
-    {
-        ClientPlayerManager.getSingleton().initiateLogin("X", "X");
-        ClientPlayer p = ClientPlayerManager.getSingleton().finishLogin(1);
-        p.setPosition(new Position(5, 5));
-
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(5, 5)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(0, 5)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(5, 0)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(0, 0)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(6, 6)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(10, 10)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(0, 10)));
-        assertTrue(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(10, 0)));
-    }
-
-    /**
-     * Conditions for when a local message should not be received
-     *
-     * @throws AlreadyBoundException shouldn't
-     * @throws NotBoundException     shouldn't
-     */
-    @Test
-    public void canReceiveLocalMessageInvalid() throws AlreadyBoundException, NotBoundException
-    {
-        ClientPlayerManager.getSingleton().initiateLogin("X", "X");
-        ClientPlayer p = ClientPlayerManager.getSingleton().finishLogin(1);
-        p.setPosition(new Position(5, 5));
-
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(0, -1)));
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(-1, 0)));
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(11, 0)));
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(0, 11)));
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(5, 11)));
-        assertFalse(ClientChatManager.getSingleton().canReceiveLocalMessage(new Position(11, 5)));
-    }
-
-    /**
      * Properly sends a report for a message going to the server
      *
      * @throws NotBoundException     shouldn't

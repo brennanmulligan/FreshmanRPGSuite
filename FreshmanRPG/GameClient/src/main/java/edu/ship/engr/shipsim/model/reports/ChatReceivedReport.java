@@ -11,7 +11,7 @@ import edu.ship.engr.shipsim.view.screen.notification.NotificationType;
  *
  * @author Steve
  */
-public class ChatReceivedReport implements Report, NotificationTrigger
+public class ChatReceivedReport implements NotificationTrigger, Report
 {
     private final String message;
     private final int senderID;
