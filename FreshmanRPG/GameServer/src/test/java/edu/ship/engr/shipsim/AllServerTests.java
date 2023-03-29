@@ -56,6 +56,8 @@ import org.junit.platform.suite.api.Suite;
                 TestPlayerDTO.class,
 
                 // dataSource
+                CrewRowDataGatewayTest.class,
+                CrewTableDataGatewayTest.class,
                 DefaultItemsTableDataGatewayTest.class,
                 DoubloonPrizesTableDataGatewayTest.class,
                 FriendTableDataGatewayTest.class,
