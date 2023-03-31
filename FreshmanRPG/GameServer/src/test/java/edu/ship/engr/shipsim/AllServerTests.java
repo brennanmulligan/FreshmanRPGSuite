@@ -63,6 +63,8 @@ import org.junit.platform.suite.api.Suite;
                 FriendTableDataGatewayTest.class,
                 InteractableItemRowDataGatewayTest.class,
                 LevelTableDataGatewayTest.class,
+                MajorRowDataGatewayTest.class,
+                MajorTableDataGatewayTest.class,
                 NPCQuestionRowDataGatewayTest.class,
                 NPCRowDataGatewayTest.class,
                 ObjectiveRecordTest.class,
