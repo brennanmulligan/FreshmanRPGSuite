@@ -115,7 +115,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
             children: [
               TextField(
                 controller: username,
-                decoration: const InputDecoration(
+                decoration:  const InputDecoration(
                   label: Row(
                     children: [
                       Icon(Icons.person),
@@ -184,7 +184,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
               TextField(
                 controller: section,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration:  const InputDecoration(
                   label: Row(
                     children: [
                       Icon(Icons.catching_pokemon),
