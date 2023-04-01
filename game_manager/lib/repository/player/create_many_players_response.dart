@@ -14,7 +14,7 @@ class CreatePlayerWithNameResponse extends Equatable{
   const CreatePlayerWithNameResponse({
     required this.success,
     required this.description,
-    required this.playerName
+     required this.playerName
   });
 
   factory CreatePlayerWithNameResponse.fromJson({
