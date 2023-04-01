@@ -84,7 +84,7 @@ public class TestObjectiveController
 
         for (int i = 1; i <= quests; i++)
         {
-            ClientPlayerQuestStateDTO questDTO = new ClientPlayerQuestStateDTO(i, "quest" + i, "quest" + i, QuestStateEnum.TRIGGERED, 0, objectivesPer, false, null);
+            ClientPlayerQuestStateDTO questDTO = new ClientPlayerQuestStateDTO(i, "quest" + i, "quest" + i, QuestStateEnum.TRIGGERED, 0, objectivesPer, false, null, false);
 
             for (int j = 1; j <= objectivesPer; j++)
             {
