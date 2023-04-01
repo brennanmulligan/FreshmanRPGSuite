@@ -12,6 +12,7 @@ import '../../repository/player/major.dart';
 import '../../repository/player/majors_repository.dart';
 import '../../repository/player/player_repository.dart';
 import '../../repository/player/basic_response.dart';
+import '../shared/widgets/notification_card.dart';
 
 class CreatePlayerPage extends StatefulWidget {
   const CreatePlayerPage({Key? key}) : super(key: key);
@@ -24,7 +25,6 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
   final username = TextEditingController();
   final password = TextEditingController();
   final section = TextEditingController();
-
 
   int? crewsValue;
   int? majorsValue;
@@ -72,25 +72,36 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                 body: Column(
                   children: [
                     BlocConsumer<CreatePlayerBloc, CreatePlayerState>(
-                        listener: (context, state) {},
-                        builder: (context, state) {
+                        listener: (context, state) {
                           if (state is CreatePlayerComplete) {
-                            return buildRequestCompleteScreen(state.response);
-                          } else {
-                              return BlocBuilder<
-                                GetMajorsAndCrewsBloc,
-                                GetMajorsAndCrewsState>(
-                                  builder: (context, state) {
-                                    if (state is GetMajorCrewComplete) {
-                                      return buildInputScreen(state.crewResponse, state.majorResponse);
-                                    } else {
-                                      return const Center (
-                                        child: CircularProgressIndicator()
-                                      );
-                                    }
-                                  }
-                                );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: NotificationCard(
+                                      cardTitle: state.response.success ? "Success" : "Error",
+                                      description: state.response.description,
+                                      success: state.response.success
+                                ),
+                                duration: const Duration(seconds: 3),
+                                behavior: SnackBarBehavior.floating,
+                                padding: EdgeInsets.zero
+                              ),
+                            );
                           }
+                        },
+                        builder: (context, state) {
+                          return BlocBuilder<
+                            GetMajorsAndCrewsBloc,
+                            GetMajorsAndCrewsState>(
+                              builder: (context, state) {
+                                if (state is GetMajorCrewComplete) {
+                                  return buildInputScreen(state.crewResponse, state.majorResponse);
+                                } else {
+                                  return const Center (
+                                    child: CircularProgressIndicator()
+                                  );
+                                }
+                              }
+                            );
                         }),
 
                   ]
@@ -210,9 +221,6 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
           ),
         ),
       );
-
-  Widget buildRequestCompleteScreen(BasicResponse data) =>
-      Center(child: Text('$data'));
 }
 
 class SubmitButtonBuilder extends StatelessWidget {
