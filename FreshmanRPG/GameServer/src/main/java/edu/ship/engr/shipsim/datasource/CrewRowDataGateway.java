@@ -54,7 +54,7 @@ public class CrewRowDataGateway
      * Creates the crews table in the database
      * @throws DatabaseException
      */
-    public static void creatTable() throws DatabaseException
+    public static void createTable() throws DatabaseException
     {
         String dropSql = "DROP TABLE IF EXISTS Crews";
         String createSql = "CREATE TABLE Crews ("
