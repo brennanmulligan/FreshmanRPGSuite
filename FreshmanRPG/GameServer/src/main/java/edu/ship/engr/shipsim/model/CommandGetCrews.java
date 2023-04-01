@@ -1,14 +1,11 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.CrewDTO;
-import edu.ship.engr.shipsim.dataDTO.MajorDTO;
-import edu.ship.engr.shipsim.datatypes.Crew;
-import edu.ship.engr.shipsim.datatypes.Major;
+import edu.ship.engr.shipsim.datasource.CrewTableDataGateway;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.model.reports.GetAllCrewsReport;
-import edu.ship.engr.shipsim.model.reports.GetAllMajorsReport;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class CommandGetCrews extends Command
 {
@@ -18,16 +15,17 @@ public class CommandGetCrews extends Command
     @Override
     void execute()
     {
-        ArrayList<CrewDTO> crewDTOs = new ArrayList<>();
-        ArrayList<Crew> crews = Crew.getAllCrews();
+        CrewTableDataGateway gw = CrewTableDataGateway.getSingleton();
 
-        for (Crew crew : crews)
+        try
         {
-            crewDTOs.add(new CrewDTO(crew.getID(),
-                    crew.getCrewName()));
+            ArrayList<CrewDTO> crewDTOs = gw.retrieveAllCrews();
+            GetAllCrewsReport crewsReport = new GetAllCrewsReport(crewDTOs);
+            ReportObserverConnector.getSingleton().sendReport(crewsReport);
         }
-
-        GetAllCrewsReport crewsReport = new GetAllCrewsReport(crewDTOs);
-        ReportObserverConnector.getSingleton().sendReport(crewsReport);
+        catch (DatabaseException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }
