@@ -89,6 +89,8 @@ public class Server implements Runnable, AutoCloseable
             }
             else if (splitArg[0].equals("--localhost"))
             {
+                OptionsManager.getSingleton().setLoginHost("localhost");
+
                 runningLocal = true;
             }
             else if (splitArg[0].equals("--db"))
