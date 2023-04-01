@@ -9,7 +9,7 @@ import 'package:test/test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
-  group('Repository Tests: ', () {
+  group('Player Repository Tests: ', () {
     late Dio dio;
     late DioAdapter dioAdapter;
      Map<String, dynamic> goodResponse =
