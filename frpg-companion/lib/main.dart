@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frpg_companion/features/login/presentation/view/login_view.dart';
-import 'package:frpg_companion/features/network/network.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:companion_app/pages/login/login_page.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 ///
 /// Data for light theme.
@@ -29,6 +28,8 @@ void main() async {
     container: container,
   );
 
+
+
   ///
   /// Run the app.
   ///
@@ -41,7 +42,9 @@ void main() async {
         themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'Freshman RPG Companion App',
-        home: const LoginView(),
+
+
+        home: const LoginPage(),
       ),
     ),
   );
@@ -60,6 +63,5 @@ Future<void> initialize({
   ///
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  container.read(NetworkProvider.networkController.notifier).setBaseURL();
-  container.refresh(NetworkProvider.serviceClient);
 }
+
