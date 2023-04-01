@@ -22,36 +22,96 @@ Future<void> main() async {
     playerRepo = MockPlayerRepositoryTest();
   });
 
-  group('Create Many Player Tests: ', () {
-    const CreateManyPlayersResponse newResponse =
-    CreateManyPlayersResponse(success: true, description: "Created a list of players", successful:[CreatePlayerWithNameResponse(success: true , description: "created", playerName: 'p1'),
-                                                                                   CreatePlayerWithNameResponse(success: true , description: "created", playerName: 'p2') ],
-                                                                                    failed: [] );
+  group('Create Many Players Tests: ', () {
+    const CreateManyPlayersResponse validResponse =
+    CreateManyPlayersResponse(success: true,
+        description: "Created a list of players",
+        successful: [
+          CreatePlayerWithNameResponse(
+              success: true, description: "created", playerName: 'p1'),
+          CreatePlayerWithNameResponse(
+              success: true, description: "created", playerName: 'p2')
+        ],
+        failed: []);
 
-    const BasicResponse goodResponse = BasicResponse(success: true, description: "created");
-    const CreatePlayerRequest createPlayerOneRequest = CreatePlayerRequest(name: "p1", password: "Testpassword123@", crew: 1, major: 1, section: 1);
-    const CreatePlayerRequest createPlayerTwoRequest = CreatePlayerRequest(name: "p2", password: "Testpassword123@", crew: 1, major: 1, section: 1);
-    io.File testCSVFile = io.File("${io.Directory.current.path}/test/pages/create_many_players/manyPlayersTestFile.csv");
+    const CreateManyPlayersResponse invalidResponse =
+    CreateManyPlayersResponse(success: true,
+        description: "Created a list of players",
+        successful: [
+          CreatePlayerWithNameResponse(
+              success: true, description: "created", playerName: 'p1')
+        ],
+        failed: [
+          CreatePlayerWithNameResponse(
+            success: false, description: "invalid player details", playerName: 'p2')]);
+
+    const BasicResponse goodResponse = BasicResponse(
+        success: true, description: "created");
+    const CreatePlayerRequest createPlayerOneRequest = CreatePlayerRequest(
+        name: "p1",
+        password: "Testpassword123@",
+        crew: 1,
+        major: 1,
+        section: 1);
+    const CreatePlayerRequest createPlayerTwoRequest = CreatePlayerRequest(
+        name: "p2",
+        password: "Testpassword123@",
+        crew: 1,
+        major: 1,
+        section: 1);
+    io.File testCSVFileValid = io.File("${io.Directory.current
+        .path}/test/pages/create_many_players/manyPlayersTestFileValid.csv");
+    io.File testCSVFileInvalid = io.File("${io.Directory.current
+        .path}/test/pages/create_many_players/manyPlayersTestFileInvalid.csv");
 
     blocTest<CreateManyPlayersBloc, CreateManyPlayersState>(
-      'Check flow of states when many players are being created',
-      build: () {
-        when(playerRepo.createPlayer(any))
-          .thenAnswer((_) async => goodResponse);
+        'Check flow of states when many players are being created and both users are valid',
+        build: () {
+          when(playerRepo.createPlayer(any))
+              .thenAnswer((_) async => goodResponse);
 
-        when(playerRepo.createPlayer(any))
-          .thenAnswer((_) async => goodResponse);
-        return CreateManyPlayersBloc(playerRepository: playerRepo);
-      },
-      act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFile)),
-      wait: const Duration(milliseconds: 2000),
-      expect: () => [CreateManyPlayersLoading(), CreateManyPlayersComplete(newResponse)],
-      verify: (_) => {
-        verify(playerRepo.createPlayer(createPlayerOneRequest)).called(1),
-        verify(playerRepo.createPlayer(createPlayerTwoRequest)).called(1)
-      }
+          when(playerRepo.createPlayer(any))
+              .thenAnswer((_) async => goodResponse);
+          return CreateManyPlayersBloc(playerRepository: playerRepo);
+        },
+        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileValid)),
+        wait: const Duration(milliseconds: 2000),
+        expect: () =>
+        [
+          CreateManyPlayersLoading(),
+          CreateManyPlayersComplete(validResponse)
+        ],
+        verify: (_) =>
+        {
+          verify(playerRepo.createPlayer(createPlayerOneRequest)).called(1)
+        }
     );
 
+    blocTest<CreateManyPlayersBloc, CreateManyPlayersState>(
+        'Check flow of states when many players are being created and a user is invalid',
+        build: () {
+          when(playerRepo.createPlayer(any))
+              .thenAnswer((_) async => goodResponse);
+
+          when(playerRepo.createPlayer(any))
+              .thenAnswer((_) async => goodResponse);
+          return CreateManyPlayersBloc(playerRepository: playerRepo);
+        },
+        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileInvalid)),
+        wait: const Duration(milliseconds: 2000),
+        expect: () =>
+        [
+          CreateManyPlayersLoading(),
+          CreateManyPlayersComplete(invalidResponse)
+        ],
+        verify: (_) =>
+        {
+          verify(playerRepo.createPlayer(createPlayerOneRequest)).called(1),
+          verify(playerRepo.createPlayer(createPlayerTwoRequest)).called(1)
+        }
+    );
 
   });
+
+
 }

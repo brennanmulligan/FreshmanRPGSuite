@@ -32,24 +32,32 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
 
       lines.removeAt(0);
 
-      for(int i = 0; i < lines.length; i++){
+      for(int i = 0; i < lines.length; i++) {
         List<String> parameters = lines.elementAt(i).split(",");
-        BasicResponse currentResponse = await playerRepository.createPlayer(CreatePlayerRequest
-          (name:parameters.elementAt(0),
-            password: parameters.elementAt(1),
-            crew: num.parse(parameters.elementAt(2)),
-            major: num.parse(parameters.elementAt(3)),
-            section: num.parse(parameters.elementAt(4))));
-            //await Future.delayed(const Duration(seconds: 1));
 
-        CreatePlayerWithNameResponse successResponse = CreatePlayerWithNameResponse(success: currentResponse.success,
-            description: currentResponse.description,
-            playerName: parameters.elementAt(0));
+        if (parameters.length < 5) {
+          CreatePlayerWithNameResponse invalidResponse = CreatePlayerWithNameResponse(success: false, description: "invalid player details", playerName: parameters.elementAt(0));
+          failed.add(invalidResponse);
+        } else {
+          BasicResponse currentResponse = await playerRepository.createPlayer(
+              CreatePlayerRequest
+                (name: parameters.elementAt(0),
+                  password: parameters.elementAt(1),
+                  crew: num.parse(parameters.elementAt(2)),
+                  major: num.parse(parameters.elementAt(3)),
+                  section: num.parse(parameters.elementAt(4))));
+          //await Future.delayed(const Duration(seconds: 1));
 
-        if(currentResponse.success == true){
+          CreatePlayerWithNameResponse successResponse = CreatePlayerWithNameResponse(
+              success: currentResponse.success,
+              description: currentResponse.description,
+              playerName: parameters.elementAt(0));
+
+          if (currentResponse.success == true) {
             successful.add(successResponse);
-        }else{
-          failed.add(successResponse);
+          } else {
+            failed.add(successResponse);
+          }
         }
       }
       emit(CreateManyPlayersComplete(CreateManyPlayersResponse(success: true, description: "Created a list of players", successful: successful, failed: failed)));
