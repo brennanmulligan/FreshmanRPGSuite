@@ -29,10 +29,9 @@ Future<void> main() async {
                                                                                     failed: [] );
 
     const BasicResponse goodResponse = BasicResponse(success: true, description: "created");
-
     const CreatePlayerRequest createPlayerOneRequest = CreatePlayerRequest(name: "p1", password: "Testpassword123@", crew: 1, major: 1, section: 1);
     const CreatePlayerRequest createPlayerTwoRequest = CreatePlayerRequest(name: "p2", password: "Testpassword123@", crew: 1, major: 1, section: 1);
-    io.File testCSVFile = io.File('/home/flutter/Desktop/freshmanrpgsuite/game_manager/test/pages/create_many_players/manyPlayersTestFile.csv');
+    io.File testCSVFile = io.File("${io.Directory.current.path}/test/pages/create_many_players/manyPlayersTestFile.csv");
 
     blocTest<CreateManyPlayersBloc, CreateManyPlayersState>(
       'Check flow of states when many players are being created',
