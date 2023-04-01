@@ -54,8 +54,8 @@ android {
 
         // NOTICE THIS:  we set the min version to be the target version because it makes
         // the play store happier (the flutter min version was ancient)
-        minSdkVersion flutter.targetSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21//flutter.targetSdkVersion
+        targetSdkVersion 33//flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
