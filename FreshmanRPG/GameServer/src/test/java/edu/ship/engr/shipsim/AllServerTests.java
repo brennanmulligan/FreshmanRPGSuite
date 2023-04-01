@@ -8,6 +8,7 @@ import edu.ship.engr.shipsim.datasource.*;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.BuffBehaviorTest;
 import edu.ship.engr.shipsim.model.reports.*;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.TestObjectiveController;
 import edu.ship.engr.shipsim.restfulcommunication.controllers.TestPlayerController;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -25,31 +26,31 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses(
         {
                 // communication.handlers
-                ObjectiveNotificationCompleteMessageHandlerTest.class,
                 ChatMessageToServerHandlerTest.class,
                 ConnectMessageHandlerTest.class,
                 HighScoreRequestMessageHandlerTest.class,
                 KeyInputMessageHandlerTest.class,
                 MovementMessageHandlerTest.class,
+                ObjectiveNotificationCompleteMessageHandlerTest.class,
                 SendTerminalTextMessageHandlerTest.class,
                 TeleportationInitiationHandlerTest.class,
 
 //				// communication.packers
-                ObjectiveStateChangeMessagePackerTest.class,
-                ReceiveTerminalTextMessagePackerTest.class,
                 ChatMessagePackerTest.class,
-                ExperienceChangedMessagePackerTest.class,
-                InteractionDeniedMessagePackerTest.class,
-                InteractableObjectBuffMessagePackerTest.class,
                 DoubloonsChangedMessagePackerTest.class,
+                ExperienceChangedMessagePackerTest.class,
+                InteractableObjectBuffMessagePackerTest.class,
+                InteractionDeniedMessagePackerTest.class,
                 MapFileMessagePackerTest.class,
                 MovementMessagePackerTest.class,
+                ObjectiveStateChangeMessagePackerTest.class,
                 PlayerJoinedMessagePackerTest.class,
                 QuestStateChangeMessagePackerTest.class,
-                TeleportationContinuationPackerTest.class,
+                ReceiveTerminalTextMessagePackerTest.class,
                 TeleportOnQuestCompletionPackerTest.class,
-                UpdatePlayerInformationMessagePackerTest.class,
+                TeleportationContinuationPackerTest.class,
                 TerminalTextExitPackerTest.class,
+                UpdatePlayerInformationMessagePackerTest.class,
 
 //				// dataDTO
                 TestMowreyInfoDTO.class,
@@ -81,25 +82,26 @@ import org.junit.platform.suite.api.Suite;
                 VisitedMapsGatewayTest.class,
 //
 //				// edu.ship.engr.shipsim.model
-                ObjectiveStateTest.class,
                 ChatManagerTest.class,
                 ChatMessageReceivedCommandTest.class,
                 CheatCodeManagerTest.class,
                 CommandAddPlayerTest.class,
                 CommandCreatePlayerTest.class,
-                CommandObjectiveNotificationCompleteTest.class,
                 CommandKeyInputMessageReceivedTest.class,
-                CommandMovePlayerToAnotherMapAndPersistTest.class,
                 CommandMovePlayerSilentlyTest.class,
                 CommandMovePlayerTest.class,
+                CommandMovePlayerToAnotherMapAndPersistTest.class,
+                CommandObjectiveNotificationCompleteTest.class,
                 CommandPersistPlayerTest.class,
                 CommandRemovePlayerTest.class,
                 CommandTerminalTextExitTest.class,
+                InteractObjectManagerTest.class,
                 InteractObjectManagerTest.class,
                 LevelManagerTest.class,
                 NPCMapperTest.class,
                 NPCQuestionTest.class,
                 NPCTest.class,
+                ObjectiveStateTest.class,
                 OptionsManagerTest.class,
                 PlayerManagerTest.class,
                 PlayerMapperTest.class,
@@ -109,7 +111,6 @@ import org.junit.platform.suite.api.Suite;
                 QuestTest.class,
                 QuizBotBehaviorTest.class,
                 RedHatBehaviorTest.class,
-                InteractObjectManagerTest.class,
                 TutorBehaviorTest.class,
 
                 // edu.ship.engr.shipsim.model.cheatCodeBehaviors
@@ -117,27 +118,28 @@ import org.junit.platform.suite.api.Suite;
                 // MockCheatCodeBehavior.class, is used by tests, but isn't a test itself
 
                 // edu.ship.engr.shipsim.model.reports
-                AddExistingPlayerReportTest.class,
-                ObjectiveStateChangeReportTest.class,
-                ReceiveTerminalTextReportTest.class,
-                ExperienceChangedReportTest.class,
-                InteractableObjectTextReportTest.class,
-                InteractableObjectBuffReportTest.class,
-                KeyInputRecievedReportTest.class,
-                DoubloonsChangeReportTest.class,
-                ObjectInRangeReportTest.class,
                 //PlayerAppearanceChangeReportTest.class,
+                AddExistingPlayerReportTest.class,
+                DoubloonsChangeReportTest.class,
+                ExperienceChangedReportTest.class,
+                InteractableObjectBuffReportTest.class,
+                InteractableObjectTextReportTest.class,
+                KeyInputRecievedReportTest.class,
+                ObjectInRangeReportTest.class,
+                ObjectiveStateChangeReportTest.class,
                 PlayerConnectionReportTest.class,
                 PlayerFinishedInitializingReportTest.class,
                 PlayerMovedReportTest.class,
                 QuestStateChangeReportTest.class,
+                ReceiveTerminalTextReportTest.class,
                 SendChatMessageReportTest.class,
                 TeleportOnQuestCompletionReportTest.class,
                 TimeToLevelUpDeadlineTest.class,
                 UpdatePlayerInformationReportTest.class,
 
                 // restfulcommunication.controllers
-                TestPlayerController.class,
+                TestObjectiveController.class,
+                TestPlayerController.class
         })
 
 public class AllServerTests
