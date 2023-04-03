@@ -37,10 +37,10 @@ public class MajorRowDataGatewayTest
     @Test
     public void findMajorsTest() throws DatabaseException
     {
-        MajorRowDataGateway gateway = new MajorRowDataGateway(2, "Computer Science");
-        String name = new MajorRowDataGateway(2).getName();
+        MajorRowDataGateway gateway = new MajorRowDataGateway(30, "Computer Science");
+        String name = new MajorRowDataGateway(30).getName();
         assertEquals(name,gateway.getName());
-        assertEquals(2,gateway.getMajorID());
+        assertEquals(30,gateway.getMajorID());
     }
 
     /**
