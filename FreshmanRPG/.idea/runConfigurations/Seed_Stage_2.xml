@@ -18,6 +18,8 @@
           <option value="DBBuildTestVanityAwards" />
           <option value="DBBuildTestVanityShop" />
           <option value="DBBuildTestFriends" />
+          <option value="DBBuildTestCrew" />
+          <option value="DBBuildTestMajor" />
         </list>
       </option>
       <option name="vmOptions" />
