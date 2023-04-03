@@ -17,7 +17,7 @@ public class CrewRowDataGatewayTest
     @Test
     public void createTable() throws DatabaseException
     {
-        CrewRowDataGateway.creatTable();
+        CrewRowDataGateway.createTable();
     }
 
     /**
