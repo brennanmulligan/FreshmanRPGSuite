@@ -1,5 +1,8 @@
 package edu.ship.engr.shipsim.model.reports;
 
+import edu.ship.engr.shipsim.dataDTO.VanityDTO;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -7,41 +10,38 @@ import java.util.Objects;
  */
 public final class PlayerAppearanceChangeReport extends SendMessageReport
 {
-//	private final int playerID;
-//	private final String appearanceType;
+	private final int playerID;
+	private final ArrayList<VanityDTO> newWearing;
 
-    public PlayerAppearanceChangeReport()
-    {
-        //Defunct class
-        super(0, true);
-    }
 
-//	/**
-//	 * Sets the necessary fields
-//	 * @param id The player's ID
-//	 * @param appearanceType The players appearance type
-//	 */
-//	public PlayerAppearanceChangeReport(int id, String appearanceType)
-//	{
-//		this.playerID = id;
-//		this.appearanceType = appearanceType;
-//	}
-//
-//	/**
-//	 * @return the players ID
-//	 */
-//	public int getPlayerID()
-//	{
-//		return this.playerID;
-//	}
-//
-//	/**
-//	 * @return The players appearance type
-//	 */
-//	public String getAppearanceType()
-//	{
-//		return this.appearanceType;
-//	}
+
+	/**
+	 * Sets the necessary fields
+	 * @param playerID The player's ID
+	 * @param newWearing The players appearance changes
+	 */
+	public PlayerAppearanceChangeReport(int playerID, ArrayList<VanityDTO> newWearing)
+	{
+        super(playerID, true);
+		this.playerID = playerID;
+		this.newWearing = newWearing;
+	}
+
+	/**
+	 * @return the players ID
+	 */
+	public int getPlayerID()
+	{
+		return this.playerID;
+	}
+
+	/**
+	 * @return The players appearance
+	 */
+	public ArrayList<VanityDTO> getNewWearing()
+	{
+		return this.newWearing;
+	}
 
     @Override
     public boolean equals(Object o)
@@ -54,9 +54,9 @@ public final class PlayerAppearanceChangeReport extends SendMessageReport
         {
             return false;
         }
-//		PlayerAppearanceChangeReport that = (PlayerAppearanceChangeReport) o;
-//		return playerID == that.playerID && Objects.equals(appearanceType, that.appearanceType);
-        return true;
+		PlayerAppearanceChangeReport that = (PlayerAppearanceChangeReport) o;
+		return playerID == that.playerID && Objects.equals(newWearing, that.newWearing);
+
     }
 
     @Override
