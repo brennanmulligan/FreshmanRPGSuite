@@ -51,7 +51,7 @@ public class CommandCreatePlayer extends Command
         }
         catch (DatabaseException e)
         {
-            System.out.println("player name is a dup");
+
             ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Duplicate Name"));
         }
 
