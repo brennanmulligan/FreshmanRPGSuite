@@ -1,11 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:companion_app/model/barcode_scanner.dart';
 import 'package:companion_app/pages/objectives-list/bloc/objectives_list_bloc.dart';
-import 'package:companion_app/repository/BarcodeScanner/barcode_scanner.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/quests_objectives_repository/objective.dart';
 import 'package:companion_app/repository/quests_objectives_repository/quests_objectives_repository.dart';
 import 'package:companion_app/repository/shared/general_response.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
