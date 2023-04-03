@@ -106,6 +106,6 @@ public class TestPlayerController
         ResponseEntity<Object> response = mock.changePlayer(new ChangePlayerInformation("fred", "ow"));
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("{\"description\":\"Changed\",\"success\":true}", Objects.requireNonNull(response.getBody()).toString());
+        assertEquals("{\"description\":\"Password Changed\",\"success\":true}", Objects.requireNonNull(response.getBody()).toString());
     }
 }

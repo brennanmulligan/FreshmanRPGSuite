@@ -5,6 +5,7 @@ import 'package:game_manager/pages/change_password/bloc/change_password_bloc.dar
 
 import 'package:game_manager/repository/player/player_repository.dart';
 import '../../repository/player/basic_response.dart';
+import '../shared/widgets/notification_card.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -92,13 +93,24 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
             child:
             BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
-                listener: (context, state) {},
-                builder: (context, state) {
+                listener: (context, state) {
                   if (state is ChangePasswordComplete) {
-                    return buildRequestCompleteScreen(state.response);
-                  } else {
-                    return buildInputScreen();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: NotificationCard(
+                              cardTitle: state.response.success ? "Success" : "Error",
+                              description: state.response.description,
+                              success: state.response.success
+                          ),
+                          duration: const Duration(seconds: 3),
+                          behavior: SnackBarBehavior.floating,
+                          padding: EdgeInsets.zero
+                      ),
+                    );
                   }
+                },
+                builder: (context, state) {
+                    return buildInputScreen();
                 })
       )));
   }
