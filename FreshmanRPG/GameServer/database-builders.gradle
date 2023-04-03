@@ -24,6 +24,11 @@ task DBBuildTestDBPlayers(type: JavaExec) {
     main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestDBPlayers'
 }
 
+task DBBuildTestCrew(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestCrews'
+}
+
 task DBBuildTestLevels(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestLevels'

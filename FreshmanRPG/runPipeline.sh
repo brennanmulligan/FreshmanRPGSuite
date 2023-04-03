@@ -20,7 +20,7 @@ function seedShared() {
 
 function seedServer2() {
     cd GameServer > /dev/null || exit
-    ./../gradlew DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop --console=plain || exit
+    ./../gradlew DBBuildTestDoubloonPrizes DBBuildTestRandomFacts DBBuildTestDBVisitedMaps DBBuildTestFriends DBBuildTestVanityInventory DBBuildTestDefaultItems DBBuildTestVanityAwards DBBuildTestVanityShop DBBuildTestCrew --console=plain || exit
     cd - > /dev/null || exit
 }
 
