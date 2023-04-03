@@ -45,6 +45,7 @@ dependencies:
   qr_flutter: 4.0.0
   file_saver: ^0.1.1
   dio: ^5.0.1
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
