@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:companion_app/repository/BarcodeScanner/barcode_scanner.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-request.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/quests_objectives_repository/complete-objective-request.dart';
@@ -8,8 +7,9 @@ import 'package:companion_app/repository/quests_objectives_repository'
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:meta/meta.dart';
+
+import '../../../model/barcode_scanner.dart';
 
 part 'objectives_list_event.dart';
 
