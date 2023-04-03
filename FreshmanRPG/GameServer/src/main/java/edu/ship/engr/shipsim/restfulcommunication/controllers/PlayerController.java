@@ -95,7 +95,7 @@ public class PlayerController extends Controller
             if (report.isSuccessful())
             {
                 System.out.println("Success");
-                return new ResponseEntity<>(new BasicResponse(true,"Changed").toString(),
+                return new ResponseEntity<>(new BasicResponse(true,"Password Changed").toString(),
                         HttpStatus.OK);
             }
             else
