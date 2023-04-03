@@ -4,7 +4,7 @@ part of 'create_many_players_bloc.dart';
 abstract class CreateManyPlayersEvent {}
 
 class SendCreateManyPlayersEvent extends CreateManyPlayersEvent {
-  final File csvFile;
+  final io.File csvFile;
 
   SendCreateManyPlayersEvent(this.csvFile);
 
