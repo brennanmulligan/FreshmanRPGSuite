@@ -30,37 +30,45 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
       List<CreatePlayerWithNameResponse> successful = [];
       List<CreatePlayerWithNameResponse> failed = [];
 
-      lines.removeAt(0);
+      List<String> parameters = lines.elementAt(0).split(",");
+      if(!parameters.contains("name") || !parameters.contains("password") || !parameters.contains("crew") || !parameters.contains("major") || !parameters.contains("section")){
+        CreateManyPlayersResponse failedResponse = const CreateManyPlayersResponse(success: false, description: "File format invalid. Fix file and try again", successful: [], failed: []);
+        emit(CreateManyPlayersComplete(failedResponse));
+      }else{
+        int nameIndex = parameters.indexOf("name");
+        int passwordIndex = parameters.indexOf("password");
+        int crewIndex = parameters.indexOf("crew");
+        int majorIndex = parameters.indexOf("major");
+        int sectionIndex = parameters.indexOf("section");
 
-      for(int i = 0; i < lines.length; i++) {
-        List<String> parameters = lines.elementAt(i).split(",");
+        for(int i = 1; i < lines.length; i++) {
+          parameters = lines.elementAt(i).split(",");
 
-        if (parameters.length < 5) {
-          CreatePlayerWithNameResponse invalidResponse = CreatePlayerWithNameResponse(success: false, description: "invalid player details", playerName: parameters.elementAt(0));
-          failed.add(invalidResponse);
-        } else {
-          BasicResponse currentResponse = await playerRepository.createPlayer(
+          if (parameters.length < 5) {
+            CreatePlayerWithNameResponse invalidResponse = CreatePlayerWithNameResponse(success: false, description: "invalid player details", playerName: parameters.elementAt(0));
+            failed.add(invalidResponse);
+          } else {
+            BasicResponse currentResponse = await playerRepository.createPlayer(
               CreatePlayerRequest
-                (name: parameters.elementAt(0),
-                  password: parameters.elementAt(1),
-                  crew: num.parse(parameters.elementAt(2)),
-                  major: num.parse(parameters.elementAt(3)),
-                  section: num.parse(parameters.elementAt(4))));
-          //await Future.delayed(const Duration(seconds: 1));
-
-          CreatePlayerWithNameResponse successResponse = CreatePlayerWithNameResponse(
+                (name: parameters.elementAt(nameIndex),
+                  password: parameters.elementAt(passwordIndex),
+                  crew: num.parse(parameters.elementAt(crewIndex)),
+                  major: num.parse(parameters.elementAt(majorIndex)),
+                  section: num.parse(parameters.elementAt(sectionIndex))));
+            CreatePlayerWithNameResponse successResponse = CreatePlayerWithNameResponse(
               success: currentResponse.success,
               description: currentResponse.description,
               playerName: parameters.elementAt(0));
 
-          if (currentResponse.success == true) {
-            successful.add(successResponse);
-          } else {
-            failed.add(successResponse);
+            if (currentResponse.success == true) {
+              successful.add(successResponse);
+            } else {
+              failed.add(successResponse);
+            }
           }
         }
+        emit(CreateManyPlayersComplete(CreateManyPlayersResponse(success: true, description: "Created a list of players", successful: successful, failed: failed)));
       }
-      emit(CreateManyPlayersComplete(CreateManyPlayersResponse(success: true, description: "Created a list of players", successful: successful, failed: failed)));
     });
   }
 
