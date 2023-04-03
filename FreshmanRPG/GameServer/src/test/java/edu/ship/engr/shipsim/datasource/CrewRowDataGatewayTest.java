@@ -27,8 +27,8 @@ public class CrewRowDataGatewayTest
     @Test
     public void createCrewTest() throws DatabaseException
     {
-        CrewRowDataGateway gateway = new CrewRowDataGateway(1, "OffByOne");
-        String name = new CrewRowDataGateway(1).getName();
+        CrewRowDataGateway gateway = new CrewRowDataGateway(4, "OffByOne");
+        String name = new CrewRowDataGateway(4).getName();
         assertEquals(name, gateway.getName());
     }
 
