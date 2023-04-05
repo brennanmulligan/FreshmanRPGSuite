@@ -40,7 +40,7 @@ public class CommandCreatePlayer extends Command
     {
         if(!CheckPassword.checkPassword(password))
         {
-            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Bad Password"));
+            ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Weak password. Please try again."));
             return;
         }
 

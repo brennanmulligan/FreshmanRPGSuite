@@ -18,10 +18,10 @@ void main() {
          "description": "Success",
        };
 
-     Map<String, dynamic> badResponse =
+     Map<String, dynamic> weakPasswordResponse =
        {
          "success": false,
-         "description": "Failed to create player",
+         "description": "Weak password. Please try again.",
        };
 
     setUp(() {
@@ -67,14 +67,14 @@ void main() {
           password: "password", crew: 1, major: 2, section: 3);
       dioAdapter.onPost('/player/create', (request) => request
           .reply(400,
-          jsonEncode(badResponse)),
+          jsonEncode(weakPasswordResponse)),
           data: jsonEncode(createPlayerRequest));
 
       PlayerRepository repo = PlayerRepository(dio: dio);
 
       BasicResponse response = await repo.createPlayer(createPlayerRequest);
       expect(response.success, false);
-      expect(response.description, "Failed to create player");
+      expect(response.description, "Weak password. Please try again.");
     });
   });
 }
