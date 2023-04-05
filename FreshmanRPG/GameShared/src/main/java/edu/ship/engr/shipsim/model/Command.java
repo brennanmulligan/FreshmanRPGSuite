@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DuplicateNameException;
+
 import java.io.IOException;
 
 /**
@@ -11,7 +13,7 @@ public abstract class Command implements InfoPacket
     /**
      * perform the action associated with this command
      */
-    abstract void execute();
+    abstract void execute() throws DuplicateNameException;
 
     /**
      * @return true if the command should dump the queue of other commands after

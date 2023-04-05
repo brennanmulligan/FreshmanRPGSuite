@@ -85,7 +85,8 @@ public class PlayerMapper
      */
     public PlayerMapper(Position position, String appearanceType, int doubloons,
                         int experiencePoints, Crew crew, Major major, int section,
-                        String name, String password) throws DatabaseException
+                        String name, String password)
+            throws DatabaseException
     {
         int pin = 1111;
         String mapName = "sortingRoom.tmx";
