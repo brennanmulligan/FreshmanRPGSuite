@@ -1,11 +1,11 @@
 package edu.ship.engr.shipsim.model;
 
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author merlin
  */
-public abstract class Command implements InfoPacket
+public abstract class Command implements InfoPacket, Serializable
 {
 
     /**

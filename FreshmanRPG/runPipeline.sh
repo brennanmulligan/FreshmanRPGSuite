@@ -2,7 +2,7 @@
 
 function seedServer() {
     cd GameServer > /dev/null || exit
-    ./../gradlew DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestVanityItems --console=plain || exit
+    ./../gradlew DBBuildTestQuestsAndObjectives DBBuildTestDBPlayers DBBuildTestLevels DBBuildTestQuizbotQuestions DBBuildTestInteractableItems DBBuildTestTimer DBBuildTestVanityItems --console=plain || exit
     cd - > /dev/null || exit
 }
 
