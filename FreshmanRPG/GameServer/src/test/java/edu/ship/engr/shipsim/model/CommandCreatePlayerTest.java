@@ -103,7 +103,7 @@ public class CommandCreatePlayerTest
                 Major.BIOLOGY.getID(), 42);
         cmd.execute();
 
-        verify(obs, times(5)).receiveReport(new CreatePlayerResponseReport(false, "Bad Password"));
+        verify(obs, times(5)).receiveReport(new CreatePlayerResponseReport(false, "Weak password. Please try again."));
         verify(obs, times(1)).receiveReport(new CreatePlayerResponseReport(true));
     }
 }
