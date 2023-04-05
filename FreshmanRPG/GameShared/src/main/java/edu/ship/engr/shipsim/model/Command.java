@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author merlin
  */
-public abstract class Command implements InfoPacket, Serializable
+public abstract class Command implements InfoPacket
 {
 
     /**
