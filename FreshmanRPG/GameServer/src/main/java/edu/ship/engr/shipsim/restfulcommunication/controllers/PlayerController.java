@@ -48,7 +48,7 @@ public class PlayerController extends Controller
             }
             else
             {
-                System.out.println("FAIL");
+                System.out.println("FAIL; " + report.getDescription());
                 return new ResponseEntity<>(
                         new BasicResponse(false, report.getDescription()).toString(),
                         HttpStatus.BAD_REQUEST);
