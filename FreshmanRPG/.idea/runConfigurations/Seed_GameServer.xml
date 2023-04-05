@@ -16,6 +16,7 @@
           <option value="DBBuildTestQuestsAndObjectives" />
           <option value="DBBuildTestInteractableItems" />
           <option value="DBBuildTestVanityItems" />
+          <option value="DBBuildTestTimer" />
         </list>
       </option>
       <option name="vmOptions" />
