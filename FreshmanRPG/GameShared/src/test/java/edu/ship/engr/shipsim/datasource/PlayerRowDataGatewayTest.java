@@ -56,7 +56,7 @@ public class PlayerRowDataGatewayTest
      * @throws DatabaseException shouldn't
      */
     @Test
-    public void creation() throws DatabaseException
+    public void creation() throws DatabaseException, DuplicateNameException
     {
         gateway = createGateway("Warrior", 2, 13, Crew.OFF_BY_ONE,
                 Major.SOFTWARE_ENGINEERING, 1, 42, false);
@@ -87,7 +87,8 @@ public class PlayerRowDataGatewayTest
      * @throws DatabaseException if we fail to create the row
      */
     PlayerRowDataGateway createGateway(String appearanceType, int quizScore,
-                                       int experiencePoints, Crew crew, Major major, int section, int buffPool, boolean online) throws DatabaseException
+                                       int experiencePoints, Crew crew, Major major, int section, int buffPool, boolean online)
+            throws DatabaseException, DuplicateNameException
     {
         return new PlayerRowDataGateway(appearanceType, quizScore, experiencePoints, crew, major, section, buffPool, online);
     }
