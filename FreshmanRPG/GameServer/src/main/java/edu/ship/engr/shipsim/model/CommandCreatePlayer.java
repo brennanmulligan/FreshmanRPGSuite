@@ -59,11 +59,13 @@ public class CommandCreatePlayer extends Command
         {
             String[] arr = e.getRootCause().getMessage().split(" ");
 
-            if(arr[0].equals("Duplicate")){
+            if(arr[0].equals("Duplicate"))
+            {
                 ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(false, "Duplicate name"));
 //                throw new DuplicateNameException("Duplicate name has occured");
                 return;
-            }else
+            }
+            else
             {
                 throw new RuntimeException(e);
             }
