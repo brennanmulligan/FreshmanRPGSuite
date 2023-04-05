@@ -3,6 +3,7 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.dataDTO.ObjectiveStateRecordDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestStateRecordDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 import edu.ship.engr.shipsim.datasource.ObjectiveStateTableDataGateway;
 import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
 import edu.ship.engr.shipsim.datasource.PlayerLoginRowDataGateway;
@@ -38,7 +39,8 @@ public class CommandCreatePlayerTest
      * Works when request is valid
      */
     @Test
-    public void testValidPlayer() throws DatabaseException
+    public void testValidPlayer()
+            throws DatabaseException, DuplicateNameException
     {
         ReportObserver obs = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);
@@ -68,7 +70,7 @@ public class CommandCreatePlayerTest
     }
 
     @Test
-    public void testPasswordRequirements()
+    public void testPasswordRequirements() throws DuplicateNameException
     {
         ReportObserver obs = mock(ReportObserver.class);
         ReportObserverConnector.getSingleton().registerObserver(obs, CreatePlayerResponseReport.class);

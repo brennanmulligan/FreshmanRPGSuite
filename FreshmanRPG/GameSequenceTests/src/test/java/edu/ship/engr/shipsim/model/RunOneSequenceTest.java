@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 import edu.ship.engr.shipsim.sequencetests.LoginSuccessSequenceTest;
 import edu.ship.engr.shipsim.sequencetests.RecCenterGrantsDoubloonsWithBuffSequenceTest;
 import edu.ship.engr.shipsim.sequencetests.RestfulLoginBadPasswordSequenceTest;
@@ -35,8 +36,9 @@ public class RunOneSequenceTest
     public void runSingleTest()
             throws InstantiationException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException,
-            NoSuchMethodException, SecurityException, IOException, CommunicationException,
-            DatabaseException, ModelFacadeException
+            NoSuchMethodException, SecurityException, IOException,
+            CommunicationException,
+            DatabaseException, ModelFacadeException, DuplicateNameException
     {
         Class<? extends SequenceTest> testClass = RecCenterGrantsDoubloonsWithBuffSequenceTest.class;
 

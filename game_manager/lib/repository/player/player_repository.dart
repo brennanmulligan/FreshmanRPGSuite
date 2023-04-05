@@ -21,13 +21,15 @@ class PlayerRepository {
         '/player/create',
         data: jsonEncode(request),
       );
+
       return BasicResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
-      if (e.response != null) {
-        if (e.response!.statusCode == 400) {
-          return BasicResponse.fromJson(json: jsonDecode(e.response!.data));
-        }
-      }
+      final errorResponse = BasicResponse.fromJson(
+        json: jsonDecode(e.response?.data ?? '{}'),
+      );
+      String description = errorResponse.description;
+      return BasicResponse(success: false, description: description);
+      //TODO Error checking on http response types
     }
 
     return const BasicResponse(
