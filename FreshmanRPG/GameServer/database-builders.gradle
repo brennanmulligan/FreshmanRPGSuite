@@ -48,6 +48,11 @@ task DBBuildTestInteractableItems(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestInteractableItems'
 }
+
+task DBBuildTestTimer(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'edu.ship.engr.shipsim.DatabaseBuilders.BuildTestTimers'
+}
 // Gradle equivalent to GameServer.seed - end
 
 // Gradle equivalent to VisitedMap.seed - start

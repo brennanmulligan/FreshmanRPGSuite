@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @author merlin
  */
-public abstract class Command implements InfoPacket
+public abstract class Command implements InfoPacket, Serializable
 {
 
     /**
