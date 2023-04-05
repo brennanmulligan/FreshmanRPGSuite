@@ -30,8 +30,7 @@ public enum QuestStateEnum
     /**
      * The player ran out of time to complete the quest
      */
-    EXPIRED("is expired"),
-    ;
+    EXPIRED("is expired");
 
     private String description;
 
