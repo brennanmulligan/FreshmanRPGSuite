@@ -78,7 +78,7 @@ public class CommandCreatePlayer extends Command
     }
 
     private void triggerInitialQuests(int playerID) throws DatabaseException
-{
+    {
     QuestStateTableDataGateway questStateTableDataGatewayRDS =
             QuestStateTableDataGateway.getSingleton();
     ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
