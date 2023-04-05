@@ -6,16 +6,20 @@ public class DuplicateNameException extends Exception
 
     private String simpleDescription;
     private Exception rootCause;
-    public DuplicateNameException(String msg, Exception e, String name){
+    public DuplicateNameException(String msg, Exception e, String name)
+    {
         this.name = name;
         simpleDescription = msg;
         rootCause = e;
     }
 
-    public DuplicateNameException(String msg){
+    public DuplicateNameException(String msg)
+    {
+
         simpleDescription = msg;
     }
-    public String getName(String name){
+    public String getName(String name)
+    {
         return name;
     }
 
