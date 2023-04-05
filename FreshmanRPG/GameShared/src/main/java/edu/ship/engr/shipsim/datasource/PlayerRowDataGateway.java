@@ -115,7 +115,8 @@ public class PlayerRowDataGateway
      * @throws DatabaseException shouldn't
      */
     public PlayerRowDataGateway(String appearanceType, int quizScore, int experiencePoints,
-                                Crew crew, Major major, int section, int buffPool, boolean online) throws DatabaseException
+                                Crew crew, Major major, int section, int buffPool, boolean online)
+            throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
@@ -157,8 +158,14 @@ public class PlayerRowDataGateway
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Couldn't create a player record for player with ID " + playerID, e);
+
+
+                throw new DatabaseException(
+                        "Couldn't create a player record for player with ID " +
+                                playerID, e);
+
         }
+
     }
 
     /**

@@ -1,38 +1,28 @@
 package edu.ship.engr.shipsim.datasource;
 
-import com.mysql.cj.exceptions.DataReadException;
-
-/**
- * @author Merlin
- */
-public class DatabaseException extends Exception
+public class DuplicateNameException extends Exception
 {
+    private String name;
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
     private String simpleDescription;
-
     private Exception rootCause;
-
-    /**
-     * @param msg the message associated with this exception
-     */
-    public DatabaseException(String msg)
+    public DuplicateNameException(String msg, Exception e, String name)
     {
-        simpleDescription = msg;
-    }
-
-    /**
-     * @param msg description of complication
-     * @param e   exception being thrown
-     */
-    public DatabaseException(String msg, Exception e)
-    {
+        this.name = name;
         simpleDescription = msg;
         rootCause = e;
     }
+
+    public DuplicateNameException(String msg)
+    {
+
+        simpleDescription = msg;
+    }
+    public String getName(String name)
+    {
+        return name;
+    }
+
 
     /**
      * @return the original exception, if any, that occurred
@@ -57,5 +47,6 @@ public class DatabaseException extends Exception
     {
         return simpleDescription + ":" + rootCause;
     }
+
 
 }

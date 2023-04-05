@@ -7,6 +7,7 @@ import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DatabaseManager;
+import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.apache.commons.compress.utils.Lists;
@@ -55,7 +56,11 @@ public class RunAllSequenceTests
 
     @ParameterizedTest(name = "{0}")
     @MethodSource
-    public void runTest(String className, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, DatabaseException, ModelFacadeException, CommunicationException, IOException
+    public void runTest(String className, Class<?> clazz)
+            throws NoSuchMethodException, InvocationTargetException,
+            InstantiationException, IllegalAccessException, DatabaseException,
+            ModelFacadeException, CommunicationException, IOException,
+            DuplicateNameException
     {
         SequenceTest sequenceTest = (SequenceTest) clazz.getConstructor().newInstance();
         List<Interaction> interactions = sequenceTest.getInteractions();
@@ -117,7 +122,8 @@ public class RunAllSequenceTests
      * @throws IOException            shouldn't
      */
     public String run(ServerType sType, Interaction interaction, boolean verbose)
-            throws CommunicationException, IOException, ModelFacadeException
+            throws CommunicationException, IOException, ModelFacadeException,
+            DuplicateNameException
     {
         if (verbose)
         {
@@ -222,7 +228,7 @@ public class RunAllSequenceTests
      * @throws IOException shouldn't
      */
     private void initiateTheSequence(ServerType sType, Interaction interaction)
-            throws IOException
+            throws IOException, DuplicateNameException
     {
         if (sType == interaction.getInitiatingServerType())
         {
