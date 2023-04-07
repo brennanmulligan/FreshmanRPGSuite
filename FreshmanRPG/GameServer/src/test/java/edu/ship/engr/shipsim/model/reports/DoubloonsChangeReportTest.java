@@ -35,6 +35,6 @@ public class DoubloonsChangeReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(DoubloonChangeReport.class).verify();
+        EqualsVerifier.forClass(DoubloonChangeReport.class).withRedefinedSuperclass().verify();
     }
 }

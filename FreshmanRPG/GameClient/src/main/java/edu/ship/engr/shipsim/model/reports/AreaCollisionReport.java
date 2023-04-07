@@ -1,14 +1,16 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * @author nhydock
  */
-public class AreaCollisionReport extends SendMessageReport
+@EqualsAndHashCode(callSuper = true)
+public final class AreaCollisionReport extends SendMessageReport
 {
-    private final int playerID;
-    private final String areaName;
+    @Getter private final int playerID;
+    @Getter private final String areaName;
 
     /**
      * @param playerID The player who moved
@@ -19,44 +21,5 @@ public class AreaCollisionReport extends SendMessageReport
         super(playerID, true);
         this.playerID = playerID;
         this.areaName = areaName;
-    }
-
-    /**
-     * @return the player who moved
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    /**
-     * @return the position to which the player moved
-     */
-    public String getAreaName()
-    {
-        return areaName;
-    }
-
-    @Override
-    public final boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof AreaCollisionReport that))
-        {
-            return false;
-        }
-        return getPlayerID() == that.getPlayerID() &&
-                Objects.equals(getAreaName(), that.getAreaName()) &&
-                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
-                this.isQuiet() == that.isQuiet();
-    }
-
-    @Override
-    public final int hashCode()
-    {
-        return Objects.hash(getPlayerID(), getAreaName(), getRelevantPlayerID(), isQuiet());
     }
 }

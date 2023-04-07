@@ -41,6 +41,6 @@ public class QuestStateChangeReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(QuestStateChangeReport.class).verify();
+        EqualsVerifier.forClass(QuestStateChangeReport.class).withRedefinedSuperclass().verify();
     }
 }

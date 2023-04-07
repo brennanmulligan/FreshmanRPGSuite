@@ -1,3 +1,33 @@
+
+// Automatically pack the jar into an executable
+launch4j {
+    // Core configuration
+    outfile = 'FreshmanRPG.exe'
+    mainClassName = project.mainClassName
+    copyConfigurable = []
+    jarTask = project.tasks.shadowJar
+
+    // Icon
+    icon = "${projectDir}/rpg_icon.ico"
+
+    // Prevent a redirect to java.com when opening the application
+    downloadUrl = ''            // java.com is gross, only offers java 8
+    bundledJrePath = '%PATH%'   // otherwise the exe complains about not having java installed
+
+    // File details (shown in Windows file properties menu)
+    // Copyright
+    // todo can we do this? -> copyright = 'Copyright (C) Shippensburg University 2023'
+    copyright = 'Unknown'
+    // File description
+    fileDescription = 'FreshmanRPG Client'
+    // File version
+    version = '0.0.0.1'
+    // Product name
+    productName = 'FreshmanRPG Client'
+    // Product version
+    textVersion = '0.0.0.1'
+}
+
 // Register the 'genFileManifest' task.
 tasks.register('genFileManifest') {
     // Create the build directory if it does not exist.

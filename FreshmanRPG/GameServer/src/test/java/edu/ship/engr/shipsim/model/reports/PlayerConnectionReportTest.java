@@ -54,6 +54,6 @@ public class PlayerConnectionReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(PlayerConnectionReport.class).verify();
+        EqualsVerifier.forClass(PlayerConnectionReport.class).withRedefinedSuperclass().verify();
     }
 }
