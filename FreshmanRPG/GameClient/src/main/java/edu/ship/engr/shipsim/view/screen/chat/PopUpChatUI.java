@@ -116,6 +116,11 @@ public class PopUpChatUI extends OverlayingScreen implements ReportObserver
                 systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Objective Completed: " + r.getObjectiveDescription(), systemChatType));
                 behavior.clicked();
             }
+            else if (r.getNewState() == ObjectiveStateEnum.LATE)
+            {
+                systemChatTable.addChatResponse(new ChatTextDetails(systemLabel + "Objective Completed: " + r.getObjectiveDescription(), systemChatType));
+                behavior.clicked();
+            }
         }
         else if (report.getClass().equals(InteractionDeniedReport.class))
         {
