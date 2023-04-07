@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datatypes.Position;
+import lombok.EqualsAndHashCode;
 
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
  *
  * @author Matt Kujawski
  */
+@EqualsAndHashCode(callSuper = true)
 public final class ClientPlayerMovedReport extends SendMessageReport
 {
     private final int playerID;
@@ -51,29 +53,5 @@ public final class ClientPlayerMovedReport extends SendMessageReport
     public Position getNewPosition()
     {
         return thePosition;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof ClientPlayerMovedReport that))
-        {
-            return false;
-        }
-        return playerID == that.playerID &&
-                isThisClientsPlayer() == that.isThisClientsPlayer() &&
-                Objects.equals(thePosition, that.thePosition) &&
-                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
-                this.isQuiet() == that.isQuiet();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(playerID, thePosition, isThisClientsPlayer(), getRelevantPlayerID(), isQuiet());
     }
 }

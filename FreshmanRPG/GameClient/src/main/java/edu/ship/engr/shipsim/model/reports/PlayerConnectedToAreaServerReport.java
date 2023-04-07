@@ -6,6 +6,7 @@ import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.view.player.PlayerType;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -15,15 +16,16 @@ import java.util.List;
  *
  * @author Merlin
  */
-public class PlayerConnectedToAreaServerReport implements Report
+@EqualsAndHashCode
+public final class PlayerConnectedToAreaServerReport implements Report
 {
-    private int playerID;
-    private String playerName;
-    private Position position;
-    private boolean isThisClientsPlayer;
-    private Crew crew;
-    private Major major;
-    private List<VanityDTO> vanities;
+    private final int playerID;
+    private final String playerName;
+    private final Position position;
+    private final boolean isThisClientsPlayer;
+    private final Crew crew;
+    private final Major major;
+    private final List<VanityDTO> vanities;
 
     /**
      * @param playerID            the id of the player
@@ -94,96 +96,6 @@ public class PlayerConnectedToAreaServerReport implements Report
     public List<VanityDTO> getVanities()
     {
         return vanities;
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((vanities == null) ? 0 : vanities.hashCode());
-        result = prime * result + ((crew == null) ? 0 : crew.hashCode());
-        result = prime * result + (isThisClientsPlayer ? 1231 : 1237);
-        result = prime * result + ((major == null) ? 0 : major.hashCode());
-        result = prime * result + playerID;
-        result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
-        result = prime * result + ((position == null) ? 0 : position.hashCode());
-        return result;
-    }
-
-
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-        PlayerConnectedToAreaServerReport other = (PlayerConnectedToAreaServerReport) obj;
-        if (vanities == null)
-        {
-            if (other.vanities != null)
-            {
-                return false;
-            }
-        }
-        else if (!vanities.equals(other.vanities))
-        {
-            return false;
-        }
-        if (crew != other.crew)
-        {
-            return false;
-        }
-        if (isThisClientsPlayer != other.isThisClientsPlayer)
-        {
-            return false;
-        }
-        if (major != other.major)
-        {
-            return false;
-        }
-        if (playerID != other.playerID)
-        {
-            return false;
-        }
-        if (playerName == null)
-        {
-            if (other.playerName != null)
-            {
-                return false;
-            }
-        }
-        else if (!playerName.equals(other.playerName))
-        {
-            return false;
-        }
-        if (position == null)
-        {
-            if (other.position != null)
-            {
-                return false;
-            }
-        }
-        else if (!position.equals(other.position))
-        {
-            return false;
-        }
-        return true;
     }
 
 

@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.LoginSuccessfulReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
@@ -54,6 +55,7 @@ public class PlayerManagerTest
 
         LoginSuccessfulReport actual = pm.login(PlayersForTest.MERLIN_OFFLINE.getPlayerName(),
                 PlayersForTest.MERLIN_OFFLINE.getPlayerPassword());
+
         assertEquals(expected, actual);
     }
 
