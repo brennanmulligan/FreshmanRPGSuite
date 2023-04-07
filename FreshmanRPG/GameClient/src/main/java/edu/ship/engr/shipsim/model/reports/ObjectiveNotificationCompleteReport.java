@@ -1,16 +1,17 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * @author Ryan
  */
+@EqualsAndHashCode(callSuper = true)
 public final class ObjectiveNotificationCompleteReport extends SendMessageReport
 {
-
-    private final int playerID;
-    private final int questID;
-    private final int objectiveID;
+    @Getter private final int playerID;
+    @Getter private final int questID;
+    @Getter private final int objectiveID;
 
     /**
      * Constructor
@@ -26,53 +27,5 @@ public final class ObjectiveNotificationCompleteReport extends SendMessageReport
         this.playerID = playerID;
         this.questID = questID;
         this.objectiveID = objectiveID;
-    }
-
-    /**
-     * @return player id
-     */
-    public int getPlayerID()
-    {
-        return playerID;
-    }
-
-    /**
-     * @return quest id
-     */
-    public int getQuestID()
-    {
-        return questID;
-    }
-
-    /**
-     * @return objective id
-     */
-    public int getObjectiveID()
-    {
-        return objectiveID;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof ObjectiveNotificationCompleteReport that))
-        {
-            return false;
-        }
-        return getPlayerID() == that.getPlayerID() &&
-                getQuestID() == that.getQuestID() &&
-                getObjectiveID() == that.getObjectiveID()&&
-                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
-                this.isQuiet() == that.isQuiet();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(getPlayerID(), getQuestID(), getObjectiveID(), getRelevantPlayerID(), isQuiet());
     }
 }

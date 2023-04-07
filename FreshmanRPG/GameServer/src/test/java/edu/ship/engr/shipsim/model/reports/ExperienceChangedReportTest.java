@@ -42,6 +42,6 @@ public class ExperienceChangedReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(ExperienceChangedReport.class).verify();
+        EqualsVerifier.forClass(ExperienceChangedReport.class).withRedefinedSuperclass().verify();
     }
 }

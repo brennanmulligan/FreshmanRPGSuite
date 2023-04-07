@@ -1,10 +1,13 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * @author Merlin
  */
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "pin")
 public final class LoginSuccessfulReport extends SendMessageReport
 {
 
@@ -60,29 +63,5 @@ public final class LoginSuccessfulReport extends SendMessageReport
     public int getPlayerID()
     {
         return playerID;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof LoginSuccessfulReport that))
-        {
-            return false;
-        }
-        return getPort() == that.getPort() &&
-                getPlayerID() == that.getPlayerID() &&
-                Objects.equals(getHostname(), that.getHostname()) &&
-                this.getRelevantPlayerID() == that.getRelevantPlayerID() &&
-                this.isQuiet() == that.isQuiet();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(getHostname(), getPort(), getPlayerID(), getRelevantPlayerID(), isQuiet());
     }
 }

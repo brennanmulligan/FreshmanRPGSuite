@@ -33,6 +33,6 @@ public class ChangeMapReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(ChangeMapReport.class).verify();
+        EqualsVerifier.forClass(ChangeMapReport.class).withRedefinedSuperclass().verify();
     }
 }
