@@ -1,7 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.model.Report;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public abstract class SendMessageReport implements Report
 {
     private final int relevantPlayerID;

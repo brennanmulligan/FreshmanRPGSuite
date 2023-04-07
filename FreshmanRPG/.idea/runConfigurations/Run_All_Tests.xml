@@ -11,7 +11,7 @@
       <option name="taskNames">
         <list />
       </option>
-      <option name="vmOptions" />
+      <option name="vmOptions" value="" />
     </ExternalSystemSettings>
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
@@ -22,6 +22,7 @@
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="GameClient - Test" run_configuration_type="GradleRunConfiguration" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="GameServer - Test" run_configuration_type="GradleRunConfiguration" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="GameSequenceTests - Test" run_configuration_type="GradleRunConfiguration" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Watchdog - Test" run_configuration_type="GradleRunConfiguration" />
     </method>
   </configuration>
 </component>

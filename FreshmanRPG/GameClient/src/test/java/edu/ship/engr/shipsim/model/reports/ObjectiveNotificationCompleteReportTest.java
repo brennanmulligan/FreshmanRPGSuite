@@ -34,6 +34,6 @@ public class ObjectiveNotificationCompleteReportTest
     @Test
     public void testEqualsContract()
     {
-        EqualsVerifier.forClass(ObjectiveNotificationCompleteReport.class).verify();
+        EqualsVerifier.forClass(ObjectiveNotificationCompleteReport.class).withRedefinedSuperclass().verify();
     }
 }

@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+}
+
+group 'edu.ship.engr'
+version '1.0-SNAPSHOT'
+
+mainClassName = "edu.ship.engr.shipsim.Watchdog"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':GameShared')
+    testImplementation project(path: ':GameShared', configuration: 'testArtifacts')
+}
+
+shadowJar {
+    dependsOn(test)
+    archiveFileName = 'Watchdog.jar'
+    destinationDirectory = new File(project.projectDir, "build")
+}
+
+test {
+    useJUnitPlatform()
+}

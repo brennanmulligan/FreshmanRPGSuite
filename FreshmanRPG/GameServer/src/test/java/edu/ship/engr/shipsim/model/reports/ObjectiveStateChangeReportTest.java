@@ -45,6 +45,6 @@ public class ObjectiveStateChangeReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(ObjectiveStateChangeReport.class).verify();
+        EqualsVerifier.forClass(ObjectiveStateChangeReport.class).withRedefinedSuperclass().verify();
     }
 }
