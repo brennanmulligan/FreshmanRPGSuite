@@ -11,6 +11,7 @@ import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.restfulcommunication.RestfulServer;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -154,7 +155,6 @@ public class Server implements Runnable, AutoCloseable
     @Override
     public void run()
     {
-        int i = 0;
         try
         {
             OptionsManager om = OptionsManager.getSingleton();
@@ -174,32 +174,63 @@ public class Server implements Runnable, AutoCloseable
                     OptionsManager.getSingleton().getMapFileTitle());
             PlayerManager.getSingleton().loadNpcs(false);
             InteractObjectManager.getSingleton();
-            servSock = new ServerSocket(OptionsManager.getSingleton().getPortNumber(), 10);
 
             if (restfulServer)
             {
                 SpringApplication application = new SpringApplication(RestfulServer.class);
                 application.setBannerMode(Banner.Mode.OFF);
-                application.run();
+
+                try (ConfigurableApplicationContext run = application.run())
+                {
+                    // do nothing
+                }
             }
 
-            //noinspection InfiniteLoopStatement
-            while (true)
-            {
-                Socket sock = servSock.accept();
-                i++;
-                MessagePackerSet messagePackerSet = new MessagePackerSet();
-                StateAccumulator stateAccumulator =
-                        new StateAccumulator(messagePackerSet);
-
-                new ConnectionManager(sock, stateAccumulator,
-                        new MessageHandlerSet(stateAccumulator), messagePackerSet, true);
-            }
-
+            openConnectionToWatchdogServer();
+            acceptConnectionsFromClients();
         }
         catch (Throwable e)
         {
             e.printStackTrace();
+        }
+    }
+
+    private void acceptConnectionsFromClients() throws IOException
+    {
+        servSock = new ServerSocket(OptionsManager.getSingleton().getPortNumber(), 10);
+
+        //noinspection InfiniteLoopStatement
+        while (true)
+        {
+            Socket sock = servSock.accept();
+
+            MessagePackerSet messagePackerSet = new MessagePackerSet();
+            StateAccumulator stateAccumulator =
+                    new StateAccumulator(messagePackerSet);
+
+            new ConnectionManager(sock, stateAccumulator,
+                    new MessageHandlerSet(stateAccumulator), messagePackerSet, true);
+        }
+    }
+
+    private void openConnectionToWatchdogServer()
+    {
+        try
+        {
+            String host = OptionsManager.getSingleton().getProductionHostName();
+            Socket socket = new Socket(host, 1891);
+            MessagePackerSet messagePackerSet = new MessagePackerSet();
+            StateAccumulator stateAccumulator = new StateAccumulator(messagePackerSet);
+
+            stateAccumulator.setConnectedToWatchdogServer(true);
+
+            new ConnectionManager(socket, stateAccumulator,
+                    new MessageHandlerSet(stateAccumulator), messagePackerSet, false);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 

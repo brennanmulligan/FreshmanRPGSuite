@@ -33,6 +33,6 @@ public class PlayerMovedReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(PlayerMovedReport.class).verify();
+        EqualsVerifier.forClass(PlayerMovedReport.class).withRedefinedSuperclass().verify();
     }
 }

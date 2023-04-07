@@ -53,6 +53,6 @@ public class PlayerConnectedToAreaServerReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(PlayerConnectedToAreaServerReport.class).verify();
+        EqualsVerifier.forClass(PlayerConnectedToAreaServerReport.class).withRedefinedSuperclass().verify();
     }
 }
