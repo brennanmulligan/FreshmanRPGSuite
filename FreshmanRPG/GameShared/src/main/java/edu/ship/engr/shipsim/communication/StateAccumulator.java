@@ -6,6 +6,8 @@ import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.model.Report;
 import edu.ship.engr.shipsim.model.ReportObserver;
 import edu.ship.engr.shipsim.model.reports.SendMessageReport;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class StateAccumulator implements ReportObserver
     protected final ArrayList<Message> pendingMsgs;
     private MessagePackerSet packerSet;
     private int playerID;
+    @Getter @Setter private boolean connectedToWatchdogServer;
 
     /**
      * @param messagePackerSet the set of MessagePackers we should use to build the
@@ -146,5 +149,4 @@ public class StateAccumulator implements ReportObserver
             pendingMsgs.clear();
         }
     }
-
 }

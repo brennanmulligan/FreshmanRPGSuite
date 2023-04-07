@@ -31,6 +31,6 @@ public class PlayerMovedReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(ClientPlayerMovedReport.class).suppress(Warning.NONFINAL_FIELDS).verify();
+        EqualsVerifier.forClass(ClientPlayerMovedReport.class).withRedefinedSuperclass().verify();
     }
 }

@@ -30,6 +30,6 @@ public class LoginInitiatedReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(LoginInitiatedReport.class).verify();
+        EqualsVerifier.forClass(LoginInitiatedReport.class).withRedefinedSuperclass().verify();
     }
 }

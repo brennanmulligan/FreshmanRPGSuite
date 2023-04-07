@@ -31,6 +31,6 @@ public class AreaCollisionReportTest
     @Test
     public void equalsContract()
     {
-        EqualsVerifier.forClass(AreaCollisionReport.class).verify();
+        EqualsVerifier.forClass(AreaCollisionReport.class).withRedefinedSuperclass().verify();
     }
 }

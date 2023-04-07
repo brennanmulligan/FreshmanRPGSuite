@@ -8,13 +8,13 @@ function seedServer() {
 
 function seedLogin() {
     cd LoginServer > /dev/null || exit
-    ./../gradlew DBBuildTestDBPlayerLogin --console=plain || exit
+    ./../gradlew DBBuildTestDBPlayerLogin --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function seedShared() {
     cd GameShared > /dev/null || exit
-    ./../gradlew DBBuildTestDBServers --console=plain || exit
+    ./../gradlew DBBuildTestDBServers --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
@@ -26,73 +26,85 @@ function seedServer2() {
 
 function testGameShared() {
     cd GameShared > /dev/null || exit
-    ./../gradlew test --tests "edu.ship.engr.shipsim.AllSharedTests" --console=plain || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.AllSharedTests" --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function testLoginServer() {
     cd LoginServer > /dev/null || exit
-    ./../gradlew test --tests "edu.ship.engr.shipsim.AllLoginServerTests" --console=plain || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.AllLoginServerTests" --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function testGameServer() {
     cd GameServer > /dev/null || exit
-    ./../gradlew test --tests "edu.ship.engr.shipsim.AllServerTests" --console=plain || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.AllServerTests" --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function testGameClient() {
     cd GameClient > /dev/null || exit
-    ./../gradlew test --tests "edu.ship.engr.shipsim.AllClientTests" --console=plain || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.AllClientTests" --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function testGameSequenceTests() {
     cd GameSequenceTests > /dev/null || exit
-    ./../gradlew test --tests "edu.ship.engr.shipsim.model.RunAllSequenceTests" --console=plain || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.model.RunAllSequenceTests" --build-cache --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+function testWatchdog() {
+    cd Watchdog > /dev/null || exit
+    ./../gradlew test --tests "edu.ship.engr.shipsim.AllWatchdogTests" --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameClient() {
     cd GameClient > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameClientDesktop() {
     cd GameClient-desktop > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameManager() {
     cd GameManager > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameSequenceTests() {
     cd GameSequenceTests > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameServer() {
     cd GameServer > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkGameShared() {
     cd GameShared > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
 function checkLoginServer() {
     cd LoginServer > /dev/null || exit
-    ./../gradlew checkstyleMain checkstyleTest --console=plain || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
+    cd - > /dev/null || exit
+}
+
+function checkWatchdog() {
+    cd Watchdog > /dev/null || exit
+    ./../gradlew checkstyleMain checkstyleTest --build-cache --console=plain || exit
     cd - > /dev/null || exit
 }
 
@@ -112,6 +124,7 @@ function runTests() {
     testGameServer
     testGameClient
     testGameSequenceTests
+    testWatchdog
 }
 
 function runCheckstyle() {
@@ -121,6 +134,7 @@ function runCheckstyle() {
     checkGameServer
     checkGameShared
     checkLoginServer
+    checkWatchdog
 }
 
 function run() {

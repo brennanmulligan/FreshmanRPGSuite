@@ -1,11 +1,35 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-basedir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+base_dir() {
+    case "$SHELL" in
+    "/bin/bash")
+        basedir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+        ;;
+    "/bin/zsh")
+        basedir=$(cd -P -- "$(dirname -- "$0")" && printf '%s\n' "$(pwd -P)")
+        ;;
+    esac
+}
+
+shell_name() {
+    case "$SHELL" in
+    "/bin/bash")
+        shellname='bash'
+        ;;
+    "/bin/zsh")
+        shellname='zsh'
+        ;;
+    esac
+}
+
+base_dir
+shell_name
 self_name="${0##*/}"
+parentdir="$basedir/../"
 
 setup() {
     NAME="frpg"
-    if [[ -n "$1" ]] ; then
+    if [[ -n "$1" ]]; then
         NAME="$1"
     fi
 
@@ -16,10 +40,11 @@ setup() {
 
 run_compose() {
     HOST=$(hostname)
-    if [[ "$HOST" == "rpgserv" ]] ; then
-        docker compose -f "$basedir/docker/prod-docker-compose.yml" "${@:1}"
+
+    if [[ -v FRPG_PROD || "$HOST" == "rpgserv" ]]; then
+        docker compose -f "$parentdir/docker/prod-docker-compose.yml" "${@:1}"
     else
-        docker compose -f "$basedir/docker/dev-docker-compose.yml" "${@:1}"
+        docker compose -f "$parentdir/docker/dev-docker-compose.yml" "${@:1}"
     fi
 }
 
@@ -29,10 +54,10 @@ up() {
     run_compose build &>/dev/null
 
     HOST=$(hostname)
-    if [[ "$HOST" == "rpgserv" ]] ; then
-        cd "$basedir/FreshmanRPG/GameServer" &>/dev/null || exit
+    if [[ -v FRPG_PROD || "$HOST" == "rpgserv" ]]; then
+        cd "$basedir/GameServer" &>/dev/null || exit
         ./../gradlew build -x test
-        cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null || exit
+        cd "$basedir/LoginServer" &>/dev/null || exit
         ./../gradlew build -x test
     fi
 
