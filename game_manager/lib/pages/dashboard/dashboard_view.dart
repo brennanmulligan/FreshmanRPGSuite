@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_manager/pages/dashboard/widgets/navigation_card.dart';
 import 'package:game_manager/pages/create_player/create_player_page.dart';
 import 'package:game_manager/pages/change_password/change_password_page.dart';
+import 'package:game_manager/pages/create_edit_quest/create_edit_quest_page.dart';
 
 
 class DashboardView extends StatelessWidget {
@@ -28,6 +29,12 @@ class DashboardView extends StatelessWidget {
               cardTitle: 'Change Player Password',
               cardIcon: Icon(Icons.lock_open),
               cardLink: ChangePasswordPage(),
+            ),
+
+            NavigationCard(
+              cardTitle: 'Create/Edit a Quest',
+              cardIcon: Icon(Icons.assignment_add),
+              cardLink: CreateEditQuestPage(),
             ),
           ],
 
