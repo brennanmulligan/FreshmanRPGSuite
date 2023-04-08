@@ -166,6 +166,15 @@ public class QuestRowDataGatewayTest
     }
 
     /**
+     * Makes sure we can find an id based on a name
+     */
+    @Test
+    public void findIDFromTitleTest() throws DatabaseException
+    {
+        assertEquals(1, QuestRowDataGateway.findIDFromTitle("t0"));
+    }
+
+    /**
      * Make sure we can retrieve a specific question
      *
      * @throws DatabaseException shouldn't
