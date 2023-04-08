@@ -66,6 +66,30 @@ public class ObjectiveStateTest
     }
 
     /**
+     * Test to check if an objective's state can be changed from triggered to late
+     *
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong state
+     * @throws DatabaseException               shouldn't
+     * @throws IllegalQuestChangeException     thrown if changing to a wrong state
+     */
+    @Test
+    public void testLateQuestObjective()
+            throws IllegalObjectiveChangeException, DatabaseException, IllegalQuestChangeException
+    {
+        int playerID = 1;
+        ObjectiveState adv = new ObjectiveState(1, ObjectiveStateEnum.HIDDEN, false);
+        ArrayList<ObjectiveState> al = new ArrayList<>();
+        al.add(adv);
+        QuestState q = new QuestState(playerID, 2, QuestStateEnum.TRIGGERED, false);
+        q.addObjectives(al);
+        QuestManager.getSingleton().addQuestState(playerID, q);
+        adv.trigger();
+        assertEquals(ObjectiveStateEnum.TRIGGERED, adv.getState());
+        adv.missed();
+        assertEquals(ObjectiveStateEnum.LATE, adv.getState());
+    }
+
+    /**
      * Test trigger when the objective's state is not initially hidden
      */
     @Test

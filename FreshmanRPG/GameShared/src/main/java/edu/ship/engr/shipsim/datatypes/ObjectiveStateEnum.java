@@ -25,7 +25,12 @@ public enum ObjectiveStateEnum
     /**
      * Objective has expired because quest is expired
      */
-    EXPIRED("is expired");
+    EXPIRED("is expired"),
+
+    /**
+     * Timer for the objective has expired
+     */
+    LATE("timer expired");
 
     private String description;
 
