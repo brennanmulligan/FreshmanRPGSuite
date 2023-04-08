@@ -194,6 +194,22 @@ public class ObjectiveState
     }
 
     /**
+     * Changes the state of an objective from triggered to late.
+     *
+     * @throws IllegalObjectiveChangeException thrown if changing to a wrong
+     *                                         state
+     * @throws DatabaseException               shouldn't
+     * @throws IllegalQuestChangeException     thrown if error occurred during quest
+     *                                         state change
+     */
+    protected void missed() throws IllegalObjectiveChangeException, DatabaseException,
+            IllegalQuestChangeException
+    {
+
+        changeState(ObjectiveStateEnum.LATE, false);
+    }
+
+    /**
      * Changes the current states state to the given state and tells it if it
      * needs to notify the user.
      *
@@ -215,9 +231,11 @@ public class ObjectiveState
 
         }
         else if ((this.objectiveState.equals(ObjectiveStateEnum.HIDDEN) &&
-                state.equals(ObjectiveStateEnum.TRIGGERED)) ||
+                    state.equals(ObjectiveStateEnum.TRIGGERED)) ||
                 (this.objectiveState.equals(ObjectiveStateEnum.TRIGGERED) &&
-                        state.equals(ObjectiveStateEnum.COMPLETED)))
+                        state.equals(ObjectiveStateEnum.COMPLETED)) ||
+                (this.objectiveState.equals(ObjectiveStateEnum.TRIGGERED) &&
+                        state.equals(ObjectiveStateEnum.LATE)))
         {
             this.objectiveState = state;
             this.needingNotification = needingNotification;
