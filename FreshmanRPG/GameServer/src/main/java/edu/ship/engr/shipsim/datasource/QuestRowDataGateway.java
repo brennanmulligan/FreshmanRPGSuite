@@ -281,6 +281,34 @@ public class QuestRowDataGateway
     }
 
     /**
+     * Get the ID of the quest with that title
+     *
+     * @param questTitle
+     * @return the quest ID
+     * @throws DatabaseException if we can't talk to the RDS data source
+     */
+    public static int findIDFromTitle(String questTitle)
+            throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT questID FROM Quests WHERE questTitle = ?"))
+        {
+            stmt.setString(1, questTitle);
+
+            try (ResultSet result = stmt.executeQuery())
+            {
+                result.next();
+                return result.getInt("questID");
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("No Quest ID found from the Quest Title", e);
+        }
+    }
+
+        /**
      * Get the IDs of the quests that are supposed to trigger at a specified map
      * location
      *
