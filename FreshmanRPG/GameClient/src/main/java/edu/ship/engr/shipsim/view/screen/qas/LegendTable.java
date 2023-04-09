@@ -45,6 +45,11 @@ public class LegendTable extends ScrollPane
         label = new Label("In Progress", SkinPicker.getSkinPicker().getCrewSkin());
         label.setColor(Color.valueOf(blue_hex));
         table.add(label).right().padRight(10f);
+
+        label = new Label("Late", SkinPicker.getSkinPicker().getCrewSkin());
+        label.setColor(Color.RED);
+        table.add(label).right().padRight(10f);
+
         label = new Label("Expired", SkinPicker.getSkinPicker().getCrewSkin());
         label.setColor(Color.BLACK);
         table.add(label).right().padRight(10f);
