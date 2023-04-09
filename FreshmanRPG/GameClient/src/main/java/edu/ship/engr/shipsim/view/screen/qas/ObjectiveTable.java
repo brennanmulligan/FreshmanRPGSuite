@@ -78,6 +78,10 @@ public class ObjectiveTable extends OverlayingScreenTable
         {
             l.setColor(Color.BLACK);
         }
+        else if (objective.getObjectiveState() == ObjectiveStateEnum.LATE)
+        {
+            l.setColor(Color.RED);
+        }
         else
         {
             l.setColor(Color.valueOf(blue_hex));
