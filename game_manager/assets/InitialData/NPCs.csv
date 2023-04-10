@@ -12,3 +12,6 @@ playerID,behaviorClass,filePath
 33,model.RoamingInfoNPCBehavior,Assets/Npc_info.xml
 34,model.RoamingInfoNPCBehavior,Assets/Cella.xml
 35,model.RandomFactsNPCBehavior,
+37,model.RandomFactsNPCBehavior,
+38,model.RandomFactsNPCBehavior,
+39,model.RandomFactsNPCBehavior,
