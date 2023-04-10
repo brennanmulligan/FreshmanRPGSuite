@@ -75,6 +75,7 @@ import org.junit.platform.suite.api.Suite;
                 QuestRowDataGatewayTest.class,
                 QuestStateTableDataGatewayTest.class,
                 RandomFactsTableDataGatewayTest.class,
+                TimerTableDataGateway.class,
                 VanityAwardsTableDataGatewayTest.class,
                 VanityInventoryTableDataGatewayTest.class,
                 VanityItemsTableDataGatewayTest.class,
@@ -115,6 +116,7 @@ import org.junit.platform.suite.api.Suite;
                 QuestTest.class,
                 QuizBotBehaviorTest.class,
                 RedHatBehaviorTest.class,
+                TimerManagerTest.class,
                 TutorBehaviorTest.class,
 
                 // edu.ship.engr.shipsim.model.cheatCodeBehaviors
