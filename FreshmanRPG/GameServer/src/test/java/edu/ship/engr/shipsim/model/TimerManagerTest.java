@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
@@ -64,12 +63,12 @@ public class TimerManagerTest
         TimerManager.getSingleton().scheduleCommand(endsAt, testCommand, PlayersForTest.MERLIN.getPlayerID());
 
         verify(testCommand, times(0)).execute();
-        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(), 1);
+        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(PlayersForTest.MERLIN.getPlayerID()), 1);
 
         Thread.sleep(TIMER_DELAY_MS + BUFFER_MS);
 
         verify(testCommand, times(1)).execute();
-        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(), 0);
+        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(PlayersForTest.MERLIN.getPlayerID()), 0);
     }
 
     @Test
@@ -81,12 +80,29 @@ public class TimerManagerTest
         TimerManager.getSingleton().scheduleCommand(endsAt, testCommand, PlayersForTest.MARTY.getPlayerID());
 
         verify(testCommand, times(0)).execute();
-        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(), 3);
+        assertEquals(TimerManager.getSingleton().getNumPlayers(), 3);
 
         Thread.sleep(TIMER_DELAY_MS * 3 + BUFFER_MS);
 
         verify(testCommand, times(3)).execute();
-        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(), 0);
+        assertEquals(TimerManager.getSingleton().getNumPlayers(), 0);
+    }
+
+    @Test
+    public void testMultipleCommandsOnOnePlayer()
+            throws DatabaseException, InterruptedException
+    {
+        TimerManager.getSingleton().scheduleCommand(endsAt, testCommand, PlayersForTest.MERLIN.getPlayerID());
+        TimerManager.getSingleton().scheduleCommand(endsAt, testCommand, PlayersForTest.MERLIN.getPlayerID());
+        TimerManager.getSingleton().scheduleCommand(endsAt, testCommand, PlayersForTest.MERLIN.getPlayerID());
+
+        verify(testCommand, times(0)).execute();
+        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(PlayersForTest.MERLIN.getPlayerID()), 3);
+
+        Thread.sleep(TIMER_DELAY_MS * 3 + BUFFER_MS);
+
+        verify(testCommand, times(3)).execute();
+        assertEquals(TimerManager.getSingleton().getNumCurrentTimers(PlayersForTest.MERLIN.getPlayerID()), 0);
     }
 
     /**
@@ -96,7 +112,7 @@ public class TimerManagerTest
      */
     @Test
     public void testloadUserTimers()
-            throws DatabaseException, InterruptedException
+            throws DatabaseException
     {
         //Have to do this because the database does not store to millisecond precision
         Date testDate = new Date(
@@ -117,10 +133,36 @@ public class TimerManagerTest
                 testCommand,
                 PlayersForTest.MERLIN.getPlayerID(), false);
 
-        assertEquals(testTimerManager.getNumCurrentTimers(), 1);
+        assertEquals(testTimerManager.getNumCurrentTimers(PlayersForTest.MERLIN.getPlayerID()), 1);
 
         assertEquals(TimerTableDataGateway.getAllPlayerTimers(
                 PlayersForTest.MERLIN.getPlayerID()).size(), 1);
+    }
+    @Test
+    public void testShouldPersist() throws DatabaseException
+    {
+        Date testDate = new Date(System.currentTimeMillis() + TIMER_DELAY_S);
+
+        //This is where rows are added to the DB if they do not already exist
+        TimerManager.getSingleton().scheduleCommand(testDate, testCommand, PlayersForTest.MERLIN.getPlayerID());
+
+        //There should only be one entry
+        assertEquals(1, TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID()).size());
+    }
+
+
+    @Test
+    public void testShouldNotPersist() throws DatabaseException
+    {
+        Date testDate = new Date(System.currentTimeMillis() + TIMER_DELAY_S);
+        TimerTableDataGateway.createRow(testDate, testCommand, PlayersForTest.MERLIN.getPlayerID());
+
+        //This is where we will 'persist' a new row if it does not already exist in the DB
+        //if it does exist we do not add the row.
+        TimerManager.getSingleton().scheduleCommand(testDate, testCommand, PlayersForTest.MERLIN.getPlayerID());
+
+        //There should only be one entry
+        assertEquals(1, TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID()).size());
     }
 }
 
