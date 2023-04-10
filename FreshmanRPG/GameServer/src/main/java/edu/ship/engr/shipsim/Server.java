@@ -9,11 +9,13 @@ import edu.ship.engr.shipsim.model.InteractObjectManager;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.restfulcommunication.RestfulServer;
+import lombok.SneakyThrows;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -128,7 +130,7 @@ public class Server implements Runnable, AutoCloseable
     }
 
     @Override
-    public void close() throws Exception
+    public void close()
     {
         try
         {
@@ -230,7 +232,6 @@ public class Server implements Runnable, AutoCloseable
         catch (IOException e)
         {
             e.printStackTrace();
-            System.exit(-1);
         }
     }
 
