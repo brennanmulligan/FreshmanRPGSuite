@@ -5,16 +5,15 @@ import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.Command;
 import edu.ship.engr.shipsim.model.CommandAddPlayer;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,10 +30,32 @@ public class TimerTableDataGatewayTest
     }
 
     /**
+     * Test that checks the creation of a row in the DB and ensures that the info has stayed the same.
+     * @throws DatabaseException if the player we are looking for does not exist.
+     */
+    @Test
+    public void testCreateTimer() throws DatabaseException
+    {
+        Command before = new CommandAddPlayer(0, 0);
+        Date testDate = new Date(System.currentTimeMillis());
+
+        TimerTableDataGateway.createRow(testDate,before,PlayersForTest.NEWBIE.getPlayerID());
+
+        ArrayList<TimerDTO> timers = TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.NEWBIE.getPlayerID());
+
+        assertSame(timers.get(0).getCommand().getClass(), before.getClass());
+
+        assertEquals(timers.get(0).getEndsAt().getTime(),
+                testDate.getTime(), 1000);
+
+        assertEquals(timers.get(0).getPlayerID(), PlayersForTest.NEWBIE.getPlayerID());
+    }
+
+    /**
      * Test that creates a row in the table with a given Command, and makes sure we can retrieve the command from the DB
      */
     @Test
-    public void testCommandCreationWithPlayerID()
+    public void testGetPlayerTimer()
     {
         //Create a random command
         Command before = new CommandAddPlayer(0, 0);
@@ -42,12 +63,10 @@ public class TimerTableDataGatewayTest
         {
             Date timerDate = new Date(System.currentTimeMillis());
 
-            //Push it to DB
-            assertTrue(TimerTableDataGateway.createRow(timerDate,
-                    before, PlayersForTest.MERLIN.getPlayerID()) > 0);
+            TimerTableDataGateway.createRow(timerDate, before, PlayersForTest.MERLIN.getPlayerID());
 
             //Retrieve all info associated w/ a given playerID
-            ArrayList<TimerDTO> results = TimerTableDataGateway.getPlayerTimers(PlayersForTest.MERLIN.getPlayerID());
+            ArrayList<TimerDTO> results = TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID());
 
             //We are just testing the Command here
             Command after = results.get(0).getCommand();
@@ -67,54 +86,39 @@ public class TimerTableDataGatewayTest
     }
 
     @Test
-    public void testTimerCreationWithoutPlayerID()
+    public void testDeleteExpiredTimers() throws DatabaseException
     {
         Command before = new CommandAddPlayer(0, 0);
+        Date testDate = new Date(System.currentTimeMillis());
 
-        try
-        {
-            assertTrue(TimerTableDataGateway.createRow(new Date(System.currentTimeMillis()), before) > 0);
-            ArrayList<TimerDTO> results = TimerTableDataGateway.getNonPlayerTimers();
-            assertEquals(results.size(), 1);
+        TimerTableDataGateway.createRow(testDate,
+                before,
+                PlayersForTest.JOHN.getPlayerID());
 
-            Command after = results.get(0).getCommand();
-            assertSame(before.getClass(), after.getClass());
-        }
-        catch (DatabaseException e)
-        {
-            throw new RuntimeException(e);
-        }
+        assertEquals(1, TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.JOHN.getPlayerID()).size());
+
+        TimerTableDataGateway.deleteExpiredTimers(PlayersForTest.JOHN.getPlayerID());
+
+        assertEquals(0, TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.JOHN.getPlayerID()).size());
     }
 
     @Test
-    public void testGetTimerByID() throws DatabaseException
+    public void testGetSingleTimer() throws DatabaseException
     {
-        Date before = new Date(System.currentTimeMillis());
-            int timerID = TimerTableDataGateway.createRow(before,
-                    new CommandAddPlayer(0, 0));
-            Date after =
-                    TimerTableDataGateway.getTimerByID(timerID).getEndsAt();
-            assertEquals(before.getTime(),
-                    after.getTime(), 1000);
+        Command testCommand = new CommandAddPlayer(0, 0);
+
+        Date firstTimer = new Date(System.currentTimeMillis() + 2000);
+        Date secondTimer = new Date(System.currentTimeMillis() + 10000);
+
+        TimerTableDataGateway.createRow(firstTimer, testCommand, 0);
+        TimerTableDataGateway.createRow(secondTimer, testCommand, 0);
+
+        TimerDTO test = TimerTableDataGateway.getPlayerTimer(0, firstTimer);
+        TimerDTO test2 = TimerTableDataGateway.getPlayerTimer(0, new Date(System.currentTimeMillis() + 100000));
+
+        assertEquals(test.getPlayerID(), 0);
+        assertEquals(test.getEndsAt().getTime(), firstTimer.getTime(), 1000);
+        assertNull(test2);
     }
-    @Test
-    public void testDeleteTimer()
-    {
-        Command before = new CommandAddPlayer(0,0);
-        try
-        {
-            ArrayList<TimerDTO> idresults = TimerTableDataGateway.getPlayerTimers(0);
-            assertEquals(idresults.size(), 0);
-            int id = TimerTableDataGateway.createRow(new Date(System.currentTimeMillis()), before, 0);
-            idresults = TimerTableDataGateway.getPlayerTimers(0);
-            assertEquals(idresults.size(), 1);
-            TimerTableDataGateway.deleteTimer(id);
-            idresults = TimerTableDataGateway.getPlayerTimers(0);
-            assertEquals(idresults.size(), 0);
-        }
-        catch (DatabaseException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
+
 }
