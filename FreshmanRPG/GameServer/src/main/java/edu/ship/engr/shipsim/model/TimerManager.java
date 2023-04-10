@@ -4,6 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.TimerDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.TimerTableDataGateway;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
@@ -13,7 +14,7 @@ public class TimerManager
 {
     private static TimerManager singleton;
 
-    private final HashMap<Integer, ScheduledCommand> timers;
+    private final HashMap<Integer, ArrayList<ScheduledCommand>> timers;
 
     private  TimerManager()
     {
@@ -53,7 +54,7 @@ public class TimerManager
                                    Integer playerID, boolean shouldPersist)
             throws DatabaseException
     {
-        if (shouldPersist && playerID != null)
+        if (shouldPersist)
         {
             TimerTableDataGateway.createRow(endsAt, command, playerID);
         }
@@ -96,21 +97,37 @@ public class TimerManager
         this.scheduleCommand(endsAt, command, null, false);
     }
 
-    private HashMap<Integer, ScheduledCommand> getTimers()
+    private HashMap<Integer, ArrayList<ScheduledCommand>> getTimers()
     {
         return timers;
     }
 
-    public int getNumCurrentTimers()
+    public int getNumCurrentTimers(int playerID)
+    {
+        if (timers.get(playerID) != null)
+        {
+            return timers.get(playerID).size();
+        }
+        return 0;
+    }
+
+    public int getNumPlayers()
     {
         return timers.size();
     }
     private void addTimer(Integer playerID, ScheduledCommand scheduledCommand)
     {
-        if (playerID != null)
+        ArrayList<ScheduledCommand> commandList;
+        if (!timers.containsKey(playerID))
         {
-            timers.put(playerID, scheduledCommand);
+            commandList = new ArrayList<>();
+            timers.put(playerID, commandList);
         }
+        else
+        {
+            commandList = timers.get(playerID);
+        }
+        commandList.add(scheduledCommand);
     }
 
     private void removeTimer(Integer playerID)
