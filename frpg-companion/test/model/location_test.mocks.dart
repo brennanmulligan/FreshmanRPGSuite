@@ -82,4 +82,21 @@ class MockGeoLocatorWrapper extends _i1.Mock implements _i3.GeoLocatorWrapper {
           ),
         )),
       ) as _i4.Future<_i2.PositionWithStatus>);
+  @override
+  bool locationMatches(
+    _i2.PositionWithStatus? location,
+    double? qrLatitude,
+    double? qrLongitude,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #locationMatches,
+          [
+            location,
+            qrLatitude,
+            qrLongitude,
+          ],
+        ),
+        returnValue: false,
+      ) as bool);
 }
