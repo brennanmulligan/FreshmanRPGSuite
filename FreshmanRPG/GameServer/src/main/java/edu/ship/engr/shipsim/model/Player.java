@@ -7,12 +7,15 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.DoubloonChangeReport;
 import edu.ship.engr.shipsim.model.reports.ExperienceChangedReport;
 import edu.ship.engr.shipsim.model.reports.NoMoreBuffReport;
+import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class that hold all the data we need for a player.
@@ -704,4 +707,27 @@ public class Player
             this.lastVisitedMapTitle = mapTitle;
         }
     }
+
+    /**
+     * Removes an item from the player
+     * @param item the item to remove
+     */
+    public void removeVanityType(VanityType item)
+    {
+        for (int i = 0; i < this.vanityItems.size(); i++)
+        {
+            VanityDTO vanityItem = this.vanityItems.get(i);
+            if (vanityItem.getVanityType() == item)
+            {
+                this.vanityItems.remove(vanityItem);
+
+            }
+        }
+        PlayerAppearanceChangeReport playerAppearanceChangeReport =
+                new PlayerAppearanceChangeReport(this.playerID,
+                        this.vanityItems);
+        ReportObserverConnector.getSingleton().sendReport(playerAppearanceChangeReport);
+    }
+
+
 }
