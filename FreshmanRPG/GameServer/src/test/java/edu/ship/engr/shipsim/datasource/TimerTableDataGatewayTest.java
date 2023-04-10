@@ -4,6 +4,7 @@ import edu.ship.engr.shipsim.dataDTO.TimerDTO;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.Command;
 import edu.ship.engr.shipsim.model.CommandAddPlayer;
+import edu.ship.engr.shipsim.model.TimerManager;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -120,5 +122,4 @@ public class TimerTableDataGatewayTest
         assertEquals(test.getEndsAt().getTime(), firstTimer.getTime(), 1000);
         assertNull(test2);
     }
-
 }
