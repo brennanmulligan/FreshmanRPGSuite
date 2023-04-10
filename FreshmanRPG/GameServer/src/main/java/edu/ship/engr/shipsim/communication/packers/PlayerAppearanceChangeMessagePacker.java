@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.communication.packers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
+import edu.ship.engr.shipsim.communication.messages.PlayerAppearanceChangeMessage;
 import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
 import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 
@@ -29,12 +30,12 @@ public class PlayerAppearanceChangeMessagePacker extends MessagePacker
     @Override
     public Message pack(SendMessageReport object)
     {
-//		PlayerAppearanceChangeReport report = (PlayerAppearanceChangeReport) object;
-//		if (this.getAccumulator().getPlayerID() == report.getPlayerID())
-//		{
-//			PlayerAppearanceChangeMessage msg = new PlayerAppearanceChangeMessage(report.getPlayerID(), report.getAppearanceType());
-//			return msg;
-//		}
+		PlayerAppearanceChangeReport report = (PlayerAppearanceChangeReport) object;
+		if (this.getAccumulator().getPlayerID() == report.getPlayerID())
+		{
+			PlayerAppearanceChangeMessage msg = new PlayerAppearanceChangeMessage(report.getPlayerID(), report.getNewWearing());
+			return msg;
+		}
         return null;
     }
 
