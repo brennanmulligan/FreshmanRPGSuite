@@ -12,6 +12,7 @@ import java.util.Objects;
  */
 public class VanityDTO implements Serializable
 {
+
     private int ID;
     private String name;
     private String description;
