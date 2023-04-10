@@ -28,6 +28,10 @@ public class PlayerAppearanceChangeMessage extends Message implements Serializab
 
     }
 
+    public PlayerAppearanceChangeMessage(int playerID, ArrayList<VanityDTO> newWearing)
+    {
+    }
+
     public List<VanityDTO> getVanities()
     {
         return vanities;
