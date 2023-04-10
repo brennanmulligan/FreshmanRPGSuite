@@ -62,7 +62,7 @@ public class TimerTableDataGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO Timers (endsAt, command, playerID) VALUES (?, ?, ?)"))
         {
-            stmt.setTimestamp(1, new Timestamp(endsAt.getTime()));
+            stmt.setTimestamp(1, new Timestamp(normalizeDate(endsAt)));
             stmt.setObject(2, command);
             stmt.setInt(3, playerID);
 
@@ -101,14 +101,20 @@ public class TimerTableDataGateway
         }
     }
 
+    /**
+     * Gets a single row by the unique enough key of player id and the time it ends at
+     * @param playerID the player we are searching by
+     * @param endsAt the timer it ends at
+     * @return a DTO if there is information there, null otherwise
+     * @throws DatabaseException
+     */
     public static TimerDTO getPlayerTimer(int playerID, Date endsAt) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ? AND endsAt = ?"))
         {
             stmt.setInt(1, playerID);
-            stmt.setTimestamp(2, new Timestamp(
-                    (long) ((Math.floor(endsAt.getTime() / 1000)) * 1000)));
+            stmt.setTimestamp(2, new Timestamp(normalizeDate(endsAt)));
 
             try (ResultSet queryResults = stmt.executeQuery())
             {
@@ -122,6 +128,7 @@ public class TimerTableDataGateway
             );
         }
     }
+
     /**
      * Deletes all expired timers for a given player
      * @param playerID of the player
@@ -158,6 +165,13 @@ public class TimerTableDataGateway
         return results;
     }
 
+
+    /**
+     * Parses a single row into a DTO, instead of making an arraylist
+     * @param queryResults
+     * @return a TimerDTO with the row information, or null if no row was found
+     * @throws SQLException if there is a problem accessing the row
+     */
     private static TimerDTO parseTimer(ResultSet queryResults)
             throws SQLException
     {
@@ -200,6 +214,11 @@ public class TimerTableDataGateway
         {
             throw new RuntimeException(e);
         }
+    }
+
+    private static long normalizeDate(Date endsAt)
+    {
+        return (long) ((Math.floor(endsAt.getTime() / 1000)) * 1000);
     }
 
     /**
