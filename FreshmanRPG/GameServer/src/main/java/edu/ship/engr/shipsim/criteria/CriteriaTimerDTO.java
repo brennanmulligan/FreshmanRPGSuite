@@ -10,7 +10,7 @@ public class CriteriaTimerDTO implements ObjectiveCompletionCriteria
 {
     private long time;
 
-    private long millisecondsPerMinute;
+    private long millisecondsPerMinute = 60000;
 
     /**
      *
