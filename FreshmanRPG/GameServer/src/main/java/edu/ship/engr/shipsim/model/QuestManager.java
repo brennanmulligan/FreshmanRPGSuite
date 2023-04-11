@@ -649,7 +649,6 @@ public class QuestManager implements ReportObserver
             if (now.after(q.getStartDate()) && now.before(q.getEndDate()))
             {
                 qs.trigger();
-
             }
         }
     }

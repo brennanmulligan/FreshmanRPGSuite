@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.datasource;
 
+import edu.ship.engr.shipsim.criteria.CriteriaTimerDTO;
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
 import edu.ship.engr.shipsim.criteria.ObjectiveCompletionCriteria;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
@@ -143,17 +144,29 @@ public class ObjectiveTableDataGateway
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "SELECT * FROM Objectives WHERE completionType = ?"))
+                "SELECT * FROM Objectives WHERE (completionType = ? OR completionType = ?)"))
         {
             stmt.setInt(1, ObjectiveCompletionType.MOVEMENT.getID());
+            stmt.setInt(2, ObjectiveCompletionType.TIMED.getID());
 
             try (ResultSet queryResult = stmt.executeQuery())
             {
                 while (queryResult.next())
                 {
                     ObjectiveRecord rec = buildObjectiveRecord(queryResult);
-                    GameLocationDTO thisLocation =
-                            (GameLocationDTO) rec.getCompletionCriteria();
+                    GameLocationDTO thisLocation;
+                    if(rec.getCompletionType() ==
+                            ObjectiveCompletionType.MOVEMENT)
+                    {
+                        thisLocation =
+                                (GameLocationDTO) rec.getCompletionCriteria();
+                    }
+                    else
+                    {
+                        CriteriaTimerDTO criteria =
+                                (CriteriaTimerDTO) (rec.getCompletionCriteria());
+                        thisLocation = criteria.getGameLocationDTO();
+                    }
                     if (thisLocation.getPosition().equals(pos) &&
                             thisLocation.getMapName().equals(mapName))
                     {
