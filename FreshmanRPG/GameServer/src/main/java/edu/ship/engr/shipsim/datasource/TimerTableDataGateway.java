@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.TimerDTO;
 import edu.ship.engr.shipsim.model.Command;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -84,12 +85,12 @@ public class TimerTableDataGateway
     public static ArrayList<TimerDTO> getAllPlayerTimers(int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ?"))
+        try (PreparedStatement selectStmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ?"))
         {
-            stmt.setInt(1, playerID);
-
-            try (ResultSet queryResults = stmt.executeQuery())
+            selectStmt.setInt(1, playerID);
+            try (ResultSet queryResults = selectStmt.executeQuery())
             {
+                deleteAllPlayerTimers(playerID);
                 return parseTimers(queryResults);
             }
         }
@@ -102,29 +103,21 @@ public class TimerTableDataGateway
     }
 
     /**
-     * Gets a single row by the unique enough key of player id and the time it ends at
-     * @param playerID the player we are searching by
-     * @param endsAt the timer it ends at
-     * @return a DTO if there is information there, null otherwise
-     * @throws DatabaseException
+     * Gets all timers for the given player.
+     * @param playerID the id of the player we are fetching the timers for
      */
-    public static TimerDTO getPlayerTimer(int playerID, Date endsAt) throws DatabaseException
+    public static void deleteAllPlayerTimers(int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ? AND endsAt = ?"))
+        try (PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM Timers WHERE playerID = ?"))
         {
-            stmt.setInt(1, playerID);
-            stmt.setTimestamp(2, new Timestamp(normalizeDate(endsAt)));
-
-            try (ResultSet queryResults = stmt.executeQuery())
-            {
-                return parseTimer(queryResults);
-            }
+            deleteStmt.setInt(1, playerID);
+            deleteStmt.executeUpdate();
         }
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Unable to retrieve timers for player (" + playerID + ")"
+                    "Unable to delete timers for player (" + playerID + ")"
             );
         }
     }
@@ -132,7 +125,6 @@ public class TimerTableDataGateway
     /**
      * Deletes all expired timers for a given player
      * @param playerID of the player
-     * @throws DatabaseException if the player is no present in the DB
      */
     public static void deleteExpiredTimers(int playerID)
     {
@@ -163,24 +155,6 @@ public class TimerTableDataGateway
             results.add(dto);
         }
         return results;
-    }
-
-
-    /**
-     * Parses a single row into a DTO, instead of making an arraylist
-     * @param queryResults
-     * @return a TimerDTO with the row information, or null if no row was found
-     * @throws SQLException if there is a problem accessing the row
-     */
-    private static TimerDTO parseTimer(ResultSet queryResults)
-            throws SQLException
-    {
-        TimerDTO result = null;
-        while (queryResults.next())
-        {
-            result = buildTimerDTO(queryResults);
-        }
-        return result;
     }
 
     /**
@@ -216,7 +190,12 @@ public class TimerTableDataGateway
         }
     }
 
-    private static long normalizeDate(Date endsAt)
+    /**
+     * Method that normalizes a date to match the format that it will be stored in the DB
+     * @param endsAt the date to be normalized
+     * @return the normalized time (long)
+     */
+    public static long normalizeDate(Date endsAt)
     {
         return (long) ((Math.floor(endsAt.getTime() / 1000)) * 1000);
     }
@@ -225,6 +204,7 @@ public class TimerTableDataGateway
      * Method for testing only to reset table in between tests
      * @throws DatabaseException should not
      */
+    @TestOnly
     public static void rollback() throws DatabaseException
     {
         try
