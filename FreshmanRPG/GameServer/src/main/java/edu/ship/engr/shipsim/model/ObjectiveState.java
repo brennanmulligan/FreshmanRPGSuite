@@ -158,7 +158,6 @@ public class ObjectiveState
     protected void trigger() throws IllegalObjectiveChangeException, DatabaseException,
             IllegalQuestChangeException
     {
-
         changeState(ObjectiveStateEnum.TRIGGERED, false);
     }
 
