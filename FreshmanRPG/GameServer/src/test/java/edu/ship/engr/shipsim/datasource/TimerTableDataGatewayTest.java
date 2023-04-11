@@ -13,11 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Seth Miller, Travis Ritter, Evan Paules
@@ -48,7 +44,7 @@ public class TimerTableDataGatewayTest
         assertSame(timers.get(0).getCommand().getClass(), before.getClass());
 
         assertEquals(timers.get(0).getEndsAt().getTime(),
-                testDate.getTime(), 1000);
+                TimerTableDataGateway.normalizeDate(testDate));
 
         assertEquals(timers.get(0).getPlayerID(), PlayersForTest.NEWBIE.getPlayerID());
     }
@@ -63,9 +59,9 @@ public class TimerTableDataGatewayTest
         Command before = new CommandAddPlayer(0, 0);
         try
         {
-            Date timerDate = new Date(System.currentTimeMillis());
+            Date testDate = new Date(System.currentTimeMillis());
 
-            TimerTableDataGateway.createRow(timerDate, before, PlayersForTest.MERLIN.getPlayerID());
+            TimerTableDataGateway.createRow(testDate, before, PlayersForTest.MERLIN.getPlayerID());
 
             //Retrieve all info associated w/ a given playerID
             ArrayList<TimerDTO> results = TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID());
@@ -76,10 +72,10 @@ public class TimerTableDataGatewayTest
             //Make sure that the command we got from the DB is of the same type
             assertSame(before.getClass(), after.getClass());
 
-            //Check the times, but we need to use delta because MySQL does not store
-            //Down to the millisecond precision as Java does
-            assertEquals(timerDate.getTime(),
-                    results.get(0).getEndsAt().getTime(), 1000);
+            //Check the times, but we need to normalize the date because MySQL does not store timestamps to the same
+            //precision that Java does.
+            assertEquals(TimerTableDataGateway.normalizeDate(testDate),
+                    results.get(0).getEndsAt().getTime());
         }
         catch (DatabaseException e)
         {
@@ -105,21 +101,19 @@ public class TimerTableDataGatewayTest
     }
 
     @Test
-    public void testGetSingleTimer() throws DatabaseException
+    public void testGrabAndDelete() throws DatabaseException
     {
-        Command testCommand = new CommandAddPlayer(0, 0);
+        TimerTableDataGateway.createRow(new Date(System.currentTimeMillis()),
+                new CommandAddPlayer(0, 0),
+                PlayersForTest.MERLIN.getPlayerID());
+        TimerTableDataGateway.createRow(new Date(System.currentTimeMillis()),
+                new CommandAddPlayer(0, 0),
+                PlayersForTest.MERLIN.getPlayerID());
+        TimerTableDataGateway.createRow(new Date(System.currentTimeMillis()),
+                new CommandAddPlayer(0, 0),
+                PlayersForTest.MERLIN.getPlayerID());
 
-        Date firstTimer = new Date(System.currentTimeMillis() + 2000);
-        Date secondTimer = new Date(System.currentTimeMillis() + 10000);
-
-        TimerTableDataGateway.createRow(firstTimer, testCommand, 0);
-        TimerTableDataGateway.createRow(secondTimer, testCommand, 0);
-
-        TimerDTO test = TimerTableDataGateway.getPlayerTimer(0, firstTimer);
-        TimerDTO test2 = TimerTableDataGateway.getPlayerTimer(0, new Date(System.currentTimeMillis() + 100000));
-
-        assertEquals(test.getPlayerID(), 0);
-        assertEquals(test.getEndsAt().getTime(), firstTimer.getTime(), 1000);
-        assertNull(test2);
+        assertEquals(TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID()).size(), 3);
+        assertEquals(TimerTableDataGateway.getAllPlayerTimers(PlayersForTest.MERLIN.getPlayerID()).size(), 0);
     }
 }
