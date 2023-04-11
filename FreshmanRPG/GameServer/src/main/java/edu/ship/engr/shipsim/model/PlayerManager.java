@@ -80,6 +80,14 @@ public class PlayerManager implements ReportObserver
     {
         Player player = addPlayerSilently(playerID);
 
+        try
+        {
+            TimerManager.getSingleton().loadUserTimers(playerID);
+        }
+        catch (DatabaseException e)
+        {
+            throw new RuntimeException(e);
+        }
 
         ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPlayerPosition(),
                 player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems()));
@@ -279,6 +287,7 @@ public class PlayerManager implements ReportObserver
         if (player != null)
         {
             player.persist();
+            TimerManager.getSingleton().persistPlayerTimers(playerID);
         }
         return true;
 
