@@ -10,17 +10,28 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @author Travis Ritter, Evan Paules, Seth Miller
+ * Class that Manages Timers in the game and allows the scheduling of certain commands.
+ */
 public class TimerManager
 {
     private static TimerManager singleton;
 
     private final HashMap<Integer, ArrayList<ScheduledCommand>> timers;
 
-    private  TimerManager()
+    /**
+     * Private constructor for singleton
+     */
+    private TimerManager()
     {
         timers = new HashMap<>();
     }
 
+    /**
+     * Singleton method
+     * @return a new instance if it is null, else we return the already created instance.
+     */
     public synchronized static TimerManager getSingleton()
     {
         if (singleton == null)
@@ -39,26 +50,42 @@ public class TimerManager
         }
     }
 
+    /**
+     * Loads all user timers for a particular player from the DB.
+     * @param playerID of the player we want to load from.
+     * @throws DatabaseException should not
+     */
     public void loadUserTimers(int playerID) throws DatabaseException
     {
         for (TimerDTO currentTimer : TimerTableDataGateway.getAllPlayerTimers(playerID))
         {
             this.scheduleCommand(currentTimer.getEndsAt(),
                     currentTimer.getCommand(),
-                    currentTimer.getPlayerID(),
-                    false);
+                    currentTimer.getPlayerID());
         }
     }
 
-    protected void scheduleCommand(Date endsAt, Command command,
-                                   Integer playerID, boolean shouldPersist)
-            throws DatabaseException
+    public void persistPlayerTimers(int playerID) throws DatabaseException
     {
-        if (shouldPersist)
+        if (timers.containsKey(playerID))
         {
-            TimerTableDataGateway.createRow(endsAt, command, playerID);
+            for (ScheduledCommand currentCommand : timers.get(playerID))
+            {
+                TimerTableDataGateway.createRow(currentCommand.getEndsAt(),
+                        currentCommand.getCommand(), playerID);
+            }
         }
+    }
 
+    /**
+     * The method that actually schedules a command
+     * @param endsAt the time the timer will run the command.
+     * @param command the command to be ran after the timer runs out
+     * @param playerID of the player we are attaching it to.
+     */
+    public void scheduleCommand(Date endsAt, Command command,
+                                   Integer playerID)
+    {
         Timer timer = new Timer();
         TimerTask task = new TimerTask()
         {
@@ -75,33 +102,31 @@ public class TimerManager
                 }
             }
         };
+
         timer.schedule(task, endsAt);
-        this.addTimer(playerID, new ScheduledCommand(endsAt, command));
-    }
 
-    public void scheduleCommand(Date endsAt, Command command, Integer playerID)
-            throws DatabaseException
-    {
-        boolean shouldPersist = false;
-        TimerDTO check = TimerTableDataGateway.getPlayerTimer(playerID, endsAt);
-        if (check == null)
+        if (playerID != null)
         {
-            shouldPersist = true;
+            this.addTimer(endsAt, command, playerID);
         }
-        this.scheduleCommand(endsAt, command, playerID, shouldPersist);
+
     }
 
+    /**
+     * Schedules a general command, and does not persist.
+     * @param endsAt when the timer should run the task
+     * @param command the command to be run at the end of the timer
+     */
     public void scheduleCommand(Date endsAt, Command command)
-            throws DatabaseException
     {
-        this.scheduleCommand(endsAt, command, null, false);
+        this.scheduleCommand(endsAt, command, null);
     }
 
-    private HashMap<Integer, ArrayList<ScheduledCommand>> getTimers()
-    {
-        return timers;
-    }
-
+    /**
+     * Gets the number of scheduled commands for a given player
+     * @param playerID of the player to check
+     * @return 0, if there are none, the # of scheduledcommands if there are some.
+     */
     public int getNumCurrentTimers(int playerID)
     {
         if (timers.get(playerID) != null)
@@ -111,11 +136,21 @@ public class TimerManager
         return 0;
     }
 
+    /**
+     * Gets the number of entries in the hashmap
+     * @return the number of entries in the hashmap
+     */
     public int getNumPlayers()
     {
         return timers.size();
     }
-    private void addTimer(Integer playerID, ScheduledCommand scheduledCommand)
+
+    /**
+     * Adds a new entry to hashmap if there is not one already. If there is one already, we add the scheduled command
+     * to that player's array list
+     * @param playerID of the player to add
+     */
+    protected void addTimer(Date endsAt, Command command, int playerID)
     {
         ArrayList<ScheduledCommand> commandList;
         if (!timers.containsKey(playerID))
@@ -127,9 +162,13 @@ public class TimerManager
         {
             commandList = timers.get(playerID);
         }
-        commandList.add(scheduledCommand);
+        commandList.add(new ScheduledCommand(endsAt, command));
     }
 
+    /**
+     * Removes the timer from the Hashmap
+     * @param playerID the player's timers to remove
+     */
     private void removeTimer(Integer playerID)
     {
         if (playerID != null)
@@ -139,7 +178,9 @@ public class TimerManager
     }
 }
 
-
+/**
+ * Class that holds a Date and a Command for the hash map
+ */
 class ScheduledCommand
 {
     private Date endsAt;
@@ -161,5 +202,4 @@ class ScheduledCommand
     {
         return command;
     }
-
 }
