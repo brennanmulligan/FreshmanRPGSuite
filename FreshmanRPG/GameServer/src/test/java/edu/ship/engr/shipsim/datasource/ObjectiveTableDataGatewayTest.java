@@ -43,6 +43,29 @@ public class ObjectiveTableDataGatewayTest
     }
 
     /**
+     * We should be able to receive a list of all quests completed at a location regardless
+     * of the completion type of the objectives
+     *
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void canGetCompleteByLocationObjectivesForBothMovementAndTimed() throws DatabaseException
+    {
+        GameLocationDTO location =
+                (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
+        String mapName = location.getMapName();
+        Position pos = location.getPosition();
+        ObjectiveTableDataGateway gateway = getGateway();
+        ArrayList<ObjectivesForTest> objective = new ArrayList<>();
+        objective.add(ObjectivesForTest.QUEST2_OBJECTIVE2);
+        objective.add(ObjectivesForTest.QUEST2_OBJECTIVE5);
+        ArrayList<ObjectiveRecord> objectivesFound =
+                gateway.findObjectivesCompletedForMapLocation(mapName, pos);
+        assertEquals(objective.get(0).getObjectiveDescription(),
+                objectivesFound.get(0).getObjectiveDescription());
+    }
+
+    /**
      * Given a quest ID, the TDG should be able to return the next appropriate objective ID.
      *
      * @throws DatabaseException - if record with that quest ID not found
