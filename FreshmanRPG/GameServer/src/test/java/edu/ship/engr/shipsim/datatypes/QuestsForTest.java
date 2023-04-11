@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import edu.ship.engr.shipsim.criteria.CriteriaTimerDTO;
 import edu.ship.engr.shipsim.criteria.GameLocationDTO;
 import edu.ship.engr.shipsim.criteria.QuestCompletionActionParameter;
 import edu.ship.engr.shipsim.criteria.QuestListCompletionParameter;
@@ -162,7 +163,15 @@ public enum QuestsForTest
     EASTER_EGG_QUEST(109, "Easter Egg Quest", "This is an easter egg quest. Only pops up once it's triggered.",
                              new GameLocationDTO("quad.tmx", new Position(53, 52)), 1, 1, QuestCompletionActionType.NO_ACTION,
         null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
-            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), true);
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), true),
+
+    /**
+     * Timed Objective Quest
+     */
+    TIMED_OBJECTIVE_QUEST(111, "You're Late Quest", "This is a timed objective quest. Get to the goal before time is up.",
+                             new GameLocationDTO("quad.tmx", new Position(120, 74)), 1, 1, QuestCompletionActionType.NO_ACTION,
+        null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
 
 
     private final int questID;
