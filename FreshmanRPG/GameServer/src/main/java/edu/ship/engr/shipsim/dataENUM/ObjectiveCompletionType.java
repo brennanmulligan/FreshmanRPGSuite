@@ -54,7 +54,13 @@ public enum ObjectiveCompletionType
     /**
      *
      */
-    FRIENDS(CriteriaIntegerDTO.class);
+    FRIENDS(CriteriaIntegerDTO.class),
+
+
+    /**
+     *
+     */
+    TIMED(CriteriaTimerDTO.class);
 
     /**
      * Get the completion type with a given ID
