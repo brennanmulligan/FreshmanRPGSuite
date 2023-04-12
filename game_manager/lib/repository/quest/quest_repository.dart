@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import 'package:game_manager/repository/quest/upsert_quest_request.dart';
-
-
 
 import '../player/basic_response.dart';
 
@@ -28,8 +25,11 @@ class QuestRepository {
 
       return BasicResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
-      return const BasicResponse(success: false, description: "Failed to get response from server");
-      //TODO Error checking on http response types
+      final errorResponse = BasicResponse.fromJson(
+        json: jsonDecode(e.response?.data ?? '{}'),
+      );
+      String desc = errorResponse.description;
+      return BasicResponse(success: false, description: desc);
     }
-    }
+  }
 }
