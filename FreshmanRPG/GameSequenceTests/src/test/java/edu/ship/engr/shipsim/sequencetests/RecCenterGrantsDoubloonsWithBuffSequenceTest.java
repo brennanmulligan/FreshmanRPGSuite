@@ -3,10 +3,15 @@ package edu.ship.engr.shipsim.sequencetests;
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToClient;
 import edu.ship.engr.shipsim.communication.messages.ChatMessageToServer;
 import edu.ship.engr.shipsim.communication.messages.DoubloonsChangedMessage;
+import edu.ship.engr.shipsim.communication.messages.PlayerAppearanceChangeMessage;
+import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.ChatType;
+import edu.ship.engr.shipsim.datatypes.DefaultItemsForTest;
 import edu.ship.engr.shipsim.datatypes.NPCQuestionsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
+import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
+import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.*;
 
 import java.util.ArrayList;
@@ -49,6 +54,7 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
                     new DoubloonsChangedMessage(PlayersForTest.JEFF.getPlayerID(), false,
                             PlayersForTest.JEFF.getDoubloons() + 2,
                             PlayersForTest.JEFF.getBuffPool() - 1), true),
+
             new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
                     new ChatMessageToClient(PlayersForTest.QUIZBOT.getPlayerID(), PlayersForTest.JEFF.getPlayerID(), false,
                             "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
@@ -58,7 +64,26 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
                             "Jeff score is now 2", PlayersForTest.QUIZBOT.getPosition(),
                             ChatType.Zone), true),
 
+            new MessageFlow(ServerType.AREA_SERVER, ServerType.THIS_PLAYER_CLIENT,
+                    new PlayerAppearanceChangeMessage(PlayersForTest.JEFF.getPlayerID(), false,
+                            buildJeffsVanityWithABike()), true)
     };
+
+    ArrayList<VanityDTO> buildJeffsVanityWithABike()
+    {
+        ArrayList<VanityDTO> vanity = DefaultItemsForTest.getDefaultItemsIsWearing();
+        int noBikeIndex = 0;
+        while(noBikeIndex < vanity.size() && vanity.get(noBikeIndex).getVanityType() != VanityType.BIKE)
+        {
+            noBikeIndex++;
+        }
+        vanity.remove(noBikeIndex);
+        VanityItemsForTest bike = VanityItemsForTest.BIKE;
+        VanityType type = VanityType.fromInt(bike.getVanityType());
+        vanity.add(new VanityDTO(bike.getId(), bike.getName(), bike.getDescription(), bike.getTextureName(),type , bike.getPrice()));
+
+        return vanity;
+    }
 
     /**
      * runs through the message flow

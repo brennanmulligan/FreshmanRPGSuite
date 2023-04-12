@@ -770,24 +770,34 @@ public class QuestManager implements ReportObserver
                 Player player = PM.getPlayerFromID(reportPlayerID);
                 if (player.canReceiveLocalMessage(npc.getPlayerPosition()))
                 {
-                    if (reportChat.equals(castCrit.getResponse()) || !castCrit.isMatchResponse() &&
-                            PM.getPlayerIDFromPlayerName(castCrit.getNPCName()) ==
-                                    reportNPCID)
+                    try
                     {
-                        try
+                        if (reportChat.equals(castCrit.getResponse()) ||
+                                !castCrit.isMatchResponse() &&
+                                        PM.getPlayerIDFromPlayerName(
+                                                castCrit.getNPCName()) ==
+                                                reportNPCID)
                         {
-                            QuestManager.getSingleton()
-                                    .completeObjective(reportPlayerID,
-                                            q.getID(),
-                                            a.getObjectiveID());
+                            try
+                            {
+                                QuestManager.getSingleton()
+                                        .completeObjective(reportPlayerID,
+                                                q.getID(),
+                                                a.getObjectiveID());
 
+                            }
+                            catch (DatabaseException |
+                                   IllegalObjectiveChangeException |
+                                   IllegalQuestChangeException e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
-                        catch (DatabaseException |
-                               IllegalObjectiveChangeException |
-                               IllegalQuestChangeException e)
-                        {
-                            e.printStackTrace();
-                        }
+                    }
+                    catch (PlayerNotFoundException e)
+                    {
+                        //the player was not found, therefore this objective could not have been completed
+                        //continue loop to the next objective
                     }
                 }
             }
