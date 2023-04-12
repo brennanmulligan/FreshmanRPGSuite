@@ -140,7 +140,7 @@ public enum VanityInventoryItemsForTest
     /**
      * Mapping the bike to Micycle
      */
-    MICYCLE_OWNS_BIKE(36, VanityItemsForTest.BIKE.getId(), 1),
+    //MICYCLE_OWNS_BIKE(36, VanityItemsForTest.BIKE.getId(), 1),
     MICYCLE_OWNS_GRAD_HAT(36, VanityItemsForTest.GRAD_CAP_HAT.getId(), 1),
 
     /**

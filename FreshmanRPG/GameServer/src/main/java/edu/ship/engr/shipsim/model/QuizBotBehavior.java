@@ -86,6 +86,7 @@ public class QuizBotBehavior extends NPCBehavior
                         PlayerManager.getSingleton().getPlayerFromID(playerID)
                                 .getPlayerPosition(), chatType);
 
+                player.receiveBike();
                 //                pullNewQuestion();
                 //                askQuestion();
             }
