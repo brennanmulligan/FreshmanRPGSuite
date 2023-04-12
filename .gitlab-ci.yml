@@ -17,9 +17,11 @@ run_pipeline:
     artifacts:
         when: always
         reports:
-            junit: FreshmanRPG/*/build/test-results/test/**/TEST-*.xml
+            junit: FreshmanRPG/*/build/test-results/test/TEST-*.xml
         paths:
             - FreshmanRPG/*/*.log
+            - FreshmanRPG/*/build/reports/tests
+            - FreshmanRPG/*/build/reports/checkstyle
     script:
         - cd FreshmanRPG
         - chmod +x ./gradlew
