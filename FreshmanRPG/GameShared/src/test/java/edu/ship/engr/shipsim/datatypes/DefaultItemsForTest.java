@@ -1,5 +1,12 @@
 package edu.ship.engr.shipsim.datatypes;
 
+import edu.ship.engr.shipsim.dataDTO.VanityDTO;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum DefaultItemsForTest
 {
     DEFAULT_BIKE(VanityItemsForTest.BIKE_NONE.getId(), 1),
@@ -55,5 +62,26 @@ public enum DefaultItemsForTest
     public int getDefaultWearing()
     {
         return defaultWearing;
+    }
+
+    public static ArrayList<VanityDTO> getDefaultItemsIsWearing()
+    {
+        ArrayList<VanityDTO> result = new ArrayList<>();
+
+        for(DefaultItemsForTest a:DefaultItemsForTest.values())
+        {
+            if(a.defaultWearing==1)
+            {
+                int defaultID1 = a.getDefaultID();
+                VanityItemsForTest value =
+                        VanityItemsForTest.values()[defaultID1 - 1];
+                VanityType type = VanityType.fromInt(value.getVanityType());
+
+               result.add( new VanityDTO(defaultID1, value.getName(),
+                        value.getDescription(), value.getTextureName(), type,
+                       value.getPrice()));
+            }
+        }
+        return result;
     }
 }

@@ -9,6 +9,7 @@ import edu.ship.engr.shipsim.communication.packers.MessagePackerSetTest;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveTest;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestTest;
 import edu.ship.engr.shipsim.datasource.*;
+import edu.ship.engr.shipsim.datatypes.DefaultItemsForTestTest;
 import edu.ship.engr.shipsim.datatypes.PositionTest;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.terminal.TerminalManagerTest;
@@ -88,6 +89,7 @@ import org.junit.platform.suite.api.Suite;
                 // ServersForTest
 
                 // datatypes
+                DefaultItemsForTestTest.class,
                 PositionTest.class,
 
                 // edu.ship.engr.shipsim.model
