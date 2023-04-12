@@ -16,17 +16,17 @@ class UpsertQuestRequest extends Equatable {
   final bool easterEgg;
 
   const UpsertQuestRequest(
-      this.title,
-      this.description,
-      this.xpGained,
-      this.triggerMapName,
-      this.triggerRow,
-      this.triggerCol,
-      this.objectivesForFulfillment,
-      this.completionActionType,
-      this.startDate,
-      this.endDate,
-      this.easterEgg);
+  { required this.title,
+    required this.description,
+    required this.xpGained,
+    required this.triggerMapName,
+    required this.triggerRow,
+    required this.triggerCol,
+    required this.objectivesForFulfillment,
+    required this.completionActionType,
+    required this.startDate,
+    required this.endDate,
+    required this.easterEgg});
 
   @override
   List<Object> get props => [
