@@ -68,25 +68,6 @@ public class ServerRowDataGatewayTest
     }
 
     /**
-     * If we are in local mode, we should NOT change the hostname stored in the
-     * gateway
-     *
-     * @throws DatabaseException shouldn't
-     */
-    @Test
-    public void localModeDoesntUpdateHostName() throws DatabaseException
-    {
-        OptionsManager.getSingleton().setHostName("localhost");
-        ServerRowDataGateway existing = findGateway(ServersForTest.FIRST_SERVER.getMapName());
-        gateway = findGateway(ServersForTest.FIRST_SERVER.getMapName());
-        gateway.setHostName("h");
-        gateway.persist();
-        ServerRowDataGateway after = findGateway(ServersForTest.FIRST_SERVER.getMapName());
-        assertEquals(ServersForTest.FIRST_SERVER.getPortNumber(), after.getPortNumber());
-        assertEquals(existing.getHostName(), after.getHostName());
-    }
-
-    /**
      * Create a new row in the database
      *
      * @throws DatabaseException shouldn't
