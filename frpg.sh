@@ -58,6 +58,8 @@ up() {
         ./../gradlew build -x test
         cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null || exit
         ./../gradlew build -x test
+        cd "$basedir/FreshmanRPG/Watchdog" &>/dev/null || exit
+        ./../gradlew build -x test
     fi
 
     run_compose up -d
