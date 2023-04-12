@@ -123,14 +123,40 @@ public class VanityDTO implements Serializable
         {
             return false;
         }
+
         VanityDTO vanityDTO = (VanityDTO) o;
-        return ID == vanityDTO.ID && price == vanityDTO.price && Objects.equals(name, vanityDTO.name) && Objects.equals(description, vanityDTO.description) && Objects.equals(textureName, vanityDTO.textureName) && vanityType == vanityDTO.vanityType;
+
+        if (ID != vanityDTO.ID)
+        {
+            return false;
+        }
+        if (!Objects.equals(name, vanityDTO.name))
+        {
+            return false;
+        }
+        if (!Objects.equals(description, vanityDTO.description))
+        {
+            return false;
+        }
+        if (!Objects.equals(textureName, vanityDTO.textureName))
+        {
+            return false;
+        }
+        return vanityType == vanityDTO.vanityType;
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(ID, name, description, textureName, vanityType, price);
+        int result = ID;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result +
+                (description != null ? description.hashCode() : 0);
+        result = 31 * result +
+                (textureName != null ? textureName.hashCode() : 0);
+        result = 31 * result + (vanityType != null ? vanityType.hashCode() : 0);
+        result = 31 * result + price;
+        return result;
     }
 
     /**
