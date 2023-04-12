@@ -31,7 +31,7 @@ public class OptionsManager
     private String dbPathName = "../GameShared/config.txt";
     private String fullyQualifiedMapPath;
 
-    private String productionHostName = "rpgserv.engr.ship.edu";
+    private static final String productionHostName = "rpgserv.engr.ship.edu";
 
     private final boolean runningInCI;
     private final boolean runningInDocker;
@@ -264,6 +264,7 @@ public class OptionsManager
             mapping.setHostName("localhost");
             mapping.setMapFileTitle(mapFileTitle);
             mapping.setPortNumber(port);
+            mapping.persist();
         }
 
     }
