@@ -98,6 +98,7 @@ import org.junit.platform.suite.api.Suite;
                 CommandMovePlayerToAnotherMapAndPersistTest.class,
                 CommandObjectiveNotificationCompleteTest.class,
                 CommandPersistPlayerTest.class,
+                CommandGetQuestInformationTest.class,
                 CommandRemovePlayerTest.class,
                 CommandTerminalTextExitTest.class,
                 InteractObjectManagerTest.class,
