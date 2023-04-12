@@ -138,7 +138,14 @@ public final class ObjectiveStateChangeReportInClient implements Report, Notific
     @Override
     public String getNotificationTitle()
     {
-        return "Objective updated";
+        if (newState.equals(ObjectiveStateEnum.LATE))
+        {
+            return "Objective failed";
+        }
+        else
+        {
+            return "Objective updated";
+        }
     }
 
     @Override
