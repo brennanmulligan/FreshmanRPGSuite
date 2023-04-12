@@ -1,9 +1,14 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
+import edu.ship.engr.shipsim.datatypes.VanityInventoryItemsForTest;
+import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
+import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.NPCChatReport;
+import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
@@ -12,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Frank & Dave & Nick
@@ -73,5 +79,23 @@ public class QuizBotBehaviorTest
         int score = player.getQuizScore();
         behavior.receiveReport(report);
         assertEquals(score, player.getQuizScore());
+    }
+
+    /**
+     * When a question is correctly answered, the player who got it right should
+     * receive Bike
+     */
+    @Test
+    public void testReceiveBike()
+    {
+        String answer = question.getAnswer();
+
+        // check that spaces don't matter
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0,
+                "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
+        behavior.receiveReport(report);
+
+        VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0);
+        assertTrue(player.getAllOwnedItems().contains(bike));
     }
 }

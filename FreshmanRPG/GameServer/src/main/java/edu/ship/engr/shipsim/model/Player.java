@@ -7,6 +7,7 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.Crew;
 import edu.ship.engr.shipsim.datatypes.Major;
 import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.DoubloonChangeReport;
 import edu.ship.engr.shipsim.model.reports.ExperienceChangedReport;
@@ -15,7 +16,7 @@ import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
 import edu.ship.engr.shipsim.model.reports.PlayerMovedReport;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * The class that hold all the data we need for a player.
@@ -188,6 +189,39 @@ public class Player
     }
 
     /**
+     *
+     */
+    public void receiveBike()
+    {
+        int bikeIndex = -1;
+        int iterator = 0;
+        do
+        {
+            if(vanityItems.get(iterator).getVanityType() == VanityType.BIKE)
+            {
+                bikeIndex = iterator;
+            }
+            iterator++;
+        }
+        while(bikeIndex == -1 && iterator < vanityItems.size());
+
+        if(bikeIndex != -1)
+        {
+            vanityItems.remove(bikeIndex);
+        }
+
+        VanityDTO newBike = new VanityDTO(VanityItemsForTest.BIKE.ordinal()+1, "Bike", "", "bike", VanityType.BIKE, 0);
+        ownedItems.add(newBike);
+        vanityItems.add(newBike);
+
+        Date endsAt = new Date(System.currentTimeMillis() + 60 * 1000);
+        TimerManager.getSingleton().scheduleCommand(endsAt, new CommandRemovePlayerBike(playerID), playerID);
+
+        PlayerAppearanceChangeReport report = new PlayerAppearanceChangeReport(playerID, vanityItems);
+        ReportObserverConnector.getSingleton().sendReport(report);
+    }
+
+    /**
      * Check the pin to make sure it is correct with regards to contents and
      * expiration
      *
@@ -315,7 +349,7 @@ public class Player
     }
 
     /**
-     * Get's the player's online status
+     * Gets the player's online status
      *
      * @param playerOnline the player's online status
      */
@@ -720,9 +754,19 @@ public class Player
             if (vanityItem.getVanityType() == item)
             {
                 this.vanityItems.remove(vanityItem);
-
+                this.ownedItems.remove(vanityItem);
             }
         }
+
+        //adds back the bike none vanity item
+        if (item == VanityType.BIKE)
+        {
+
+            VanityDTO bike_none = new VanityDTO(VanityItemsForTest.BIKE_NONE.getId(), "No Bike", "", "bike_none", VanityType.BIKE, 0);
+            this.vanityItems.add(bike_none);
+            this.ownedItems.add(bike_none);
+        }
+
         PlayerAppearanceChangeReport playerAppearanceChangeReport =
                 new PlayerAppearanceChangeReport(this.playerID,
                         this.vanityItems);
