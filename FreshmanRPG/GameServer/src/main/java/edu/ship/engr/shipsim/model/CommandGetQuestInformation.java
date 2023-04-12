@@ -21,7 +21,7 @@ public class CommandGetQuestInformation extends Command
         try
         {
             QuestInfoDTO questInfoDTO = new QuestInfoDTO();
-            questInfoDTO.setCompletionActionTypes(gw.getCompletionActionTypes);
+            questInfoDTO.setCompletionActionTypes(gw.getCompletionActionTypes());
             GetQuestInformationReport report = new GetQuestInformationReport(questInfoDTO);
             ReportObserverConnector.getSingleton().sendReport(report);
         }
