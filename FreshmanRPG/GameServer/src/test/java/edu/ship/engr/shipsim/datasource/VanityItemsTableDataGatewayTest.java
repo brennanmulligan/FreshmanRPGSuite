@@ -65,7 +65,7 @@ public class VanityItemsTableDataGatewayTest
         for (VanityItemsForTest v : VanityItemsForTest.values())
         {
             VanityDTO d = new VanityDTO(v.getId(), v.getName(), v.getDescription(),
-                    v.getTextureName(), VanityType.fromInt(v.getVanityType()));
+                    v.getTextureName(), VanityType.fromInt(v.getVanityType()),v.getPrice());
             items.add(d);
         }
 

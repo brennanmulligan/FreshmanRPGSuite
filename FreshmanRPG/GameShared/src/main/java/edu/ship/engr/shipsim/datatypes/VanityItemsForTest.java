@@ -179,6 +179,7 @@ public enum VanityItemsForTest
         return this.ordinal() + 1;
     }
 
+
     /**
      * Gets the vanity type of the item as an int.
      *
