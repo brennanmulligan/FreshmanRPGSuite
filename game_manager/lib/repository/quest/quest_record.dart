@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
+import 'action_type_DTO.dart';
 
-class Quest extends Equatable {
+class QuestRecord extends Equatable {
   final String title;
   final String description;
   final int xpGained;
@@ -9,12 +10,12 @@ class Quest extends Equatable {
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
-  final int completionActionType;
+  final ActionTypeDTO completionActionType;
   final String startDate;
   final String endDate;
   final bool easterEgg;
 
-  const Quest(
+  const QuestRecord(
   { required this.title,
     required this.description,
     required this.xpGained,
@@ -50,10 +51,10 @@ class Quest extends Equatable {
     };
   }
 
-  factory Quest.fromJson({
+  factory QuestRecord.fromJson({
     required JSON json,
   }) {
-    return Quest(
+    return QuestRecord(
       title: json['title'],
       description: json['description'],
       xpGained : json['xpGained'],
@@ -61,7 +62,7 @@ class Quest extends Equatable {
       triggerRow : json['triggerRow'],
       triggerCol : json['triggerCol'],
       objectivesForFulfillment : json['objectivesForFulfillment'],
-      completionActionType : json['completionActionType'],
+      completionActionType : ActionTypeDTO.fromJson(json: json['completionActionType']),
       startDate : json['startDate'],
       endDate : json['endDate'],
       easterEgg : json['easterEgg']
