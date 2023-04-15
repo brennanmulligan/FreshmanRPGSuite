@@ -181,11 +181,7 @@ public class Server implements Runnable, AutoCloseable
             {
                 SpringApplication application = new SpringApplication(RestfulServer.class);
                 application.setBannerMode(Banner.Mode.OFF);
-
-                try (ConfigurableApplicationContext run = application.run())
-                {
-                    // do nothing
-                }
+                application.run();
             }
 
             openConnectionToWatchdogServer();
