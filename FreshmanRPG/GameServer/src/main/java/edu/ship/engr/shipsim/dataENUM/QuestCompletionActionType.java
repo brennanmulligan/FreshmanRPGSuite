@@ -29,7 +29,8 @@ public enum QuestCompletionActionType
      */
     ADD_VANITY_TO_INVENTORY(null);
 
-    private Class<? extends QuestCompletionActionParameter> completionActionParameterType;
+    private Class<? extends QuestCompletionActionParameter>
+            completionActionParameterType;
 
     /**
      * @return the type of information for parameters of this quest completion
@@ -40,7 +41,8 @@ public enum QuestCompletionActionType
         return completionActionParameterType;
     }
 
-    QuestCompletionActionType(Class<? extends QuestCompletionActionParameter> paramType)
+    QuestCompletionActionType(
+            Class<? extends QuestCompletionActionParameter> paramType)
     {
         this.completionActionParameterType = paramType;
     }
