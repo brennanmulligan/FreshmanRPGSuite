@@ -15,7 +15,7 @@ import java.util.HashMap;
  *
  * @author Merlin
  */
-public class QuestStateTableDataGateway
+public class  QuestStateTableDataGateway
 {
     private static QuestStateTableDataGateway singleton;
 
