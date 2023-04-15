@@ -19,119 +19,216 @@ public enum QuestsForTest
 
 
     ONE_BIG_QUEST(1, "t0", "Quest 1",
-            new GameLocationDTO(PlayerTableDataGateway.INITIAL_GAME_LOCATION.getMapName(),
-                    PlayerTableDataGateway.INITIAL_GAME_LOCATION.getPosition()), 5, 2,
+            new GameLocationDTO(
+                    PlayerTableDataGateway.INITIAL_GAME_LOCATION.getMapName(),
+                    PlayerTableDataGateway.INITIAL_GAME_LOCATION.getPosition()),
+            5, 2,
             QuestCompletionActionType.TELEPORT,
             new GameLocationDTO(
-                    "quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+                    "quad.tmx", new Position(3, 3)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    THE_OTHER_QUEST(2, "t1", "Quest 2", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    THE_OTHER_QUEST(2, "t1", "Quest 2",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    ONE_SAME_LOCATION_QUEST(3, "t2", "Quest 3", new GameLocationDTO("quad.tmx", new Position(92, 7)), 3, 2, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    ONE_SAME_LOCATION_QUEST(3, "t2", "Quest 3",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 3, 2,
+            QuestCompletionActionType.TELEPORT,
+            new GameLocationDTO("quad.tmx", new Position(3, 3)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
 
-    THE_LITTLE_QUEST(4, "t3", "Quest 4", new GameLocationDTO("quad.tmx", new Position(3, 32)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    THE_LITTLE_QUEST(4, "t3", "Quest 4",
+            new GameLocationDTO("quad.tmx", new Position(3, 32)), 5, 1,
+            QuestCompletionActionType.TELEPORT,
+            new GameLocationDTO("quad.tmx", new Position(3, 3)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    CHAT_TO_AN_NPC_QUEST(5, "t4", "Quest 5", new GameLocationDTO("quad.tmx", new Position(0, 0)), 5, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("quad.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    CHAT_TO_AN_NPC_QUEST(5, "t4", "Quest 5",
+            new GameLocationDTO("quad.tmx", new Position(0, 0)), 5, 1,
+            QuestCompletionActionType.TELEPORT,
+            new GameLocationDTO("quad.tmx", new Position(3, 3)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    TELEPORT_QUEST(6, "t5", "Teleporting Quest", new GameLocationDTO("quad.tmx", new Position(2, 32)), 1, 1, QuestCompletionActionType.TELEPORT, new GameLocationDTO("sortingRoom.tmx", new Position(3, 3)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    TELEPORT_QUEST(6, "t5", "Teleporting Quest",
+            new GameLocationDTO("quad.tmx", new Position(2, 32)), 1, 1,
+            QuestCompletionActionType.TELEPORT,
+            new GameLocationDTO("sortingRoom.tmx", new Position(3, 3)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    INVALID_QUEST(7, "t6", "Quest 7", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2015, Calendar.MARCH, 21).getTime(), false),
+    INVALID_QUEST(7, "t6", "Quest 7",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(2015, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    EXPIRED_QUEST(8, "t7", "Quest 8", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime(), false),
+    EXPIRED_QUEST(8, "t7", "Quest 8",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(2000, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    FINISHED_QUEST(9, "t8", "Quest 9", new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(2000, Calendar.MARCH, 21).getTime(), false),
+    FINISHED_QUEST(9, "t8", "Quest 9",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 4, 2,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(1970, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(2000, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    DOUBLOON_QUEST(10, "Doubloon Quest", "Quest 10", new GameLocationDTO("quad.tmx", new Position(92, 7)), 5, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.MARCH, 21).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    DOUBLOON_QUEST(10, "Doubloon Quest", "Quest 10",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 5, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.MARCH, 21).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    TRIGGERED_STATE_TO_EXPIRED_STATE_QUEST(11, "Quest 11", "Quest should go from triggered to expired", new GameLocationDTO("quad.tmx", new Position(3, 3)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(), new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(), false),
+    TRIGGERED_STATE_TO_EXPIRED_STATE_QUEST(11, "Quest 11",
+            "Quest should go from triggered to expired",
+            new GameLocationDTO("quad.tmx", new Position(3, 3)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(),
+            new GregorianCalendar(2016, Calendar.APRIL, 26).getTime(), false),
     /**
      *
      */
-    INTERACTABLE_ITEM_QUEST(12, "Quest 12", "Interactable Items should be a viable method of completing quests", new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    INTERACTABLE_ITEM_QUEST(12, "Quest 12",
+            "Interactable Items should be a viable method of completing quests",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
     INTERACTABLE_ITEM_QUEST_SUB(13, "Quest 13", "Interact with an item",
-            new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 2, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+            new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 2,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      *
      */
-    FIRST_FRIEND_QUEST(14, "Quest 14", "Make your first friend", new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    FIRST_FRIEND_QUEST(14, "Quest 14", "Make your first friend",
+            new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    MANY_FRIENDS_QUEST(15, "Quest 15", "Make multiple friends", new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    MANY_FRIENDS_QUEST(15, "Quest 15", "Make multiple friends",
+            new GameLocationDTO("current.tmx", new Position(8, 9)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      *
      */
-    TEST_CHAT_RESPONSE_QUEST(16, "Chat Response", "Get talked at by NPC", new GameLocationDTO("mowrey.tmx", new Position(29, 36)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    TEST_CHAT_RESPONSE_QUEST(16, "Chat Response", "Get talked at by NPC",
+            new GameLocationDTO("mowrey.tmx", new Position(29, 36)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
-    INVENTORY_QUEST_TEST(17, "Test Quest Reward", "Testing adding swag to inventory on quest complete", new GameLocationDTO("quad.tmx", new Position(92, 7)), 0, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    INVENTORY_QUEST_TEST(17, "Test Quest Reward",
+            "Testing adding swag to inventory on quest complete",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 0, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * The real opening quest
      */
     ONRAMPING_QUEST(100, "Introductory Quest",
-            "Welcome!  For your first quest, you need to learn a little bit about this world.  Press Q to see what you need to do.  "
-                    + "Double clicking on a quest in the quest screen will show you its objectives.",
+            "Welcome!  For your first quest, you need to learn a little bit " +
+                    "about this world.  Press Q to see what you need to do.  "
+                    +
+                    "Double clicking on a quest in the quest screen will show" +
+                    " you its objectives.",
             PlayerTableDataGateway.INITIAL_GAME_LOCATION, 5, 11,
             QuestCompletionActionType.TELEPORT,
-            new GameLocationDTO("quad.tmx", new Position(92, 7)), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GameLocationDTO("quad.tmx", new Position(92, 7)),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Real quest to make them explore
      */
-    EXPLORATION_QUEST(101, "Exploration", "Explore your new school", new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 2, 5, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    EXPLORATION_QUEST(101, "Exploration", "Explore your new school",
+            new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 2, 5,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
 
     /**
      * Quest for real life tutor
      */
-    MEET_REAL_LIFE_TUTOR_QUEST(102, "Meet Real Life Tutor", "Talk with the Real Tutor during their available hours", new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 2, 5, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    MEET_REAL_LIFE_TUTOR_QUEST(102, "Meet Real Life Tutor",
+            "Talk with the Real Tutor during their available hours",
+            new GameLocationDTO("sortingRoom.tmx", new Position(4, 13)), 2, 5,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
 
     /**
      * Real quest for them to meet the tutor
      */
-    MEET_NPC_TUTOR_QUEST(103, "Meet The Tutor", "Talk with the NPC tutor.", new GameLocationDTO("library.tmx", new Position(1, 1)), 10, 1,
-            QuestCompletionActionType.TRIGGER_QUESTS, new QuestListCompletionParameter(new ArrayList<>(Arrays.asList(MEET_REAL_LIFE_TUTOR_QUEST.getQuestID()))), new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
+    MEET_NPC_TUTOR_QUEST(103, "Meet The Tutor", "Talk with the NPC tutor.",
+            new GameLocationDTO("library.tmx", new Position(1, 1)), 10, 1,
+            QuestCompletionActionType.TRIGGER_QUESTS,
+            new QuestListCompletionParameter(new ArrayList<>(
+                    Arrays.asList(MEET_REAL_LIFE_TUTOR_QUEST.getQuestID()))),
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Recipe Quest
      */
-    RECIPE_QUEST(104, "Curiouser and Curiouser!", "Find the special tea recipe in The Green.",
-            new GameLocationDTO("quad.tmx", new Position(92, 7)), 2, 1, QuestCompletionActionType.NO_ACTION,
+    RECIPE_QUEST(104, "Curiouser and Curiouser!",
+            "Find the special tea recipe in The Green.",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 2, 1,
+            QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Tea Ingredients Quest
      */
-    COLLECT_TEA_INGREDIENTS(105, "Flowers for Tea", "TEAcher wants to try that tea recipe you found. Find four flowers to help him make it.",
-            new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 5, QuestCompletionActionType.NO_ACTION,
+    COLLECT_TEA_INGREDIENTS(105, "Flowers for Tea",
+            "TEAcher wants to try that tea recipe you found. Find four " +
+                    "flowers to help him make it.",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 5,
+            QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
@@ -139,38 +236,57 @@ public enum QuestsForTest
      * Riddle Quest
      * GameLocationDTO("library.tmx", new Position(10,3))
      */
-    RIDDLE_QUEST(106, "Solving Riddles", "You need to solve these riddles by finding to locations that they describe. Good Luck!",
-            new GameLocationDTO("quad.tmx", new Position(92, 7)), 10, 3, QuestCompletionActionType.NO_ACTION,
+    RIDDLE_QUEST(106, "Solving Riddles",
+            "You need to solve these riddles by finding to locations that " +
+                    "they describe. Good Luck!",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 10, 3,
+            QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
-    ROCK_PAPER_SCISSORS(107, "Roshambo", "A mysterious figure issues you a challenge, but first you must find the secret password...",
-            new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 2, QuestCompletionActionType.NO_ACTION,
+    ROCK_PAPER_SCISSORS(107, "Roshambo",
+            "A mysterious figure issues you a challenge, but first you must " +
+                    "find the secret password...",
+            new GameLocationDTO("quad.tmx", new Position(92, 7)), 1, 2,
+            QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
-    TEMP_QUEST(108, "Triggered by object", "This quest was triggered by an interacting with an object. ",
-            new GameLocationDTO("quad.tmx", new Position(83, 33)), 1, 1, QuestCompletionActionType.NO_ACTION,
+    TEMP_QUEST(108, "Triggered by object",
+            "This quest was triggered by an interacting with an object. ",
+            new GameLocationDTO("quad.tmx", new Position(83, 33)), 1, 1,
+            QuestCompletionActionType.NO_ACTION,
             null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
-    /**
-     * History NPC Quest
-     */
-    TEST_HISTORY_RESPONSE_QUEST(110, "The history of Shippensburg", "Listen to the history proffesor's facts about shippensburg", new GameLocationDTO("Fountain.tmx", new Position(53, 52)), 1, 1, QuestCompletionActionType.NO_ACTION, null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
     /**
      * EasterEgg Quest
      */
-    EASTER_EGG_QUEST(109, "Easter Egg Quest", "This is an easter egg quest. Only pops up once it's triggered.",
-                             new GameLocationDTO("quad.tmx", new Position(53, 52)), 1, 1, QuestCompletionActionType.NO_ACTION,
-        null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+    EASTER_EGG_QUEST(109, "Easter Egg Quest",
+            "This is an easter egg quest. Only pops up once it's triggered.",
+            new GameLocationDTO("quad.tmx", new Position(53, 52)), 1, 1,
+            QuestCompletionActionType.NO_ACTION,
+            null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), true),
+
+    /**
+     * History NPC Quest
+     */
+    TEST_HISTORY_RESPONSE_QUEST(110, "The history of Shippensburg",
+            "Listen to the history proffesor's facts about shippensburg",
+            new GameLocationDTO("Fountain.tmx", new Position(53, 52)), 1, 1,
+            QuestCompletionActionType.NO_ACTION, null,
+            new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+            new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false),
 
     /**
      * Timed Objective Quest
      */
-    TIMED_OBJECTIVE_QUEST(111, "You're Late Quest", "This is a timed objective quest. Get to the goal before time is up.",
-                             new GameLocationDTO("quad.tmx", new Position(120, 74)), 1, 1, QuestCompletionActionType.NO_ACTION,
-        null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
+    TIMED_OBJECTIVE_QUEST(111, "You're Late Quest",
+            "This is a timed objective quest. Get to the goal before time is " +
+                    "up.",
+            new GameLocationDTO("quad.tmx", new Position(120, 74)), 1, 1,
+            QuestCompletionActionType.NO_ACTION,
+            null, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(),
             new GregorianCalendar(9999, Calendar.MARCH, 21).getTime(), false);
 
 
@@ -192,20 +308,27 @@ public enum QuestsForTest
      * @param questID                 this quest's unique ID
      * @param questTitle              this quest's title
      * @param questDescription        what the player has to do
-     * @param experienceGained        the number of experience points you get when you fulfill the
+     * @param experienceGained        the number of experience points you get
+     *                                when you fulfill the
      *                                quest
-     * @param objectiveForFulfillment the number of objectives you must complete to fulfill the
+     * @param objectiveForFulfillment the number of objectives you must
+     *                                complete to fulfill the
      *                                quest
-     * @param completionActionType    TThe type of action that should be taken when this quest
+     * @param completionActionType    TThe type of action that should be
+     *                                taken when this quest
      *                                complete
      * @param completionActionParam   The parameter for the completion action
      * @param startDate               The first day that this quest is available
      * @param endDate                 This last day that this quest is available
-     * @param isEasterEgg             This is a boolean for if the quest is an Easter egg or not
+     * @param isEasterEgg             This is a boolean for if the quest is
+     *                                an Easter egg or not
      */
-    QuestsForTest(int questID, String questTitle, String questDescription, GameLocationDTO gameLocation,
-                  int experienceGained, int objectiveForFulfillment, QuestCompletionActionType completionActionType,
-                  QuestCompletionActionParameter completionActionParam, Date startDate, Date endDate, boolean isEasterEgg)
+    QuestsForTest(int questID, String questTitle, String questDescription,
+                  GameLocationDTO gameLocation,
+                  int experienceGained, int objectiveForFulfillment,
+                  QuestCompletionActionType completionActionType,
+                  QuestCompletionActionParameter completionActionParam,
+                  Date startDate, Date endDate, boolean isEasterEgg)
     {
         this.questID = questID;
         this.questTitle = questTitle;
