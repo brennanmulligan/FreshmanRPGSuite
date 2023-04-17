@@ -434,7 +434,7 @@ public enum QuestsForTest
         return endDate;
     }
 
-    public Boolean getIsEasterEgg()
+    public Boolean isEasterEgg()
     {
         return isEasterEgg;
     }

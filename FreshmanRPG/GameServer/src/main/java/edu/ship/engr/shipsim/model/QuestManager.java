@@ -428,7 +428,7 @@ public class QuestManager implements ReportObserver
                 questGateway.getCompletionActionParameter(),
                 questGateway.getStartDate(),
                 questGateway.getEndDate(),
-                questGateway.getIsEasterEgg());
+                questGateway.isEasterEgg());
     }
 
     /**
