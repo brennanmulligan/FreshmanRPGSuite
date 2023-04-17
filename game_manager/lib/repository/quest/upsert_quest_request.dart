@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 
 class UpsertQuestRequest extends Equatable {
+  final int id;
   final String title;
   final String description;
   final int xpGained;
@@ -16,7 +17,8 @@ class UpsertQuestRequest extends Equatable {
   final bool easterEgg;
 
   const UpsertQuestRequest(
-  { required this.title,
+  { required this.id,
+    required this.title,
     required this.description,
     required this.xpGained,
     required this.triggerMapName,
@@ -30,6 +32,7 @@ class UpsertQuestRequest extends Equatable {
 
   @override
   List<Object> get props => [
+        id,
         title,
         description,
         xpGained,
@@ -45,6 +48,7 @@ class UpsertQuestRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'xpGained': xpGained,
@@ -61,10 +65,11 @@ class UpsertQuestRequest extends Equatable {
 
   @override
   String toString() {
-    return 'UpsertQuestRequest(title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'UpsertQuestRequest(id: $id, title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
   }
 
   JSON get asJson => {
+        'id': id,
         'title': title,
         'description': description,
         'xpGained': xpGained,

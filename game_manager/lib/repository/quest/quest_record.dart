@@ -3,6 +3,7 @@ import '../../type_definitions.dart';
 import 'action_type_DTO.dart';
 
 class QuestRecord extends Equatable {
+  final int id;
   final String title;
   final String description;
   final int xpGained;
@@ -16,7 +17,8 @@ class QuestRecord extends Equatable {
   final bool easterEgg;
 
   const QuestRecord(
-  { required this.title,
+  { required this.id,
+    required this.title,
     required this.description,
     required this.xpGained,
     required this.triggerMapName,
@@ -29,7 +31,7 @@ class QuestRecord extends Equatable {
     required this.easterEgg});
 
   @override
-  List<Object?> get props => [title, description, xpGained, triggerMapName, triggerRow, triggerCol,
+  List<Object?> get props => [id, title, description, xpGained, triggerMapName, triggerRow, triggerCol,
                               objectivesForFulfillment, completionActionType, startDate, endDate, easterEgg];
 
   ///
@@ -37,6 +39,7 @@ class QuestRecord extends Equatable {
   ///
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description' : description,
       'xpGained' : xpGained,
@@ -55,6 +58,7 @@ class QuestRecord extends Equatable {
     required JSON json,
   }) {
     return QuestRecord(
+      id: json['id'],
       title: json['title'],
       description: json['description'],
       xpGained : json['xpGained'],

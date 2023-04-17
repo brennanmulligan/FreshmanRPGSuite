@@ -21,3 +21,12 @@ class QuestComplete extends QuestState {
   @override
   List<Object> get props => [response];
 }
+
+class QuestPageReady extends QuestState {
+  final QuestResponse response;
+
+  QuestPageReady(this.response);
+
+  @override
+  List<Object> get props => [response];
+}

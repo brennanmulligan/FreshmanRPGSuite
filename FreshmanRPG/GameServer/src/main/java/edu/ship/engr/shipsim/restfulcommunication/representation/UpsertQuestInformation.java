@@ -37,7 +37,7 @@ public class UpsertQuestInformation
                                   @JsonProperty("endDate") String endDate,
                                   @JsonProperty("easterEgg") boolean easterEgg)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         this.id = id;
         this.title = title;
         this.description = description;
