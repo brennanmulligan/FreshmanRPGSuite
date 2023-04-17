@@ -155,7 +155,7 @@ public class QuestRowDataGateway
      *                                  quest
      * @param experienceGained          the number of experience points gained for
      *                                  completing this quest
-     * @param objectivesForFullfillment the number of objectives this quest
+     * @param objectivesForFulfillment the number of objectives this quest
      *                                  requires for fulfillment
      * @param completionActionType      the type of action that should be taken when
      *                                  this quest is completed
@@ -384,7 +384,7 @@ public class QuestRowDataGateway
         this.isEasterEgg = isEasterEgg;
     }
 
-    public boolean getIsEasterEgg()
+    public boolean isEasterEgg()
     {
         return isEasterEgg;
     }
