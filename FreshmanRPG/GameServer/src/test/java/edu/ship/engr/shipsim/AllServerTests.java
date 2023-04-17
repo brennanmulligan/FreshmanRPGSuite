@@ -88,7 +88,7 @@ import org.junit.platform.suite.api.Suite;
                 CheatCodeManagerTest.class,
                 CommandAddPlayerTest.class,
                 CommandChangePasswordTest.class,
-                CommandCreateUpdateQuest.class,
+                CommandUpsertQuestTest.class,
                 CommandCreatePlayerTest.class,
                 CommandGetCrewsTest.class,
                 CommandGetMajorsTest.class,

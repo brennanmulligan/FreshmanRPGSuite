@@ -168,6 +168,7 @@ public class QuestRecord
     private ArrayList<ObjectiveRecord> objectives;
     private int questID;
     private String mapName;
+
     private Position position;
     private int experiencePointsGained;
     private int objectivesForFulfillment;
@@ -442,6 +443,54 @@ public class QuestRecord
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+
+    public Position getPosition()
+    {
+        return position;
+    }
+
+    public void setPosition(Position position)
+    {
+        this.position = position;
+    }
+
+    public void setExperiencePointsGained(int experiencePointsGained)
+    {
+        this.experiencePointsGained = experiencePointsGained;
+    }
+
+    public void setObjectivesForFulfillment(int objectivesForFulfillment)
+    {
+        this.objectivesForFulfillment = objectivesForFulfillment;
+    }
+
+    public void setCompletionActionType(
+            QuestCompletionActionType completionActionType)
+    {
+        this.completionActionType = completionActionType;
+    }
+
+    public void setCompletionActionParameter(
+            QuestCompletionActionParameter completionActionParameter)
+    {
+        this.completionActionParameter = completionActionParameter;
+    }
+
+    public void setStartDate(Date startDate)
+    {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    public void setEasterEgg(boolean easterEgg)
+    {
+        this.easterEgg = easterEgg;
     }
 
     /**
