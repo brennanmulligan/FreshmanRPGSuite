@@ -44,4 +44,17 @@ class SendGetQuestEditingInformationEvent extends QuestEvent {
   String toString() {
     return 'GetQuestEditingInformationEvent()';
   }
+
+}
+
+class SendGetQuestInformation extends QuestEvent{
+  final String title;
+
+  SendGetQuestInformation(this.title);
+
+  @override
+  String toString() {
+    return 'QuestInformatonEvent(title: $title)';
+  }
+
 }
