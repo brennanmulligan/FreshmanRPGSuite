@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/get_majors_and_crews/bloc/get_majors_and_crews_bloc.dart';
+import 'package:game_manager/pages/shared/widgets/password.dart';
 
 import '../../repository/player/all_crews_response.dart';
 import '../../repository/player/all_majors_response.dart';
@@ -11,7 +12,6 @@ import '../../repository/player/crews_repository.dart';
 import '../../repository/player/major.dart';
 import '../../repository/player/majors_repository.dart';
 import '../../repository/player/player_repository.dart';
-import '../../repository/player/basic_response.dart';
 import '../shared/widgets/notification_card.dart';
 
 class CreatePlayerPage extends StatefulWidget {
@@ -25,14 +25,13 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
   final username = TextEditingController();
   final password = TextEditingController();
   final section = TextEditingController();
-
   int? crewsValue;
   int? majorsValue;
+  PasswordValidator validator = PasswordValidator();
 
   @override
   void initState() {
     super.initState();
-
     crewsValue = 0;
     majorsValue = 0;
   }
@@ -43,6 +42,10 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
     username.dispose();
     password.dispose();
     section.dispose();
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   @override
@@ -62,71 +65,63 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   create: (context) => GetMajorsAndCrewsBloc(
                         MajorsRepository: context.read<MajorsRepository>(),
                         CrewsRepository: context.read<CrewsRepository>(),
-                      )..add(SendCreateMajorsCrewEvent(0, 0))) //TODO: refactor this to not take in arguments)
+                      )..add(SendCreateMajorsCrewEvent(0, 0)))
+              //TODO: refactor this to not take in arguments)
             ],
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
                 appBar: AppBar(
                   title: const Text('Create Player'),
                 ),
-                body: Column(
-                  children: [
-                    BlocConsumer<CreatePlayerBloc, CreatePlayerState>(
-                        listener: (context, state) {
-                          if (state is CreatePlayerComplete) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: NotificationCard(
-                                      cardTitle: state.response.success ? "Success" : "Error",
-                                      description: state.response.description,
-                                      success: state.response.success
-                                ),
-                                duration: const Duration(seconds: 3),
-                                behavior: SnackBarBehavior.floating,
-                                padding: EdgeInsets.zero
-                              ),
-                            );
-                          }
-                        },
-                        builder: (context, state) {
-                          return BlocBuilder<
-                            GetMajorsAndCrewsBloc,
-                            GetMajorsAndCrewsState>(
-                              builder: (context, state) {
-                                if (state is GetMajorCrewComplete) {
-                                  return buildInputScreen(state.crewResponse, state.majorResponse);
-                                } else {
-                                  return const Center (
-                                    child: CircularProgressIndicator()
-                                  );
-                                }
-                              }
-                            );
-                        }),
-
-                  ]
-                )
-                )));
+                body: Column(children: [
+                  BlocConsumer<CreatePlayerBloc, CreatePlayerState>(
+                      listener: (context, state) {
+                    if (state is CreatePlayerComplete) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: NotificationCard(
+                                cardTitle: state.response.success
+                                    ? "Success"
+                                    : "Error",
+                                description: state.response.description,
+                                success: state.response.success),
+                            duration: const Duration(seconds: 3),
+                            behavior: SnackBarBehavior.floating,
+                            padding: EdgeInsets.zero),
+                      );
+                    }
+                  }, builder: (context, state) {
+                    return BlocBuilder<GetMajorsAndCrewsBloc,
+                        GetMajorsAndCrewsState>(builder: (context, state) {
+                      if (state is GetMajorCrewComplete) {
+                        return buildInputScreen(
+                            state.crewResponse, state.majorResponse);
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    });
+                  }),
+                ]))));
   }
 
-  Widget buildLoadScreen() =>
-      const Padding(
-          padding: EdgeInsets.all(24.0),
-          child: Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-      );
+  Widget buildLoadScreen() => const Padding(
+      padding: EdgeInsets.all(24.0),
+      child: Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ));
 
-  Widget buildInputScreen(AllCrewsResponse crewsResponse, AllMajorsResponse majorsResponse) => Padding(
+  Widget buildInputScreen(
+          AllCrewsResponse crewsResponse, AllMajorsResponse majorsResponse) =>
+      Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
           child: Column(
             children: [
               TextField(
                 controller: username,
-                decoration:   InputDecoration(
+                decoration: InputDecoration(
                   label: Row(
                     children: const [
                       Icon(Icons.person),
@@ -139,20 +134,10 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   fillColor: Colors.grey,
                 ),
               ),
-              TextField(
+              PasswordField(
                 controller: password,
-                decoration:  InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.key),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Password'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
-                ),
+                validator: validator,
+                notifyParent: refresh,
               ),
               DropdownButtonFormField<int>(
                 decoration: const InputDecoration(
@@ -162,11 +147,12 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                 value: crewsValue,
                 isExpanded: true,
                 onChanged: (int? value) {
-                    setState(() {
-                      crewsValue = value!;
-                    });
+                  setState(() {
+                    crewsValue = value!;
+                  });
                 },
-                items: crewsResponse.crews.map<DropdownMenuItem<int>>((Crew crew) {
+                items:
+                    crewsResponse.crews.map<DropdownMenuItem<int>>((Crew crew) {
                   return DropdownMenuItem<int>(
                     value: crew.crewID,
                     child: Text(crew.name),
@@ -185,7 +171,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                     majorsValue = value!;
                   });
                 },
-                items: majorsResponse.majors.map<DropdownMenuItem<int>>((Major major) {
+                items: majorsResponse.majors
+                    .map<DropdownMenuItem<int>>((Major major) {
                   return DropdownMenuItem<int>(
                     value: major.majorID,
                     child: Text(major.name),
@@ -195,7 +182,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
               TextField(
                 controller: section,
                 keyboardType: TextInputType.number,
-                decoration:   InputDecoration(
+                decoration: InputDecoration(
                   label: Row(
                     children: const [
                       Icon(Icons.catching_pokemon),
@@ -216,7 +203,8 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   password: password,
                   crew: crewsValue!,
                   major: majorsValue!,
-                  section: section)
+                  section: section,
+                  isValid: validator.isSecure)
             ],
           ),
         ),
@@ -224,13 +212,14 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
 }
 
 class SubmitButtonBuilder extends StatelessWidget {
-  const SubmitButtonBuilder(
+  SubmitButtonBuilder(
       {Key? key,
       required this.username,
       required this.password,
       required this.crew,
       required this.major,
-      required this.section})
+      required this.section,
+      required this.isValid})
       : super(key: key);
 
   final TextEditingController username;
@@ -238,6 +227,7 @@ class SubmitButtonBuilder extends StatelessWidget {
   final int crew;
   final int major;
   final TextEditingController section;
+  bool isValid;
 
   @override
   Widget build(BuildContext context) {
@@ -251,10 +241,9 @@ class SubmitButtonBuilder extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(1)),
           ),
         ),
-        onPressed: () => BlocProvider.of<CreatePlayerBloc>(context)
-            // TODO make sure this functions, crew & major were parsed as ints??
-            .add(SendCreatePlayerEvent(username.text, password.text,
-                crew, major, int.parse(section.text))),
+        onPressed: !isValid ? null :() => BlocProvider.of<CreatePlayerBloc>(context)
+            .add(SendCreatePlayerEvent(username.text, password.text, crew,
+                major, int.parse(section.text))),
         child: const Text(
           "Create Player",
           style: TextStyle(color: Colors.black),
