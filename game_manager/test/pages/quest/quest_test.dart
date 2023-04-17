@@ -1,7 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:game_manager/pages/create_edit_quest/bloc/quest_bloc.dart';
+import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
+import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
+import 'package:game_manager/repository/quest/quest_editing_response.dart';
 import 'package:game_manager/repository/quest/quest_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -27,9 +29,22 @@ Future<void> main() async {
         when(questRepo.upsertQuest(any)).thenAnswer((_) async => good);
         return QuestBloc(questRepository: questRepo);
       },
-      act: (bloc) => bloc.add(SendUpsertQuestEvent("", "", 0, "", 1, 2, 3, 4, "", "", true)),
+      act: (bloc) => bloc.add(SendUpsertQuestEvent(1, "", "", 0, "", 1, 2, 3, 4, "", "", true)),
       wait: const Duration(milliseconds: 500),
       expect: () => [QuestLoading(), QuestComplete(good)],
+    );
+
+    const QuestResponse goodEditingResponse = QuestResponse(true, questEditingInfoDTO: QuestEditingInfoDTO(quests: [], mapNames: [], completionActionTypes: []));
+
+    blocTest<QuestBloc, QuestState>(
+      "Check get flow",
+      build: () {
+        when(questRepo.getQuests(any)).thenAnswer((_) async => goodEditingResponse);
+        return QuestBloc(questRepository: questRepo);
+      },
+      act: (bloc) => bloc.add(SendGetQuestEditingInformationEvent()),
+      wait: const Duration(milliseconds: 500),
+      expect: () => [QuestLoading(), QuestPageReady(goodEditingResponse)],
     );
   });
 }
