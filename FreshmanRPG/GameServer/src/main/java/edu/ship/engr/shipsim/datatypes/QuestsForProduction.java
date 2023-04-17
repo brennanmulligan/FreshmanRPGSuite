@@ -242,7 +242,7 @@ public enum QuestsForProduction
         return startDate;
     }
 
-    public Boolean getIsEasterEgg()
+    public Boolean isEasterEgg()
     {
         return isEasterEgg;
     }
