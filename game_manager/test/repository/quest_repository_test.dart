@@ -19,6 +19,7 @@ void main() {
 
 
     var testQuestUpdate =  const UpsertQuestRequest(
+      id: 1,
       title: 'test1',
       description: 'test of quest repo',
       xpGained: 100,
@@ -33,6 +34,7 @@ void main() {
     );
 
     var testBadQuestUpdate =  const UpsertQuestRequest(
+        id: 1,
         title: 'test1ThatForSomeReasonFailsToUpsert',
         description: 'test of quest repo',
         xpGained: 100,
@@ -53,7 +55,7 @@ void main() {
     var emptyQuestInfoDto = const QuestEditingInfoDTO(quests: [], mapNames: [], completionActionTypes: []);
 
     // EditingQuestInfoDto just for testing purpose.
-    var testingQuestDTO = const QuestEditingInfoDTO(quests: [QuestRecord(title: "title", description: "description",
+    var testingQuestDTO = const QuestEditingInfoDTO(quests: [QuestRecord(id: 1, title: "title", description: "description",
         xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2,
         completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: "1232", endDate: "3232", easterEgg: false)],
         mapNames: ["map1", "map2", "map3"], completionActionTypes: [ActionTypeDTO (actionName: "name", actionID: 2)]);
