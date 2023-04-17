@@ -3,17 +3,16 @@ package edu.ship.engr.shipsim.dataDTO;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.model.QuestRecord;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class QuestInfoDTO
+public class QuestEditingInfoDTO
 {
     private ArrayList<QuestRecord> questRecords;
     private ArrayList<String> mapNames;
-    private ArrayList<QuestCompletionActionType> completionActionTypes;
+    private ArrayList<ActionTypeDTO> completionActionTypes;
 
-    public QuestInfoDTO()
+    public QuestEditingInfoDTO()
     {
 
     }
@@ -29,7 +28,7 @@ public class QuestInfoDTO
         {
             return false;
         }
-        QuestInfoDTO that = (QuestInfoDTO) o;
+        QuestEditingInfoDTO that = (QuestEditingInfoDTO) o;
         return Objects.equals(questRecords, that.questRecords) &&
                 Objects.equals(mapNames, that.mapNames) &&
                 Objects.equals(completionActionTypes,
@@ -42,8 +41,8 @@ public class QuestInfoDTO
         return Objects.hash(questRecords, mapNames, completionActionTypes);
     }
 
-    public QuestInfoDTO(ArrayList<QuestRecord> questRecords, ArrayList<String> mapNames,
-                        ArrayList<QuestCompletionActionType> completionActionTypes)
+    public QuestEditingInfoDTO(ArrayList<QuestRecord> questRecords, ArrayList<String> mapNames,
+                               ArrayList<ActionTypeDTO> completionActionTypes)
     {
         this.questRecords = questRecords;
         this.mapNames = mapNames;
@@ -71,7 +70,7 @@ public class QuestInfoDTO
         this.mapNames = mapNames;
     }
 
-    public ArrayList<QuestCompletionActionType> getCompletionActionTypes()
+    public ArrayList<ActionTypeDTO> getCompletionActionTypes()
     {
         return completionActionTypes;
     }

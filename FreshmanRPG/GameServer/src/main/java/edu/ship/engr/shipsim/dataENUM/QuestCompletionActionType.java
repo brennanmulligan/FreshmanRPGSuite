@@ -63,4 +63,13 @@ public enum QuestCompletionActionType
     {
         return QuestCompletionActionType.values()[int1];
     }
+
+    @Override
+    public String toString()
+    {
+        return "QuestCompletionActionType{" +
+                "completionActionParameterType=" +
+                completionActionParameterType +
+                '}';
+    }
 }

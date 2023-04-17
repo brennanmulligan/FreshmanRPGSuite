@@ -1,16 +1,14 @@
 package edu.ship.engr.shipsim.model.reports;
 
-import edu.ship.engr.shipsim.dataDTO.QuestInfoDTO;
+import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.model.Report;
-
-import java.util.ArrayList;
 
 public class GetQuestInformationReport implements Report
 {
-    private final QuestInfoDTO questInfoDTO;
+    private final QuestEditingInfoDTO questEditingInfoDTO;
 
-    public GetQuestInformationReport(QuestInfoDTO questInfoDTO)
+    public GetQuestInformationReport(QuestEditingInfoDTO questEditingInfoDTO)
     {
-        this.questInfoDTO = questInfoDTO;
+        this.questEditingInfoDTO = questEditingInfoDTO;
     }
 }
