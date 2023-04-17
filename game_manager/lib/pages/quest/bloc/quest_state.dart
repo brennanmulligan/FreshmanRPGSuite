@@ -29,4 +29,5 @@ class QuestPageReady extends QuestState {
 
   @override
   List<Object> get props => [response];
+
 }
