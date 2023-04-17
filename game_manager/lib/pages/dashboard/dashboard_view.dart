@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_manager/pages/dashboard/widgets/navigation_card.dart';
 import 'package:game_manager/pages/create_player/create_player_page.dart';
 import 'package:game_manager/pages/change_password/change_password_page.dart';
-import 'package:game_manager/pages/create_edit_quest/create_edit_quest_page.dart';
+import 'package:game_manager/pages/quest/create_edit_quest_page.dart';
 
 
 class DashboardView extends StatelessWidget {

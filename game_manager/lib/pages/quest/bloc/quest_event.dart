@@ -4,6 +4,7 @@ part of 'quest_bloc.dart';
 abstract class QuestEvent {}
 
 class SendUpsertQuestEvent extends QuestEvent {
+  final int id;
   final String title;
   final String description;
   final int xpGained;
@@ -17,6 +18,7 @@ class SendUpsertQuestEvent extends QuestEvent {
   final bool easterEgg;
 
   SendUpsertQuestEvent(
+      this.id,
       this.title,
       this.description,
       this.xpGained,
@@ -31,6 +33,15 @@ class SendUpsertQuestEvent extends QuestEvent {
 
   @override
   String toString() {
-    return 'SendUpsertQuestEvent(title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'SendUpsertQuestEvent(id: $id, title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+  }
+}
+
+class SendGetQuestEditingInformationEvent extends QuestEvent {
+  SendGetQuestEditingInformationEvent()
+      : super();
+  @override
+  String toString() {
+    return 'GetQuestEditingInformationEvent()';
   }
 }
