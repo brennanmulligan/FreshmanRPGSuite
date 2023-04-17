@@ -124,11 +124,6 @@ public enum QuestStatesForTest
     /**
      *
      */
-    TEST_TIMED_OBJECTIVE_QUEST(PlayersForTest.JEFF.getPlayerID(), QuestsForTest.TIMED_OBJECTIVE_QUEST.getQuestID(),
-            QuestStateEnum.AVAILABLE, false, false),
-    /**
-     *
-     */
     MERLIN_EXPLORING(PlayersForTest.MERLIN.getPlayerID(),
             QuestsForTest.EXPLORATION_QUEST.getQuestID(), QuestStateEnum.TRIGGERED, false, false),
     /**

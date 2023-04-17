@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/change_password/bloc/change_password_bloc.dart';
-import 'package:game_manager/pages/shared/widgets/password.dart';
 
 import 'package:game_manager/repository/player/player_repository.dart';
 import '../../repository/player/basic_response.dart';
@@ -19,12 +18,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final username = TextEditingController();
   final passwordFirst = TextEditingController();
   final passwordConfirm = TextEditingController();
+  bool passwordVisible = false;
   bool isMatching = true;
-  PasswordValidator validator = PasswordValidator();
+  bool isSecure = true;
 
   @override
   void initState() {
     super.initState();
+    passwordFirst.addListener(_checkSecure);
     passwordFirst.addListener(_checkMatch);
     passwordConfirm.addListener(_checkMatch);
   }
@@ -32,15 +33,41 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   dispose() {
     super.dispose();
+    passwordFirst.removeListener(_checkSecure);
     passwordFirst.removeListener(_checkMatch);
     passwordConfirm.removeListener(_checkMatch);
     passwordFirst.dispose();
     passwordConfirm.dispose();
   }
 
-  // Function to sync the password visibilities by refreshing Parent state
-  refresh() {
-    setState(() {});
+  void _checkSecure() {
+    setState(() {
+      /**
+       * Password Requirements
+       * 8-16 characters in length
+       * 1+ capital letters
+       * 1+ lowercase letters
+       * 1+ special characters
+       */
+      isSecure = true;
+
+      // 8 - 16 char length
+      if(passwordFirst.text.length < 8 || passwordFirst.text.length > 16)
+      {
+        isSecure = false;
+      }
+
+      final capsRegex = RegExp(r'[A-Z]');
+      final lowerRegex = RegExp(r'[a-z]');
+      final specialRegex = RegExp(r'[^a-zA-Z]');
+
+      if(!capsRegex.hasMatch(passwordFirst.text) ||
+          !lowerRegex.hasMatch(passwordFirst.text) ||
+          !specialRegex.hasMatch(passwordFirst.text))
+      {
+        isSecure = false;
+      }
+    });
   }
 
   void _checkMatch() {
@@ -109,16 +136,38 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               fillColor: Colors.grey,
             ),
           ),
-          // Special TextField to enter new password
-          PasswordField(
+          // TextField to enter new password
+          TextField(
             controller: passwordFirst,
-            validator: validator,
-            notifyParent: refresh,
+            obscureText: !passwordVisible,
+            decoration: InputDecoration(
+              label: Row(
+                children: const [
+                  Icon(Icons.key),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text('New Password'),
+                ],
+              ),
+              errorText: isSecure ? null : "Password Requirements:\n"
+                  "8-16 characters in length\n"
+                  "1+ capital letters\n"
+                  "1+ lowercase letters\n"
+                  "1+ special characters\n",
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.visibility),
+                onPressed: () {
+                  setState(() {passwordVisible = !passwordVisible;                  });
+                },
+              ),
+              fillColor: Colors.grey,
+            ),
           ),
           // TextField to confirm password
           TextField(
             controller: passwordConfirm,
-            obscureText: !validator.passwordVisible,
+            obscureText: !passwordVisible,
             decoration: InputDecoration(
               label: Row(
                 children: const [
@@ -137,7 +186,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             height: 60,
           ),
           SubmitButtonBuilder(username: username,
-              password: passwordConfirm, isValid: (isMatching && validator.isSecure))
+              password: passwordConfirm, isValid: (isMatching && isSecure))
         ]
       )
     )

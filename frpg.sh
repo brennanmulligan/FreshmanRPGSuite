@@ -25,6 +25,7 @@ shell_name() {
 base_dir
 shell_name
 self_name="${0##*/}"
+parentdir="$basedir/../"
 
 setup() {
     NAME="frpg"
@@ -32,18 +33,18 @@ setup() {
         NAME="$1"
     fi
 
-    echo "You can run this command to add the alias to your ~/.${shellname}rc file"
+    echo 'You can run this command to add the alias to your ~/.bashrc file'
     echo "Command: "
-    echo "echo \"alias $NAME='. $basedir/$self_name'\" >> ~/.${shellname}rc"
+    echo "echo \"alias $NAME='. $basedir/$self_name'\" >> ~/.bashrc"
 }
 
 run_compose() {
     HOST=$(hostname)
 
     if [[ -v FRPG_PROD || "$HOST" == "rpgserv" ]]; then
-        docker compose -f "$basedir/docker/prod-docker-compose.yml" "${@:1}"
+        docker compose -f "$parentdir/docker/prod-docker-compose.yml" "${@:1}"
     else
-        docker compose -f "$basedir/docker/dev-docker-compose.yml" "${@:1}"
+        docker compose -f "$parentdir/docker/dev-docker-compose.yml" "${@:1}"
     fi
 }
 
@@ -54,11 +55,9 @@ up() {
 
     HOST=$(hostname)
     if [[ -v FRPG_PROD || "$HOST" == "rpgserv" ]]; then
-        cd "$basedir/FreshmanRPG/GameServer" &>/dev/null || exit
+        cd "$basedir/GameServer" &>/dev/null || exit
         ./../gradlew build -x test
-        cd "$basedir/FreshmanRPG/LoginServer" &>/dev/null || exit
-        ./../gradlew build -x test
-        cd "$basedir/FreshmanRPG/Watchdog" &>/dev/null || exit
+        cd "$basedir/LoginServer" &>/dev/null || exit
         ./../gradlew build -x test
     fi
 
@@ -80,6 +79,22 @@ restart() {
     up
 }
 
+create_clients() {
+    cwd=$(pwd)
+
+    echo "Generating Linux Client"
+    cd "$basedir/FreshmanRPG/GameClient-desktop" || exit
+    cd "src/main/resources" || exit
+    zip -qq -r resources.zip . -x "resources.zip"
+    cd - &>/dev/null || exit
+    ./../gradlew shadowJar
+    rm "src/main/resources/resources.zip" || exit
+
+    scp -pC "$basedir/FreshmanRPG/GameClient-desktop/build/GameClient-linux.jar" "rpgadmin@rpgserv.engr.ship.edu:/var/www/html/static/GameClient-linux.jar"
+
+    cd "$cwd" || exit
+}
+
 print_help() {
     echo '┌─────────────────────────────────────────────────────────────────────────────────────────────────┐'
     echo '│ This is the utility script for the FreshmanRPG project. For all functionality of                │'
@@ -92,6 +107,10 @@ print_help() {
     echo '│ * d, down        │ Stop docker containers                                                       │'
     echo '│                  │                                                                              │'
     echo '│ * r, root        │ Change directory to the root of the project.                                 │'
+    echo '├──────────────────┴───────────────────────────┬──────────────────────────────────────────────────┤'
+    echo '│ These commands are for maintenance use only: │                                                  │'
+    echo '├──────────────────┬───────────────────────────┘                                                  │'
+    echo '│ * clients        │ Generate GameClient-desktop launchers                                        │'
     echo '├──────────────────┼──────────────────────────────────────────────────────────────────────────────┤'
     echo '│ * setup          │ Add an alias to allow full functionality of this script. Run as:             │'
     echo '│                  │     ./frpg.sh setup                                                          │'
@@ -120,6 +139,9 @@ case "$1" in
     ;;
     "restart")
         restart
+    ;;
+    "clients")
+        create_clients
     ;;
     "setup")
         setup "$2"

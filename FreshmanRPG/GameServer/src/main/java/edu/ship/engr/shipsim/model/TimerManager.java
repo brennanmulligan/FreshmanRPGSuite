@@ -4,34 +4,22 @@ import edu.ship.engr.shipsim.dataDTO.TimerDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.TimerTableDataGateway;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * @author Travis Ritter, Evan Paules, Seth Miller
- * Class that Manages Timers in the game and allows the scheduling of certain commands.
- */
 public class TimerManager
 {
     private static TimerManager singleton;
 
-    private final HashMap<Integer, ArrayList<ScheduledCommand>> timers;
+    private final HashMap<Integer, ScheduledCommand> timers;
 
-    /**
-     * Private constructor for singleton
-     */
-    private TimerManager()
+    private  TimerManager()
     {
         timers = new HashMap<>();
     }
 
-    /**
-     * Singleton method
-     * @return a new instance if it is null, else we return the already created instance.
-     */
     public synchronized static TimerManager getSingleton()
     {
         if (singleton == null)
@@ -50,42 +38,26 @@ public class TimerManager
         }
     }
 
-    /**
-     * Loads all user timers for a particular player from the DB.
-     * @param playerID of the player we want to load from.
-     * @throws DatabaseException should not
-     */
     public void loadUserTimers(int playerID) throws DatabaseException
     {
         for (TimerDTO currentTimer : TimerTableDataGateway.getAllPlayerTimers(playerID))
         {
             this.scheduleCommand(currentTimer.getEndsAt(),
                     currentTimer.getCommand(),
-                    currentTimer.getPlayerID());
+                    currentTimer.getPlayerID(),
+                    false);
         }
     }
 
-    public void persistPlayerTimers(int playerID) throws DatabaseException
+    protected void scheduleCommand(Date endsAt, Command command,
+                                   Integer playerID, boolean shouldPersist)
+            throws DatabaseException
     {
-        if (timers.containsKey(playerID))
+        if (shouldPersist && playerID != null)
         {
-            for (ScheduledCommand currentCommand : timers.get(playerID))
-            {
-                TimerTableDataGateway.createRow(currentCommand.getEndsAt(),
-                        currentCommand.getCommand(), playerID);
-            }
+            TimerTableDataGateway.createRow(endsAt, command, playerID);
         }
-    }
 
-    /**
-     * The method that actually schedules a command
-     * @param endsAt the time the timer will run the command.
-     * @param command the command to be ran after the timer runs out
-     * @param playerID of the player we are attaching it to.
-     */
-    public void scheduleCommand(Date endsAt, Command command,
-                                   Integer playerID)
-    {
         Timer timer = new Timer();
         TimerTask task = new TimerTask()
         {
@@ -102,73 +74,45 @@ public class TimerManager
                 }
             }
         };
-
         timer.schedule(task, endsAt);
-
-        if (playerID != null)
-        {
-            this.addTimer(endsAt, command, playerID);
-        }
-
+        this.addTimer(playerID, new ScheduledCommand(endsAt, command));
     }
 
-    /**
-     * Schedules a general command, and does not persist.
-     * @param endsAt when the timer should run the task
-     * @param command the command to be run at the end of the timer
-     */
+    public void scheduleCommand(Date endsAt, Command command, Integer playerID)
+            throws DatabaseException
+    {
+        boolean shouldPersist = false;
+        TimerDTO check = TimerTableDataGateway.getPlayerTimer(playerID, endsAt);
+        if (check == null)
+        {
+            shouldPersist = true;
+        }
+        this.scheduleCommand(endsAt, command, playerID, shouldPersist);
+    }
+
     public void scheduleCommand(Date endsAt, Command command)
+            throws DatabaseException
     {
-        this.scheduleCommand(endsAt, command, null);
+        this.scheduleCommand(endsAt, command, null, false);
     }
 
-    /**
-     * Gets the number of scheduled commands for a given player
-     * @param playerID of the player to check
-     * @return 0, if there are none, the # of scheduledcommands if there are some.
-     */
-    public int getNumCurrentTimers(int playerID)
+    private HashMap<Integer, ScheduledCommand> getTimers()
     {
-        if (timers.get(playerID) != null)
-        {
-            return timers.get(playerID).size();
-        }
-        return 0;
+        return timers;
     }
 
-    /**
-     * Gets the number of entries in the hashmap
-     * @return the number of entries in the hashmap
-     */
-    public int getNumPlayers()
+    public int getNumCurrentTimers()
     {
         return timers.size();
     }
-
-    /**
-     * Adds a new entry to hashmap if there is not one already. If there is one already, we add the scheduled command
-     * to that player's array list
-     * @param playerID of the player to add
-     */
-    protected void addTimer(Date endsAt, Command command, int playerID)
+    private void addTimer(Integer playerID, ScheduledCommand scheduledCommand)
     {
-        ArrayList<ScheduledCommand> commandList;
-        if (!timers.containsKey(playerID))
+        if (playerID != null)
         {
-            commandList = new ArrayList<>();
-            timers.put(playerID, commandList);
+            timers.put(playerID, scheduledCommand);
         }
-        else
-        {
-            commandList = timers.get(playerID);
-        }
-        commandList.add(new ScheduledCommand(endsAt, command));
     }
 
-    /**
-     * Removes the timer from the Hashmap
-     * @param playerID the player's timers to remove
-     */
     private void removeTimer(Integer playerID)
     {
         if (playerID != null)
@@ -178,9 +122,7 @@ public class TimerManager
     }
 }
 
-/**
- * Class that holds a Date and a Command for the hash map
- */
+
 class ScheduledCommand
 {
     private Date endsAt;
@@ -202,4 +144,5 @@ class ScheduledCommand
     {
         return command;
     }
+
 }

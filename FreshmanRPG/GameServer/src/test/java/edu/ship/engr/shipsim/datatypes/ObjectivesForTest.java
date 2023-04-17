@@ -44,11 +44,6 @@ public enum ObjectivesForTest
     /**
      *
      */
-    QUEST2_OBJECTIVE5(5, "Quest 2: Objective Description 5", 2, 4, ObjectiveCompletionType.TIMED,
-            new CriteriaTimerDTO(1, new GameLocationDTO("quad.tmx", new Position(4, 15)))),
-    /**
-     *
-     */
     QUEST3_OBJECTIVE1(1, "Objective 1 for Quest 3", 3, 5, ObjectiveCompletionType.REAL_LIFE,
             new CriteriaStringDTO("Lab Instructor")),
     /**
@@ -353,16 +348,7 @@ public enum ObjectivesForTest
      */
     RESPONSE_FROM_MOWREY_NPC(1, "Say hi to the Mowrey NPC", QuestsForTest.TEST_CHAT_RESPONSE_QUEST.getQuestID(),
             2, ObjectiveCompletionType.CHAT_RECEIVED,
-            new NPCResponseDTO("Hello, student", "MowreyInfoPerson", true)),
-
-    /**
-     * Objective for timed objective quest
-     */
-    RUN_TO_OTHER_POSITION(1, "HURRY! GET TO THE CUB!", QuestsForTest.TIMED_OBJECTIVE_QUEST.getQuestID(),
-            2, ObjectiveCompletionType.TIMED,
-            new CriteriaTimerDTO(1, new GameLocationDTO("quad.tmx", new Position(29,92))));
-
-
+            new NPCResponseDTO("Hello, student", "MowreyInfoPerson", true));
 
     private int objectiveID;
     private String objectiveDescription;

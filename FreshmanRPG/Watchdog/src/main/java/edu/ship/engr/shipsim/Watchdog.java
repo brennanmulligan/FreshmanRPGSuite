@@ -10,7 +10,6 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.Instant;
 import java.util.Map;
 
 public class Watchdog implements Runnable
@@ -70,7 +69,7 @@ public class Watchdog implements Runnable
 
         for (Map.Entry<String, Long> entry : getSingleton().serverMap.entrySet())
         {
-            if (Instant.now().toEpochMilli() - entry.getValue() > TIMEOUT_DURATION) // 1 minute
+            if (System.currentTimeMillis() - entry.getValue() > TIMEOUT_DURATION) // 1 minute
             {
                 deadServers.put(entry.getKey(), entry.getValue());
             }

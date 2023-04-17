@@ -1,13 +1,9 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.criteria.CriteriaTimerDTO;
-import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
 import edu.ship.engr.shipsim.model.reports.ObjectiveStateChangeReport;
-
-import java.util.Date;
 
 /**
  * Stores the states of all the objectives for an individual player on the
@@ -162,19 +158,6 @@ public class ObjectiveState
     protected void trigger() throws IllegalObjectiveChangeException, DatabaseException,
             IllegalQuestChangeException
     {
-        QuestRecord quest = QuestManager.getSingleton().getQuest(this.parentQuestState.getID());
-        ObjectiveRecord objective = quest.getObjectiveID(this.objectiveID);
-
-        if(objective.getCompletionType() == ObjectiveCompletionType.TIMED)
-        {
-            CriteriaTimerDTO timerDTO = (CriteriaTimerDTO) objective.getCompletionCriteria();
-
-            Date endsAt = new Date(new Date().getTime() + timerDTO.getTime());
-
-            CommandObjectiveTimerEnded command = new CommandObjectiveTimerEnded(this.parentQuestState.getID(), this.getID(), this.parentQuestState.getPlayerID());
-
-            TimerManager.getSingleton().scheduleCommand(endsAt, command, this.parentQuestState.getPlayerID());
-        }
 
         changeState(ObjectiveStateEnum.TRIGGERED, false);
     }
@@ -191,11 +174,6 @@ public class ObjectiveState
     protected void complete() throws DatabaseException, IllegalObjectiveChangeException,
             IllegalQuestChangeException
     {
-        // If we are late, we should ignore the completion
-        if (this.objectiveState == ObjectiveStateEnum.LATE)
-        {
-            return;
-        }
 
         changeState(ObjectiveStateEnum.COMPLETED, true);
 
@@ -227,7 +205,8 @@ public class ObjectiveState
     protected void missed() throws IllegalObjectiveChangeException, DatabaseException,
             IllegalQuestChangeException
     {
-        changeState(ObjectiveStateEnum.LATE, true);
+
+        changeState(ObjectiveStateEnum.LATE, false);
     }
 
     /**

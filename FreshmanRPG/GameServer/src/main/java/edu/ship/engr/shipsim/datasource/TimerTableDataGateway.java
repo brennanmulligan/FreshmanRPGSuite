@@ -2,7 +2,6 @@ package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.TimerDTO;
 import edu.ship.engr.shipsim.model.Command;
-import org.jetbrains.annotations.TestOnly;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class TimerTableDataGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO Timers (endsAt, command, playerID) VALUES (?, ?, ?)"))
         {
-            stmt.setTimestamp(1, new Timestamp(normalizeDate(endsAt)));
+            stmt.setTimestamp(1, new Timestamp(endsAt.getTime()));
             stmt.setObject(2, command);
             stmt.setInt(3, playerID);
 
@@ -85,12 +84,12 @@ public class TimerTableDataGateway
     public static ArrayList<TimerDTO> getAllPlayerTimers(int playerID) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement selectStmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ?"))
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ?"))
         {
-            selectStmt.setInt(1, playerID);
-            try (ResultSet queryResults = selectStmt.executeQuery())
+            stmt.setInt(1, playerID);
+
+            try (ResultSet queryResults = stmt.executeQuery())
             {
-                deleteAllPlayerTimers(playerID);
                 return parseTimers(queryResults);
             }
         }
@@ -102,29 +101,31 @@ public class TimerTableDataGateway
         }
     }
 
-    /**
-     * Gets all timers for the given player.
-     * @param playerID the id of the player we are fetching the timers for
-     */
-    public static void deleteAllPlayerTimers(int playerID) throws DatabaseException
+    public static TimerDTO getPlayerTimer(int playerID, Date endsAt) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM Timers WHERE playerID = ?"))
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Timers WHERE playerID = ? AND endsAt = ?"))
         {
-            deleteStmt.setInt(1, playerID);
-            deleteStmt.executeUpdate();
+            stmt.setInt(1, playerID);
+            stmt.setTimestamp(2, new Timestamp(
+                    (long) ((Math.floor(endsAt.getTime() / 1000)) * 1000)));
+
+            try (ResultSet queryResults = stmt.executeQuery())
+            {
+                return parseTimer(queryResults);
+            }
         }
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Unable to delete timers for player (" + playerID + ")"
+                    "Unable to retrieve timers for player (" + playerID + ")"
             );
         }
     }
-
     /**
      * Deletes all expired timers for a given player
      * @param playerID of the player
+     * @throws DatabaseException if the player is no present in the DB
      */
     public static void deleteExpiredTimers(int playerID)
     {
@@ -155,6 +156,17 @@ public class TimerTableDataGateway
             results.add(dto);
         }
         return results;
+    }
+
+    private static TimerDTO parseTimer(ResultSet queryResults)
+            throws SQLException
+    {
+        TimerDTO result = null;
+        while (queryResults.next())
+        {
+            result = buildTimerDTO(queryResults);
+        }
+        return result;
     }
 
     /**
@@ -191,20 +203,9 @@ public class TimerTableDataGateway
     }
 
     /**
-     * Method that normalizes a date to match the format that it will be stored in the DB
-     * @param endsAt the date to be normalized
-     * @return the normalized time (long)
-     */
-    public static long normalizeDate(Date endsAt)
-    {
-        return (long) ((Math.floor(endsAt.getTime() / 1000)) * 1000);
-    }
-
-    /**
      * Method for testing only to reset table in between tests
      * @throws DatabaseException should not
      */
-    @TestOnly
     public static void rollback() throws DatabaseException
     {
         try

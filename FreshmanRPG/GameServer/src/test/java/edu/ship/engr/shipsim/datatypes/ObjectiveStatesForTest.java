@@ -285,11 +285,6 @@ public enum ObjectiveStatesForTest
 
     HISTORY_QUEST_OBJ_STATE3(PlayersForTest.BIKE_PLAYER.getPlayerID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC.getQuestID(), ObjectivesForTest.RESPONSE_FROM_HISTORY_NPC3.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
 
-    /**
-     *
-     */
-    TIMED_OBJECTIVE_QUEST_OBJ(PlayersForTest.JEFF.getPlayerID(), ObjectivesForTest.RUN_TO_OTHER_POSITION.getQuestID(), ObjectivesForTest.RUN_TO_OTHER_POSITION.getObjectiveID(), ObjectiveStateEnum.HIDDEN, false),
-
     NEWBIE_ONRAMPING_XP_BUFF(PlayersForTest.NEWBIE.getPlayerID(),
             ObjectivesForTest.ONRAMPING_XP_BUFF.getQuestID(), ObjectivesForTest.ONRAMPING_XP_BUFF.getObjectiveID(), ObjectiveStateEnum.TRIGGERED, false),
     MERLIN_FIND_THE_LIBRARY(PlayersForTest.MERLIN.getPlayerID(),

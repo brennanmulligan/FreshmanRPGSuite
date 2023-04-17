@@ -36,6 +36,8 @@ public class ServerRowDataGateway
     private boolean isQuiet;
 
 
+
+
     /**
      * Drop the table if it exists and re-create it empty
      *
@@ -80,8 +82,7 @@ public class ServerRowDataGateway
      *
      * @param mapName           the name of the map file
      * @param hostName          the hostname of the server that manages that map
-     * @param portNumber        the portnumber of the server that manages
-     *                          that map
+     * @param portNumber        the portnumber of the server that manages that map
      * @param mapTitle          the user friendly name of the map
      * @param teleportPositionX the x position of where players will teleport to
      * @param teleportPositionY the y position of where players will teleport to
@@ -104,8 +105,7 @@ public class ServerRowDataGateway
 
     public ServerRowDataGateway(String mapName, String hostName, int portNumber,
                                 String mapTitle, int teleportPositionX,
-                                int teleportPositionY, boolean isQuiet)
-            throws DatabaseException
+                                int teleportPositionY, boolean isQuiet) throws DatabaseException
     {
         insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX,
                 teleportPositionY, isQuiet);
@@ -122,20 +122,16 @@ public class ServerRowDataGateway
                               String mapTitle, int teleportPositionX,
                               int teleportPositionY) throws DatabaseException
     {
-        insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX,
-                teleportPositionY, false);
+        insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX, teleportPositionY, false);
     }
 
     private void insertNewRow(String mapName, String hostName, int portNumber,
                               String mapTitle, int teleportPositionX,
-                              int teleportPositionY, boolean isQuiet)
-            throws DatabaseException
+                              int teleportPositionY, boolean isQuiet) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "Insert INTO Server SET hostName = ?, portNumber = ?, mapName" +
-                        " = ?, mapTitle = ?, teleportPositionX = ?, " +
-                        "teleportPositionY = ?, quiet = ?"))
+                "Insert INTO Server SET hostName = ?, portNumber = ?, mapName = ?, mapTitle = ?, teleportPositionX = ?, teleportPositionY = ?, quiet = ?"))
         {
             stmt.setString(1, hostName);
             stmt.setInt(2, portNumber);
@@ -150,8 +146,7 @@ public class ServerRowDataGateway
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Couldn't create a record in Server for map named " +
-                            mapName, e);
+                    "Couldn't create a record in Server for map named " + mapName, e);
         }
     }
 
@@ -164,8 +159,7 @@ public class ServerRowDataGateway
         this.mapName = mapName;
         originalMapName = mapName;
         connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement stmt = connection.prepareStatement(
-                "SELECT * FROM Server WHERE mapName = ?"))
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Server WHERE mapName = ?"))
         {
             stmt.setString(1, mapName);
 
@@ -194,16 +188,13 @@ public class ServerRowDataGateway
      * @param mapTitle the title of the map
      * @return the position and the map name
      */
-    public static ServerRowDataGateway findPosAndMapNameFromMapTitle(
-            String mapTitle)
+    public static ServerRowDataGateway findPosAndMapNameFromMapTitle(String mapTitle)
             throws DatabaseException
     {
 
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        String SQL =
-                "SELECT mapName, teleportPositionX, teleportPositionY FROM " +
-                        "Server WHERE mapTitle = ?";
+        String SQL = "SELECT mapName, teleportPositionX, teleportPositionY FROM Server WHERE mapTitle = ?";
         ServerRowDataGateway serverGateway = new ServerRowDataGateway();
 
         try (PreparedStatement stmt = connection.prepareStatement(SQL))
@@ -216,10 +207,8 @@ public class ServerRowDataGateway
                 {
                     serverGateway = new ServerRowDataGateway();
                     serverGateway.setMapName(rs.getString("mapName"));
-                    serverGateway.setTeleportPositionX(
-                            rs.getInt("teleportPositionX"));
-                    serverGateway.setTeleportPositionY(
-                            rs.getInt("teleportPositionY"));
+                    serverGateway.setTeleportPositionX(rs.getInt("teleportPositionX"));
+                    serverGateway.setTeleportPositionY(rs.getInt("teleportPositionY"));
                 }
             }
         }
@@ -337,8 +326,7 @@ public class ServerRowDataGateway
         this.connection = DatabaseManager.getSingleton().getConnection();
         if (!originalMapName.equals(mapName))
         {
-            try (PreparedStatement stmt = connection.prepareStatement(
-                    "DELETE from Server WHERE mapName = ?"))
+            try (PreparedStatement stmt = connection.prepareStatement("DELETE from Server WHERE mapName = ?");)
             {
                 stmt.setString(1, originalMapName);
                 stmt.executeUpdate();
@@ -346,38 +334,46 @@ public class ServerRowDataGateway
             catch (SQLException e)
             {
                 throw new DatabaseException(
-                        "Error trying to change mapName from " +
-                                originalMapName +
+                        "Error trying to change mapName from " + originalMapName +
                                 " to " + mapName,
                         e);
             }
-            insertNewRow(mapName, hostName, portNumber, mapTitle,
-                    teleportPositionX,
+            insertNewRow(mapName, hostName, portNumber, mapTitle, teleportPositionX,
                     teleportPositionY);
         }
 
-
-        try (PreparedStatement stmt = connection.prepareStatement(
-                "UPDATE Server SET portNumber = ?, hostName = ? WHERE mapName" +
-                        " = ?"))
+        // FIXME: Find a better way to do this
+        if (OptionsManager.getSingleton().getHostName().equals("localhost"))
         {
-            stmt.setInt(1, portNumber);
-            stmt.setString(2, hostName);
-            stmt.setString(3, mapName);
-            stmt.executeUpdate();
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE Server SET portNumber = ? WHERE mapName = ?"))
+            {
+                stmt.setInt(1, portNumber);
+                stmt.setString(2, mapName);
+                stmt.executeUpdate();
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Couldn't find a record in Server for a map named " + mapName, e);
+            }
         }
-        catch (SQLException e)
+        else
         {
-            throw new DatabaseException(
-                    "Couldn't find a record in Server for a map named " +
-                            mapName, e);
+            try (PreparedStatement stmt = connection.prepareStatement("UPDATE Server SET portNumber = ?, hostName = ? WHERE mapName = ?"))
+            {
+                stmt.setInt(1, portNumber);
+                stmt.setString(2, hostName);
+                stmt.setString(3, mapName);
+                stmt.executeUpdate();
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException("Couldn't find a record in Server for a map named " + mapName, e);
+            }
         }
-
     }
 
     /**
-     * There are two finder constructors that have the same method signature
-     * and needed to return information
+     * There are two finder constructors that have the same method signature and needed to return information
      * to combat this, we created two different methods that find the information needed based on the given
      * constructor, sets the variables and then it's passed to the right method.
      */

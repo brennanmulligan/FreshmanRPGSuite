@@ -307,22 +307,6 @@ services:
       - ../FreshmanRPG:/repo/frpg:consistent
     ports:
       - "1887:1887"
-  frpg_watchdog:
-    container_name: frpg_watchdog
-    restart: always
-    build:
-      context: ./watchdog
-    environment:
-      DOCKER_FRPG: "yes"
-    networks:
-      - frpg_database
-    depends_on:
-      frpg_mysql:
-        condition: service_healthy
-    volumes:
-      - ../FreshmanRPG:/repo/frpg:consistent
-    ports:
-      - "1891:1891"
 
 volumes:
   frpgDB:

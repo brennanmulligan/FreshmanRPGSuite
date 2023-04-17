@@ -649,6 +649,7 @@ public class QuestManager implements ReportObserver
             if (now.after(q.getStartDate()) && now.before(q.getEndDate()))
             {
                 qs.trigger();
+
             }
         }
     }
@@ -770,34 +771,24 @@ public class QuestManager implements ReportObserver
                 Player player = PM.getPlayerFromID(reportPlayerID);
                 if (player.canReceiveLocalMessage(npc.getPlayerPosition()))
                 {
-                    try
+                    if (reportChat.equals(castCrit.getResponse()) || !castCrit.isMatchResponse() &&
+                            PM.getPlayerIDFromPlayerName(castCrit.getNPCName()) ==
+                                    reportNPCID)
                     {
-                        if (reportChat.equals(castCrit.getResponse()) ||
-                                !castCrit.isMatchResponse() &&
-                                        PM.getPlayerIDFromPlayerName(
-                                                castCrit.getNPCName()) ==
-                                                reportNPCID)
+                        try
                         {
-                            try
-                            {
-                                QuestManager.getSingleton()
-                                        .completeObjective(reportPlayerID,
-                                                q.getID(),
-                                                a.getObjectiveID());
+                            QuestManager.getSingleton()
+                                    .completeObjective(reportPlayerID,
+                                            q.getID(),
+                                            a.getObjectiveID());
 
-                            }
-                            catch (DatabaseException |
-                                   IllegalObjectiveChangeException |
-                                   IllegalQuestChangeException e)
-                            {
-                                e.printStackTrace();
-                            }
                         }
-                    }
-                    catch (PlayerNotFoundException e)
-                    {
-                        //the player was not found, therefore this objective could not have been completed
-                        //continue loop to the next objective
+                        catch (DatabaseException |
+                               IllegalObjectiveChangeException |
+                               IllegalQuestChangeException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

@@ -1,6 +1,9 @@
 package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
+import edu.ship.engr.shipsim.datatypes.QuestsForTest;
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,11 +1,8 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
-import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
-import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
+import edu.ship.engr.shipsim.dataDTO.QuestInfoDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
-import edu.ship.engr.shipsim.datasource.QuestTableDataGateway;
 import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 
 import java.util.ArrayList;
@@ -23,17 +20,9 @@ public class CommandGetQuestInformation extends Command
 
         try
         {
-            QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
-            ArrayList<QuestCompletionActionType> actionTypeEnums = gw.getCompletionActionTypes();
-            ArrayList<ActionTypeDTO> actionTypeDTOS = new ArrayList<ActionTypeDTO>();
-            for(QuestCompletionActionType q: actionTypeEnums)
-            {
-                actionTypeDTOS.add(new ActionTypeDTO(q.getCompletionActionParameterType(), q.getID()));
-            }
-
-            //questEditingInfoDTO.setCompletionActionTypes(gw.getCompletionActionTypes());
-            GetQuestInformationReport report = new GetQuestInformationReport(
-                    questEditingInfoDTO);
+            QuestInfoDTO questInfoDTO = new QuestInfoDTO();
+            questInfoDTO.setCompletionActionTypes(gw.getCompletionActionTypes());
+            GetQuestInformationReport report = new GetQuestInformationReport(questInfoDTO);
             ReportObserverConnector.getSingleton().sendReport(report);
         }
         catch(DatabaseException e)
