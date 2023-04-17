@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
+import 'package:game_manager/repository/quest/quest_editing_request.dart';
+import 'package:game_manager/repository/quest/quest_editing_response.dart';
 
 import 'package:game_manager/repository/quest/upsert_quest_request.dart';
 
@@ -30,6 +33,19 @@ class QuestRepository {
       );
       String desc = errorResponse.description;
       return BasicResponse(success: false, description: desc);
+    }
+
+}
+
+  Future<QuestResponse> getQuests(QuestRequest request) async {
+    try {
+      final response = await dio.post(
+        '/quest/getQuestEditingInfo',
+        data: jsonEncode(request),
+      );
+      return QuestResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      return const QuestResponse(false, questEditingInfoDTO: QuestEditingInfoDTO(quests: [], mapNames: [], completionActionTypes: []));
     }
   }
 }
