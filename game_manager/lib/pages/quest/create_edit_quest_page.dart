@@ -280,9 +280,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // START DATE
           TextField(
             controller: startDate,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children: const [
                   Icon(Icons.calendar_today, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -297,9 +297,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // END DATE
           TextField(
             controller: endDate,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children: const [
                   Icon(Icons.calendar_today, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -316,3 +316,6 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
     )
   );
 }
+
+
+  
