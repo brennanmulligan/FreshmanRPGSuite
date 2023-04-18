@@ -29,6 +29,11 @@ public class MapTableDataGateway
         return instance;
     }
 
+    public void setInstance(MapTableDataGateway instance)
+    {
+        this.instance = instance;
+    }
+
     public ArrayList<String> getMapNames() throws DatabaseException
     {
         ArrayList<String> data = new ArrayList<>();
