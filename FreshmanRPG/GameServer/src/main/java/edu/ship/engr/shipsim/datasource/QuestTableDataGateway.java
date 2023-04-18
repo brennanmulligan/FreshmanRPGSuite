@@ -28,6 +28,11 @@ public class QuestTableDataGateway
         return instance;
     }
 
+    public void setSingleton(QuestTableDataGateway instance)
+    {
+        this.instance = instance;
+    }
+
     public void resetData()
     {
 

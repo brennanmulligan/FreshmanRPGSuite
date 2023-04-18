@@ -92,6 +92,7 @@ import org.junit.platform.suite.api.Suite;
                 CommandCreatePlayerTest.class,
                 CommandGetCrewsTest.class,
                 CommandGetMajorsTest.class,
+                CommandGetQuestInformationTest.class,
                 CommandKeyInputMessageReceivedTest.class,
                 CommandMovePlayerSilentlyTest.class,
                 CommandMovePlayerTest.class,
