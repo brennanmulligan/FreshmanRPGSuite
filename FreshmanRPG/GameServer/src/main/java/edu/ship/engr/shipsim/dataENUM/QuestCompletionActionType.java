@@ -32,6 +32,12 @@ public enum QuestCompletionActionType
     private Class<? extends QuestCompletionActionParameter>
             completionActionParameterType;
 
+    @Override
+    public String toString()
+    {
+        return "" + completionActionParameterType;
+    }
+
     /**
      * @return the type of information for parameters of this quest completion
      * action.
