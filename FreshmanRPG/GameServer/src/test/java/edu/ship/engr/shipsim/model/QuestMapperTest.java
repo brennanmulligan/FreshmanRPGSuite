@@ -82,7 +82,7 @@ public class QuestMapperTest
     public void persists()
             throws DatabaseException, ParseException
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         QuestMapper qm = getMapper();
         QuestRecord q = qm.getQuest();
         q.setTitle("New Title");
@@ -94,7 +94,7 @@ public class QuestMapperTest
         q.setCompletionActionType(QuestCompletionActionType.NO_ACTION);
         q.setCompletionActionParameter(null);
         q.setStartDate(formatter.parse("01-03-1996"));
-        q.setEndDate(formatter.parse("11-09-2001"));
+        q.setEndDate(formatter.parse("07-15-2014"));
         q.setEasterEgg(false);
 
         qm.persist();
@@ -126,12 +126,12 @@ public class QuestMapperTest
     protected QuestRecord getQuestWeAreCreating() throws ParseException
     {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         return new QuestRecord(-1, "Test Quest", "Test Quest", "map1.tmx",
                 new Position(1, 2), null, 420, 0,
                 QuestCompletionActionType.NO_ACTION,
                 null, formatter.parse("01-03-1996"),
-                formatter.parse("11-09-2001"), true);
+                formatter.parse("07-15-2014"), true);
     }
 
     protected QuestMapper findMapperForID(int questId) throws DatabaseException

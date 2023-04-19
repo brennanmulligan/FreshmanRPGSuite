@@ -167,7 +167,7 @@ public class QuestRowDataGateway
      */
     public QuestRowDataGateway(String title, String description, String mapName,
                                Position position, int experienceGained,
-                               int objectivesForFullfillment,
+                               int objectivesForFulfillment,
                                QuestCompletionActionType completionActionType,
                                QuestCompletionActionParameter completionActionParameter,
                                Date startDate, Date endDate, Boolean isEasterEgg) throws DatabaseException
@@ -188,7 +188,7 @@ public class QuestRowDataGateway
             stmt.setInt(4, position.getRow());
             stmt.setInt(5, position.getColumn());
             stmt.setInt(6, experienceGained);
-            stmt.setInt(7, objectivesForFullfillment);
+            stmt.setInt(7, objectivesForFulfillment);
             stmt.setInt(8, completionActionType.getID());
             stmt.setObject(9, completionActionParameter);
             stmt.setDate(10, new java.sql.Date(startDate.getTime()));
