@@ -110,9 +110,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
               Expanded(
                 child: TextField(
                   controller: addNewQuest,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     label: Row(
-                      children: [
+                      children: const[
                         Icon(Icons.edit_note, color: Colors.pink),
                         SizedBox(
                           width: 10,
@@ -152,9 +152,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // QUEST DESCRIPTION:
           TextField(
             controller: questDesc,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children:const [
                   Icon(Icons.edit_note, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -170,9 +170,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // EXPERIENCE GAINED
           TextField(
             controller: experienceGained,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children:const [
                   Icon(Icons.exposure_plus_1, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -208,9 +208,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // TRIGGER ROW
           TextField(
             controller: triggerRow,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children:const [
                   Icon(Icons.arrow_right_alt, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -225,9 +225,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // TRIGGER COLUMN
           TextField(
             controller: triggerColumn,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children:const [
                   Icon(Icons.arrow_right_alt, color: Colors.pink),
                   SizedBox(
                     width: 10,
@@ -242,9 +242,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
           // FULFILLMENT OBJECTIVES
           TextField(
             controller: fulfillmentObjectives,
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               label: Row(
-                children: [
+                children:const [
                   Icon(Icons.edit_note, color: Colors.pink),
                   SizedBox(
                     width: 10,

@@ -63,12 +63,11 @@ Future<void> main() async {
         crew: 1,
         major: 1,
         section: 1);
-    io.File testCSVFileValid = io.File("${io.Directory.current
-        .path}/test/pages/create_many_players/manyPlayersTestFileValid.csv");
-    io.File testCSVFileInvalid = io.File("${io.Directory.current
-        .path}/test/pages/create_many_players/manyPlayersTestFileInvalid.csv");
-    io.File testCSVFileInvalidFormat = io.File("${io.Directory.current
-        .path}/test/pages/create_many_players/manyPlayersTestFileInvalidFormat.csv");
+
+
+    String testCSVFileValid = 'name,password,major,crew,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
+    String testCSVFileInvalid = 'name,password,crew,major,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1';
+    String testCSVFileInvalidFormat = 'name,password,badcrew,major,badsection\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
 
     blocTest<CreateManyPlayersBloc, CreateManyPlayersState>(
         'Check flow of states when many players are being created and both users are valid',
@@ -80,7 +79,7 @@ Future<void> main() async {
               .thenAnswer((_) async => goodResponse);
           return CreateManyPlayersBloc(playerRepository: playerRepo);
         },
-        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileValid)),
+        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileValid.split('\n'))),
         wait: const Duration(milliseconds: 2000),
         expect: () =>
         [
@@ -103,7 +102,7 @@ Future<void> main() async {
               .thenAnswer((_) async => goodResponse);
           return CreateManyPlayersBloc(playerRepository: playerRepo);
         },
-        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileInvalid)),
+        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileInvalid.split('\n'))),
         wait: const Duration(milliseconds: 2000),
         expect: () =>
         [
@@ -122,7 +121,7 @@ Future<void> main() async {
 
           return CreateManyPlayersBloc(playerRepository: playerRepo);
         },
-        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileInvalidFormat)),
+        act: (bloc) => bloc.add(SendCreateManyPlayersEvent(testCSVFileInvalidFormat.split('\n'))),
         wait: const Duration(milliseconds: 2000),
         expect: () =>
         [
