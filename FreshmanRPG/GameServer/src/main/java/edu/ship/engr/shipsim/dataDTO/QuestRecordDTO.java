@@ -16,14 +16,12 @@ public class QuestRecordDTO
     private ArrayList<ObjectiveRecord> objectives;
     private int questID;
     private String mapName;
-
     private Position position;
     private int experiencePointsGained;
     private int objectivesForFulfillment;
     private ActionTypeDTO actionType;
     private Date startDate;
     private Date endDate;
-
     private boolean easterEgg;
 
     public QuestRecordDTO(String title, String description,

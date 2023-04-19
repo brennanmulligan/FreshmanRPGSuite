@@ -55,7 +55,7 @@ public class CommandUpsertQuestTest
                         new Position(1, 2), null, 420, 0,
                         QuestCompletionActionType.NO_ACTION,
                         null, formatter.parse("03-01-1996"),
-                        formatter.parse("11-09-2001"), true));
+                        formatter.parse("07-15-2014"), true));
         cmd.execute();
 
         QuestTableDataGateway questTableDataGateway =
@@ -75,7 +75,7 @@ public class CommandUpsertQuestTest
                 questRowDataGateway.getCompletionActionType());
         assertEquals(formatter.parse("03-01-1996"),
                 questRowDataGateway.getStartDate());
-        assertEquals(formatter.parse("11-09-2001"),
+        assertEquals(formatter.parse("07-15-2014"),
                 questRowDataGateway.getEndDate());
         assertTrue(questRowDataGateway.isEasterEgg());
 
@@ -85,7 +85,7 @@ public class CommandUpsertQuestTest
                         "Updated Quest", "Updated Quest", "map2.tmx",
                         new Position(2, 1), null, 100, 0,
                         QuestCompletionActionType.NO_ACTION,
-                        null, formatter.parse("11-09-2001"),
+                        null, formatter.parse("07-15-2014"),
                         formatter.parse("03-01-1996"), false));
 
         cmd.execute();
@@ -103,7 +103,7 @@ public class CommandUpsertQuestTest
         assertEquals(0, questRowDataGateway.getObjectivesForFulfillment());
         assertEquals(QuestCompletionActionType.NO_ACTION,
                 questRowDataGateway.getCompletionActionType());
-        assertEquals(formatter.parse("11-09-2001"),
+        assertEquals(formatter.parse("07-15-2014"),
                 questRowDataGateway.getStartDate());
         assertEquals(formatter.parse("03-01-1996"),
                 questRowDataGateway.getEndDate());
