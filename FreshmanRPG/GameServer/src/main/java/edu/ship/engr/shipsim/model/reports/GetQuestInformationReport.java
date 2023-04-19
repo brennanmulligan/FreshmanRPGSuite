@@ -2,10 +2,11 @@ package edu.ship.engr.shipsim.model.reports;
 
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.model.Report;
+import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
+@Data
 public class GetQuestInformationReport implements Report
 {
     private final QuestEditingInfoDTO questEditingInfoDTO;
