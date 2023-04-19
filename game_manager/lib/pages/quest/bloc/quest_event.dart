@@ -5,16 +5,16 @@ abstract class QuestEvent {}
 
 class SendUpsertQuestEvent extends QuestEvent {
   final int id;
-  final String title;
-  final String description;
+  final String? title;
+  final String? description;
   final int xpGained;
-  final String triggerMapName;
+  final String? triggerMapName;
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
   final int completionActionType;
-  final String startDate;
-  final String endDate;
+  final String? startDate;
+  final String? endDate;
   final bool easterEgg;
 
   SendUpsertQuestEvent(
@@ -54,7 +54,7 @@ class SendGetQuestInformation extends QuestEvent{
 
   @override
   String toString() {
-    return 'QuestInformatonEvent(title: $title)';
+    return 'QuestInformationEvent(title: $title)';
   }
 
 }
