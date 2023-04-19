@@ -1,18 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_manager/pages/get_majors_and_crews/bloc/get_majors_and_crews_bloc.dart';
+import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
+import 'package:game_manager/repository/quest/quest_editing_response.dart';
+import 'package:game_manager/repository/quest/quest_repository.dart';
 
-import '../../repository/player/all_crews_response.dart';
-import '../../repository/player/all_majors_response.dart';
-import '../../repository/player/crew.dart';
-import '../../repository/player/crews_repository.dart';
-import '../../repository/player/major.dart';
-import '../../repository/player/majors_repository.dart';
-import '../../repository/player/player_repository.dart';
-import '../../repository/player/basic_response.dart';
-import '../shared/widgets/notification_card.dart';
+import '../../repository/quest/quest_record.dart';
+
 
 class CreateEditQuestPage extends StatefulWidget {
   const CreateEditQuestPage({Key? key}) : super(key: key);
@@ -32,6 +26,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
   final startDate = TextEditingController();
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
+  late final questResponse;
 
   // this is here for example purposes! take it out when you have the data
   // ready to fill in.
@@ -70,13 +65,36 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
   // DO NOT TAKE THIS OUT! the page will not build!
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Create/Edit a Quest'),
-        backgroundColor: Colors.pink,
-      ),
-    body: buildInputScreen());
+    return MultiRepositoryProvider(providers: [
+      RepositoryProvider(create: (context) => QuestRepository(dio: Dio()))
+    ],
+        child: BlocProvider<QuestBloc>(
+          create: (context) => QuestBloc(
+              questRepository: context.read<QuestRepository>())
+              ..add(SendGetQuestEditingInformationEvent()),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              title: const Text('Create/Edit a Quest'),
+              backgroundColor: Colors.pink,
+            ),
+            body: BlocConsumer<QuestBloc, QuestState>(
+              listener: (context, state){},
+              builder: (context, state){
+                return BlocBuilder<QuestBloc, QuestState>(builder: (context,
+                state) {
+                  if(state is QuestComplete) {
+                    questResponse = state.response;
+                    return buildInputScreen(questResponse);
+                  }
+                  else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                });
+              }
+            ),
+          ),
+        ));
   }
 
   Widget buildLoadScreen() =>
@@ -98,7 +116,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
   // own build context. look in create_player_page for reference.
   // you should put the submit button at the bottom of the buildinputscreen
 
-  Widget buildInputScreen() => Padding(
+  Widget buildInputScreen(QuestResponse questResponse) => Padding(
     padding: const EdgeInsets.all(24.0),
     child: Center(
       child: Column(
@@ -127,22 +145,23 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: DropdownButtonFormField<String>(
+                child: DropdownButtonFormField<int>(
                   decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.assignment, color: Colors.pink)
                   ),
                   hint: const Text("Quest Title"),
-                  value: dropdownValue,
+                  value: questTitle,
                   isExpanded: true,
-                  onChanged: (String? value) {
+                  onChanged: (int? value) {
                     setState(() {
-                      dropdownValue = value!;
+                      questTitle = value!;
                     });
                   },
-                  items: list.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
+                  items: questResponse.questEditingInfoDTO.quests.map
+                  <DropdownMenuItem<int>>((QuestRecord quests) {
+                    return DropdownMenuItem<int>(
+                      value: quests.id,
+                      child: Text(quests.title),
                     );
                   }).toList(),
                 ),
