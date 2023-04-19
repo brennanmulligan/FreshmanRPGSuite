@@ -25,12 +25,11 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
       emit(CreateManyPlayersLoading());
 
 
-      io.File file = event.csvFile;
-      List<String> lines = await file.readAsLines();
+      List<String> fileLines = event.fileLines;
       List<CreatePlayerWithNameResponse> successful = [];
       List<CreatePlayerWithNameResponse> failed = [];
 
-      List<String> parameters = lines.elementAt(0).split(",");
+      List<String> parameters = fileLines.elementAt(0).split(",");
       if(!parameters.contains("name") || !parameters.contains("password") || !parameters.contains("crew") || !parameters.contains("major") || !parameters.contains("section")){
         CreateManyPlayersResponse failedResponse = const CreateManyPlayersResponse(success: false, description: "File format invalid. Fix file and try again", successful: [], failed: []);
         emit(CreateManyPlayersComplete(failedResponse));
@@ -41,8 +40,8 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
         int majorIndex = parameters.indexOf("major");
         int sectionIndex = parameters.indexOf("section");
 
-        for(int i = 1; i < lines.length; i++) {
-          parameters = lines.elementAt(i).split(",");
+        for(int i = 1; i < fileLines.length; i++) {
+          parameters = fileLines.elementAt(i).split(",");
 
           if (parameters.length < 5) {
             CreatePlayerWithNameResponse invalidResponse = CreatePlayerWithNameResponse(success: false, description: "invalid player details", playerName: parameters.elementAt(0));
