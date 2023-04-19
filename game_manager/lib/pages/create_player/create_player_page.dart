@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
+//import 'package:univeral_io/io.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +17,7 @@ import '../../repository/player/crews_repository.dart';
 import '../../repository/player/major.dart';
 import '../../repository/player/majors_repository.dart';
 import '../../repository/player/player_repository.dart';
+import '../create_many_players/bloc/create_many_players_bloc.dart';
 import '../shared/widgets/notification_card.dart';
 
 class CreatePlayerPage extends StatefulWidget {
@@ -65,8 +71,11 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   create: (context) => GetMajorsAndCrewsBloc(
                         MajorsRepository: context.read<MajorsRepository>(),
                         CrewsRepository: context.read<CrewsRepository>(),
-                      )..add(SendCreateMajorsCrewEvent(0, 0)))
+                      )..add(SendCreateMajorsCrewEvent(0, 0))),
               //TODO: refactor this to not take in arguments)
+              BlocProvider<CreateManyPlayersBloc>(
+                create: (context) => CreateManyPlayersBloc(
+                  playerRepository: context.read<PlayerRepository>())),
             ],
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
@@ -101,6 +110,42 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                       }
                     });
                   }),
+                  BlocConsumer<CreateManyPlayersBloc, CreateManyPlayersState>(
+                    listener: (context, state){
+                      if(state is CreateManyPlayersComplete) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: NotificationCard(
+                              cardTitle: state.response.success ? "File Upload Success, players created" : "File Upload Error.Please try again.",
+                              description: state.response.description,
+                              success: state.response.success
+                            ),
+                            duration: const Duration(seconds: 3),
+                            behavior: SnackBarBehavior.floating,
+                            padding: EdgeInsets.zero,
+                          )
+                        );
+                      }
+                    },
+                    builder: (context, state){
+                      return BlocBuilder<CreateManyPlayersBloc, CreateManyPlayersState>(
+                        builder:(context, state){
+                          if(state is CreateManyPlayersLoading){
+                            return const Center (
+                              child: CircularProgressIndicator()
+                            );
+                          }else {
+                            return const Center (
+                              child: Icon(
+                                Icons.upload_file_outlined,
+                                color: Colors.pink,
+                              )
+                            );
+                          }
+                        }
+                      );
+                    }
+                  )
                 ]))));
   }
 
@@ -204,12 +249,71 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   crew: crewsValue!,
                   major: majorsValue!,
                   section: section,
-                  isValid: validator.isSecure)
+                  isValid: validator.isSecure),
+              const UploadButton(),
             ],
           ),
         ),
       );
 }
+class UploadButton extends StatelessWidget {
+  const UploadButton(
+      {Key? key,}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(1),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.pink,
+            minimumSize: const Size(double.infinity, 50),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(1)),
+            ),
+          ),
+          child: const Text(
+              "Upload File"),
+          onPressed: () => _pickFile(context),
+        )
+    );
+  }
+}
+
+Future<void> _pickFile(BuildContext context) async{
+
+  // FileUploadInputElement uploadInput = FileUploadInputElement();
+  // uploadInput.click();
+  // uploadInput.multiple = false;
+  // uploadInput.accept = '.csv';
+  // uploadInput.onChange.listen((event) {
+  //   if (uploadInput.files!.isNotEmpty) {
+  //     final file = uploadInput.files!.first;
+  //     BlocProvider.of<CreateManyPlayersBloc>(context).add(SendCreateManyPlayersEvent(file));
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Selected file: ${file.name}')),
+  //     );
+  //   }
+  // });
+  FilePickerResult? file = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['csv'],
+  );
+  if(file != null){
+
+    Uint8List fileUint8List = Uint8List.fromList(file.files.first.bytes as List<int>);
+    String fileContent = utf8.decode(fileUint8List);
+    List<String> fileLines = fileContent.split('\n');
+
+    BlocProvider.of<CreateManyPlayersBloc>(context).add(SendCreateManyPlayersEvent(fileLines));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Selected file: ${file.files.single.name}')),
+    );
+  }
+
+}
+
 
 class SubmitButtonBuilder extends StatelessWidget {
   SubmitButtonBuilder(

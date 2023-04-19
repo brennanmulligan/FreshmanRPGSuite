@@ -4,13 +4,13 @@ part of 'create_many_players_bloc.dart';
 abstract class CreateManyPlayersEvent {}
 
 class SendCreateManyPlayersEvent extends CreateManyPlayersEvent {
-  final io.File csvFile;
+  final List<String> fileLines;
 
-  SendCreateManyPlayersEvent(this.csvFile);
+  SendCreateManyPlayersEvent(this.fileLines);
 
   @override
   String toString() {
-    return 'SendCreateManyPlayersEvent(csvFile: $csvFile)';
+    return 'SendCreateManyPlayersEvent(csvFile: $fileLines)';
   }
 }
 
