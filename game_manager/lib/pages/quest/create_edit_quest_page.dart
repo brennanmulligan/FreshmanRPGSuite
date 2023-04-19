@@ -83,7 +83,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage>{
               builder: (context, state){
                 return BlocBuilder<QuestBloc, QuestState>(builder: (context,
                 state) {
-                  if(state is QuestComplete) {
+                  if(state is QuestPageReady) {
                     questResponse = state.response;
                     return buildInputScreen(questResponse);
                   }
