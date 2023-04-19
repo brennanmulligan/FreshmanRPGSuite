@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/get_majors_and_crews/bloc/get_majors_and_crews_bloc.dart';
 import 'package:game_manager/pages/shared/widgets/password.dart';
 
+import '../../repository/player/create_many_players_response.dart';
 import '../../repository/player/all_crews_response.dart';
 import '../../repository/player/all_majors_response.dart';
 import '../../repository/player/crew.dart';
@@ -112,18 +113,36 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   }),
                   BlocConsumer<CreateManyPlayersBloc, CreateManyPlayersState>(
                     listener: (context, state){
-                      if(state is CreateManyPlayersComplete) {
+                      if(state is CreateManyPlayersComplete)
+                      {
+                        List<CreatePlayerWithNameResponse> failures = state.response.failed;
+                        String description = "";
+                        bool success = true;
+                        if(failures.length > 0)
+                        {
+                          for (CreatePlayerWithNameResponse f in failures)
+                          {
+                            description = description + f.playerName + ": " + f.description + "\n";
+                          }
+                          success = false;
+                        }
+                        else
+                        {
+                          description = state.response.description;
+                        }
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: NotificationCard(
-                              cardTitle: state.response.success ? "File Upload Success, players created" : "File Upload Error.Please try again.",
-                              description: state.response.description,
-                              success: state.response.success
-                            ),
-                            duration: const Duration(seconds: 3),
-                            behavior: SnackBarBehavior.floating,
-                            padding: EdgeInsets.zero,
-                          )
+                            SnackBar(
+                              content: NotificationCard(
+                                  cardTitle: state.response.success
+                                      ? "File Upload Success, players created"
+                                      : "File Upload Error.Please try again.",
+                                  description: description,
+                                  success: success
+                              ),
+                              duration: const Duration(seconds: 10),
+                              behavior: SnackBarBehavior.floating,
+                              padding: EdgeInsets.zero,
+                            )
                         );
                       }
                     },
@@ -283,19 +302,6 @@ class UploadButton extends StatelessWidget {
 
 Future<void> _pickFile(BuildContext context) async{
 
-  // FileUploadInputElement uploadInput = FileUploadInputElement();
-  // uploadInput.click();
-  // uploadInput.multiple = false;
-  // uploadInput.accept = '.csv';
-  // uploadInput.onChange.listen((event) {
-  //   if (uploadInput.files!.isNotEmpty) {
-  //     final file = uploadInput.files!.first;
-  //     BlocProvider.of<CreateManyPlayersBloc>(context).add(SendCreateManyPlayersEvent(file));
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Selected file: ${file.name}')),
-  //     );
-  //   }
-  // });
   FilePickerResult? file = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['csv'],
