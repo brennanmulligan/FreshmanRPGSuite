@@ -14,7 +14,6 @@ import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
