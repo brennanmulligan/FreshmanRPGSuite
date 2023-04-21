@@ -28,7 +28,14 @@ public class CommandGetQuestInformation extends Command
         {
             QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
 
-            //Getting the Action Types from the Enum
+            /*
+             * Getting the Map Names from the DB and putting them into a DTO
+             */
+            questEditingInfoDTO.setMapNames(MapTableDataGateway.getInstance().getMapNames());
+
+            /*
+             * Getting the Quest Completion Action Types from the ENUM and putting them into a DTO
+             */
             ArrayList<ActionTypeDTO> actionTypeDTOs = new ArrayList<>();
             for(QuestCompletionActionType q: QuestCompletionActionType.values())
             {
@@ -36,9 +43,11 @@ public class CommandGetQuestInformation extends Command
             }
             questEditingInfoDTO.setCompletionActionTypes(actionTypeDTOs);
 
-            //Getting the Quest Records from the DB
+            /*
+             * Getting the Quest Records from the DB and putting them into a DTO
+             */
             ArrayList<QuestRecord> questRecordsFromMapper = QuestMapper.getAllQuests();
-            ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<QuestRecordDTO>();
+            ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<>();
             for(QuestRecord q: questRecordsFromMapper)
             {
                 questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
@@ -52,8 +61,7 @@ public class CommandGetQuestInformation extends Command
             }
             questEditingInfoDTO.setQuestRecords(questRecordDTOs);
 
-            //Getting the Map Names from the DB
-            questEditingInfoDTO.setMapNames(MapTableDataGateway.getInstance().getMapNames());
+
 
             GetQuestInformationReport report = new GetQuestInformationReport(questEditingInfoDTO);
             ReportObserverConnector.getSingleton().sendReport(report);

@@ -27,6 +27,7 @@ public class CommandUpsertQuest extends Command
                         questRecord.getDescription(),
                         questRecord.getMapName(),
                         questRecord.getPos(),
+                        questRecord.getObjectives(),
                         questRecord.getObjectivesForFulfillment(),
                         questRecord.getExperiencePointsGained(),
                         questRecord.getCompletionActionType(),
@@ -54,6 +55,7 @@ public class CommandUpsertQuest extends Command
                 mapper.questRecord.setDescription(questRecord.getDescription());
                 mapper.questRecord.setMapName(questRecord.getMapName());
                 mapper.questRecord.setPos(questRecord.getPos());
+                mapper.questRecord.setObjectives(questRecord.getObjectives());
                 mapper.questRecord.setObjectivesForFulfillment(
                         questRecord.getObjectivesForFulfillment());
                 mapper.questRecord.setExperiencePointsGained(
