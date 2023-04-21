@@ -75,6 +75,70 @@ public class ObjectiveTableDataGateway
     }
 
     /**
+     * Update All Objectives for a given quest
+     *
+     * @param objectives    the objectives to update
+     * @throws DatabaseException shouldn't
+     */
+    public void updateAllObjectivesForQuest(ArrayList<ObjectiveRecord> objectives)
+            throws DatabaseException
+    {
+        if (objectives == null || objectives.isEmpty())
+        {
+            return;
+        }
+
+        for (ObjectiveRecord objective : objectives)
+        {
+            updateRow(objective.getObjectiveID(), objective.getObjectiveDescription(),
+                    objective.getQuestID(), objective.getExperiencePointsGained(),
+                    objective.getCompletionType(), objective.getCompletionCriteria());
+        }
+    }
+
+
+    /**
+     * Update a row in the table
+     *
+     * @param objectiveID            the unique ID of the objective
+     * @param objectiveDescription   the description of the objective
+     * @param questID                the quest that contains the objective
+     * @param experiencePointsEarned the number of points you get when you complete
+     *                               this objective
+     * @param completionType         the type of action the player must do to complete this
+     *                               objective
+     * @param completionCriteria     the criteria for completing this objective
+     * @throws DatabaseException if we can't talk to the RDS
+     */
+    private void updateRow(int objectiveID, String objectiveDescription,
+                                 int questID, int experiencePointsEarned,
+                                 ObjectiveCompletionType completionType,
+                                 ObjectiveCompletionCriteria completionCriteria)
+            throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "UPDATE Objectives SET objectiveDescription = ?, questID = ?," +
+                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ? WHERE objectiveID = ?"))
+        {
+            stmt.setString(1, objectiveDescription);
+            stmt.setInt(2, questID);
+            stmt.setInt(3, experiencePointsEarned);
+            stmt.setInt(4, completionType.getID());
+            stmt.setObject(5, completionCriteria);
+            stmt.setInt(6, objectiveID);
+            stmt.executeUpdate();
+
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(
+                    "Couldn't update a objective record for objective with ID " +
+                            objectiveID, e);
+        }
+    }
+
+    /**
      * Drop the table if it exists and re-create it empty
      *
      * @throws DatabaseException shouldn't

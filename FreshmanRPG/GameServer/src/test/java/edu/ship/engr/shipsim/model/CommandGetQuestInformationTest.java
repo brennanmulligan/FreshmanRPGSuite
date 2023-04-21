@@ -9,6 +9,7 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 import edu.ship.engr.shipsim.datasource.MapTableDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestTableDataGateway;
+import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 import org.junit.jupiter.api.Test;
@@ -39,23 +40,15 @@ public class CommandGetQuestInformationTest
         mapGateway.setInstance(mockMapGateway);
 
         QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
-        QuestCompletionActionParameter parameter;
-        QuestRecord record = new QuestRecord(QuestsForTest.ONE_BIG_QUEST.getQuestID(),
-                QuestsForTest.ONE_BIG_QUEST.getQuestTitle(),
-                QuestsForTest.ONE_BIG_QUEST.getQuestDescription(),
-                QuestsForTest.ONE_BIG_QUEST.getMapName(),
-                QuestsForTest.ONE_BIG_QUEST.getPosition(),
-                new ArrayList<ObjectiveRecord>(), QuestsForTest.ONE_BIG_QUEST.getExperienceGained(),
-                QuestsForTest.ONE_BIG_QUEST.getObjectiveForFulfillment(),
-                QuestsForTest.ONE_BIG_QUEST.getCompletionActionType(), QuestsForTest.ONE_BIG_QUEST.getCompletionActionParameter(),
-                QuestsForTest.ONE_BIG_QUEST.getStartDate(), QuestsForTest.ONE_BIG_QUEST.getEndDate(), false);
+
+        QuestMapper mapper = new QuestMapper(QuestsForTest.ONE_BIG_QUEST.getQuestID());
         ArrayList<QuestRecord> questRecords = new ArrayList<>()
         {{
-            add(record);
+            add(mapper.questRecord);
         }};
 
         when(mockQuestGateway.getAllQuests()).thenReturn(questRecords);
-        ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<QuestRecordDTO>();
+        ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<>();
         for(QuestRecord q: questRecords)
         {
             questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
@@ -76,7 +69,7 @@ public class CommandGetQuestInformationTest
         }
         questEditingInfoDTO.setCompletionActionTypes(actionTypeDTOs);
 
-        ArrayList<String> mapNames = new ArrayList<String>();
+        ArrayList<String> mapNames = new ArrayList<>();
         mapNames.add("de_dust");
         when(mockMapGateway.getMapNames()).thenReturn(mapNames);
         questEditingInfoDTO.setMapNames(mapNames);
