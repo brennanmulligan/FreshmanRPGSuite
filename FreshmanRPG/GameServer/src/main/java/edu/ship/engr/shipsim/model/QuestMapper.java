@@ -3,6 +3,7 @@ package edu.ship.engr.shipsim.model;
 import edu.ship.engr.shipsim.criteria.QuestCompletionActionParameter;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestRowDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.Position;
@@ -18,6 +19,7 @@ import java.util.Date;
 public class QuestMapper
 {
     private final QuestRowDataGateway questGateway;
+    private final ObjectiveTableDataGateway objectiveTableDataGateway;
     protected QuestRecord questRecord;
 
     /**
@@ -29,13 +31,14 @@ public class QuestMapper
     public QuestMapper(int questId) throws DatabaseException
     {
         this.questGateway = new QuestRowDataGateway(questId);
+        this.objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
 
         this.questRecord = new QuestRecord(this.questGateway.getQuestID(),
                 this.questGateway.getQuestTitle(),
                 this.questGateway.getQuestDescription(),
                 this.questGateway.getTriggerMapName(),
                 this.questGateway.getTriggerPosition(),
-                null,
+                objectiveTableDataGateway.getObjectivesForQuest(this.questGateway.getQuestID()),
                 this.questGateway.getExperiencePointsGained(),
                 this.questGateway.getObjectivesForFulfillment(),
                 this.questGateway.getCompletionActionType(),
@@ -43,7 +46,6 @@ public class QuestMapper
                 this.questGateway.getStartDate(),
                 this.questGateway.getEndDate(),
                 this.questGateway.isEasterEgg());
-
     }
 
     /**
@@ -53,6 +55,7 @@ public class QuestMapper
      * @param questDescription          the description of the quest
      * @param mapName                   the name of the map that triggers the quest
      * @param position                  the position on the map that triggers the quest
+     * @param objectives                the objectives associated with the quest
      * @param objectivesForFulfillment  the objectives that must be fulfilled to complete the quest
      * @param experiencePointsGained    the amount of experience points gained upon completion of the quest
      * @param completionActionType      the type of action that is performed upon completion of the quest
@@ -62,20 +65,21 @@ public class QuestMapper
      * @param isEasterEgg               if the quest is an easter egg
      * @throws DatabaseException if we can't create the quest
      */
-    public QuestMapper(String questTitle, String questDescription, String mapName, Position position,
+    public QuestMapper(String questTitle, String questDescription, String mapName, Position position, ArrayList<ObjectiveRecord> objectives,
                        int objectivesForFulfillment, int experiencePointsGained, QuestCompletionActionType completionActionType,
                        QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate, boolean isEasterEgg) throws DatabaseException
     {
         this.questGateway = new QuestRowDataGateway(questTitle, questDescription, mapName, position,
                 experiencePointsGained, objectivesForFulfillment, completionActionType, completionActionParameter,
                 startDate, endDate, isEasterEgg);
+        this.objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
 
         this.questRecord = new QuestRecord(this.questGateway.getQuestID(),
                 questTitle,
                 questDescription,
                 mapName,
                 position,
-                null,
+                objectiveTableDataGateway.getObjectivesForQuest(this.questGateway.getQuestID()),
                 experiencePointsGained,
                 objectivesForFulfillment,
                 completionActionType,
@@ -83,7 +87,6 @@ public class QuestMapper
                 startDate,
                 endDate,
                 isEasterEgg);
-                
     }
 
     /**
@@ -95,14 +98,23 @@ public class QuestMapper
     {
         QuestTableDataGateway gateway = QuestTableDataGateway.getSingleton();
 
+        ObjectiveTableDataGateway objectiveGateway = ObjectiveTableDataGateway.getSingleton();
+
         try
         {
-            return gateway.getAllQuests();
+            ArrayList<QuestRecord> quests = gateway.getAllQuests();
+
+            for (QuestRecord quest : quests)
+            {
+                quest.setObjectives(objectiveGateway.getObjectivesForQuest(quest.getQuestID()));
+            }
+
+            return quests;
         }
         catch (DatabaseException e)
         {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -145,5 +157,7 @@ public class QuestMapper
         this.questGateway.setEndDate(this.questRecord.getEndDate());
         this.questGateway.setEasterEgg(this.questRecord.isEasterEgg());
         this.questGateway.persist();
+
+        this.objectiveTableDataGateway.updateAllObjectivesForQuest(this.questRecord.getObjectives());
     }
 }
