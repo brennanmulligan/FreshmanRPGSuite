@@ -2,6 +2,8 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
+import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
@@ -10,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -58,18 +62,21 @@ public class QuestMapperTest
     }
 
     /**
-     * make sure the mapper retrieves all of the necessary information for the
-     * quest it is finding Added Section to the test
+     * Make sure the mapper retrieves all the necessary information for the
+     * quest it is finding
      *
      * @throws DatabaseException shouldn't
      */
     @Test
     public void canFindExisting() throws DatabaseException
     {
-        QuestMapper qm = getMapper();
-        QuestRecord q = qm.getQuest();
+        QuestMapper questMapper = getMapper();
+        QuestRecord quest = questMapper.getQuest();
         QuestsForTest testQuest = getQuestWeAreTesting();
-        assertQuestEquals(testQuest, q);
+        assertQuestEquals(testQuest, quest);
+
+        ArrayList<ObjectivesForTest> expectedObjectives = getObjectivesForTheQuestWeAreTesting();
+        assertObjectiveListEquals(expectedObjectives, quest.getObjectives());
     }
 
     /**
@@ -101,6 +108,41 @@ public class QuestMapperTest
 
         QuestMapper qm2 = new QuestMapper(q.getQuestID());
         assertEquals(q, qm2.getQuest());
+    }
+
+    /**
+     * Make sure the mapper get can all the tests and that those tests have the
+     * correct objectives in them
+     */
+    @Test
+    public void getAllQuestsTest()
+    {
+        ArrayList<QuestRecord> foundQuests = QuestMapper.getAllQuests();
+        ArrayList<QuestsForTest> expectedQuests = new ArrayList<>(
+                Arrays.asList(QuestsForTest.values()));
+
+        assertEquals(expectedQuests.size(), foundQuests.size());
+
+        ArrayList<ObjectivesForTest> expectedObjectives = new ArrayList<>(
+                Arrays.asList(ObjectivesForTest.values()));
+
+        for (QuestRecord foundQuest : foundQuests)
+        {
+            ArrayList<ObjectivesForTest> expectedObjectivesForQuest = new ArrayList<>();
+            for (ObjectivesForTest objective : expectedObjectives)
+            {
+                if (objective.getQuestID() == foundQuest.getQuestID())
+                {
+                    expectedObjectivesForQuest.add(objective);
+                }
+            }
+
+            assertEquals(foundQuest.getObjectives().size(), expectedObjectivesForQuest.size());
+
+            // Check if the values of each objective for this quest are correct
+            assertObjectiveListEquals(expectedObjectivesForQuest, foundQuest.getObjectives());
+        }
+
     }
 
     /**
@@ -145,6 +187,7 @@ public class QuestMapperTest
         return new QuestMapper(quest.getTitle(),
                 quest.getDescription(),
                 quest.getMapName(), quest.getPosition(),
+                quest.getObjectives(),
                 quest.getObjectivesForFulfillment(),
                 quest.getExperiencePointsGained(),
                 quest.getCompletionActionType(),
@@ -192,6 +235,36 @@ public class QuestMapperTest
         assertEquals(expected.isEasterEgg(), actual.isEasterEgg());
     }
 
+    protected void assertObjectiveEquals(ObjectivesForTest expected, ObjectiveRecord actual)
+    {
+        assertEquals(expected.getObjectiveID(), actual.getObjectiveID());
+        assertEquals(expected.getQuestID(), actual.getQuestID());
+        assertEquals(expected.getExperiencePointsGained(), actual.getExperiencePointsGained());
+        assertEquals(expected.getCompletionCriteria().toString(), actual.getCompletionCriteria().toString());
+        assertEquals(expected.getCompletionType(), actual.getCompletionType());
+        assertEquals(expected.getObjectiveDescription(), actual.getObjectiveDescription());
+    }
+
+    protected void assertObjectiveListEquals(ArrayList<ObjectivesForTest> expectedObjectives, ArrayList<ObjectiveRecord> objectives)
+    {
+        for (ObjectiveRecord objective : objectives)
+        {
+            boolean found = false;
+            for (ObjectivesForTest expectedObjective : expectedObjectives)
+            {
+                if (objective.getObjectiveID() == expectedObjective.getObjectiveID())
+                {
+                    found = true;
+                    assertObjectiveEquals(expectedObjective, objective);
+                }
+            }
+            if (!found)
+            {
+                throw new AssertionError("Objective not found");
+            }
+        }
+    }
+
     /**
      * Quest we are testing
      *
@@ -199,7 +272,23 @@ public class QuestMapperTest
      */
     protected QuestsForTest getQuestWeAreTesting()
     {
-        return QuestsForTest.EASTER_EGG_QUEST;
+        return QuestsForTest.ONE_SAME_LOCATION_QUEST;
+    }
+
+    protected ArrayList<ObjectivesForTest> getObjectivesForTheQuestWeAreTesting()
+    {
+        ArrayList<ObjectivesForTest> objectives = new ArrayList<>();
+        int questId = getQuestWeAreTesting().getQuestID();
+
+        for (ObjectivesForTest objective : ObjectivesForTest.values())
+        {
+            if (objective.getQuestID() == questId)
+            {
+                objectives.add(objective);
+            }
+        }
+
+        return objectives;
     }
 
     /**
