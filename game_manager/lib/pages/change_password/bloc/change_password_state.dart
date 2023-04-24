@@ -12,6 +12,15 @@ class ChangePasswordInitial extends ChangePasswordState {}
 
 class ChangePasswordLoading extends ChangePasswordState {}
 
+class PasswordPageReady extends ChangePasswordState {
+  final AllPlayersResponse response;
+
+  PasswordPageReady(this.response);
+
+  @override
+  List<Object> get props => [response];
+}
+
 class ChangePasswordComplete extends ChangePasswordState {
   final BasicResponse response;
 
