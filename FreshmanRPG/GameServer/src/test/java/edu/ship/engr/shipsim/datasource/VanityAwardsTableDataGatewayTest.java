@@ -34,13 +34,19 @@ public class VanityAwardsTableDataGatewayTest
      * Tests to make sure we cannot add a duplicate vanity award
      */
     @Test
-    public void cannotAddDuplicateItem()
+    public void cannotAddDuplicateItem() throws DatabaseException
     {
-        assertThrows(DatabaseException.class, () ->
+
+        try
         {
-            ArrayList<VanityDTO> awardsFromGateway = gateway.getVanityAwardsForQuest(4);
-            gateway.addVanityAward(4, awardsFromGateway.get(0).getID());
-        });
+            gateway.addVanityAward(4, 1);
+        }
+        catch (DatabaseException e)
+        {
+            fail("Could not add the first!");
+        }
+       assertThrows( DatabaseException.class, () -> gateway.addVanityAward(4, 1));
+
     }
 
     /**
