@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:game_manager/repository/player/all_players_response.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
 import 'package:meta/meta.dart';
 
@@ -18,7 +19,7 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
 
   ChangePasswordBloc({
     required this.playerRepository,
-  }) : super(ChangePasswordInitial()) {
+  }) : super(PasswordPageReady(AllPlayersResponse())) {
     on<SendChangePasswordEvent>((event, emit) async {
       emit(ChangePasswordLoading());
 
