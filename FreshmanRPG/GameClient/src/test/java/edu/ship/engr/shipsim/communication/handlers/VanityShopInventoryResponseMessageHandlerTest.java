@@ -41,8 +41,8 @@ public class VanityShopInventoryResponseMessageHandlerTest
     public void handleHighScoreResponseMessage() throws InterruptedException
     {
         ArrayList<VanityDTO> inventory = new ArrayList<>();
-        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0));
-        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1));
+        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0, 0, 0, 0));
+        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1, 0, 0, 0));
 
         VanityShopInventoryResponseMessage msg = new VanityShopInventoryResponseMessage(inventory, false);
         VanityShopInventoryResponseMessageHandler handle = new VanityShopInventoryResponseMessageHandler();

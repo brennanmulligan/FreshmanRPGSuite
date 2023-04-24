@@ -125,7 +125,7 @@ public class ClosetUI extends OverlayingScreen implements ReportObserver
             {
                 if (!currentTextures.contains(region.name))
                 {
-                    allVanities.add(new VanityDTO(vanityIndex++, region.name, "", region.name, vanityType));
+                    allVanities.add(new VanityDTO(vanityIndex++, region.name, "", region.name, vanityType, 0, 0, 0, 0));
                 }
             }
         }

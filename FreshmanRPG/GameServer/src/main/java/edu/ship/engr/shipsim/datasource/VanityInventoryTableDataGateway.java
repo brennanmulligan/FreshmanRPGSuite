@@ -96,7 +96,11 @@ public class VanityInventoryTableDataGateway
                             result.getString("name"),
                             result.getString("description"),
                             result.getString("textureName"),
-                            VanityType.fromInt(result.getInt("type")));
+                            VanityType.fromInt(result.getInt("type")),
+                            result.getInt("price"),
+                            result.getInt("isDefault"),
+                            result.getInt("isDeletable"),
+                            result.getInt("isInShop"));
                     results.add(item);
                 }
             }
@@ -155,7 +159,11 @@ public class VanityInventoryTableDataGateway
                             result.getString("name"),
                             result.getString("description"),
                             result.getString("textureName"),
-                            VanityType.fromInt(result.getInt("type")));
+                            VanityType.fromInt(result.getInt("type")),
+                            result.getInt("price"),
+                            result.getInt("isDefault"),
+                            result.getInt("isDeletable"),
+                            result.getInt("isInShop"));
                     results.add(item);
                 }
             }

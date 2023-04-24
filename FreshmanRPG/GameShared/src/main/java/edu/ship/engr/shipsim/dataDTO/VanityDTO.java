@@ -13,16 +13,20 @@ import java.util.Objects;
 public class VanityDTO implements Serializable
 {
 
-    private int ID;
+    private int vanityID;
     private String name;
     private String description;
     private String textureName;
     private VanityType vanityType;
     private int price;
+    private int isDefault;
+    private int isDeletable;
+    private int isInShop;
+
 
     public VanityDTO()
     {
-        ID = -1;
+        vanityID = -1;
         name = "";
         description = "";
         textureName = "";
@@ -33,35 +37,43 @@ public class VanityDTO implements Serializable
     /**
      * Constructor for a VanityDTO
      *
-     * @param ID          id of vanity item
-     * @param name        name of vanity item
-     * @param description description of vanity item
-     * @param textureName name of the texture for the item
-     * @param vanityType  type of vanity
-     */
-    public VanityDTO(int ID, String name, String description, String textureName, VanityType vanityType)
-    {
-        this(ID, name, description, textureName, vanityType, 0);
-    }
-
-    /**
-     * Constructor for a VanityDTO
-     *
-     * @param ID          id of vanity item
+     * @param vanityID          id of vanity item
      * @param name        name of vanity item
      * @param description description of vanity item
      * @param textureName name of the texture for the item
      * @param vanityType  type of vanity
      * @param price       the price of the item
+     * @param isDefault if a player gets this item by default or not
+     * @param isDeletable if the item is able to be removed from a player
+     * @param isInShop if the Item is available to be bought in the shop
      */
-    public VanityDTO(int ID, String name, String description, String textureName, VanityType vanityType, int price)
+    public VanityDTO(int vanityID, String name, String description, String textureName, VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop)
     {
-        this.ID = ID;
+        //TODO: make isXXX booleans, not ints
+        this.vanityID = vanityID;
         this.name = name;
         this.description = description;
         this.textureName = textureName;
         this.vanityType = vanityType;
         this.price = price;
+        this.isDefault = isDefault;
+        this.isDeletable = isDeletable;
+        this.isInShop = isInShop;
+    }
+
+    public int getIsDefault()
+    {
+        return isDefault;
+    }
+
+    public int getIsDeletable()
+    {
+        return isDeletable;
+    }
+
+    public int getIsInShop()
+    {
+        return isInShop;
     }
 
     /**
@@ -69,7 +81,7 @@ public class VanityDTO implements Serializable
      */
     public int getID()
     {
-        return ID;
+        return vanityID;
     }
 
     /**
@@ -126,19 +138,35 @@ public class VanityDTO implements Serializable
 
         VanityDTO vanityDTO = (VanityDTO) o;
 
-        if (ID != vanityDTO.ID)
+        if (vanityID != vanityDTO.vanityID)
         {
             return false;
         }
-        if (!Objects.equals(name, vanityDTO.name))
+        if (price != vanityDTO.price)
         {
             return false;
         }
-        if (!Objects.equals(description, vanityDTO.description))
+        if (isDefault != vanityDTO.isDefault)
         {
             return false;
         }
-        if (!Objects.equals(textureName, vanityDTO.textureName))
+        if (isDeletable != vanityDTO.isDeletable)
+        {
+            return false;
+        }
+        if (isInShop != vanityDTO.isInShop)
+        {
+            return false;
+        }
+        if (!name.equals(vanityDTO.name))
+        {
+            return false;
+        }
+        if (!description.equals(vanityDTO.description))
+        {
+            return false;
+        }
+        if (!textureName.equals(vanityDTO.textureName))
         {
             return false;
         }
@@ -148,14 +176,15 @@ public class VanityDTO implements Serializable
     @Override
     public int hashCode()
     {
-        int result = ID;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result +
-                (description != null ? description.hashCode() : 0);
-        result = 31 * result +
-                (textureName != null ? textureName.hashCode() : 0);
-        result = 31 * result + (vanityType != null ? vanityType.hashCode() : 0);
+        int result = vanityID;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + textureName.hashCode();
+        result = 31 * result + vanityType.hashCode();
         result = 31 * result + price;
+        result = 31 * result + isDefault;
+        result = 31 * result + isDeletable;
+        result = 31 * result + isInShop;
         return result;
     }
 
