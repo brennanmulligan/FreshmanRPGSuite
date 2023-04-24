@@ -45,7 +45,11 @@ public class VanityItemsTableDataGateway
                 "name VARCHAR(255), " +
                 "description VARCHAR(255), " +
                 "textureName VARCHAR(255) UNIQUE, " +
-                "type INT NOT NULL);";
+                "type INT NOT NULL," +
+                "price INT," +
+                "isDefault TINYINT," +
+                "isDeletable TINYINT," +
+                "isInShop TINYINT)";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
@@ -89,7 +93,11 @@ public class VanityItemsTableDataGateway
                         result.getString("name"),
                         result.getString("description"),
                         result.getString("textureName"),
-                        VanityType.fromInt(result.getInt("type")));
+                        VanityType.fromInt(result.getInt("type")),
+                        result.getInt("price"),
+                        result.getInt("isDefault"),
+                        result.getInt("isDeletable"),
+                        result.getInt("isInShop"));
             }
         }
         catch (SQLException e)
@@ -105,25 +113,15 @@ public class VanityItemsTableDataGateway
     public ArrayList<VanityDTO> getAllVanityItems() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        ArrayList<VanityDTO> vanityItems = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems");
              ResultSet result = stmt.executeQuery())
         {
-            while (result.next())
-            {
-                VanityDTO item = new VanityDTO(result.getInt("vanityID"),
-                        result.getString("name"),
-                        result.getString("description"),
-                        result.getString("textureName"),
-                        VanityType.fromInt(result.getInt("type")));
-                vanityItems.add(item);
-            }
+            return buildDTOs(result);
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(e.getMessage());
         }
-        return vanityItems;
     }
 
     /**
@@ -148,7 +146,7 @@ public class VanityItemsTableDataGateway
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            throw new DatabaseException(e.getMessage());
         }
         return type;
     }
@@ -162,20 +160,27 @@ public class VanityItemsTableDataGateway
      * @param textureName the new texture name
      * @param vanityType  the new vanity type
      */
-    public void updateVanityItem(int id, String name, String description, String textureName, VanityType vanityType) throws DatabaseException
+    public void updateVanityItem(int id, String name, String description, String textureName,
+                                 VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityItems SET name = ?, description = ?, textureName = ?, type = ? WHERE vanityID = ?"))
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityItems SET name = ?, description = ?, textureName = ?, type = ?, " +
+                " price = ?, isDefault = ?, isDeletable = ?, isInShop = ? WHERE vanityID = ?"))
         {
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);
             stmt.setInt(4, vanityType.ordinal());
+            stmt.setInt(5, price);
+            stmt.setInt(6, isDefault);
+            stmt.setInt(7, isDeletable);
+            stmt.setInt(8, isInShop);
+
             stmt.executeUpdate();
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+           throw new DatabaseException(e.getMessage());
         }
     }
 
@@ -187,15 +192,23 @@ public class VanityItemsTableDataGateway
      * @param textureName the texture name of the vanity item
      * @param vanityType  the type of vanity
      */
-    public void addVanityItem(String name, String description, String textureName, VanityType vanityType) throws DatabaseException
+    public void addVanityItem(String name, String description, String textureName,
+                              VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
-        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityItems SET name = ?, description = ?, textureName = ?, type = ?"))
+
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityItems SET name = ?, description = ?, " +
+                "textureName = ?, type = ?, price = ?, isDefault = ?, isDeletable = ?, isInShop = ?"))
         {
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);
             stmt.setInt(4, vanityType.ordinal());
+            stmt.setInt(5, price);
+            stmt.setInt(6, isDefault);
+            stmt.setInt(7, isDeletable);
+            stmt.setInt(8, isInShop);
+
             int updated = stmt.executeUpdate();
             if (updated != 1)
             {
@@ -207,4 +220,60 @@ public class VanityItemsTableDataGateway
             throw new DatabaseException("Could not add new Vanity Item to database", e);
         }
     }
+
+    public static ArrayList<VanityDTO> getAllDefaultItems()
+            throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE isDefault = 1"))
+        {
+            try (ResultSet queryResults = stmt.executeQuery())
+            {
+                return buildDTOs(queryResults);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static ArrayList<VanityDTO> getAllInShopItems()
+            throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM VanityItems WHERE isInShop = 1"))
+        {
+            try (ResultSet queryResults = stmt.executeQuery())
+            {
+                return buildDTOs(queryResults);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
+
+    public static ArrayList<VanityDTO> buildDTOs(ResultSet result)
+            throws SQLException
+    {
+        ArrayList<VanityDTO> vanityItems = new ArrayList<>();
+
+        while (result.next())
+        {
+            VanityDTO item = new VanityDTO(result.getInt("vanityID"),
+                    result.getString("name"),
+                    result.getString("description"),
+                    result.getString("textureName"),
+                    VanityType.fromInt(result.getInt("type")),
+                    result.getInt("price"),
+                    result.getInt("isDefault"),
+                    result.getInt("isDeletable"),
+                    result.getInt("isInShop"));
+            vanityItems.add(item);
+        }
+        return vanityItems;
+    }
+
 }

@@ -41,7 +41,8 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()));
+                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getPrice(), 0, 0, 0);
         ArrayList<VanityDTO> actualItems =
                 gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
 
@@ -67,12 +68,14 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()));
+                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getPrice(), 0, 0, 0);
         VanityDTO item2 = new VanityDTO(VanityItemsForTest.BLUE_SHIRT.getId(),
                 VanityItemsForTest.BLUE_SHIRT.getName(),
                 VanityItemsForTest.BLUE_SHIRT.getDescription(),
                 VanityItemsForTest.BLUE_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.BLUE_SHIRT.getVanityType()));
+                VanityType.fromInt(VanityItemsForTest.BLUE_SHIRT.getVanityType()),
+                VanityItemsForTest.BLUE_SHIRT.getPrice(), 0, 0, 0);
 
         assertFalse(actualItems.contains(item));
         assertFalse(actualItems.contains(item2));
@@ -123,7 +126,8 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()));
+                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getPrice(), 0, 0, 0);
 
         assertFalse(actualItems.contains(item));
 
@@ -285,7 +289,8 @@ public class VanityInventoryTableDataGatewayTest
                     VanityItemsForTest.TUTOR_SHIRT.getDescription(),
                     VanityItemsForTest.TUTOR_SHIRT.getTextureName(),
                     VanityType.fromInt(VanityItemsForTest.TUTOR_SHIRT.getVanityType()),
-                    VanityItemsForTest.TUTOR_SHIRT.getPrice());
+                    VanityItemsForTest.TUTOR_SHIRT.getPrice(),
+                    0, 0, 0);
             assertFalse(actualItems.contains(item));
             ArrayList<VanityDTO> newWearing = new ArrayList<>();
             newWearing.add(item);

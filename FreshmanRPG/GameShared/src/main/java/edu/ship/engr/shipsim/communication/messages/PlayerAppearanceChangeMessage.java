@@ -49,14 +49,31 @@ public class PlayerAppearanceChangeMessage extends Message implements Serializab
         {
             return false;
         }
+        if (!super.equals(o))
+        {
+            return false;
+        }
+
         PlayerAppearanceChangeMessage that = (PlayerAppearanceChangeMessage) o;
-        return vanities.containsAll(that.vanities) && that.vanities.containsAll(vanities);
+
+        //If they both contain the same vanityDTOs, and are both the same size they must be equal
+        //This needed to be done because some orders of vanity items were different and causing issues.
+        for(VanityDTO v:vanities)
+        {
+            if (!that.vanities.contains(v))
+            {
+                return false;
+            }
+        }
+        return vanities.size() == that.vanities.size();
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(vanities);
+        int result = super.hashCode();
+        result = 31 * result + vanities.hashCode();
+        return result;
     }
 
     /**
