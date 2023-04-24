@@ -19,7 +19,7 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
 
   ChangePasswordBloc({
     required this.playerRepository,
-  }) : super(PasswordPageReady(AllPlayersResponse())) {
+  }) : super(PasswordPageReady(AllPlayersResponse(true, players: ["1", "2", "3"]))) {
     on<SendChangePasswordEvent>((event, emit) async {
       emit(ChangePasswordLoading());
 
