@@ -27,7 +27,7 @@ public class BuildTestVanityItems
     /**
      * Create a table of vanity items
      *
-     * @throws DatabaseException shouldnt
+     * @throws DatabaseException shouldn't
      */
     public static void createVanityItemTable() throws DatabaseException
     {
