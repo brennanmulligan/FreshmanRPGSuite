@@ -77,7 +77,7 @@ public class VanityShopGetInvSequenceTest extends SequenceTest
             VanityItemsForTest item = VanityItemsForTest.values()[items.getVanityID() - 1];
             response.add(new VanityDTO(items.getVanityID(), item.getName(),
                     item.getDescription(), item.getTextureName(),
-                    VanityType.fromInt(item.getVanityType()), items.getPrice()));
+                    VanityType.fromInt(item.getVanityType()), items.getPrice(), 0, 0, 0));
         }
         return response;
     }

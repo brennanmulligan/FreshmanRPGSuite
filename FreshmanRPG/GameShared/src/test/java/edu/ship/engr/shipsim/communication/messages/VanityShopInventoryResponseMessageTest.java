@@ -21,7 +21,7 @@ public class VanityShopInventoryResponseMessageTest
     public void testInitialization()
     {
         ArrayList<VanityDTO> items = new ArrayList<>();
-        items.add(new VanityDTO(1, "Hello", "world", "!", VanityType.HAT, 200));
+        items.add(new VanityDTO(1, "Hello", "world", "!", VanityType.HAT, 200, 0, 0, 0));
         assertEquals(items, new VanityShopInventoryResponseMessage(items, false).getVanityShopInventory());
         assertEquals(1, new VanityShopInventoryResponseMessage(items, false).getVanityShopInventory().get(0).getID());
     }

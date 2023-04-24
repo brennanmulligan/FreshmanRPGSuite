@@ -77,9 +77,9 @@ public enum DefaultItemsForTest
                         VanityItemsForTest.values()[defaultID1 - 1];
                 VanityType type = VanityType.fromInt(value.getVanityType());
 
-               result.add( new VanityDTO(defaultID1, value.getName(),
+               result.add(new VanityDTO(defaultID1, value.getName(),
                         value.getDescription(), value.getTextureName(), type,
-                       value.getPrice()));
+                       value.getPrice(), 0, 0, 0));
             }
         }
         return result;
