@@ -103,8 +103,8 @@ public class TimerTableDataGateway
     }
 
     /**
-     * Gets all timers for the given player.
-     * @param playerID the id of the player we are fetching the timers for
+     * Deletes all timers for the given player.
+     * @param playerID the id of the player we are deleting the timers of
      */
     public static void deleteAllPlayerTimers(int playerID) throws DatabaseException
     {

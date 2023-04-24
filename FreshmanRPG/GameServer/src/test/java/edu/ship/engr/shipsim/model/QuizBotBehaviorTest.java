@@ -95,7 +95,7 @@ public class QuizBotBehaviorTest
                 "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
         behavior.receiveReport(report);
 
-        VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0);
+        VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0, 0, 0, 0);
         assertTrue(player.getAllOwnedItems().contains(bike));
     }
 }

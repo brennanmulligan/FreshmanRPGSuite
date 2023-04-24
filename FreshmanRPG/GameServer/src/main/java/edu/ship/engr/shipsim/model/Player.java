@@ -210,7 +210,7 @@ public class Player
             vanityItems.remove(bikeIndex);
         }
 
-        VanityDTO newBike = new VanityDTO(VanityItemsForTest.BIKE.ordinal()+1, "Bike", "", "bike", VanityType.BIKE, 0);
+        VanityDTO newBike = new VanityDTO(VanityItemsForTest.BIKE.ordinal()+1, "Bike", "", "bike", VanityType.BIKE, VanityItemsForTest.BIKE.getPrice(), 0, 0, 0);
         ownedItems.add(newBike);
         vanityItems.add(newBike);
 
@@ -762,7 +762,7 @@ public class Player
         if (item == VanityType.BIKE)
         {
 
-            VanityDTO bike_none = new VanityDTO(VanityItemsForTest.BIKE_NONE.getId(), "No Bike", "", "bike_none", VanityType.BIKE, 0);
+            VanityDTO bike_none = new VanityDTO(VanityItemsForTest.BIKE_NONE.getId(), "No Bike", "", "bike_none", VanityType.BIKE, VanityItemsForTest.BIKE_NONE.getPrice(), 0, 0, 0);
             this.vanityItems.add(bike_none);
             this.ownedItems.add(bike_none);
         }

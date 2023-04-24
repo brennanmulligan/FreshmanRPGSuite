@@ -39,9 +39,9 @@ public class PlayerJoinedMessageHandlerTest
     @Test
     public void test() throws InterruptedException
     {
-        VanityDTO body = new VanityDTO(2, "", "", "character_clothed", VanityType.BODY);
+        VanityDTO body = new VanityDTO(2, "", "", "character_clothed", VanityType.BODY, 0, 0, 0, 0);
 
-        VanityDTO hat = new VanityDTO(-1, "", "", "hat_duck", VanityType.HAT);
+        VanityDTO hat = new VanityDTO(-1, "", "", "hat_duck", VanityType.HAT, 0, 0, 0, 0);
 
         PlayerJoinedMessage msg = new PlayerJoinedMessage(PlayersForTest.JOSH.getPlayerID(), false, PlayersForTest.JOSH.name(),
                 PlayersForTest.JOSH.getVanityItems(), PlayersForTest.JOSH.getPosition(),
