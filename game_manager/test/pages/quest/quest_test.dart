@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
-import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
 import 'package:game_manager/repository/quest/quest_repository.dart';
 import 'package:mockito/annotations.dart';
@@ -34,7 +33,7 @@ Future<void> main() async {
       expect: () => [QuestLoading(), QuestComplete(good)],
     );
 
-    const QuestResponse goodEditingResponse = QuestResponse(true, questEditingInfoDTO: QuestEditingInfoDTO(quests: [], mapNames: [], completionActionTypes: []));
+    const QuestResponse goodEditingResponse = QuestResponse(true, quests: [], mapNames: [], completionActionTypes: []);
 
     blocTest<QuestBloc, QuestState>(
       "Check get flow",

@@ -17,18 +17,18 @@ class UpsertQuestRequest extends Equatable {
   final bool easterEgg;
 
   const UpsertQuestRequest(
-  { required this.id,
-    required this.title,
-    required this.description,
-    required this.xpGained,
-    required this.triggerMapName,
-    required this.triggerRow,
-    required this.triggerCol,
-    required this.objectivesForFulfillment,
-    required this.completionActionType,
-    required this.startDate,
-    required this.endDate,
-    required this.easterEgg});
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.xpGained,
+      required this.triggerMapName,
+      required this.triggerRow,
+      required this.triggerCol,
+      required this.objectivesForFulfillment,
+      required this.completionActionType,
+      required this.startDate,
+      required this.endDate,
+      required this.easterEgg});
 
   @override
   List<Object?> get props => [
@@ -48,15 +48,17 @@ class UpsertQuestRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'questID': id,
       'title': title,
       'description': description,
-      'xpGained': xpGained,
-      'triggerMapName': triggerMapName,
-      'triggerRow': triggerRow,
-      'triggerCol': triggerCol,
+      'experiencePointsGained': xpGained,
+      'mapName': triggerMapName,
+      'position': {
+        'row': triggerRow,
+        'column': triggerCol,
+      },
       'objectivesForFulfillment': objectivesForFulfillment,
-      'completionActionType': completionActionType,
+      'actionType': completionActionType,
       'startDate': startDate,
       'endDate': endDate,
       'easterEgg': easterEgg
@@ -65,19 +67,21 @@ class UpsertQuestRequest extends Equatable {
 
   @override
   String toString() {
-    return 'UpsertQuestRequest(id: $id, title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'UpsertQuestRequest(questID: $id, title: $title, description: $description, experiencePointsGained: $xpGained, triggerMapName: $triggerMapName, position: ${'row: $triggerRow, column: $triggerCol'}, objectivesForFulfillment: $objectivesForFulfillment, actionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
   }
 
   JSON get asJson => {
-        'id': id,
+        'questID': id,
         'title': title,
         'description': description,
-        'xpGained': xpGained,
-        'triggerMapName': triggerMapName,
-        'triggerRow': triggerRow,
-        'triggerCol': triggerCol,
+        'experiencePointsGained': xpGained,
+        'mapName': triggerMapName,
+        'position': {
+          'row': triggerRow,
+          'column': triggerCol,
+        },
         'objectivesForFulfillment': objectivesForFulfillment,
-        'completionActionType': completionActionType,
+        'actionType': completionActionType,
         'startDate': startDate,
         'endDate': endDate,
         'easterEgg': easterEgg

@@ -4,7 +4,7 @@ import '../../type_definitions.dart';
 
 class ActionTypeDTO extends Equatable {
   final String actionName;
-  final num actionID;
+  final int actionID;
 
   const ActionTypeDTO({required this.actionName, required this.actionID});
 

@@ -1,6 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
+
+import '../../repository/quest/action_type_DTO.dart';
+import '../../repository/quest/quest_record.dart';
+import '../../repository/quest/quest_editing_response.dart';
+import '../../repository/quest/quest_repository.dart';
 
 class CreateEditQuestPage extends StatefulWidget {
   const CreateEditQuestPage({Key? key}) : super(key: key);
@@ -18,16 +24,6 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   final startDate = TextEditingController();
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
-
-  // this is here for example purposes! take it out when you have the data
-  // ready to fill in.
-  static const List<String> list = <String>[
-    'Quest Title',
-    'Two',
-    'Three',
-    'Four'
-  ];
-  String dropdownValue = list.first;
 
   int? questId;
   String? questTitle;
@@ -59,16 +55,38 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
     setState(() {});
   }
 
-  // DO NOT TAKE THIS OUT! the page will not build!
+// DO NOT TAKE THIS OUT! the page will not build!
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: const Text('Create/Edit a Quest'),
-          backgroundColor: Colors.pink,
-        ),
-        body: buildInputScreen());
+    return MultiRepositoryProvider(providers: [
+      RepositoryProvider(create: (context) => QuestRepository(dio: Dio()))
+    ],
+        child: BlocProvider<QuestBloc>(
+            create: (context) => QuestBloc(
+                questRepository: context.read<QuestRepository>())..add(
+                SendGetQuestEditingInformationEvent()),
+            child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                appBar: AppBar(
+                  title: const Text('Create/Edit a Quest'),
+                  backgroundColor: Colors.pink,
+                ),
+                body: BlocConsumer<QuestBloc, QuestState>(
+                    listener: (context, state){},
+                    builder: (context, state){
+                      return BlocBuilder<QuestBloc, QuestState>(builder: (context,
+                          state) {
+                        if(state is QuestPageReady) {
+                          return buildInputScreen(state.response);
+                        }
+                        else {
+                          return buildLoadScreen();
+                        }
+                      });
+                    }
+                )
+            )
+        ));
   }
 
   Widget buildLoadScreen() => const Padding(
@@ -88,19 +106,19 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   // own build context. look in create_player_page for reference.
   // you should put the submit button at the bottom of the buildinputscreen
 
-  Widget buildInputScreen() => Padding(
+  Widget buildInputScreen(questResponse) => Padding(
       padding: const EdgeInsets.all(24.0),
       child: Center(
-          child: Column(children: [
+          child: ListView(children: [
         // start putting in your page components here
         // QUEST TITLE
         Row(children: [
           Expanded(
             child: TextField(
               controller: addNewQuest,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 label: Row(
-                  children: [
+                  children: const [
                     Icon(Icons.edit_note, color: Colors.pink),
                     SizedBox(
                       width: 10,
@@ -115,21 +133,22 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: DropdownButtonFormField<String>(
+            child: DropdownButtonFormField<int>(
               decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.assignment, color: Colors.pink)),
               hint: const Text("Quest Title"),
-              value: dropdownValue,
+              value: questId,
               isExpanded: true,
-              onChanged: (String? value) {
+              onChanged: (int? value) {
                 setState(() {
-                  dropdownValue = value!;
+                  questId = value!;
                 });
               },
-              items: list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
+              items: questResponse.quests.map
+              <DropdownMenuItem<int>>((QuestRecord quests) {
+                return DropdownMenuItem<int>(
+                  value: quests.id,
+                  child: Text(quests.title),
                 );
               }).toList(),
             ),
@@ -138,9 +157,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // QUEST DESCRIPTION:
         TextField(
           controller: questDesc,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.edit_note, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -156,9 +175,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // EXPERIENCE GAINED
         TextField(
           controller: experienceGained,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.exposure_plus_1, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -175,27 +194,28 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           decoration: const InputDecoration(
               prefixIcon: Icon(Icons.map_outlined, color: Colors.pink)),
           hint: const Text("Trigger Map"),
-          value: dropdownValue,
+          value: mapValue,
           isExpanded: true,
           onChanged: (String? value) {
             setState(() {
-              dropdownValue = value!;
+              mapValue = value!;
             });
           },
-          items: list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+            items: questResponse.mapNames.map
+            <DropdownMenuItem<String>>((String mapName) {
+              return DropdownMenuItem<String>(
+                value: mapName,
+                child: Text(mapName),
+              );
+            }).toList(),
         ),
 
         // TRIGGER ROW
         TextField(
           controller: triggerRow,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.arrow_right_alt, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -210,9 +230,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // TRIGGER COLUMN
         TextField(
           controller: triggerColumn,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.arrow_right_alt, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -227,9 +247,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // FULFILLMENT OBJECTIVES
         TextField(
           controller: fulfillmentObjectives,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.edit_note, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -242,21 +262,22 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         ),
 
         // COMPLETION ACTION TYPE
-        DropdownButtonFormField<String>(
+        DropdownButtonFormField<int>(
           decoration: const InputDecoration(
               prefixIcon: Icon(Icons.incomplete_circle, color: Colors.pink)),
-          hint: const Text("Trigger Map"),
-          value: dropdownValue,
+          hint: const Text("Completion Action Type"),
+          value: actionValue,
           isExpanded: true,
-          onChanged: (String? value) {
+          onChanged: (int? value) {
             setState(() {
-              dropdownValue = value!;
+              actionValue = value!;
             });
           },
-          items: list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: questResponse.completionActionTypes.map
+          <DropdownMenuItem<int>>((ActionTypeDTO actions) {
+            return DropdownMenuItem<int>(
+              value: actions.actionID,
+              child: Text(actions.actionName),
             );
           }).toList(),
         ),
@@ -264,9 +285,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // START DATE
         TextField(
           controller: startDate,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.calendar_today, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -281,9 +302,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         // END DATE
         TextField(
           controller: endDate,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             label: Row(
-              children: [
+              children: const [
                 Icon(Icons.calendar_today, color: Colors.pink),
                 SizedBox(
                   width: 10,
