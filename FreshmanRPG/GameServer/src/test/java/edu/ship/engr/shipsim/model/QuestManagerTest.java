@@ -592,7 +592,7 @@ public class QuestManagerTest
         QuestRecord actual = qm.getQuest(1);
         assertEquals(expected.getQuestID(), actual.getQuestID());
         assertEquals(expected.getQuestDescription(), actual.getDescription());
-        assertEquals(expected.getMapName(), actual.getMapName());
+        assertEquals(expected.getMapName(), actual.getTriggerMapName());
         assertEquals(expected.getObjectiveForFulfillment(),
                 actual.getObjectivesForFulfillment());
         assertEquals(expected.getExperienceGained(), actual.getExperiencePointsGained());

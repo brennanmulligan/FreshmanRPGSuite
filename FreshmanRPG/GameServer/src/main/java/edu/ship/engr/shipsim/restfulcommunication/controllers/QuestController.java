@@ -2,10 +2,13 @@ package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveRecordDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.model.CommandGetQuestInformation;
 import edu.ship.engr.shipsim.model.CommandUpsertQuest;
 import edu.ship.engr.shipsim.model.ModelFacade;
+import edu.ship.engr.shipsim.model.ObjectiveRecord;
 import edu.ship.engr.shipsim.model.QuestRecord;
 import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 import edu.ship.engr.shipsim.model.reports.UpsertQuestResponseReport;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 public class QuestController extends Controller
 {
@@ -29,14 +34,25 @@ public class QuestController extends Controller
     {
         UpsertQuestResponseReport report = processAction(() ->
         {
+            // Convert ObjectiveRecordDTOs to ObjectiveRecords
+            ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
+
+            for (ObjectiveRecordDTO dto : info.getObjectives())
+            {
+                objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
+                        dto.getDescription(), dto.getExperiencePointsGained(),
+                        ObjectiveCompletionType.findByID(dto.getCompletionType()), null));
+            }
+
             CommandUpsertQuest command =
                     new CommandUpsertQuest(
                             new QuestRecord(info.getId(), info.getTitle(),
                                     info.getDescription(),
                                     info.getTriggerMapName(),
-                                    info.getPosition(), null,
+                                    info.getPosition(),
+                                    objectives,
                                     info.getObjectivesForFulfillment(),
-                                    info.getXpGained(),
+                                    info.getexperiencePointsGained(),
                                     info.getCompletionActionType(),
                                     null,
                                     info.getStartDate(), info.getEndDate(),

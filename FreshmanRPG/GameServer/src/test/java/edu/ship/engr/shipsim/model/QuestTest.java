@@ -45,7 +45,7 @@ public class QuestTest
         assertEquals(245, q.getQuestID());
         assertEquals("TITLE!!!!", q.getTitle());
         assertEquals("I am a description", q.getDescription());
-        assertEquals("HappyZone", q.getMapName());
+        assertEquals("HappyZone", q.getTriggerMapName());
         assertEquals(pos, q.getPos());
         assertEquals(q.getObjectives(), objectives);
         assertEquals(4, q.getObjectiveXP(42));
@@ -92,14 +92,14 @@ public class QuestTest
         q.setQuestID(44);
         q.setTitle("title");
         q.setDescription("I am set");
-        q.setMapName("Map Name");
+        q.setTriggerMapName("Map Name");
         q.setPos(pos);
         q.setObjectives(objectives);
 
         assertEquals(44, q.getQuestID());
         assertEquals("title", q.getTitle());
         assertEquals("I am set", q.getDescription());
-        assertEquals("Map Name", q.getMapName());
+        assertEquals("Map Name", q.getTriggerMapName());
         assertEquals(pos, q.getPos());
         assertEquals(objectives, q.getObjectives());
     }

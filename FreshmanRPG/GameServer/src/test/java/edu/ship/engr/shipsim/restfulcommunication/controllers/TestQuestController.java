@@ -2,10 +2,18 @@ package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveRecordDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+import edu.ship.engr.shipsim.datasource.QuestTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.Position;
+import edu.ship.engr.shipsim.datatypes.QuestsForTest;
+import edu.ship.engr.shipsim.model.ObjectiveRecord;
+import edu.ship.engr.shipsim.model.QuestMapper;
+import edu.ship.engr.shipsim.model.QuestRecord;
 import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 import edu.ship.engr.shipsim.model.reports.UpsertQuestResponseReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.UpsertQuestInformation;
@@ -26,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.ArrayUtils.add;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +51,7 @@ public class TestQuestController
 {
 
     @Test
-    public void goodResponseUpsertQuest()
+    public void createQuest() throws ParseException, JsonProcessingException
     {
         QuestController mock = mock(QuestController.class);
         when(mock.processAction(any(Runnable.class), eq(
@@ -51,43 +60,72 @@ public class TestQuestController
         when(mock.upsertQuest(
                 any(UpsertQuestInformation.class))).thenCallRealMethod();
 
-        ResponseEntity<Object> response = mock.upsertQuest(
-                new UpsertQuestInformation(-1, "Test Quest", "Test Quest", 420,
-                        "map1.tmx",
-                        1, 2, 0,
-                        1,
-                        "01-03-1996",
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        QuestRecord quest = this.getQuestWeAreCreating(formatter);
 
-                        "07-15-2014", true));
+        ResponseEntity<Object> response = mock.upsertQuest(
+                new UpsertQuestInformation(quest.getQuestID(), quest.getTitle(),
+                        quest.getDescription(),
+                        this.convertObjectiveRecordsToDTO(
+                                quest.getObjectives()),
+                        quest.getExperiencePointsGained(),
+                        quest.getTriggerMapName(),
+                        quest.getPosition().getRow(),
+                        quest.getPosition().getColumn(),
+                        quest.getObjectivesForFulfillment(),
+                        quest.getCompletionActionType().getID(),
+                        formatter.format(quest.getStartDate()),
+                        formatter.format(quest.getEndDate()),
+                        quest.isEasterEgg()));
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(
                 "{\"description\":\"Successfully created the quest.\"," +
                         "\"success\":true}",
                 Objects.requireNonNull(response.getBody()).toString());
-
     }
 
     @Test
-    public void badResponseUpsertQuest()
+    public void updateQuest() throws DatabaseException, JsonProcessingException
     {
         QuestController mock = mock(QuestController.class);
         when(mock.processAction(any(Runnable.class), eq(
                 UpsertQuestResponseReport.class))).thenReturn(
-                new UpsertQuestResponseReport(false));
+                new UpsertQuestResponseReport(true));
         when(mock.upsertQuest(
                 any(UpsertQuestInformation.class))).thenCallRealMethod();
 
-        ResponseEntity<Object> response = mock.upsertQuest(
-                new UpsertQuestInformation(100000, "Test Quest", "Test Quest",
-                        420, "map1.tmx",
-                        1, 2, 0,
-                        1,
-                        "01-03-1996",
-                        "07-15-2014", true));
+        QuestTableDataGateway questGateway =
+                QuestTableDataGateway.getSingleton();
+        QuestTableDataGateway mockQuestGateway =
+                mock(QuestTableDataGateway.class);
+        questGateway.setSingleton(mockQuestGateway);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("{\"description\":\"\",\"success\":false}",
+        QuestMapper mapper =
+                new QuestMapper(QuestsForTest.ONE_BIG_QUEST.getQuestID());
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        QuestRecord quest = mapper.getQuest();
+
+        ResponseEntity<Object> response = mock.upsertQuest(
+                new UpsertQuestInformation(quest.getQuestID(), "New Title!",
+                        "New Description!",
+                        this.convertObjectiveRecordsToDTO(
+                                quest.getObjectives()),
+                        420,
+                        quest.getTriggerMapName(),
+                        quest.getPosition().getRow(),
+                        quest.getPosition().getColumn(),
+                        quest.getObjectivesForFulfillment(),
+                        quest.getCompletionActionType().getID(),
+                        formatter.format(quest.getStartDate()),
+                        formatter.format(quest.getEndDate()),
+                        quest.isEasterEgg()));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(
+                "{\"description\":\"Successfully updated the quest.\"," +
+                        "\"success\":true}",
                 Objects.requireNonNull(response.getBody()).toString());
     }
 
@@ -148,5 +186,36 @@ public class TestQuestController
                 QuestCompletionActionType.NO_ACTION.getID());
         assertEquals(actions2.getJSONObject(1).getInt("actionID"),
                 QuestCompletionActionType.TELEPORT.getID());
+    }
+
+    private QuestRecord getQuestWeAreCreating(SimpleDateFormat formatter)
+            throws ParseException
+    {
+        ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
+
+        objectives.add(new ObjectiveRecord(-1, -1, "Test Objective",
+                1, ObjectiveCompletionType.CHAT, null));
+        objectives.add(new ObjectiveRecord(-1, -1, "Test Objective 2",
+                2, ObjectiveCompletionType.MOVEMENT, null));
+
+
+        return new QuestRecord(-1, "Test Quest", "Test Quest", "map1.tmx",
+                new Position(1, 2), objectives, 420, 0,
+                QuestCompletionActionType.NO_ACTION,
+                null, formatter.parse("01-03-1996"),
+                formatter.parse("07-15-2014"), true);
+    }
+
+    private ArrayList<ObjectiveRecordDTO> convertObjectiveRecordsToDTO(
+            ArrayList<ObjectiveRecord> objectives)
+    {
+        ArrayList<ObjectiveRecordDTO> objectiveDTOs = new ArrayList<>();
+        for (ObjectiveRecord o : objectives)
+        {
+            objectiveDTOs.add(new ObjectiveRecordDTO(o.getObjectiveId(),
+                    o.getObjectiveDescription(), o.getExperiencePointsGained(),
+                    o.getQuestId(), o.getCompletionType().getID()));
+        }
+        return objectiveDTOs;
     }
 }

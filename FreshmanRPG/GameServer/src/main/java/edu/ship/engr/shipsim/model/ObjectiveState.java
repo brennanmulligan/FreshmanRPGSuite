@@ -163,7 +163,7 @@ public class ObjectiveState
             IllegalQuestChangeException
     {
         QuestRecord quest = QuestManager.getSingleton().getQuest(this.parentQuestState.getID());
-        ObjectiveRecord objective = quest.getObjectiveID(this.objectiveID);
+        ObjectiveRecord objective = quest.getObjective(this.objectiveID);
 
         if(objective.getCompletionType() == ObjectiveCompletionType.TIMED)
         {
