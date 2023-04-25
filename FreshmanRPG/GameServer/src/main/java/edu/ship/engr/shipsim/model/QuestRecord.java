@@ -29,7 +29,7 @@ public class QuestRecord
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + experiencePointsGained;
-        result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
+        result = prime * result + ((triggerMapName == null) ? 0 : triggerMapName.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + questID;
         result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
@@ -112,14 +112,14 @@ public class QuestRecord
         {
             return false;
         }
-        if (mapName == null)
+        if (triggerMapName == null)
         {
-            if (other.mapName != null)
+            if (other.triggerMapName != null)
             {
                 return false;
             }
         }
-        else if (!mapName.equals(other.mapName))
+        else if (!triggerMapName.equals(other.triggerMapName))
         {
             return false;
         }
@@ -167,7 +167,7 @@ public class QuestRecord
     private String description;
     private ArrayList<ObjectiveRecord> objectives;
     private int questID;
-    private String mapName;
+    private String triggerMapName;
 
     private Position position;
     private int experiencePointsGained;
@@ -206,7 +206,7 @@ public class QuestRecord
         this.questID = id;
         this.title = title;
         this.description = desc;
-        this.mapName = map;
+        this.triggerMapName = map;
         this.position = pos;
         this.objectives = objectives;
         this.experiencePointsGained = experiencePointsGained;
@@ -219,12 +219,12 @@ public class QuestRecord
     }
 
     /**
-     * Get objetive by specific objective id
+     * Get objective by specific objective id
      *
      * @param objectiveID id of the objective
      * @return objective record
      */
-    public ObjectiveRecord getObjectiveID(int objectiveID)
+    public ObjectiveRecord getObjective(int objectiveID)
     {
         for (ObjectiveRecord objective : objectives)
         {
@@ -332,9 +332,9 @@ public class QuestRecord
      *
      * @return map name
      */
-    public String getMapName()
+    public String getTriggerMapName()
     {
-        return mapName;
+        return triggerMapName;
     }
 
     /**
@@ -410,11 +410,11 @@ public class QuestRecord
     /**
      * Set the quest's map name
      *
-     * @param mapName the map that the quest is on
+     * @param triggerMapName the map that the quest is on
      */
-    public void setMapName(String mapName)
+    public void setTriggerMapName(String triggerMapName)
     {
-        this.mapName = mapName;
+        this.triggerMapName = triggerMapName;
     }
 
     /**

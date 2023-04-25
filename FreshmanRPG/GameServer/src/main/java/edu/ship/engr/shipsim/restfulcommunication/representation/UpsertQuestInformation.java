@@ -2,19 +2,26 @@ package edu.ship.engr.shipsim.restfulcommunication.representation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveRecordDTO;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datatypes.Position;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class UpsertQuestInformation
 {
     private final int id;
     private final String title;
     private final String description;
-    private final int xpGained;
+    private final ArrayList<ObjectiveRecordDTO> objectives;
+    private final int experiencePointsGained;
     private final String triggerMapName;
     private final Position position;
     private final int objectivesForFulfillment;
@@ -27,7 +34,8 @@ public class UpsertQuestInformation
     public UpsertQuestInformation(@JsonProperty("id") int id,
                                   @JsonProperty("title") String title,
                                   @JsonProperty("description") String description,
-                                  @JsonProperty("xpGained") int xpGained,
+                                  @JsonProperty("objectives") ArrayList<ObjectiveRecordDTO> objectives,
+                                  @JsonProperty("experiencePointsGained") int experiencePointsGained,
                                   @JsonProperty("triggerMapName") String triggerMapName,
                                   @JsonProperty("triggerRow") int triggerRow,
                                   @JsonProperty("triggerCol") int triggerCol,
@@ -36,12 +44,13 @@ public class UpsertQuestInformation
                                   @JsonProperty("startDate") String startDate,
                                   @JsonProperty("endDate") String endDate,
                                   @JsonProperty("easterEgg") boolean easterEgg)
+            throws JsonProcessingException
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         this.id = id;
         this.title = title;
         this.description = description;
-        this.xpGained = xpGained;
+        this.experiencePointsGained = experiencePointsGained;
         this.triggerMapName = triggerMapName;
         this.position = new Position(triggerRow, triggerCol);
         this.objectivesForFulfillment = objectivesForFulfillment;
@@ -57,6 +66,13 @@ public class UpsertQuestInformation
             throw new RuntimeException(e);
         }
         this.easterEgg = easterEgg;
+
+        this.objectives = objectives;
+//        this.objectives = new ArrayList<>();
+//        final ObjectMapper objectMapper = new ObjectMapper();
+//        List<ObjectiveRecordDTO>
+//                objectiveList = objectMapper.readValue(objectives, new TypeReference<>(){});
+//        this.objectives.addAll(objectiveList);
     }
 
     public int getId()
@@ -74,9 +90,14 @@ public class UpsertQuestInformation
         return description;
     }
 
-    public int getXpGained()
+    public ArrayList<ObjectiveRecordDTO> getObjectives()
     {
-        return xpGained;
+        return objectives;
+    }
+
+    public int getexperiencePointsGained()
+    {
+        return experiencePointsGained;
     }
 
     public String getTriggerMapName()

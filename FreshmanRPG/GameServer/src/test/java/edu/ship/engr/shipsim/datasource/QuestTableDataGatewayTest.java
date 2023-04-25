@@ -61,7 +61,7 @@ public class QuestTableDataGatewayTest
         assertEquals(expected.getQuestID(), actual.getQuestID());
         assertEquals(expected.getQuestTitle(), actual.getTitle());
         assertEquals(expected.getQuestDescription(), actual.getDescription());
-        assertEquals(expected.getMapName(), actual.getMapName());
+        assertEquals(expected.getMapName(), actual.getTriggerMapName());
         assertEquals(expected.getPosition(), actual.getPos());
         assertEquals(expected.getExperienceGained(),
                 actual.getExperiencePointsGained());

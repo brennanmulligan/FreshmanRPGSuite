@@ -31,14 +31,16 @@ public class QuestMapper
     public QuestMapper(int questId) throws DatabaseException
     {
         this.questGateway = new QuestRowDataGateway(questId);
-        this.objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
+        this.objectiveTableDataGateway =
+                ObjectiveTableDataGateway.getSingleton();
 
         this.questRecord = new QuestRecord(this.questGateway.getQuestID(),
                 this.questGateway.getQuestTitle(),
                 this.questGateway.getQuestDescription(),
                 this.questGateway.getTriggerMapName(),
                 this.questGateway.getTriggerPosition(),
-                objectiveTableDataGateway.getObjectivesForQuest(this.questGateway.getQuestID()),
+                objectiveTableDataGateway.getObjectivesForQuest(
+                        this.questGateway.getQuestID()),
                 this.questGateway.getExperiencePointsGained(),
                 this.questGateway.getObjectivesForFulfillment(),
                 this.questGateway.getCompletionActionType(),
@@ -53,33 +55,47 @@ public class QuestMapper
      *
      * @param questTitle                the title of the quest
      * @param questDescription          the description of the quest
-     * @param mapName                   the name of the map that triggers the quest
-     * @param position                  the position on the map that triggers the quest
+     * @param mapName                   the name of the map that triggers the
+     *                                 quest
+     * @param position                  the position on the map that triggers
+     *                                 the quest
      * @param objectives                the objectives associated with the quest
-     * @param objectivesForFulfillment  the objectives that must be fulfilled to complete the quest
-     * @param experiencePointsGained    the amount of experience points gained upon completion of the quest
-     * @param completionActionType      the type of action that is performed upon completion of the quest
-     * @param completionActionParameter the parameter for the action that is performed upon completion of the quest
-     * @param startDate                 the date that the quest becomes available
+     * @param objectivesForFulfillment  the objectives that must be fulfilled
+     *                                 to complete the quest
+     * @param experiencePointsGained    the amount of experience points
+     *                                  gained upon completion of the quest
+     * @param completionActionType      the type of action that is performed
+     *                                  upon completion of the quest
+     * @param completionActionParameter the parameter for the action that is
+     *                                  performed upon completion of the quest
+     * @param startDate                 the date that the quest becomes
+     *                                  available
      * @param endDate                   the date that the quest expires
      * @param isEasterEgg               if the quest is an easter egg
      * @throws DatabaseException if we can't create the quest
      */
-    public QuestMapper(String questTitle, String questDescription, String mapName, Position position, ArrayList<ObjectiveRecord> objectives,
-                       int objectivesForFulfillment, int experiencePointsGained, QuestCompletionActionType completionActionType,
-                       QuestCompletionActionParameter completionActionParameter, Date startDate, Date endDate, boolean isEasterEgg) throws DatabaseException
+    public QuestMapper(String questTitle, String questDescription,
+                       String mapName, Position position,
+                       ArrayList<ObjectiveRecord> objectives,
+                       int objectivesForFulfillment, int experiencePointsGained,
+                       QuestCompletionActionType completionActionType,
+                       QuestCompletionActionParameter completionActionParameter,
+                       Date startDate, Date endDate, boolean isEasterEgg)
+            throws DatabaseException
     {
-        this.questGateway = new QuestRowDataGateway(questTitle, questDescription, mapName, position,
-                experiencePointsGained, objectivesForFulfillment, completionActionType, completionActionParameter,
-                startDate, endDate, isEasterEgg);
-        this.objectiveTableDataGateway = ObjectiveTableDataGateway.getSingleton();
+        this.questGateway =
+                new QuestRowDataGateway(questTitle, questDescription, mapName,
+                        position,
+                        experiencePointsGained, objectivesForFulfillment,
+                        completionActionType, completionActionParameter,
+                        startDate, endDate, isEasterEgg);
 
         this.questRecord = new QuestRecord(this.questGateway.getQuestID(),
                 questTitle,
                 questDescription,
                 mapName,
                 position,
-                objectiveTableDataGateway.getObjectivesForQuest(this.questGateway.getQuestID()),
+                objectives,
                 experiencePointsGained,
                 objectivesForFulfillment,
                 completionActionType,
@@ -87,6 +103,16 @@ public class QuestMapper
                 startDate,
                 endDate,
                 isEasterEgg);
+
+        // update all the quest ids in the objective list to use the new quest id
+        for (ObjectiveRecord objective : this.questRecord.getObjectives())
+        {
+            objective.setQuestID(this.questRecord.getQuestID());
+        }
+
+        this.objectiveTableDataGateway =
+                ObjectiveTableDataGateway.getSingleton();
+        this.objectiveTableDataGateway.upsertObjectives(this.questRecord);
     }
 
     /**
@@ -98,7 +124,8 @@ public class QuestMapper
     {
         QuestTableDataGateway gateway = QuestTableDataGateway.getSingleton();
 
-        ObjectiveTableDataGateway objectiveGateway = ObjectiveTableDataGateway.getSingleton();
+        ObjectiveTableDataGateway objectiveGateway =
+                ObjectiveTableDataGateway.getSingleton();
 
         try
         {
@@ -106,7 +133,8 @@ public class QuestMapper
 
             for (QuestRecord quest : quests)
             {
-                quest.setObjectives(objectiveGateway.getObjectivesForQuest(quest.getQuestID()));
+                quest.setObjectives(objectiveGateway.getObjectivesForQuest(
+                        quest.getQuestID()));
             }
 
             return quests;
@@ -146,18 +174,24 @@ public class QuestMapper
     protected void persist() throws DatabaseException
     {
         this.questGateway.setQuestTitle(this.questRecord.getTitle());
-        this.questGateway.setQuestDescription(this.questRecord.getDescription());
-        this.questGateway.setTriggerMapName(this.questRecord.getMapName());
+        this.questGateway.setQuestDescription(
+                this.questRecord.getDescription());
+        this.questGateway.setTriggerMapName(
+                this.questRecord.getTriggerMapName());
         this.questGateway.setTriggerPosition(this.questRecord.getPos());
-        this.questGateway.setExperiencePointsGained(this.questRecord.getExperiencePointsGained());
-        this.questGateway.setObjectivesForFulfillment(this.questRecord.getObjectivesForFulfillment());
-        this.questGateway.setCompletionActionType(this.questRecord.getCompletionActionType());
-        this.questGateway.setCompletionActionParameter(this.questRecord.getCompletionActionParameter());
+        this.questGateway.setExperiencePointsGained(
+                this.questRecord.getExperiencePointsGained());
+        this.questGateway.setObjectivesForFulfillment(
+                this.questRecord.getObjectivesForFulfillment());
+        this.questGateway.setCompletionActionType(
+                this.questRecord.getCompletionActionType());
+        this.questGateway.setCompletionActionParameter(
+                this.questRecord.getCompletionActionParameter());
         this.questGateway.setStartDate(this.questRecord.getStartDate());
         this.questGateway.setEndDate(this.questRecord.getEndDate());
         this.questGateway.setEasterEgg(this.questRecord.isEasterEgg());
         this.questGateway.persist();
 
-        this.objectiveTableDataGateway.updateAllObjectivesForQuest(this.questRecord.getObjectives());
+        this.objectiveTableDataGateway.upsertObjectives(this.questRecord);
     }
 }

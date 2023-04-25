@@ -2,7 +2,6 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datasource.ObjectiveTableDataGateway;
 import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
@@ -54,7 +53,6 @@ public class QuestMapperTest
     {
         QuestRecord quest = getQuestWeAreCreating();
         QuestMapper created = createMapperForQuest(quest);
-        // Since the initial quest record for creation is an id of -1, we need to set the id to the generated one
         quest.setQuestID(created.getQuest().getQuestID());
         QuestMapper found =
                 findMapperForID(created.getQuest().getQuestID());
@@ -94,7 +92,7 @@ public class QuestMapperTest
         QuestRecord q = qm.getQuest();
         q.setTitle("New Title");
         q.setDescription("New Description");
-        q.setMapName("New Map Name");
+        q.setTriggerMapName("New Map Name");
         q.setPosition(new Position(1, 2));
         q.setExperiencePointsGained(420);
         q.setObjectivesForFulfillment(0);
@@ -163,11 +161,8 @@ public class QuestMapperTest
         });
     }
 
-
-
     protected QuestRecord getQuestWeAreCreating() throws ParseException
     {
-
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         return new QuestRecord(-1, "Test Quest", "Test Quest", "map1.tmx",
                 new Position(1, 2), null, 420, 0,
@@ -186,7 +181,7 @@ public class QuestMapperTest
     {
         return new QuestMapper(quest.getTitle(),
                 quest.getDescription(),
-                quest.getMapName(), quest.getPosition(),
+                quest.getTriggerMapName(), quest.getPosition(),
                 quest.getObjectives(),
                 quest.getObjectivesForFulfillment(),
                 quest.getExperiencePointsGained(),
@@ -197,10 +192,12 @@ public class QuestMapperTest
 
     protected void assertQuestEquals(QuestRecord expected, QuestRecord actual)
     {
+        assertObjectiveRecordListEquals(expected.getObjectives(),
+                actual.getObjectives());
         assertEquals(expected.getQuestID(), actual.getQuestID());
         assertEquals(expected.getTitle(), actual.getTitle());
         assertEquals(expected.getDescription(), actual.getDescription());
-        assertEquals(expected.getMapName(), actual.getMapName());
+        assertEquals(expected.getTriggerMapName(), actual.getTriggerMapName());
         assertEquals(expected.getPosition(), actual.getPosition());
         assertEquals(expected.getExperiencePointsGained(),
                 actual.getExperiencePointsGained());
@@ -220,7 +217,7 @@ public class QuestMapperTest
         assertEquals(expected.getQuestID(), actual.getQuestID());
         assertEquals(expected.getQuestTitle(), actual.getTitle());
         assertEquals(expected.getQuestDescription(), actual.getDescription());
-        assertEquals(expected.getMapName(), actual.getMapName());
+        assertEquals(expected.getMapName(), actual.getTriggerMapName());
         assertEquals(expected.getPosition(), actual.getPosition());
         assertEquals(expected.getExperienceGained(),
                 actual.getExperiencePointsGained());
@@ -251,6 +248,36 @@ public class QuestMapperTest
         {
             boolean found = false;
             for (ObjectivesForTest expectedObjective : expectedObjectives)
+            {
+                if (objective.getObjectiveID() == expectedObjective.getObjectiveID())
+                {
+                    found = true;
+                    assertObjectiveEquals(expectedObjective, objective);
+                }
+            }
+            if (!found)
+            {
+                throw new AssertionError("Objective not found");
+            }
+        }
+    }
+
+    protected void assertObjectiveEquals(ObjectiveRecord expected, ObjectiveRecord actual)
+    {
+        assertEquals(expected.getObjectiveID(), actual.getObjectiveID());
+        assertEquals(expected.getQuestID(), actual.getQuestID());
+        assertEquals(expected.getExperiencePointsGained(), actual.getExperiencePointsGained());
+        assertEquals(expected.getCompletionCriteria().toString(), actual.getCompletionCriteria().toString());
+        assertEquals(expected.getCompletionType(), actual.getCompletionType());
+        assertEquals(expected.getObjectiveDescription(), actual.getObjectiveDescription());
+    }
+
+    protected void assertObjectiveRecordListEquals(ArrayList<ObjectiveRecord> expectedObjectives, ArrayList<ObjectiveRecord> objectives)
+    {
+        for (ObjectiveRecord objective : objectives)
+        {
+            boolean found = false;
+            for (ObjectiveRecord expectedObjective : expectedObjectives)
             {
                 if (objective.getObjectiveID() == expectedObjective.getObjectiveID())
                 {
