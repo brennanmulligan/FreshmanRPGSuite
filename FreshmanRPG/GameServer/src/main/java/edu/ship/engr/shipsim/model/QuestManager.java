@@ -16,7 +16,6 @@ import edu.ship.engr.shipsim.model.reports.*;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1333,7 +1332,7 @@ public class QuestManager implements ReportObserver
 
         for (ObjectiveState objectiveState : questState.getObjectiveList())
         {
-            ObjectiveRecord objective = questRecord.getObjectiveID(objectiveState.getID());
+            ObjectiveRecord objective = questRecord.getObjective(objectiveState.getID());
 
             ClientPlayerObjectiveStateDTO dto = new ClientPlayerObjectiveStateDTO(objectiveState.getID(),
                     objective.getObjectiveDescription(),

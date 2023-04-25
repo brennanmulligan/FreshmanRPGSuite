@@ -1,6 +1,5 @@
 package edu.ship.engr.shipsim.model;
 
-import edu.ship.engr.shipsim.criteria.QuestCompletionActionParameter;
 import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
@@ -9,7 +8,6 @@ import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 import edu.ship.engr.shipsim.datasource.MapTableDataGateway;
 import edu.ship.engr.shipsim.datasource.QuestTableDataGateway;
-import edu.ship.engr.shipsim.datatypes.ObjectivesForTest;
 import edu.ship.engr.shipsim.datatypes.QuestsForTest;
 import edu.ship.engr.shipsim.model.reports.GetQuestInformationReport;
 import org.junit.jupiter.api.Test;
@@ -53,7 +51,7 @@ public class CommandGetQuestInformationTest
         {
             questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
                     q.getDescription(), q.getObjectives(), q.getQuestID(),
-                    q.getMapName(), q.getPosition(),
+                    q.getTriggerMapName(), q.getPosition(),
                     q.getExperiencePointsGained(),
                     q.getObjectivesForFulfillment(),
                     new ActionTypeDTO(q.getCompletionActionType().getID(),
