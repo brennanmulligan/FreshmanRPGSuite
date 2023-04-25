@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
 import 'package:game_manager/repository/quest/action_type_DTO.dart';
-import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
 import 'package:game_manager/repository/quest/quest_editing_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
 import 'package:game_manager/repository/quest/quest_record.dart';
@@ -52,17 +51,19 @@ void main() {
 
     var testBadGetQuests =  const QuestRequest();
 
-    var emptyQuestInfoDto = const QuestEditingInfoDTO(quests: [], mapNames: [], completionActionTypes: []);
+    var testingQuestRecord = [const QuestRecord(id: 1, title: "title", description: "description",
+    xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2,
+    completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: 1232, endDate: 3232, easterEgg: false)];
 
-    // EditingQuestInfoDto just for testing purpose.
-    var testingQuestDTO = const QuestEditingInfoDTO(quests: [QuestRecord(id: 1, title: "title", description: "description",
-        xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2,
-        completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: "1232", endDate: "3232", easterEgg: false)],
-        mapNames: ["map1", "map2", "map3"], completionActionTypes: [ActionTypeDTO (actionName: "name", actionID: 2)]);
+    var testingMapNames = ["map1", "map2", "map3"];
+
+    var testingActionTypes = [const ActionTypeDTO(actionName: "name", actionID: 2)];
 
     Map<String, dynamic> goodRequest = {
       "success": true,
-      "questEditingInfoDTO" : testingQuestDTO
+      "quests" : testingQuestRecord,
+      "mapNames" : testingMapNames,
+      "completionActionTypes" : testingActionTypes
     };
 
     Map<String, dynamic> goodResponse = {
@@ -119,7 +120,9 @@ void main() {
 
         QuestResponse response = await repo.getQuests(testGetQuests);
         expect(response.success, true);
-        expect(response.questEditingInfoDTO, testingQuestDTO);
+        expect(response.quests, testingQuestRecord);
+        expect(response.mapNames, testingMapNames);
+        expect(response.completionActionTypes, testingActionTypes);
       });
 
       test('Bad get all quests Request', () async {
@@ -132,8 +135,9 @@ void main() {
 
         QuestResponse response = await repo.getQuests(testBadGetQuests);
         expect(response.success, false);
-        expect(response.questEditingInfoDTO, emptyQuestInfoDto);
-
+        expect(response.quests, []);
+        expect(response.mapNames, []);
+        expect(response.completionActionTypes, []);
     });
   });
 }

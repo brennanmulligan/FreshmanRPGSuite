@@ -12,8 +12,8 @@ class QuestRecord extends Equatable {
   final int triggerCol;
   final int objectivesForFulfillment;
   final ActionTypeDTO completionActionType;
-  final String startDate;
-  final String endDate;
+  final num startDate;
+  final num endDate;
   final bool easterEgg;
 
   const QuestRecord(
@@ -39,17 +39,19 @@ class QuestRecord extends Equatable {
   ///
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'questID': id,
       'title': title,
-      'description' : description,
-      'xpGained' : xpGained,
-      'triggerMapName' : triggerMapName,
-      'triggerRow' : triggerRow,
-      'triggerCol' : triggerCol,
+      'description': description,
+      'experiencePointsGained': xpGained,
+      'mapName': triggerMapName,
+      'position': {
+        'row': triggerRow,
+        'column': triggerCol,
+      },
       'objectivesForFulfillment': objectivesForFulfillment,
-      'completionActionType' : completionActionType,
-      'startDate' : startDate,
-      'endDate' : endDate,
+      'actionType': completionActionType,
+      'startDate': startDate,
+      'endDate': endDate,
       'easterEgg': easterEgg
     };
   }
@@ -58,18 +60,18 @@ class QuestRecord extends Equatable {
     required JSON json,
   }) {
     return QuestRecord(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      xpGained : json['xpGained'],
-      triggerMapName : json['triggerMapName'],
-      triggerRow : json['triggerRow'],
-      triggerCol : json['triggerCol'],
-      objectivesForFulfillment : json['objectivesForFulfillment'],
-      completionActionType : ActionTypeDTO.fromJson(json: json['completionActionType']),
-      startDate : json['startDate'],
-      endDate : json['endDate'],
-      easterEgg : json['easterEgg']
+        id: json['questID'],
+        title: json['title'],
+        description: json['description'],
+        xpGained : json['experiencePointsGained'],
+        triggerMapName : json['mapName'],
+        triggerRow : json['position']['row'],
+        triggerCol : json['position']['column'],
+        objectivesForFulfillment : json['objectivesForFulfillment'],
+        completionActionType : ActionTypeDTO.fromJson(json: json['actionType']),
+        startDate : json['startDate'],
+        endDate : json['endDate'],
+        easterEgg : json['easterEgg']
     );
   }
 }
