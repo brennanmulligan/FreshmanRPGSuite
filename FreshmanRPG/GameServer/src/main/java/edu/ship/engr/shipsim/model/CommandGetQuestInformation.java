@@ -52,7 +52,7 @@ public class CommandGetQuestInformation extends Command
             {
                 questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
                         q.getDescription(), q.getObjectives(), q.getQuestID(),
-                        q.getMapName(), q.getPosition(),
+                        q.getTriggerMapName(), q.getPosition(),
                         q.getExperiencePointsGained(),
                         q.getObjectivesForFulfillment(),
                         new ActionTypeDTO(q.getCompletionActionType().getID(),

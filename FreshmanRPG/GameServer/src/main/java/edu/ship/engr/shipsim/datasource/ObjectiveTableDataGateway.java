@@ -6,6 +6,7 @@ import edu.ship.engr.shipsim.criteria.ObjectiveCompletionCriteria;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.ObjectiveRecord;
+import edu.ship.engr.shipsim.model.QuestRecord;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -39,9 +40,11 @@ public class ObjectiveTableDataGateway
      * @param objectiveID            the unique ID of the objective
      * @param objectiveDescription   the description of the objective
      * @param questID                the quest that contains the objective
-     * @param experiencePointsEarned the number of points you get when you complete
+     * @param experiencePointsEarned the number of points you get when you
+     *                               complete
      *                               this objective
-     * @param completionType         the type of action the player must do to complete this
+     * @param completionType         the type of action the player must do to
+     *                               complete this
      *                               objective
      * @param completionCriteria     the criteria for completing this objective
      * @throws DatabaseException if we can't talk to the RDS
@@ -54,8 +57,10 @@ public class ObjectiveTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "Insert INTO Objectives SET objectiveID = ?, objectiveDescription = ?, questID = ?," +
-                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ?"))
+                "Insert INTO Objectives SET objectiveID = ?, " +
+                        "objectiveDescription = ?, questID = ?," +
+                        "experiencePointsGained = ?, completionType = ?, " +
+                        "completionCriteria = ?"))
         {
             stmt.setInt(1, objectiveID);
             stmt.setString(2, objectiveDescription);
@@ -69,33 +74,88 @@ public class ObjectiveTableDataGateway
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Couldn't create a objective record for objective with ID " +
+                    "Couldn't create a objective record for objective with ID" +
+                            " " +
                             objectiveID, e);
         }
     }
 
+    private int nextValidObjectiveId() throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(
+                "SELECT MAX(objectiveID) FROM Objectives"))
+        {
+
+            try (ResultSet rs = stmt.executeQuery())
+            {
+                rs.next();
+                return rs.getInt(1) + 1;
+            }
+            catch (SQLException e)
+            {
+                throw new DatabaseException(
+                        "Couldn't get the next valid objective ID", e);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException(
+                    "Couldn't get the next valid objective ID", e);
+        }
+    }
+
     /**
-     * Update All Objectives for a given quest
+     * Upsert the objectives for a quest
      *
-     * @param objectives    the objectives to update
+     * @param record the quest whose objectives we are updating
      * @throws DatabaseException shouldn't
      */
-    public void updateAllObjectivesForQuest(ArrayList<ObjectiveRecord> objectives)
-            throws DatabaseException
+    public void upsertObjectives(QuestRecord record) throws DatabaseException
     {
-        if (objectives == null || objectives.isEmpty())
+        int nextObjectiveId = nextValidObjectiveId();
+
+        // make sure objectives exist
+        if (record.getObjectives() == null || record.getObjectives().isEmpty())
         {
             return;
         }
 
-        for (ObjectiveRecord objective : objectives)
+        for (ObjectiveRecord objective : record.getObjectives())
         {
-            updateRow(objective.getObjectiveID(), objective.getObjectiveDescription(),
-                    objective.getQuestID(), objective.getExperiencePointsGained(),
-                    objective.getCompletionType(), objective.getCompletionCriteria());
+            ObjectiveRecord foundObjective = null;
+            try
+            {
+                foundObjective = this.getObjective(objective.getQuestID(),
+                        objective.getObjectiveID());
+            }
+            catch (DatabaseException ignored)
+            {
+                // shouldn't, the method doesn't throw an error on not found
+            }
+
+            if (foundObjective != null)
+            {
+                // update existing row
+                this.updateRow(objective.getObjectiveID(),
+                        objective.getObjectiveDescription(),
+                        objective.getQuestId(),
+                        objective.getExperiencePointsGained(),
+                        objective.getCompletionType(),
+                        objective.getCompletionCriteria());
+            }
+            else
+            {
+                ObjectiveTableDataGateway.createRow(nextObjectiveId,
+                        objective.getObjectiveDescription(),
+                        objective.getQuestId(),
+                        objective.getExperiencePointsGained(),
+                        objective.getCompletionType(),
+                        objective.getCompletionCriteria());
+                nextObjectiveId++;
+            }
         }
     }
-
 
     /**
      * Update a row in the table
@@ -103,37 +163,42 @@ public class ObjectiveTableDataGateway
      * @param objectiveID            the unique ID of the objective
      * @param objectiveDescription   the description of the objective
      * @param questID                the quest that contains the objective
-     * @param experiencePointsEarned the number of points you get when you complete
+     * @param experiencePointsEarned the number of points you get when you
+     *                               complete
      *                               this objective
-     * @param completionType         the type of action the player must do to complete this
+     * @param completionType         the type of action the player must do to
+     *                               complete this
      *                               objective
      * @param completionCriteria     the criteria for completing this objective
      * @throws DatabaseException if we can't talk to the RDS
      */
-    private void updateRow(int objectiveID, String objectiveDescription,
-                                 int questID, int experiencePointsEarned,
-                                 ObjectiveCompletionType completionType,
-                                 ObjectiveCompletionCriteria completionCriteria)
+    public void updateRow(int objectiveID, String objectiveDescription,
+                          int questID, int experiencePointsEarned,
+                          ObjectiveCompletionType completionType,
+                          ObjectiveCompletionCriteria completionCriteria)
             throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "UPDATE Objectives SET objectiveDescription = ?, questID = ?," +
-                        "experiencePointsGained = ?, completionType = ?, completionCriteria = ? WHERE objectiveID = ?"))
+                "UPDATE Objectives SET objectiveDescription = ?," +
+                        "experiencePointsGained = ?, completionType = ?, " +
+                        "completionCriteria = ? WHERE objectiveID = ? AND " +
+                        "questID = ?"))
         {
             stmt.setString(1, objectiveDescription);
-            stmt.setInt(2, questID);
-            stmt.setInt(3, experiencePointsEarned);
-            stmt.setInt(4, completionType.getID());
-            stmt.setObject(5, completionCriteria);
-            stmt.setInt(6, objectiveID);
+            stmt.setInt(2, experiencePointsEarned);
+            stmt.setInt(3, completionType.getID());
+            stmt.setObject(4, completionCriteria);
+            stmt.setInt(5, objectiveID);
+            stmt.setInt(6, questID);
             stmt.executeUpdate();
 
         }
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Couldn't update a objective record for objective with ID " +
+                    "Couldn't update a objective record for objective with ID" +
+                            " " +
                             objectiveID, e);
         }
     }
@@ -148,8 +213,12 @@ public class ObjectiveTableDataGateway
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
         String dropSql = "DROP TABLE IF EXISTS Objectives";
-        String createSql = "Create TABLE Objectives (objectiveID INT NOT NULL, objectiveDescription VARCHAR(200), " +
-                "questID INT NOT NULL, experiencePointsGained INT, completionType INT, completionCriteria BLOB, PRIMARY KEY(questID, objectiveID))";
+        String createSql =
+                "Create TABLE Objectives (objectiveID INT NOT NULL, " +
+                        "objectiveDescription VARCHAR(200), " +
+                        "questID INT NOT NULL, experiencePointsGained INT, " +
+                        "completionType INT, completionCriteria BLOB, PRIMARY" +
+                        " KEY(questID, objectiveID))";
 
         try (PreparedStatement stmt = connection.prepareStatement(dropSql))
         {
@@ -176,8 +245,18 @@ public class ObjectiveTableDataGateway
     {
         Class<? extends ObjectiveCompletionCriteria> completionCriteriaClass =
                 completionType.getCompletionCriteriaType();
-        ByteArrayInputStream baip = new ByteArrayInputStream(
-                (byte[]) queryResult.getObject("completionCriteria"));
+        ByteArrayInputStream baip;
+
+        try
+        {
+            baip = new ByteArrayInputStream(
+                    (byte[]) queryResult.getObject("completionCriteria"));
+        }
+        catch (NullPointerException ex)
+        {
+            return null;
+        }
+
         ObjectiveCompletionCriteria completionCriteria;
         try (ObjectInputStream ois = new ObjectInputStream(baip))
         {
@@ -186,7 +265,8 @@ public class ObjectiveTableDataGateway
         }
         catch (ClassNotFoundException | IOException e)
         {
-            throw new DatabaseException("Couldn't convert blob to completion criteria ",
+            throw new DatabaseException(
+                    "Couldn't convert blob to completion criteria ",
                     e);
         }
         return completionCriteria;
@@ -208,7 +288,8 @@ public class ObjectiveTableDataGateway
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "SELECT * FROM Objectives WHERE (completionType = ? OR completionType = ?)"))
+                "SELECT * FROM Objectives WHERE (completionType = ? OR " +
+                        "completionType = ?)"))
         {
             stmt.setInt(1, ObjectiveCompletionType.MOVEMENT.getID());
             stmt.setInt(2, ObjectiveCompletionType.TIMED.getID());
@@ -219,7 +300,7 @@ public class ObjectiveTableDataGateway
                 {
                     ObjectiveRecord rec = buildObjectiveRecord(queryResult);
                     GameLocationDTO thisLocation;
-                    if(rec.getCompletionType() ==
+                    if (rec.getCompletionType() ==
                             ObjectiveCompletionType.MOVEMENT)
                     {
                         thisLocation =
@@ -243,7 +324,8 @@ public class ObjectiveTableDataGateway
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Couldn't find objectives for location at " + mapName + " " +
+                    "Couldn't find objectives for location at " + mapName +
+                            " " +
                             pos.toString(), e);
         }
     }
@@ -258,7 +340,8 @@ public class ObjectiveTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(
-                "SELECT * FROM Objectives WHERE questID = ? and objectiveID = ?"))
+                "SELECT * FROM Objectives WHERE questID = ? and objectiveID =" +
+                        " ?"))
         {
             stmt.setInt(1, questID);
             stmt.setInt(2, objectiveID);
@@ -274,7 +357,8 @@ public class ObjectiveTableDataGateway
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Couldn't find objective " + objectiveID + " for quest ID " + questID,
+                    "Couldn't find objective " + objectiveID +
+                            " for quest ID " + questID,
                     e);
         }
         return null;
@@ -312,8 +396,9 @@ public class ObjectiveTableDataGateway
     {
         try
         {
-            ObjectiveCompletionType completionType = ObjectiveCompletionType.findByID(
-                    queryResult.getInt("completionType"));
+            ObjectiveCompletionType completionType =
+                    ObjectiveCompletionType.findByID(
+                            queryResult.getInt("completionType"));
             ObjectiveCompletionCriteria completionCriteria =
                     extractCompletionCriteria(queryResult, completionType);
 
@@ -326,7 +411,9 @@ public class ObjectiveTableDataGateway
         catch (SQLException e)
         {
             throw new DatabaseException(
-                    "Exception trying to parse the results of reading an objective", e);
+                    "Exception trying to parse the results of reading an " +
+                            "objective",
+                    e);
         }
     }
 
