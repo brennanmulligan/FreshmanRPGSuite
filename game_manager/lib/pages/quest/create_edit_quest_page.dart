@@ -25,6 +25,34 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
 
+  // this is here for example purposes! take it out when you have the data
+  // ready to fill in.
+  static const List<String> list = <String>[
+    'Quest Title',
+    'Two',
+    'Three',
+    'Four'
+  ];
+  final List<Map<String, dynamic>> tempList = [
+    {"name": "Janine", "age": 43, "role": "Professor"},
+    {"name": "William", "age": 27, "role": "Associate Professor"},
+    {"name": "John", "age": 40, "role": "Department Chair"},
+    {"name": "Joanne", "age": 23, "role": "Professor"},
+    {"name": "Alice", "age": 30, "role": "Adjunct Professor"},
+    {"name": "Carol", "age": 38, "role": "Assistant Professor"},
+    {"name": "Charles", "age": 31, "role": "Professor"},
+    {"name": "Alex", "age": 45, "role": "AdjunctProfessor"},
+    {"name": "Alicia", "age": 50, "role": "AdjunctProfessor"},
+    {"name": "Bob", "age": 46, "role": "Professor"},
+    {"name": "Larry", "age": 59, "role": "Professor"},
+    {"name": "Terry", "age": 43, "role": "Professor"},
+    {"name": "Arron", "age": 47, "role": "AssistantProfessor"},
+    {"name": "Tyler", "age": 50, "role": "Professor"},
+    {"name": "Charlie", "age": 60, "role": "President"},
+  ];
+  String dropdownValue = list.first;
+  String customTextStyle = "Test";
+
   int? questId;
   String? questTitle;
   String? mapValue;
@@ -96,6 +124,56 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           child: CircularProgressIndicator(),
         ),
       ));
+
+  Widget buildObjectivesTable() => SizedBox(
+      height: 300,
+      child: ListView(children: [
+        DataTable(
+          columns: const <DataColumn>[
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Name',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+            ),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Age',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+            ),
+            DataColumn(
+              label: Expanded(
+                child: Text(
+                  'Role',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline),
+                ),
+              ),
+            ),
+          ],
+          rows: List<DataRow>.generate(tempList.length, (index) {
+            final name = tempList[index]["name"] ?? '';
+            final age = tempList[index]["age"] ?? '';
+            final role = tempList[index]["role"] ?? '';
+            return DataRow(cells: <DataCell>[
+              DataCell(Text(name)),
+              DataCell(Text(age.toString())),
+              DataCell(Text(role)),
+            ]);
+          }),
+        ),
+      ]));
+
 
   // INSTRUCTIONS/NOTES:
   // To make a new component of a page (another text field or dropdown), it
@@ -315,6 +393,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             fillColor: Colors.grey,
           ),
         ),
+        buildObjectivesTable(),
         SubmitButtonBuilder(
           questId: questId ?? -1,
           questTitle: addNewQuest.text.isNotEmpty
