@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 import 'action_type_DTO.dart';
+import 'objective_record.dart';
 
 class QuestRecord extends Equatable {
   final int id;
@@ -11,6 +12,7 @@ class QuestRecord extends Equatable {
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
+  final List<ObjectiveRecord> objectives;
   final ActionTypeDTO completionActionType;
   final num startDate;
   final num endDate;
@@ -25,6 +27,7 @@ class QuestRecord extends Equatable {
     required this.triggerRow,
     required this.triggerCol,
     required this.objectivesForFulfillment,
+    required this.objectives,
     required this.completionActionType,
     required this.startDate,
     required this.endDate,
@@ -32,7 +35,7 @@ class QuestRecord extends Equatable {
 
   @override
   List<Object?> get props => [id, title, description, xpGained, triggerMapName, triggerRow, triggerCol,
-                              objectivesForFulfillment, completionActionType, startDate, endDate, easterEgg];
+                              objectivesForFulfillment, objectives, completionActionType, startDate, endDate, easterEgg];
 
   ///
   /// Convert object to JSON.
@@ -49,6 +52,7 @@ class QuestRecord extends Equatable {
         'column': triggerCol,
       },
       'objectivesForFulfillment': objectivesForFulfillment,
+      'objectives': objectives,
       'actionType': completionActionType,
       'startDate': startDate,
       'endDate': endDate,
@@ -68,6 +72,9 @@ class QuestRecord extends Equatable {
         triggerRow : json['position']['row'],
         triggerCol : json['position']['column'],
         objectivesForFulfillment : json['objectivesForFulfillment'],
+        objectives: (json['objectives'] as List)
+            .map((e) => ObjectiveRecord.fromJson(json: e))
+            .toList(),
         completionActionType : ActionTypeDTO.fromJson(json: json['actionType']),
         startDate : json['startDate'],
         endDate : json['endDate'],
