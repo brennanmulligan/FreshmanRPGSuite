@@ -107,7 +107,7 @@ public enum PlayersForTest
     /**
      *
      */
-
+    //Enum is not being used, it can be deleted.
     RYAN(15, "Ryan", "female_a", 52, 52, "pw", "quad.tmx", 1111, null, 0, 13, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 1, 0, false, new ArrayList<>(Arrays.asList("Rec Center", "Quad"))),
 
     /**
@@ -199,6 +199,7 @@ public enum PlayersForTest
 
     PRESIDENT_NPC(33, "President", "Magi", 89, 30, "", "quad.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.ELECTRICAL_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("quad", "Mowrey"))),
 
+    //Enum is not being used, it can be deleted.
     QUIET_PLAYER(34, "ShyGuy", "default_player", 11, 7, "pw", "sortingRoom.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
 
     EASTEREGG_PLAYER(35, "Egg", "default_player", 11, 7, "pw", "RailTrail.tmx", 1111, null, 0, 0, Crew.OUT_OF_BOUNDS, Major.COMPUTER_ENGINEERING, 2, 0, false, new ArrayList<>()),
