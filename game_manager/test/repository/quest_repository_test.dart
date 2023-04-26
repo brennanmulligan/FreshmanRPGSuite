@@ -52,7 +52,7 @@ void main() {
     var testBadGetQuests =  const QuestRequest();
 
     var testingQuestRecord = [const QuestRecord(id: 1, title: "title", description: "description",
-    xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2,
+    xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2, objectives: [],
     completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: 1232, endDate: 3232, easterEgg: false)];
 
     var testingMapNames = ["map1", "map2", "map3"];
