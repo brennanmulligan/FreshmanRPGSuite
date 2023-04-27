@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:game_manager/repository/quest/delete_objective_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
 import 'package:game_manager/repository/quest/quest_editing_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
@@ -46,6 +47,18 @@ class QuestRepository {
       return QuestResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
       return const QuestResponse(false, quests: [], mapNames: [], completionActionTypes: []);
+    }
+  }
+
+  Future<BasicResponse> deleteObjective(DeleteObjectiveRequest request) async {
+    try {
+      final response = await dio.post(
+        '/objectives/delete',
+        data: jsonEncode(request),
+      );
+      return BasicResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      return const BasicResponse(success: false, description: "Unable to delete objective");
     }
   }
 }
