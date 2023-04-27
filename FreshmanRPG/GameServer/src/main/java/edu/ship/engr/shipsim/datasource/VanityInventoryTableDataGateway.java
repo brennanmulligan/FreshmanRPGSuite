@@ -3,7 +3,6 @@ package edu.ship.engr.shipsim.datasource;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,10 +96,8 @@ public class VanityInventoryTableDataGateway
                             result.getString("description"),
                             result.getString("textureName"),
                             VanityType.fromInt(result.getInt("type")),
-                            result.getInt("price"),
-                            result.getInt("isDefault"),
-                            result.getInt("isDeletable"),
-                            result.getInt("isInShop"));
+                            result.getInt("price")
+                    );
                     results.add(item);
                 }
             }
@@ -160,10 +157,8 @@ public class VanityInventoryTableDataGateway
                             result.getString("description"),
                             result.getString("textureName"),
                             VanityType.fromInt(result.getInt("type")),
-                            result.getInt("price"),
-                            result.getInt("isDefault"),
-                            result.getInt("isDeletable"),
-                            result.getInt("isInShop"));
+                            result.getInt("price")
+                    );
                     results.add(item);
                 }
             }

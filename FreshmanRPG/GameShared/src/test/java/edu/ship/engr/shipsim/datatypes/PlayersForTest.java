@@ -410,13 +410,17 @@ public enum PlayersForTest
             if (inventoryItem.getPlayerID() == playerID)
             {
                 VanityItemsForTest item = VanityItemsForTest.values()[inventoryItem.getVanityID() - 1];
-                items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice(), 0, 0, 0));
+                items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(),
+                        item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice()
+                ));
             }
         }
         for (DefaultItemsForTest dItem : DefaultItemsForTest.values())
         {
             VanityItemsForTest item = VanityItemsForTest.values()[dItem.getDefaultID() - 1];
-            items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice(), 0, 0, 0));
+            items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(),
+                    VanityType.fromInt(item.getVanityType()), item.getPrice()
+            ));
         }
         return items;
     }
@@ -429,7 +433,9 @@ public enum PlayersForTest
             if (inventoryItem.getPlayerID() == playerID && inventoryItem.getIsWearing() == 1)
             {
                 VanityItemsForTest item = VanityItemsForTest.values()[inventoryItem.getVanityID() - 1];
-                items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice(), 0, 0, 0));
+                items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(),
+                        VanityType.fromInt(item.getVanityType()), item.getPrice()
+                ));
             }
         }
         return items;

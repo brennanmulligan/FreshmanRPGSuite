@@ -4,11 +4,9 @@ import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.ChatType;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
-import edu.ship.engr.shipsim.datatypes.VanityInventoryItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityItemsForTest;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.NPCChatReport;
-import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
@@ -95,7 +93,8 @@ public class QuizBotBehaviorTest
                 "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
         behavior.receiveReport(report);
 
-        VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0, 0, 0, 0);
+        VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0
+        );
         assertTrue(player.getAllOwnedItems().contains(bike));
     }
 }

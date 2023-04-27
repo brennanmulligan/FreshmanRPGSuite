@@ -25,8 +25,8 @@ public class VanityShopInventoryResponseReportTest
     public void testInit()
     {
         ArrayList<VanityDTO> inventory = new ArrayList<>();
-        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0, 0, 0, 0));
-        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1, 0, 0, 0));
+        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0));
+        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1));
 
         VanityShopInventoryResponseReport report = new VanityShopInventoryResponseReport(inventory);
         assertEquals(2, report.getInventory().size());
