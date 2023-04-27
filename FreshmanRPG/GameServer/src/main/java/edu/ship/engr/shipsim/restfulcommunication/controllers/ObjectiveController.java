@@ -5,15 +5,18 @@ import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.model.CommandCompleteObjective;
+import edu.ship.engr.shipsim.model.CommandDeleteObjective;
 import edu.ship.engr.shipsim.model.CommandFetchPlayerObjectives;
 import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.Player;
 import edu.ship.engr.shipsim.model.PlayerManager;
 import edu.ship.engr.shipsim.model.Report;
+import edu.ship.engr.shipsim.model.reports.ObjectiveDeletedReport;
 import edu.ship.engr.shipsim.model.reports.ObjectiveStateChangeReport;
 import edu.ship.engr.shipsim.model.reports.PlayerQuestReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CompleteObjectiveBody;
+import edu.ship.engr.shipsim.restfulcommunication.representation.DeleteObjectiveBody;
 import edu.ship.engr.shipsim.restfulcommunication.representation.FetchObjectivesBody;
 import edu.ship.engr.shipsim.restfulcommunication.representation.FetchObjectivesResponse;
 import lombok.SneakyThrows;
@@ -102,6 +105,32 @@ public class ObjectiveController extends Controller
         }
 
         return new ResponseEntity<>(new BasicResponse(false, "Objective not completed"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    //update enpoint with Jeray's repo endpoint
+    @PostMapping({"/delete-objective", "/objectives/delete"})
+    public ResponseEntity<BasicResponse> deleteObjective(@RequestBody DeleteObjectiveBody body)
+    {
+
+        Report report = processAction(() ->
+        {
+            CommandDeleteObjective command = new CommandDeleteObjective(body.getObjectiveID(), body.getQuestID());
+
+            ModelFacade.getSingleton().queueCommand(command);
+        }, ObjectiveDeletedReport.class);
+
+
+        if (report != null)
+        {
+            ObjectiveDeletedReport castReport = (ObjectiveDeletedReport) report;
+
+            if (castReport.getSuccessful())
+            {
+                return new ResponseEntity<>(new BasicResponse(true, "Objective was successfully deleted"), HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(new BasicResponse(false, "Objective could not be deleted"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

@@ -1,13 +1,19 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerObjectiveStateDTO;
 import edu.ship.engr.shipsim.dataDTO.ClientPlayerQuestStateDTO;
+import edu.ship.engr.shipsim.dataDTO.MajorDTO;
 import edu.ship.engr.shipsim.datatypes.ObjectiveStateEnum;
 import edu.ship.engr.shipsim.datatypes.QuestStateEnum;
+import edu.ship.engr.shipsim.model.reports.GetAllMajorsReport;
+import edu.ship.engr.shipsim.model.reports.ObjectiveDeletedReport;
 import edu.ship.engr.shipsim.model.reports.ObjectiveStateChangeReport;
 import edu.ship.engr.shipsim.model.reports.PlayerQuestReport;
 import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import edu.ship.engr.shipsim.restfulcommunication.representation.CompleteObjectiveBody;
+import edu.ship.engr.shipsim.restfulcommunication.representation.CreatePlayerInformation;
+import edu.ship.engr.shipsim.restfulcommunication.representation.DeleteObjectiveBody;
 import edu.ship.engr.shipsim.restfulcommunication.representation.FetchObjectivesBody;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
@@ -22,6 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -76,6 +83,21 @@ public class TestObjectiveController
 
         assertEquals(expectedStatus, objectResponseEntity.getStatusCode());
         assertEquals(expectedJson, objectResponseEntity.getBody().toString());
+    }
+
+    @Test
+    public void testDeleteObjective() throws JsonProcessingException
+    {
+        ObjectiveController mock = mock(ObjectiveController.class);
+
+        when(mock.processAction(any(Runnable.class), eq(ObjectiveDeletedReport.class))).thenReturn(
+                new ObjectiveDeletedReport(true));
+        when(mock.deleteObjective(any(DeleteObjectiveBody.class))).thenCallRealMethod();
+
+        DeleteObjectiveBody body = new DeleteObjectiveBody(1,5);
+        ResponseEntity<BasicResponse> response = mock.deleteObjective(body);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     private static List<ClientPlayerQuestStateDTO> generateQuests(int quests, int objectivesPer)
