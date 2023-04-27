@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
+import 'package:game_manager/repository/quest/objective_completion_type_DTO.dart';
 
 import '../../repository/quest/action_type_DTO.dart';
 import '../../repository/quest/quest_record.dart';
@@ -86,13 +87,14 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
 // DO NOT TAKE THIS OUT! the page will not build!
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(providers: [
-      RepositoryProvider(create: (context) => QuestRepository(dio: Dio()))
-    ],
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(create: (context) => QuestRepository(dio: Dio()))
+        ],
         child: BlocProvider<QuestBloc>(
-            create: (context) => QuestBloc(
-                questRepository: context.read<QuestRepository>())..add(
-                SendGetQuestEditingInformationEvent()),
+            create: (context) =>
+                QuestBloc(questRepository: context.read<QuestRepository>())
+                  ..add(SendGetQuestEditingInformationEvent()),
             child: Scaffold(
                 resizeToAvoidBottomInset: false,
                 appBar: AppBar(
@@ -100,21 +102,17 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                   backgroundColor: Colors.pink,
                 ),
                 body: BlocConsumer<QuestBloc, QuestState>(
-                    listener: (context, state){},
-                    builder: (context, state){
-                      return BlocBuilder<QuestBloc, QuestState>(builder: (context,
-                          state) {
-                        if(state is QuestPageReady) {
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      return BlocBuilder<QuestBloc, QuestState>(
+                          builder: (context, state) {
+                        if (state is QuestPageReady) {
                           return buildInputScreen(state.response);
-                        }
-                        else {
+                        } else {
                           return buildLoadScreen();
                         }
                       });
-                    }
-                )
-            )
-        ));
+                    }))));
   }
 
   Widget buildLoadScreen() => const Padding(
@@ -174,7 +172,6 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         ),
       ]));
 
-
   // INSTRUCTIONS/NOTES:
   // To make a new component of a page (another text field or dropdown), it
   // MUST be one of the children of the Column child.
@@ -222,8 +219,8 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                   questId = value!;
                 });
               },
-              items: questResponse.quests.map
-              <DropdownMenuItem<int>>((QuestRecord quests) {
+              items: questResponse.quests
+                  .map<DropdownMenuItem<int>>((QuestRecord quests) {
                 return DropdownMenuItem<int>(
                   value: quests.id,
                   child: Text(quests.title),
@@ -279,13 +276,13 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
               mapValue = value!;
             });
           },
-            items: questResponse.mapNames.map
-            <DropdownMenuItem<String>>((String mapName) {
-              return DropdownMenuItem<String>(
-                value: mapName,
-                child: Text(mapName),
-              );
-            }).toList(),
+          items: questResponse.mapNames
+              .map<DropdownMenuItem<String>>((String mapName) {
+            return DropdownMenuItem<String>(
+              value: mapName,
+              child: Text(mapName),
+            );
+          }).toList(),
         ),
 
         // TRIGGER ROW
@@ -351,8 +348,8 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
               actionValue = value!;
             });
           },
-          items: questResponse.completionActionTypes.map
-          <DropdownMenuItem<int>>((ActionTypeDTO actions) {
+          items: questResponse.completionActionTypes
+              .map<DropdownMenuItem<int>>((ActionTypeDTO actions) {
             return DropdownMenuItem<int>(
               value: actions.actionID,
               child: Text(actions.actionName),
@@ -393,23 +390,21 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             fillColor: Colors.grey,
           ),
         ),
+        ObjectiveWidget(completionTypes: []),
         buildObjectivesTable(),
         SubmitButtonBuilder(
           questId: questId ?? -1,
-          questTitle: addNewQuest.text.isNotEmpty
-              ? addNewQuest.text
-              : questTitle,
-          questDescription:
-              questDesc.text.isNotEmpty ? questDesc.text : null,
+          questTitle:
+              addNewQuest.text.isNotEmpty ? addNewQuest.text : questTitle,
+          questDescription: questDesc.text.isNotEmpty ? questDesc.text : null,
           xpGained: experienceGained.text.isNotEmpty
               ? int.parse(experienceGained.text)
               : 0,
           triggerMapName: mapValue,
           triggerRow:
               triggerRow.text.isNotEmpty ? int.parse(triggerRow.text) : 0,
-          triggerColumn: triggerColumn.text.isNotEmpty
-              ? int.parse(triggerColumn.text)
-              : 0,
+          triggerColumn:
+              triggerColumn.text.isNotEmpty ? int.parse(triggerColumn.text) : 0,
           fulfillmentObjectives: fulfillmentObjectives.text.isNotEmpty
               ? int.parse(fulfillmentObjectives.text)
               : 0,
@@ -420,6 +415,130 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           isValid: questTitle != null || addNewQuest.text.isNotEmpty,
         )
       ])));
+}
+
+class ObjectiveWidget extends StatefulWidget {
+  ObjectiveWidget({
+    Key? key,
+    this.objectiveId = -1,
+    this.questId = -1,
+    this.objectiveDescription = '',
+    this.experiencePointsGained = 0,
+    this.completionType = const ObjectiveCompletionTypeDTO(
+      id: -1,
+      name: '',
+    ),
+    required this.completionTypes,
+  }) : super(key: key);
+
+  final int objectiveId;
+  final int questId;
+  String? objectiveDescription;
+  int? experiencePointsGained;
+  ObjectiveCompletionTypeDTO? completionType;
+  final List<ObjectiveCompletionTypeDTO> completionTypes;
+
+  //TODO: add way to just get the completiontypes
+
+  @override
+  State<StatefulWidget> createState() => _ObjectiveWidgetState();
+}
+
+class _ObjectiveWidgetState extends State<ObjectiveWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController objectiveDescriptionController =
+        TextEditingController();
+    TextEditingController experiencePointsController = TextEditingController();
+    int? completionTypeValue = widget.completionType!.id;
+
+    return Container(
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.pink),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     ElevatedButton(
+          //       child: const Icon(Icons.delete),
+          //       onPressed: () {}
+          //     ),
+          //   ],
+          // ),
+          Row(
+            children: [
+              const Icon(Icons.edit_note, color: Colors.pink),
+              const SizedBox(
+                width: 10,
+              ),
+              Text('Objective Description'),
+              const Spacer(),
+              ElevatedButton(
+                child: const Icon(Icons.delete),
+                onPressed: () {}
+              ),
+            ],
+          ),
+          TextField(
+            controller: objectiveDescriptionController,
+            decoration: InputDecoration(
+              fillColor: Colors.grey,
+            ),
+          ),
+          Row(
+            children: [
+              const Icon(Icons.exposure_plus_1, color: Colors.pink),
+              const SizedBox(
+                width: 10,
+              ),
+              Text('Experience Gained'),
+            ],
+          ),
+          TextField(
+            controller: experiencePointsController,
+            decoration: InputDecoration(
+              fillColor: Colors.grey,
+            ),
+          ),
+          Row(
+            children: [
+              const Icon(Icons.incomplete_circle, color: Colors.pink),
+              const SizedBox(
+                width: 10,
+              ),
+              Text('Completion Type'),
+            ],
+          ),
+          DropdownButtonFormField<ObjectiveCompletionTypeDTO>(
+            decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.incomplete_circle, color: Colors.pink)),
+            hint: const Text("Completion Type"),
+            value: widget.completionType,
+            isExpanded: true,
+            onChanged: (ObjectiveCompletionTypeDTO? value) {
+              setState(() {
+                widget.completionType = value!;
+              });
+            },
+            items: widget.completionTypes
+                .map<DropdownMenuItem<ObjectiveCompletionTypeDTO>>(
+                    (ObjectiveCompletionTypeDTO completionType) {
+              return DropdownMenuItem<ObjectiveCompletionTypeDTO>(
+                value: completionType,
+                child: Text(completionType.name),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class SubmitButtonBuilder extends StatelessWidget {
