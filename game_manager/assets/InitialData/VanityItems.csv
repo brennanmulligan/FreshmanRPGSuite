@@ -1,73 +1,73 @@
-vanityID,name,description,textureName,type,isDeletable,isDefault,price
-1,No Hat,,hat_none,0,0,1,0
-2,Shippensburg University Beanie,A little beanie.,hat_beanie,0,0,0,1
-3,The one and only DUCK,The Mythical Duck.,hat_duck,0,0,0,2
-4,Merlin's Hat,Merlin's Hat,hat_merlin,0,0,0,10
-5,Andy's Hat,Andy's Hat,hat_andy,0,0,0,0
-6,Big Red's Hat,Big Red's Hat,hat_br,0,0,0,0
-7,Graduation Cap,A Hat for smart people,Grad_Cap,0,0,0,0
-8,Blonde Hair,A hair that the player can wear,hair_blonde,1,0,0,0
-9,Black Hair,Black Hair,hair_black,1,0,1,0
-10,Dark Brown Hair,Dark Brown Har,hair_dark_brown,1,0,0,0
-11,Gray Hair,Gray Hair,hair_gray,1,0,0,0
-12,Light Brown Hair,Light Brown Hair,hair_light_brown,1,0,0,0
-13,Merlin's Hair,,hair_merlin,1,0,0,0
-14,Null Pointer Hair,,hair_null_pointer,1,0,0,0
-15,Long Null Pointer Hair,,hair_null_pointer_f,1,0,0,0
-16,Off By One Hair,,hair_off_by_one,1,0,0,0
-17,Out Of Bounds Hair,,hair_out_of_bounds,1,0,0,0
-18,Tutor Hair,,hair_tutor,1,0,0,0
-19,Big Red Hair,,hair_br,1,0,0,0
-20,Nerd Hair,Balding??? KEKW,Nerd Hair,1,0,0,0
-21,Red Shirt,A shirt item that cna be worn by the user,shirt_red,2,0,0,2
-22,Blue Shirt,,shirt_blue,2,0,0,2
-23,Green Shirt,,shirt_green,2,0,0,2
-24,Merlin's Shirt,,shirt_merlin,2,0,0,0
-25,Null Pointer Shirt,,shirt_null_pointer,2,0,0,0
-26,Off By One Shirt,,shirt_off_by_one,2,0,0,0
-27,Out Of Bounds Shirt,,shirt_out_of_bounds,2,0,0,0
-28,Tutor Shirt,,shirt_tutor,2,0,0,0
-29,Big Red Shirt,,shirt_br,2,0,0,0
-30,Default Shirt,,base_shirt,2,0,1,0
-31,Nerd Shirt,Shirt for nerds,Nerd Shirt,2,0,0,0
-32,No Pants,,pants_none,3,0,0,0
-33,White Pants,A pants item that the player can wear,pants_white,3,0,0,4
-34,Black Pants,,base_pants,3,0,1,0
-35,Big Red Pants,,pants_br,3,0,0,0
-36,No Shoes,,shoes_none,4,0,1,0
-37,Fancy Shoes,A pair of shoes the player can wear,shoes_fancy,4,0,0,5
-38,Black Shoes,,shoes_black,4,0,0,2
-39,Red Shoes,,shoes_red,4,0,0,0
-40,Big Red Shoes,,shoes_br,4,0,0,0
-41,Skin default,A body item that can be worn by a user.,skin_default,5,0,1,0
-42,Skin zero,A body item that can be worn by a user.,skin_a,5,0,0,0
-43,Skin one,A body item that can be worn by a user.,skin_b,5,0,0,0
-44,Skin two,A body item that can be worn by a user.,skin_c,5,0,0,0
-45,Skin three,A body item that can be worn by a user.,skin_d,5,0,0,0
-46,Skin four,A body item that can be worn by a user.,skin_e,5,0,0,0
-47,Skin five,A body item that can be worn by a user.,skin_f,5,0,0,0
-48,Skin six,A body item that can be worn by a user.,skin_g,5,0,0,0
-49,Skin seven,A body item that can be worn by a user.,skin_h,5,0,0,0
-50,Skin eight,A body item that can be worn by a user.,skin_i,5,0,0,0
-51,Skin nine,A body item that can be worn by a user.,skin_j,5,0,0,0
-52,Skin ten,A body item that can be worn by a user.,skin_k,5,0,0,0
-53,Skin eleven,A body item that can be worn by a user.,skin_l,5,0,0,0
-54,Skin twelve,A body item that can be worn by a user.,skin_m,5,0,0,0
-55,Skin thirteen,A body item that can be worn by a user.,skin_n,5,0,0,0
-56,Skin fourteen,A body item that can be worn by a user.,skin_o,5,0,0,0
-57,Skin fifteen,A body item that can be worn by a user.,skin_p,5,0,0,0
-58,Skin sixteen,A body item that can be worn by a user.,skin_q,5,0,0,0
-59,Skin ghost,A body item that can be worn by a user.,skin_z_ghost,5,0,0,0
-60,Skin Big Red,A body item that can be worn by a user.,skin_br,5,0,0,0
-61,Black Eyes,,eyes_black,6,0,1,0
-62,Green Eyes,,eyes_green,6,0,0,0
-63,Light-blue Eyes,,eyes_lightblue,6,0,0,0
-64,Orange Eyes,,eyes_orange,6,0,0,0
-65,Pink Eyes,,eyes_pink,6,0,0,0
-66,Purple Eyes,,eyes_purple,6,0,0,0
-67,Red Eyes,,eyes_red,6,0,0,0
-68,Yellow Eyes,,eyes_yellow,6,0,0,0
-69,Brown Eyes,,eyes_brown,6,0,0,0
-70,Big Red Eyes,,eyes_br,6,0,0,0
-71,Bike,,bike,7,1,0,0
-72,No Bike,,bike_none,7,0,1,0
+vanityID,name,description,textureName,type,isDeletable,isDefault,price,isDefaultEquipped
+1,No Hat,,hat_none,0,0,1,0,1
+2,Shippensburg University Beanie,A little beanie.,hat_beanie,0,0,0,1,0
+3,The one and only DUCK,The Mythical Duck.,hat_duck,0,0,0,2,0
+4,Merlin's Hat,Merlin's Hat,hat_merlin,0,0,0,10,0
+5,Andy's Hat,Andy's Hat,hat_andy,0,0,0,0,0
+6,Big Red's Hat,Big Red's Hat,hat_br,0,0,0,0,0
+7,Graduation Cap,A Hat for smart people,Grad_Cap,0,0,0,0,0
+8,Blonde Hair,A hair that the player can wear,hair_blonde,1,0,0,0,0
+9,Black Hair,Black Hair,hair_black,1,0,1,0,1
+10,Dark Brown Hair,Dark Brown Har,hair_dark_brown,1,0,0,0,0
+11,Gray Hair,Gray Hair,hair_gray,1,0,0,0,0
+12,Light Brown Hair,Light Brown Hair,hair_light_brown,1,0,0,0,0
+13,Merlin's Hair,,hair_merlin,1,0,0,0,0
+14,Null Pointer Hair,,hair_null_pointer,1,0,0,0,0
+15,Long Null Pointer Hair,,hair_null_pointer_f,1,0,0,0,0
+16,Off By One Hair,,hair_off_by_one,1,0,0,0,0
+17,Out Of Bounds Hair,,hair_out_of_bounds,1,0,0,0,0
+18,Tutor Hair,,hair_tutor,1,0,0,0,0
+19,Big Red Hair,,hair_br,1,0,0,0,0
+20,Nerd Hair,Balding??? KEKW,Nerd Hair,1,0,0,0,0
+21,Red Shirt,A shirt item that cna be worn by the user,shirt_red,2,0,0,2,0
+22,Blue Shirt,,shirt_blue,2,0,0,2,0
+23,Green Shirt,,shirt_green,2,0,0,2,0
+24,Merlin's Shirt,,shirt_merlin,2,0,0,0,0
+25,Null Pointer Shirt,,shirt_null_pointer,2,0,0,0,0
+26,Off By One Shirt,,shirt_off_by_one,2,0,0,0,0
+27,Out Of Bounds Shirt,,shirt_out_of_bounds,2,0,0,0,0
+28,Tutor Shirt,,shirt_tutor,2,0,0,0,0
+29,Big Red Shirt,,shirt_br,2,0,0,0,0
+30,Default Shirt,,base_shirt,2,0,1,0,1
+31,Nerd Shirt,Shirt for nerds,Nerd Shirt,2,0,0,0,0
+32,No Pants,,pants_none,3,0,0,0,0
+33,White Pants,A pants item that the player can wear,pants_white,3,0,0,4,0
+34,Black Pants,,base_pants,3,0,1,0,1
+35,Big Red Pants,,pants_br,3,0,0,0,0
+36,No Shoes,,shoes_none,4,0,1,0,1
+37,Fancy Shoes,A pair of shoes the player can wear,shoes_fancy,4,0,0,5,0
+38,Black Shoes,,shoes_black,4,0,0,2,0
+39,Red Shoes,,shoes_red,4,0,0,0,0
+40,Big Red Shoes,,shoes_br,4,0,0,0,0
+41,Skin default,A body item that can be worn by a user.,skin_default,5,0,1,0,1
+42,Skin zero,A body item that can be worn by a user.,skin_a,5,0,0,0,0
+43,Skin one,A body item that can be worn by a user.,skin_b,5,0,0,0,0
+44,Skin two,A body item that can be worn by a user.,skin_c,5,0,0,0,0
+45,Skin three,A body item that can be worn by a user.,skin_d,5,0,0,0,0
+46,Skin four,A body item that can be worn by a user.,skin_e,5,0,0,0,0
+47,Skin five,A body item that can be worn by a user.,skin_f,5,0,0,0,0
+48,Skin six,A body item that can be worn by a user.,skin_g,5,0,0,0,0
+49,Skin seven,A body item that can be worn by a user.,skin_h,5,0,0,0,0
+50,Skin eight,A body item that can be worn by a user.,skin_i,5,0,0,0,0
+51,Skin nine,A body item that can be worn by a user.,skin_j,5,0,0,0,0
+52,Skin ten,A body item that can be worn by a user.,skin_k,5,0,0,0,0
+53,Skin eleven,A body item that can be worn by a user.,skin_l,5,0,0,0,0
+54,Skin twelve,A body item that can be worn by a user.,skin_m,5,0,0,0,0
+55,Skin thirteen,A body item that can be worn by a user.,skin_n,5,0,0,0,0
+56,Skin fourteen,A body item that can be worn by a user.,skin_o,5,0,0,0,0
+57,Skin fifteen,A body item that can be worn by a user.,skin_p,5,0,0,0,0
+58,Skin sixteen,A body item that can be worn by a user.,skin_q,5,0,0,0,0
+59,Skin ghost,A body item that can be worn by a user.,skin_z_ghost,5,0,0,0,0
+60,Skin Big Red,A body item that can be worn by a user.,skin_br,5,0,0,0,0
+61,Black Eyes,,eyes_black,6,0,1,0,1
+62,Green Eyes,,eyes_green,6,0,0,0,0
+63,Light-blue Eyes,,eyes_lightblue,6,0,0,0,0
+64,Orange Eyes,,eyes_orange,6,0,0,0,0
+65,Pink Eyes,,eyes_pink,6,0,0,0,0
+66,Purple Eyes,,eyes_purple,6,0,0,0,0
+67,Red Eyes,,eyes_red,6,0,0,0,0
+68,Yellow Eyes,,eyes_yellow,6,0,0,0,0
+69,Brown Eyes,,eyes_brown,6,0,0,0,0
+70,Big Red Eyes,,eyes_br,6,0,0,0,0
+71,Bike,,bike,7,1,0,0,0
+72,No Bike,,bike_none,7,0,1,0,1

@@ -3,9 +3,6 @@ package edu.ship.engr.shipsim.datatypes;
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public enum DefaultItemsForTest
 {
@@ -79,7 +76,7 @@ public enum DefaultItemsForTest
 
                result.add(new VanityDTO(defaultID1, value.getName(),
                         value.getDescription(), value.getTextureName(), type,
-                       value.getPrice(), 0, 0, 0));
+                       value.getPrice()));
             }
         }
         return result;
