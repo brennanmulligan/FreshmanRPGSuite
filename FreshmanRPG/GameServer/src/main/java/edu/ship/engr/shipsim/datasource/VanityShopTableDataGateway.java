@@ -75,7 +75,9 @@ public class VanityShopTableDataGateway
             while (result.next())
             {
                 VanityDTO actualItem = vanityShopGateway.getVanityItemByID(result.getInt("vanityID"));
-                VanityDTO shopItem = new VanityDTO(actualItem.getID(), actualItem.getName(), actualItem.getDescription(), actualItem.getTextureName(), actualItem.getVanityType(), result.getInt("price"), 0, 0, 0);
+                VanityDTO shopItem = new VanityDTO(actualItem.getID(), actualItem.getName(), actualItem.getDescription(),
+                        actualItem.getTextureName(), actualItem.getVanityType(), result.getInt("price")
+                );
                 shopItems.add(shopItem);
             }
         }

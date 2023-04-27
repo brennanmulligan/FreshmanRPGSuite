@@ -29,8 +29,8 @@ public class CommandVanityShopInventoryResponseTest
     public void testInit()
     {
         ArrayList<VanityDTO> inventory = new ArrayList<>();
-        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0, 0, 0, 0));
-        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1, 0, 0, 0));
+        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0));
+        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1));
 
         CommandVanityShopInventoryResponse cmd = new CommandVanityShopInventoryResponse(inventory);
         assertEquals(inventory, cmd.getInventory());
@@ -50,8 +50,8 @@ public class CommandVanityShopInventoryResponseTest
         connector.registerObserver(observer, VanityShopInventoryResponseReport.class);
 
         ArrayList<VanityDTO> inventory = new ArrayList<>();
-        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0, 0, 0, 0));
-        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1, 0, 0, 0));
+        inventory.add(new VanityDTO(0, "test0", "test desc", "myTexture", VanityType.BODY, 0));
+        inventory.add(new VanityDTO(1, "test1", "test desc", "myTexture", VanityType.BODY, 1));
 
         // set up the command and execute it
         CommandVanityShopInventoryResponse cmd = new CommandVanityShopInventoryResponse(inventory);

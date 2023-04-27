@@ -41,10 +41,11 @@ public class VanityItemsTableDataGatewayTest
         ArrayList<VanityDTO> old = gateway.getAllVanityItems();
 
         VanityDTO newItem =
-                new VanityDTO(old.size() + 1, "new", "new item", "new", VanityType.HAT, 0, 0, 0, 0);
+                new VanityDTO(old.size() + 1, "new", "new item", "new",
+                        VanityType.HAT, 0);
         assertFalse(old.contains(newItem));
         gateway.addVanityItem(newItem.getName(), newItem.getDescription(),
-                newItem.getTextureName(), newItem.getVanityType(), 0, 0, 0, 0);
+                newItem.getTextureName(), newItem.getVanityType(), 0, false, false, false, false);
         ArrayList<VanityDTO> newGate = gateway.getAllVanityItems();
         VanityDTO lastItem = newGate.get(newGate.size() - 1);
         assertEquals(newItem.getName(), lastItem.getName());
@@ -65,7 +66,7 @@ public class VanityItemsTableDataGatewayTest
         for (VanityItemsForTest v : VanityItemsForTest.values())
         {
             VanityDTO d = new VanityDTO(v.getId(), v.getName(), v.getDescription(),
-                    v.getTextureName(), VanityType.fromInt(v.getVanityType()), v.getPrice(), 0, 0, 0);
+                    v.getTextureName(), VanityType.fromInt(v.getVanityType()), v.getPrice());
             items.add(d);
         }
 
@@ -86,7 +87,8 @@ public class VanityItemsTableDataGatewayTest
     {
         VanityItemsForTest item = VanityItemsForTest.MERLIN_HAT;
         VanityDTO dto = new VanityDTO(item.getId(), item.getName(), item.getDescription(),
-                item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice(), 0, 0, 0);
+                item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice()
+        );
         assertEquals(dto, gateway.getVanityItemByID(item.getId()));
     }
 
@@ -108,5 +110,6 @@ public class VanityItemsTableDataGatewayTest
     {
         return VanityItemsTableDataGateway.getSingleton();
     }
+
 
 }

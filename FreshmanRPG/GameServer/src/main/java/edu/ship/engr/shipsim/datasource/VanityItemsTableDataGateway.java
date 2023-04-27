@@ -47,9 +47,10 @@ public class VanityItemsTableDataGateway
                 "textureName VARCHAR(255) UNIQUE, " +
                 "type INT NOT NULL," +
                 "price INT," +
-                "isDefault TINYINT," +
                 "isDeletable TINYINT," +
-                "isInShop TINYINT)";
+                "isInShop TINYINT," +
+                "isDefault TINYINT," +
+                "isDefaultEquipped TINYINT)";
 
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
@@ -94,10 +95,8 @@ public class VanityItemsTableDataGateway
                         result.getString("description"),
                         result.getString("textureName"),
                         VanityType.fromInt(result.getInt("type")),
-                        result.getInt("price"),
-                        result.getInt("isDefault"),
-                        result.getInt("isDeletable"),
-                        result.getInt("isInShop"));
+                        result.getInt("price")
+                );
             }
         }
         catch (SQLException e)
@@ -161,20 +160,22 @@ public class VanityItemsTableDataGateway
      * @param vanityType  the new vanity type
      */
     public void updateVanityItem(int id, String name, String description, String textureName,
-                                 VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop) throws DatabaseException
+                                 VanityType vanityType, int price, boolean isDeletable, boolean isInShop,
+                                 boolean isDefault, boolean isDefaultEquipped) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         try (PreparedStatement stmt = connection.prepareStatement("UPDATE VanityItems SET name = ?, description = ?, textureName = ?, type = ?, " +
-                " price = ?, isDefault = ?, isDeletable = ?, isInShop = ? WHERE vanityID = ?"))
+                " price = ?, isDeletable = ?, isInShop = ?, isDefault = ?, isDefaultEquipped = ? WHERE vanityID = ?"))
         {
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);
             stmt.setInt(4, vanityType.ordinal());
             stmt.setInt(5, price);
-            stmt.setInt(6, isDefault);
-            stmt.setInt(7, isDeletable);
-            stmt.setInt(8, isInShop);
+            stmt.setBoolean(6, isDeletable);
+            stmt.setBoolean(7, isInShop);
+            stmt.setBoolean(8, isDefault);
+            stmt.setBoolean(9, isDefaultEquipped);
 
             stmt.executeUpdate();
         }
@@ -187,27 +188,31 @@ public class VanityItemsTableDataGateway
     /**
      * Adds a new vanity item
      *
-     * @param name        the name of the vanity item
-     * @param description the description of the vanity item
-     * @param textureName the texture name of the vanity item
-     * @param vanityType  the type of vanity
+     * @param name              the name of the vanity item
+     * @param description       the description of the vanity item
+     * @param textureName       the texture name of the vanity item
+     * @param vanityType        the type of vanity
+     * @param isDefaultEquipped
      */
     public void addVanityItem(String name, String description, String textureName,
-                              VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop) throws DatabaseException
+                              VanityType vanityType, int price, boolean isDeletable,
+                              boolean isInShop, boolean isDefault,
+                              boolean isDefaultEquipped) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
         try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO VanityItems SET name = ?, description = ?, " +
-                "textureName = ?, type = ?, price = ?, isDefault = ?, isDeletable = ?, isInShop = ?"))
+                "textureName = ?, type = ?, price = ?, isDeletable = ?, isInShop = ?,  isDefault = ?,  isDefaultEquipped = ?"))
         {
             stmt.setString(1, name);
             stmt.setString(2, description);
             stmt.setString(3, textureName);
             stmt.setInt(4, vanityType.ordinal());
             stmt.setInt(5, price);
-            stmt.setInt(6, isDefault);
-            stmt.setInt(7, isDeletable);
-            stmt.setInt(8, isInShop);
+            stmt.setBoolean(6, isDeletable);
+            stmt.setBoolean(7, isInShop);
+            stmt.setBoolean(8, isDefault);
+            stmt.setBoolean(9, isDefaultEquipped);
 
             int updated = stmt.executeUpdate();
             if (updated != 1)
@@ -267,10 +272,7 @@ public class VanityItemsTableDataGateway
                     result.getString("description"),
                     result.getString("textureName"),
                     VanityType.fromInt(result.getInt("type")),
-                    result.getInt("price"),
-                    result.getInt("isDefault"),
-                    result.getInt("isDeletable"),
-                    result.getInt("isInShop"));
+                    result.getInt("price"));
             vanityItems.add(item);
         }
         return vanityItems;
