@@ -3,7 +3,6 @@ package edu.ship.engr.shipsim.dataDTO;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Class for the vanity item data transfer object
@@ -19,10 +18,6 @@ public class VanityDTO implements Serializable
     private String textureName;
     private VanityType vanityType;
     private int price;
-    private int isDefault;
-    private int isDeletable;
-    private int isInShop;
-
 
     public VanityDTO()
     {
@@ -37,43 +32,22 @@ public class VanityDTO implements Serializable
     /**
      * Constructor for a VanityDTO
      *
-     * @param vanityID          id of vanity item
+     * @param vanityID    id of vanity item
      * @param name        name of vanity item
      * @param description description of vanity item
      * @param textureName name of the texture for the item
      * @param vanityType  type of vanity
      * @param price       the price of the item
-     * @param isDefault if a player gets this item by default or not
-     * @param isDeletable if the item is able to be removed from a player
-     * @param isInShop if the Item is available to be bought in the shop
      */
-    public VanityDTO(int vanityID, String name, String description, String textureName, VanityType vanityType, int price, int isDefault, int isDeletable, int isInShop)
+    public VanityDTO(int vanityID, String name, String description, String textureName,
+                     VanityType vanityType, int price)
     {
-        //TODO: make isXXX booleans, not ints
         this.vanityID = vanityID;
         this.name = name;
         this.description = description;
         this.textureName = textureName;
         this.vanityType = vanityType;
         this.price = price;
-        this.isDefault = isDefault;
-        this.isDeletable = isDeletable;
-        this.isInShop = isInShop;
-    }
-
-    public int getIsDefault()
-    {
-        return isDefault;
-    }
-
-    public int getIsDeletable()
-    {
-        return isDeletable;
-    }
-
-    public int getIsInShop()
-    {
-        return isInShop;
     }
 
     /**
@@ -146,18 +120,6 @@ public class VanityDTO implements Serializable
         {
             return false;
         }
-        if (isDefault != vanityDTO.isDefault)
-        {
-            return false;
-        }
-        if (isDeletable != vanityDTO.isDeletable)
-        {
-            return false;
-        }
-        if (isInShop != vanityDTO.isInShop)
-        {
-            return false;
-        }
         if (!name.equals(vanityDTO.name))
         {
             return false;
@@ -182,9 +144,6 @@ public class VanityDTO implements Serializable
         result = 31 * result + textureName.hashCode();
         result = 31 * result + vanityType.hashCode();
         result = 31 * result + price;
-        result = 31 * result + isDefault;
-        result = 31 * result + isDeletable;
-        result = 31 * result + isInShop;
         return result;
     }
 

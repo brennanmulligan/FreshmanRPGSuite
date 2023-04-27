@@ -80,7 +80,8 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
         vanity.remove(noBikeIndex);
         VanityItemsForTest bike = VanityItemsForTest.BIKE;
         VanityType type = VanityType.fromInt(bike.getVanityType());
-        vanity.add(new VanityDTO(bike.getId(), bike.getName(), bike.getDescription(), bike.getTextureName(),type , bike.getPrice(), 0, 0, 0));
+        vanity.add(new VanityDTO(bike.getId(), bike.getName(), bike.getDescription(),
+                bike.getTextureName(),type , bike.getPrice()));
 
         return vanity;
     }
