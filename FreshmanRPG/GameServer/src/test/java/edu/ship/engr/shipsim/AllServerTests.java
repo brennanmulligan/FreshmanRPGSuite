@@ -147,7 +147,9 @@ import org.junit.platform.suite.api.Suite;
 
                 // restfulcommunication.controllers
                 TestObjectiveController.class,
-                TestPlayerController.class
+                TestPlayerController.class,
+                ObjectiveRowDataGatewayTest.class,
+                CommandDeleteObjectiveTest.class
         })
 
 public class AllServerTests
