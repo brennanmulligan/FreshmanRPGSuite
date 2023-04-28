@@ -106,6 +106,7 @@ public class Server implements Runnable, AutoCloseable
             }
             else if (splitArg[0].equals("--restfulServer"))
             {
+                OptionsManager.getSingleton().setLoginHost(OptionsManager.getSingleton().getProductionHostName());
                 restfulServer = true;
                 map = "RestfulMap.tmx";
                 port = 1890;
