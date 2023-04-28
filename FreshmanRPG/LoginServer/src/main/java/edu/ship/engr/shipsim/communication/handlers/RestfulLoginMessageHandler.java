@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.communication.handlers;
 
 import edu.ship.engr.shipsim.communication.messages.Message;
 import edu.ship.engr.shipsim.communication.messages.RestfulLoginMessage;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.LoginFailedException;
 import edu.ship.engr.shipsim.model.LoginPlayerManager;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
@@ -23,10 +24,12 @@ public class RestfulLoginMessageHandler extends MessageHandler
 
         try
         {
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Received Login Request for user: " + loginMsg.getUsername());
+
             LoginSuccessfulReport response = LoginPlayerManager.getSingleton().login(loginMsg.getUsername(),
                     loginMsg.getPassword());
 
-
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Login Sucessful for user: " + loginMsg.getUsername());
 
             RestfulLoginServerSuccessfulReport
                     report = new RestfulLoginServerSuccessfulReport(response.getPlayerID());
