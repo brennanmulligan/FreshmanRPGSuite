@@ -4,6 +4,7 @@ import edu.ship.engr.shipsim.communication.ConnectionManager;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSet;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,6 +20,9 @@ public class RestfulServer
     public static AutoClosingConnectionManager createConnectionToLoginServer() throws IOException
     {
         String host = OptionsManager.getSingleton().getLoginHost();
+
+        LoggerManager.getSingleton().getLogger().info("[RestfulServer] Connecting to login server at " + host);
+
         Socket socket = new Socket(host, 1871);
         MessagePackerSet messagePackerSet = new MessagePackerSet();
         StateAccumulator stateAccumulator = new StateAccumulator(messagePackerSet);
