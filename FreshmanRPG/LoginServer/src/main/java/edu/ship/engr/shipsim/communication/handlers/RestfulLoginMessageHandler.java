@@ -26,6 +26,8 @@ public class RestfulLoginMessageHandler extends MessageHandler
             LoginSuccessfulReport response = LoginPlayerManager.getSingleton().login(loginMsg.getUsername(),
                     loginMsg.getPassword());
 
+
+
             RestfulLoginServerSuccessfulReport
                     report = new RestfulLoginServerSuccessfulReport(response.getPlayerID());
 

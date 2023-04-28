@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.CommandRestfulLogin;
 import edu.ship.engr.shipsim.model.CommandRestfulLogout;
 import edu.ship.engr.shipsim.model.ModelFacade;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.LogManager;
+
 /**
  * @author Derek
  */
@@ -33,6 +36,8 @@ public class LoginController extends Controller
         // Temporary fix for autoclosing the connection
         try (RestfulServer.AutoClosingConnectionManager manager = RestfulServer.createConnectionToLoginServer())
         {
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Attempting login for user: \"" + info.getUsername() + "\"");
+
             Report report = processAction(() ->
             {
                 CommandRestfulLogin command = new CommandRestfulLogin(info.getUsername(), info.getPassword());
@@ -44,6 +49,8 @@ public class LoginController extends Controller
             {
                 return handleLoginReport(report);
             }
+
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Failed to receive report from LoginServer");
 
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
