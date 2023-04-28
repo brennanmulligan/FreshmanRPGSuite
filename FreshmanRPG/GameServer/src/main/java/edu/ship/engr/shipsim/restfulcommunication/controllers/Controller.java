@@ -8,7 +8,7 @@ import edu.ship.engr.shipsim.model.ReportObserverConnector;
  */
 public abstract class Controller
 {
-    private static final int MAX_WAIT_TIME = 1000;
+    private static final int MAX_WAIT_TIME = 2500;
 
     /**
      * @return the amount of time we should wait for a report
