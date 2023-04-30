@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.communication;
 
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSet;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.Report;
@@ -80,9 +81,16 @@ public class ConnectionManager implements ReportObserver
             {
                 disconnect();
                 ConnectionManagerList.getSingleton().remove(this);
-                ReportObserverConnector.getSingleton()
-                        .sendReport(new PlayerDisconnectedReport(
-                                stateAccumulator.getPlayerID()));
+//                try
+//                {
+                    ReportObserverConnector.getSingleton()
+                            .sendReport(new PlayerDisconnectedReport(
+                                    stateAccumulator.getPlayerID()));
+//                }
+//                catch (DatabaseException e)
+//                {
+//                    throw new RuntimeException(e);
+//                }
                 messagePackerSet.destroyAllObservables(stateAccumulator);
             });
             Thread watcherThread = new Thread(cl);

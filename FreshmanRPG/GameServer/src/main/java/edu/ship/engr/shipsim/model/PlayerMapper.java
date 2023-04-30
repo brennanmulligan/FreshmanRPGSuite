@@ -236,7 +236,7 @@ public class PlayerMapper
      * @param playerID The player we want to create
      * @return a new object of the type this mapper is managing
      */
-    protected Player createPlayerObject(int playerID)
+    protected Player createPlayerObject(int playerID) throws DatabaseException
     {
         return new Player(playerID);
     }

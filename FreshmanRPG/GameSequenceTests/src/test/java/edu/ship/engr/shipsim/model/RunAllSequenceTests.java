@@ -123,7 +123,7 @@ public class RunAllSequenceTests
      */
     public String run(ServerType sType, Interaction interaction, boolean verbose)
             throws CommunicationException, IOException, ModelFacadeException,
-            DuplicateNameException
+            DuplicateNameException, DatabaseException
     {
         if (verbose)
         {
@@ -228,7 +228,7 @@ public class RunAllSequenceTests
      * @throws IOException shouldn't
      */
     private void initiateTheSequence(ServerType sType, Interaction interaction)
-            throws IOException, DuplicateNameException
+            throws IOException, DuplicateNameException, DatabaseException
     {
         if (sType == interaction.getInitiatingServerType())
         {
