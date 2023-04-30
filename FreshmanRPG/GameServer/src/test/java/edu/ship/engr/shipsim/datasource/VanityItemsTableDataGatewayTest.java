@@ -111,5 +111,47 @@ public class VanityItemsTableDataGatewayTest
         return VanityItemsTableDataGateway.getSingleton();
     }
 
+    /**
+     * Test to make sure that the default items present in the enums, and then pushed into the database are retrieved correctly
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void testGetDefaultItems() throws DatabaseException
+    {
+        ArrayList<VanityDTO> fromEnum = VanityItemsForTest.getAllDefaultItems();
+        ArrayList<VanityDTO> fromDB = VanityItemsTableDataGateway.getAllDefaultItems();
+
+        //make sure the two lists contain exactly the same items
+        assertTrue(fromEnum.containsAll(fromDB) && fromDB.containsAll(fromEnum));
+    }
+
+    /**
+     * Test to make sure that the shop items present in the enums, and then pushed into the database are retrieved correctly
+     * @throws DatabaseException shouldn't
+     */
+    @Test
+    public void testGetAllInShopItems() throws DatabaseException
+    {
+        ArrayList<VanityDTO> fromEnum = VanityItemsForTest.getAllShopItems();
+        ArrayList<VanityDTO> fromDB = VanityItemsTableDataGateway.getAllInShopItems();
+
+        assertTrue(fromEnum.containsAll(fromDB) && fromDB.containsAll(fromEnum));
+    }
+
+    /**
+     * Test that makes sure the gateway correctly identifies if an item is deletable or not
+     * @throws DatabaseException if the item does not exist (will not happen).
+     */
+    @Test
+    public void testDeletability() throws DatabaseException
+    {
+        //Currently BIKE is the only one where isDeletable is true
+        assertTrue(VanityItemsTableDataGateway.checkDeletability(VanityItemsForTest.BIKE.getId()));
+        //just picked a random vanity item where isDeletable is false
+        assertFalse(VanityItemsTableDataGateway.checkDeletability(VanityItemsForTest.PINK_EYES.getId()));
+    }
+
+
+
 
 }
