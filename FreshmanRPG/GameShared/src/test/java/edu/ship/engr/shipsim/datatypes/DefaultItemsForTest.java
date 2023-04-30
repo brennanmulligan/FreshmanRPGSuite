@@ -12,7 +12,7 @@ public enum DefaultItemsForTest
 //    DEFAULT_BIKE(VanityItemsForTest.BIKE_NONE.getId(), 1),
 //    DEFAULT_HAT(VanityItemsForTest.NO_HAT.getId(), 1),
 //    DEFAULT_HAIR(VanityItemsForTest.BLACK_HAIR.getId(), 1),
-    DEFAULT_EYES(VanityItemsForTest.BLACK_EYES.getId(), 1),
+    DEFAULT_EYES(VanityItemsForTest.BLACK_EYES.getId(),  1),
 //    DEFAULT_SHIRT(VanityItemsForTest.BASE_SHIRT.getId(), 1),
 //    DEFAULT_SKIN(VanityItemsForTest.SKIN_DEFAULT.getId(), 1),
 //    DEFAULT_SHOES(VanityItemsForTest.NO_SHOES.getId(), 1),

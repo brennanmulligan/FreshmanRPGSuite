@@ -103,54 +103,54 @@ public enum VanityItemsForTest
 
     RED_SHOES(4, "Red Shoes", "", "shoes_red", 4),
 
-    BIG_RED_SHOES(4, "Big Red Shoes", "", "shoes_br", 4),
+    BIG_RED_SHOES(4, "Big Red Shoes", "", "shoes_br", 4, false, false),
 
 
     /**
      * Represents a BODY vanity object. Forgive me.
      */
-    SKIN_DEFAULT(5, "Skin default", "A body item that can be worn by a user.", "skin_default", 0),
-    SKIN_ZERO(5, "Skin zero", "A body item that can be worn by a user.", "skin_a", 0),
-    SKIN_ONE(5, "Skin one", "A body item that can be worn by a user.", "skin_b", 0),
-    SKIN_TWO(5, "Skin two", "A body item that can be worn by a user.", "skin_c", 0),
-    SKIN_THREE(5, "Skin three", "A body item that can be worn by a user.", "skin_d", 0),
-    SKIN_FOUR(5, "Skin four", "A body item that can be worn by a user.", "skin_e", 0),
-    SKIN_FIVE(5, "Skin five", "A body item that can be worn by a user.", "skin_f", 0),
-    SKIN_SIX(5, "Skin six", "A body item that can be worn by a user.", "skin_g", 0),
-    SKIN_SEVEN(5, "Skin seven", "A body item that can be worn by a user.", "skin_h", 0),
-    SKIN_EIGHT(5, "Skin eight", "A body item that can be worn by a user.", "skin_i", 0),
-    SKIN_NINE(5, "Skin nine", "A body item that can be worn by a user.", "skin_j", 0),
-    SKIN_TEN(5, "Skin ten", "A body item that can be worn by a user.", "skin_k", 0),
-    SKIN_ELEVEN(5, "Skin eleven", "A body item that can be worn by a user.", "skin_l", 0),
-    SKIN_TWELVE(5, "Skin twelve", "A body item that can be worn by a user.", "skin_m", 0),
-    SKIN_THIRTEEN(5, "Skin thirteen", "A body item that can be worn by a user.", "skin_n", 0),
-    SKIN_FOURTEEN(5, "Skin fourteen", "A body item that can be worn by a user.", "skin_o", 0),
-    SKIN_FIFTEEN(5, "Skin fifteen", "A body item that can be worn by a user.", "skin_p", 0),
-    SKIN_SIXTEEN(5, "Skin sixteen", "A body item that can be worn by a user.", "skin_q", 0),
-    SKIN_GHOST(5, "Skin ghost", "A body item that can be worn by a user.", "skin_z_ghost", 0),
-    SKIN_BIG_RED(5, "Skin Big Red", "A body item that can be worn by a user.", "skin_br", 0),
+    SKIN_DEFAULT(5, "Skin default", "A body item that can be worn by a user.", "skin_default", 0, true, true),
+    SKIN_ZERO(5, "Skin zero", "A body item that can be worn by a user.", "skin_a", 0, true, false),
+    SKIN_ONE(5, "Skin one", "A body item that can be worn by a user.", "skin_b", 0, true, false),
+    SKIN_TWO(5, "Skin two", "A body item that can be worn by a user.", "skin_c", 0, true, false),
+    SKIN_THREE(5, "Skin three", "A body item that can be worn by a user.", "skin_d", 0, true, false),
+    SKIN_FOUR(5, "Skin four", "A body item that can be worn by a user.", "skin_e", 0, true, false),
+    SKIN_FIVE(5, "Skin five", "A body item that can be worn by a user.", "skin_f", 0, true, false),
+    SKIN_SIX(5, "Skin six", "A body item that can be worn by a user.", "skin_g", 0, true, false),
+    SKIN_SEVEN(5, "Skin seven", "A body item that can be worn by a user.", "skin_h", 0, true, false),
+    SKIN_EIGHT(5, "Skin eight", "A body item that can be worn by a user.", "skin_i", 0, true, false),
+    SKIN_NINE(5, "Skin nine", "A body item that can be worn by a user.", "skin_j", 0, true, false),
+    SKIN_TEN(5, "Skin ten", "A body item that can be worn by a user.", "skin_k", 0, true, false),
+    SKIN_ELEVEN(5, "Skin eleven", "A body item that can be worn by a user.", "skin_l", 0, true, false),
+    SKIN_TWELVE(5, "Skin twelve", "A body item that can be worn by a user.", "skin_m", 0, true, false),
+    SKIN_THIRTEEN(5, "Skin thirteen", "A body item that can be worn by a user.", "skin_n", 0, true, false),
+    SKIN_FOURTEEN(5, "Skin fourteen", "A body item that can be worn by a user.", "skin_o", 0, true,false),
+    SKIN_FIFTEEN(5, "Skin fifteen", "A body item that can be worn by a user.", "skin_p", 0, true, false),
+    SKIN_SIXTEEN(5, "Skin sixteen", "A body item that can be worn by a user.", "skin_q", 0, true, false),
+    SKIN_GHOST(5, "Skin ghost", "A body item that can be worn by a user.", "skin_z_ghost", 0, false, false),
+    SKIN_BIG_RED(5, "Skin Big Red", "A body item that can be worn by a user.", "skin_br", 0, false, false),
 
 
     /**
      * Represents a EYES vanity object.
      */
-    BLACK_EYES(6, "Black Eyes", "", "eyes_black", 0),
-    GREEN_EYES(6, "Green Eyes", "", "eyes_green", 0),
-    LIGHT_BLUE_EYES(6, "Light-blue Eyes", "", "eyes_lightblue", 0),
-    ORANGE_EYES(6, "Orange Eyes", "", "eyes_orange", 0),
-    PINK_EYES(6, "Pink Eyes", "", "eyes_pink", 0),
-    PURPLE_EYES(6, "Purple Eyes", "", "eyes_purple", 0),
-    RED_EYES(6, "Red Eyes", "", "eyes_red", 0),
-    YELLOW_EYES(6, "Yellow Eyes", "", "eyes_yellow", 0),
-    BROWN_EYES(6, "Brown Eyes", "", "eyes_brown", 0),
-    BIG_RED_EYES(6, "Big Red Eyes", "", "eyes_br", 0),
+    BLACK_EYES(6, "Black Eyes", "", "eyes_black", 0, true, true),
+    GREEN_EYES(6, "Green Eyes", "", "eyes_green", 0, true, false),
+    LIGHT_BLUE_EYES(6, "Light-blue Eyes", "", "eyes_lightblue", 0, true, false),
+    ORANGE_EYES(6, "Orange Eyes", "", "eyes_orange", 0, true, false),
+    PINK_EYES(6, "Pink Eyes", "", "eyes_pink", 0, true, false),
+    PURPLE_EYES(6, "Purple Eyes", "", "eyes_purple", 0, true, false),
+    RED_EYES(6, "Red Eyes", "", "eyes_red", 0, true, false),
+    YELLOW_EYES(6, "Yellow Eyes", "", "eyes_yellow", 0, true, false),
+    BROWN_EYES(6, "Brown Eyes", "", "eyes_brown", 0, true, false),
+    BIG_RED_EYES(6, "Big Red Eyes", "", "eyes_br", 0, false, false),
 
     /**
      * Represent Bike Vanity Objects
      */
-    BIKE(7, "Bike", "", "bike", 0),
+    BIKE(7, "Bike", "", "bike", 0, false, false),
 
-    BIKE_NONE(7, "No Bike", "", "bike_none", 0);
+    BIKE_NONE(7, "No Bike", "", "bike_none", 0, true, true);
 
 
 
@@ -159,14 +159,18 @@ public enum VanityItemsForTest
     private final String description;
     private final String textureName;
     private final int price;
+    private final boolean isDefault;
+    private final boolean isDefaultWearing;
 
-    VanityItemsForTest(int vanityType, String name, String description, String textureName, int price)
+    VanityItemsForTest(int vanityType, String name, String description, String textureName, int price, boolean isDefault, boolean isDefaultWearing)
     {
         this.vanityType = vanityType;
         this.name = name;
         this.description = description;
         this.textureName = textureName;
         this.price = price;
+        this.isDefault = isDefault;
+        this.isDefaultWearing = isDefaultWearing;
     }
 
     /**
@@ -226,5 +230,15 @@ public enum VanityItemsForTest
     public int getPrice()
     {
         return price;
+    }
+
+    public boolean getIsDefault()
+    {
+        return isDefault;
+    }
+
+    public boolean getIsDefaultWearing()
+    {
+        return isDefaultWearing;
     }
 }
