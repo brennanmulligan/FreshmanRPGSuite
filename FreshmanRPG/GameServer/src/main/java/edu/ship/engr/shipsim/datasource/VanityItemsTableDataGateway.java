@@ -226,6 +226,12 @@ public class VanityItemsTableDataGateway
         }
     }
 
+    // TODO: This needs functionality instead of just returning blanket true
+    public boolean checkDeletability(int itemID)
+    {
+        return true;
+    }
+
     public static ArrayList<VanityDTO> getAllDefaultItems()
             throws DatabaseException
     {

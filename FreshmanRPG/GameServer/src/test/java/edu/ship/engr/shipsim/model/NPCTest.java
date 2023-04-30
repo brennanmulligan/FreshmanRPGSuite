@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,8 @@ public class NPCTest
      * @throws InterruptedException shouldn't
      */
     @Test
-    public void testBehaviorFires() throws InterruptedException
+    public void testBehaviorFires()
+            throws InterruptedException, DatabaseException
     {
         NPCMockBehavior mb = new NPCMockBehavior(42);
         NPC npc = new NPC(3);
@@ -43,7 +45,8 @@ public class NPCTest
      * @throws InterruptedException shouldn't
      */
     @Test
-    public void testBehaviorPollingIsOptional() throws InterruptedException
+    public void testBehaviorPollingIsOptional()
+            throws InterruptedException, DatabaseException
     {
         NPCMockBehavior mb = new NPCMockBehavior(42);
         mb.pollingInterval = 0;

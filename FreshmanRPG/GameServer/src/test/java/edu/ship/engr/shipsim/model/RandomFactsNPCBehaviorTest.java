@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.model.reports.ChatMessageToClientReport;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
@@ -24,7 +25,7 @@ public class RandomFactsNPCBehaviorTest
      *
      */
     @BeforeEach
-    public void localSetup()
+    public void localSetup() throws DatabaseException
     {
         behavior = new RandomFactsNPCBehavior(PlayersForTest.BIG_RED.getPlayerID());
         PlayerManager.getSingleton().addNpc(new NPC(PlayersForTest.BIG_RED.getPlayerID()));

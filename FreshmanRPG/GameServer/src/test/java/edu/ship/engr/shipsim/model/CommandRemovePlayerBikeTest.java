@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.reports.PlayerAppearanceChangeReport;
@@ -27,7 +28,7 @@ public class CommandRemovePlayerBikeTest
 {
     //Create test to execute the command to remove bike from player
     @Test
-    public void executeTest()
+    public void executeTest() throws DatabaseException
     {
         //set up the player
         PlayersForTest player = PlayersForTest.BIKE_PLAYER;
