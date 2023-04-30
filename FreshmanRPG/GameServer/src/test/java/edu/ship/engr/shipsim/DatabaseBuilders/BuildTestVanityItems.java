@@ -39,7 +39,7 @@ public class BuildTestVanityItems
         for (VanityItemsForTest v : VanityItemsForTest.values())
         {
             gateway.addVanityItem(v.getName(), v.getDescription(), v.getTextureName(), VanityType.fromInt(v.getVanityType()),
-                    v.getPrice(), false, false, false, false);
+                    v.getPrice(), v.isDeletable(), v.isInShop(), v.isDefault(), v.isDefaultEquipped());
 
             bar.update();
         }
