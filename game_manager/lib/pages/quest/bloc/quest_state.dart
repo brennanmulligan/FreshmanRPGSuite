@@ -31,3 +31,5 @@ class QuestPageReady extends QuestState {
   List<Object> get props => [response];
 
 }
+
+class DeleteObjective extends QuestState {}
