@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:game_manager/repository/quest/delete_objective_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
 import 'package:game_manager/repository/quest/upsert_quest_request.dart';
 import 'package:meta/meta.dart';
 
 import '../../../repository/player/basic_response.dart';
+import '../../../repository/quest/objective_record.dart';
 import '../../../repository/quest/quest_editing_request.dart';
 import '../../../repository/quest/quest_repository.dart';
 
@@ -32,6 +34,14 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
       QuestResponse response = await questRepository.getQuests(const QuestRequest());
 
       emit(QuestPageReady(response));
+    });
+
+    on<DeleteObjectiveEvent>((event, emit) async {
+      emit(DeleteObjective());
+
+      BasicResponse response = await questRepository.deleteObjective(DeleteObjectiveRequest(event.objectiveId, event.questId));
+
+      emit(QuestComplete(response));
     });
   }
 }
