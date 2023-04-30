@@ -55,13 +55,11 @@ public class Player
 
     private ArrayList<String> playerVisitedMaps;
 
-    private ArrayList<VanityDTO> vanityItems;
-
-    private ArrayList<VanityDTO> ownedItems;
+    private VanityInventory vanityInventory = new VanityInventory(this.playerID);
 
     private String lastVisitedMapTitle;
 
-    Player(int playerID)
+    Player(int playerID) throws DatabaseException
     {
         this.playerID = playerID;
     }
@@ -71,7 +69,7 @@ public class Player
      *
      * @param expPoints Player's experience points
      */
-    public void addExperiencePoints(int expPoints)
+    public void addExperiencePoints(int expPoints) throws DatabaseException
     {
 
         this.experiencePoints = experiencePoints + expPoints;
@@ -195,31 +193,30 @@ public class Player
     {
         int bikeIndex = -1;
         int iterator = 0;
+
         do
         {
-            if(vanityItems.get(iterator).getVanityType() == VanityType.BIKE)
+            if(vanityInventory.getInventory().get(iterator).getVanityType() == VanityType.BIKE)
             {
                 bikeIndex = iterator;
             }
             iterator++;
         }
-        while(bikeIndex == -1 && iterator < vanityItems.size());
+        while(bikeIndex == -1 && iterator < vanityInventory.getInventory().size());
 
         if(bikeIndex != -1)
         {
-            vanityItems.remove(bikeIndex);
+            vanityInventory.removeVanityItemByID(bikeIndex);
         }
 
-        VanityDTO newBike = new VanityDTO(VanityItemsForTest.BIKE.ordinal()+1, "Bike", "", "bike",
-                VanityType.BIKE, VanityItemsForTest.BIKE.getPrice()
-        );
-        ownedItems.add(newBike);
-        vanityItems.add(newBike);
+        VanityDTO newBike = new VanityDTO(VanityItemsForTest.BIKE.ordinal()+1, "Bike", "", "bike", VanityType.BIKE, VanityItemsForTest.BIKE.getPrice());
+        vanityInventory.addVanityItem(newBike);
+        vanityInventory.addWornItem(newBike);
 
         Date endsAt = new Date(System.currentTimeMillis() + 60 * 1000);
         TimerManager.getSingleton().scheduleCommand(endsAt, new CommandRemovePlayerBike(playerID), playerID);
 
-        PlayerAppearanceChangeReport report = new PlayerAppearanceChangeReport(playerID, vanityItems);
+        PlayerAppearanceChangeReport report = new PlayerAppearanceChangeReport(playerID, vanityInventory.getWornItems());
         ReportObserverConnector.getSingleton().sendReport(report);
     }
 
@@ -469,7 +466,7 @@ public class Player
      */
     public ArrayList<VanityDTO> getVanityItems()
     {
-        return vanityItems;
+        return vanityInventory.getWornItems();
     }
 
     /**
@@ -479,7 +476,7 @@ public class Player
      */
     public void setVanityItems(ArrayList<VanityDTO> vanityItems)
     {
-        this.vanityItems = vanityItems;
+        this.vanityInventory.setWornItems(vanityItems);
     }
 
     /**
@@ -487,7 +484,7 @@ public class Player
      */
     public ArrayList<VanityDTO> getAllOwnedItems()
     {
-        return ownedItems;
+        return vanityInventory.getInventory();
     }
 
     /**
@@ -497,7 +494,7 @@ public class Player
      */
     public void setOwnedItems(ArrayList<VanityDTO> ownedItems)
     {
-        this.ownedItems = ownedItems;
+        this.vanityInventory.setInventory(ownedItems);
     }
 
     /**
@@ -507,7 +504,7 @@ public class Player
      */
     public void addItemToInventory(VanityDTO vanity)
     {
-        ownedItems.add(vanity);
+        vanityInventory.addVanityItem(vanity);
     }
 
     /**
@@ -748,15 +745,15 @@ public class Player
      * Removes an item from the player
      * @param item the item to remove
      */
-    public void removeVanityType(VanityType item)
+    public void removeVanityType(VanityType item) throws DatabaseException
     {
-        for (int i = 0; i < this.vanityItems.size(); i++)
+        for (int i = 0; i < this.vanityInventory.getInventory().size(); i++)
         {
-            VanityDTO vanityItem = this.vanityItems.get(i);
+            VanityDTO vanityItem = this.vanityInventory.getInventory().get(i);
             if (vanityItem.getVanityType() == item)
             {
-                this.vanityItems.remove(vanityItem);
-                this.ownedItems.remove(vanityItem);
+                this.vanityInventory.removeVanityItem(vanityItem);
+                this.vanityInventory.removeOwnedItem(vanityItem);
             }
         }
 
@@ -764,15 +761,14 @@ public class Player
         if (item == VanityType.BIKE)
         {
 
-            VanityDTO bike_none = new VanityDTO(VanityItemsForTest.BIKE_NONE.getId(), "No Bike", "", "bike_none", VanityType.BIKE,
-                    VanityItemsForTest.BIKE_NONE.getPrice());
-            this.vanityItems.add(bike_none);
-            this.ownedItems.add(bike_none);
+            VanityDTO bike_none = new VanityDTO(VanityItemsForTest.BIKE_NONE.getId(), "No Bike", "", "bike_none", VanityType.BIKE, VanityItemsForTest.BIKE_NONE.getPrice());
+            this.vanityInventory.addVanityItem(bike_none);
+            this.vanityInventory.addWornItem(bike_none);
         }
 
         PlayerAppearanceChangeReport playerAppearanceChangeReport =
                 new PlayerAppearanceChangeReport(this.playerID,
-                        this.vanityItems);
+                        this.vanityInventory.getWornItems());
         ReportObserverConnector.getSingleton().sendReport(playerAppearanceChangeReport);
     }
 

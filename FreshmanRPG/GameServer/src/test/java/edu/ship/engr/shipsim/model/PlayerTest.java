@@ -98,7 +98,7 @@ public class PlayerTest
      * ExperienceChangedReport
      */
     @Test
-    public void testAddExpPointsCreatesReport()
+    public void testAddExpPointsCreatesReport() throws DatabaseException
     {
         // mock the connector and observer
         ReportObserverConnector connector = spy(ReportObserverConnector.getSingleton());
@@ -214,7 +214,7 @@ public class PlayerTest
      * test we can set a player online
      */
     @Test
-    public void testOnlineStatus()
+    public void testOnlineStatus() throws DatabaseException
     {
         Player p = new Player(10);
         p.setPlayerOnline(true);
@@ -228,7 +228,7 @@ public class PlayerTest
      * Test that we can set Player's experience points and add to it
      */
     @Test
-    public void testPlayerExpPoints()
+    public void testPlayerExpPoints() throws DatabaseException
     {
         Player p = PlayerManager.getSingleton().addPlayer(1);
 
@@ -268,7 +268,7 @@ public class PlayerTest
      * Test the visited maps is stored
      */
     @Test
-    public void testVisitedMaps()
+    public void testVisitedMaps() throws DatabaseException
     {
         Player player = new Player(20);
         ArrayList<String> maps = new ArrayList<>(Arrays.asList("Rec Center", "Quad"));

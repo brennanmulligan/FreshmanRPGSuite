@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

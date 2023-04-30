@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +53,7 @@ public class NPC extends Player
     /**
      * Instantiate the NPC
      */
-    protected NPC(int playerID)
+    protected NPC(int playerID) throws DatabaseException
     {
         super(playerID);
         timer = new Timer();

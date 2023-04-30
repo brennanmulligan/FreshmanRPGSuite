@@ -3,6 +3,7 @@ package edu.ship.engr.shipsim.communication.packers;
 import edu.ship.engr.shipsim.communication.CommunicationException;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.messages.Message;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.model.ReportObserverConnector;
 import edu.ship.engr.shipsim.model.reports.SendMessageReport;
 import edu.ship.engr.shipsim.model.reports.StubReport1;
@@ -77,7 +78,7 @@ public class MessagePackerSetTest
      * hook up an observable to the type of report each one wants to pack
      */
     @Test
-    public void hooksUpObservers()
+    public void hooksUpObservers() throws DatabaseException
     {
         MessagePackerSet set = new MessagePackerSet();
         MessagePacker packer = new MockMessagePacker();

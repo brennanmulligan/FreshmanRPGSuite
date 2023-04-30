@@ -207,7 +207,8 @@ public enum PlayersForTest
 
     HISTORY_NPC(37, "HistoryNPC", "History Nerd", 13, 13, "", "Fountain.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("Fountain"))),
     HISTORY_NPC_2(38, "HistoryNPC2", "History Nerd", 8, 15, "", "RailTrail.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("RailTrail"))),
-    HISTORY_NPC_3(39, "HistoryNPC3", "History Nerd", 11, 20, "", "oldMainInside.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("oldMainInside"))),;
+    HISTORY_NPC_3(39, "HistoryNPC3", "History Nerd", 11, 20, "", "oldMainInside.tmx", 1111, null, 0, 0, Crew.NPCS, Major.HISTORY, 3, 0, true, new ArrayList<>(Arrays.asList("oldMainInside"))),
+    VANITY_PLAYER(40, "Vanity", "off_by_one", 11, 20, "", "oldMainInside.tmx", 1111, null, 0, 0, Crew.OFF_BY_ONE, Major.SOFTWARE_ENGINEERING, 3, 0, true, new ArrayList<>(Arrays.asList("oldMainInside")));
 
 
 
