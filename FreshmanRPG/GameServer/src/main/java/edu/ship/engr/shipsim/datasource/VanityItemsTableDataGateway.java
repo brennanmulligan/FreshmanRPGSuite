@@ -226,12 +226,11 @@ public class VanityItemsTableDataGateway
         }
     }
 
-    // TODO: This needs functionality instead of just returning blanket true
-    public boolean checkDeletability(int itemID)
-    {
-        return true;
-    }
-
+    /**
+     * Static method that returns a list of all the default items currently in the game
+     * @return an ArrayList of VanityDTOs that represent the default items
+     * @throws DatabaseException should not
+     */
     public static ArrayList<VanityDTO> getAllDefaultItems()
             throws DatabaseException
     {
@@ -249,6 +248,41 @@ public class VanityItemsTableDataGateway
         }
     }
 
+    /**
+     * A boolean method that checks whether a given item is deletable or not
+     * @param vanityID the item to be checked for deletabilty
+     * @return true if it is deletable, false otherwise
+     * @throws DatabaseException if the vanity id does not exist
+     */
+    public static boolean checkDeletability(int vanityID)
+            throws DatabaseException
+    {
+        Connection connection = DatabaseManager.getSingleton().getConnection();
+
+        try(PreparedStatement stmt = connection.prepareStatement("SELECT isDeletable FROM VanityItems WHERE vanityID = ?"))
+        {
+            stmt.setInt(1, vanityID);
+            try (ResultSet queryResults = stmt.executeQuery())
+            {
+                queryResults.next();
+                if(queryResults.getBoolean("isDeletable"))
+                {
+                    return true;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Cannot find entry for vanity item: " + vanityID);
+        }
+        return false;
+    }
+
+    /**
+     * Method that returns all the rows where isInShop is 'true', aka it equals 1
+     * @return an ArrayList of VanityDTOs representing all in shop items
+     * @throws DatabaseException should not.
+     */
     public static ArrayList<VanityDTO> getAllInShopItems()
             throws DatabaseException
     {
@@ -266,6 +300,12 @@ public class VanityItemsTableDataGateway
         }
     }
 
+    /**
+     * Refactoring method to reduce code duplication that simply takes a result set and parses it into a list of DTOs
+     * @param result the ResultSet to be parsed through
+     * @return the list of VanityDTOs
+     * @throws SQLException should not.
+     */
     public static ArrayList<VanityDTO> buildDTOs(ResultSet result)
             throws SQLException
     {
