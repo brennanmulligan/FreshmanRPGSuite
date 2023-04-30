@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.VanityDTO;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.VanityType;
 import edu.ship.engr.shipsim.model.Command;
 import edu.ship.engr.shipsim.model.Player;
@@ -21,7 +22,7 @@ public class CommandRemovePlayerBike extends Command
      * Removes the bike from the player
      */
     @Override
-    void execute()
+    void execute() throws DatabaseException
     {
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerID);
         if (player != null)

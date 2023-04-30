@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import edu.ship.engr.shipsim.testing.annotations.ResetChatManager;
@@ -33,7 +34,7 @@ public class SmartPathTest
             };
 
     @BeforeEach
-    public void localSetUp()
+    public void localSetUp() throws DatabaseException
     {
         NPC npc = new NPC(33);
         npc.setMapName("quad.tmx");

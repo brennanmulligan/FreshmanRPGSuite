@@ -1,6 +1,7 @@
 package edu.ship.engr.shipsim.model;
 
 import com.badlogic.gdx.utils.Timer.Task;
+import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
 
 import java.io.IOException;
@@ -66,6 +67,10 @@ public class ClientModelFacade
                             catch (InterruptedException | DuplicateNameException e)
                             {
                                 e.printStackTrace();
+                            }
+                            catch (DatabaseException e)
+                            {
+                                throw new RuntimeException(e);
                             }
 
                         }
@@ -279,6 +284,10 @@ public class ClientModelFacade
                     e.printStackTrace();
                 }
                 catch (DuplicateNameException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                catch (DatabaseException e)
                 {
                     throw new RuntimeException(e);
                 }

@@ -91,7 +91,6 @@ public class RecCenterGrantsDoubloonsWithBuffSequenceTest extends SequenceTest
      */
     public RecCenterGrantsDoubloonsWithBuffSequenceTest()
     {
-//        serverList.add(ServerType.THIS_PLAYER_CLIENT);
         serverList.add(ServerType.AREA_SERVER);
 
         interactions.add(new Interaction(null, PlayersForTest.JEFF.getPlayerID(),

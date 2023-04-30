@@ -57,7 +57,7 @@ public class NPCMapper extends PlayerMapper
      * @see PlayerMapper#createPlayerObject(int)
      */
     @Override
-    protected Player createPlayerObject(int playerID)
+    protected Player createPlayerObject(int playerID) throws DatabaseException
     {
         return new NPC(playerID);
     }
