@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -481,7 +483,8 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
               const Spacer(),
               ElevatedButton(
                 child: const Icon(Icons.delete),
-                onPressed: () {}
+                //Todo: pass in the ObjectiveIa and questId to this widget
+                onPressed: () { showAlertDialog(context, -1, -1); }
               ),
             ],
           ),
@@ -539,6 +542,37 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
       ),
     );
   }
+}
+
+// Confirmation box for deleting an objective
+showAlertDialog(BuildContext context, objectiveId, questId) {
+  // set up the buttons
+  Widget continueButton = TextButton(
+    child: Text("Continue"),
+    onPressed:  () { BlocProvider.of<QuestBloc>(context).add(
+        DeleteObjectiveEvent(objectiveId, questId));
+      Navigator.pop(context);
+      },
+  );
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () { Navigator.pop(context); },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    content: Text("Do you want to delete this objective?"),
+    actions: [
+      continueButton,
+      cancelButton,
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 class SubmitButtonBuilder extends StatelessWidget {

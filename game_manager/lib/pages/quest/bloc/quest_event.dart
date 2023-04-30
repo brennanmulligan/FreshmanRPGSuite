@@ -58,3 +58,16 @@ class SendGetQuestInformation extends QuestEvent{
   }
 
 }
+
+class DeleteObjectiveEvent extends QuestEvent {
+  final int objectiveId;
+  final int questId;
+
+  DeleteObjectiveEvent(this.objectiveId, this.questId);
+
+  @override
+  String toString() {
+    return 'DeleteObjectiveEvent()';
+  }
+
+}
