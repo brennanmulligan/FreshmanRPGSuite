@@ -93,7 +93,7 @@ public class LoginSuccessSequenceTest extends SequenceTest
                 VanityItemsForTest vanity = VanityItemsForTest.values()[id - 1]; // TODO: Make sense of this
                 VanityDTO x = new VanityDTO(vanity.getId(), vanity.getName(),
                         vanity.getDescription(), vanity.getTextureName(),
-                        VanityType.fromInt(vanity.getVanityType()),
+                        vanity.getVanityType(),
                         vanity.getPrice());
                 combined.add(x);
             }

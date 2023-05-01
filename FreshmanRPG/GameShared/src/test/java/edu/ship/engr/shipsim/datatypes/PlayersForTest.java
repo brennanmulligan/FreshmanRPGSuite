@@ -412,7 +412,7 @@ public enum PlayersForTest
             {
                 VanityItemsForTest item = VanityItemsForTest.values()[inventoryItem.getVanityID() - 1];
                 items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(),
-                        item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice()
+                        item.getTextureName(), item.getVanityType(), item.getPrice()
                 ));
             }
         }
@@ -420,7 +420,7 @@ public enum PlayersForTest
         {
             VanityItemsForTest item = VanityItemsForTest.values()[dItem.getDefaultID() - 1];
             items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(),
-                    VanityType.fromInt(item.getVanityType()), item.getPrice()
+                    item.getVanityType(), item.getPrice()
             ));
         }
         return items;
@@ -435,7 +435,7 @@ public enum PlayersForTest
             {
                 VanityItemsForTest item = VanityItemsForTest.values()[inventoryItem.getVanityID() - 1];
                 items.add(new VanityDTO(item.getId(), item.getName(), item.getDescription(), item.getTextureName(),
-                        VanityType.fromInt(item.getVanityType()), item.getPrice()
+                        item.getVanityType(), item.getPrice()
                 ));
             }
         }
