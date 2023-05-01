@@ -150,8 +150,16 @@ public class VanityDTO implements Serializable
     /**
      * @return the name of the vanity
      */
+    @Override
     public String toString()
     {
-        return name;
+        return "VanityDTO{" +
+                "vanityID=" + vanityID +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", textureName='" + textureName + '\'' +
+                ", vanityType=" + vanityType +
+                ", price=" + price +
+                '}';
     }
 }
