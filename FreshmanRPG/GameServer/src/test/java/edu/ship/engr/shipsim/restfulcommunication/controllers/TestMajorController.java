@@ -8,6 +8,9 @@ import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +36,8 @@ public class TestMajorController
 {
 
     @Test
-    public void goodResponseMajors() throws JsonProcessingException
+    public void goodResponseMajors()
+            throws JsonProcessingException, JSONException
     {
         MajorController mock = mock(MajorController.class);
 
@@ -52,16 +56,14 @@ public class TestMajorController
 
         when(mock.getAllMajors()).thenCallRealMethod();
 
-
         ResponseEntity<Object> response = mock.getAllMajors();
-
-        // Response body is the array list of players
-        ArrayList<MajorDTO> majors = (ArrayList<MajorDTO>) response.getBody();
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(majors);
-        assertEquals(majors.get(0).getMajorID(), 1);
-        assertEquals(majors.get(1).getMajorID(), 2);
+
+        JSONObject last = new JSONObject((String) response.getBody());
+        JSONArray records = (JSONArray) last.get("majors");
+
+        assertEquals(records.getJSONObject(0).getInt("majorID"), 1);
+        assertEquals(records.getJSONObject(1).getInt("majorID"), 2);
     }
 }
 
