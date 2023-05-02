@@ -306,7 +306,7 @@ public class VanityItemsTableDataGateway
      * @return the list of VanityDTOs
      * @throws SQLException should not.
      */
-    public static ArrayList<VanityDTO> buildDTOs(ResultSet result)
+    private static ArrayList<VanityDTO> buildDTOs(ResultSet result)
             throws SQLException
     {
         ArrayList<VanityDTO> vanityItems = new ArrayList<>();

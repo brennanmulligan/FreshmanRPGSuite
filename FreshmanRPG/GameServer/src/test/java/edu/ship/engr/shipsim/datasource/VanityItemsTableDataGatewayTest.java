@@ -66,7 +66,7 @@ public class VanityItemsTableDataGatewayTest
         for (VanityItemsForTest v : VanityItemsForTest.values())
         {
             VanityDTO d = new VanityDTO(v.getId(), v.getName(), v.getDescription(),
-                    v.getTextureName(), VanityType.fromInt(v.getVanityType()), v.getPrice());
+                    v.getTextureName(), v.getVanityType(), v.getPrice());
             items.add(d);
         }
 
@@ -87,7 +87,7 @@ public class VanityItemsTableDataGatewayTest
     {
         VanityItemsForTest item = VanityItemsForTest.MERLIN_HAT;
         VanityDTO dto = new VanityDTO(item.getId(), item.getName(), item.getDescription(),
-                item.getTextureName(), VanityType.fromInt(item.getVanityType()), item.getPrice()
+                item.getTextureName(), item.getVanityType(), item.getPrice()
         );
         assertEquals(dto, gateway.getVanityItemByID(item.getId()));
     }

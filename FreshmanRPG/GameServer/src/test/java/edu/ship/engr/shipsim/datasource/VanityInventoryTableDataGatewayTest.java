@@ -41,7 +41,7 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getVanityType(),
                 VanityItemsForTest.MERLIN_SHIRT.getPrice());
         ArrayList<VanityDTO> actualItems =
                 gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
@@ -68,13 +68,13 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getVanityType(),
                 VanityItemsForTest.MERLIN_SHIRT.getPrice());
         VanityDTO item2 = new VanityDTO(VanityItemsForTest.BLUE_SHIRT.getId(),
                 VanityItemsForTest.BLUE_SHIRT.getName(),
                 VanityItemsForTest.BLUE_SHIRT.getDescription(),
                 VanityItemsForTest.BLUE_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.BLUE_SHIRT.getVanityType()),
+                VanityItemsForTest.BLUE_SHIRT.getVanityType(),
                 VanityItemsForTest.BLUE_SHIRT.getPrice());
 
         assertFalse(actualItems.contains(item));
@@ -126,7 +126,7 @@ public class VanityInventoryTableDataGatewayTest
                 VanityItemsForTest.MERLIN_SHIRT.getName(),
                 VanityItemsForTest.MERLIN_SHIRT.getDescription(),
                 VanityItemsForTest.MERLIN_SHIRT.getTextureName(),
-                VanityType.fromInt(VanityItemsForTest.MERLIN_SHIRT.getVanityType()),
+                VanityItemsForTest.MERLIN_SHIRT.getVanityType(),
                 VanityItemsForTest.MERLIN_SHIRT.getPrice());
 
         assertFalse(actualItems.contains(item));
@@ -189,7 +189,9 @@ public class VanityInventoryTableDataGatewayTest
         {
             ArrayList<VanityDTO> actualItems =
                     gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
-            VanityDTO item = actualItems.get(0);
+            VanityItemsForTest ownedByJohn = VanityItemsForTest.getByID(VanityInventoryItemsForTest.JOHN_OWNS_HAT.getVanityID());
+            VanityDTO item = new VanityDTO(ownedByJohn.getId(), ownedByJohn.getName(), ownedByJohn.getDescription(),
+                    ownedByJohn.getTextureName(), ownedByJohn.getVanityType(), ownedByJohn.getPrice());
             assertTrue(actualItems.contains(item));
             gateway.addItemToInventory(PlayersForTest.JOHN.getPlayerID(), item.getID());
         });
@@ -202,37 +204,25 @@ public class VanityInventoryTableDataGatewayTest
     @Test
     public void getAllOwnedItemsTest() throws DatabaseException
     {
-        ArrayList<Integer> mockOwnedItemIDs = new ArrayList<>();
+        ArrayList<VanityDTO> mockOwnedItems = new ArrayList<>();
         for (VanityInventoryItemsForTest p : VanityInventoryItemsForTest.values())
         {
             if (p.getPlayerID() == PlayersForTest.JOHN.getPlayerID())
             {
-                mockOwnedItemIDs.add(p.getVanityID());
+                mockOwnedItems.add(VanityItemsForTest.toVanityDTO(VanityItemsForTest.getByID(p.getVanityID())));
             }
         }
-        for (DefaultItemsForTest item : DefaultItemsForTest.values())
+        for (VanityDTO item : VanityItemsForTest.getAllDefaultItems())
         {
-            if (!mockOwnedItemIDs.contains(item.getDefaultID()))
+            if (!mockOwnedItems.contains(item))
             {
-                mockOwnedItemIDs.add(item.getDefaultID());
+                mockOwnedItems.add(item);
             }
         }
         ArrayList<VanityDTO> itemsFromGateway;
         itemsFromGateway = gateway.getAllOwnedItems(PlayersForTest.JOHN.getPlayerID());
-        assertEquals(mockOwnedItemIDs.size(), itemsFromGateway.size());
-
-        int numMatches = 0;
-        for (Integer mockOwnedItemID : mockOwnedItemIDs)
-        {
-            for (VanityDTO vanityDTO : itemsFromGateway)
-            {
-                if (mockOwnedItemID == vanityDTO.getID())
-                {
-                    numMatches++;
-                }
-            }
-        }
-        assertEquals(itemsFromGateway.size(), numMatches);
+        assertEquals(mockOwnedItems.size(), itemsFromGateway.size());
+        assertTrue(mockOwnedItems.containsAll(itemsFromGateway) && itemsFromGateway.containsAll(mockOwnedItems));
     }
 
     /**
@@ -288,7 +278,7 @@ public class VanityInventoryTableDataGatewayTest
                     VanityItemsForTest.TUTOR_SHIRT.getName(),
                     VanityItemsForTest.TUTOR_SHIRT.getDescription(),
                     VanityItemsForTest.TUTOR_SHIRT.getTextureName(),
-                    VanityType.fromInt(VanityItemsForTest.TUTOR_SHIRT.getVanityType()),
+                    VanityItemsForTest.TUTOR_SHIRT.getVanityType(),
                     VanityItemsForTest.TUTOR_SHIRT.getPrice()
             );
             assertFalse(actualItems.contains(item));

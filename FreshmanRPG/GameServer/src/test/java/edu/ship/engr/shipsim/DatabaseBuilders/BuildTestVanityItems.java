@@ -38,7 +38,7 @@ public class BuildTestVanityItems
         ProgressBar bar = new ProgressBar(VanityItemsForTest.values().length);
         for (VanityItemsForTest v : VanityItemsForTest.values())
         {
-            gateway.addVanityItem(v.getName(), v.getDescription(), v.getTextureName(), VanityType.fromInt(v.getVanityType()),
+            gateway.addVanityItem(v.getName(), v.getDescription(), v.getTextureName(), v.getVanityType(),
                     v.getPrice(), v.isDeletable(), v.isInShop(), v.isDefault(), v.isDefaultEquipped());
 
             bar.update();
