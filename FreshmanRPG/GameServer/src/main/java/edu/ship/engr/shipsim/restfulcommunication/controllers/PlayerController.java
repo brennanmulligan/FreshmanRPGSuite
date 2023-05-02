@@ -1,5 +1,7 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.ship.engr.shipsim.model.CommandChangePlayer;
 import edu.ship.engr.shipsim.model.CommandCreatePlayer;
 import edu.ship.engr.shipsim.model.CommandGetAllPlayers;
@@ -13,6 +15,7 @@ import edu.ship.engr.shipsim.restfulcommunication.representation.BasicResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,8 +62,8 @@ public class PlayerController extends Controller
     }
 
     @CrossOrigin // Required for web client support
-    @PostMapping("/getAllPlayers")
-    public ResponseEntity<Object> getAllPlayers()
+    @GetMapping("/getAllPlayers")
+    public ResponseEntity<Object> getAllPlayers() throws JsonProcessingException
     {
         GetAllPlayersReport report = processAction(() ->
         {
@@ -71,7 +74,9 @@ public class PlayerController extends Controller
 
         if (report != null)
         {
-            return new ResponseEntity<>(report.getPlayers(), HttpStatus.OK);
+            ObjectMapper mapper = new ObjectMapper();
+            String json = "{\"success\": true, \"players\": " + mapper.writeValueAsString(report.getPlayers()) + "}";
+            return new ResponseEntity<>(json, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
