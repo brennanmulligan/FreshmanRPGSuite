@@ -12,6 +12,9 @@ import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +41,8 @@ public class TestCrewController
 {
 
     @Test
-    public void goodResponseCrews() throws JsonProcessingException
+    public void goodResponseCrews()
+            throws JsonProcessingException, JSONException
     {
         CrewController mock = mock(CrewController.class);
 
@@ -57,16 +61,14 @@ public class TestCrewController
 
         when(mock.getAllCrews()).thenCallRealMethod();
 
-
         ResponseEntity<Object> response = mock.getAllCrews();
-
-        // Response body is the array list of players
-        ArrayList<CrewDTO> crews = (ArrayList<CrewDTO>) response.getBody();
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(crews);
-        assertEquals(crews.get(0).getCrewID(), 1);
-        assertEquals(crews.get(1).getCrewID(), 2);
+
+        JSONObject last = new JSONObject((String) response.getBody());
+        JSONArray records = (JSONArray) last.get("crews");
+
+        assertEquals(records.getJSONObject(0).getInt("crewID"), 1);
+        assertEquals(records.getJSONObject(1).getInt("crewID"), 2);
     }
 }
 

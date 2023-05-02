@@ -137,7 +137,7 @@ public class TestQuestController
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 
         QuestEditingInfoDTO quest = new QuestEditingInfoDTO();
-        ArrayList<QuestRecordDTO> records = new ArrayList<QuestRecordDTO>();
+        ArrayList<QuestRecordDTO> records = new ArrayList<>();
         records.add(new QuestRecordDTO("Test Quest", "Test Quest", null, 1,
                 "map1.tmx",
                 new Position(1, 2), 420, 0,

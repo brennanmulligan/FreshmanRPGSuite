@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:game_manager/repository/player/player.dart';
 import '../../type_definitions.dart';
 
 class AllPlayersResponse extends Equatable {
   final bool success;
-  final List<String> players;
+  final List<Player> players;
 
   const AllPlayersResponse(this.success, {required this.players});
 
@@ -14,7 +15,9 @@ class AllPlayersResponse extends Equatable {
   }) {
     return AllPlayersResponse.allFields(
         success: json['success'],
-        players: (json['players'] as List<String>)
+        players: (json['players'] as List)
+            .map((e) => Player.fromJson(json: e))
+            .toList()
     );
   }
 

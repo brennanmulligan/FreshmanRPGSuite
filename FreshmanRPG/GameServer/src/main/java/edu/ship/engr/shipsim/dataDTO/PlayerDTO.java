@@ -21,7 +21,7 @@ public class PlayerDTO
     private int experiencePoints;
     private Crew crew;
     private Major major;
-    private int sectionId;
+    private int sectionID;
     private int buffPool;
     private ArrayList<String> visitedMaps;
     private ArrayList<VanityDTO> vanityDTOs;
@@ -48,11 +48,11 @@ public class PlayerDTO
      * @param experiencePoints - the number of experience points the player has earned
      * @param crew             - the crew the player belongs to
      * @param major            - the player'a major
-     * @param sectionId        - the player's section
+     * @param sectionID        - the player's section
      * @param visitedMaps      - the player's visited maps
      */
     public PlayerDTO(int playerID, String playerName, String playerPassword, String appearanceType, int doubloons,
-                     Position position, String mapName, int experiencePoints, Crew crew, Major major, int sectionId, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
+                     Position position, String mapName, int experiencePoints, Crew crew, Major major, int sectionID, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
     {
         this.playerID = playerID;
         this.playerName = playerName;
@@ -63,7 +63,7 @@ public class PlayerDTO
         this.experiencePoints = experiencePoints;
         this.crew = crew;
         this.major = major;
-        this.sectionId = sectionId;
+        this.sectionID = sectionID;
         this.playerPassword = playerPassword;
         this.visitedMaps = visitedMaps;
         this.vanityDTOs = vanityDTOs;
@@ -113,7 +113,7 @@ public class PlayerDTO
         result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
         result = prime * result + ((playerPassword == null) ? 0 : playerPassword.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
-        result = prime * result + sectionId;
+        result = prime * result + sectionID;
         result = prime * result + ((visitedMaps == null) ? 0 : visitedMaps.hashCode());
         return result;
     }
@@ -216,7 +216,7 @@ public class PlayerDTO
         {
             return false;
         }
-        if (sectionId != other.sectionId)
+        if (sectionID != other.sectionID)
         {
             return false;
         }
@@ -364,7 +364,7 @@ public class PlayerDTO
      */
     public void setSection(int section)
     {
-        this.sectionId = section;
+        this.sectionID = section;
     }
 
     /**
@@ -372,15 +372,15 @@ public class PlayerDTO
      */
     public int getSection()
     {
-        return sectionId;
+        return sectionID;
     }
 
     /**
      * @return player's section
      */
-    public int getSectionId()
+    public int getSectionID()
     {
-        return sectionId;
+        return sectionID;
     }
 
     /**
