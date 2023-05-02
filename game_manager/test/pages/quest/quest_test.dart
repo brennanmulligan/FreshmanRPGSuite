@@ -33,7 +33,7 @@ Future<void> main() async {
       expect: () => [QuestLoading(), QuestComplete(good)],
     );
 
-    const QuestResponse goodEditingResponse = QuestResponse(true, quests: [], mapNames: [], completionActionTypes: []);
+    const QuestResponse goodEditingResponse = QuestResponse(true, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
 
     blocTest<QuestBloc, QuestState>(
       "Check get flow",

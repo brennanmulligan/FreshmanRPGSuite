@@ -1,8 +1,10 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveCompletionTypeDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
@@ -28,14 +30,10 @@ public class CommandGetQuestInformation extends Command
         {
             QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
 
-            /*
-             * Getting the Map Names from the DB and putting them into a DTO
-             */
+            //Getting the Map Names from the DB and putting them into a DTO
             questEditingInfoDTO.setMapNames(MapTableDataGateway.getInstance().getMapNames());
 
-            /*
-             * Getting the Quest Completion Action Types from the ENUM and putting them into a DTO
-             */
+            //Getting the Quest Completion Action Types from the ENUM and putting them into a DTO
             ArrayList<ActionTypeDTO> actionTypeDTOs = new ArrayList<>();
             for(QuestCompletionActionType q: QuestCompletionActionType.values())
             {
@@ -43,9 +41,7 @@ public class CommandGetQuestInformation extends Command
             }
             questEditingInfoDTO.setCompletionActionTypes(actionTypeDTOs);
 
-            /*
-             * Getting the Quest Records from the DB and putting them into a DTO
-             */
+            //Getting the Quest Records from the DB and putting them into a DTO
             ArrayList<QuestRecord> questRecordsFromMapper = QuestMapper.getAllQuests();
             ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<>();
             for(QuestRecord q: questRecordsFromMapper)
@@ -61,7 +57,13 @@ public class CommandGetQuestInformation extends Command
             }
             questEditingInfoDTO.setQuestRecords(questRecordDTOs);
 
-
+            //Getting the Objective Completion Types from the ENUM and putting them into a DTO
+            ArrayList<ObjectiveCompletionTypeDTO> objCompletionTypeDTOs = new ArrayList<>();
+            for(ObjectiveCompletionType o: ObjectiveCompletionType.values())
+            {
+                objCompletionTypeDTOs.add(new ObjectiveCompletionTypeDTO(o.getID(), o.toString()));
+            }
+            questEditingInfoDTO.setObjCompletionTypes(objCompletionTypeDTOs);
 
             GetQuestInformationReport report = new GetQuestInformationReport(questEditingInfoDTO);
             ReportObserverConnector.getSingleton().sendReport(report);
