@@ -7,6 +7,7 @@ import 'package:game_manager/pages/shared/widgets/password.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
 import '../../repository/player/all_players_response.dart';
 import '../../repository/player/basic_response.dart';
+import '../../repository/player/player.dart';
 import '../shared/widgets/notification_card.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -61,7 +62,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             create: (context) => PlayerRepository(dio: Dio()),
             child: BlocProvider<ChangePasswordBloc>(
                 create: (context) => ChangePasswordBloc(
-                    playerRepository: context.read<PlayerRepository>()),
+                    playerRepository: context.read<PlayerRepository>())..add(
+                        GetPlayerNamesForPageEvent()),
                 child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
                     listener: (context, state) {
                   if (state is ChangePasswordComplete) {
@@ -78,11 +80,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     );
                   }
                 }, builder: (context, state) {
-                  if (state is PasswordPageReady) {
-                    return buildInputScreen(state.response);
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                      return BlocBuilder<ChangePasswordBloc, ChangePasswordState>(builder: (context, state) {
+                        if (state is PasswordPageReady) {
+                          return buildInputScreen(state.response);
+                        } else {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+                      });
                 }))));
   }
 
@@ -101,10 +105,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             });
           },
           items: playersResponse.players
-              .map<DropdownMenuItem<String>>((String playerName) {
+              .map<DropdownMenuItem<String>>((Player player) {
             return DropdownMenuItem<String>(
-              value: playerName,
-              child: Text(playerName),
+              value: player.playerName,
+              child: Text(player.playerName),
             );
           }).toList(),
         ),

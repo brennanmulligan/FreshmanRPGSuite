@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:game_manager/repository/player/all_players_request.dart';
 
+import 'all_players_response.dart';
 import 'change_player_request.dart';
 import 'create_player_request.dart';
 import 'basic_response.dart';
@@ -56,5 +58,24 @@ class PlayerRepository {
     return const BasicResponse(
         success: false,
         description: "Password could not be changed. No response from server.");
+  }
+
+  Future<AllPlayersResponse> getAllPlayers(AllPlayersRequest request) async {
+    try {
+      final response = await dio.get(
+        '/getAllPlayers',
+        data: jsonEncode(request)
+      );
+
+      return AllPlayersResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          return AllPlayersResponse.fromJson(json: jsonDecode(e.response!.data));
+        }
+      }
+    }
+
+    return const AllPlayersResponse(false, players: []);
   }
 }

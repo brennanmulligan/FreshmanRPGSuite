@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.restfulcommunication.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.ship.engr.shipsim.dataDTO.PlayerDTO;
 import edu.ship.engr.shipsim.model.reports.ChangePlayerReport;
 import edu.ship.engr.shipsim.model.reports.CreatePlayerResponseReport;
@@ -11,6 +12,9 @@ import edu.ship.engr.shipsim.testing.annotations.ResetModelFacade;
 import edu.ship.engr.shipsim.testing.annotations.ResetPlayerManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetQuestManager;
 import edu.ship.engr.shipsim.testing.annotations.ResetReportObserverConnector;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +69,7 @@ public class TestPlayerController
 
     @Test
     public void goodResponseGetAllPlayers()
+            throws JsonProcessingException, JSONException
     {
         PlayerController mock = mock(PlayerController.class);
 
@@ -84,14 +89,13 @@ public class TestPlayerController
         when(mock.getAllPlayers()).thenCallRealMethod();
 
         ResponseEntity<Object> response = mock.getAllPlayers();
-
-        // Response body is the array list of players
-        ArrayList<PlayerDTO> players = (ArrayList<PlayerDTO>) response.getBody();
-
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(players);
-        assertEquals(players.get(0).getPlayerID(), 1);
-        assertEquals(players.get(1).getPlayerID(), 2);
+
+        JSONObject last = new JSONObject((String) response.getBody());
+        JSONArray records = (JSONArray) last.get("players");
+
+        assertEquals(records.getJSONObject(0).getInt("playerID"), 1);
+        assertEquals(records.getJSONObject(1).getInt("playerID"), 2);
     }
 
     @Test

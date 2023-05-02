@@ -8,8 +8,11 @@ import edu.ship.engr.shipsim.datasource.*;
 import edu.ship.engr.shipsim.model.*;
 import edu.ship.engr.shipsim.model.cheatCodeBehaviors.BuffBehaviorTest;
 import edu.ship.engr.shipsim.model.reports.*;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.TestCrewController;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.TestMajorController;
 import edu.ship.engr.shipsim.restfulcommunication.controllers.TestObjectiveController;
 import edu.ship.engr.shipsim.restfulcommunication.controllers.TestPlayerController;
+import edu.ship.engr.shipsim.restfulcommunication.controllers.TestQuestController;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -71,6 +74,7 @@ import org.junit.platform.suite.api.Suite;
                 ObjectiveRecordTest.class,
                 ObjectiveStateTableDataGatewayTest.class,
                 ObjectiveTableDataGatewayTest.class,
+                ObjectiveRowDataGatewayTest.class,
                 PlayerRowDataGatewayTest.class,
                 QuestRowDataGatewayTest.class,
                 QuestStateTableDataGatewayTest.class,
@@ -101,6 +105,7 @@ import org.junit.platform.suite.api.Suite;
                 CommandPersistPlayerTest.class,
                 CommandRemovePlayerTest.class,
                 CommandTerminalTextExitTest.class,
+                CommandDeleteObjectiveTest.class,
                 InteractObjectManagerTest.class,
                 InteractObjectManagerTest.class,
                 LevelManagerTest.class,
@@ -148,8 +153,9 @@ import org.junit.platform.suite.api.Suite;
                 // restfulcommunication.controllers
                 TestObjectiveController.class,
                 TestPlayerController.class,
-                ObjectiveRowDataGatewayTest.class,
-                CommandDeleteObjectiveTest.class
+                TestMajorController.class,
+                TestCrewController.class,
+                TestQuestController.class,
         })
 
 public class AllServerTests
