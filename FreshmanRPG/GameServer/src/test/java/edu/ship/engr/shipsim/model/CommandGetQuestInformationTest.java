@@ -2,6 +2,7 @@ package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
 import edu.ship.engr.shipsim.dataDTO.ObjectiveCompletionTypeDTO;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveRecordDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
@@ -51,8 +52,16 @@ public class CommandGetQuestInformationTest
         ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<>();
         for(QuestRecord q: questRecords)
         {
+            ArrayList<ObjectiveRecordDTO> objectiveDTOs = new ArrayList<>();
+            for (ObjectiveRecord o : q.getObjectives())
+            {
+                objectiveDTOs.add(new ObjectiveRecordDTO(o.getObjectiveID(),
+                        o.getObjectiveDescription(),
+                        o.getExperiencePointsGained(), o.getQuestID(),
+                        o.getCompletionType().getID()));
+            }
             questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
-                    q.getDescription(), q.getObjectives(), q.getQuestID(),
+                    q.getDescription(), objectiveDTOs, q.getQuestID(),
                     q.getTriggerMapName(), q.getPosition(),
                     q.getExperiencePointsGained(),
                     q.getObjectivesForFulfillment(),

@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 
 class ObjectiveRecord extends Equatable {
-  final num serialVersionUId;
   final int id;
   final String description;
   final int experiencePointsGained;
@@ -10,7 +9,7 @@ class ObjectiveRecord extends Equatable {
   final int completionType;
 
   const ObjectiveRecord(
-      { required this.serialVersionUId,
+      {
         required this.id,
         required this.description,
         required this.experiencePointsGained,
@@ -19,7 +18,7 @@ class ObjectiveRecord extends Equatable {
       });
 
   @override
-  List<Object?> get props => [serialVersionUId, id, description,
+  List<Object?> get props => [id, description,
                               experiencePointsGained, questID, completionType];
 
   ///
@@ -27,7 +26,6 @@ class ObjectiveRecord extends Equatable {
   ///
   Map<String, dynamic> toJson() {
     return {
-      'serialVersionUID': serialVersionUId,
       'id': id,
       'description': description,
       'experiencePointsGained': experiencePointsGained,
@@ -40,7 +38,6 @@ class ObjectiveRecord extends Equatable {
     required JSON json,
   }) {
     return ObjectiveRecord(
-        serialVersionUId: json['serialVersionUID'],
         id: json["id"],
         description: json['description'],
         experiencePointsGained : json['experiencePointsGained'],
