@@ -427,8 +427,8 @@ class ObjectiveWidget extends StatefulWidget {
     this.objectiveDescription = '',
     this.experiencePointsGained = 0,
     this.completionType = const ObjectiveCompletionTypeDTO(
-      id: -1,
-      name: '',
+      objCompletionId: -1,
+      objCompletionName: '',
     ),
     required this.completionTypes,
   }) : super(key: key);
@@ -453,7 +453,7 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
     TextEditingController objectiveDescriptionController =
         TextEditingController();
     TextEditingController experiencePointsController = TextEditingController();
-    int? completionTypeValue = widget.completionType!.id;
+    int? completionTypeValue = widget.completionType!.objCompletionId;
 
     return Container(
       margin: const EdgeInsets.all(10),
@@ -534,7 +534,7 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                     (ObjectiveCompletionTypeDTO completionType) {
               return DropdownMenuItem<ObjectiveCompletionTypeDTO>(
                 value: completionType,
-                child: Text(completionType.name),
+                child: Text(completionType.objCompletionName),
               );
             }).toList(),
           ),

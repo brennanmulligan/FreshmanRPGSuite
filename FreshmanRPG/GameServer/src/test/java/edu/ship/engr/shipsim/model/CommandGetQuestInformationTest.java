@@ -1,8 +1,10 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.dataDTO.ActionTypeDTO;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveCompletionTypeDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
+import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
@@ -66,6 +68,13 @@ public class CommandGetQuestInformationTest
             actionTypeDTOs.add(new ActionTypeDTO(q.getID(), q.toString()));
         }
         questEditingInfoDTO.setCompletionActionTypes(actionTypeDTOs);
+
+        ArrayList<ObjectiveCompletionTypeDTO> objCompletionTypeDTOs = new ArrayList<>();
+        for(ObjectiveCompletionType q: ObjectiveCompletionType.values())
+        {
+           objCompletionTypeDTOs.add(new ObjectiveCompletionTypeDTO(q.getID(), q.toString()));
+        }
+        questEditingInfoDTO.setObjCompletionTypes(objCompletionTypeDTOs);
 
         ArrayList<String> mapNames = new ArrayList<>();
         mapNames.add("de_dust");
