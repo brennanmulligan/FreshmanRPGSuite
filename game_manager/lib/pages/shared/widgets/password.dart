@@ -80,7 +80,7 @@ class _PasswordState extends State<PasswordField> {
       obscureText: !widget.validator.passwordVisible,
       decoration: InputDecoration(
         label: Row(
-          children: const [
+          children: [
             Icon(Icons.key),
             SizedBox(
               width: 10,

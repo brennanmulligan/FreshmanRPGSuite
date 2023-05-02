@@ -11,7 +11,8 @@ import '../../repository/player/player.dart';
 import '../shared/widgets/notification_card.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({Key? key}) : super(key: key);
+  final PlayerRepository playerRepository;
+  const ChangePasswordPage({Key? key, required this.playerRepository}) : super(key: key);
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -23,12 +24,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   String? username;
   bool isMatching = true;
   PasswordValidator validator = PasswordValidator();
+  late PlayerRepository playerRepository;
+
 
   @override
   void initState() {
     super.initState();
     passwordFirst.addListener(_checkMatch);
     passwordConfirm.addListener(_checkMatch);
+    playerRepository = widget.playerRepository;
   }
 
   @override
@@ -59,7 +63,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           title: const Text('Change Password'),
         ),
         body: RepositoryProvider(
-            create: (context) => PlayerRepository(dio: Dio()),
+            create: (context) => playerRepository,
             child: BlocProvider<ChangePasswordBloc>(
                 create: (context) => ChangePasswordBloc(
                     playerRepository: context.read<PlayerRepository>())..add(
@@ -124,7 +128,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           obscureText: !validator.passwordVisible,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.key),
                 SizedBox(
                   width: 10,
