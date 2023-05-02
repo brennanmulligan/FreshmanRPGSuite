@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Compile All Java" type="CompoundRunConfigurationType">
-    <toRun name="LoginServer - Compile Java" type="GradleRunConfiguration" />
-    <toRun name="Watchdog - Compile Java" type="GradleRunConfiguration" />
+    <toRun name="GameClient - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameSequenceTests - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameServer - Compile Java" type="GradleRunConfiguration" />
     <toRun name="GameShared - Compile Java" type="GradleRunConfiguration" />
-    <toRun name="GameClient - Compile Java" type="GradleRunConfiguration" />
+    <toRun name="LoginServer - Compile Java" type="GradleRunConfiguration" />
+    <toRun name="Watchdog - Compile Java" type="GradleRunConfiguration" />
     <method v="2" />
   </configuration>
 </component>
