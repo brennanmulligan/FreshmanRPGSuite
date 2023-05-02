@@ -185,7 +185,10 @@ public class Server implements Runnable, AutoCloseable
                 application.run();
             }
 
-            openConnectionToWatchdogServer();
+            if (!OptionsManager.getSingleton().isRunningInIntelliJ())
+            {
+                openConnectionToWatchdogServer();
+            }
             acceptConnectionsFromClients();
         }
         catch (Throwable e)
