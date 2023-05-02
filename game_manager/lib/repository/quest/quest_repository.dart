@@ -46,7 +46,7 @@ class QuestRepository {
       );
       return QuestResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
-      return const QuestResponse(false, quests: [], mapNames: [], completionActionTypes: []);
+      return const QuestResponse(false, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
     }
   }
 

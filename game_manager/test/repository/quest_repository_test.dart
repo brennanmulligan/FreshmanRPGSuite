@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:game_manager/repository/player/basic_response.dart';
 import 'package:game_manager/repository/quest/action_type_DTO.dart';
+import 'package:game_manager/repository/quest/objective_completion_type_DTO.dart';
 import 'package:game_manager/repository/quest/quest_editing_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
 import 'package:game_manager/repository/quest/quest_record.dart';
@@ -59,11 +60,14 @@ void main() {
 
     var testingActionTypes = [const ActionTypeDTO(actionName: "name", actionID: 2)];
 
+    var testingObjCompletionTypes = [const ObjectiveCompletionTypeDTO(objCompletionName: "name", objCompletionId: 2)];
+
     Map<String, dynamic> goodRequest = {
       "success": true,
       "quests" : testingQuestRecord,
       "mapNames" : testingMapNames,
-      "completionActionTypes" : testingActionTypes
+      "completionActionTypes" : testingActionTypes,
+      "objCompletionTypes" : testingObjCompletionTypes
     };
 
     Map<String, dynamic> goodResponse = {
@@ -123,6 +127,7 @@ void main() {
         expect(response.quests, testingQuestRecord);
         expect(response.mapNames, testingMapNames);
         expect(response.completionActionTypes, testingActionTypes);
+        expect(response.objCompletionTypes, testingObjCompletionTypes);
       });
 
       test('Bad get all quests Request', () async {
@@ -138,6 +143,7 @@ void main() {
         expect(response.quests, []);
         expect(response.mapNames, []);
         expect(response.completionActionTypes, []);
+        expect(response.objCompletionTypes, []);
     });
   });
 }
