@@ -9,7 +9,6 @@ import 'package:meta/meta.dart';
 import '../../../repository/player/all_players_request.dart';
 import '../../../repository/player/basic_response.dart';
 import '../../../repository/player/change_player_request.dart';
-import '../../../repository/player/player_repository.dart';
 
 part 'change_password_event.dart';
 part 'change_password_state.dart';
@@ -24,10 +23,8 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
     on<GetPlayerNamesForPageEvent>((event, emit) async {
       emit(ChangePasswordLoading());
       AllPlayersResponse playerResponse = await playerRepository.getAllPlayers(const AllPlayersRequest());
-      print("after response");
       emit (PasswordPageReady(playerResponse));
     });
-
     on<SendChangePasswordEvent>((event, emit) async {
       emit(ChangePasswordLoading());
 
