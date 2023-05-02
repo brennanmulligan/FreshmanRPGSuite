@@ -138,12 +138,16 @@ public class VanityInventoryTableDataGateway
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
         ArrayList<VanityDTO> results = new ArrayList<>();
+//
+//        String sql = "" +
+//                "SELECT * FROM (" +
+//                "    SELECT vanityID FROM VanityInventory WHERE playerID = ? UNION SELECT defaultID FROM DefaultItems" +
+//                ") t1 INNER JOIN VanityItems on t1.vanityID = VanityItems.vanityID";
 
-        String sql = "" +
-                "SELECT * FROM (" +
-                "    SELECT vanityID FROM VanityInventory WHERE playerID = ? UNION SELECT defaultID FROM DefaultItems" +
-                ") t1 INNER JOIN VanityItems on t1.vanityID = VanityItems.vanityID";
-
+        String sql = "SELECT * FROM VanityItems " +
+                "WHERE vanityID IN " +
+                "(SELECT vanityID FROM VanityInventory WHERE playerID = ?) OR " +
+                "isDefault = true";
         try (PreparedStatement stmt = connection.prepareStatement(sql))
         {
             stmt.setInt(1, playerID);
@@ -244,7 +248,9 @@ public class VanityInventoryTableDataGateway
                 throw new DatabaseException("Unable to add player's vanity", e);
             }
 
-            try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS(SELECT * FROM DefaultItems WHERE vanityID = DefaultItems.defaultID) AND isWearing = 0;"))
+            try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM VanityInventory WHERE EXISTS" +
+                    "(SELECT * FROM VanityItems WHERE vanityID = VanityInventory.vanityID AND isDefault = true) " +
+                    "AND isWearing = 0;"))
             {
                 stmt.executeUpdate();
             }

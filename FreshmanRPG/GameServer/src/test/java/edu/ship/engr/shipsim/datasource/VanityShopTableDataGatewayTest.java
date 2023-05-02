@@ -96,7 +96,7 @@ public class VanityShopTableDataGatewayTest
         assertEquals(VanityShopItemsForTest.values().length,
                 gateway.getVanityShopInventory().size());
         VanityDTO item = gateway.getVanityShopInventory().get(index);
-        assertEquals(VanityType.fromInt(VanityItemsForTest.BEANIE_HAT.getVanityType()),
+        assertEquals(VanityItemsForTest.BEANIE_HAT.getVanityType(),
                 item.getVanityType());
         assertEquals(VanityItemsForTest.BEANIE_HAT.getId(), item.getID());
         assertEquals(VanityItemsForTest.BEANIE_HAT.getDescription(), item.getDescription());

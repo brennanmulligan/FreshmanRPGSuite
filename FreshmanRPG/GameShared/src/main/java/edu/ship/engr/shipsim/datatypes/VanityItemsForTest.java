@@ -299,6 +299,17 @@ public enum VanityItemsForTest
         return defaultItems;
     }
 
+    public static VanityItemsForTest getByID(int vanityID)
+    {
+        for(VanityItemsForTest v : VanityItemsForTest.values())
+        {
+            if (v.getId() == vanityID)
+            {
+                return v;
+            }
+        }
+        return null;
+    }
     public static ArrayList<VanityDTO> getAllShopItems()
     {
         ArrayList<VanityDTO> shopItems = new ArrayList<>();
@@ -325,10 +336,10 @@ public enum VanityItemsForTest
         return deletableItems;
     }
 
-    private static VanityDTO toVanityDTO(VanityItemsForTest v)
+    public static VanityDTO toVanityDTO(VanityItemsForTest v)
     {
         return new VanityDTO(v.getId(), v.getName(), v.getDescription(),
-                v.getTextureName(), VanityType.fromInt(v.getVanityType()), v.getPrice());
+                v.getTextureName(), v.getVanityType(), v.getPrice());
     }
 
     public boolean isInShop()
@@ -367,9 +378,9 @@ public enum VanityItemsForTest
      *
      * @return the vanity type of the item as an int.
      */
-    public int getVanityType()
+    public VanityType getVanityType()
     {
-        return this.vanityType;
+        return VanityType.fromInt(vanityType);
     }
 
     /**
