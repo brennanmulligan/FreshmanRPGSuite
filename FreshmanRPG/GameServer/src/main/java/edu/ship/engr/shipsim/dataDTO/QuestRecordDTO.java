@@ -13,7 +13,7 @@ public class QuestRecordDTO
 {
     private String title;
     private String description;
-    private ArrayList<ObjectiveRecord> objectives;
+    private ArrayList<ObjectiveRecordDTO> objectives;
     private int questID;
     private String mapName;
     private Position position;
@@ -25,7 +25,7 @@ public class QuestRecordDTO
     private boolean easterEgg;
 
     public QuestRecordDTO(String title, String description,
-                          ArrayList<ObjectiveRecord> objectives, int questID,
+                          ArrayList<ObjectiveRecordDTO> objectives, int questID,
                           String mapName, Position position,
                           int experiencePointsGained,
                           int objectivesForFulfillment,
@@ -67,13 +67,13 @@ public class QuestRecordDTO
         this.description = description;
     }
 
-    public ArrayList<ObjectiveRecord> getObjectives()
+    public ArrayList<ObjectiveRecordDTO> getObjectives()
     {
         return objectives;
     }
 
     public void setObjectives(
-            ArrayList<ObjectiveRecord> objectives)
+            ArrayList<ObjectiveRecordDTO> objectives)
     {
         this.objectives = objectives;
     }

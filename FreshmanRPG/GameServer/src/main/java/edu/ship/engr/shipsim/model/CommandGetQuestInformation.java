@@ -5,6 +5,7 @@ import edu.ship.engr.shipsim.dataDTO.ObjectiveCompletionTypeDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestEditingInfoDTO;
 import edu.ship.engr.shipsim.dataDTO.QuestRecordDTO;
 import edu.ship.engr.shipsim.dataENUM.ObjectiveCompletionType;
+import edu.ship.engr.shipsim.dataDTO.ObjectiveRecordDTO;
 import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datasource.DatabaseException;
 import edu.ship.engr.shipsim.datasource.DuplicateNameException;
@@ -44,10 +45,21 @@ public class CommandGetQuestInformation extends Command
             //Getting the Quest Records from the DB and putting them into a DTO
             ArrayList<QuestRecord> questRecordsFromMapper = QuestMapper.getAllQuests();
             ArrayList<QuestRecordDTO> questRecordDTOs = new ArrayList<>();
+
             for(QuestRecord q: questRecordsFromMapper)
             {
+                // Pack list of objectives into DTOs
+                ArrayList<ObjectiveRecordDTO> objectiveDTOs = new ArrayList<>();
+                for (ObjectiveRecord o : q.getObjectives())
+                {
+                    objectiveDTOs.add(new ObjectiveRecordDTO(o.getObjectiveID(),
+                            o.getObjectiveDescription(),
+                            o.getExperiencePointsGained(), o.getQuestID(),
+                            o.getCompletionType().getID()));
+                }
+
                 questRecordDTOs.add(new QuestRecordDTO(q.getTitle(),
-                        q.getDescription(), q.getObjectives(), q.getQuestID(),
+                        q.getDescription(), objectiveDTOs, q.getQuestID(),
                         q.getTriggerMapName(), q.getPosition(),
                         q.getExperiencePointsGained(),
                         q.getObjectivesForFulfillment(),
