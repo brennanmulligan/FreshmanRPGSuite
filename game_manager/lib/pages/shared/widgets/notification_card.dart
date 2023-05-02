@@ -47,10 +47,12 @@ class NotificationCard extends StatelessWidget {
             height: 12,
           ),
           Row(children: [
-            Text(
-              description,
-              textAlign: TextAlign.left,
-            ),
+            Expanded(
+              child: Text(
+                description,
+                textAlign: TextAlign.left,
+              ),
+            )
           ])
         ]),
       ),
