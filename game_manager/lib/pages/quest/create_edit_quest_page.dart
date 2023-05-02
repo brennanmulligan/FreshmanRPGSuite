@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +5,8 @@ import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
 import 'package:game_manager/repository/quest/objective_completion_type_DTO.dart';
 
 import '../../repository/quest/action_type_DTO.dart';
+import '../../repository/quest/objective_record.dart';
 import '../../repository/quest/quest_record.dart';
-import '../../repository/quest/quest_editing_response.dart';
 import '../../repository/quest/quest_repository.dart';
 
 class CreateEditQuestPage extends StatefulWidget {
@@ -28,33 +26,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
 
-  // this is here for example purposes! take it out when you have the data
-  // ready to fill in.
-  static const List<String> list = <String>[
-    'Quest Title',
-    'Two',
-    'Three',
-    'Four'
-  ];
-  final List<Map<String, dynamic>> tempList = [
-    {"name": "Janine", "age": 43, "role": "Professor"},
-    {"name": "William", "age": 27, "role": "Associate Professor"},
-    {"name": "John", "age": 40, "role": "Department Chair"},
-    {"name": "Joanne", "age": 23, "role": "Professor"},
-    {"name": "Alice", "age": 30, "role": "Adjunct Professor"},
-    {"name": "Carol", "age": 38, "role": "Assistant Professor"},
-    {"name": "Charles", "age": 31, "role": "Professor"},
-    {"name": "Alex", "age": 45, "role": "AdjunctProfessor"},
-    {"name": "Alicia", "age": 50, "role": "AdjunctProfessor"},
-    {"name": "Bob", "age": 46, "role": "Professor"},
-    {"name": "Larry", "age": 59, "role": "Professor"},
-    {"name": "Terry", "age": 43, "role": "Professor"},
-    {"name": "Arron", "age": 47, "role": "AssistantProfessor"},
-    {"name": "Tyler", "age": 50, "role": "Professor"},
-    {"name": "Charlie", "age": 60, "role": "President"},
-  ];
-  String dropdownValue = list.first;
-  String customTextStyle = "Test";
+  List<ObjectiveRecord> objectivesOnScreen = [];
 
   int? questId;
   String? questTitle;
@@ -84,6 +56,19 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   // Function to sync the password visibilities by refreshing Parent state
   refresh() {
     setState(() {});
+  }
+
+  populate(QuestRecord quest) {
+    experienceGained.text = quest.xpGained.toString();
+    questDesc.text = quest.description;
+    triggerRow.text = quest.triggerRow.toString();
+    triggerColumn.text = quest.triggerCol.toString();
+    fulfillmentObjectives.text = quest.objectivesForFulfillment.toString();
+    startDate.text = quest.startDate.toString();
+    endDate.text = quest.endDate.toString();
+    mapValue = quest.triggerMapName;
+    actionValue = quest.completionActionType.actionID;
+    objectivesOnScreen = quest.objectives;
   }
 
 // DO NOT TAKE THIS OUT! the page will not build!
@@ -125,54 +110,23 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         ),
       ));
 
-  Widget buildObjectivesTable() => SizedBox(
+  Widget buildObjectivesTable(completionTypeList) => SizedBox(
       height: 300,
-      child: ListView(children: [
-        DataTable(
-          columns: const <DataColumn>[
-            DataColumn(
-              label: Expanded(
-                child: Text(
-                  'Name',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline),
-                ),
-              ),
-            ),
-            DataColumn(
-              label: Expanded(
-                child: Text(
-                  'Age',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline),
-                ),
-              ),
-            ),
-            DataColumn(
-              label: Expanded(
-                child: Text(
-                  'Role',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline),
-                ),
-              ),
-            ),
-          ],
-          rows: List<DataRow>.generate(tempList.length, (index) {
-            final name = tempList[index]["name"] ?? '';
-            final age = tempList[index]["age"] ?? '';
-            final role = tempList[index]["role"] ?? '';
-            return DataRow(cells: <DataCell>[
-              DataCell(Text(name)),
-              DataCell(Text(age.toString())),
-              DataCell(Text(role)),
-            ]);
-          }),
-        ),
-      ]));
+      child: ListView.builder(
+        itemCount: objectivesOnScreen.length,
+        itemBuilder: (BuildContext context, int index){
+          ObjectiveRecord objective = objectivesOnScreen[index];
+          return ObjectiveWidget(
+            objectiveId: objective.id,
+            questId: objective.questID,
+            objectiveDescription: objective.description,
+            experiencePointsGained: objective.experiencePointsGained,
+            completionType: completionTypeList.firstWhere((obj) => obj.objCompletionId == objective.completionType),
+            completionTypes: completionTypeList,
+          );
+        },
+      )
+  );
 
   // INSTRUCTIONS/NOTES:
   // To make a new component of a page (another text field or dropdown), it
@@ -195,7 +149,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
               controller: addNewQuest,
               decoration: InputDecoration(
                 label: Row(
-                  children: const [
+                  children: [
                     Icon(Icons.edit_note, color: Colors.pink),
                     SizedBox(
                       width: 10,
@@ -219,6 +173,8 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
               onChanged: (int? value) {
                 setState(() {
                   questId = value!;
+                  QuestRecord current  = questResponse.quests.firstWhere((quest) => quest.id == questId);
+                  populate(current);
                 });
               },
               items: questResponse.quests
@@ -236,7 +192,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: questDesc,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.edit_note, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -254,7 +210,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: experienceGained,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.exposure_plus_1, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -292,7 +248,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: triggerRow,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.arrow_right_alt, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -309,7 +265,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: triggerColumn,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.arrow_right_alt, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -326,7 +282,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: fulfillmentObjectives,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.edit_note, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -364,7 +320,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: startDate,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.calendar_today, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -381,7 +337,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           controller: endDate,
           decoration: InputDecoration(
             label: Row(
-              children: const [
+              children: [
                 Icon(Icons.calendar_today, color: Colors.pink),
                 SizedBox(
                   width: 10,
@@ -392,8 +348,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             fillColor: Colors.grey,
           ),
         ),
-        ObjectiveWidget(completionTypes: []),
-        buildObjectivesTable(),
+        buildObjectivesTable(questResponse.objCompletionTypes),
         SubmitButtonBuilder(
           questId: questId ?? -1,
           questTitle:
@@ -435,12 +390,10 @@ class ObjectiveWidget extends StatefulWidget {
 
   final int objectiveId;
   final int questId;
-  String? objectiveDescription;
-  int? experiencePointsGained;
+  String objectiveDescription;
+  int experiencePointsGained;
   ObjectiveCompletionTypeDTO? completionType;
   final List<ObjectiveCompletionTypeDTO> completionTypes;
-
-  //TODO: add way to just get the completiontypes
 
   @override
   State<StatefulWidget> createState() => _ObjectiveWidgetState();
@@ -455,6 +408,9 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
     TextEditingController experiencePointsController = TextEditingController();
     int? completionTypeValue = widget.completionType!.objCompletionId;
 
+    objectiveDescriptionController.text = widget.objectiveDescription;
+    experiencePointsController.text = widget.experiencePointsGained.toString();
+
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -464,80 +420,70 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
       ),
       child: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     ElevatedButton(
-          //       child: const Icon(Icons.delete),
-          //       onPressed: () {}
-          //     ),
-          //   ],
-          // ),
-          Row(
-            children: [
-              const Icon(Icons.edit_note, color: Colors.pink),
-              const SizedBox(
-                width: 10,
+          // Fields
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Expanded(
+              child: TextField(
+                controller: objectiveDescriptionController,
+                decoration: InputDecoration(
+                  label: Row(children: [
+                    Icon(Icons.edit_note_rounded, color: Colors.pink),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Description (Objective)'),
+                  ]),
+                  fillColor: Colors.grey,
+                ),
               ),
-              Text('Objective Description'),
-              const Spacer(),
+            ),
+            Expanded(
+              child: TextField(
+                controller: experiencePointsController,
+                decoration: InputDecoration(
+                  label: Row(children: [
+                    Icon(Icons.exposure_plus_1_rounded, color: Colors.pink),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text('Experience Points (Objective)'),
+                  ]),
+                  fillColor: Colors.grey,
+                ),
+              ),
+            ),
+            Expanded(
+              child: DropdownButtonFormField<ObjectiveCompletionTypeDTO>(
+                decoration: const InputDecoration(
+                    prefixIcon:
+                        Icon(Icons.incomplete_circle, color: Colors.pink)),
+                hint: const Text("Completion Type"),
+                value: widget.completionType,
+                isExpanded: true,
+                onChanged: (ObjectiveCompletionTypeDTO? value) {
+                  setState(() {
+                    widget.completionType = value!;
+                  });
+                },
+                items: widget.completionTypes
+                    .map<DropdownMenuItem<ObjectiveCompletionTypeDTO>>(
+                        (ObjectiveCompletionTypeDTO completionType) {
+                  return DropdownMenuItem<ObjectiveCompletionTypeDTO>(
+                    value: completionType,
+                    child: Text(completionType.objCompletionName),
+                  );
+                }).toList(),
+              ),
+            ),
+            SizedBox(
+                child: Row(children: [
               ElevatedButton(
-                child: const Icon(Icons.delete),
-                //Todo: pass in the ObjectiveIa and questId to this widget
-                onPressed: () { showAlertDialog(context, -1, -1); }
-              ),
-            ],
-          ),
-          TextField(
-            controller: objectiveDescriptionController,
-            decoration: InputDecoration(
-              fillColor: Colors.grey,
-            ),
-          ),
-          Row(
-            children: [
-              const Icon(Icons.exposure_plus_1, color: Colors.pink),
-              const SizedBox(
-                width: 10,
-              ),
-              Text('Experience Gained'),
-            ],
-          ),
-          TextField(
-            controller: experiencePointsController,
-            decoration: InputDecoration(
-              fillColor: Colors.grey,
-            ),
-          ),
-          Row(
-            children: [
-              const Icon(Icons.incomplete_circle, color: Colors.pink),
-              const SizedBox(
-                width: 10,
-              ),
-              Text('Completion Type'),
-            ],
-          ),
-          DropdownButtonFormField<ObjectiveCompletionTypeDTO>(
-            decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.incomplete_circle, color: Colors.pink)),
-            hint: const Text("Completion Type"),
-            value: widget.completionType,
-            isExpanded: true,
-            onChanged: (ObjectiveCompletionTypeDTO? value) {
-              setState(() {
-                widget.completionType = value!;
-              });
-            },
-            items: widget.completionTypes
-                .map<DropdownMenuItem<ObjectiveCompletionTypeDTO>>(
-                    (ObjectiveCompletionTypeDTO completionType) {
-              return DropdownMenuItem<ObjectiveCompletionTypeDTO>(
-                value: completionType,
-                child: Text(completionType.objCompletionName),
-              );
-            }).toList(),
-          ),
+                  child: const Icon(Icons.delete),
+                  onPressed: () {
+                      showAlertDialog(context, widget.objectiveId, widget.questId);
+                  })
+            ])),
+          ])
         ],
       ),
     );
@@ -548,19 +494,19 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
 showAlertDialog(BuildContext context, objectiveId, questId) {
   // set up the buttons
   Widget continueButton = TextButton(
-    child: Text("Continue"),
+    child: const Text("Continue"),
     onPressed:  () { BlocProvider.of<QuestBloc>(context).add(
         DeleteObjectiveEvent(objectiveId, questId));
       Navigator.pop(context);
       },
   );
   Widget cancelButton = TextButton(
-    child: Text("Cancel"),
+    child: const Text("Cancel"),
     onPressed:  () { Navigator.pop(context); },
   );
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    content: Text("Do you want to delete this objective?"),
+    content: const Text("Do you want to delete this objective?"),
     actions: [
       continueButton,
       cancelButton,

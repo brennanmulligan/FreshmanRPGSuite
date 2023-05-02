@@ -109,6 +109,8 @@ public class QuestController extends Controller
                     mapper.writeValueAsString(qInfo.getMapNames()) +
                     ", \"completionActionTypes\": " + mapper.writeValueAsString(
                     qInfo.getCompletionActionTypes()) +
+                    ", \"objCompletionTypes\": " + mapper.writeValueAsString(
+                    qInfo.getObjCompletionTypes()) +
                     "}";
 
             return new ResponseEntity<>(json, HttpStatus.OK);
