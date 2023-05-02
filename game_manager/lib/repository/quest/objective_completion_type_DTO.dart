@@ -1,13 +1,34 @@
 import 'package:equatable/equatable.dart';
+import '../../type_definitions.dart';
 
 class ObjectiveCompletionTypeDTO extends Equatable {
-  final int id;
-  final String name;
+  final String objCompletionName;
+  final int objCompletionId;
 
-  const ObjectiveCompletionTypeDTO({required this.id, required this.name});
+  const ObjectiveCompletionTypeDTO({required this.objCompletionName, required this.objCompletionId});
+
+  const ObjectiveCompletionTypeDTO.allFields({required this.objCompletionName, required this.objCompletionId});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id, name];
+  List<Object?> get props => [objCompletionName, objCompletionId];
+
+  ///
+  /// Convert object to JSON.
+  ///
+  Map<String, dynamic> toJson() {
+    return {
+      'objCompletionName': objCompletionName,
+      'objCompletionId' : objCompletionId,
+    };
+  }
+
+  factory ObjectiveCompletionTypeDTO.fromJson({
+    required JSON json,
+  }) {
+    return ObjectiveCompletionTypeDTO.allFields(
+        objCompletionName: json['objCompletionName'],
+        objCompletionId: json['objCompletionId']
+    );
+  }
 
 }

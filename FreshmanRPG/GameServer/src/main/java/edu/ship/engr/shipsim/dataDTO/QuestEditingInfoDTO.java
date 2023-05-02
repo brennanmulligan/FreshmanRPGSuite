@@ -11,6 +11,7 @@ public class QuestEditingInfoDTO
     private ArrayList<QuestRecordDTO> questRecords;
     private ArrayList<String> mapNames;
     private ArrayList<ActionTypeDTO> completionActionTypes;
+    private ArrayList<ObjectiveCompletionTypeDTO> objCompletionTypes;
 
     public QuestEditingInfoDTO()
     {
@@ -32,7 +33,9 @@ public class QuestEditingInfoDTO
         return Objects.equals(questRecords, that.questRecords) &&
                 Objects.equals(mapNames, that.mapNames) &&
                 Objects.equals(completionActionTypes,
-                        that.completionActionTypes);
+                        that.completionActionTypes) &&
+                Objects.equals(objCompletionTypes,
+                        that.objCompletionTypes);
     }
 
     @Override
@@ -42,11 +45,13 @@ public class QuestEditingInfoDTO
     }
 
     public QuestEditingInfoDTO(ArrayList<QuestRecordDTO> questRecords, ArrayList<String> mapNames,
-                               ArrayList<ActionTypeDTO> completionActionTypes)
+                               ArrayList<ActionTypeDTO> completionActionTypes,
+                               ArrayList<ObjectiveCompletionTypeDTO> objCompletionTypes)
     {
         this.questRecords = questRecords;
         this.mapNames = mapNames;
         this.completionActionTypes = completionActionTypes;
+        this.objCompletionTypes = objCompletionTypes;
     }
 
     public ArrayList<QuestRecordDTO> getQuestRecords()
@@ -78,4 +83,15 @@ public class QuestEditingInfoDTO
     {
         this.completionActionTypes = completionActionTypes;
     }
+
+    public ArrayList<ObjectiveCompletionTypeDTO> getObjCompletionTypes()
+    {
+        return objCompletionTypes;
+    }
+
+    public void setObjCompletionTypes(ArrayList<ObjectiveCompletionTypeDTO> objCompletionTypes)
+    {
+        this.objCompletionTypes = objCompletionTypes;
+    }
+
 }
