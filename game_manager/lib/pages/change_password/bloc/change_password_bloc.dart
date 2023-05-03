@@ -22,7 +22,9 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
   }) : super(ChangePasswordInitial()) {
     on<GetPlayerNamesForPageEvent>((event, emit) async {
       emit(ChangePasswordLoading());
+
       AllPlayersResponse playerResponse = await playerRepository.getAllPlayers(const AllPlayersRequest());
+
       emit (PasswordPageReady(playerResponse));
     });
     on<SendChangePasswordEvent>((event, emit) async {
@@ -32,6 +34,9 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
         (username: event.name, password: event.newPassword));
 
       emit(ChangePasswordComplete(response));
+
+      AllPlayersResponse playerResponse = await playerRepository.getAllPlayers(const AllPlayersRequest());
+      emit (PasswordPageReady(playerResponse));
     });
   }
 }
