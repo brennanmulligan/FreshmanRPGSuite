@@ -23,7 +23,7 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
     on<SendUpsertQuestEvent>((event, emit) async {
       emit(QuestLoading());
 
-      BasicResponse response = await questRepository.upsertQuest(UpsertQuestRequest(id: event.id, title: event.title, description: event.description, xpGained: event.xpGained, triggerMapName: event.triggerMapName, triggerRow: event.triggerRow, triggerCol: event.triggerCol, objectivesForFulfillment: event.objectivesForFulfillment, completionActionType: event.completionActionType, startDate: event.startDate, endDate: event.endDate, easterEgg: event.easterEgg));
+      BasicResponse response = await questRepository.upsertQuest(UpsertQuestRequest(id: event.id, title: event.title, description: event.description, objectives: event.objectives, xpGained: event.xpGained, triggerMapName: event.triggerMapName, triggerRow: event.triggerRow, triggerCol: event.triggerCol, objectivesForFulfillment: event.objectivesForFulfillment, completionActionType: event.completionActionType, startDate: event.startDate, endDate: event.endDate, easterEgg: event.easterEgg));
 
       emit(QuestComplete(response));
     });
