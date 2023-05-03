@@ -27,9 +27,9 @@ public class CommandGetMajorsTest
         majorGateway.setSingleton(mockMajorGateway);
 
         MajorDTO majorDTO1 = new MajorDTO();
-        majorDTO1.setMajorID(1);
+        majorDTO1.setID(1);
         MajorDTO majorDTO2 = new MajorDTO();
-        majorDTO2.setMajorID(2);
+        majorDTO2.setID(2);
 
         ArrayList<MajorDTO> majors = new ArrayList<>()
         {{

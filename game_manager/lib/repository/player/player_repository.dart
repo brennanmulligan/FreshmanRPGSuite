@@ -7,7 +7,15 @@ import 'all_players_response.dart';
 import 'change_player_request.dart';
 import 'create_player_request.dart';
 import 'basic_response.dart';
+import 'get_all_crews_request.dart';
+import 'get_all_crews_response.dart';
+import 'get_all_majors_request.dart';
+import 'get_all_majors_response.dart';
 
+/**
+ * A class for connecting with the backend using the restful server.
+ * Deals with anything and everything related to a player.
+ */
 class PlayerRepository {
   PlayerRepository({required this.dio}) {
     dio.options.headers['content-Type'] = 'application/json; charset=UTF-8';
@@ -78,4 +86,31 @@ class PlayerRepository {
 
     return const AllPlayersResponse(false, players: []);
   }
+
+  Future<GetAllMajorsResponse> getAllMajors(GetAllMajorsRequest request) async
+  {
+    try {
+      final response = await dio.get(
+        '/majors',
+        data: jsonEncode(request),
+      );
+      return GetAllMajorsResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      return const GetAllMajorsResponse(false, majors: []);
+    }
+  }
+
+  Future<GetAllCrewsResponse> getAllCrews(GetAllCrewsRequest request) async
+  {
+    try {
+      final response = await dio.get(
+        '/crews',
+        data: jsonEncode(request),
+      );
+      return GetAllCrewsResponse.fromJson(json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      return const GetAllCrewsResponse(false, crews: []);
+    }
+  }
+
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class CrewDTO
 {
-    private int crewID;
+    private int id;
     private String name;
 
     /**
@@ -21,12 +21,12 @@ public class CrewDTO
     /**
      * Testing constructor for game manager
      *
-     * @param crewID         the crew's unique ID
+     * @param id         the crew's unique ID
      * @param name            the crew's name
      */
-    public CrewDTO(int crewID, String name)
+    public CrewDTO(int id, String name)
     {
-        this.crewID = crewID;
+        this.id = id;
         this.name = name;
     }
 
@@ -42,24 +42,24 @@ public class CrewDTO
             return false;
         }
         CrewDTO crewDTO = (CrewDTO) o;
-        return crewID == crewDTO.crewID &&
+        return id == crewDTO.id &&
                 Objects.equals(name, crewDTO.name);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(crewID, name);
+        return Objects.hash(id, name);
     }
 
-    public int getCrewID()
+    public int getID()
     {
-        return crewID;
+        return id;
     }
 
-    public void setCrewID(int crewID)
+    public void setID(int id)
     {
-        this.crewID = crewID;
+        this.id = id;
     }
 
     public String getName()
