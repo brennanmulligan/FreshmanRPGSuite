@@ -32,7 +32,7 @@ public class CommandGetQuestInformation extends Command
             QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
 
             //Getting the Map Names from the DB and putting them into a DTO
-            questEditingInfoDTO.setMapNames(MapTableDataGateway.getInstance().getMapNames());
+            questEditingInfoDTO.setMapNames(MapTableDataGateway.getSingleton().getMapNames());
 
             //Getting the Quest Completion Action Types from the ENUM and putting them into a DTO
             ArrayList<ActionTypeDTO> actionTypeDTOs = new ArrayList<>();

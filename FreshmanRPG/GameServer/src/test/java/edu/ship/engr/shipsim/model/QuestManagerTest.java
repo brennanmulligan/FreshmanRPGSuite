@@ -40,9 +40,9 @@ public class QuestManagerTest
                 (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
         Position pos = location.getPosition();
         Player paul = PlayerManager.getSingleton().addPlayer(8);
-        paul.setPlayerPosition(pos);
-        paul.setPlayerPosition(new Position(0, 0));
-        paul.setPlayerPosition(pos);
+        paul.setPosition(pos);
+        paul.setPosition(new Position(0, 0));
+        paul.setPosition(pos);
 
         assertEquals(ObjectiveStateEnum.COMPLETED,
                 QuestManager.getSingleton()
@@ -59,7 +59,7 @@ public class QuestManagerTest
     {
         QuestManager.getSingleton()
                 .addQuestState(4, new QuestState(4, 1, QuestStateEnum.AVAILABLE, false));
-        QuestManager.getSingleton().removeQuestStatesForPlayer(4);
+        QuestManager.getSingleton().removeQuestStates(4);
         assertNull(QuestManager.getSingleton().getQuestList(4));
     }
 
@@ -78,7 +78,7 @@ public class QuestManagerTest
                 (GameLocationDTO) (ObjectivesForTest.QUEST2_OBJECTIVE2.getCompletionCriteria());
         Position pos = location.getPosition();
         Player paul = PlayerManager.getSingleton().addPlayer(8);
-        paul.setPlayerPosition(pos);
+        paul.setPosition(pos);
         assertEquals(ObjectiveStateEnum.COMPLETED,
                 QuestManager.getSingleton()
                         .getObjectiveStateByID(paul.getPlayerID(), questID, advID)
@@ -157,7 +157,7 @@ public class QuestManagerTest
         GameLocationDTO completionCriteria =
                 (GameLocationDTO) ObjectivesForTest.QUEST6_OBJECTIVE_1
                         .getCompletionCriteria();
-        hersh.setPlayerPosition(completionCriteria.getPosition());
+        hersh.setPosition(completionCriteria.getPosition());
         ObjectiveState objectiveState =
                 QuestManager.getSingleton().getObjectiveStateByID(hersh.getPlayerID(),
                         ObjectivesForTest.QUEST6_OBJECTIVE_1.getQuestID(),
@@ -176,7 +176,7 @@ public class QuestManagerTest
         // completing the second objective will finish the quest
         completionCriteria =
                 (GameLocationDTO) ObjectivesForTest.QUEST6_OBJECTIVE_2.getCompletionCriteria();
-        hersh.setPlayerPosition(completionCriteria.getPosition());
+        hersh.setPosition(completionCriteria.getPosition());
 
         objectiveState =
                 QuestManager.getSingleton().getObjectiveStateByID(hersh.getPlayerID(),
@@ -252,13 +252,13 @@ public class QuestManagerTest
 
         Player toTalkTo = PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
         Position playerOnePosition =
-                new Position(toTalkTo.getPlayerPosition().getRow() + 1,
-                        toTalkTo.getPlayerPosition().getColumn() + 1);
-        playerOne.setPlayerPosition(playerOnePosition);
+                new Position(toTalkTo.getPosition().getRow() + 1,
+                        toTalkTo.getPosition().getColumn() + 1);
+        playerOne.setPosition(playerOnePosition);
 
         ChatMessageReceivedReport csmr =
                 new ChatMessageReceivedReport(playerOne.getPlayerID(), 0, "Hello",
-                        playerOne.getPlayerPosition(), ChatType.Local);
+                        playerOne.getPosition(), ChatType.Local);
 
         ReportObserverConnector.getSingleton().sendReport(csmr);
 
@@ -297,15 +297,15 @@ public class QuestManagerTest
                 PlayersForTest.MOWREY_FRONTDESK_NPC.getPlayerID());
         playerOne.setMapName("mowrey.tmx");
         Position playerOnePosition =
-                new Position(toTalkTo.getPlayerPosition().getRow() + 1,
-                        toTalkTo.getPlayerPosition().getColumn() + 1);
-        playerOne.setPlayerPosition(playerOnePosition);
+                new Position(toTalkTo.getPosition().getRow() + 1,
+                        toTalkTo.getPosition().getColumn() + 1);
+        playerOne.setPosition(playerOnePosition);
 
         ChatMessageToClientReport csmr =
                 new ChatMessageToClientReport(toTalkTo.getPlayerID(),
                         playerOne.getPlayerID(),
                         "Hello, student",
-                        playerOne.getPlayerPosition(), ChatType.Local);
+                        playerOne.getPosition(), ChatType.Local);
 
         ReportObserverConnector.getSingleton().sendReport(csmr);
 
@@ -819,7 +819,7 @@ public class QuestManagerTest
         InteractObjectManager.getSingleton();
 
         // Places Nick next to the object and interacts with it
-        nick.setPlayerPosition(InteractableItemsForTest.MSG_TEST.getPosition());
+        nick.setPosition(InteractableItemsForTest.MSG_TEST.getPosition());
         KeyInputRecievedReport report = new KeyInputRecievedReport("e", playerID);
         ReportObserverConnector.getSingleton().sendReport(report);
 
@@ -963,13 +963,13 @@ public class QuestManagerTest
 
         Player toTalkTo = PlayerManager.getSingleton().addPlayer(PlayersForTest.QUIZBOT.getPlayerID());
         Position playerOnePosition =
-                new Position(toTalkTo.getPlayerPosition().getRow() + 6,
-                        toTalkTo.getPlayerPosition().getColumn() + 6);
-        playerOne.setPlayerPosition(playerOnePosition);
+                new Position(toTalkTo.getPosition().getRow() + 6,
+                        toTalkTo.getPosition().getColumn() + 6);
+        playerOne.setPosition(playerOnePosition);
 
         ChatMessageReceivedReport csmr =
                 new ChatMessageReceivedReport(playerOne.getPlayerID(), 0, "Hello",
-                        playerOne.getPlayerPosition(), ChatType.Local);
+                        playerOne.getPosition(), ChatType.Local);
 
         ReportObserverConnector.getSingleton().sendReport(csmr);
 
@@ -988,7 +988,7 @@ public class QuestManagerTest
         Position pos2 = QuestsForTest.THE_LITTLE_QUEST.getPosition();
         Player p = PlayerManager.getSingleton().addPlayer(4);
         p.setMapName(QuestsForTest.THE_LITTLE_QUEST.getMapName());
-        p.setPlayerPosition(pos1);
+        p.setPosition(pos1);
         QuestManager one = QuestManager.getSingleton();
         assertEquals(QuestStatesForTest.PLAYER4_QUEST4.getState(),
                 QuestManager.getSingleton()
@@ -997,7 +997,7 @@ public class QuestManagerTest
                         .getStateValue());
         QuestManager two = QuestManager.getSingleton();
         assertSame(one, two);
-        p.setPlayerPosition(pos2);
+        p.setPosition(pos2);
 
         assertEquals(QuestStateEnum.TRIGGERED, QuestManager.getSingleton()
                 .getQuestStateByID(p.getPlayerID(),
@@ -1050,7 +1050,7 @@ public class QuestManagerTest
     {
         OptionsManager.getSingleton().setMapFileTitle(ServersForTest.QUAD.getMapName());
         Player p = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        p.setPlayerPosition(QuestsForTest.ONE_BIG_QUEST.getPosition());
+        p.setPosition(QuestsForTest.ONE_BIG_QUEST.getPosition());
         assertEquals(QuestStateEnum.TRIGGERED, QuestManager.getSingleton()
                 .getQuestStateByID(p.getPlayerID(),
                         QuestStatesForTest.PLAYER1_QUEST1.getQuestID()).getStateValue());

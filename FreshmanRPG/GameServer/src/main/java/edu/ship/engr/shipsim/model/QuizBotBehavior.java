@@ -79,12 +79,12 @@ public class QuizBotBehavior extends NPCBehavior
                         player.getPlayerName() + " answered correctly.  The answer was " +
                                 question.getAnswer(),
                         PlayerManager.getSingleton().getPlayerFromID(playerID)
-                                .getPlayerPosition(), chatType);
+                                .getPosition(), chatType);
                 player.incrementDoubloons();
                 ChatManager.getSingleton().sendChatToClients(playerID, 0,
                         player.getPlayerName() + " score is now " + player.getQuizScore(),
                         PlayerManager.getSingleton().getPlayerFromID(playerID)
-                                .getPlayerPosition(), chatType);
+                                .getPosition(), chatType);
 
                 player.receiveBike();
                 //                pullNewQuestion();
@@ -114,7 +114,7 @@ public class QuizBotBehavior extends NPCBehavior
 
         ChatManager.getSingleton().sendChatToClients(playerID, 0, questionString,
                 PlayerManager.getSingleton().getPlayerFromID(playerID)
-                        .getPlayerPosition(), chatType);
+                        .getPosition(), chatType);
         //ChatManager.getSingleton().sendChatToClients(playerID, 0, questionString, new Position(0, 0), chatType);
     }
 

@@ -53,13 +53,13 @@ public class TeleportationContinuationPackerTest
 
         int id = PlayersForTest.MERLIN.getPlayerID();
         PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(id, "quad.tmx");
-        MapToServerMapping mapping = new MapToServerMapping(report.getMap());
+        MapToServerMapping mapping = new MapToServerMapping(report.getMapName());
         TeleportationContinuationPacker packer = new TeleportationContinuationPacker();
         packer.setAccumulator(stateAccumulator);
 
         TeleportationContinuationMessage message = (TeleportationContinuationMessage) packer.pack(report);
 
-        assertEquals(report.getMap(), message.getMapName());
+        assertEquals(report.getMapName(), message.getMapName());
         assertEquals(mapping.getHostName(), message.getHostName());
         assertEquals(mapping.getPortNumber(), message.getPortNumber());
         assertEquals(id, message.getRelevantPlayerID());

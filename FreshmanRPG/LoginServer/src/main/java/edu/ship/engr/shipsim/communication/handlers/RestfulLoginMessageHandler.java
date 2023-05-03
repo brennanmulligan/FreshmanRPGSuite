@@ -24,12 +24,12 @@ public class RestfulLoginMessageHandler extends MessageHandler
 
         try
         {
-            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Received Login Request for user: " + loginMsg.getUsername());
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Received Login Request for user: " + loginMsg.getPlayerName());
 
-            LoginSuccessfulReport response = LoginPlayerManager.getSingleton().login(loginMsg.getUsername(),
+            LoginSuccessfulReport response = LoginPlayerManager.getSingleton().login(loginMsg.getPlayerName(),
                     loginMsg.getPassword());
 
-            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Login Sucessful for user: " + loginMsg.getUsername());
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Login Sucessful for user: " + loginMsg.getPlayerName());
 
             RestfulLoginServerSuccessfulReport
                     report = new RestfulLoginServerSuccessfulReport(response.getPlayerID());

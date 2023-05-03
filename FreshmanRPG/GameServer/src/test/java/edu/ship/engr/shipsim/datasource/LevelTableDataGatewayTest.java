@@ -44,7 +44,7 @@ public class LevelTableDataGatewayTest
      * @throws DatabaseException shouldn't
      */
     @Test
-    public void retrievesThemAll() throws DatabaseException
+    public void getsThemAll() throws DatabaseException
     {
         LevelTableDataGateway gateway = getGateway();
         ArrayList<LevelRecord> actual = gateway.getAllLevels();

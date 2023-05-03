@@ -26,7 +26,7 @@ public class FriendTableDataGateway
                 PlayerTableDataGateway.getSingleton();
         try
         {
-            allPlayer = playerGateway.retrieveAllPlayers();
+            allPlayer = playerGateway.getAllPlayers();
         }
         catch (DatabaseException e)
         {

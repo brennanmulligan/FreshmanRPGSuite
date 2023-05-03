@@ -52,6 +52,5 @@ Future<void> main() async {
       wait: const Duration(milliseconds: 2000),
       expect: () => [CreatePlayerLoading(), GetMajorsAndCrewsComplete(goodMajorsResponse, goodCrewsResponse)],
     );
-
   });
 }

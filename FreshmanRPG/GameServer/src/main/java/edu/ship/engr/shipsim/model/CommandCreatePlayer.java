@@ -21,11 +21,11 @@ public class CommandCreatePlayer extends Command
     private final Crew crew;
     private final Major major;
     private final int section;
-    private final String name;
+    private final String playerName;
 
     public CommandCreatePlayer(String playerName, String password, int crewNum, int majorNum, int section)
     {
-        this.name = playerName;
+        this.playerName = playerName;
         this.password = password;
         this.crew = Crew.getCrewForID(crewNum);
         this.major = Major.getMajorForID(majorNum);
@@ -44,13 +44,10 @@ public class CommandCreatePlayer extends Command
             return;
         }
 
-
-
-
         try
         {
             PlayerMapper mapper = new PlayerMapper(new Position(11, 7), "default_player", 0, 0,
-                    crew, major, section, name, password);
+                    crew, major, section, playerName, password);
             triggerInitialQuests(mapper.getPlayer().getPlayerID());
 
 
@@ -71,35 +68,32 @@ public class CommandCreatePlayer extends Command
             }
         }
 
-
-
         ReportObserverConnector.getSingleton().sendReport(new CreatePlayerResponseReport(true));
-
     }
 
     private void triggerInitialQuests(int playerID) throws DatabaseException
     {
-    QuestStateTableDataGateway questStateTableDataGatewayRDS =
-            QuestStateTableDataGateway.getSingleton();
-    ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
-            ObjectiveStateTableDataGateway.getSingleton();
-    ObjectiveTableDataGateway objectiveTableDataGateway =
-            ObjectiveTableDataGateway.getSingleton();
+        QuestStateTableDataGateway questStateTableDataGatewayRDS =
+                QuestStateTableDataGateway.getSingleton();
+        ObjectiveStateTableDataGateway objectiveStateTableDataGateway =
+                ObjectiveStateTableDataGateway.getSingleton();
+        ObjectiveTableDataGateway objectiveTableDataGateway =
+                ObjectiveTableDataGateway.getSingleton();
 
-    for (QuestsForProduction q : questsToTrigger)
-    {
-        questStateTableDataGatewayRDS.updateState(playerID, q.getQuestID(),
-                QuestStateEnum.TRIGGERED, true);
-
-        //Add relevant Objectives
-        ArrayList<ObjectiveRecord> objectiveList =
-                objectiveTableDataGateway.getObjectivesForQuest(q.getQuestID());
-        for (ObjectiveRecord objective : objectiveList)
+        for (QuestsForProduction q : questsToTrigger)
         {
-            objectiveStateTableDataGateway.updateState(playerID, q.getQuestID(),
-                    objective.getObjectiveID(), ObjectiveStateEnum.TRIGGERED,
-                    false);
+            questStateTableDataGatewayRDS.updateState(playerID, q.getQuestID(),
+                    QuestStateEnum.TRIGGERED, true);
+
+            //Add relevant Objectives
+            ArrayList<ObjectiveRecord> objectiveList =
+                    objectiveTableDataGateway.getObjectivesForQuest(q.getQuestID());
+            for (ObjectiveRecord objective : objectiveList)
+            {
+                objectiveStateTableDataGateway.updateState(playerID, q.getQuestID(),
+                        objective.getObjectiveID(), ObjectiveStateEnum.TRIGGERED,
+                        false);
+            }
         }
     }
-}
 }

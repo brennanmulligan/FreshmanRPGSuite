@@ -89,7 +89,7 @@ public class InteractObjectManager implements ReportObserver
         {
             return -1;
         }
-        Position playerPosition = playerObject.getPlayerPosition();
+        Position playerPosition = playerObject.getPosition();
 
         int x = playerPosition.getRow();
         int y = playerPosition.getColumn();

@@ -52,7 +52,7 @@ public class PlayerMapper
         this.player = createPlayerObject(playerID);
         player.setPlayerLogin(new PlayerLogin(playerID));
         player.setAppearanceType(playerGateway.getAppearanceType());
-        player.setPlayerPositionWithoutNotifying(playerConnectionGateway.getPosition());
+        player.setPositionWithoutNotifying(playerConnectionGateway.getPosition());
         player.setDoubloons(playerGateway.getQuizScore());
         player.setCrew(playerGateway.getCrew());
         player.setMajor(playerGateway.getMajor());
@@ -61,7 +61,7 @@ public class PlayerMapper
         player.setExperiencePoints(playerGateway.getExperiencePoints());
         player.setDataMapper(this);
         player.setMapName(playerConnectionGateway.getMapName());
-        player.setPlayerOnline(playerGateway.getOnline());
+        player.setPlayerOnline(playerGateway.isOnline());
         player.setPlayerVisitedMaps(visitedMapsGateway.getMaps());
         player.setVanityItems(vanityTableDataGateway.getWearing(playerID));
         player.setOwnedItems((vanityTableDataGateway.getAllOwnedItems(playerID)));
@@ -79,13 +79,13 @@ public class PlayerMapper
      * @param crew             - the crew the player is apart
      * @param major            - the players major
      * @param section          - the section the player is in
-     * @param name             - the name of the player
+     * @param playerName             - the playerName of the player
      * @param password         - the password for the player
      * @throws DatabaseException - shouldn't
      */
     public PlayerMapper(Position position, String appearanceType, int doubloons,
                         int experiencePoints, Crew crew, Major major, int section,
-                        String name, String password)
+                        String playerName, String password)
             throws DatabaseException
     {
         int pin = 1111;
@@ -102,11 +102,11 @@ public class PlayerMapper
         playerConnectionGateway =
                 new PlayerConnectionRowDataGateway(this.playerGateway.getPlayerID(), pin,
                         mapName, position);
-        new PlayerLoginRowDataGateway(this.playerGateway.getPlayerID(), name, password);
+        new PlayerLoginRowDataGateway(this.playerGateway.getPlayerID(), playerName, password);
         this.player = createPlayerObject(this.playerGateway.getPlayerID());
         player.setPlayerLogin(new PlayerLogin(this.playerGateway.getPlayerID()));
         player.setAppearanceType(playerGateway.getAppearanceType());
-        player.setPlayerPositionWithoutNotifying(playerConnectionGateway.getPosition());
+        player.setPositionWithoutNotifying(playerConnectionGateway.getPosition());
         player.setDoubloons(playerGateway.getQuizScore());
         player.setCrew(playerGateway.getCrew());
         player.setMajor(playerGateway.getMajor());
@@ -114,7 +114,7 @@ public class PlayerMapper
         player.setExperiencePoints(playerGateway.getExperiencePoints());
         player.setDataMapper(this);
         player.setMapName(playerConnectionGateway.getMapName());
-        player.setPlayerOnline(playerGateway.getOnline());
+        player.setPlayerOnline(playerGateway.isOnline());
         player.setPlayerVisitedMaps(visitedMapsGateway.getMaps());
         player.setVanityItems(
                 vanityTableDataGateway.getWearing(this.playerGateway.getPlayerID()));
@@ -135,7 +135,7 @@ public class PlayerMapper
 
         try
         {
-            return gateway.retrieveAllPlayers();
+            return gateway.getAllPlayers();
         }
         catch (DatabaseException e)
         {
@@ -185,9 +185,9 @@ public class PlayerMapper
      *
      * @return - PlayerInfo DTO
      */
-    public PlayerDTO getPlayerInfo()
+    public PlayerDTO getPlayerDTO()
     {
-        return player.getPlayerInfo();
+        return player.getPlayerDTO();
     }
 
     /**
@@ -209,9 +209,9 @@ public class PlayerMapper
 
     protected void loadQuestStates() throws DatabaseException
     {
-        ArrayList<QuestStateRecordDTO> questStateRecords =
+        ArrayList<QuestStateRecordDTO> questStateRecordDTOs =
                 questStateGateway.getQuestStates(player.getPlayerID());
-        for (QuestStateRecordDTO qsRec : questStateRecords)
+        for (QuestStateRecordDTO qsRec : questStateRecordDTOs)
         {
             QuestState questState =
                     new QuestState(player.getPlayerID(), qsRec.getQuestID(),
@@ -242,11 +242,11 @@ public class PlayerMapper
     }
 
     /**
-     * Sets the players appearance.
+     * Sets the player's appearance.
      *
      * @param appearanceType - The appearance to change to.
      */
-    protected void setPlayerAppearanceType(String appearanceType)
+    protected void setAppearanceType(String appearanceType)
     {
         player.setAppearanceType(appearanceType);
         playerGateway.setAppearanceType(appearanceType);
@@ -288,7 +288,7 @@ public class PlayerMapper
         }
 
         playerConnectionGateway.storeMapName(player.getMapName());
-        playerConnectionGateway.storePosition(player.getPlayerPosition());
+        playerConnectionGateway.storePosition(player.getPosition());
 
         ArrayList<QuestState> questList =
                 QuestManager.getSingleton().getQuestList(player.getPlayerID());
@@ -319,7 +319,7 @@ public class PlayerMapper
      */
     protected void removeQuestStates()
     {
-        QuestManager.getSingleton().removeQuestStatesForPlayer(player.getPlayerID());
+        QuestManager.getSingleton().removeQuestStates(player.getPlayerID());
     }
 
     /**
@@ -327,7 +327,7 @@ public class PlayerMapper
      *
      * @throws DatabaseException if we can't talk to the db
      */
-    protected void addMapToPlayer(String mapTitle) throws DatabaseException
+    protected void addNewVisitedMap(String mapTitle) throws DatabaseException
     {
         player.addNewVisitedMap(mapTitle);
     }

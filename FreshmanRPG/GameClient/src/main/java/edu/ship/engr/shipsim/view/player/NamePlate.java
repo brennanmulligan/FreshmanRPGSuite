@@ -25,13 +25,13 @@ public class NamePlate extends Label
     /**
      * Creates a NamePlate
      *
-     * @param name The name of the player
+     * @param playerName The name of the player
      * @param crew The crew of the player
      * @param skin the Skin to use for the nameplate
      */
-    public NamePlate(String name, String crew, Skin skin)
+    public NamePlate(String playerName, String crew, Skin skin)
     {
-        super(name + "\n" + crew, skin);
+        super(playerName + "\n" + crew, skin);
         dest = new Vector2();
         facing = Direction.South;
         type = VanityType.NAMEPLATE;

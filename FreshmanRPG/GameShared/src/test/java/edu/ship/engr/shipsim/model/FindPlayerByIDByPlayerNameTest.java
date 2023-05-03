@@ -19,7 +19,7 @@ public class FindPlayerByIDByPlayerNameTest
      * @throws DatabaseException Shouldn't
      */
     @Test
-    public void testgetPlayerIDFromPlayerName() throws DatabaseException
+    public void testGetPlayerIDFromPlayerName() throws DatabaseException
     {
         assertEquals(1, FindPlayerIDFromPlayerName.getPlayerID("John"));
         assertEquals(21, FindPlayerIDFromPlayerName.getPlayerID("Jawn"));

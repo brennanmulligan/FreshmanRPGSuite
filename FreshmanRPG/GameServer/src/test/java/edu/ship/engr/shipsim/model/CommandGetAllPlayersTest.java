@@ -36,7 +36,7 @@ public class CommandGetAllPlayersTest
             add(player2);
         }};
 
-        when(mockGateway.retrieveAllPlayers()).thenReturn(
+        when(mockGateway.getAllPlayers()).thenReturn(
                 players);
 
         CommandGetAllPlayers cmd = new CommandGetAllPlayers();

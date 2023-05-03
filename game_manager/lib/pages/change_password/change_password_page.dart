@@ -21,7 +21,7 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final passwordFirst = TextEditingController();
   final passwordConfirm = TextEditingController();
-  String? username;
+  String? playerName;
   bool isMatching = true;
   PasswordValidator validator = PasswordValidator();
   late PlayerRepository playerRepository;
@@ -108,10 +108,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           decoration: const InputDecoration(
               prefixIcon: Icon(Icons.person, color: Colors.black)),
           hint: const Text("Players"),
-          value: username,
+          value: playerName,
           onChanged: (String? value) {
             setState(() {
-              username = value!;
+              playerName = value!;
             });
           },
           items: playersResponse.players
@@ -150,9 +150,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           height: 60,
         ),
         SubmitButtonBuilder(
-            username: username ?? "",
+            playerName: playerName ?? "",
             password: passwordConfirm,
-            isValid: (isMatching && validator.isSecure && username != null))
+            isValid: (isMatching && validator.isSecure && playerName != null))
       ])));
 
   Widget buildRequestCompleteScreen(BasicResponse data) =>
@@ -162,12 +162,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 class SubmitButtonBuilder extends StatelessWidget {
   const SubmitButtonBuilder(
       {Key? key,
-      required this.username,
+      required this.playerName,
       required this.password,
       required this.isValid})
       : super(key: key);
 
-  final String username;
+  final String playerName;
   final TextEditingController password;
   final bool isValid;
 
@@ -186,7 +186,7 @@ class SubmitButtonBuilder extends StatelessWidget {
         onPressed: !isValid
             ? null
             : () => BlocProvider.of<ChangePasswordBloc>(context)
-                .add(SendChangePasswordEvent(username, password.text)),
+                .add(SendChangePasswordEvent(playerName, password.text)),
         child: const Text(
           "Change Password",
           style: TextStyle(color: Colors.black),

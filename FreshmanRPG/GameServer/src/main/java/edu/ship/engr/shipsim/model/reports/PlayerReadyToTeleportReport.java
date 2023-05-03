@@ -6,18 +6,18 @@ package edu.ship.engr.shipsim.model.reports;
 public class PlayerReadyToTeleportReport extends SendMessageReport
 {
 
-    private int id = 0;
-    private String map;
+    private int playerID = 0;
+    private String mapName;
 
     /**
      * @param playerID The id of the player that got saved.
-     * @param map      The map that the player got saved to.
+     * @param mapName      The map that the player got saved to.
      */
-    public PlayerReadyToTeleportReport(int playerID, String map)
+    public PlayerReadyToTeleportReport(int playerID, String mapName)
     {
         super(playerID, true);
-        this.id = playerID;
-        this.map = map;
+        this.playerID = playerID;
+        this.mapName = mapName;
     }
 
     /**
@@ -25,15 +25,15 @@ public class PlayerReadyToTeleportReport extends SendMessageReport
      */
     public int getPlayerID()
     {
-        return id;
+        return playerID;
     }
 
     /**
      * @return The map that the player is on.
      */
-    public String getMap()
+    public String getMapName()
     {
-        return map;
+        return mapName;
     }
 
     /**
@@ -44,8 +44,8 @@ public class PlayerReadyToTeleportReport extends SendMessageReport
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((map == null) ? 0 : map.hashCode());
+        result = prime * result + playerID;
+        result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
         return result;
     }
 
@@ -68,18 +68,18 @@ public class PlayerReadyToTeleportReport extends SendMessageReport
             return false;
         }
         PlayerReadyToTeleportReport other = (PlayerReadyToTeleportReport) obj;
-        if (id != other.id)
+        if (playerID != other.playerID)
         {
             return false;
         }
-        if (map == null)
+        if (mapName == null)
         {
-            if (other.map != null)
+            if (other.mapName != null)
             {
                 return false;
             }
         }
-        else if (!map.equals(other.map))
+        else if (!mapName.equals(other.mapName))
         {
             return false;
         }

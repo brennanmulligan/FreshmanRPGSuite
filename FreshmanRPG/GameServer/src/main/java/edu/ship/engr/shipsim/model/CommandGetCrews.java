@@ -19,7 +19,7 @@ public class CommandGetCrews extends Command
 
         try
         {
-            ArrayList<CrewDTO> crewDTOs = gw.retrieveAllCrews();
+            ArrayList<CrewDTO> crewDTOs = gw.getAllCrews();
             GetAllCrewsReport crewsReport = new GetAllCrewsReport(crewDTOs);
             ReportObserverConnector.getSingleton().sendReport(crewsReport);
         }

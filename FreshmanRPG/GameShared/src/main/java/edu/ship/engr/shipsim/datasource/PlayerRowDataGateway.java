@@ -352,7 +352,7 @@ public class PlayerRowDataGateway
      *
      * @return online
      */
-    public boolean getOnline()
+    public boolean isOnline()
     {
         return this.online;
     }

@@ -37,7 +37,7 @@ public class CommandGetMajorsTest
             add(majorDTO2);
         }};
 
-        when(mockMajorGateway.retrieveAllMajors()).thenReturn(majors);
+        when(mockMajorGateway.getAllMajors()).thenReturn(majors);
 
         CommandGetMajors command = new CommandGetMajors();
         command.execute();

@@ -1,7 +1,6 @@
 package edu.ship.engr.shipsim.model;
 
 import edu.ship.engr.shipsim.datasource.DatabaseException;
-import edu.ship.engr.shipsim.datatypes.NPCsForTest;
 import edu.ship.engr.shipsim.datatypes.PlayerScoreRecord;
 import edu.ship.engr.shipsim.datatypes.PlayersForTest;
 import edu.ship.engr.shipsim.datatypes.Position;
@@ -167,13 +166,13 @@ public class PlayerManagerTest
     public void playerIsSaved() throws DatabaseException, IllegalQuestChangeException
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        player.setPlayerPosition(new Position(100, 100));
+        player.setPosition(new Position(100, 100));
         assertTrue(PlayerManager.getSingleton().persistPlayer(player.getPlayerID()));
 
         PlayerManager.resetSingleton();
 
         Player fetched = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        assertEquals(new Position(100, 100), fetched.getPlayerPosition());
+        assertEquals(new Position(100, 100), fetched.getPosition());
     }
 
     /**

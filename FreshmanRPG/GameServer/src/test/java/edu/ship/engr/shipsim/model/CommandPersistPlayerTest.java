@@ -28,14 +28,14 @@ public class CommandPersistPlayerTest
     public void testPersists() throws DatabaseException, IllegalQuestChangeException
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        player.setPlayerPositionWithoutNotifying(new Position(101, 101));
+        player.setPositionWithoutNotifying(new Position(101, 101));
         player.setAppearanceType("appearance");
         PlayerManager.getSingleton().persistPlayer(player.getPlayerID());
 
         PlayerManager.resetSingleton();
 
         Player fetched = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        assertEquals(player.getPlayerPosition(), fetched.getPlayerPosition());
+        assertEquals(player.getPosition(), fetched.getPosition());
         assertEquals(player.getAppearanceType(), fetched.getAppearanceType());
     }
 

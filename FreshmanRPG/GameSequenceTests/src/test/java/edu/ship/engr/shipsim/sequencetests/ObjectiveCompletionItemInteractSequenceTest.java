@@ -60,7 +60,7 @@ public class ObjectiveCompletionItemInteractSequenceTest extends SequenceTest
 
         //set up player position that is near an interactable item
         Player p = playerManager.getPlayerFromID(PlayersForTest.MERLIN.getPlayerID());
-        p.setPlayerPosition(InteractableItemsForTest.CHEST.getPosition());
+        p.setPosition(InteractableItemsForTest.CHEST.getPosition());
 
         //get an objective of completion type interact with item, and give its quest to the player
         int questId = ObjectivesForTest.QUEST13_OBJECTIVE_1.getQuestID();

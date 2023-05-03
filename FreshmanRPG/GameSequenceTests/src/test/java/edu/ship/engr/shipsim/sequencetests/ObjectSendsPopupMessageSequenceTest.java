@@ -66,7 +66,7 @@ public class ObjectSendsPopupMessageSequenceTest extends SequenceTest
         pm.addPlayer(PlayersForTest.JAWN.getPlayerID());
         // set player position
         Player playerFromID = pm.getPlayerFromID(PlayersForTest.JAWN.getPlayerID());
-        playerFromID.setPlayerPosition(InteractableItemsForTest.BOOKSHELF.getPosition());
+        playerFromID.setPosition(InteractableItemsForTest.BOOKSHELF.getPosition());
         InteractObjectManager.getSingleton();
     }
 

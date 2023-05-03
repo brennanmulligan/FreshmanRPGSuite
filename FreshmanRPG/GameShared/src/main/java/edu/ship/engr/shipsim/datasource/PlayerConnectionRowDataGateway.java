@@ -190,7 +190,6 @@ public class PlayerConnectionRowDataGateway
         return pin;
     }
 
-
     public void setChangedOn(String newTime) throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();

@@ -36,7 +36,7 @@ public class CommandRemovePlayer extends Command
             //Couldn't disconnect/remove player
             e.printStackTrace();
         }
-        QuestManager.getSingleton().removeQuestStatesForPlayer(playerID);
+        QuestManager.getSingleton().removeQuestStates(playerID);
     }
 
 }
