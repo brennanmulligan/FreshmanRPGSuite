@@ -102,6 +102,27 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                     }))));
   }
 
+  Widget buildAddObjectiveButton(questResponse) => SizedBox(
+    height: 100,
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            iconSize: 50,
+            tooltip: 'Add a new objective',
+            onPressed: (){
+              objectivesOnScreen.add(ObjectiveRecord(id: 0, description: '',
+                  experiencePointsGained: 0, questID: 0, completionType: 0));
+              buildObjectivesTable(questResponse.objCompletionTypes);
+            },
+            icon: const Icon(Icons.add, color: Colors.pink),
+          )
+        ]
+      )
+    )
+  );
+
   Widget buildLoadScreen() => const Padding(
       padding: EdgeInsets.all(24.0),
       child: Scaffold(
@@ -349,6 +370,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           ),
         ),
         buildObjectivesTable(questResponse.objCompletionTypes),
+        buildAddObjectiveButton(questResponse),
         SubmitButtonBuilder(
           questId: questId ?? -1,
           questTitle:
