@@ -1,9 +1,9 @@
 part of 'create_player_bloc.dart';
 
 @immutable
-abstract class CreatePlayerEvent {}
+abstract class CreatePlayerPageEvent {}
 
-class SendCreatePlayerEvent extends CreatePlayerEvent {
+class SendCreatePlayerEvent extends CreatePlayerPageEvent {
   final String name;
   final String password;
   final num crew;
@@ -18,5 +18,17 @@ class SendCreatePlayerEvent extends CreatePlayerEvent {
     return 'SendCreatePlayerEvent(name: $name, '
         'password: $password, crew: $crew, major: $major, section: $section)';
   }
+}
+
+class SendGetMajorsAndCrewsEvent extends CreatePlayerPageEvent {
+
+  SendGetMajorsAndCrewsEvent();
+/*
+returns the major and crews event string
+ */
+  @override
+  String toString() {
+    return 'SendGetMajorsAndCrewsEvent()';
   }
+}
 

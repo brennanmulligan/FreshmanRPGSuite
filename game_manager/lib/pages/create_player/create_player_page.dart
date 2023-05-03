@@ -2,21 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-//import 'package:univeral_io/io.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:game_manager/pages/create_player/bloc/create_player_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_manager/pages/get_majors_and_crews/bloc/get_majors_and_crews_bloc.dart';
 import 'package:game_manager/pages/shared/widgets/password.dart';
 
 import '../../repository/player/create_many_players_response.dart';
-import '../../repository/player/all_crews_response.dart';
-import '../../repository/player/all_majors_response.dart';
+import '../../repository/player/get_all_crews_response.dart';
+import '../../repository/player/get_all_majors_response.dart';
 import '../../repository/player/crew.dart';
-import '../../repository/player/crews_repository.dart';
 import '../../repository/player/major.dart';
-import '../../repository/player/majors_repository.dart';
 import '../../repository/player/player_repository.dart';
 import '../create_many_players/bloc/create_many_players_bloc.dart';
 import '../shared/widgets/notification_card.dart';
@@ -60,20 +56,13 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider(create: (context) => PlayerRepository(dio: Dio())),
-          RepositoryProvider(create: (context) => MajorsRepository(dio: Dio())),
-          RepositoryProvider(create: (context) => CrewsRepository(dio: Dio())),
         ],
         child: MultiBlocProvider(
             providers: [
               BlocProvider<CreatePlayerBloc>(
                   create: (context) => CreatePlayerBloc(
-                      playerRepository: context.read<PlayerRepository>())),
-              BlocProvider<GetMajorsAndCrewsBloc>(
-                  create: (context) => GetMajorsAndCrewsBloc(
-                        MajorsRepository: context.read<MajorsRepository>(),
-                        CrewsRepository: context.read<CrewsRepository>(),
-                      )..add(SendCreateMajorsCrewEvent(0, 0))),
-              //TODO: refactor this to not take in arguments)
+                      playerRepository: context.read<PlayerRepository>())
+              ..add(SendGetMajorsAndCrewsEvent())),
               BlocProvider<CreateManyPlayersBloc>(
                 create: (context) => CreateManyPlayersBloc(
                   playerRepository: context.read<PlayerRepository>())),
@@ -84,7 +73,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                   title: const Text('Create Player'),
                 ),
                 body: Column(children: [
-                  BlocConsumer<CreatePlayerBloc, CreatePlayerState>(
+                  BlocConsumer<CreatePlayerBloc, CreatePlayerPageState>(
                       listener: (context, state) {
                     if (state is CreatePlayerComplete) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -101,11 +90,11 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                       );
                     }
                   }, builder: (context, state) {
-                    return BlocBuilder<GetMajorsAndCrewsBloc,
-                        GetMajorsAndCrewsState>(builder: (context, state) {
-                      if (state is GetMajorCrewComplete) {
+                    return BlocBuilder<CreatePlayerBloc,
+                        CreatePlayerPageState>(builder: (context, state) {
+                      if (state is GetMajorsAndCrewsComplete) {
                         return buildInputScreen(
-                            state.crewResponse, state.majorResponse);
+                            state.crewsResponse, state.majorsResponse);
                       } else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -177,7 +166,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
       ));
 
   Widget buildInputScreen(
-          AllCrewsResponse crewsResponse, AllMajorsResponse majorsResponse) =>
+          GetAllCrewsResponse crewsResponse, GetAllMajorsResponse majorsResponse) =>
       Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
@@ -218,7 +207,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                 items:
                     crewsResponse.crews.map<DropdownMenuItem<int>>((Crew crew) {
                   return DropdownMenuItem<int>(
-                    value: crew.crewID,
+                    value: crew.id,
                     child: Text(crew.name),
                   );
                 }).toList(),
@@ -238,7 +227,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                 items: majorsResponse.majors
                     .map<DropdownMenuItem<int>>((Major major) {
                   return DropdownMenuItem<int>(
-                    value: major.majorID,
+                    value: major.id,
                     child: Text(major.name),
                   );
                 }).toList(),

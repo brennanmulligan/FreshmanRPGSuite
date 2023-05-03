@@ -2,22 +2,22 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 
 class Crew extends Equatable {
-  final int crewID;
+  final int id;
   final String name;
 
   const Crew(
-      {required this.crewID,
+      {required this.id,
         required this.name});
 
   @override
-  List<Object?> get props => [crewID, name];
+  List<Object?> get props => [id, name];
 
   ///
   /// Convert object to JSON.
   ///
   Map<String, dynamic> toJson() {
     return {
-      'crewID': crewID,
+      'id': id,
       'name': name
     };
   }
@@ -26,7 +26,7 @@ class Crew extends Equatable {
     required JSON json,
   }) {
     return Crew(
-        crewID: json['crewID'],
+        id: json['id'],
         name: json['name']
     );
   }

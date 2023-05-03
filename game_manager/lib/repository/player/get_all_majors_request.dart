@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class AllMajorsRequest extends Equatable {
+class GetAllMajorsRequest extends Equatable {
 
-  const AllMajorsRequest();
+  const GetAllMajorsRequest();
 
   @override
   List<Object?> get props => [];

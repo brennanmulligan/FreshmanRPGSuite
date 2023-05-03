@@ -3,18 +3,18 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 import 'major.dart';
 
-class AllMajorsResponse extends Equatable {
+class GetAllMajorsResponse extends Equatable {
   final bool success;
   final List<Major> majors;
 
-  const AllMajorsResponse(this.success, {required this.majors});
+  const GetAllMajorsResponse(this.success, {required this.majors});
 
-  const AllMajorsResponse.allFields({required this.success, required this.majors});
+  const GetAllMajorsResponse.allFields({required this.success, required this.majors});
 
-  factory AllMajorsResponse.fromJson({
+  factory GetAllMajorsResponse.fromJson({
     required JSON json,
   }) {
-    return AllMajorsResponse.allFields(
+    return GetAllMajorsResponse.allFields(
       success: json['success'],
       majors: (json['majors'] as List)
           .map((e) => Major.fromJson(json: e))
@@ -27,6 +27,6 @@ class AllMajorsResponse extends Equatable {
 
   @override
   String toString() {
-    return 'AllMajorsResponse(majors: $majors)';
+    return 'GetAllMajorsResponse(majors: $majors)';
   }
 }
