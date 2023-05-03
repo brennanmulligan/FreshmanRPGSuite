@@ -53,7 +53,7 @@ Future<void> main() async{
       },
       act: (bloc) => bloc.add(SendChangePasswordEvent("fred", "newpw")),
       wait: const Duration(milliseconds: 500),
-      expect: () => [ChangePasswordLoading(), ChangePasswordComplete(goodResponse)],
+      expect: () => [ChangePasswordLoading(), ChangePasswordComplete(goodResponse), PasswordPageReady(playerResponse)],
     );
   });
 }
