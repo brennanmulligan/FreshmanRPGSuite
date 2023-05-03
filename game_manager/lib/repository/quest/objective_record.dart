@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 
-class ObjectiveRecord extends Equatable {
+class ObjectiveRecordDTO extends Equatable {
   final int id;
   final String description;
   final int experiencePointsGained;
   final int questID;
   final int completionType;
 
-  const ObjectiveRecord(
+  const ObjectiveRecordDTO(
       {
         required this.id,
         required this.description,
@@ -34,10 +34,10 @@ class ObjectiveRecord extends Equatable {
     };
   }
 
-  factory ObjectiveRecord.fromJson({
+  factory ObjectiveRecordDTO.fromJson({
     required JSON json,
   }) {
-    return ObjectiveRecord(
+    return ObjectiveRecordDTO(
         id: json["id"],
         description: json['description'],
         experiencePointsGained : json['experiencePointsGained'],
