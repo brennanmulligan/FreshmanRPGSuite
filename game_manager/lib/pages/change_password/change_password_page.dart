@@ -71,6 +71,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 child: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
                     listener: (context, state) {
                   if (state is ChangePasswordComplete) {
+                    if (state.response.success) {
+                      username = null;
+                      validator.isSecure = false;
+                      passwordFirst.clear();
+                      passwordConfirm.clear();
+                    }
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                           content: NotificationCard(
