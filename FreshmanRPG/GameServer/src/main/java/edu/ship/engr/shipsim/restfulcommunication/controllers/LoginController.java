@@ -95,14 +95,14 @@ public class LoginController extends Controller
         }
         else if (report.getClass().equals(RestfulLoginFailedReport.class))
         {
-            RestfulLoginFailedReport
-                    failedReport = (RestfulLoginFailedReport) report;
+            LoginResponse response = new LoginResponse((RestfulLoginFailedReport)report);
 
-            return new ResponseEntity<>(failedReport.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response.toString(), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     private LoginResponse handleLoginSuccess(RestfulLoginSuccessReport report)
     {

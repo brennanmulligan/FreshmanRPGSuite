@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../repository/login_repository/login_repository.dart';
+import '../shared_widgets/notification_card.dart';
 import 'bloc/login_bloc.dart';
 import '../../repository/login_repository/login_with_credentials_response.dart';
 
@@ -42,7 +43,20 @@ class _LoginPageState extends State<LoginPage> {
                     context: context,
                     loginRepository: context.read<LoginRepository>()),
                 child: BlocConsumer<LoginBloc, LoginState>(
-                    listener: (context, state) {},
+                    listener: (context, state) {if (state is LoginFailed) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: NotificationCard(
+                                cardTitle: "Login Failed",
+                                description: "Please try again",
+                                success: state.response.success
+                            ),
+                            duration: const Duration(seconds: 3),
+                            behavior: SnackBarBehavior.floating,
+                            padding: EdgeInsets.zero
+                        ),
+                      );
+                    }},
                     builder: (context, state) {
                       if (state is LoginComplete) {
                         return buildRequestCompleteScreen(state.response);
