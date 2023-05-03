@@ -52,7 +52,7 @@ public class RoamingInfoNPCBehaviorTest
         connector.registerObserver(observer, ChatMessageToClientReport.class);
 
         // setup a report to send to the npc
-        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Heiddy ho, neighborino", player.getPlayerPosition(), ChatType.Local);
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Heiddy ho, neighborino", player.getPosition(), ChatType.Local);
 
         // tell the npc to receive the report
         behavior.receiveReport(report);

@@ -112,7 +112,7 @@ public class UpdatePlayerInformationMessagePackerTest
         packer.setAccumulator(stateAccumulator);
 
         InitializeThisClientsPlayerMessage message = (InitializeThisClientsPlayerMessage) packer.pack(report);
-        assertEquals(report.getExperiencePts(), message.getExperiencePts());
+        assertEquals(report.getExperiencePoints(), message.getExperiencePts());
         assertEquals(report.getLevel(), message.getLevel());
     }
 }

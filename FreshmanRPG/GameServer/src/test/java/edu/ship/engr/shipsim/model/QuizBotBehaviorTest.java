@@ -58,7 +58,7 @@ public class QuizBotBehaviorTest
 
         // check that spaces don't matter
         NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0,
-                "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
+                "    " + answer + " ", player.getPosition(), ChatType.Local);
         int score = player.getQuizScore();
 
         behavior.receiveReport(report);
@@ -73,7 +73,7 @@ public class QuizBotBehaviorTest
     public void testIncorrectAnswer()
     {
         NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "incorrect",
-                player.getPlayerPosition(), ChatType.Local);
+                player.getPosition(), ChatType.Local);
         int score = player.getQuizScore();
         behavior.receiveReport(report);
         assertEquals(score, player.getQuizScore());
@@ -90,7 +90,7 @@ public class QuizBotBehaviorTest
 
         // check that spaces don't matter
         NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0,
-                "    " + answer + " ", player.getPlayerPosition(), ChatType.Local);
+                "    " + answer + " ", player.getPosition(), ChatType.Local);
         behavior.receiveReport(report);
 
         VanityDTO bike = new VanityDTO(VanityItemsForTest.BIKE.getId(),"Bike", "", "bike", VanityType.BIKE, 0

@@ -28,7 +28,7 @@ public class CommandTerminalTextWho extends TerminalCommand
         {
             PlayerTableDataGateway gateway =
                     PlayerTableDataGateway.getSingleton();
-            ArrayList<PlayerDTO> playerList = gateway.retrieveAllOnlinePlayers();
+            ArrayList<PlayerDTO> playerList = gateway.getAllOnlinePlayers();
 
             for (PlayerDTO player : playerList)
             {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MapTableDataGateway
 {
-    private static MapTableDataGateway instance;
+    private static MapTableDataGateway singleton;
 
     private MapTableDataGateway()
     {
@@ -20,18 +20,18 @@ public class MapTableDataGateway
      *
      * @return instance of gateway
      */
-    public static MapTableDataGateway getInstance()
+    public static MapTableDataGateway getSingleton()
     {
-        if (instance == null)
+        if (singleton == null)
         {
-            instance = new MapTableDataGateway();
+            singleton = new MapTableDataGateway();
         }
-        return instance;
+        return singleton;
     }
 
-    public void setInstance(MapTableDataGateway instance)
+    public void setSingleton(MapTableDataGateway singleton)
     {
-        this.instance = instance;
+        this.singleton = singleton;
     }
 
     public ArrayList<String> getMapNames() throws DatabaseException

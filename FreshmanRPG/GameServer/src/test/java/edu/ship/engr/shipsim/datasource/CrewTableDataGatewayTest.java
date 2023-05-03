@@ -18,7 +18,7 @@ public class CrewTableDataGatewayTest
      * @throws DatabaseException
      */
     @Test
-    public void retrieveAllCrewsTest() throws DatabaseException
+    public void getAllCrewsTest() throws DatabaseException
     {
         CrewRowDataGateway crew1 = new CrewRowDataGateway(1, "OffByOne");
         CrewRowDataGateway crew2 = new CrewRowDataGateway(2, "FortyPercent");
@@ -26,7 +26,7 @@ public class CrewTableDataGatewayTest
         CrewRowDataGateway crew4 = new CrewRowDataGateway(4, "OutOfBounds");
 
         CrewTableDataGateway gateway = CrewTableDataGateway.getSingleton();
-        ArrayList<CrewDTO> crews = gateway.retrieveAllCrews();
+        ArrayList<CrewDTO> crews = gateway.getAllCrews();
 
         assertEquals(4, crews.size());
     }

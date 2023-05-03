@@ -34,15 +34,15 @@ public class CommandMovePlayerToAnotherMapAndPersistTest
 
         PlayerManager.getSingleton().addPlayer(1);
         Player p = PlayerManager.getSingleton().getPlayerFromID(1);
-        p.setPlayerPosition(startPosition);
+        p.setPosition(startPosition);
 
-        assertEquals(startPosition, p.getPlayerPosition());
+        assertEquals(startPosition, p.getPosition());
 
         CommandMovePlayerToAnotherMapAndPersist
                 cmd = new CommandMovePlayerToAnotherMapAndPersist(1, "newMap", newPosition);
         cmd.execute();
 
-        assertEquals(newPosition, p.getPlayerPosition());
+        assertEquals(newPosition, p.getPosition());
         assertEquals("newMap", p.getMapName());
     }
 
@@ -94,7 +94,7 @@ public class CommandMovePlayerToAnotherMapAndPersistTest
     public void testPersists()
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        player.setPlayerPositionWithoutNotifying(new Position(101, 101));
+        player.setPositionWithoutNotifying(new Position(101, 101));
         player.setAppearanceType("appearance");
 
         CommandMovePlayerToAnotherMapAndPersist
@@ -106,7 +106,7 @@ public class CommandMovePlayerToAnotherMapAndPersistTest
         PlayerManager.resetSingleton();
 
         Player fetched = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        assertEquals(player.getPlayerPosition(), fetched.getPlayerPosition());
+        assertEquals(player.getPosition(), fetched.getPosition());
         assertEquals(player.getAppearanceType(), fetched.getAppearanceType());
     }
 

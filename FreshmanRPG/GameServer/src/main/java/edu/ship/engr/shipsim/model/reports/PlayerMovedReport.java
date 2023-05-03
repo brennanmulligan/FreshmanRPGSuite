@@ -13,7 +13,7 @@ import lombok.Getter;
 @EqualsAndHashCode(callSuper = true)
 public final class PlayerMovedReport extends SendMessageReport
 {
-    @Getter private final Position newPosition;
+    @Getter private final Position position;
     @Getter private final int playerID;
     @Getter private final String playerName;
     @Getter private final String mapName;
@@ -28,7 +28,7 @@ public final class PlayerMovedReport extends SendMessageReport
     {
         super(playerID, !PlayerManager.getSingleton().isNPC(playerID));
 
-        this.newPosition = position;
+        this.position = position;
         this.playerID = playerID;
         this.playerName = playerName;
         this.mapName = mapName;

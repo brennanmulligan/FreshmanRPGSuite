@@ -35,11 +35,11 @@ public class MajorTableDataGateway
 
     /**
      * For testing
-     * @param instance
+     * @param singleton
      */
-    public void setSingleton(MajorTableDataGateway instance)
+    public void setSingleton(MajorTableDataGateway singleton)
     {
-        singleton = instance;
+        this.singleton = singleton;
     }
 
     /**
@@ -47,7 +47,7 @@ public class MajorTableDataGateway
      * @return array list of majors DTOs
      * @throws DatabaseException
      */
-    public ArrayList<MajorDTO> retrieveAllMajors () throws DatabaseException
+    public ArrayList<MajorDTO> getAllMajors() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 

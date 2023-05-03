@@ -43,9 +43,9 @@ public class MovementMessageHandlerTest
 
         PlayerManager.getSingleton().addPlayer(1);
         Player p = PlayerManager.getSingleton().getPlayerFromID(1);
-        p.setPlayerPosition(startPosition);
+        p.setPosition(startPosition);
 
-        assertEquals(startPosition, p.getPlayerPosition());
+        assertEquals(startPosition, p.getPosition());
 
         PlayerMovedMessage msg = new PlayerMovedMessage(playerID, false, newPosition);
         MovementMessageHandler handler = new MovementMessageHandler();
@@ -54,6 +54,6 @@ public class MovementMessageHandlerTest
 
         ModelFacadeTestHelper.waitForFacadeToProcess();
 
-        assertEquals(newPosition, p.getPlayerPosition());
+        assertEquals(newPosition, p.getPosition());
     }
 }

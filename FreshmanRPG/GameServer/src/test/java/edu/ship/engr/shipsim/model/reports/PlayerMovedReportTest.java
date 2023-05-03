@@ -23,7 +23,7 @@ public class PlayerMovedReportTest
         PlayerMovedReport report = new PlayerMovedReport(33, "fred", new Position(3, 4), "x");
         assertEquals(33, report.getPlayerID());
         assertEquals("fred", report.getPlayerName());
-        assertEquals(new Position(3, 4), report.getNewPosition());
+        assertEquals(new Position(3, 4), report.getPosition());
         assertEquals("x", report.getMapName());
     }
 

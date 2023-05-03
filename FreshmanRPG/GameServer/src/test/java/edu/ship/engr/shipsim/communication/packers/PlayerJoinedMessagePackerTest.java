@@ -37,7 +37,7 @@ public class PlayerJoinedMessagePackerTest
 
         Player playerFromID = playerManager.getPlayerFromID(PlayersForTest.JOHN.getPlayerID());
         PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
-                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
+                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPosition(),
                 playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
         ServerPlayerJoinedMessagePacker packer = new ServerPlayerJoinedMessagePacker();
         packer.setAccumulator(stateAccumulator);

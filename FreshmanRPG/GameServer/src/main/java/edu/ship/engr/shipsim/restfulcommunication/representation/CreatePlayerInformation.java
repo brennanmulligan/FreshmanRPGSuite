@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CreatePlayerInformation
 {
-    private final String username;
+    private final String playerName;
     private final String password;
-    private final int crewNum;
-    private final int majorNum;
+    private final int crew;
+    private final int major;
 
-    public int getCrewNum()
+    public int getCrew()
     {
-        return crewNum;
+        return crew;
     }
 
-    public int getMajorNum()
+    public int getMajor()
     {
-        return majorNum;
+        return major;
     }
 
     public int getSection()
@@ -27,9 +27,9 @@ public class CreatePlayerInformation
 
     private final int section;
 
-    public String getUsername()
+    public String getPlayerName()
     {
-        return username;
+        return playerName;
     }
 
     public String getPassword()
@@ -38,14 +38,14 @@ public class CreatePlayerInformation
     }
 
     @JsonCreator
-    public CreatePlayerInformation(@JsonProperty("name") String username, @JsonProperty("password") String password,
-                                   @JsonProperty("crew") int crewNum, @JsonProperty("major") int majorNum,
+    public CreatePlayerInformation(@JsonProperty("playerName") String playerName, @JsonProperty("password") String password,
+                                   @JsonProperty("crew") int crew, @JsonProperty("major") int major,
                                    @JsonProperty("section") int section)
     {
-        this.username = username;
+        this.playerName = playerName;
         this.password = password;
-        this.crewNum = crewNum;
-        this.majorNum = majorNum;
+        this.crew = crew;
+        this.major = major;
         this.section = section;
     }
 }

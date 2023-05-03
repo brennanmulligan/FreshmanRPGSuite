@@ -20,7 +20,7 @@ public class CommandGetAllPlayers extends Command
         {
             PlayerTableDataGateway gateway = PlayerTableDataGateway.getSingleton();
 
-            ArrayList<PlayerDTO> players = gateway.retrieveAllPlayers();
+            ArrayList<PlayerDTO> players = gateway.getAllPlayers();
             GetAllPlayersReport report = new GetAllPlayersReport(players);
             ReportObserverConnector.getSingleton().sendReport(report);
         }

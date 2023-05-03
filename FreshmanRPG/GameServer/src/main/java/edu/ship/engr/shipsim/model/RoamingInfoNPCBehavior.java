@@ -266,7 +266,7 @@ public class RoamingInfoNPCBehavior extends NPCBehavior
                                 ChatManager.getSingleton()
                                         .sendChatToClients(playerID, 0, message, PlayerManager.getSingleton()
                                                         .getPlayerFromID(playerID)
-                                                        .getPlayerPosition(),
+                                                        .getPosition(),
                                                 ChatType.Local);
                                 //Set current target to the target specified in the XML, so we can navigate the tree
                                 currentTarget = target;

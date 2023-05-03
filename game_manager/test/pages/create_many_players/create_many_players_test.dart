@@ -52,22 +52,22 @@ Future<void> main() async {
         success: true, description: "created");
 
     const CreatePlayerRequest createPlayerOneRequest = CreatePlayerRequest(
-        name: "p1",
+        playerName: "p1",
         password: "Testpassword123@",
         crew: 1,
         major: 1,
         section: 1);
     const CreatePlayerRequest createPlayerTwoRequest = CreatePlayerRequest(
-        name: "p2",
+        playerName: "p2",
         password: "Testpassword123@",
         crew: 1,
         major: 1,
         section: 1);
 
 
-    String testCSVFileValid = 'name,password,major,crew,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
-    String testCSVFileInvalid = 'name,password,crew,major,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1';
-    String testCSVFileInvalidFormat = 'name,password,badcrew,major,badsection\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
+    String testCSVFileValid = 'playerName,password,major,crew,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
+    String testCSVFileInvalid = 'playerName,password,crew,major,section\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1';
+    String testCSVFileInvalidFormat = 'playerName,password,badcrew,major,badsection\np1,Testpassword123@,1,1,1\np2,Testpassword123@,1,1,1';
 
     blocTest<CreateManyPlayersBloc, CreateManyPlayersState>(
         'Check flow of states when many players are being created and both users are valid',
@@ -128,10 +128,6 @@ Future<void> main() async {
           CreateManyPlayersLoading(),
           CreateManyPlayersComplete(invalidFileResponse)
         ],
-
     );
-
   });
-
-
 }

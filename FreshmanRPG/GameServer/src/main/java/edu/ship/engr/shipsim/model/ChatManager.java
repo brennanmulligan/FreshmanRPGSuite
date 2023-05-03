@@ -68,9 +68,9 @@ public class ChatManager
         for (Player player : PlayerManager.getSingleton()
                 .getConnectedPlayers())
         {
-            if ((type != ChatType.Local) || (canReceiveLocalMessage(player.getPlayerPosition(),
+            if ((type != ChatType.Local) || (canReceiveLocalMessage(player.getPosition(),
                     PlayerManager.getSingleton().getPlayerFromID(senderID)
-                            .getPlayerPosition())))
+                            .getPosition())))
             {
                if (player.getClass() != NPC.class)
                 {
