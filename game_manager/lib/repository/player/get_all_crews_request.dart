@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class AllCrewsRequest extends Equatable {
+class GetAllCrewsRequest extends Equatable {
 
-  const AllCrewsRequest();
+  const GetAllCrewsRequest();
 
   @override
   List<Object?> get props => [];
@@ -13,6 +13,6 @@ class AllCrewsRequest extends Equatable {
 
   @override
   String toString() {
-    return 'AllCrewsRequest()';
+    return 'GetAllCrewsRequest()';
   }
 }

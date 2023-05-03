@@ -3,18 +3,18 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 import 'crew.dart';
 
-class AllCrewsResponse extends Equatable {
+class GetAllCrewsResponse extends Equatable {
   final bool success;
   final List<Crew> crews;
 
-  const AllCrewsResponse(this.success, {required this.crews});
+  const GetAllCrewsResponse(this.success, {required this.crews});
 
-  const AllCrewsResponse.allFields({required this.success, required this.crews});
+  const GetAllCrewsResponse.allFields({required this.success, required this.crews});
 
-  factory AllCrewsResponse.fromJson({
+  factory GetAllCrewsResponse.fromJson({
     required JSON json,
   }) {
-    return AllCrewsResponse.allFields(
+    return GetAllCrewsResponse.allFields(
         success: json['success'],
         crews: (json['crews'] as List)
             .map((e) => Crew.fromJson(json: e))
@@ -27,6 +27,6 @@ class AllCrewsResponse extends Equatable {
 
   @override
   String toString() {
-    return 'AllCrewsResponse(crews: $crews)';
+    return 'GetAllCrewsResponse(crews: $crews)';
   }
 }

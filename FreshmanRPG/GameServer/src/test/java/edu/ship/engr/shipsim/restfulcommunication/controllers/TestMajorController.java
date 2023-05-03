@@ -42,9 +42,9 @@ public class TestMajorController
         MajorController mock = mock(MajorController.class);
 
         MajorDTO major1 = new MajorDTO();
-        major1.setMajorID(1);
+        major1.setID(1);
         MajorDTO major2 = new MajorDTO();
-        major2.setMajorID(2);
+        major2.setID(2);
 
         when(mock.processAction(any(Runnable.class), eq(GetAllMajorsReport.class))).thenReturn(
                 new GetAllMajorsReport(new ArrayList<>()
@@ -62,8 +62,8 @@ public class TestMajorController
         JSONObject last = new JSONObject((String) response.getBody());
         JSONArray records = (JSONArray) last.get("majors");
 
-        assertEquals(records.getJSONObject(0).getInt("majorID"), 1);
-        assertEquals(records.getJSONObject(1).getInt("majorID"), 2);
+        assertEquals(records.getJSONObject(0).getInt("id"), 1);
+        assertEquals(records.getJSONObject(1).getInt("id"), 2);
     }
 }
 

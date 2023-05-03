@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class MajorDTO
 {
-    private int majorID;
+    private int id;
     private String name;
 
     /**
@@ -21,12 +21,12 @@ public class MajorDTO
     /**
      * Testing constructor for game manager
      *
-     * @param majorID         the major's unique ID
+     * @param id         the major's unique ID
      * @param name            the major's name
      */
-    public MajorDTO(int majorID, String name)
+    public MajorDTO(int id, String name)
     {
-        this.majorID = majorID;
+        this.id = id;
         this.name = name;
     }
 
@@ -42,24 +42,24 @@ public class MajorDTO
             return false;
         }
         MajorDTO majorDTO = (MajorDTO) o;
-        return majorID == majorDTO.majorID &&
+        return id == majorDTO.id &&
                 Objects.equals(name, majorDTO.name);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(majorID, name);
+        return Objects.hash(id, name);
     }
 
-    public int getMajorID()
+    public int getID()
     {
-        return majorID;
+        return id;
     }
 
-    public void setMajorID(int majorID)
+    public void setID(int id)
     {
-        this.majorID = majorID;
+        this.id = id;
     }
 
     public String getName()
