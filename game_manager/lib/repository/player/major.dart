@@ -2,22 +2,22 @@ import 'package:equatable/equatable.dart';
 import '../../type_definitions.dart';
 
 class Major extends Equatable {
-  final int majorID;
+  final int id;
   final String name;
 
   const Major(
-      {required this.majorID,
+      {required this.id,
         required this.name});
 
   @override
-  List<Object?> get props => [majorID, name];
+  List<Object?> get props => [id, name];
 
   ///
   /// Convert object to JSON.
   ///
   Map<String, dynamic> toJson() {
     return {
-      'majorID': majorID,
+      'id': id,
       'name': name
     };
   }
@@ -26,7 +26,7 @@ class Major extends Equatable {
     required JSON json,
   }) {
     return Major(
-        majorID: json['majorID'],
+        id: json['id'],
         name: json['name']
     );
   }

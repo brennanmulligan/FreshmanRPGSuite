@@ -27,9 +27,9 @@ public class CommandGetCrewsTest
         crewGateway.setSingleton(mockCrewGateway);
 
         CrewDTO crewDTO1 = new CrewDTO();
-        crewDTO1.setCrewID(1);
+        crewDTO1.setID(1);
         CrewDTO crewDTO2 = new CrewDTO();
-        crewDTO2.setCrewID(2);
+        crewDTO2.setID(2);
 
         ArrayList<CrewDTO> crews = new ArrayList<>()
         {{
