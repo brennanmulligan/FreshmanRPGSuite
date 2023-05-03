@@ -32,7 +32,7 @@ Future<void> main() async {
 
   group('Login Tests: ', () {
     const LoginWithCredentialsResponse goodResponse =
-        LoginWithCredentialsResponse(playerID: 42);
+        LoginWithCredentialsResponse(playerID: 42, success: true);
 
     blocTest<LoginBloc, LoginState>(
       ' Check flow of states with good input',

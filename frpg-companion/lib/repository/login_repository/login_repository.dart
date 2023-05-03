@@ -14,12 +14,16 @@ class LoginRepository{
 
   Future<LoginWithCredentialsResponse> loginPlayer(LoginWithCredentialsRequest request) async
   {
-    final response = await _dio.post(
+    try {
+      final response = await _dio.post(
         '/login',
 
-      data: jsonEncode(request),
-    );
-    //TODO Error checking on http response type
-    return LoginWithCredentialsResponse.fromJson(json: jsonDecode(response.data));
+        data: jsonEncode(request),
+      );
+       return LoginWithCredentialsResponse.fromJson(
+          json: jsonDecode(response.data));
+    } on DioError catch (e) {
+      throw e;
+    }
   }
 }
