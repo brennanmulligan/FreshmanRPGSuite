@@ -37,11 +37,13 @@ public class QuestController extends Controller
             // Convert ObjectiveRecordDTOs to ObjectiveRecords
             ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
 
-            for (ObjectiveRecordDTO dto : info.getObjectives())
-            {
-                objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
-                        dto.getDescription(), dto.getExperiencePointsGained(),
-                        ObjectiveCompletionType.findByID(dto.getCompletionType()), null));
+            if (info.getObjectives() != null && !info.getObjectives().isEmpty()) {
+                for (ObjectiveRecordDTO dto : info.getObjectives())
+                {
+                    objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
+                            dto.getDescription(), dto.getExperiencePointsGained(),
+                            ObjectiveCompletionType.findByID(dto.getCompletionType()), null));
+                }
             }
 
             CommandUpsertQuest command =
