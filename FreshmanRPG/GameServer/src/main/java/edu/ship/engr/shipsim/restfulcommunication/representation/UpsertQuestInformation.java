@@ -44,9 +44,7 @@ public class UpsertQuestInformation
                                   @JsonProperty("startDate") String startDate,
                                   @JsonProperty("endDate") String endDate,
                                   @JsonProperty("easterEgg") boolean easterEgg)
-            throws JsonProcessingException
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         this.id = id;
         this.title = title;
         this.description = description;
@@ -55,16 +53,11 @@ public class UpsertQuestInformation
         this.position = new Position(triggerRow, triggerCol);
         this.objectivesForFulfillment = objectivesForFulfillment;
         this.completionActionType = QuestCompletionActionType.findByID(completionActionType);
-        try
-        {
-            this.startDate = dateFormat.parse(startDate);
-            this.endDate = dateFormat.parse(endDate);
-        }
-        catch (ParseException e)
-        {
-            // TODO: figure out how to throw error back to front end from here
-            throw new RuntimeException(e);
-        }
+
+        //this.startDate = dateFormat.format(new Date(startDate)); // fromEpochTime
+        //this.startDate = dateFormat.format(Long.parseLong(startDate));
+        this.startDate = new Date(Long.parseLong(startDate));
+        this.endDate = new Date(Long.parseLong(endDate)); // fromEpochTime
         this.easterEgg = easterEgg;
 
         this.objectives = objectives;
