@@ -53,10 +53,8 @@ class UpsertQuestRequest extends Equatable {
       'description': description,
       'experiencePointsGained': xpGained,
       'mapName': triggerMapName,
-      'position': {
-        'row': triggerRow,
-        'column': triggerCol,
-      },
+      'row': triggerRow,
+      'column': triggerCol,
       'objectivesForFulfillment': objectivesForFulfillment,
       'actionType': completionActionType,
       'startDate': startDate,
