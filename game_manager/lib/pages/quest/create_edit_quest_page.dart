@@ -195,6 +195,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                 setState(() {
                   questId = value!;
                   QuestRecord current  = questResponse.quests.firstWhere((quest) => quest.id == questId);
+                  questTitle = current.title;
                   populate(current);
                 });
               },
