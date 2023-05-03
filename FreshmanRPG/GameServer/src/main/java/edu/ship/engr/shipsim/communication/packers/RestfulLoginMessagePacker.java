@@ -18,7 +18,7 @@ public class RestfulLoginMessagePacker extends MessagePacker
     {
         RestfulLoginInitiatedReport report = (RestfulLoginInitiatedReport) object;
 
-        return new RestfulLoginMessage(report.getUsername(), report.getPassword(), report.isQuiet());
+        return new RestfulLoginMessage(report.getPlayerName(), report.getPassword(), report.isQuiet());
     }
 
     @Override

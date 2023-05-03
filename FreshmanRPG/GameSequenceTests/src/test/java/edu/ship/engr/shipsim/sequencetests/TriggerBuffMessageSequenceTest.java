@@ -67,7 +67,7 @@ public class TriggerBuffMessageSequenceTest extends SequenceTest
 
         // set player position
         Player playerFromID = pm.getPlayerFromID(PlayersForTest.JAWN.getPlayerID());
-        playerFromID.setPlayerPosition(InteractableItemsForTest.BOOK.getPosition());
+        playerFromID.setPosition(InteractableItemsForTest.BOOK.getPosition());
 
         InteractObjectManager.getSingleton();
     }

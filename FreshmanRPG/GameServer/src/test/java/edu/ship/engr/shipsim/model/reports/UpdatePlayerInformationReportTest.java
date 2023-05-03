@@ -129,7 +129,7 @@ public class UpdatePlayerInformationReportTest
         Player john = PlayerManager.getSingleton().addPlayer(1);
 
         UpdatePlayerInformationReport report = new UpdatePlayerInformationReport(john);
-        assertEquals(PlayersForTest.JOHN.getExperiencePoints(), report.getExperiencePts());
+        assertEquals(PlayersForTest.JOHN.getExperiencePoints(), report.getExperiencePoints());
         assertEquals(LevelsForTest.TWO.getDescription(), report.getLevel().getDescription());
         assertEquals(LevelsForTest.TWO.getLevelUpPoints(), report.getLevel().getLevelUpPoints());
 

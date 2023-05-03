@@ -64,7 +64,7 @@ public class InteractObjectManagerTest
         //Marty's default position is 10,19
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
         Position playerPosition = new Position(100, 100); //set up new position for the player
-        player.setPlayerPosition(playerPosition);
+        player.setPosition(playerPosition);
 
         int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
         assertEquals(-1, result);
@@ -83,7 +83,7 @@ public class InteractObjectManagerTest
         //Default position of interactable item on the same map with Marty in the mock version is at (1,1)
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
         Position playerPosition = new Position(1, 1); //set new position for the player at (1,1)
-        player.setPlayerPosition(playerPosition);
+        player.setPosition(playerPosition);
 
         int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MARTY.getPlayerID());
         assertTrue(result >= 0);
@@ -95,7 +95,7 @@ public class InteractObjectManagerTest
     public void testPlayerPosition(Position position, boolean expected) throws DatabaseException
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        player.setPlayerPosition(position);
+        player.setPosition(position);
 
         int result = InteractObjectManager.getSingleton().objectInRange(PlayersForTest.MERLIN.getPlayerID());
         assertEquals(expected, result >= 0);
@@ -122,7 +122,7 @@ public class InteractObjectManagerTest
     {
         Player player = PlayerManager.getSingleton().addPlayer(PlayersForTest.MARTY.getPlayerID());
         Position playerPosition = new Position(3, 0);
-        player.setPlayerPosition(playerPosition);
+        player.setPosition(playerPosition);
 
         InteractObjectManager.getSingleton().execute(player.getPlayerID(), 4);
 

@@ -5,19 +5,19 @@ package edu.ship.engr.shipsim.model.reports;
  */
 public final class RestfulLoginInitiatedReport extends SendMessageReport
 {
-    private final String username;
+    private final String playerName;
     private final String password;
 
-    public RestfulLoginInitiatedReport(String username, String password)
+    public RestfulLoginInitiatedReport(String playerName, String password)
     {
         super(0, true);
-        this.username = username;
+        this.playerName = playerName;
         this.password = password;
     }
 
-    public String getUsername()
+    public String getPlayerName()
     {
-        return username;
+        return playerName;
     }
 
     public String getPassword()

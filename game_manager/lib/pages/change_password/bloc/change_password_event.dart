@@ -13,13 +13,13 @@ class GetPlayerNamesForPageEvent extends ChangePasswordEvent {
 }
 
 class SendChangePasswordEvent extends ChangePasswordEvent {
-  final String name;
+  final String playerName;
   final String newPassword;
 
-  SendChangePasswordEvent(this.name, this.newPassword);
+  SendChangePasswordEvent(this.playerName, this.newPassword);
 
   @override
   String toString() {
-    return 'SendChangePasswordEvent(playerName: $name, password: $newPassword)';
+    return 'SendChangePasswordEvent(playerName: $playerName, password: $newPassword)';
   }
 }

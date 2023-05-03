@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ChangePlayerInformation
 {
-    private final String username;
+    private final String playerName;
     private final String password;
 
-    public String getUsername()
+    public String getPlayerName()
     {
-        return username;
+        return playerName;
     }
 
     public String getPassword()
@@ -19,9 +19,9 @@ public class ChangePlayerInformation
     }
 
     @JsonCreator
-    public ChangePlayerInformation(@JsonProperty("username") String username, @JsonProperty("password") String password)
+    public ChangePlayerInformation(@JsonProperty("playerName") String playerName, @JsonProperty("password") String password)
     {
-        this.username = username;
+        this.playerName = playerName;
         this.password = password;
     }
 }

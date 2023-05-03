@@ -52,7 +52,7 @@ public class RandomFactsNPCBehavior extends NPCBehavior
             ChatManager.getSingleton()
                     .sendChatToClients(playerID, 0, facts.get(factNumber).getFactText(), PlayerManager.getSingleton()
                                     .getPlayerFromID(playerID)
-                                    .getPlayerPosition(),
+                                    .getPosition(),
                             ChatType.Local);
         }
         chatDelayCounter = (chatDelayCounter + 1) % CHAT_DELAY_SECONDS;

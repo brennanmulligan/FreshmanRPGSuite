@@ -31,7 +31,7 @@ class ChangePasswordBloc extends Bloc<ChangePasswordEvent, ChangePasswordState> 
       emit(ChangePasswordLoading());
 
       BasicResponse response = await playerRepository.changePassword(ChangePlayerRequest
-        (username: event.name, password: event.newPassword));
+        (playerName: event.playerName, password: event.newPassword));
 
       emit(ChangePasswordComplete(response));
 

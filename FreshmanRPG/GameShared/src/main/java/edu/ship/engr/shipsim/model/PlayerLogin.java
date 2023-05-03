@@ -14,22 +14,22 @@ public class PlayerLogin
     /**
      * Create a new record in the database
      *
-     * @param name     the player's name
+     * @param playerName     the player's playerName
      * @param password the player's password
-     * @param id       The id of the player
+     * @param playerID       The id of the player
      * @throws DatabaseException if the gateway fails
      */
-    protected PlayerLogin(int playerID, String name, String password, int id)
+    protected PlayerLogin(int playerID, String playerName, String password)
             throws DatabaseException
     {
         try
         {
             this.loginGateway =
-                    new PlayerLoginRowDataGateway(playerID, name, password);
+                    new PlayerLoginRowDataGateway(playerID, playerName, password);
         }
         catch (DatabaseException e)
         {
-            throw new DatabaseException("no login information for " + name);
+            throw new DatabaseException("No login information for " + playerName);
         }
 
     }
@@ -57,14 +57,6 @@ public class PlayerLogin
         {
             throw new DatabaseException("Incorrect password.");
         }
-
-
-//        if (playerGateway.getOnline())
-//        {
-//
-//            throw new DatabaseException("Player is already online.");
-//        }
-
     }
 
     /**
@@ -82,7 +74,7 @@ public class PlayerLogin
         catch (DatabaseException e)
         {
             throw new DatabaseException(
-                    "no login information for player with ID " + playerID);
+                    "No login information for player with ID " + playerID);
         }
     }
 
@@ -109,7 +101,7 @@ public class PlayerLogin
      * @param password   The Password of the Player
      * @throws DatabaseException - shouldn't
      */
-    public void editPlayeLogin(String playerName, String password)
+    public void editPlayerLogin(String playerName, String password)
             throws DatabaseException
     {
         this.loginGateway.setName(playerName);
@@ -157,7 +149,7 @@ public class PlayerLogin
     }
 
     /**
-     * Compares a given object with the playername and player id.
+     * Compares a given object with the playerName and playerID.
      */
     @Override
     public boolean equals(Object obj)

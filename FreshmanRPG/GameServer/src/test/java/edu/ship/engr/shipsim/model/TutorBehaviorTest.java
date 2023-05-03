@@ -53,7 +53,7 @@ public class TutorBehaviorTest
         PlayerManager.getSingleton().addPlayer(PlayersForTest.TUTOR.getPlayerID());
 
         // setup the report to send
-        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPlayerPosition(), ChatType.Local);
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPosition(), ChatType.Local);
 
         // tell the npc to receive the report
         behavior.receiveReport(report);
@@ -80,7 +80,7 @@ public class TutorBehaviorTest
         PlayerManager.getSingleton().addPlayer(PlayersForTest.TUTOR.getPlayerID());
 
         // set up the report to send
-        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPlayerPosition(), ChatType.Zone);
+        NPCChatReport report = new NPCChatReport(player.getPlayerID(), 0, "Hello, tutor", player.getPosition(), ChatType.Zone);
 
         // tell the npc to receive the report
         behavior.receiveReport(report);

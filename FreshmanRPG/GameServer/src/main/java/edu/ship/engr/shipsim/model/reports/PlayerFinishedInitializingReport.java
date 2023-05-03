@@ -11,20 +11,20 @@ public final class PlayerFinishedInitializingReport implements Report
 {
     private final int playerID;
     private final String playerName;
-    private final String playerAppearance;
+    private final String appearanceType;
 
     /**
      * Information about which player finished loading.
      *
      * @param playerID         the player's ID
      * @param playerName       the player's name
-     * @param playerAppearance the player's appearance
+     * @param appearanceType the player's appearance type
      */
-    public PlayerFinishedInitializingReport(int playerID, String playerName, String playerAppearance)
+    public PlayerFinishedInitializingReport(int playerID, String playerName, String appearanceType)
     {
         this.playerID = playerID;
         this.playerName = playerName;
-        this.playerAppearance = playerAppearance;
+        this.appearanceType = appearanceType;
     }
 
     /**
@@ -48,7 +48,7 @@ public final class PlayerFinishedInitializingReport implements Report
      */
     public String getAppearanceType()
     {
-        return playerAppearance;
+        return appearanceType;
     }
 
     /**
@@ -61,7 +61,8 @@ public final class PlayerFinishedInitializingReport implements Report
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((playerAppearance == null) ? 0 : playerAppearance.hashCode());
+        result = prime * result + ((
+                appearanceType == null) ? 0 : appearanceType.hashCode());
         result = prime * result + playerID;
         result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
         return result;
@@ -88,14 +89,14 @@ public final class PlayerFinishedInitializingReport implements Report
             return false;
         }
         PlayerFinishedInitializingReport other = (PlayerFinishedInitializingReport) obj;
-        if (playerAppearance == null)
+        if (appearanceType == null)
         {
-            if (other.playerAppearance != null)
+            if (other.appearanceType != null)
             {
                 return false;
             }
         }
-        else if (!playerAppearance.equals(other.playerAppearance))
+        else if (!appearanceType.equals(other.appearanceType))
         {
             return false;
         }

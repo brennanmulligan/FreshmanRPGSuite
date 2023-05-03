@@ -25,7 +25,7 @@ class CreatePlayerPage extends StatefulWidget {
 }
 
 class _CreatePlayerPageState extends State<CreatePlayerPage> {
-  final username = TextEditingController();
+  final playerName = TextEditingController();
   final password = TextEditingController();
   final section = TextEditingController();
   int? crewsValue;
@@ -42,7 +42,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
   @override
   dispose() {
     super.dispose();
-    username.dispose();
+    playerName.dispose();
     password.dispose();
     section.dispose();
   }
@@ -173,7 +173,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
           child: Column(
             children: [
               TextField(
-                controller: username,
+                controller: playerName,
                 decoration: InputDecoration(
                   label: Row(
                     children: const [
@@ -252,7 +252,7 @@ class _CreatePlayerPageState extends State<CreatePlayerPage> {
                 height: 60,
               ),
               SubmitButtonBuilder(
-                  username: username,
+                  playerName: playerName,
                   password: password,
                   crew: crewsValue!,
                   major: majorsValue!,
@@ -313,7 +313,7 @@ Future<void> _pickFile(BuildContext context) async{
 class SubmitButtonBuilder extends StatelessWidget {
   SubmitButtonBuilder(
       {Key? key,
-      required this.username,
+      required this.playerName,
       required this.password,
       required this.crew,
       required this.major,
@@ -321,7 +321,7 @@ class SubmitButtonBuilder extends StatelessWidget {
       required this.isValid})
       : super(key: key);
 
-  final TextEditingController username;
+  final TextEditingController playerName;
   final TextEditingController password;
   final int crew;
   final int major;
@@ -341,7 +341,7 @@ class SubmitButtonBuilder extends StatelessWidget {
           ),
         ),
         onPressed: !isValid ? null :() => BlocProvider.of<CreatePlayerBloc>(context)
-            .add(SendCreatePlayerEvent(username.text, password.text, crew,
+            .add(SendCreatePlayerEvent(playerName.text, password.text, crew,
                 major, int.parse(section.text))),
         child: const Text(
           "Create Player",

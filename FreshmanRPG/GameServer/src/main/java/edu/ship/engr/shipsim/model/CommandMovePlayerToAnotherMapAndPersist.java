@@ -11,19 +11,19 @@ import edu.ship.engr.shipsim.model.reports.PlayerReadyToTeleportReport;
 public class CommandMovePlayerToAnotherMapAndPersist extends Command
 {
 
-    private final int playerId;
-    private final String map;
+    private final int playerID;
+    private final String mapName;
     private final Position position;
 
     /**
-     * @param playerId The player id that should be moved and then saved.
-     * @param map      The map that they are moved to.
+     * @param playerID The player id that should be moved and then saved.
+     * @param mapName      The map that they are moved to.
      * @param position The position that they are moved to.
      */
-    public CommandMovePlayerToAnotherMapAndPersist(int playerId, String map, Position position)
+    public CommandMovePlayerToAnotherMapAndPersist(int playerID, String mapName, Position position)
     {
-        this.playerId = playerId;
-        this.map = map;
+        this.playerID = playerID;
+        this.mapName = mapName;
         this.position = position;
     }
 
@@ -31,17 +31,18 @@ public class CommandMovePlayerToAnotherMapAndPersist extends Command
     void execute()
     {
         PlayerManager playerManager = PlayerManager.getSingleton();
-        Player player = playerManager.getPlayerFromID(playerId);
+        Player player = playerManager.getPlayerFromID(playerID);
 
         if (player != null)
         {
-            player.setPlayerPositionWithoutNotifying(position);
-            player.setMapName(map);
+            player.setPositionWithoutNotifying(position);
+            player.setMapName(mapName);
 
             try
             {
-                playerManager.persistPlayer(playerId);
-                PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(playerId, map);
+                playerManager.persistPlayer(playerID);
+                PlayerReadyToTeleportReport report = new PlayerReadyToTeleportReport(
+                        playerID, mapName);
                 ReportObserverConnector.getSingleton().sendReport(report);
             }
             catch (DatabaseException e)

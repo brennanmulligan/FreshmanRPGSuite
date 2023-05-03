@@ -30,11 +30,11 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
       List<CreatePlayerWithNameResponse> failed = [];
 
       List<String> parameters = fileLines.elementAt(0).split(",");
-      if(!parameters.contains("name") || !parameters.contains("password") || !parameters.contains("crew") || !parameters.contains("major") || !parameters.contains("section")){
+      if(!parameters.contains("playerName") || !parameters.contains("password") || !parameters.contains("crew") || !parameters.contains("major") || !parameters.contains("section")){
         CreateManyPlayersResponse failedResponse = const CreateManyPlayersResponse(success: false, description: "File format invalid. Fix file and try again", successful: [], failed: []);
         emit(CreateManyPlayersComplete(failedResponse));
       }else{
-        int nameIndex = parameters.indexOf("name");
+        int playerNameIndex = parameters.indexOf("playerName");
         int passwordIndex = parameters.indexOf("password");
         int crewIndex = parameters.indexOf("crew");
         int majorIndex = parameters.indexOf("major");
@@ -49,7 +49,7 @@ class CreateManyPlayersBloc extends Bloc<CreateManyPlayersEvent, CreateManyPlaye
           } else {
             BasicResponse currentResponse = await playerRepository.createPlayer(
               CreatePlayerRequest
-                (name: parameters.elementAt(nameIndex),
+                (playerName: parameters.elementAt(playerNameIndex),
                   password: parameters.elementAt(passwordIndex),
                   crew: num.parse(parameters.elementAt(crewIndex)),
                   major: num.parse(parameters.elementAt(majorIndex)),

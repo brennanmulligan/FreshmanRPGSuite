@@ -85,5 +85,4 @@ public class PlayerLoginTest
             assertEquals(player1.getPlayerID(), PlayersForTest.MERLIN.getPlayerID());
         });
     }
-
 }

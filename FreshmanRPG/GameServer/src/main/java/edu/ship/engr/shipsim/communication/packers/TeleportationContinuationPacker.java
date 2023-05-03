@@ -28,13 +28,13 @@ public class TeleportationContinuationPacker extends MessagePacker
         {
             try
             {
-                MapToServerMapping mapping = new MapToServerMapping(report.getMap());
+                MapToServerMapping mapping = new MapToServerMapping(report.getMapName());
 
                 int newPin = PlayerManager.getSingleton().getNewPinFor(report.getPlayerID());
                 LoggerManager.getSingleton().getLogger().info("Sending teleportation " +
                         "continuation msg to " + report.getPlayerID() + " sending them " +
-                        "to " + report.getMap());
-                return new TeleportationContinuationMessage(report.getMap(), mapping.getHostName(),
+                        "to " + report.getMapName());
+                return new TeleportationContinuationMessage(report.getMapName(), mapping.getHostName(),
                         mapping.getPortNumber(), report.getPlayerID(),
                         newPin, report.isQuiet());
             }

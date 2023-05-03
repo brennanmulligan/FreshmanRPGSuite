@@ -36,9 +36,9 @@ public class CommandGetQuestInformationTest
         QuestTableDataGateway mockQuestGateway = mock(QuestTableDataGateway.class);
         questGateway.setSingleton(mockQuestGateway);
 
-        MapTableDataGateway mapGateway = MapTableDataGateway.getInstance();
+        MapTableDataGateway mapGateway = MapTableDataGateway.getSingleton();
         MapTableDataGateway mockMapGateway = mock(MapTableDataGateway.class);
-        mapGateway.setInstance(mockMapGateway);
+        mapGateway.setSingleton(mockMapGateway);
 
         QuestEditingInfoDTO questEditingInfoDTO = new QuestEditingInfoDTO();
 

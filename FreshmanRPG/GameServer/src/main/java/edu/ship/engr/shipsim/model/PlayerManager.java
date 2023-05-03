@@ -89,7 +89,7 @@ public class PlayerManager implements ReportObserver
             throw new RuntimeException(e);
         }
 
-        ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPlayerPosition(),
+        ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(playerID, player.getPlayerName(), player.getAppearanceType(), player.getPosition(),
                 player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems()));
         return player;
     }
@@ -108,7 +108,7 @@ public class PlayerManager implements ReportObserver
         {
             PlayerMapper mapper = new PlayerMapper(playerID);
             Player player = mapper.getPlayer();
-            mapper.addMapToPlayer(player.getMapName());
+            mapper.addNewVisitedMap(player.getMapName());
             player.setPlayerLogin(new PlayerLogin(playerID));
             players.put(playerID, player);
             return player;
@@ -133,7 +133,7 @@ public class PlayerManager implements ReportObserver
     {
         PlayerMapper pm = new PlayerMapper(playerID);
         Player player = pm.getPlayer();
-        pm.addMapToPlayer(player.getMapName());
+        pm.addNewVisitedMap(player.getMapName());
         player.setPlayerOnline(true);
         player.persist();
 
@@ -142,7 +142,7 @@ public class PlayerManager implements ReportObserver
             players.put(playerID, player);
 
             ReportObserverConnector.getSingleton().sendReport(new PlayerConnectionReport(player.getPlayerID(), player.getPlayerName(), player.getAppearanceType(), player
-                    .getPlayerPosition(), player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems(), player.getAllOwnedItems()));
+                    .getPosition(), player.getCrew(), player.getMajor(), player.getSection(), player.getVanityItems(), player.getAllOwnedItems()));
 
             ReportObserverConnector.getSingleton().sendReport(new UpdatePlayerInformationReport(player));
             tellNewPlayerAboutEveryoneElse(player);
@@ -350,12 +350,12 @@ public class PlayerManager implements ReportObserver
                 if (existingPlayer.getVanityItems().isEmpty())
                 {
                     report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
-                            .getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), player.getVanityItems());
+                            .getAppearanceType(), existingPlayer.getPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), player.getVanityItems());
                 }
                 else
                 {
                     report = new AddExistingPlayerReport(player.getPlayerID(), existingPlayer.getPlayerID(), existingPlayer.getPlayerName(), existingPlayer
-                            .getAppearanceType(), existingPlayer.getPlayerPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), existingPlayer.getVanityItems());
+                            .getAppearanceType(), existingPlayer.getPosition(), existingPlayer.getCrew(), existingPlayer.getMajor(), existingPlayer.getSection(), existingPlayer.getVanityItems());
                 }
                 ReportObserverConnector.getSingleton().sendReport(report);
             }

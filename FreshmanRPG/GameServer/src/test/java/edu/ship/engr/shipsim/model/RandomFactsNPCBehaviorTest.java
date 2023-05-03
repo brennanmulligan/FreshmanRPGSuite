@@ -30,7 +30,7 @@ public class RandomFactsNPCBehaviorTest
         behavior = new RandomFactsNPCBehavior(PlayersForTest.BIG_RED.getPlayerID());
         PlayerManager.getSingleton().addNpc(new NPC(PlayersForTest.BIG_RED.getPlayerID()));
         PlayerManager.getSingleton().getPlayerFromID(PlayersForTest.BIG_RED.getPlayerID()).
-                setPlayerPositionWithoutNotifying(PlayersForTest.BIG_RED.getPosition());
+                setPositionWithoutNotifying(PlayersForTest.BIG_RED.getPosition());
     }
 
     /**

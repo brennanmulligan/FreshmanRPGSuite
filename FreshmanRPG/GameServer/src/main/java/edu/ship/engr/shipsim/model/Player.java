@@ -35,7 +35,7 @@ public class Player
 
     private int playerID;
 
-    private Position playerPosition;
+    private Position position;
 
     private String mapName;
 
@@ -57,7 +57,7 @@ public class Player
 
     private VanityInventory vanityInventory = new VanityInventory(this.playerID);
 
-    private String lastVisitedMapTitle;
+    private String lastVisitedMap;
 
     Player(int playerID) throws DatabaseException
     {
@@ -147,9 +147,9 @@ public class Player
      * @return playerPosition Returns the player position. If a position is not set
      * should return null.
      */
-    public Position getPlayerPosition()
+    public Position getPosition()
     {
-        return playerPosition;
+        return position;
     }
 
     /**
@@ -315,12 +315,12 @@ public class Player
     /**
      * Set the player's position
      *
-     * @param playerPosition The new location the player is Assuming a valid
+     * @param position The new location the player is Assuming a valid
      *                       position. Error checking else where
      */
-    public void setPlayerPosition(Position playerPosition)
+    public void setPosition(Position position)
     {
-        setPlayerPositionWithoutNotifying(playerPosition);
+        setPositionWithoutNotifying(position);
 
         sendReportGivingPosition();
 
@@ -332,9 +332,9 @@ public class Player
      *
      * @param newPosition the position the player should move to
      */
-    public void setPlayerPositionWithoutNotifying(Position newPosition)
+    public void setPositionWithoutNotifying(Position newPosition)
     {
-        this.playerPosition = newPosition;
+        this.position = newPosition;
     }
 
     /**
@@ -365,7 +365,7 @@ public class Player
      */
     protected boolean canReceiveLocalMessage(Position position)
     {
-        Position myPosition = getPlayerPosition();
+        Position myPosition = getPosition();
 
         return Math.abs(myPosition.getColumn() - position.getColumn()) <= LOCAL_CHAT_RADIUS && Math.abs(myPosition.getRow() - position.getRow()) <= LOCAL_CHAT_RADIUS;
     }
@@ -375,7 +375,8 @@ public class Player
      */
     public void sendReportGivingPosition()
     {
-        PlayerMovedReport report = new PlayerMovedReport(playerID, this.getPlayerName(), playerPosition, this.mapName);
+        PlayerMovedReport report = new PlayerMovedReport(playerID, this.getPlayerName(),
+                position, this.mapName);
 
         ReportObserverConnector.getSingleton().sendReport(report);
     }
@@ -512,24 +513,23 @@ public class Player
      *
      * @return - PlayerInfo DTO
      */
-    public PlayerDTO getPlayerInfo()
+    public PlayerDTO getPlayerDTO()
     {
         PlayerDTO playerInfo = new PlayerDTO();
         playerInfo.setAppearanceType(getAppearanceType());
         playerInfo.setExperiencePoints(getExperiencePoints());
         playerInfo.setDoubloons(getQuizScore());
-        playerInfo.setPosition(getPlayerPosition());
+        playerInfo.setPosition(getPosition());
         playerInfo.setCrew(getCrew());
         playerInfo.setMajor(getMajor());
         playerInfo.setSection(getSection());
         playerInfo.setMapName(getMapName());
         playerInfo.setPlayerID(getPlayerID());
         playerInfo.setPlayerName(getPlayerLogin().getPlayerName());
-        playerInfo.setPlayerPassword(getPlayerLogin().getPlayerPassword());
+        playerInfo.setPassword(getPlayerLogin().getPlayerPassword());
         playerInfo.setVanityItems(getAllOwnedItems());
         return playerInfo;
     }
-
 
     /**
      * edits and persists the current player
@@ -546,7 +546,7 @@ public class Player
      */
     public void editPlayer(String appearanceType, int quizScore, int experiencePoints, Crew crew, Major major, int section, String name, String password) throws DatabaseException
     {
-        this.getPlayerLogin().editPlayeLogin(name, password);
+        this.getPlayerLogin().editPlayerLogin(name, password);
         setAppearanceType(appearanceType);
         setDoubloons(quizScore);
         setExperiencePoints(experiencePoints);
@@ -575,7 +575,7 @@ public class Player
         result = prime * result + playerID;
         result = prime * result + ((playerLogin == null) ? 0 : playerLogin.hashCode());
         result = prime * result + (playerOnline ? 1231 : 1237);
-        result = prime * result + ((playerPosition == null) ? 0 : playerPosition.hashCode());
+        result = prime * result + ((position == null) ? 0 : position.hashCode());
         result = prime * result + ((playerVisitedMaps == null) ? 0 : playerVisitedMaps.hashCode());
         result = prime * result + section;
         return result;
@@ -662,14 +662,14 @@ public class Player
         {
             return false;
         }
-        if (playerPosition == null)
+        if (position == null)
         {
-            if (other.playerPosition != null)
+            if (other.position != null)
             {
                 return false;
             }
         }
-        else if (!playerPosition.equals(other.playerPosition))
+        else if (!position.equals(other.position))
         {
             return false;
         }
@@ -686,9 +686,9 @@ public class Player
      * @param appearanceType - The appearance to change to.
      * @throws DatabaseException a database exception
      */
-    public void editPlayerAppearance(String appearanceType) throws DatabaseException
+    public void editPlayerAppearanceType(String appearanceType) throws DatabaseException
     {
-        this.playerMapper.setPlayerAppearanceType(appearanceType);
+        this.playerMapper.setAppearanceType(appearanceType);
         this.playerMapper.persist();
     }
 
@@ -719,7 +719,7 @@ public class Player
      */
     public String getLastVisitedMap()
     {
-        return lastVisitedMapTitle;
+        return lastVisitedMap;
     }
 
     /**
@@ -737,7 +737,7 @@ public class Player
             {
                 this.playerVisitedMaps.add(mapTitle);
             }
-            this.lastVisitedMapTitle = mapTitle;
+            this.lastVisitedMap = mapTitle;
         }
     }
 
@@ -771,6 +771,4 @@ public class Player
                         this.vanityInventory.getWornItems());
         ReportObserverConnector.getSingleton().sendReport(playerAppearanceChangeReport);
     }
-
-
 }

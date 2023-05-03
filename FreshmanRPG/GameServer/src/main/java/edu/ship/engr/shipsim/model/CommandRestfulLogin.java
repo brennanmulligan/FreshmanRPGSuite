@@ -7,19 +7,20 @@ import edu.ship.engr.shipsim.model.reports.RestfulLoginInitiatedReport;
  */
 public final class CommandRestfulLogin extends Command
 {
-    private final String username;
+    private final String playerName;
     private final String password;
 
-    public CommandRestfulLogin(String username, String password)
+    public CommandRestfulLogin(String playerName, String password)
     {
-        this.username = username;
+        this.playerName = playerName;
         this.password = password;
     }
 
     @Override
     void execute()
     {
-        RestfulLoginInitiatedReport report = new RestfulLoginInitiatedReport(username, password);
+        RestfulLoginInitiatedReport report = new RestfulLoginInitiatedReport(
+                playerName, password);
         ReportObserverConnector.getSingleton().sendReport(report);
     }
 }
