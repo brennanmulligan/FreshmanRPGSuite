@@ -13,7 +13,7 @@ class QuestRecord extends Equatable {
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
-  final List<ObjectiveRecord> objectives;
+  final List<ObjectiveRecordDTO> objectives;
   final ActionTypeDTO completionActionType;
   final String startDate;
   final String endDate;
@@ -74,7 +74,7 @@ class QuestRecord extends Equatable {
         triggerCol : json['position']['column'],
         objectivesForFulfillment : json['objectivesForFulfillment'],
         objectives: (json['objectives'] as List)
-            .map((e) => ObjectiveRecord.fromJson(json: e))
+            .map((e) => ObjectiveRecordDTO.fromJson(json: e))
             .toList(),
         completionActionType : ActionTypeDTO.fromJson(json: json['actionType']),
         startDate : json['startDate'],

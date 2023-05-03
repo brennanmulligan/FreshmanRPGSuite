@@ -28,7 +28,7 @@ Future<void> main() async {
         when(questRepo.upsertQuest(any)).thenAnswer((_) async => good);
         return QuestBloc(questRepository: questRepo);
       },
-      act: (bloc) => bloc.add(SendUpsertQuestEvent(1, "", "", 0, "", 1, 2, 3, 4, "", "", true)),
+      act: (bloc) => bloc.add(SendUpsertQuestEvent(1, "", "", const [], 0, "", 1, 2, 3, 4, "", "", true)),
       wait: const Duration(milliseconds: 500),
       expect: () => [QuestLoading(), QuestComplete(good)],
     );
