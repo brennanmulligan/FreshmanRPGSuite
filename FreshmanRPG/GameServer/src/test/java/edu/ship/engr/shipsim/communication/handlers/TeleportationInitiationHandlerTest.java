@@ -98,7 +98,7 @@ public class TeleportationInitiationHandlerTest
 
         // make sure we moved the player without notifying observers
         Player p = playerManager.getPlayerFromID(PlayersForTest.MERLIN.getPlayerID());
-        assertEquals(playerPos, p.getPlayerPosition());
+        assertEquals(playerPos, p.getPosition());
 
         // since the player was teleported, move reports shouldn't be sent/received
         verify(connector, never()).sendReport(any(PlayerMovedReport.class));

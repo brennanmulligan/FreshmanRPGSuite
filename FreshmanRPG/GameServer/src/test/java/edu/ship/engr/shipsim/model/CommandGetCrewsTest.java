@@ -37,7 +37,7 @@ public class CommandGetCrewsTest
             add(crewDTO2);
         }};
 
-        when(mockCrewGateway.retrieveAllCrews()).thenReturn(crews);
+        when(mockCrewGateway.getAllCrews()).thenReturn(crews);
 
         CommandGetCrews command = new CommandGetCrews();
         command.execute();

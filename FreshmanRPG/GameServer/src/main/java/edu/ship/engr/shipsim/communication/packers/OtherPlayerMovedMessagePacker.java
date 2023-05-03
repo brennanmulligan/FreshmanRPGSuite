@@ -32,7 +32,7 @@ public class OtherPlayerMovedMessagePacker extends MessagePacker
             int playerID = report.getPlayerID();
             if (this.getAccumulator().getPlayerID() != playerID)
             {
-                OtherPlayerMovedMessage msg = new OtherPlayerMovedMessage(playerID, report.isQuiet(), report.getNewPosition());
+                OtherPlayerMovedMessage msg = new OtherPlayerMovedMessage(playerID, report.isQuiet(), report.getPosition());
                 return msg;
             }
         }

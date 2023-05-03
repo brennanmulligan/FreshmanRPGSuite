@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.logging.LogManager;
-
 /**
  * @author Derek
  */
@@ -36,11 +34,11 @@ public class LoginController extends Controller
         // Temporary fix for autoclosing the connection
         try (RestfulServer.AutoClosingConnectionManager manager = RestfulServer.createConnectionToLoginServer())
         {
-            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Attempting login for user: \"" + info.getUsername() + "\"");
+            LoggerManager.getSingleton().getLogger().info("[RestfulServer] Attempting login for user: \"" + info.getPlayerName() + "\"");
 
             Report report = processAction(() ->
             {
-                CommandRestfulLogin command = new CommandRestfulLogin(info.getUsername(), info.getPassword());
+                CommandRestfulLogin command = new CommandRestfulLogin(info.getPlayerName(), info.getPassword());
 
                 ModelFacade.getSingleton().queueCommand(command);
             }, RestfulLoginSuccessReport.class, RestfulLoginFailedReport.class);

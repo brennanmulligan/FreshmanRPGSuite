@@ -6,7 +6,7 @@ import '../../type_definitions.dart';
 /// Object to request creating a player.
 ///
 class CreatePlayerRequest extends Equatable {
-  final String name;
+  final String playerName;
   final String password;
   final num crew;
   final num major;
@@ -16,7 +16,7 @@ class CreatePlayerRequest extends Equatable {
   /// Constructor
   ///
   const CreatePlayerRequest({
-    required this.name,
+    required this.playerName,
     required this.password,
     required this.crew,
     required this.major,
@@ -28,7 +28,7 @@ class CreatePlayerRequest extends Equatable {
   ///
   @override
   List<Object?> get props => [
-        name,
+        playerName,
         password,
         crew,
         major,
@@ -37,7 +37,7 @@ class CreatePlayerRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'playerName': playerName,
       'password': password,
       'crew': crew.toString(),
       'major': major.toString(),
@@ -47,7 +47,7 @@ class CreatePlayerRequest extends Equatable {
 
   @override
   String toString() {
-    return 'CreatePlayerRequest(name: $name, '
+    return 'CreatePlayerRequest(playerName: $playerName, '
         'password: $password, crew: $crew, major: $major, section: $section)';
   }
 
@@ -55,7 +55,7 @@ class CreatePlayerRequest extends Equatable {
   /// Convert object to JSON.
   ///
   JSON get asJson => {
-        'name': name,
+        'playerName': playerName,
         'password': password,
         'crew': crew.toString(),
         'major': major.toString(),

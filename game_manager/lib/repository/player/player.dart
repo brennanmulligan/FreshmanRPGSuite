@@ -8,7 +8,7 @@ import 'major.dart';
 class Player extends Equatable {
   final int playerID;
   final String playerName;
-  String? playerPassword;
+  String? password;
   String? appearanceType = "";
   int? row = 0;
   int? column = 0;
@@ -17,7 +17,7 @@ class Player extends Equatable {
   int? experiencePoints = 0;
   Crew? crew;
   Major? major;
-  int? sectionID = 0;
+  int? section = 0;
   int? buffPool = 0;
   List<String>? visitedMaps;
   List<VanityDTO>? vanityDTOs;
@@ -25,7 +25,7 @@ class Player extends Equatable {
   Player(
       {required this.playerID,
       required this.playerName,
-      this.playerPassword,
+      this.password,
       this.appearanceType,
       this.row,
       this.column,
@@ -34,7 +34,7 @@ class Player extends Equatable {
       this.experiencePoints,
       this.crew,
       this.major,
-      this.sectionID,
+      this.section,
       this.buffPool,
       this.visitedMaps,
       this.vanityDTOs});
@@ -43,7 +43,7 @@ class Player extends Equatable {
   List<Object?> get props => [
         playerID,
         playerName,
-        playerPassword,
+        password,
         appearanceType,
         row,
         column,
@@ -52,7 +52,7 @@ class Player extends Equatable {
         experiencePoints,
         crew,
         major,
-        sectionID,
+        section,
         buffPool,
         visitedMaps,
         vanityDTOs

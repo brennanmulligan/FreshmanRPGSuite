@@ -31,14 +31,14 @@ public class CommandMovePlayerSilentlyTest
 
         PlayerManager.getSingleton().addPlayer(1);
         Player p = PlayerManager.getSingleton().getPlayerFromID(1);
-        p.setPlayerPosition(startPosition);
+        p.setPosition(startPosition);
 
-        assertEquals(startPosition, p.getPlayerPosition());
+        assertEquals(startPosition, p.getPosition());
 
         CommandMovePlayerSilently cmd = new CommandMovePlayerSilently("newMap", 1, newPosition);
         cmd.execute();
 
-        assertEquals(newPosition, p.getPlayerPosition());
+        assertEquals(newPosition, p.getPosition());
         assertEquals("newMap", p.getMapName());
     }
 

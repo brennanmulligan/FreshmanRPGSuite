@@ -54,7 +54,7 @@ public class PlayerMapperTest
     {
         PlayerDTO player = getPlayerWeAreCreating();
         PlayerMapper created = createMapperForPlayer(player);
-        PlayerMapper found = findMapperForID(created.getPlayerInfo().getPlayerID());
+        PlayerMapper found = findMapperForID(created.getPlayerDTO().getPlayerID());
         assertPlayersEqual(player, found.getPlayer());
     }
 
@@ -176,7 +176,7 @@ public class PlayerMapperTest
         PlayerMapper pm = getMapper();
         Player p = pm.getPlayer();
         p.setAppearanceType("silly");
-        p.setPlayerPositionWithoutNotifying(new Position(42, 24));
+        p.setPositionWithoutNotifying(new Position(42, 24));
         p.setDoubloons(666);
         p.setMapName("sillyMap");
         p.setExperiencePoints(424);
@@ -243,7 +243,7 @@ public class PlayerMapperTest
         ArrayList<String> expected = getPlayerWeAreTesting().getMapsVisited();
         expected.add("Ducktopia");
         PlayerMapper pm = new PlayerMapper(getPlayerWeAreTesting().getPlayerID());
-        pm.addMapToPlayer("Ducktopia.tmx");
+        pm.addNewVisitedMap("Ducktopia.tmx");
         assertEquals(expected, pm.getPlayer().getPlayerVisitedMaps());
 
     }
@@ -306,7 +306,7 @@ public class PlayerMapperTest
                 player.getDoubloons(),
                 player.getExperiencePoints(), player.getCrew(), player.getMajor(),
                 player.getSection(),
-                player.getPlayerName(), player.getPlayerPassword());
+                player.getPlayerName(), player.getPassword());
     }
 
     protected void assertPlayersEqual(PlayerDTO expected, PlayerDTO actual)
@@ -324,12 +324,12 @@ public class PlayerMapperTest
 
     protected void assertPlayersEqual(PlayerDTO expected, Player actual)
     {
-        assertPlayersEqual(expected, actual.getPlayerInfo());
+        assertPlayersEqual(expected, actual.getPlayerDTO());
     }
 
     protected void assertPlayersEqual(Player expected, Player actual)
     {
-        assertPlayersEqual(expected.getPlayerInfo(), actual.getPlayerInfo());
+        assertPlayersEqual(expected.getPlayerDTO(), actual.getPlayerDTO());
     }
 
     protected void assertPlayersEqual(PlayersForTest expected, Player actual)

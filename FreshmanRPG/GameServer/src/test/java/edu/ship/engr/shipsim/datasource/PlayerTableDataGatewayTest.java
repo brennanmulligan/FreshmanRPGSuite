@@ -30,7 +30,7 @@ public class PlayerTableDataGatewayTest
     public void confirmCorrectDataInList() throws DatabaseException
     {
         PlayerTableDataGateway gateway = getGatewaySingleton();
-        ArrayList<PlayerDTO> playerList = gateway.retrieveAllPlayers();
+        ArrayList<PlayerDTO> playerList = gateway.getAllPlayers();
         PlayersForTest[] playerExpected = PlayersForTest.values();
 
         assertEquals(playerList.size(), playerExpected.length);
@@ -68,7 +68,7 @@ public class PlayerTableDataGatewayTest
     {
         PlayerTableDataGateway gateway = getGatewaySingleton();
 
-        ArrayList<PlayerDTO> playerList = gateway.retrieveAllOnlinePlayers();
+        ArrayList<PlayerDTO> playerList = gateway.getAllOnlinePlayers();
 
         int numberOfOnline = 0;
         for (PlayersForTest player : PlayersForTest.values())
@@ -108,11 +108,11 @@ public class PlayerTableDataGatewayTest
      * @throws DatabaseException shouldn't occur
      */
     @Test
-    public void retrieveAllPlayersSize() throws DatabaseException
+    public void getAllPlayersSize() throws DatabaseException
     {
         PlayerTableDataGateway gateway = getGatewaySingleton();
 
-        ArrayList<PlayerDTO> playerList = gateway.retrieveAllPlayers();
+        ArrayList<PlayerDTO> playerList = gateway.getAllPlayers();
         assertEquals(PlayersForTest.values().length, playerList.size());
     }
 
@@ -120,7 +120,7 @@ public class PlayerTableDataGatewayTest
      * @throws DatabaseException shouldn't
      */
     @Test
-    public void retrieveHighScoreList() throws DatabaseException
+    public void getHighScoreList() throws DatabaseException
     {
 
         gateway = getGatewaySingleton();
@@ -140,7 +140,7 @@ public class PlayerTableDataGatewayTest
      * @throws DatabaseException shouldn't
      */
     @Test
-    public void retrieveTopTenHighScores() throws DatabaseException
+    public void getTopTenHighScores() throws DatabaseException
     {
         gateway = getGatewaySingleton();
         ArrayList<PlayerScoreRecord> results = gateway.getTopTenList();

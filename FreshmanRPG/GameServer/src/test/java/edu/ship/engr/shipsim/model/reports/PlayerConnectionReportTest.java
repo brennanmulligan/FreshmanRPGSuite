@@ -32,7 +32,7 @@ public class PlayerConnectionReportTest
                 john.getPlayerID(),
                 john.getPlayerName(),
                 john.getAppearanceType(),
-                john.getPlayerPosition(),
+                john.getPosition(),
                 john.getCrew(),
                 john.getMajor(),
                 john.getSection(),

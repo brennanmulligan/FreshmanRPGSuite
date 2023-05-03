@@ -31,7 +31,7 @@ public class CommandMovePlayer extends Command
         Player player = PlayerManager.getSingleton().getPlayerFromID(playerId);
         if (player != null)
         {
-            player.setPlayerPosition(newPosition);
+            player.setPosition(newPosition);
         }
     }
 }

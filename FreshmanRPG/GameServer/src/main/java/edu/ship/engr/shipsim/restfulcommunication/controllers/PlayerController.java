@@ -34,9 +34,9 @@ public class PlayerController extends Controller
         CreatePlayerResponseReport report = processAction(() ->
         {
             CommandCreatePlayer command =
-                    new CommandCreatePlayer(info.getUsername(),
+                    new CommandCreatePlayer(info.getPlayerName(),
                             info.getPassword(),
-                            info.getCrewNum(), info.getMajorNum(),
+                            info.getCrew(), info.getMajor(),
                             info.getSection());
             ModelFacade.getSingleton().queueCommand(command);
         }, CreatePlayerResponseReport.class);
@@ -90,7 +90,7 @@ public class PlayerController extends Controller
         ChangePlayerReport report = processAction(() ->
         {
             CommandChangePlayer command =
-                    new CommandChangePlayer(info.getUsername(),
+                    new CommandChangePlayer(info.getPlayerName(),
                             info.getPassword());
             ModelFacade.getSingleton().queueCommand(command);
         }, ChangePlayerReport.class);

@@ -69,7 +69,7 @@ public class UpdatePlayerInformationReport extends SendMessageReport
      *
      * @return experiencePoints
      */
-    public int getExperiencePts()
+    public int getExperiencePoints()
     {
         return experiencePoints;
     }

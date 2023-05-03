@@ -13,7 +13,7 @@ public class PlayerDTO
 {
     private int playerID;
     private String playerName;
-    private String playerPassword;
+    private String password;
     private String appearanceType;
     private Position position;
     private int doubloons;
@@ -21,7 +21,7 @@ public class PlayerDTO
     private int experiencePoints;
     private Crew crew;
     private Major major;
-    private int sectionID;
+    private int section;
     private int buffPool;
     private ArrayList<String> visitedMaps;
     private ArrayList<VanityDTO> vanityDTOs;
@@ -40,7 +40,7 @@ public class PlayerDTO
      *
      * @param playerID         the player's unique ID
      * @param playerName       the player's name
-     * @param playerPassword   the player's password
+     * @param password   the player's password
      * @param appearanceType   - how the player will be displayed
      * @param doubloons        - the quiz score of the player
      * @param position         - where the player is standing
@@ -48,11 +48,11 @@ public class PlayerDTO
      * @param experiencePoints - the number of experience points the player has earned
      * @param crew             - the crew the player belongs to
      * @param major            - the player'a major
-     * @param sectionID        - the player's section
+     * @param section        - the player's section
      * @param visitedMaps      - the player's visited maps
      */
-    public PlayerDTO(int playerID, String playerName, String playerPassword, String appearanceType, int doubloons,
-                     Position position, String mapName, int experiencePoints, Crew crew, Major major, int sectionID, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
+    public PlayerDTO(int playerID, String playerName, String password, String appearanceType, int doubloons,
+                     Position position, String mapName, int experiencePoints, Crew crew, Major major, int section, ArrayList<String> visitedMaps, ArrayList<VanityDTO> vanityDTOs)
     {
         this.playerID = playerID;
         this.playerName = playerName;
@@ -63,8 +63,8 @@ public class PlayerDTO
         this.experiencePoints = experiencePoints;
         this.crew = crew;
         this.major = major;
-        this.sectionID = sectionID;
-        this.playerPassword = playerPassword;
+        this.section = section;
+        this.password = password;
         this.visitedMaps = visitedMaps;
         this.vanityDTOs = vanityDTOs;
     }
@@ -78,11 +78,11 @@ public class PlayerDTO
      * @param crew     - player's crew
      * @param major    - player's major
      * @param section  - player's section
-     * @param name     - player's name
+     * @param playerName     - player's playerName
      */
-    protected PlayerDTO(int playerID, String password, Crew crew, Major major, int section, String name)
+    protected PlayerDTO(int playerID, String password, Crew crew, Major major, int section, String playerName)
     {
-        this(playerID, name, password, "Ninja", 0, new Position(0, 0), "sortingroom.tmx", 0, crew, major, section, new ArrayList<>(), new ArrayList<>());
+        this(playerID, playerName, password, "Ninja", 0, new Position(0, 0), "sortingroom.tmx", 0, crew, major, section, new ArrayList<>(), new ArrayList<>());
     }
 
 
@@ -111,9 +111,9 @@ public class PlayerDTO
         result = prime * result + ((mapName == null) ? 0 : mapName.hashCode());
         result = prime * result + playerID;
         result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
-        result = prime * result + ((playerPassword == null) ? 0 : playerPassword.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
-        result = prime * result + sectionID;
+        result = prime * result + section;
         result = prime * result + ((visitedMaps == null) ? 0 : visitedMaps.hashCode());
         return result;
     }
@@ -194,14 +194,14 @@ public class PlayerDTO
         {
             return false;
         }
-        if (playerPassword == null)
+        if (password == null)
         {
-            if (other.playerPassword != null)
+            if (other.password != null)
             {
                 return false;
             }
         }
-        else if (!playerPassword.equals(other.playerPassword))
+        else if (!password.equals(other.password))
         {
             return false;
         }
@@ -216,7 +216,7 @@ public class PlayerDTO
         {
             return false;
         }
-        if (sectionID != other.sectionID)
+        if (section != other.section)
         {
             return false;
         }
@@ -364,7 +364,7 @@ public class PlayerDTO
      */
     public void setSection(int section)
     {
-        this.sectionID = section;
+        this.section = section;
     }
 
     /**
@@ -372,15 +372,7 @@ public class PlayerDTO
      */
     public int getSection()
     {
-        return sectionID;
-    }
-
-    /**
-     * @return player's section
-     */
-    public int getSectionID()
-    {
-        return sectionID;
+        return section;
     }
 
     /**
@@ -400,20 +392,20 @@ public class PlayerDTO
     }
 
     /**
-     * @param playerPassword the player's password
+     * @param password the player's password
      */
-    public void setPlayerPassword(String playerPassword)
+    public void setPassword(String password)
     {
-        this.playerPassword = playerPassword;
+        this.password = password;
 
     }
 
     /**
      * @return the player's password
      */
-    public String getPlayerPassword()
+    public String getPassword()
     {
-        return playerPassword;
+        return password;
     }
 
     /**

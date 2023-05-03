@@ -175,7 +175,7 @@ public class PlayerTest
     {
         Player player = PlayerManager.getSingleton()
                 .addPlayer(PlayersForTest.MERLIN.getPlayerID());
-        player.setPlayerPositionWithoutNotifying(new Position(101, 101));
+        player.setPositionWithoutNotifying(new Position(101, 101));
         player.setAppearanceType("appearance");
         PlayerManager.getSingleton().persistPlayer(player.getPlayerID());
         player.editPlayer("test_appearance_type",
@@ -247,8 +247,8 @@ public class PlayerTest
     {
         Player p = PlayerManager.getSingleton().addPlayer(1);
         Position pos = new Position(3, 3);
-        p.setPlayerPosition(pos);
-        assertEquals(pos, p.getPlayerPosition());
+        p.setPosition(pos);
+        assertEquals(pos, p.getPosition());
     }
 
     /**

@@ -554,7 +554,7 @@ public class QuestManager implements ReportObserver
         else if (report.getClass() == PlayerLeaveReport.class)
         {
             PlayerLeaveReport myReport = (PlayerLeaveReport) report;
-            removeQuestStatesForPlayer(myReport.getPlayerID());
+            removeQuestStates(myReport.getPlayerID());
         }
         else if (report.getClass() == KeyInputRecievedReport.class)
         {
@@ -620,7 +620,7 @@ public class QuestManager implements ReportObserver
      *
      * @param playerID the player we are removing
      */
-    public void removeQuestStatesForPlayer(int playerID)
+    public void removeQuestStates(int playerID)
     {
         questStates.remove(playerID);
     }
@@ -716,7 +716,7 @@ public class QuestManager implements ReportObserver
                     Player npc = PM.getPlayerFromID(
                             PM.getPlayerIDFromPlayerName(castCrit.getString()));
                     if ((npc != null) && (type != ChatType.Local) || PM.getPlayerFromID(reportPlayerID)
-                            .canReceiveLocalMessage(npc.getPlayerPosition()))
+                            .canReceiveLocalMessage(npc.getPosition()))
                     {
                         try
                         {
@@ -767,7 +767,7 @@ public class QuestManager implements ReportObserver
                 NPCResponseDTO castCrit = (NPCResponseDTO) criteria;
                 Player npc = PM.getPlayerFromID(reportNPCID);
                 Player player = PM.getPlayerFromID(reportPlayerID);
-                if (player.canReceiveLocalMessage(npc.getPlayerPosition()))
+                if (player.canReceiveLocalMessage(npc.getPosition()))
                 {
                     try
                     {
@@ -1037,7 +1037,7 @@ public class QuestManager implements ReportObserver
     private void handlePlayerMovement(Report report)
     {
         PlayerMovedReport myReport = (PlayerMovedReport) report;
-        Position position = myReport.getNewPosition();
+        Position position = myReport.getPosition();
         String mapName = myReport.getMapName();
         int playerID = myReport.getPlayerID();
         try

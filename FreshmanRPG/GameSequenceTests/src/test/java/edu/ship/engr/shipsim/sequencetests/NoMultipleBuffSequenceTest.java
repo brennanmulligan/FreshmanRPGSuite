@@ -59,7 +59,7 @@ public class NoMultipleBuffSequenceTest extends SequenceTest
 
         // set player position
         Player playerFromID = pm.getPlayerFromID(PlayersForTest.JEFF.getPlayerID());
-        playerFromID.setPlayerPosition(InteractableItemsForTest.BOOK.getPosition());
+        playerFromID.setPosition(InteractableItemsForTest.BOOK.getPosition());
 
         InteractObjectManager.getSingleton();
     }

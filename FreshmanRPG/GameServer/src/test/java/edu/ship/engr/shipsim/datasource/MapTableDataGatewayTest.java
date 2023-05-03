@@ -19,7 +19,7 @@ public class MapTableDataGatewayTest
      */
     public MapTableDataGateway getGatewaySingleton()
     {
-        return MapTableDataGateway.getInstance();
+        return MapTableDataGateway.getSingleton();
     }
 
 

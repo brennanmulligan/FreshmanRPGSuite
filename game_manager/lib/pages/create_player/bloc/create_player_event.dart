@@ -4,18 +4,18 @@ part of 'create_player_bloc.dart';
 abstract class CreatePlayerPageEvent {}
 
 class SendCreatePlayerEvent extends CreatePlayerPageEvent {
-  final String name;
+  final String playerName;
   final String password;
   final num crew;
   final num major;
   final num section;
 
-  SendCreatePlayerEvent(this.name, this.password, this.crew, this.major, this
+  SendCreatePlayerEvent(this.playerName, this.password, this.crew, this.major, this
       .section);
 
   @override
   String toString() {
-    return 'SendCreatePlayerEvent(name: $name, '
+    return 'SendCreatePlayerEvent(playerName: $playerName, '
         'password: $password, crew: $crew, major: $major, section: $section)';
   }
 }

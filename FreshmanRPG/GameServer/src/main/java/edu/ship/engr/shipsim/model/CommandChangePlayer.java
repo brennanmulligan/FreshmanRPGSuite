@@ -10,17 +10,17 @@ import edu.ship.engr.shipsim.model.reports.ChangePlayerReport;
  */
 public class CommandChangePlayer extends Command
 {
-    private final String username;
+    private final String playerName;
     private final String password;
 
     /**
      *
-     * @param username the username of the player
+     * @param playerName the username of the player
      * @param password the new password overwriting old one
      */
-    public CommandChangePlayer(String username, String password)
+    public CommandChangePlayer(String playerName, String password)
     {
-        this.username = username;
+        this.playerName = playerName;
         this.password = password;
     }
 
@@ -34,7 +34,7 @@ public class CommandChangePlayer extends Command
         try
         {
             PlayerLoginRowDataGateway gw = new
-                    PlayerLoginRowDataGateway(username);
+                    PlayerLoginRowDataGateway(playerName);
             gw.setPassword(password);
             gw.persist();
 

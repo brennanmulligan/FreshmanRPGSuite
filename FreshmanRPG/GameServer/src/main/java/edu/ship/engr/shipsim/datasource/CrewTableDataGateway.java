@@ -35,11 +35,11 @@ public class CrewTableDataGateway
 
     /**
      * For testing
-     * @param instance
+     * @param singleton
      */
-    public void setSingleton(CrewTableDataGateway instance)
+    public void setSingleton(CrewTableDataGateway singleton)
     {
-        singleton = instance;
+        this.singleton = singleton;
     }
 
     /**
@@ -47,7 +47,7 @@ public class CrewTableDataGateway
      * @return array list of crews DTOs
      * @throws DatabaseException
      */
-    public ArrayList<CrewDTO> retrieveAllCrews () throws DatabaseException
+    public ArrayList<CrewDTO> getAllCrews() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 

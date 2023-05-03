@@ -1,7 +1,6 @@
 package edu.ship.engr.shipsim.datasource;
 
 import edu.ship.engr.shipsim.dataDTO.MajorDTO;
-import edu.ship.engr.shipsim.testing.annotations.GameTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class MajorTableDataGatewayTest
         MajorRowDataGateway major3 = new MajorRowDataGateway(3,"Accounting");
 
         MajorTableDataGateway gateway = MajorTableDataGateway.getSingleton();
-        ArrayList<MajorDTO> majors = gateway.retrieveAllMajors();
+        ArrayList<MajorDTO> majors = gateway.getAllMajors();
         assertEquals(3,majors.size());
     }
 

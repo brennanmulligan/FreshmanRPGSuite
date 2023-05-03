@@ -23,8 +23,8 @@ class CreatePlayerBloc extends Bloc<CreatePlayerPageEvent, CreatePlayerPageState
     on<SendCreatePlayerEvent>((event, emit) async {
       emit(CreatePlayerLoading());
       BasicResponse response = await playerRepository.createPlayer(CreatePlayerRequest
-        (name:
-      event.name, password: event.password, crew: event.crew,
+        (playerName:
+      event.playerName, password: event.password, crew: event.crew,
           major: event.major, section: event.section));
 
         emit(CreatePlayerComplete(response));

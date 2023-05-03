@@ -47,7 +47,7 @@ public class PlayerRowDataGatewayTest
         assertEquals(john.getMajor(), gateway.getMajor());
         assertEquals(john.getSection(), gateway.getSection());
         assertEquals(john.getBuffPool(), gateway.getBuffPool());
-        assertEquals(john.getOnline(), gateway.getOnline());
+        assertEquals(john.getOnline(), gateway.isOnline());
     }
 
     /**
@@ -69,7 +69,7 @@ public class PlayerRowDataGatewayTest
         assertEquals(Major.SOFTWARE_ENGINEERING, after.getMajor());
         assertEquals(1, after.getSection());
         assertEquals(42, after.getBuffPool());
-        assertFalse(after.getOnline());
+        assertFalse(after.isOnline());
     }
 
     /**
@@ -197,7 +197,7 @@ public class PlayerRowDataGatewayTest
         this.gateway = this.findGateway(PlayersForTest.MERLIN.getPlayerID());
 
         //should start online
-        assertEquals(PlayersForTest.MERLIN.getOnline(), this.gateway.getOnline());
+        assertEquals(PlayersForTest.MERLIN.getOnline(), this.gateway.isOnline());
 
         //set to offline
         this.gateway.setOnline(false);
@@ -205,14 +205,14 @@ public class PlayerRowDataGatewayTest
 
         //make sure she's offline
         PlayerRowDataGateway offline = this.findGateway(PlayersForTest.MERLIN.getPlayerID());
-        assertFalse(offline.getOnline());
+        assertFalse(offline.isOnline());
 
         //set back to online
         this.gateway.setOnline(true);
         this.gateway.persist();
 
         PlayerRowDataGateway online = this.findGateway(PlayersForTest.MERLIN.getPlayerID());
-        assertTrue(online.getOnline());
+        assertTrue(online.isOnline());
     }
 
     /**

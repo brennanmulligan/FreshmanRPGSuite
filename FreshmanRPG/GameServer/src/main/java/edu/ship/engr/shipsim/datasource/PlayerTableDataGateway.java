@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 /**
  * The RDS implementation of the gateway
  *
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 public class PlayerTableDataGateway
 {
     /**
-     * the game location where new players should start
+     * The game location where new players should start
      */
     public static final GameLocationDTO
             INITIAL_GAME_LOCATION =
@@ -49,11 +48,11 @@ public class PlayerTableDataGateway
     /**
      * Used for testing
      *
-     * @param instance The instance to which the singleton will be set.
+     * @param singleton The singleton to which the singleton will be set.
      */
-    public void setSingleton(PlayerTableDataGateway instance)
+    public void setSingleton(PlayerTableDataGateway singleton)
     {
-        singleton = instance;
+        PlayerTableDataGateway.singleton = singleton;
     }
 
     public ArrayList<PlayerScoreRecord> getHighScoreList() throws DatabaseException
@@ -67,11 +66,11 @@ public class PlayerTableDataGateway
         {
             while (result.next())
             {
-                int crewID = result.getInt("crew");
+                int crew = result.getInt("crew");
                 PlayerScoreRecord rec =
                         new PlayerScoreRecord(result.getString("playerName"),
                                 result.getInt("experiencePoints"),
-                                Crew.getCrewForID(crewID).toString(),
+                                Crew.getCrewForID(crew).toString(),
                                 result.getInt("section"));
                 resultList.add(rec);
             }
@@ -93,11 +92,11 @@ public class PlayerTableDataGateway
         {
             while (result.next())
             {
-                int crewID = result.getInt("crew");
+                int crew = result.getInt("crew");
                 PlayerScoreRecord rec =
                         new PlayerScoreRecord(result.getString("playerName"),
                                 result.getInt("experiencePoints"),
-                                Crew.getCrewForID(crewID).toString(),
+                                Crew.getCrewForID(crew).toString(),
                                 result.getInt("section"));
                 resultList.add(rec);
             }
@@ -110,11 +109,11 @@ public class PlayerTableDataGateway
     }
 
     /**
-     * retrieve all online players from the database and return them in a list of dtos
+     * Get all online players from the database and return them in a list of DTOs
      *
-     * @return resultList the list of dtos
+     * @return resultList the list of DTOs
      */
-    public ArrayList<PlayerDTO> retrieveAllOnlinePlayers() throws DatabaseException
+    public ArrayList<PlayerDTO> getAllOnlinePlayers() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
@@ -134,7 +133,7 @@ public class PlayerTableDataGateway
 
     }
 
-    public ArrayList<PlayerDTO> retrieveAllPlayers() throws DatabaseException
+    public ArrayList<PlayerDTO> getAllPlayers() throws DatabaseException
     {
         Connection connection = DatabaseManager.getSingleton().getConnection();
 
@@ -171,15 +170,15 @@ public class PlayerTableDataGateway
             {
                 int playerID = result.getInt("playerID");
 
-                int crewNumber = result.getInt("crew");
-                int majorNumber = result.getInt("major");
-                String appearance = result.getString("appearanceType");
+                int crew = result.getInt("crew");
+                int major = result.getInt("major");
+                String appearanceType = result.getString("appearanceType");
                 String playerName = result.getString("playerName");
-                String playerPassword = result.getString("password");
-                int xPos = result.getInt("playerRow");
-                int yPos = result.getInt("playerCol");
-                Position position = new Position(xPos, yPos);
-                String map = result.getString("mapName");
+                String password = result.getString("password");
+                int playerRow = result.getInt("playerRow");
+                int playerCol = result.getInt("playerCol");
+                Position position = new Position(playerRow, playerCol);
+                String mapName = result.getString("mapName");
                 int experiencePoints = result.getInt("experiencePoints");
                 int section = result.getInt("section");
                 int quizScore = result.getInt("quizScore");
@@ -187,9 +186,9 @@ public class PlayerTableDataGateway
                 VisitedMapsGateway gateway = new VisitedMapsGateway(playerID);
                 ArrayList<String> maps = gateway.getMaps();
 
-                PlayerDTO playerInfo = new PlayerDTO(playerID, playerName, playerPassword,
-                        appearance, quizScore, position, map, experiencePoints,
-                        Crew.getCrewForID(crewNumber), Major.getMajorForID(majorNumber),
+                PlayerDTO playerInfo = new PlayerDTO(playerID, playerName, password,
+                        appearanceType, quizScore, position, mapName, experiencePoints,
+                        Crew.getCrewForID(crew), Major.getMajorForID(major),
                         section, maps, new ArrayList<>());
                 resultList.add(playerInfo);
             }

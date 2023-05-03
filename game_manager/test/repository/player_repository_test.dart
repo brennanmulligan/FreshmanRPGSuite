@@ -56,7 +56,7 @@ void main() {
 
     test('Good Request', () async {
 
-      const createPlayerRequest = CreatePlayerRequest(name: "name",
+      const createPlayerRequest = CreatePlayerRequest(playerName: "name",
           password: "password", crew: 1, major: 2, section: 3);
       dioAdapter.onPost('/player/create', (request) => request
           .reply(200,
@@ -71,7 +71,7 @@ void main() {
     });
 
     test('Good Change Password Request', () async {
-      const changePlayerRequest = ChangePlayerRequest(username: "username",
+      const changePlayerRequest = ChangePlayerRequest(playerName: "username",
           password: "password");
       dioAdapter.onPost('/player/update/',
               (request) => request
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('Bad Request', () async {
-      const createPlayerRequest = CreatePlayerRequest(name: "name",
+      const createPlayerRequest = CreatePlayerRequest(playerName: "name",
           password: "password", crew: 1, major: 2, section: 3);
       dioAdapter.onPost('/player/create', (request) => request
           .reply(400,

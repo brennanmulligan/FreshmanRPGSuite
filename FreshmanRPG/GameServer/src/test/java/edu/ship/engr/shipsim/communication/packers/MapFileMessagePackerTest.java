@@ -35,7 +35,7 @@ public class MapFileMessagePackerTest
 
         Player playerFromID = PlayerManager.getSingleton().getPlayerFromID(2);
         PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
-                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
+                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPosition(),
                 playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
         MapFileMessagePacker packer = new MapFileMessagePacker();
         packer.setAccumulator(stateAccumulator);
@@ -62,7 +62,7 @@ public class MapFileMessagePackerTest
 
         Player playerFromID = PlayerManager.getSingleton().getPlayerFromID(1);
         PlayerConnectionReport report = new PlayerConnectionReport(playerFromID.getPlayerID(),
-                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPlayerPosition(),
+                playerFromID.getPlayerName(), playerFromID.getAppearanceType(), playerFromID.getPosition(),
                 playerFromID.getCrew(), playerFromID.getMajor(), playerFromID.getSection(), playerFromID.getVanityItems());
         MapFileMessage msg = (MapFileMessage) packer.pack(report);
         assertEquals("quad.tmx", msg.getMapFileName());
