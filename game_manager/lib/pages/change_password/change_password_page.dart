@@ -72,7 +72,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     listener: (context, state) {
                   if (state is ChangePasswordComplete) {
                     if (state.response.success) {
-                      username = null;
+                      playerName = null;
                       validator.isSecure = false;
                       passwordFirst.clear();
                       passwordConfirm.clear();
