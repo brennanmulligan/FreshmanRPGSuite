@@ -40,7 +40,7 @@ class QuestRepository {
 
   Future<QuestResponse> getQuests(QuestRequest request) async {
     try {
-      final response = await dio.post(
+      final response = await dio.get(
         '/quest/getQuestEditingInfo',
         data: jsonEncode(request),
       );

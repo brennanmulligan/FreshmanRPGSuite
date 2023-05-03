@@ -7,6 +7,7 @@ class SendUpsertQuestEvent extends QuestEvent {
   final int id;
   final String? title;
   final String? description;
+  final List<ObjectiveRecordDTO> objectives;
   final int xpGained;
   final String? triggerMapName;
   final int triggerRow;
@@ -21,6 +22,7 @@ class SendUpsertQuestEvent extends QuestEvent {
       this.id,
       this.title,
       this.description,
+      this.objectives,
       this.xpGained,
       this.triggerMapName,
       this.triggerRow,
@@ -33,7 +35,7 @@ class SendUpsertQuestEvent extends QuestEvent {
 
   @override
   String toString() {
-    return 'SendUpsertQuestEvent(id: $id, title: $title, description: $description, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'SendUpsertQuestEvent(id: $id, title: $title, description: $description, objectives: $objectives, xpGained: $xpGained, triggerMapName: $triggerMapName, triggerRow: $triggerRow, triggerCol: $triggerCol, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
   }
 }
 

@@ -26,7 +26,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
 
-  List<ObjectiveRecord> objectivesOnScreen = [];
+  List<ObjectiveRecordDTO> objectivesOnScreen = [];
 
   int? questId;
   String? questTitle;
@@ -113,7 +113,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             tooltip: 'Add a new objective',
             onPressed: (){
               setState(() {
-                objectivesOnScreen.add(ObjectiveRecord(id: 0, description: '',
+                objectivesOnScreen.add(ObjectiveRecordDTO(id: 0, description: '',
                     experiencePointsGained: 0, questID: 0, completionType: 0));
                 buildObjectivesTable(questResponse.objCompletionTypes);
               });
@@ -138,7 +138,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
       child: ListView.builder(
         itemCount: objectivesOnScreen.length,
         itemBuilder: (BuildContext context, int index){
-          ObjectiveRecord objective = objectivesOnScreen[index];
+          ObjectiveRecordDTO objective = objectivesOnScreen[index];
           return ObjectiveWidget(
             objectiveId: objective.id,
             questId: objective.questID,
@@ -379,6 +379,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           questTitle:
               addNewQuest.text.isNotEmpty ? addNewQuest.text : questTitle,
           questDescription: questDesc.text.isNotEmpty ? questDesc.text : null,
+          objectives: objectivesOnScreen,
           xpGained: experienceGained.text.isNotEmpty
               ? int.parse(experienceGained.text)
               : 0,
@@ -552,6 +553,7 @@ class SubmitButtonBuilder extends StatelessWidget {
     this.questId = -1,
     required this.questTitle,
     this.questDescription,
+    this.objectives = const [],
     this.xpGained = 0,
     this.triggerMapName,
     this.triggerRow = 0,
@@ -567,6 +569,7 @@ class SubmitButtonBuilder extends StatelessWidget {
   final int questId;
   final String? questTitle;
   final String? questDescription;
+  final List<ObjectiveRecordDTO> objectives;
   final int xpGained;
   final String? triggerMapName;
   final int triggerRow;
@@ -598,6 +601,7 @@ class SubmitButtonBuilder extends StatelessWidget {
                     questId,
                     questTitle,
                     questDescription,
+                    objectives,
                     xpGained,
                     triggerMapName,
                     triggerRow,

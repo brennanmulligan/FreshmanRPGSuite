@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 import '../../type_definitions.dart';
+import 'objective_record.dart';
 
 class UpsertQuestRequest extends Equatable {
   final int id;
   final String? title;
   final String? description;
+  final List<ObjectiveRecordDTO> objectives;
   final int xpGained;
   final String? triggerMapName;
   final int triggerRow;
@@ -20,6 +22,7 @@ class UpsertQuestRequest extends Equatable {
       {required this.id,
       required this.title,
       required this.description,
+      required this.objectives,
       required this.xpGained,
       required this.triggerMapName,
       required this.triggerRow,
@@ -35,6 +38,7 @@ class UpsertQuestRequest extends Equatable {
         id,
         title,
         description,
+        objectives,
         xpGained,
         triggerMapName,
         triggerRow,
@@ -51,10 +55,11 @@ class UpsertQuestRequest extends Equatable {
       'questID': id,
       'title': title,
       'description': description,
+      'objectives': objectives,
       'experiencePointsGained': xpGained,
       'mapName': triggerMapName,
-      'row': triggerRow,
-      'column': triggerCol,
+      'triggerRow': triggerRow,
+      'triggerCol': triggerCol,
       'objectivesForFulfillment': objectivesForFulfillment,
       'actionType': completionActionType,
       'startDate': startDate,
@@ -65,13 +70,14 @@ class UpsertQuestRequest extends Equatable {
 
   @override
   String toString() {
-    return 'UpsertQuestRequest(questID: $id, title: $title, description: $description, experiencePointsGained: $xpGained, triggerMapName: $triggerMapName, position: ${'row: $triggerRow, column: $triggerCol'}, objectivesForFulfillment: $objectivesForFulfillment, actionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'UpsertQuestRequest(questID: $id, title: $title, description: $description, objectives: $objectives experiencePointsGained: $xpGained, triggerMapName: $triggerMapName, position: ${'row: $triggerRow, column: $triggerCol'}, objectivesForFulfillment: $objectivesForFulfillment, actionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
   }
 
   JSON get asJson => {
         'questID': id,
         'title': title,
         'description': description,
+        'objectives': objectives,
         'experiencePointsGained': xpGained,
         'mapName': triggerMapName,
         'position': {
