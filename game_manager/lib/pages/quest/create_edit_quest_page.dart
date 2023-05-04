@@ -140,6 +140,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
         itemBuilder: (BuildContext context, int index){
           ObjectiveRecordDTO objective = objectivesOnScreen[index];
           return ObjectiveWidget(
+            objectivesOnScreen: objectivesOnScreen,
             objectiveId: objective.id,
             questId: objective.questID,
             objectiveDescription: objective.description,
@@ -403,6 +404,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
 class ObjectiveWidget extends StatefulWidget {
   ObjectiveWidget({
     Key? key,
+    this.objectivesOnScreen = const [],
     this.objectiveId = -1,
     this.questId = -1,
     this.objectiveDescription = '',
@@ -414,6 +416,7 @@ class ObjectiveWidget extends StatefulWidget {
     required this.completionTypes,
   }) : super(key: key);
 
+  final List<ObjectiveRecordDTO> objectivesOnScreen;
   final int objectiveId;
   final int questId;
   String objectiveDescription;
@@ -461,6 +464,10 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
+                onChanged: (value) {
+                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(id: 1, description: objectiveDescriptionController.text, experiencePointsGained: 5, questID: 3, completionType: 0);
+                  print("objectivesOnScreen[0].description = ${widget.objectivesOnScreen[0].description}");
+                },
               ),
             ),
             Expanded(
@@ -596,21 +603,23 @@ class SubmitButtonBuilder extends StatelessWidget {
         ),
         onPressed: !isValid
             ? null
-            : () => BlocProvider.of<QuestBloc>(context).add(
-                SendUpsertQuestEvent(
-                    questId,
-                    questTitle,
-                    questDescription,
-                    objectives,
-                    xpGained,
-                    triggerMapName,
-                    triggerRow,
-                    triggerColumn,
-                    fulfillmentObjectives,
-                    completionActionType,
-                    startDate,
-                    endDate,
-                    isEasterEgg)),
+            : () {
+          BlocProvider.of<QuestBloc>(context).add(
+              SendUpsertQuestEvent(
+                  questId,
+                  questTitle,
+                  questDescription,
+                  objectives,
+                  xpGained,
+                  triggerMapName,
+                  triggerRow,
+                  triggerColumn,
+                  fulfillmentObjectives,
+                  completionActionType,
+                  startDate,
+                  endDate,
+                  isEasterEgg));
+        },
         child: Text(
           (questId == -1) ? "Create Quest" : "Update Quest",
           style: const TextStyle(color: Colors.black),
