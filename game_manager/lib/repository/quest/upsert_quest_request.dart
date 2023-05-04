@@ -52,7 +52,7 @@ class UpsertQuestRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'questID': id,
+      'id': id,
       'title': title,
       'description': description,
       'objectives': objectives,
