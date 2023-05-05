@@ -557,7 +557,7 @@ showAlertDialog(BuildContext context, objectiveId, questId) {
     child: const Text("Continue"),
     onPressed:  () { BlocProvider.of<QuestBloc>(context).add(
         DeleteObjectiveEvent(objectiveId, questId));
-      Navigator.pop(context);
+        Navigator.pop(context);
       },
   );
   Widget cancelButton = TextButton(
@@ -618,7 +618,6 @@ class SubmitButtonBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int test = 0;
     return Padding(
       padding: const EdgeInsets.all(1),
       child: ElevatedButton(
