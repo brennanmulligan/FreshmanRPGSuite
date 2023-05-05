@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import '../../type_definitions.dart';
 import 'action_type_DTO.dart';
 import 'objective_record.dart';
@@ -14,8 +15,8 @@ class QuestRecord extends Equatable {
   final int objectivesForFulfillment;
   final List<ObjectiveRecord> objectives;
   final ActionTypeDTO completionActionType;
-  final num startDate;
-  final num endDate;
+  final String startDate;
+  final String endDate;
   final bool easterEgg;
 
   const QuestRecord(
