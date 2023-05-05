@@ -483,15 +483,9 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
-                onChanged: (value) {
-                  ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
-                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
-                      id: obj.id,
-                      description: objectiveDescriptionController.text,
-                      experiencePointsGained: obj.experiencePointsGained,
-                      questID: obj.questID,
-                      completionType: obj.completionType
-                  );
+                onTapOutside: (value) {
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].description = objectiveDescriptionController.text;
                 },
               ),
             ),
@@ -508,15 +502,9 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
-                onChanged: (value) {
-                  ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
-                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
-                      id: obj.id,
-                      description: obj.description,
-                      experiencePointsGained: int.parse(experiencePointsController.text),
-                      questID: obj.questID,
-                      completionType: obj.completionType
-                  );
+                onTapOutside: (value) {
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].experiencePointsGained = int.parse(experiencePointsController.text);
                 },
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
@@ -533,14 +521,8 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                 isExpanded: true,
                 onChanged: (ObjectiveCompletionTypeDTO? value) {
                   setState(() {
-                    ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
-                    widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
-                        id: obj.id,
-                        description: obj.description,
-                        experiencePointsGained: int.parse(experiencePointsController.text),
-                        questID: obj.questID,
-                        completionType: value!.objCompletionId,
-                    );
+                    int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                    widget.objectivesOnScreen[index].completionType = value!.objCompletionId;
                   });
                 },
                 items: widget.completionTypes
@@ -650,6 +632,7 @@ class SubmitButtonBuilder extends StatelessWidget {
         onPressed: !isValid
             ? null
             : () {
+          print("SUBMITTING");
           BlocProvider.of<QuestBloc>(context).add(
               SendUpsertQuestEvent(
                   questId,

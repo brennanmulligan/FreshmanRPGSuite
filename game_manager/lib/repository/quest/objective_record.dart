@@ -3,19 +3,16 @@ import '../../type_definitions.dart';
 
 class ObjectiveRecordDTO extends Equatable {
   final int id;
-  final String description;
-  final int experiencePointsGained;
+  String description;
+  int experiencePointsGained;
   final int questID;
-  final int completionType;
+  int completionType;
 
-  const ObjectiveRecordDTO(
-      {
-        required this.id,
+  ObjectiveRecordDTO({required this.id,
         required this.description,
         required this.experiencePointsGained,
         required this.questID,
-        required this.completionType,
-      });
+        required this.completionType});
 
   @override
   List<Object?> get props => [id, description,
