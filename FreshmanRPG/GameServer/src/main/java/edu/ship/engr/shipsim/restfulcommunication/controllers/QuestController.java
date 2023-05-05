@@ -38,7 +38,8 @@ public class QuestController extends Controller
             // Convert ObjectiveRecordDTOs to ObjectiveRecords
             ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
 
-            if (info.getObjectives() != null && !info.getObjectives().isEmpty()) {
+            if (info.getObjectives() != null && !info.getObjectives().isEmpty())
+            {
                 for (ObjectiveRecordDTO dto : info.getObjectives())
                 {
                     objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
