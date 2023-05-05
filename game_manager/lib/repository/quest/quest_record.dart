@@ -9,7 +9,7 @@ class QuestRecord extends Equatable {
   final String title;
   final String description;
   final int xpGained;
-  final String triggerMapName;
+  final String? triggerMapName;
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
