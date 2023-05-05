@@ -28,8 +28,8 @@ void main() {
       triggerCol: 1,
       objectivesForFulfillment: 1,
       completionActionType: 1,
-      startDate: '12-12-1212',
-      endDate: '12-12-1212',
+      startDate: '12-12-2020',
+      endDate: '12-12-2023',
       easterEgg: false
     );
 
@@ -43,8 +43,8 @@ void main() {
         triggerCol: 1,
         objectivesForFulfillment: 1,
         completionActionType: 1,
-        startDate: '12-12-1212',
-        endDate: '12-12-1212',
+        startDate: '12-12-2020',
+        endDate: '12-12-2023',
         easterEgg: false
     );
 
@@ -54,7 +54,7 @@ void main() {
 
     var testingQuestRecord = [const QuestRecord(id: 1, title: "title", description: "description",
     xpGained: 2, triggerMapName: "triggerMapName", triggerRow: 1, triggerCol: 3, objectivesForFulfillment: 2, objectives: [],
-    completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: 1232, endDate: 3232, easterEgg: false)];
+    completionActionType: ActionTypeDTO(actionName: "Name", actionID: 5), startDate: '12-12-2020', endDate: '12-12-2023', easterEgg: false)];
 
     var testingMapNames = ["map1", "map2", "map3"];
 
