@@ -37,12 +37,29 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   void initState() {
     super.initState();
     addNewQuest.addListener(refresh);
+    // add listeners for all the text fields
+    experienceGained.addListener(refresh);
+    questDesc.addListener(refresh);
+    triggerRow.addListener(refresh);
+    triggerColumn.addListener(refresh);
+    fulfillmentObjectives.addListener(refresh);
+    startDate.addListener(refresh);
+    endDate.addListener(refresh);
   }
 
   // you'll probably have to change this when the time comes
   @override
   dispose() {
     super.dispose();
+    // remove listeners for all the text fields
+    experienceGained.removeListener(refresh);
+    questDesc.removeListener(refresh);
+    triggerRow.removeListener(refresh);
+    triggerColumn.removeListener(refresh);
+    fulfillmentObjectives.removeListener(refresh);
+    startDate.removeListener(refresh);
+    endDate.removeListener(refresh);
+
     addNewQuest.dispose();
     experienceGained.dispose();
     triggerRow.dispose();
@@ -117,6 +134,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                     experiencePointsGained: 0, questID: 0, completionType: 0));
                 buildObjectivesTable(questResponse.objCompletionTypes);
               });
+
             },
             icon: const Icon(Icons.add, color: Colors.pink),
           )
@@ -591,6 +609,7 @@ class SubmitButtonBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int test = 0;
     return Padding(
       padding: const EdgeInsets.all(1),
       child: ElevatedButton(

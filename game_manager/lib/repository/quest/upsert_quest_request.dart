@@ -55,13 +55,13 @@ class UpsertQuestRequest extends Equatable {
       'id': id,
       'title': title,
       'description': description,
-      'objectives': objectives,
+      'objectives': objectives.map((e) => e.toJson()).toList(),
       'experiencePointsGained': xpGained,
-      'mapName': triggerMapName,
+      'triggerMapName': triggerMapName,
       'triggerRow': triggerRow,
       'triggerCol': triggerCol,
       'objectivesForFulfillment': objectivesForFulfillment,
-      'actionType': completionActionType,
+      'completionActionType': completionActionType,
       'startDate': startDate,
       'endDate': endDate,
       'easterEgg': easterEgg
@@ -70,7 +70,7 @@ class UpsertQuestRequest extends Equatable {
 
   @override
   String toString() {
-    return 'UpsertQuestRequest(questID: $id, title: $title, description: $description, objectives: $objectives experiencePointsGained: $xpGained, triggerMapName: $triggerMapName, position: ${'row: $triggerRow, column: $triggerCol'}, objectivesForFulfillment: $objectivesForFulfillment, actionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
+    return 'UpsertQuestRequest(questID: $id, title: $title, description: $description, objectives: $objectives experiencePointsGained: $xpGained, triggerMapName: $triggerMapName, position: ${'row: $triggerRow, column: $triggerCol'}, objectivesForFulfillment: $objectivesForFulfillment, completionActionType: $completionActionType, startDate: $startDate, endDate: $endDate, easterEgg: $easterEgg)';
   }
 
   JSON get asJson => {
@@ -79,13 +79,13 @@ class UpsertQuestRequest extends Equatable {
         'description': description,
         'objectives': objectives,
         'experiencePointsGained': xpGained,
-        'mapName': triggerMapName,
+        'triggerMapName': triggerMapName,
         'position': {
           'row': triggerRow,
           'column': triggerCol,
         },
         'objectivesForFulfillment': objectivesForFulfillment,
-        'actionType': completionActionType,
+        'completionActionType': completionActionType,
         'startDate': startDate,
         'endDate': endDate,
         'easterEgg': easterEgg

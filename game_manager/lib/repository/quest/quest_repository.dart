@@ -52,7 +52,7 @@ class QuestRepository {
 
   Future<BasicResponse> deleteObjective(DeleteObjectiveRequest request) async {
     try {
-      final response = await dio.post(
+      final response = await dio.delete(
         '/objectives/delete',
         data: jsonEncode(request),
       );
