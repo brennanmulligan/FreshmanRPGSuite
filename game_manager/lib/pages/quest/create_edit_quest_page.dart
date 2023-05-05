@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
 import 'package:game_manager/repository/quest/objective_completion_type_DTO.dart';
@@ -483,8 +484,14 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   fillColor: Colors.grey,
                 ),
                 onChanged: (value) {
-                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(id: 1, description: objectiveDescriptionController.text, experiencePointsGained: 5, questID: 3, completionType: 0);
-                  print("objectivesOnScreen[0].description = ${widget.objectivesOnScreen[0].description}");
+                  ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
+                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
+                      id: obj.id,
+                      description: objectiveDescriptionController.text,
+                      experiencePointsGained: obj.experiencePointsGained,
+                      questID: obj.questID,
+                      completionType: obj.completionType
+                  );
                 },
               ),
             ),
@@ -501,6 +508,19 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
+                onChanged: (value) {
+                  ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
+                  widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
+                      id: obj.id,
+                      description: obj.description,
+                      experiencePointsGained: int.parse(experiencePointsController.text),
+                      questID: obj.questID,
+                      completionType: obj.completionType
+                  );
+                },
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
               ),
             ),
             Expanded(
@@ -513,7 +533,14 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                 isExpanded: true,
                 onChanged: (ObjectiveCompletionTypeDTO? value) {
                   setState(() {
-                    widget.completionType = value!;
+                    ObjectiveRecordDTO obj = widget.objectivesOnScreen[widget.objectiveId - 1];
+                    widget.objectivesOnScreen[widget.objectiveId - 1] = ObjectiveRecordDTO(
+                        id: obj.id,
+                        description: obj.description,
+                        experiencePointsGained: int.parse(experiencePointsController.text),
+                        questID: obj.questID,
+                        completionType: value!.objCompletionId,
+                    );
                   });
                 },
                 items: widget.completionTypes
