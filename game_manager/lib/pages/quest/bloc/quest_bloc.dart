@@ -27,6 +27,12 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
 
       emit(QuestComplete(response));
 
+      /*
+        TODO: The below is a temporary solution to solving the "infinite loading" problem on quest editing page.
+               Find a better solution
+               Description of problem: the page is not set up to build the input screen after a QuestComplete state.
+                                       It only rebuilds the input screen with a QuestPageReady state
+       */
       QuestResponse quest_response = await questRepository.getQuests(const QuestRequest());
 
       emit(QuestPageReady(quest_response));
@@ -46,6 +52,16 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
       BasicResponse response = await questRepository.deleteObjective(DeleteObjectiveRequest(event.objectiveId, event.questId));
 
       emit(QuestComplete(response));
+
+      /*
+        TODO: The below is a temporary solution to solving the "infinite loading" problem on quest editing page.
+               Find a better solution
+               Description of problem: the page is not set up to build the input screen after a QuestComplete state.
+                                       It only rebuilds the input screen with a QuestPageReady state
+       */
+      QuestResponse quest_response = await questRepository.getQuests(const QuestRequest());
+
+      emit(QuestPageReady(quest_response));
     });
   }
 }
