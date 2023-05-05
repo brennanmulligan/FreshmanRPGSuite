@@ -520,10 +520,8 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                 value: widget.completionType,
                 isExpanded: true,
                 onChanged: (ObjectiveCompletionTypeDTO? value) {
-                  setState(() {
-                    int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
-                    widget.objectivesOnScreen[index].completionType = value!.objCompletionId;
-                  });
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].completionType = value!.objCompletionId;
                 },
                 items: widget.completionTypes
                     .map<DropdownMenuItem<ObjectiveCompletionTypeDTO>>(
