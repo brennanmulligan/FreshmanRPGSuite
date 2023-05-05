@@ -22,6 +22,7 @@ import edu.ship.engr.shipsim.restfulcommunication.representation.FetchObjectives
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -108,7 +109,7 @@ public class ObjectiveController extends Controller
     }
 
     //update enpoint with Jeray's repo endpoint
-    @PostMapping({"/delete-objective", "/objectives/delete"})
+    @DeleteMapping( "/objectives/delete")
     public ResponseEntity<BasicResponse> deleteObjective(@RequestBody DeleteObjectiveBody body)
     {
 
