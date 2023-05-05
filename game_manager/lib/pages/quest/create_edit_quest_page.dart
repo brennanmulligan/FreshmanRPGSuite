@@ -112,9 +112,11 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             iconSize: 50,
             tooltip: 'Add a new objective',
             onPressed: (){
-              objectivesOnScreen.add(ObjectiveRecord(id: 0, description: '',
-                  experiencePointsGained: 0, questID: 0, completionType: 0));
-              buildObjectivesTable(questResponse.objCompletionTypes);
+              setState(() {
+                objectivesOnScreen.add(ObjectiveRecord(id: 0, description: '',
+                    experiencePointsGained: 0, questID: 0, completionType: 0));
+                buildObjectivesTable(questResponse.objCompletionTypes);
+              });
             },
             icon: const Icon(Icons.add, color: Colors.pink),
           )
@@ -346,7 +348,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                 SizedBox(
                   width: 10,
                 ),
-                Text('Start Date'),
+                Text('Start Date (MM-dd-yyyy)'),
               ],
             ),
             fillColor: Colors.grey,
@@ -363,7 +365,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                 SizedBox(
                   width: 10,
                 ),
-                Text('End Date'),
+                Text('End Date (MM-dd-yyyy)'),
               ],
             ),
             fillColor: Colors.grey,
