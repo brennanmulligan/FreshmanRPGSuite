@@ -116,6 +116,20 @@ public class ObjectiveController extends Controller
     @DeleteMapping( "/objectives/delete")
     public ResponseEntity<BasicResponse> deleteObjective(@RequestBody DeleteObjectiveBody body)
     {
+        /*
+            TODO: This doesn't work. When a user attempts to delete an objective, the following
+              exception gets thrown:
+              Couldn't find objective with that ID:java.sql.SQLException: Illegal operation on empty result set.
+	            at edu.ship.engr.shipsim.datasource.ObjectiveRowDataGateway.<init>(ObjectiveRowDataGateway.java:56)
+	            at edu.ship.engr.shipsim.model.CommandDeleteObjective.execute(CommandDeleteObjective.java:25)
+	            at edu.ship.engr.shipsim.model.ModelFacade$ProcessCommandQueueTask.run(ModelFacade.java:109)
+	            at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	            at java.base/java.util.TimerThread.run(Timer.java:516)
+              However, this exception only appears to get thrown about 50% of the time. The other 50% will
+              just show this instead:
+              2023-05-06 19:13:51.151  WARN 2011017 --- [nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver :
+              Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable representation]
+         */
         Report report = processAction(() ->
         {
             CommandDeleteObjective command = new CommandDeleteObjective(body.getObjectiveID(), body.getQuestID());

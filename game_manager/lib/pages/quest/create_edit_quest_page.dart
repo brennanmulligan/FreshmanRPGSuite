@@ -553,6 +553,9 @@ showAlertDialog(BuildContext context, objectiveId, questId) {
   // set up the buttons
   Widget continueButton = TextButton(
     child: const Text("Continue"),
+    /* TODO: While this does send a request to delete an objective,
+    *        it doesn't work. I don't believe it's an issue on the frontend.
+    *        See TODO in the ObjectiveController for more details */
     onPressed:  () { BlocProvider.of<QuestBloc>(context).add(
         DeleteObjectiveEvent(objectiveId, questId));
         Navigator.pop(context);
