@@ -629,7 +629,6 @@ class SubmitButtonBuilder extends StatelessWidget {
         onPressed: !isValid
             ? null
             : () {
-          print("SUBMITTING");
           BlocProvider.of<QuestBloc>(context).add(
               SendUpsertQuestEvent(
                   questId,
