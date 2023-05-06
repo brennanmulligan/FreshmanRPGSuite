@@ -52,12 +52,16 @@ class QuestRepository {
 
   Future<BasicResponse> deleteObjective(DeleteObjectiveRequest request) async {
     try {
+      /* TODO: Currently, this doesn't work. Whenever this request gets sent,
+           DioError will have the following erorr from the server:
+           DioError [bad response]: The request returned an invalid status code of 406.*/
       final response = await dio.delete(
         '/objectives/delete',
         data: jsonEncode(request),
       );
       return BasicResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
+      print("$e");
       return const BasicResponse(success: false, description: "Unable to delete objective");
     }
   }
