@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:game_manager/repository/quest/delete_objective_request.dart';
-import 'package:game_manager/repository/quest/quest_editing_info_DTO.dart';
 import 'package:game_manager/repository/quest/quest_editing_request.dart';
 import 'package:game_manager/repository/quest/quest_editing_response.dart';
 
@@ -38,15 +37,15 @@ class QuestRepository {
 
 }
 
-  Future<QuestResponse> getQuests(QuestRequest request) async {
+  Future<QuestEditingDataResponse> getQuestEditingData(QuestEditingDataRequest request) async {
     try {
       final response = await dio.get(
         '/quest/getQuestEditingInfo',
         data: jsonEncode(request),
       );
-      return QuestResponse.fromJson(json: jsonDecode(response.data));
+      return QuestEditingDataResponse.fromJson(json: jsonDecode(response.data));
     } on DioError catch (e) {
-      return const QuestResponse(false, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
+      return const QuestEditingDataResponse(false, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
     }
   }
 

@@ -23,7 +23,7 @@ class QuestComplete extends QuestState {
 }
 
 class QuestPageReady extends QuestState {
-  final QuestResponse response;
+  final QuestEditingDataResponse response;
 
   QuestPageReady(this.response);
 
