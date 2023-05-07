@@ -33,7 +33,7 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
                Description of problem: the page is not set up to build the input screen after a QuestComplete state.
                                        It only rebuilds the input screen with a QuestPageReady state
        */
-      QuestResponse quest_response = await questRepository.getQuests(const QuestRequest());
+      QuestEditingDataResponse quest_response = await questRepository.getQuestEditingData(const QuestEditingDataRequest());
 
       emit(QuestPageReady(quest_response));
     });
@@ -41,7 +41,7 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
     on<SendGetQuestEditingInformationEvent>((event, emit) async {
       emit(QuestLoading());
 
-      QuestResponse response = await questRepository.getQuests(const QuestRequest());
+      QuestEditingDataResponse response = await questRepository.getQuestEditingData(const QuestEditingDataRequest());
 
       emit(QuestPageReady(response));
     });
@@ -59,7 +59,7 @@ class QuestBloc extends Bloc<QuestEvent, QuestState> {
                Description of problem: the page is not set up to build the input screen after a QuestComplete state.
                                        It only rebuilds the input screen with a QuestPageReady state
        */
-      QuestResponse quest_response = await questRepository.getQuests(const QuestRequest());
+      QuestEditingDataResponse quest_response = await questRepository.getQuestEditingData(const QuestEditingDataRequest());
 
       emit(QuestPageReady(quest_response));
     });

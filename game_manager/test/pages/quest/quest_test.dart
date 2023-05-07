@@ -21,24 +21,26 @@ Future<void> main() async {
 
   group('Quest Tests: ', () {
     const BasicResponse good = BasicResponse(success: true, description: "Worked");
+    const QuestEditingDataResponse goodEditing = QuestEditingDataResponse(true, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
 
     blocTest<QuestBloc, QuestState>(
       "Check upsert flow",
       build: () {
         when(questRepo.upsertQuest(any)).thenAnswer((_) async => good);
+        when(questRepo.getQuestEditingData(any)).thenAnswer((_) async => goodEditing);
         return QuestBloc(questRepository: questRepo);
       },
       act: (bloc) => bloc.add(SendUpsertQuestEvent(1, "", "", const [], 0, "", 1, 2, 3, 4, "", "", true)),
       wait: const Duration(milliseconds: 500),
-      expect: () => [QuestLoading(), QuestComplete(good)],
+      expect: () => [QuestLoading(), QuestComplete(good),QuestPageReady(goodEditing)],
     );
 
-    const QuestResponse goodEditingResponse = QuestResponse(true, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
+    const QuestEditingDataResponse goodEditingResponse = QuestEditingDataResponse(true, quests: [], mapNames: [], completionActionTypes: [], objCompletionTypes: []);
 
     blocTest<QuestBloc, QuestState>(
       "Check get flow",
       build: () {
-        when(questRepo.getQuests(any)).thenAnswer((_) async => goodEditingResponse);
+        when(questRepo.getQuestEditingData(any)).thenAnswer((_) async => goodEditingResponse);
         return QuestBloc(questRepository: questRepo);
       },
       act: (bloc) => bloc.add(SendGetQuestEditingInformationEvent()),

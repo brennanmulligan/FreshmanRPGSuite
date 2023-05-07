@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import '../../type_definitions.dart';
 import 'action_type_DTO.dart';
 import 'objective_record.dart';
