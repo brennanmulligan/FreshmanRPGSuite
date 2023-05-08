@@ -5,6 +5,7 @@ import edu.ship.engr.shipsim.dataENUM.QuestCompletionActionType;
 import edu.ship.engr.shipsim.datatypes.Position;
 import edu.ship.engr.shipsim.model.ObjectiveRecord;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -20,8 +21,8 @@ public class QuestRecordDTO
     private int experiencePointsGained;
     private int objectivesForFulfillment;
     private ActionTypeDTO actionType;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private boolean easterEgg;
 
     public QuestRecordDTO(String title, String description,
@@ -42,8 +43,9 @@ public class QuestRecordDTO
         this.experiencePointsGained = experiencePointsGained;
         this.objectivesForFulfillment = objectivesForFulfillment;
         this.actionType = actionType;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        this.startDate = dateFormat.format(startDate);
+        this.endDate = dateFormat.format(endDate);
         this.easterEgg = easterEgg;
     }
 
@@ -138,22 +140,22 @@ public class QuestRecordDTO
         this.actionType = actionType;
     }
 
-    public Date getStartDate()
+    public String getStartDate()
     {
         return startDate;
     }
 
-    public void setStartDate(Date startDate)
+    public void setStartDate(String startDate)
     {
         this.startDate = startDate;
     }
 
-    public Date getEndDate()
+    public String getEndDate()
     {
         return endDate;
     }
 
-    public void setEndDate(Date endDate)
+    public void setEndDate(String endDate)
     {
         this.endDate = endDate;
     }

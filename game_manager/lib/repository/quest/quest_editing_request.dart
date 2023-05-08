@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class QuestRequest extends Equatable {
+class QuestEditingDataRequest extends Equatable {
 
-  const QuestRequest();
+  const QuestEditingDataRequest();
 
   @override
   List<Object?> get props => [];
@@ -13,6 +13,6 @@ class QuestRequest extends Equatable {
 
   @override
   String toString() {
-    return 'QuestRequest()';
+    return 'QuestEditingDataRequest()';
   }
 }

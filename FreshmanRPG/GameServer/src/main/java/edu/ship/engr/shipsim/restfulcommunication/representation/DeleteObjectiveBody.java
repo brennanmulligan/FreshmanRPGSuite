@@ -10,7 +10,7 @@ public class DeleteObjectiveBody
     private final int questID;
 
     @JsonCreator
-    public DeleteObjectiveBody(@JsonProperty("ObjectiveID") int objectiveID, @JsonProperty("QuestID") int questID)
+    public DeleteObjectiveBody(@JsonProperty("objectiveID") int objectiveID, @JsonProperty("questID") int questID)
     {
         this.objectiveID = objectiveID;
         this.questID = questID;

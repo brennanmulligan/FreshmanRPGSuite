@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import '../../type_definitions.dart';
 import 'action_type_DTO.dart';
 import 'objective_record.dart';
@@ -9,11 +8,11 @@ class QuestRecord extends Equatable {
   final String title;
   final String description;
   final int xpGained;
-  final String triggerMapName;
+  final String? triggerMapName;
   final int triggerRow;
   final int triggerCol;
   final int objectivesForFulfillment;
-  final List<ObjectiveRecord> objectives;
+  final List<ObjectiveRecordDTO> objectives;
   final ActionTypeDTO completionActionType;
   final String startDate;
   final String endDate;
@@ -74,7 +73,7 @@ class QuestRecord extends Equatable {
         triggerCol : json['position']['column'],
         objectivesForFulfillment : json['objectivesForFulfillment'],
         objectives: (json['objectives'] as List)
-            .map((e) => ObjectiveRecord.fromJson(json: e))
+            .map((e) => ObjectiveRecordDTO.fromJson(json: e))
             .toList(),
         completionActionType : ActionTypeDTO.fromJson(json: json['actionType']),
         startDate : json['startDate'],

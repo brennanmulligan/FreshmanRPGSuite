@@ -261,7 +261,18 @@ public class QuestRowDataGateway
         QuestCompletionActionParameter completionActionParameter;
         if (completionActionType != QuestCompletionActionType.NO_ACTION)
         {
-            ByteArrayInputStream baip = new ByteArrayInputStream((byte[]) result.getObject("completionActionParameter"));
+
+            ByteArrayInputStream baip;
+            try
+            {
+                baip = new ByteArrayInputStream(
+                        (byte[]) result.getObject("completionActionParameter"));
+            }
+            catch (NullPointerException ex)
+            {
+                return null;
+            }
+
             try (ObjectInputStream ois = new ObjectInputStream(baip))
             {
                 Object x = ois.readObject();

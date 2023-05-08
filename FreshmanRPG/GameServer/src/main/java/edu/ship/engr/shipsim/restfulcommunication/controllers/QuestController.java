@@ -17,6 +17,7 @@ import edu.ship.engr.shipsim.restfulcommunication.representation.UpsertQuestInfo
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,11 +38,14 @@ public class QuestController extends Controller
             // Convert ObjectiveRecordDTOs to ObjectiveRecords
             ArrayList<ObjectiveRecord> objectives = new ArrayList<>();
 
-            for (ObjectiveRecordDTO dto : info.getObjectives())
+            if (info.getObjectives() != null && !info.getObjectives().isEmpty())
             {
-                objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
-                        dto.getDescription(), dto.getExperiencePointsGained(),
-                        ObjectiveCompletionType.findByID(dto.getCompletionType()), null));
+                for (ObjectiveRecordDTO dto : info.getObjectives())
+                {
+                    objectives.add(new ObjectiveRecord(dto.getQuestID(), dto.getID(),
+                            dto.getDescription(), dto.getExperiencePointsGained(),
+                            ObjectiveCompletionType.findByID(dto.getCompletionType()), null));
+                }
             }
 
             CommandUpsertQuest command =
@@ -86,7 +90,7 @@ public class QuestController extends Controller
     }
 
     @CrossOrigin
-    @PostMapping("/quest/getQuestEditingInfo")
+    @GetMapping("/quest/getQuestEditingInfo")
     public ResponseEntity<Object> getQuestInfo()
             throws JsonProcessingException
     {

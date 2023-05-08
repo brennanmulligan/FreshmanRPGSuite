@@ -82,7 +82,15 @@ public class ObjectiveRowDataGateway implements Serializable
             throws SQLException
     {
         ObjectiveCompletionCriteria criteria;
-        ByteArrayInputStream baip = new ByteArrayInputStream((byte[]) queryResult.getObject("completionCriteria"));
+        ByteArrayInputStream baip;
+        try
+        {
+            baip = new ByteArrayInputStream((byte[]) queryResult.getObject("completionCriteria"));
+        }
+        catch (NullPointerException e)
+        {
+            return null;
+        }
 
         try (ObjectInputStream ois = new ObjectInputStream(baip))
         {

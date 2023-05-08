@@ -22,6 +22,8 @@ import edu.ship.engr.shipsim.restfulcommunication.representation.FetchObjectives
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ObjectiveController extends Controller
 {
 
+    @CrossOrigin
     @GetMapping("/objectives")
     @SneakyThrows(DatabaseException.class)
     public ResponseEntity<Object> fetchObjectives(@RequestBody FetchObjectivesBody body)
@@ -79,6 +82,7 @@ public class ObjectiveController extends Controller
         return response;
     }
 
+    @CrossOrigin
     @PostMapping({"/complete-objective", "/objectives/complete"})
     @SneakyThrows(DatabaseException.class)
     public ResponseEntity<BasicResponse> completeObjective(@RequestBody CompleteObjectiveBody body)
@@ -107,11 +111,25 @@ public class ObjectiveController extends Controller
         return new ResponseEntity<>(new BasicResponse(false, "Objective not completed"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    //update enpoint with Jeray's repo endpoint
-    @PostMapping({"/delete-objective", "/objectives/delete"})
+
+    @CrossOrigin
+    @DeleteMapping( "/objectives/delete")
     public ResponseEntity<BasicResponse> deleteObjective(@RequestBody DeleteObjectiveBody body)
     {
-
+        /*
+            TODO: This doesn't work. When a user attempts to delete an objective, the following
+              exception gets thrown:
+              Couldn't find objective with that ID:java.sql.SQLException: Illegal operation on empty result set.
+	            at edu.ship.engr.shipsim.datasource.ObjectiveRowDataGateway.<init>(ObjectiveRowDataGateway.java:56)
+	            at edu.ship.engr.shipsim.model.CommandDeleteObjective.execute(CommandDeleteObjective.java:25)
+	            at edu.ship.engr.shipsim.model.ModelFacade$ProcessCommandQueueTask.run(ModelFacade.java:109)
+	            at java.base/java.util.TimerThread.mainLoop(Timer.java:566)
+	            at java.base/java.util.TimerThread.run(Timer.java:516)
+              However, this exception only appears to get thrown about 50% of the time. The other 50% will
+              just show this instead:
+              2023-05-06 19:13:51.151  WARN 2011017 --- [nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver :
+              Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: Could not find acceptable representation]
+         */
         Report report = processAction(() ->
         {
             CommandDeleteObjective command = new CommandDeleteObjective(body.getObjectiveID(), body.getQuestID());
