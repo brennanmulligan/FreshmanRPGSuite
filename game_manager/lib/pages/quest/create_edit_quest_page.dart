@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_manager/pages/quest/bloc/quest_bloc.dart';
 import 'package:game_manager/repository/quest/objective_completion_type_DTO.dart';
@@ -26,7 +27,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   final endDate = TextEditingController();
   final addNewQuest = TextEditingController();
 
-  List<ObjectiveRecord> objectivesOnScreen = [];
+  List<ObjectiveRecordDTO> objectivesOnScreen = [];
 
   int? questId;
   String? questTitle;
@@ -37,12 +38,29 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
   void initState() {
     super.initState();
     addNewQuest.addListener(refresh);
+    // add listeners for all the text fields
+    experienceGained.addListener(refresh);
+    questDesc.addListener(refresh);
+    triggerRow.addListener(refresh);
+    triggerColumn.addListener(refresh);
+    fulfillmentObjectives.addListener(refresh);
+    startDate.addListener(refresh);
+    endDate.addListener(refresh);
   }
 
   // you'll probably have to change this when the time comes
   @override
   dispose() {
     super.dispose();
+    // remove listeners for all the text fields
+    experienceGained.removeListener(refresh);
+    questDesc.removeListener(refresh);
+    triggerRow.removeListener(refresh);
+    triggerColumn.removeListener(refresh);
+    fulfillmentObjectives.removeListener(refresh);
+    startDate.removeListener(refresh);
+    endDate.removeListener(refresh);
+
     addNewQuest.dispose();
     experienceGained.dispose();
     triggerRow.dispose();
@@ -113,10 +131,11 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
             tooltip: 'Add a new objective',
             onPressed: (){
               setState(() {
-                objectivesOnScreen.add(ObjectiveRecord(id: 0, description: '',
+                objectivesOnScreen.add(ObjectiveRecordDTO(id: 0, description: '',
                     experiencePointsGained: 0, questID: 0, completionType: 0));
                 buildObjectivesTable(questResponse.objCompletionTypes);
               });
+
             },
             icon: const Icon(Icons.add, color: Colors.pink),
           )
@@ -138,8 +157,9 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
       child: ListView.builder(
         itemCount: objectivesOnScreen.length,
         itemBuilder: (BuildContext context, int index){
-          ObjectiveRecord objective = objectivesOnScreen[index];
+          ObjectiveRecordDTO objective = objectivesOnScreen[index];
           return ObjectiveWidget(
+            objectivesOnScreen: objectivesOnScreen,
             objectiveId: objective.id,
             questId: objective.questID,
             objectiveDescription: objective.description,
@@ -197,6 +217,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
                 setState(() {
                   questId = value!;
                   QuestRecord current  = questResponse.quests.firstWhere((quest) => quest.id == questId);
+                  questTitle = current.title;
                   populate(current);
                 });
               },
@@ -378,6 +399,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
           questTitle:
               addNewQuest.text.isNotEmpty ? addNewQuest.text : questTitle,
           questDescription: questDesc.text.isNotEmpty ? questDesc.text : null,
+          objectives: objectivesOnScreen,
           xpGained: experienceGained.text.isNotEmpty
               ? int.parse(experienceGained.text)
               : 0,
@@ -401,6 +423,7 @@ class _CreateEditQuestPageState extends State<CreateEditQuestPage> {
 class ObjectiveWidget extends StatefulWidget {
   ObjectiveWidget({
     Key? key,
+    this.objectivesOnScreen = const [],
     this.objectiveId = -1,
     this.questId = -1,
     this.objectiveDescription = '',
@@ -412,6 +435,7 @@ class ObjectiveWidget extends StatefulWidget {
     required this.completionTypes,
   }) : super(key: key);
 
+  final List<ObjectiveRecordDTO> objectivesOnScreen;
   final int objectiveId;
   final int questId;
   String objectiveDescription;
@@ -459,6 +483,10 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
+                onTapOutside: (value) {
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].description = objectiveDescriptionController.text;
+                },
               ),
             ),
             Expanded(
@@ -474,6 +502,13 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                   ]),
                   fillColor: Colors.grey,
                 ),
+                onTapOutside: (value) {
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].experiencePointsGained = int.parse(experiencePointsController.text);
+                },
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
               ),
             ),
             Expanded(
@@ -485,9 +520,8 @@ class _ObjectiveWidgetState extends State<ObjectiveWidget> {
                 value: widget.completionType,
                 isExpanded: true,
                 onChanged: (ObjectiveCompletionTypeDTO? value) {
-                  setState(() {
-                    widget.completionType = value!;
-                  });
+                  int index = widget.objectivesOnScreen.indexWhere((obj) => widget.objectiveId == obj.id);
+                  widget.objectivesOnScreen[index].completionType = value!.objCompletionId;
                 },
                 items: widget.completionTypes
                     .map<DropdownMenuItem<ObjectiveCompletionTypeDTO>>(
@@ -519,9 +553,12 @@ showAlertDialog(BuildContext context, objectiveId, questId) {
   // set up the buttons
   Widget continueButton = TextButton(
     child: const Text("Continue"),
+    /* TODO: While this does send a request to delete an objective,
+    *        it doesn't work. I don't believe it's an issue on the frontend.
+    *        See TODO in the ObjectiveController for more details */
     onPressed:  () { BlocProvider.of<QuestBloc>(context).add(
         DeleteObjectiveEvent(objectiveId, questId));
-      Navigator.pop(context);
+        Navigator.pop(context);
       },
   );
   Widget cancelButton = TextButton(
@@ -551,6 +588,7 @@ class SubmitButtonBuilder extends StatelessWidget {
     this.questId = -1,
     required this.questTitle,
     this.questDescription,
+    this.objectives = const [],
     this.xpGained = 0,
     this.triggerMapName,
     this.triggerRow = 0,
@@ -566,6 +604,7 @@ class SubmitButtonBuilder extends StatelessWidget {
   final int questId;
   final String? questTitle;
   final String? questDescription;
+  final List<ObjectiveRecordDTO> objectives;
   final int xpGained;
   final String? triggerMapName;
   final int triggerRow;
@@ -592,20 +631,23 @@ class SubmitButtonBuilder extends StatelessWidget {
         ),
         onPressed: !isValid
             ? null
-            : () => BlocProvider.of<QuestBloc>(context).add(
-                SendUpsertQuestEvent(
-                    questId,
-                    questTitle,
-                    questDescription,
-                    xpGained,
-                    triggerMapName,
-                    triggerRow,
-                    triggerColumn,
-                    fulfillmentObjectives,
-                    completionActionType,
-                    startDate,
-                    endDate,
-                    isEasterEgg)),
+            : () {
+          BlocProvider.of<QuestBloc>(context).add(
+              SendUpsertQuestEvent(
+                  questId,
+                  questTitle,
+                  questDescription,
+                  objectives,
+                  xpGained,
+                  triggerMapName,
+                  triggerRow,
+                  triggerColumn,
+                  fulfillmentObjectives,
+                  completionActionType,
+                  startDate,
+                  endDate,
+                  isEasterEgg));
+        },
         child: Text(
           (questId == -1) ? "Create Quest" : "Update Quest",
           style: const TextStyle(color: Colors.black),

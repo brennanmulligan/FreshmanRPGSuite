@@ -5,21 +5,21 @@ import 'action_type_DTO.dart';
 import 'objective_completion_type_DTO.dart';
 import 'quest_record.dart';
 
-class QuestResponse extends Equatable {
+class QuestEditingDataResponse extends Equatable {
   final bool success;
   final List<QuestRecord> quests;
   final List<String> mapNames;
   final List<ActionTypeDTO> completionActionTypes;
   final List<ObjectiveCompletionTypeDTO> objCompletionTypes;
 
-  const QuestResponse(this.success, {required this.quests, required this.mapNames, required this.completionActionTypes, required this.objCompletionTypes});
+  const QuestEditingDataResponse(this.success, {required this.quests, required this.mapNames, required this.completionActionTypes, required this.objCompletionTypes});
 
-  const QuestResponse.allFields({required this.success,required this.quests, required this.mapNames, required this.completionActionTypes, required this.objCompletionTypes});
+  const QuestEditingDataResponse.allFields({required this.success,required this.quests, required this.mapNames, required this.completionActionTypes, required this.objCompletionTypes});
 
-  factory QuestResponse.fromJson({
+  factory QuestEditingDataResponse.fromJson({
     required JSON json,
   }) {
-    return QuestResponse.allFields(
+    return QuestEditingDataResponse.allFields(
       success: json['success'],
       quests: (json['quests'] as List)
           .map((e) => QuestRecord.fromJson(json: e))
@@ -34,6 +34,18 @@ class QuestResponse extends Equatable {
           .map((e) => ObjectiveCompletionTypeDTO.fromJson(json: e))
           .toList(),
     );
+  }
+
+
+  Map<String, dynamic> toJson()
+  {
+    return {
+      'success': success,
+      'quests': quests.map((e) => e.toJson()).toList(),
+      'mapNames': mapNames,
+      'completionActionTypes': completionActionTypes.map((e) => e.toJson()).toList(),
+      'objCompletionTypes': objCompletionTypes.map((e) => e.toJson()).toList(),
+    };
   }
 
   @override

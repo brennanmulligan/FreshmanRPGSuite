@@ -49,7 +49,7 @@ class _FakeBasicResponse_1 extends _i1.SmartFake implements _i3.BasicResponse {
         );
 }
 
-class _FakeQuestResponse_2 extends _i1.SmartFake implements _i4.QuestResponse {
+class _FakeQuestResponse_2 extends _i1.SmartFake implements _i4.QuestEditingDataResponse {
   _FakeQuestResponse_2(
     Object parent,
     Invocation parentInvocation,
@@ -92,20 +92,20 @@ class MockQuestRepositoryTest extends _i1.Mock
         )),
       ) as _i6.Future<_i3.BasicResponse>);
   @override
-  _i6.Future<_i4.QuestResponse> getQuests(_i8.QuestRequest? request) =>
+  _i6.Future<_i4.QuestEditingDataResponse> getQuestEditingData(_i8.QuestEditingDataRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #getQuests,
           [request],
         ),
-        returnValue: _i6.Future<_i4.QuestResponse>.value(_FakeQuestResponse_2(
+        returnValue: _i6.Future<_i4.QuestEditingDataResponse>.value(_FakeQuestResponse_2(
           this,
           Invocation.method(
             #getQuests,
             [request],
           ),
         )),
-      ) as _i6.Future<_i4.QuestResponse>);
+      ) as _i6.Future<_i4.QuestEditingDataResponse>);
   @override
   _i6.Future<_i3.BasicResponse> deleteObjective(
           _i9.DeleteObjectiveRequest? request) =>

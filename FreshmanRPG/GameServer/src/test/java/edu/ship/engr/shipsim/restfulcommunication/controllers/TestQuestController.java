@@ -51,7 +51,7 @@ public class TestQuestController
 {
 
     @Test
-    public void createQuest() throws ParseException, JsonProcessingException
+    public void createQuest() throws ParseException
     {
         QuestController mock = mock(QuestController.class);
         when(mock.processAction(any(Runnable.class), eq(
@@ -86,7 +86,8 @@ public class TestQuestController
     }
 
     @Test
-    public void updateQuest() throws DatabaseException, JsonProcessingException
+    public void updateQuest()
+            throws DatabaseException, JsonProcessingException, ParseException
     {
         QuestController mock = mock(QuestController.class);
         when(mock.processAction(any(Runnable.class), eq(
