@@ -1,14 +1,25 @@
 part of 'objectives_list_bloc.dart';
 
-@immutable
-abstract class ObjectivesListState extends Equatable {
+class LocationCheckFailed extends ObjectivesListState {
+  final String errorMsg;
+
+  LocationCheckFailed(this.errorMsg);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [errorMsg];
 }
 
-class ObjectivesListInitial extends ObjectivesListState {}
+class QRCodeCheckFailed extends ObjectivesListState {}
 
-class ObjectivesListLoading extends ObjectivesListState {}
+class RestfulCompletionRequestComplete extends ObjectivesListState {
+  final GeneralResponse response;
+
+  RestfulCompletionRequestComplete(this.response);
+
+  @override
+  List<Object> get props => [response];
+}
+
+class RestfulCompletionRequestInProgress extends ObjectivesListState {}
 
 class ObjectiveListLoaded extends ObjectivesListState {
   final AllObjectivesResponse response;
@@ -19,19 +30,16 @@ class ObjectiveListLoaded extends ObjectivesListState {
   List<Object> get props => [response];
 }
 
-class QRCodeScanInProgress extends ObjectivesListState {}
+class ObjectivesListInitial extends ObjectivesListState {}
 
-class ObjectiveCompletionFailed extends ObjectivesListState{}
+class ObjectivesListLoading extends ObjectivesListState {}
 
-class ObjectiveCompletionInProgress extends ObjectivesListState {}
-
-class ObjectiveCompletionComplete extends ObjectivesListState {
-  final GeneralResponse response;
-
-  ObjectiveCompletionComplete(this.response);
-
+@immutable
+abstract class ObjectivesListState extends Equatable {
   @override
-  List<Object> get props => [response];
+  List<Object> get props => [];
 }
+
+class QRCodeScanInProgress extends ObjectivesListState {}
 
 

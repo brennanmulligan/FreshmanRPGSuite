@@ -6,12 +6,13 @@ import '../../type_definitions.dart';
 ///
 class LoginWithCredentialsResponse extends Equatable {
   final int playerID;
+  final bool success;
 
   ///
   /// Constructor.
   ///
   const LoginWithCredentialsResponse({
-    required this.playerID,
+    required this.playerID, required this.success
   });
 
   ///
@@ -21,7 +22,7 @@ class LoginWithCredentialsResponse extends Equatable {
     required JSON json,
   }) {
     return LoginWithCredentialsResponse(
-      playerID: json['playerID'],
+      playerID: json['playerID'], success: json['success']
     );
   }
 

@@ -33,8 +33,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginWithCredentialsResponse response = await loginRepository.loginPlayer(
           LoginWithCredentialsRequest(
               username: event.username, password: event.password));
+      if (response.success == false) {
+        emit(LoginFailed(response));
+        return;
+      }
       playerID = response.playerID;
-
       emit(LoginComplete(response));
     });
   }
@@ -54,3 +57,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 }
+
+
