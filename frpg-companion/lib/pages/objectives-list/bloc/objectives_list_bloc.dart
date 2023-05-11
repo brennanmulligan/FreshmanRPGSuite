@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:companion_app/repository/BarcodeScanner/barcode_scanner.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-request.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/quests_objectives_repository/complete-objective-request.dart';
@@ -8,8 +7,12 @@ import 'package:companion_app/repository/quests_objectives_repository'
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:meta/meta.dart';
+
+import '../../../model/barcode_scanner.dart';
+import 'package:companion_app/model/position_with_status.dart';
+
+import '../../../model/location_utilities.dart';
 
 part 'objectives_list_event.dart';
 
@@ -20,11 +23,14 @@ class ObjectivesListBloc
   final QuestsObjectivesRepository repository;
   final int playerID;
   final BarcodeScanner scanner;
+  final GeoLocatorWrapper geoLocator;
 
-  ObjectivesListBloc({required this.repository, required this.playerID,
-    required this.scanner})
+  ObjectivesListBloc(
+      {required this.repository,
+      required this.playerID,
+      required this.scanner,
+      required this.geoLocator})
       : super(ObjectivesListInitial()) {
-
     on<RequestObjectivesEvent>((event, emit) async {
       emit(ObjectivesListLoading());
       AllObjectivesResponse response = await repository
@@ -42,35 +48,27 @@ class ObjectivesListBloc
       var qrLongitude = double.parse(parts[3]);
       var qrCheckLocation = parts[4];
 
-      if ((event.questID == qrQuestID) && (event.objectiveID ==
-          qrObjectiveID)) {
-        GeneralResponse completionResponse = await repository.completeObjective(
-            CompleteObjectiveRequest(
-                playerID: playerID,
-                questID: event.questID,
-                objectiveID: event.objectiveID));
-
-        emit(ObjectiveCompletionComplete(completionResponse));
-      } else {
-        emit(ObjectiveCompletionFailed());
+      PositionWithStatus location =
+          await PositionWithStatus.getCurrentLocation(geoLocator);
+      if (qrCheckLocation == "1") {
+        if (!location.valid) {
+          emit(LocationCheckFailed("Location Permissions Not Granted"));
+        } else if (!geoLocator.locationMatches(
+            location, qrLatitude, qrLongitude)) {
+          emit(LocationCheckFailed(
+              "You are not close enough to the target location"));
+        } else if ((event.questID != qrQuestID) ||
+            (event.objectiveID != qrObjectiveID)) {
+          emit(QRCodeCheckFailed());
+        } else {
+          GeneralResponse completionResponse =
+              await repository.completeObjective(CompleteObjectiveRequest(
+                  playerID: playerID,
+                  questID: event.questID,
+                  objectiveID: event.objectiveID));
+          emit(RestfulCompletionRequestComplete(completionResponse));
+        }
       }
     });
-    // on<CompleteObjectiveEvent>((event, emit) async {
-    //   emit(ObjectiveCompletionInProgress());
-    //   GeneralResponse response = await repository.completeObjective(
-    //       CompleteObjectiveRequest(
-    //           playerID: playerID,
-    //           questID: event.questID,
-    //           objectiveID: event.objectiveID));
-    //   emit(ObjectiveCompletionComplete(response));
-    // });
-
-    // @override
-    // Stream<ObjectivesListState> mapEventToState(ObjectivesListEvent event) async* {
-    //   if (event is InitEvent) {
-    //     final data = await repository.getAllObjectives(AllObjectivesRequest(playerID: playerID));
-    //     yield ObjectiveListLoaded(data);
-    //   }
-    // }
   }
 }

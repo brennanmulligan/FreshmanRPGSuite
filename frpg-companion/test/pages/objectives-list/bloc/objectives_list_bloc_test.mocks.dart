@@ -3,18 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
+import 'package:companion_app/model/position_with_status.dart' as _i4;
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-request.dart'
-    as _i6;
+    as _i7;
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart'
     as _i2;
 import 'package:companion_app/repository/quests_objectives_repository/complete-objective-request.dart'
-    as _i7;
+    as _i8;
 import 'package:companion_app/repository/shared/general_response.dart' as _i3;
+import 'package:geolocator/geolocator.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 
-import 'objectives_list_bloc_test.dart' as _i4;
+import 'objectives_list_bloc_test.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -49,24 +51,35 @@ class _FakeGeneralResponse_1 extends _i1.SmartFake
         );
 }
 
+class _FakePositionWithStatus_2 extends _i1.SmartFake
+    implements _i4.PositionWithStatus {
+  _FakePositionWithStatus_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [QuestsObjectivesRepositoryMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockQuestsObjectivesRepositoryMock extends _i1.Mock
-    implements _i4.QuestsObjectivesRepositoryMock {
+    implements _i5.QuestsObjectivesRepositoryMock {
   MockQuestsObjectivesRepositoryMock() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.AllObjectivesResponse> getAllObjectives(
-          _i6.AllObjectivesRequest? request) =>
+  _i6.Future<_i2.AllObjectivesResponse> getAllObjectives(
+          _i7.AllObjectivesRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #getAllObjectives,
           [request],
         ),
-        returnValue: _i5.Future<_i2.AllObjectivesResponse>.value(
+        returnValue: _i6.Future<_i2.AllObjectivesResponse>.value(
             _FakeAllObjectivesResponse_0(
           this,
           Invocation.method(
@@ -74,41 +87,111 @@ class MockQuestsObjectivesRepositoryMock extends _i1.Mock
             [request],
           ),
         )),
-      ) as _i5.Future<_i2.AllObjectivesResponse>);
+      ) as _i6.Future<_i2.AllObjectivesResponse>);
   @override
-  _i5.Future<_i3.GeneralResponse> completeObjective(
-          _i7.CompleteObjectiveRequest? request) =>
+  _i6.Future<_i3.GeneralResponse> completeObjective(
+          _i8.CompleteObjectiveRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #completeObjective,
           [request],
         ),
         returnValue:
-            _i5.Future<_i3.GeneralResponse>.value(_FakeGeneralResponse_1(
+            _i6.Future<_i3.GeneralResponse>.value(_FakeGeneralResponse_1(
           this,
           Invocation.method(
             #completeObjective,
             [request],
           ),
         )),
-      ) as _i5.Future<_i3.GeneralResponse>);
+      ) as _i6.Future<_i3.GeneralResponse>);
 }
 
 /// A class which mocks [BarCodeScannerMock].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockBarCodeScannerMock extends _i1.Mock
-    implements _i4.BarCodeScannerMock {
+    implements _i5.BarCodeScannerMock {
   MockBarCodeScannerMock() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<String> scan() => (super.noSuchMethod(
+  _i6.Future<String> scan() => (super.noSuchMethod(
         Invocation.method(
           #scan,
           [],
         ),
-        returnValue: _i5.Future<String>.value(''),
-      ) as _i5.Future<String>);
+        returnValue: _i6.Future<String>.value(''),
+      ) as _i6.Future<String>);
+}
+
+/// A class which mocks [GeoLocatorWrapperMock].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGeoLocatorWrapperMock extends _i1.Mock
+    implements _i5.GeoLocatorWrapperMock {
+  MockGeoLocatorWrapperMock() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<bool> isLocationEnabled() => (super.noSuchMethod(
+        Invocation.method(
+          #isLocationEnabled,
+          [],
+        ),
+        returnValue: _i6.Future<bool>.value(false),
+      ) as _i6.Future<bool>);
+  @override
+  _i6.Future<_i9.LocationPermission> checkPermission() => (super.noSuchMethod(
+        Invocation.method(
+          #checkPermission,
+          [],
+        ),
+        returnValue: _i6.Future<_i9.LocationPermission>.value(
+            _i9.LocationPermission.denied),
+      ) as _i6.Future<_i9.LocationPermission>);
+  @override
+  _i6.Future<_i9.LocationPermission> requestPermission() => (super.noSuchMethod(
+        Invocation.method(
+          #requestPermission,
+          [],
+        ),
+        returnValue: _i6.Future<_i9.LocationPermission>.value(
+            _i9.LocationPermission.denied),
+      ) as _i6.Future<_i9.LocationPermission>);
+  @override
+  _i6.Future<_i4.PositionWithStatus> getCurrentPosition() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentPosition,
+          [],
+        ),
+        returnValue:
+            _i6.Future<_i4.PositionWithStatus>.value(_FakePositionWithStatus_2(
+          this,
+          Invocation.method(
+            #getCurrentPosition,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i4.PositionWithStatus>);
+  @override
+  bool locationMatches(
+    _i4.PositionWithStatus? location,
+    double? qrLatitude,
+    double? qrLongitude,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #locationMatches,
+          [
+            location,
+            qrLatitude,
+            qrLongitude,
+          ],
+        ),
+        returnValue: false,
+      ) as bool);
 }

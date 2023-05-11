@@ -5,7 +5,6 @@ import 'package:companion_app/repository/login_repository'
     '/login_with_credentials_request.dart';
 import 'package:companion_app/repository/shared_repository_state.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:companion_app/repository/login_repository'
     '/login_with_credentials_response.dart';
@@ -20,6 +19,12 @@ void main() {
     Map<String, dynamic> goodResponse =
     {
       "playerID": 3,
+      "success": true
+    };
+    Map<String, dynamic> badResponse =
+    {
+      "playerID": 0,
+      "success": false
     };
 
     setUpAll(() {
@@ -29,12 +34,21 @@ void main() {
       SharedRepositoryState().setDio(dio);
     });
 
-    // clear the dio adapter after each test
-    setUp()
-    {
-      dioAdapter = DioAdapter(dio: dio);
-      dio.httpClientAdapter = dioAdapter;
-    }
+    test('Bad Login Request', () async {
+
+      const loginRequest = LoginWithCredentialsRequest(username: "merlin",
+          password: "px");
+      dioAdapter.onPost('/login', (request) => request
+          .reply(200,
+          jsonEncode(badResponse)),
+          data: jsonEncode(loginRequest));
+
+      LoginRepository repo = LoginRepository();
+
+      LoginWithCredentialsResponse response = await repo.loginPlayer(loginRequest);
+      expect(response.success, isFalse) ;
+    });
+
     test('Good Login Request', () async {
 
       const loginRequest = LoginWithCredentialsRequest(username: "merlin",

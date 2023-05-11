@@ -1,10 +1,11 @@
+import 'package:companion_app/model/location_utilities.dart';
 import 'package:companion_app/pages/objectives-list/bloc/objectives_list_bloc.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../repository/BarcodeScanner/barcode_scanner.dart';
+import '../../model/barcode_scanner.dart';
 import '../../repository/quests_objectives_repository/quests_objectives_repository.dart';
 import 'objective_card.dart';
 
@@ -47,8 +48,9 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                 create: (context) => ObjectivesListBloc(
                     repository: context.read<QuestsObjectivesRepository>(),
                     playerID: playerID,
-                    scanner: BarcodeScanner())..add(RequestObjectivesEvent
-    (playerID)),
+                    scanner: BarcodeScanner(),
+                    geoLocator: GeoLocatorWrapper())..add(RequestObjectivesEvent
+                          (playerID)),
                 child: BlocConsumer<ObjectivesListBloc, ObjectivesListState>(
                     listener: (context, state) {},
                     builder: (context, state) {
@@ -62,11 +64,11 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                         );
                       } else if (state is ObjectiveListLoaded) {
                         return buildObjectivesListScreen(state.response);
-                      } else if (state is ObjectiveCompletionInProgress) {
+                      } else if (state is RestfulCompletionRequestInProgress) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      } else if (state is ObjectiveCompletionComplete) {
+                      } else if (state is RestfulCompletionRequestComplete) {
                         return buildObjectiveCompletionScreen(state.response);
                       } else {
                         return const Center(
