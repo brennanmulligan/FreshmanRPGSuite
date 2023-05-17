@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final username = TextEditingController();
+  final playerName = TextEditingController();
   final password = TextEditingController();
 
   @override
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   dispose() {
     super.dispose();
-    username.dispose();
+    playerName.dispose();
     password.dispose();
   }
 
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               TextField(
-                controller: username,
+                controller: playerName,
                 decoration: InputDecoration(
                   label: Row(
                     children: const [
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 60,
               ),
-              SubmitButtonBuilder(username: username, password: password)
+              SubmitButtonBuilder(playerName: playerName, password: password)
             ],
           ),
         ),
@@ -118,11 +118,11 @@ class _LoginPageState extends State<LoginPage> {
 class SubmitButtonBuilder extends StatelessWidget {
   const SubmitButtonBuilder({
     Key? key,
-    required this.username,
+    required this.playerName,
     required this.password,
   }) : super(key: key);
 
-  final TextEditingController username;
+  final TextEditingController playerName;
   final TextEditingController password;
 
   @override
@@ -138,7 +138,7 @@ class SubmitButtonBuilder extends StatelessWidget {
           ),
         ),
         onPressed: () => BlocProvider.of<LoginBloc>(context).add(SendLoginEvent(
-          username.text,
+          playerName.text,
           password.text,
         )),
         child: const Text(

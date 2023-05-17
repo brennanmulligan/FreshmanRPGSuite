@@ -5,21 +5,21 @@ import 'package:equatable/equatable.dart';
 /// Object to request for logging in with credentials.
 ///
 class LoginWithCredentialsRequest extends Equatable {
-  final String username;
+  final String playerName;
   final String password;
 
   ///
   /// Constructor
   ///
   const LoginWithCredentialsRequest(
-      {required this.username, required this.password});
+      {required this.playerName, required this.password});
 
   ///
   /// Converting object to string
   ///
   @override
   String toString() {
-    return 'LoginWithCredentialsRequest(username: $username, '
+    return 'LoginWithCredentialsRequest(playerName: $playerName, '
         'password: $password)';
   }
 
@@ -27,12 +27,12 @@ class LoginWithCredentialsRequest extends Equatable {
   /// Get properties for comparison
   ///
   @override
-  List<Object?> get props => [username, password];
+  List<Object?> get props => [playerName, password];
 
   ///
   /// Convert object to JSON.
   ///
   Map<String, dynamic> toJson() {
-    return {'username': username, 'password': password};
+    return {'playerName': playerName, 'password': password};
   }
 }
