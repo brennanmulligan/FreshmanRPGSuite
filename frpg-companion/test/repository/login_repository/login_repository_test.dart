@@ -36,7 +36,7 @@ void main() {
 
     test('Bad Login Request', () async {
 
-      const loginRequest = LoginWithCredentialsRequest(username: "merlin",
+      const loginRequest = LoginWithCredentialsRequest(playerName: "merlin",
           password: "px");
       dioAdapter.onPost('/login', (request) => request
           .reply(200,
@@ -51,7 +51,7 @@ void main() {
 
     test('Good Login Request', () async {
 
-      const loginRequest = LoginWithCredentialsRequest(username: "merlin",
+      const loginRequest = LoginWithCredentialsRequest(playerName: "merlin",
           password: "pw");
       dioAdapter.onPost('/login', (request) => request
           .reply(200,

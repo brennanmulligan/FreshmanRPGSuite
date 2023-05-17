@@ -4,13 +4,13 @@ part of 'login_bloc.dart';
 abstract class LoginEvent {}
 
 class SendLoginEvent extends LoginEvent {
-  final String username;
+  final String playerName;
   final String password;
 
-  SendLoginEvent(this.username, this.password);
+  SendLoginEvent(this.playerName, this.password);
 
   @override
   String toString() {
-    return 'SendLoginEvent(username: $username, password $password)';
+    return 'SendLoginEvent(playerName: $playerName, password $password)';
   }
 }
