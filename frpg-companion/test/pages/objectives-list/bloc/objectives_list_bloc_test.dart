@@ -59,6 +59,37 @@ Future<void> main() async {
     );
 
     /************************
+     * Successful objective completion without location verification
+     */
+    const GeneralResponse completeObjectiveResponseNoLoc =
+        GeneralResponse(success: true, description: 'Objective Complete');
+    blocTest<ObjectivesListBloc, ObjectivesListState>(
+      'Check flow of states when completing an objective without location verification',
+      build: () {
+        when(questRepo.completeObjective(any))
+            .thenAnswer((_) async => completeObjectiveResponseNoLoc);
+        when(mockScanner.scan()).thenAnswer((_) async => "4_13_42.0_42.0_0");
+        when(mockGeoLocator.getCurrentPosition()).thenAnswer((_) async =>
+            PositionWithStatus(valid: true, latitude: 4.13, longitude: 42.42));
+        when(mockGeoLocator.isLocationEnabled()).thenAnswer((_) async => true);
+        when(mockGeoLocator.checkPermission())
+            .thenAnswer((_) async => LocationPermission.always);
+        when(mockGeoLocator.locationMatches(any, any, any))
+            .thenAnswer((_) => false);
+        return ObjectivesListBloc(
+            repository: questRepo,
+            playerID: 42,
+            scanner: mockScanner,
+            geoLocator: mockGeoLocator);
+      },
+      act: (bloc) => bloc.add(RequestQRCodeScanEvent(42, 4, 13)),
+      expect: () => [
+        QRCodeScanInProgress(),
+        RestfulCompletionRequestComplete(completeObjectiveResponseNoLoc)
+      ],
+    );
+
+    /************************
      * Successful objective completion
      */
     const GeneralResponse completeObjectiveResponse =
