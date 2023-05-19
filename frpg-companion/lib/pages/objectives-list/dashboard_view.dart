@@ -70,6 +70,21 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                         );
                       } else if (state is RestfulCompletionRequestComplete) {
                         return buildObjectiveCompletionScreen(state.response);
+
+
+                        //
+                      } else if (state is LocationCheckFailed) {
+                        return Center(
+                          child: Text(state.errorMsg)
+                        );
+                      } else if (state is QRCodeCheckFailed) {
+                        return const Center(
+                          child: Text('Invalid QR code. '
+                              'Are you scanning the right one?')
+                        );
+                        //
+
+
                       } else {
                         return const Center(
                           child: Text('Error'),
