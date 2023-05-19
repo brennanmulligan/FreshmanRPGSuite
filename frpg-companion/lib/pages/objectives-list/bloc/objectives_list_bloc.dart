@@ -7,6 +7,7 @@ import 'package:companion_app/repository/quests_objectives_repository'
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/barcode_scanner.dart';
@@ -48,27 +49,33 @@ class ObjectivesListBloc
       var qrLongitude = double.parse(parts[3]);
       var qrCheckLocation = parts[4];
 
-      PositionWithStatus location =
-          await PositionWithStatus.getCurrentLocation(geoLocator);
+      PositionWithStatus location;
       if (qrCheckLocation == "1") {
+        location = await PositionWithStatus.getCurrentLocation(geoLocator);
         if (!location.valid) {
           emit(LocationCheckFailed("Location Permissions Not Granted"));
-        } else if (!geoLocator.locationMatches(
+          return;
+        }
+        if (!geoLocator.locationMatches(
             location, qrLatitude, qrLongitude)) {
           emit(LocationCheckFailed(
               "You are not close enough to the target location"));
-        } else if ((event.questID != qrQuestID) ||
-            (event.objectiveID != qrObjectiveID)) {
-          emit(QRCodeCheckFailed());
-        } else {
-          GeneralResponse completionResponse =
-              await repository.completeObjective(CompleteObjectiveRequest(
-                  playerID: playerID,
-                  questID: event.questID,
-                  objectiveID: event.objectiveID));
-          emit(RestfulCompletionRequestComplete(completionResponse));
+          return;
         }
       }
+
+      if ((event.questID != qrQuestID)
+          || (event.objectiveID != qrObjectiveID)) {
+        emit(QRCodeCheckFailed());
+        return;
+      }
+
+      GeneralResponse completionResponse =
+          await repository.completeObjective(CompleteObjectiveRequest(
+              playerID: playerID,
+              questID: event.questID,
+              objectiveID: event.objectiveID));
+      emit(RestfulCompletionRequestComplete(completionResponse));
     });
   }
 }
