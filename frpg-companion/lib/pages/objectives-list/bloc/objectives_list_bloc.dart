@@ -42,16 +42,29 @@ class ObjectivesListBloc
     on<RequestQRCodeScanEvent>((event, emit) async {
       emit(QRCodeScanInProgress());
       String barcodeScanRes = await scanner.scan();
-      var parts = barcodeScanRes.split("_");
-      var qrQuestID = int.parse(parts[0]);
-      var qrObjectiveID = int.parse(parts[1]);
-      var qrLatitude = double.parse(parts[2]);
-      var qrLongitude = double.parse(parts[3]);
-      var qrCheckLocation = parts[4];
 
-      PositionWithStatus location;
+      List<String> parts;
+      int qrQuestID, qrObjectiveID;
+      double qrLatitude, qrLongitude;
+      String qrCheckLocation;
+
+      try {
+        parts = barcodeScanRes.split("_");
+        qrQuestID = int.parse(parts[0]);
+        qrObjectiveID = int.parse(parts[1]);
+        qrLatitude = double.parse(parts[2]);
+        qrLongitude = double.parse(parts[3]);
+        qrCheckLocation = parts[4];
+      } on FormatException catch (e) {
+        emit(QRCodeCheckFailed());
+        return;
+      } on RangeError catch (e) {
+        emit(QRCodeCheckFailed());
+        return;
+      }
+
       if (qrCheckLocation == "1") {
-        location = await PositionWithStatus.getCurrentLocation(geoLocator);
+        PositionWithStatus location = await PositionWithStatus.getCurrentLocation(geoLocator);
         if (!location.valid) {
           emit(LocationCheckFailed("Location Permissions Not Granted"));
           return;

@@ -9,6 +9,7 @@ import 'package:companion_app/repository/quests_objectives_repository/objective.
 import 'package:companion_app/repository/quests_objectives_repository/quests_objectives_repository.dart';
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -118,6 +119,48 @@ Future<void> main() async {
         QRCodeScanInProgress(),
         RestfulCompletionRequestComplete(completeObjectiveResponse)
       ],
+    );
+
+    /************************
+     * QR code is missing data
+     */
+    blocTest<ObjectivesListBloc, ObjectivesListState>(
+      'Check that we get the QR code failed message when scanning a QR code with missing data',
+      build: () {
+        when(questRepo.completeObjective(any))
+            .thenAnswer((_) async => completeObjectiveResponse);
+        when(mockScanner.scan()).thenAnswer((_) async => "3_13_42.0_42.0");
+        return ObjectivesListBloc(
+            repository: questRepo,
+            playerID: 42, scanner: mockScanner,
+            geoLocator: mockGeoLocator);
+      },
+      act: (bloc) => bloc.add(RequestQRCodeScanEvent(42, 3, 13)),
+      expect: () => [
+        QRCodeScanInProgress(),
+        QRCodeCheckFailed()
+      ]
+    );
+
+    /************************
+     * QR code has bad formatting
+     */
+    blocTest<ObjectivesListBloc, ObjectivesListState>(
+      'Check that we get the QR code failed message when scanning an invalid QR code',
+      build: () {
+        when(questRepo.completeObjective(any))
+            .thenAnswer((_) async => completeObjectiveResponse);
+        when(mockScanner.scan()).thenAnswer((_) async => "3_13_42.a_b_c");
+        return ObjectivesListBloc(
+            repository: questRepo,
+            playerID: 42, scanner: mockScanner,
+            geoLocator: mockGeoLocator);
+      },
+      act: (bloc) => bloc.add(RequestQRCodeScanEvent(42, 3, 13)),
+      expect: () => [
+        QRCodeScanInProgress(),
+        QRCodeCheckFailed()
+      ]
     );
 
     /************************
