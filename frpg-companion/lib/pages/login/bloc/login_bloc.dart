@@ -47,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     super.onTransition(transition);
     if (transition.nextState is LoginComplete) {
       try {
-        Navigator.of(context).push(MaterialPageRoute(
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => ObjectivesListView(playerID)));
       } on FlutterError catch (e) {
         if (!_testing) {
