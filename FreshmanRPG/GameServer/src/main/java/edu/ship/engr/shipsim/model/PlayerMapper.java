@@ -209,6 +209,10 @@ public class PlayerMapper
 
     protected void loadQuestStates() throws DatabaseException
     {
+        // if the player did not log out properly, their quests aren't removed.
+        // reset them here
+        removeQuestStates();
+
         ArrayList<QuestStateRecordDTO> questStateRecordDTOs =
                 questStateGateway.getQuestStates(player.getPlayerID());
         for (QuestStateRecordDTO qsRec : questStateRecordDTOs)
@@ -227,6 +231,13 @@ public class PlayerMapper
                                 asRec.isNeedingNotification()));
             }
             questState.addObjectives(objectiveStates);
+
+            // todo Need to remove the quest states before loading in quest states
+            // There is likely a test for quests for loading the player mapper, and will probably fail if removing one throws an exception
+            //
+            // Write a test that loads them twice, and they shouldn't get twice the quests
+            // QuestManager.getSingleton().removeQuestStates(player.getPlayerID());
+            //
             QuestManager.getSingleton().addQuestState(player.getPlayerID(), questState);
         }
 
