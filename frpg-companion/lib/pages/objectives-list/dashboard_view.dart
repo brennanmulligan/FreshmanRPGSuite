@@ -1,4 +1,5 @@
 import 'package:companion_app/model/location_utilities.dart';
+import 'package:companion_app/pages/login/login_page.dart';
 import 'package:companion_app/pages/objectives-list/bloc/objectives_list_bloc.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/shared/general_response.dart';
@@ -41,6 +42,13 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Objectives'),
+          leading: IconButton(
+            onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ObjectivesListView(playerID)));
+            },
+            icon: const Icon(Icons.refresh),
+          ),
         ),
         body: RepositoryProvider(
             create: (context) => QuestsObjectivesRepository(),
@@ -70,9 +78,6 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                         );
                       } else if (state is RestfulCompletionRequestComplete) {
                         return buildObjectiveCompletionScreen(state.response);
-
-
-                        //
                       } else if (state is LocationCheckFailed) {
                         return Center(
                           child: Text(state.errorMsg)
@@ -82,9 +87,6 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                           child: Text('Invalid QR code. '
                               'Are you scanning the right one?')
                         );
-                        //
-
-
                       } else {
                         return const Center(
                           child: Text('Error'),
@@ -104,6 +106,8 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
               //   await login.logOut();
               // }
               // Navigator.pop(context);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const LoginPage()));
             },
             icon: const Icon(
               Icons.logout,
