@@ -232,12 +232,6 @@ public class PlayerMapper
             }
             questState.addObjectives(objectiveStates);
 
-            // todo Need to remove the quest states before loading in quest states
-            // There is likely a test for quests for loading the player mapper, and will probably fail if removing one throws an exception
-            //
-            // Write a test that loads them twice, and they shouldn't get twice the quests
-            // QuestManager.getSingleton().removeQuestStates(player.getPlayerID());
-            //
             QuestManager.getSingleton().addQuestState(player.getPlayerID(), questState);
         }
 
