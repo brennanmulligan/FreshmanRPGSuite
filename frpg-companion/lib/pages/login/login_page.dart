@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             duration: const Duration(seconds: 3),
                             behavior: SnackBarBehavior.floating,
-                            padding: EdgeInsets.zero
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 450
+                            ),
+                            padding: EdgeInsets.zero,
                         ),
                       );
                     }},
