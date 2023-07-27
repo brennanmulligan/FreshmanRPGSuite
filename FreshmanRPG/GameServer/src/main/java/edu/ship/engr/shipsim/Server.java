@@ -5,9 +5,13 @@ import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSet;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
+import edu.ship.engr.shipsim.model.Command;
+import edu.ship.engr.shipsim.model.CommandTouchDatabase;
 import edu.ship.engr.shipsim.model.InteractObjectManager;
+import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import edu.ship.engr.shipsim.model.PlayerManager;
+import edu.ship.engr.shipsim.model.TimerManager;
 import edu.ship.engr.shipsim.restfulcommunication.RestfulServer;
 import lombok.SneakyThrows;
 import org.springframework.boot.Banner;
@@ -18,6 +22,9 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * A daemon that resides on the server listening to the gigabuds and to client
@@ -160,6 +167,7 @@ public class Server implements Runnable, AutoCloseable
     {
         try
         {
+
             OptionsManager om = OptionsManager.getSingleton();
             om.setDbIdentifier(dbIdentifier);
             LoggerManager.createLogger("" + mapName);
@@ -177,6 +185,16 @@ public class Server implements Runnable, AutoCloseable
                     OptionsManager.getSingleton().getMapFileTitle());
             PlayerManager.getSingleton().loadNpcs(false);
             InteractObjectManager.getSingleton();
+
+            // start pinging database connections so they stay alive
+            // frequency: every 10 minutes
+            int frequencyInSeconds = 60 * 10;
+            Command touchDatabase = new CommandTouchDatabase(frequencyInSeconds);
+            Instant soon = Instant.now().plus(
+                    frequencyInSeconds,
+                    ChronoUnit.SECONDS);
+            Date soonAsDate = Date.from(soon);
+            TimerManager.getSingleton().scheduleCommand(soonAsDate, touchDatabase);
 
             if (restfulServer)
             {

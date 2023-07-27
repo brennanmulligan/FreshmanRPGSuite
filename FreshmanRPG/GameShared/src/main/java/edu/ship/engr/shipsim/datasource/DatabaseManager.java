@@ -1,5 +1,6 @@
 package edu.ship.engr.shipsim.datasource;
 
+import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import org.intellij.lang.annotations.Language;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
@@ -42,31 +44,24 @@ public class DatabaseManager
 
     public void touchConnection() throws DatabaseException
     {
-        long id;
-        if (testing)
-        {
-            id = TESTING_ID;
-        }
-        else
-        {
-            id = Thread.currentThread().getId();
+        for (Connection connection : connections.values()) {
+            if (connection == null)
+            {
+                LoggerManager.getSingleton().getLogger().warning("Found a null connection to the database. Skipping for now");
+                continue;
+            }
+            try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
+            {
+                pstm.execute();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
 
-        Connection connection = connections.get(id);
-        if (connection == null)
-        {
-            connection = openConnection();
-            connections.put(id, connection);
-        }
-        try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
-        {
-            pstm.execute();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        LoggerManager.getSingleton().getLogger().info("Database connections touched");
     }
 
     private Connection openConnection() throws DatabaseException
@@ -310,12 +305,13 @@ public class DatabaseManager
      */
     public void closeConnection(long id) throws SQLException
     {
-        Connection connection = getConnection(id);
-        if (connection != null && !connection.isClosed())
+        try (Connection connection = connections.remove((id)))
         {
-            connection.close();
+            if (connection != null && !connection.isClosed())
+            {
+                connection.close();
+            }
         }
-
     }
 
     /**
