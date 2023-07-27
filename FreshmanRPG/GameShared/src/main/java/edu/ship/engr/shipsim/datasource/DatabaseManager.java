@@ -1,6 +1,5 @@
 package edu.ship.engr.shipsim.datasource;
 
-import edu.ship.engr.shipsim.model.ModelFacade;
 import edu.ship.engr.shipsim.model.OptionsManager;
 import org.intellij.lang.annotations.Language;
 
@@ -10,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 /**
