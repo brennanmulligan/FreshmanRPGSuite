@@ -12,7 +12,7 @@ public class ContentLoader
     {
         if (OptionsManager.getSingleton().isRunningInIntelliJ())
         {
-            return Paths.get(System.getProperty("user.dir"), "maps");
+            return Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "maps");
         }
         else if (OptionsManager.getSingleton().isRunningInDocker() || OptionsManager.getSingleton().isRunningInCI() || OptionsManager.getSingleton().isTestMode())
         {

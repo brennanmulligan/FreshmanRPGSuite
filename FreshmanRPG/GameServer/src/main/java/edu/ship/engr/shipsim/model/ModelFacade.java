@@ -83,20 +83,6 @@ public class ModelFacade
         @Override
         public void run()
         {
-            dbTouchCounter++;
-            if (dbTouchCounter >= 10000)
-            {
-                try
-                {
-                    dbTouchCounter = 0;
-                    DatabaseManager.getSingleton().touchConnection();
-                }
-                catch (DatabaseException e)
-                {
-                    e.printStackTrace();
-                    System.exit(-42);
-                }
-            }
             synchronized (commandQueue)
             {
 
