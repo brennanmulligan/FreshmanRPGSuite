@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:game_manager/repository/player/all_players_request.dart';
 import 'package:game_manager/repository/player/all_players_response.dart';
 import 'package:game_manager/repository/player/change_player_request.dart';
@@ -14,10 +16,12 @@ import 'package:game_manager/repository/player/get_all_majors_response.dart';
 import 'package:game_manager/repository/player/major.dart';
 import 'package:game_manager/repository/player/player.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
-import 'package:test/test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'dart:io';
 
 void main() {
+  dotenv.testLoad(fileInput: File('assets/.env').readAsStringSync());
+
   group('General Player Tests: ', () {
     late Dio dio;
     late DioAdapter dioAdapter;
