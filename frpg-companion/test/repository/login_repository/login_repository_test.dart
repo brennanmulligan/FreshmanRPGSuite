@@ -26,7 +26,7 @@ void main() {
     {
       "playerID": 0,
       "success": false,
-      "authKey": "nope",
+      "authKey": "",
     };
 
     setUpAll(() {
@@ -48,7 +48,7 @@ void main() {
       LoginRepository repo = LoginRepository();
 
       LoginWithCredentialsResponse response = await repo.loginPlayer(loginRequest);
-      expect(response.success, isFalse) ;
+      expect(response.success, isFalse);
     });
 
     test('Good Login Request', () async {
