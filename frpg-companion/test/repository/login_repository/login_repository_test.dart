@@ -19,12 +19,14 @@ void main() {
     Map<String, dynamic> goodResponse =
     {
       "playerID": 3,
-      "success": true
+      "success": true,
+      "authKey": "abcdefg",
     };
     Map<String, dynamic> badResponse =
     {
       "playerID": 0,
-      "success": false
+      "success": false,
+      "authKey": "nope",
     };
 
     setUpAll(() {
