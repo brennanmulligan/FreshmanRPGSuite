@@ -4,6 +4,7 @@ import edu.ship.engr.shipsim.communication.ConnectionManager;
 import edu.ship.engr.shipsim.communication.StateAccumulator;
 import edu.ship.engr.shipsim.communication.handlers.MessageHandlerSet;
 import edu.ship.engr.shipsim.communication.packers.MessagePackerSet;
+import edu.ship.engr.shipsim.datasource.DatabaseManager;
 import edu.ship.engr.shipsim.datasource.LoggerManager;
 import edu.ship.engr.shipsim.model.Command;
 import edu.ship.engr.shipsim.model.CommandTouchDatabase;
@@ -189,7 +190,9 @@ public class Server implements Runnable, AutoCloseable
             // start pinging database connections so they stay alive
             // frequency: every 10 minutes
             int frequencyInSeconds = 60 * 10;
-            Command touchDatabase = new CommandTouchDatabase(frequencyInSeconds);
+            Command touchDatabase = new CommandTouchDatabase(
+                    DatabaseManager.getSingleton(),
+                    frequencyInSeconds);
             Instant soon = Instant.now().plus(
                     frequencyInSeconds,
                     ChronoUnit.SECONDS);
