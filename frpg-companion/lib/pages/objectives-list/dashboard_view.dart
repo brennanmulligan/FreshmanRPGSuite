@@ -92,9 +92,13 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                           child: Text('Invalid QR code. '
                               'Are you scanning the right one?')
                         );
+                      } else if (state is QRCodeScanInProgress) {
+                        return const Center(
+                          child: Text('Loading...')
+                        );
                       } else {
                         return const Center(
-                          child: Text('Error'),
+                        child: Text('Error'),
                         );
                       }
                     }))));
