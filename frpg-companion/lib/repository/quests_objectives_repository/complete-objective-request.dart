@@ -12,7 +12,7 @@ class CompleteObjectiveRequest extends Equatable {
   List<Object?> get props =>  [playerID, questID, objectiveID];
 
   Map<String, dynamic> toJson() {
-    return {'playerID': playerID, 'questID': questID, 'objectiveID': questID};
+    return {'playerID': playerID, 'questID': questID, 'objectiveID': objectiveID};
   }
 
   @override
