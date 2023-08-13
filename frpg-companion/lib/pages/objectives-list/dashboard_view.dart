@@ -94,7 +94,7 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                         );
                       } else if (state is QRCodeScanInProgress) {
                         return const Center(
-                          child: Text('Loading...')
+                          child: CircularProgressIndicator(),
                         );
                       } else {
                         return const Center(
