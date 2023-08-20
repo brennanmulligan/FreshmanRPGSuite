@@ -58,8 +58,6 @@ public class DatabaseManager
                 throw new RuntimeException(e);
             }
         }
-
-        LoggerManager.getSingleton().getLogger().info("Database connections touched");
     }
 
     private Connection openConnection() throws DatabaseException

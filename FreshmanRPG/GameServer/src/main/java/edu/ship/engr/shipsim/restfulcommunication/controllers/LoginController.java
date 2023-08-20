@@ -94,13 +94,20 @@ public class LoginController extends Controller
     {
         if (report.getClass().equals(RestfulLoginSuccessReport.class))
         {
-            LoginResponse response = handleLoginSuccess((RestfulLoginSuccessReport) report);
+            LoginResponse response = handleLoginSuccess(
+                    (RestfulLoginSuccessReport) report);
+            LoggerManager.getSingleton().getLogger().info(
+                    "[RestfulServer] Login successful for userID: " +
+                            ((RestfulLoginSuccessReport) report).getPlayerID());
 
             return new ResponseEntity<>(response.toString(), HttpStatus.OK);
         }
         else if (report.getClass().equals(RestfulLoginFailedReport.class))
         {
             LoginResponse response = new LoginResponse((RestfulLoginFailedReport)report);
+            LoggerManager.getSingleton().getLogger().info(
+                    "[RestfulServer] Login failed with this message: " +
+                            ((RestfulLoginFailedReport) report).getMessage());
 
             return new ResponseEntity<>(response.toString(), HttpStatus.OK);
         }
