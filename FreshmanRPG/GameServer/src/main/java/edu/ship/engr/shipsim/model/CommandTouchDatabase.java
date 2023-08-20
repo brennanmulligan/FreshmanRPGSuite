@@ -14,7 +14,8 @@ public class CommandTouchDatabase extends Command
     private long frequencyInSeconds;
     private DatabaseManager databaseManager;
 
-    public CommandTouchDatabase(DatabaseManager databaseManager, long frequencyInSeconds) {
+    public CommandTouchDatabase(DatabaseManager databaseManager, long frequencyInSeconds)
+    {
         this.databaseManager = databaseManager;
         this.frequencyInSeconds = frequencyInSeconds;
     }

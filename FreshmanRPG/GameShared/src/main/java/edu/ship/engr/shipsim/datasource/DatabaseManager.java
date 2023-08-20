@@ -42,7 +42,8 @@ public class DatabaseManager
 
     public void touchConnection() throws DatabaseException
     {
-        for (Connection connection : connections.values()) {
+        for (Connection connection : connections.values())
+        {
             if (connection == null)
             {
                 LoggerManager.getSingleton().getLogger().warning("Found a null connection to the database. Skipping for now");

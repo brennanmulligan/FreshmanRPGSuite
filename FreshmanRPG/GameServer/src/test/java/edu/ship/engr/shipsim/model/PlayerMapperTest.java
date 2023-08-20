@@ -143,9 +143,11 @@ public class PlayerMapperTest
 
         int playerID = pm.getPlayer().getPlayerID();
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++)
+        {
             pm.loadQuestStates();
-            if (qm.getQuestList(playerID) != null) {
+            if (qm.getQuestList(playerID) != null)
+            {
                 assertEquals(4, qm.getQuestList(playerID).size());
             }
         }
