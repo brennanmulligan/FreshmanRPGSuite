@@ -9,7 +9,7 @@ variables:
     image: openjdk:17
 
 .flutter_docker_image:
-    image: cirrusci/flutter
+    image: ghcr.io/cirruslabs/flutter:3.10.0
 
 run_pipeline:
     extends: .openjdk_docker_image
