@@ -1,12 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:game_manager/pages/change_password/change_password_page.dart';
-import 'package:game_manager/pages/dashboard/dashboard_view.dart';
-import 'package:game_manager/pages/dashboard/widgets/navigation_card.dart';
 import 'package:game_manager/pages/shared/widgets/password.dart';
-import 'package:game_manager/repository/player/all_players_request.dart';
 import 'package:game_manager/repository/player/all_players_response.dart';
 import 'package:game_manager/repository/player/player.dart';
 import 'package:game_manager/repository/player/player_repository.dart';
@@ -60,21 +55,18 @@ Future<void> main() async{
     await tester.pumpAndSettle();
 
     // Find the DropdownButtonFormField Widget, and fill it with test data
-    expect(find.byType(DropdownButtonFormField<String>), findsOneWidget);
+    var dropDown = find.byType(DropdownButtonFormField<String>);
+    expect(dropDown, findsOneWidget);
 
-    // These finders must use <String> despite DropdownButtonFormField defaulting to
-    // <dynamic> since flutter test can't infer the type (most likely a bug)
-    // View https://github.com/flutter/flutter/issues/119393 for more info
-    await tester.ensureVisible(find.byType(DropdownMenuItem<String>).first);
-
-    // Tap the first DropdownMenuItem which selects the first player
-    await tester.tap(find.byType(DropdownMenuItem<String>).first,
-        warnIfMissed: false);
+    // open the dropdown
+    await tester.tap(dropDown);
     await tester.pumpAndSettle();
 
-    // Tap the first option in the now opened dropdown
-    await tester.ensureVisible(find.byType(DropdownButtonFormField<String>));
-    await tester.tap(find.byType(DropdownButtonFormField<String>));
+    print(dropDown.first.toString());
+
+    // click on Merlin
+    final dropdownItem = find.text('test');
+    await tester.tap(dropdownItem);
     await tester.pumpAndSettle();
 
     // Ensure the password field is visible
