@@ -4,30 +4,25 @@ import '../../type_definitions.dart';
 ///
 /// Object to response for completing login.
 ///
-class LoginWithCredentialsResponse extends Equatable {
+class LogoutResponse extends Equatable {
   final int playerID;
-  final String authKey;
   final bool success;
 
   ///
   /// Constructor.
   ///
-  const LoginWithCredentialsResponse({
-    required this.playerID,
-    required this.success,
-    required this.authKey,
+  const LogoutResponse({
+    required this.playerID, required this.success
   });
 
   ///
   /// Factory mapping `JSON` to `LoginWithCredentialsResponse`.
   ///
-  factory LoginWithCredentialsResponse.fromJson({
+  factory LogoutResponse.fromJson({
     required JSON json,
   }) {
-    return LoginWithCredentialsResponse(
-      playerID: json['playerID'],
-      success: json['success'],
-      authKey: json['authKey']
+    return LogoutResponse(
+        playerID: json['playerID'], success: json['success']
     );
   }
 
@@ -36,14 +31,14 @@ class LoginWithCredentialsResponse extends Equatable {
   ///
   @override
   List<Object?> get props => [
-        playerID,
-      ];
+    playerID,
+  ];
 
   ///
   /// Convert object to string.
   ///
   @override
   String toString() {
-    return 'LoginWithCredentialsResponse(playerID: $playerID)';
+    return 'LogoutResponse(playerID: $playerID)';
   }
 }

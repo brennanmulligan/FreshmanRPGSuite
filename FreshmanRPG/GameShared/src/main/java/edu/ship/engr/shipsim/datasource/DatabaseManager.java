@@ -42,30 +42,22 @@ public class DatabaseManager
 
     public void touchConnection() throws DatabaseException
     {
-        long id;
-        if (testing)
+        for (Connection connection : connections.values())
         {
-            id = TESTING_ID;
-        }
-        else
-        {
-            id = Thread.currentThread().getId();
-        }
-
-        Connection connection = connections.get(id);
-        if (connection == null)
-        {
-            connection = openConnection();
-            connections.put(id, connection);
-        }
-        try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
-        {
-            pstm.execute();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            if (connection == null)
+            {
+                LoggerManager.getSingleton().getLogger().warning("Found a null connection to the database. Skipping for now");
+                continue;
+            }
+            try (PreparedStatement pstm = connection.prepareStatement("SELECT now() as time;"))
+            {
+                pstm.execute();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -310,12 +302,13 @@ public class DatabaseManager
      */
     public void closeConnection(long id) throws SQLException
     {
-        Connection connection = getConnection(id);
-        if (connection != null && !connection.isClosed())
+        try (Connection connection = connections.remove((id)))
         {
-            connection.close();
+            if (connection != null && !connection.isClosed())
+            {
+                connection.close();
+            }
         }
-
     }
 
     /**

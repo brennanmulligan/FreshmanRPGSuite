@@ -14,7 +14,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final username = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final playerName = TextEditingController();
   final password = TextEditingController();
 
   @override
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   dispose() {
     super.dispose();
-    username.dispose();
+    playerName.dispose();
     password.dispose();
   }
 
@@ -53,7 +54,10 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             duration: const Duration(seconds: 3),
                             behavior: SnackBarBehavior.floating,
-                            padding: EdgeInsets.zero
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 450
+                            ),
+                            padding: EdgeInsets.zero,
                         ),
                       );
                     }},
@@ -61,51 +65,91 @@ class _LoginPageState extends State<LoginPage> {
                       if (state is LoginComplete) {
                         return buildRequestCompleteScreen(state.response);
                       } else {
-                        return buildInputScreen();
+                        return buildInputScreen(context);
                       }
                     }))));
   }
 
-  Widget buildInputScreen() => Padding(
+  void submitForm(BuildContext context) {
+    if (formKey.currentState!.validate()) {
+      BlocProvider.of<LoginBloc>(context).add(SendLoginEvent(
+        playerName.text,
+        password.text,
+      ));
+    }
+  }
+
+  Widget buildInputScreen(BuildContext context) => Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
           child: Column(
             children: [
-              TextField(
-                controller: username,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.person),
-                      SizedBox(
-                        width: 10,
+
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
+                      validator: (fieldText) {
+                        if (fieldText == null || fieldText.isEmpty) {
+                          return "Username field is empty";
+                        }
+                        return null;
+                      },
+                      controller: playerName,
+                      decoration: InputDecoration(
+                        label: Row(
+                          children: const [
+                            Icon(Icons.person),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Username'),
+                          ],
+                        ),
+                        fillColor: Colors.grey,
                       ),
-                      Text('Username'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
+                    ),
+
+                    TextFormField(
+                      onFieldSubmitted: (fieldText) {
+                        submitForm(context);
+                      },
+                      validator: (fieldText) {
+                        if (fieldText == null || fieldText.isEmpty) {
+                          return "Password field is empty";
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      controller: password,
+                      decoration: InputDecoration(
+                        label: Row(
+                          children: const [
+                            Icon(Icons.key),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text('Password'),
+                          ],
+                        ),
+                        fillColor: Colors.grey,
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 60,
+                    ),
+
+                    SubmitButtonBuilder(
+                        playerName: playerName,
+                        password: password,
+                        loginPageState: this),
+                  ],
                 ),
               ),
-              TextField(
-                obscureText: true,
-                controller: password,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: const [
-                      Icon(Icons.key),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Password'),
-                    ],
-                  ),
-                  fillColor: Colors.grey,
-                ),
-              ),
-              const SizedBox(
-                height: 60,
-              ),
-              SubmitButtonBuilder(username: username, password: password)
             ],
           ),
         ),
@@ -118,12 +162,14 @@ class _LoginPageState extends State<LoginPage> {
 class SubmitButtonBuilder extends StatelessWidget {
   const SubmitButtonBuilder({
     Key? key,
-    required this.username,
+    required this.playerName,
     required this.password,
+    required this.loginPageState,
   }) : super(key: key);
 
-  final TextEditingController username;
+  final TextEditingController playerName;
   final TextEditingController password;
+  final _LoginPageState loginPageState;
 
   @override
   Widget build(BuildContext context) {
@@ -137,10 +183,9 @@ class SubmitButtonBuilder extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(1)),
           ),
         ),
-        onPressed: () => BlocProvider.of<LoginBloc>(context).add(SendLoginEvent(
-          username.text,
-          password.text,
-        )),
+        onPressed: () {
+          loginPageState.submitForm(context);
+        },
         child: const Text(
           "Login",
           style: TextStyle(color: Colors.black),

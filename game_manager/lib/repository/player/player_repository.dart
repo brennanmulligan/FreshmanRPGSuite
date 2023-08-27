@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:game_manager/repository/player/all_players_request.dart';
+import 'package:game_manager/repository/shared/utilities.dart';
 
 import 'all_players_response.dart';
 import 'change_player_request.dart';
@@ -20,7 +20,7 @@ class PlayerRepository {
   PlayerRepository({required this.dio}) {
     dio.options.headers['content-Type'] = 'application/json; charset=UTF-8';
     dio.options.headers['Access-Control-Allow-Origin'] = '*';
-    dio.options.baseUrl = "http://127.0.0.1:8080";
+    dio.options.baseUrl = Utilities.findBaseURL();
   }
 
   final Dio dio;

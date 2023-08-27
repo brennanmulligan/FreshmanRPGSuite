@@ -131,6 +131,28 @@ public class PlayerMapperTest
                 .getQuestList(getPlayerWeAreTesting().getPlayerID()));
     }
 
+    /**
+     * If quests are loaded multiple times (such as if a player doesn't log out
+     * properly), there should be no duplicates.
+     */
+    @Test
+    public void testNoDuplicateQuestsOnLoad() throws DatabaseException
+    {
+        PlayerMapper pm = getMapper();
+        QuestManager qm = QuestManager.getSingleton();
+
+        int playerID = pm.getPlayer().getPlayerID();
+
+        for (int i = 0; i < 2; i++)
+        {
+            pm.loadQuestStates();
+            if (qm.getQuestList(playerID) != null)
+            {
+                assertEquals(4, qm.getQuestList(playerID).size());
+            }
+        }
+    }
+
     @Test
     public void getAllPlayersTest()
     {

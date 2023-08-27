@@ -1,5 +1,8 @@
 import 'package:companion_app/model/location_utilities.dart';
+import 'package:companion_app/pages/login/login_page.dart';
 import 'package:companion_app/pages/objectives-list/bloc/objectives_list_bloc.dart';
+import 'package:companion_app/repository/login_repository/login_repository.dart';
+import 'package:companion_app/repository/login_repository/logout_request.dart';
 import 'package:companion_app/repository/quests_objectives_repository/all-objectives-response.dart';
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:flutter/material.dart';
@@ -10,20 +13,23 @@ import '../../repository/quests_objectives_repository/quests_objectives_reposito
 import 'objective_card.dart';
 
 class ObjectivesListView extends StatefulWidget {
-  const ObjectivesListView(this.playerId, {Key? key})
+  const ObjectivesListView(this.playerId, this.authKey, {Key? key})
       : super(key: key);
   final int playerId;
+  final String authKey;
 
   @override
-  State<StatefulWidget> createState() => _ObjectivesListViewState(playerId);
+  State<StatefulWidget> createState() => _ObjectivesListViewState(playerId, authKey);
 }
 
 class _ObjectivesListViewState extends State<ObjectivesListView> {
   _ObjectivesListViewState(
-    this.playerID
+    this.playerID,
+    this.authKey,
   ) : super();
 
   final int playerID;
+  final String authKey;
 
   @override
   void initState() {
@@ -41,6 +47,13 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Objectives'),
+          leading: IconButton(
+            onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ObjectivesListView(playerID, authKey)));
+            },
+            icon: const Icon(Icons.refresh),
+          ),
         ),
         body: RepositoryProvider(
             create: (context) => QuestsObjectivesRepository(),
@@ -70,9 +83,22 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
                         );
                       } else if (state is RestfulCompletionRequestComplete) {
                         return buildObjectiveCompletionScreen(state.response);
+                      } else if (state is LocationCheckFailed) {
+                        return Center(
+                          child: Text(state.errorMsg)
+                        );
+                      } else if (state is QRCodeCheckFailed) {
+                        return const Center(
+                          child: Text('Invalid QR code. '
+                              'Are you scanning the right one?')
+                        );
+                      } else if (state is QRCodeScanInProgress) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       } else {
                         return const Center(
-                          child: Text('Error'),
+                        child: Text('Error'),
                         );
                       }
                     }))));
@@ -89,6 +115,12 @@ class _ObjectivesListViewState extends State<ObjectivesListView> {
               //   await login.logOut();
               // }
               // Navigator.pop(context);
+
+              LoginRepository().logoutPlayer(
+                  LogoutRequest(playerID: playerID, authKey: authKey)
+              );
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const LoginPage()));
             },
             icon: const Icon(
               Icons.logout,

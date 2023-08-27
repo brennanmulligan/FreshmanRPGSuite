@@ -25,6 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   late int playerID;
+  late String authKey;
 
   LoginBloc({required this.context, required this.loginRepository})
       : super(LoginInitial()) {
@@ -32,12 +33,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoading());
       LoginWithCredentialsResponse response = await loginRepository.loginPlayer(
           LoginWithCredentialsRequest(
-              username: event.username, password: event.password));
+              playerName: event.playerName, password: event.password));
       if (response.success == false) {
         emit(LoginFailed(response));
         return;
       }
       playerID = response.playerID;
+      authKey = response.authKey;
       emit(LoginComplete(response));
     });
   }
@@ -47,8 +49,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     super.onTransition(transition);
     if (transition.nextState is LoginComplete) {
       try {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ObjectivesListView(playerID)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ObjectivesListView(playerID, authKey)));
       } on FlutterError catch (e) {
         if (!_testing) {
           rethrow;

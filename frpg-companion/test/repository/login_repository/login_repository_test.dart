@@ -19,12 +19,14 @@ void main() {
     Map<String, dynamic> goodResponse =
     {
       "playerID": 3,
-      "success": true
+      "success": true,
+      "authKey": "abcdefg",
     };
     Map<String, dynamic> badResponse =
     {
       "playerID": 0,
-      "success": false
+      "success": false,
+      "authKey": "",
     };
 
     setUpAll(() {
@@ -36,7 +38,7 @@ void main() {
 
     test('Bad Login Request', () async {
 
-      const loginRequest = LoginWithCredentialsRequest(username: "merlin",
+      const loginRequest = LoginWithCredentialsRequest(playerName: "merlin",
           password: "px");
       dioAdapter.onPost('/login', (request) => request
           .reply(200,
@@ -46,12 +48,12 @@ void main() {
       LoginRepository repo = LoginRepository();
 
       LoginWithCredentialsResponse response = await repo.loginPlayer(loginRequest);
-      expect(response.success, isFalse) ;
+      expect(response.success, isFalse);
     });
 
     test('Good Login Request', () async {
 
-      const loginRequest = LoginWithCredentialsRequest(username: "merlin",
+      const loginRequest = LoginWithCredentialsRequest(playerName: "merlin",
           password: "pw");
       dioAdapter.onPost('/login', (request) => request
           .reply(200,

@@ -7,6 +7,7 @@ import 'package:companion_app/repository/quests_objectives_repository'
 import 'package:companion_app/repository/shared/general_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/barcode_scanner.dart';
@@ -41,34 +42,53 @@ class ObjectivesListBloc
     on<RequestQRCodeScanEvent>((event, emit) async {
       emit(QRCodeScanInProgress());
       String barcodeScanRes = await scanner.scan();
-      var parts = barcodeScanRes.split("_");
-      var qrQuestID = int.parse(parts[0]);
-      var qrObjectiveID = int.parse(parts[1]);
-      var qrLatitude = double.parse(parts[2]);
-      var qrLongitude = double.parse(parts[3]);
-      var qrCheckLocation = parts[4];
 
-      PositionWithStatus location =
-          await PositionWithStatus.getCurrentLocation(geoLocator);
+      List<String> parts;
+      int qrQuestID, qrObjectiveID;
+      double qrLatitude, qrLongitude;
+      String qrCheckLocation;
+
+      try {
+        parts = barcodeScanRes.split("_");
+        qrQuestID = int.parse(parts[0]);
+        qrObjectiveID = int.parse(parts[1]);
+        qrLatitude = double.parse(parts[2]);
+        qrLongitude = double.parse(parts[3]);
+        qrCheckLocation = parts[4];
+      } on FormatException catch (e) {
+        emit(QRCodeCheckFailed());
+        return;
+      } on RangeError catch (e) {
+        emit(QRCodeCheckFailed());
+        return;
+      }
+
       if (qrCheckLocation == "1") {
+        PositionWithStatus location = await PositionWithStatus.getCurrentLocation(geoLocator);
         if (!location.valid) {
           emit(LocationCheckFailed("Location Permissions Not Granted"));
-        } else if (!geoLocator.locationMatches(
+          return;
+        }
+        if (!geoLocator.locationMatches(
             location, qrLatitude, qrLongitude)) {
           emit(LocationCheckFailed(
               "You are not close enough to the target location"));
-        } else if ((event.questID != qrQuestID) ||
-            (event.objectiveID != qrObjectiveID)) {
-          emit(QRCodeCheckFailed());
-        } else {
-          GeneralResponse completionResponse =
-              await repository.completeObjective(CompleteObjectiveRequest(
-                  playerID: playerID,
-                  questID: event.questID,
-                  objectiveID: event.objectiveID));
-          emit(RestfulCompletionRequestComplete(completionResponse));
+          return;
         }
       }
+
+      if ((event.questID != qrQuestID)
+          || (event.objectiveID != qrObjectiveID)) {
+        emit(QRCodeCheckFailed());
+        return;
+      }
+
+      GeneralResponse completionResponse =
+          await repository.completeObjective(CompleteObjectiveRequest(
+              playerID: playerID,
+              questID: event.questID,
+              objectiveID: event.objectiveID));
+      emit(RestfulCompletionRequestComplete(completionResponse));
     });
   }
 }
